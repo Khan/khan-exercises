@@ -73,7 +73,6 @@
                             myLabels[i].remove();
                             myLabels[i] = label( [ i , -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[abs((i-x)+26) % 26], "center", false);
                         }
-                        forceLabelTypeset();
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
                     };
                 </div>

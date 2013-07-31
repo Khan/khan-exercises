@@ -87,6 +87,9 @@
                         $("#description1").children().hide();
                         $("#description2").parent().show();
 
+                        var desc2Text = "";
+                        var desc4Text = "";
+
                         if (a - A !== 0 &amp;&amp; b - B !== 0) {
                             leftOp = " \\blue{" + leftOpSign + abs(a - A) + "}";
                             rightOp = " \\green{" + rightOpSign + abs(b - B) + "}"
@@ -118,13 +121,13 @@
                             $("#description2").parent().hide();
                         }
 
-                        $("#description2 script").text(
+                        desc2Text =
                             "\\qquad x + " + A + leftOp +
                                 (a - A === b - B ?
                                  " \\quad=\\quad " :
-                                 " \\quad\\ne\\quad ") +
-                            B + rightOp
-                        );
+                                 " \\quad\\neq\\quad ") +
+                            B + rightOp;
+
 
                         $("#description3").children().hide();
 
@@ -132,13 +135,11 @@
                             if (a - A !== 0) {
                                 if (a === 0) {
                                     $("#description3 .opt-done").show();
-                                    $("#description4 script").text(
-                                        "\\qquad x \\quad=\\quad " + X);
+                                    desc4Text = "\\qquad x \\quad=\\quad " + X;
                                 } else {
                                     $("#description3 .opt-notdone").show();
-                                    $("#description4 script").text(
-                                        "\\qquad x + " + a + " \\quad=\\quad "
-                                        + b);
+                                    desc4Text = "\\qquad x + " + a +
+                                        " \\quad=\\quad " + b;
                                 }
                                 $("#description3").show()
                                 $("#description4").parent().show();
@@ -152,10 +153,8 @@
                             $("#description4").parent().hide();
                         }
 
-                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
-                            $("#description2")[0]]);
-                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
-                            $("#description4")[0]]);
+                        KhanUtil.processMath($("#description2")[0], desc2Text, true);
+                        KhanUtil.processMath($("#description4")[0], desc4Text, true);
                     };
 
                     // TODO(emily): make this faster (don't re-init every time)

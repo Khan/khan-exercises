@@ -1,5 +1,29 @@
 (function() {
 
+// Function used to get the text of the choices, which is then used
+// to check against the correct answer
+var extractRawCode = function(elem) {
+    $elem = $(elem).clone(true);
+    var code = $elem.find("code");
+    if (code.length) {
+        // If there are <code> tags in the element, remove them and replace
+        // them with their original formulas
+        $.each(code, function(i, elem) {
+            $(elem).replaceWith(
+                // TODO(emily): Adding <code> and <script> tags around this is
+                // a horrible hack to make this code backwards-compatible with
+                // the old extractRawCode (so that timeline works, etc). Remove
+                // this at some point and make it just return the formula, not
+                // the wrapping.
+                '<code><script type="math/tex">' +
+                KhanUtil.retrieveMathFormula(elem) +
+                '</script></code>'
+            );
+        });
+    }
+    return $elem.html();
+};
+
 /*
  * Answer types
  *
@@ -887,7 +911,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // Very quickly place all of the elements in the solution area
             // Clone it, because we don't want to modify or move it
             $(solutionarea).append(
-                    $(solution).clone().contents().runModules());
+                    $(solution).clone(true).texCleanup().contents()
+                        .runModules()
+            );
 
             var answerDataArray = [];
 
@@ -1041,8 +1067,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         setup: function(solutionarea, solution) {
             // Append the input format to the solution area
             $(solutionarea).append(
-                $(solution).find(".input-format").clone().contents()
-                        .runModules()
+                $(solution).find(".input-format").clone(true).texCleanup()
+                        .contents().runModules()
             );
 
             var inputArray = [];
@@ -1052,7 +1078,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 var input = $(this), type = $(this).data("type");
                 type = type != null ? type : "number";
 
-                var sol = input.clone(),
+                var sol = input.clone(true),
                     solarea = input.empty();
 
                 // Perform setup within that element
@@ -1067,7 +1093,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // Make fake solutionareas, and store the solutions from each
             // TODO(emily): fix this horrible hack, by making the solution
             //              easier to access
-            $(solution).find(".set-sol").clone().each(function() {
+            $(solution).find(".set-sol").clone(true).each(function() {
                 var type = $(this).data("type");
                 type = type != null ? type : "number";
 
@@ -1112,7 +1138,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var validatorArray = [];
 
             // Fill validatorArray with validators for each acceptable answer
-            $(solution).find(".set-sol").clone().each(function() {
+            $(solution).find(".set-sol").clone(true).each(function() {
                 var type = $(this).data("type");
                 type = type != null ? type : "number";
 
@@ -1220,81 +1246,50 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      */
     radio: {
         setup: function(solutionarea, solution) {
-            // Function used to get the text of the choices, which is then used
-            // to check against the correct answer
-            var extractRawCode = function(solution) {
-                return $(solution).clone()
-                    .find(".MathJax").remove().end()
-                    .find("code script").removeAttr("id").end()
-                    .html();
-            };
-
             // Add a list to the solution area
-            var list = $("<ul></ul>");
-            $(solutionarea).append(list);
+            var $list = $("<ul></ul>");
+            $(solutionarea).append($list);
 
-            // Get all of the wrong choices
-            var choices = $(solution).siblings(".choices");
+            // Retrieve the list of choices from the problem
+            var $choices = $(solution).siblings(".choices");
 
-            var solutionClone = $(solution).clone();
+            // Get the wrong choices and the solution. Note that we cleanup all
+            // the math here, so we don't have to deal with annoying MathJax
+            // stuff in our solutions, and also that we can directly compare
+            // the .text() values of all of the nodes
+            var $choicesClone = $choices.clone(true).texCleanup();
+            var $solutionClone = $(solution).clone(true).texCleanup();
 
-            // Set number of choices equal to all wrong plus one correct
-            var numChoices = choices.children().length + 1;
-            // Or set number as specified
-            if (choices.data("show")) {
-                numChoices = parseFloat(choices.data("show"));
-            }
+            // Join them together
+            var possibleChoices = $solutionClone.get().concat(
+                $choicesClone.children().get());
 
-            // Optionally include none of the above as a choice
-            var showNone = choices.data("none");
-            var noneIsCorrect = false;
-            if (showNone) {
-                noneIsCorrect = KhanUtil.rand(numChoices) === 0;
-                numChoices -= 1;
-            }
+            // Retrieve the text of the solution so we can store it later
+            var solutionText = $solutionClone.text();
 
-            // If a category exercise, the correct answer is already included
-            // in .choices and choices are always presented in the same order
-            var isCategory = choices.data("category");
-            var possibleChoices = choices.children().get();
-            if (isCategory) {
-                numChoices -= 1;
-            } else {
-                possibleChoices = KhanUtil.shuffle(possibleChoices);
-            }
+            // The number of choices is either the specified number of the
+            // number of choices provided
+            var numChoices = +$choices.data("show") || possibleChoices.length;
 
-            // Add the correct answer
-            if (!noneIsCorrect && !isCategory) {
-                $(solutionClone).data("correct", true);
-            }
+            // Whether to show a "none of the above" solution in our set of
+            // answers.
+            var showNone = !!$choices.data("none");
 
-            // Insert correct answer as first of possibleChoices
-            if (!isCategory) {
-                possibleChoices.splice(0, 0, $(solutionClone));
-            }
+            // Whether this is a category question, or if we should shuffle the
+            // answers up.
+            var isCategory = !!$choices.data("category");
 
-            // Remove duplicates
+            // This code removes duplicate answers by looking at the text
+            // values of the choices and keeping the non-duplicate answers
             var dupes = {};
             var shownChoices = [];
-            var solutionTextSquish = solutionClone.text().replace(/\s+/g, "");
-            for (var i = 0; i < possibleChoices.length &&
-                                shownChoices.length < numChoices; i++) {
-                var choice = $(possibleChoices[i]);
-                choice.tmpl();
-                var choiceTextSquish = choice.text().replace(/\s+/g, "");
-
-                if (isCategory && solutionTextSquish === choiceTextSquish) {
-                    choice.data("correct", true);
-                }
+            for (var i = 0; i < possibleChoices.length; i++) {
+                var $choice = $(possibleChoices[i]);
+                var choiceTextSquish = $choice.text().replace(/\s+/g, "");
 
                 if (!dupes[choiceTextSquish]) {
                     dupes[choiceTextSquish] = true;
-
-                    // i == 0 is the solution except in category mode; skip it
-                    // when none is correct
-                    if (!(noneIsCorrect && i === 0) || isCategory) {
-                        shownChoices.push(choice);
-                    }
+                    shownChoices.push($choice);
                 }
             }
 
@@ -1302,6 +1297,10 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // solutions, regenerate the problem
             if (shownChoices.length < numChoices) {
                 return false;
+            // Otherwise, if there are too many choices, throw away some from
+            // the end
+            } else if (shownChoices.length > numChoices) {
+                shownChoices = shownChoices.slice(0, numChoices);
             }
 
             // Shuffle the answers if we're not in category mode
@@ -1309,70 +1308,92 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 shownChoices = KhanUtil.shuffle(shownChoices);
             }
 
-            // If showNone, replace the last solution with "None of the above",
-            // which reveals the correct answer when it is picked and is right
-            if (showNone) {
-                var none = $("<span>").html($._("None of the above."));
-
-                none.data("noneOfTheAbove", true);
-
-                if (noneIsCorrect) {
-                    none.data("correct", true);
-                    solutionText = none.text();
-                    list.data("realAnswer",
-                            $(solutionClone)
-                                .tmpl()
-                                .contents()
-                                .wrapAll('<span class="value""></span>')
-                                .parent());
+            // Find the index of the correct answer
+            var correctIndex;
+            _.each(shownChoices, function($choice, i) {
+                if ($choice[0] === $solutionClone[0]) {
+                    correctIndex = i;
                 }
-
-                shownChoices.push($("<span>").append(none));
-            }
-
-            $.each(shownChoices, function(i, choice) {
-                // Wrap each of the choices in elements and add a radio button
-                choice.contents()
-                    .wrapAll('<li><label><span class="value"></span></label></li>')
-                    .parent()
-                    .before(
-                        $('<input type="radio" name="solution">')
-                            .val(i)
-                    )
-                    .parent().parent()
-                    .appendTo(list);
             });
 
-            list.runModules();
+            // We figure out if the "none of the above" choice is correct if we
+            // have such an answer and if the last shown answer is correct
+            var noneIsCorrect = showNone &&
+                    correctIndex === shownChoices.length - 1;
+
+            // If showNone, replace the last solution with "None of the above",
+            // which reveals the correct answer when it is picked and is right.
+            if (showNone) {
+                var $none = $("<span>").html($._("None of the above."));
+                $none.data("noneOfTheAbove", true);
+
+                // If the answer is correct, we add some data about what the
+                // true answer is so we can show it later
+                if (noneIsCorrect) {
+                    $list.data("realAnswer",
+                        $("<span>").addClass("value").append(
+                            $solutionClone.clone(true).contents()
+                        )
+                    );
+                }
+
+                shownChoices.splice(shownChoices.length - 1, 1,
+                    // We have to wrap this in something so that when we unwrap
+                    // it below, it maintains its data attributes
+                    $("<span>").append($none));
+            }
+
+            // Wrap each of the choices in elements and add radio buttons
+            var wrappedChoices = _.map(shownChoices, function($choice, i) {
+                return $("<li><label>").find("label").append([
+                    $('<input type="radio" name="solution">').val(i),
+                    $('<span class="value">').append(
+                        $choice.contents()
+                    )
+                ]).end();
+            });
+
+            // Here we finally re-run modules, so that the math is reformatted
+            $list.append(wrappedChoices).runModules();
 
             return {
-                validator: Khan.answerTypes.radio.createValidator(solution),
+                // We send some extra data to the validator so that it is
+                // easier to grade
+                validator: Khan.answerTypes.radio.createValidator({
+                    solution: solution,
+                    index: correctIndex,
+                    noneIsCorrect: noneIsCorrect
+                }),
                 answer: function() {
                     // Find the chosen answer
-                    var choice = list.find("input:checked");
+                    var $choice = $list.find("input:checked");
 
                     // If nothing's checked, return null immediately
-                    if (choice.length === 0) {
+                    if ($choice.length === 0) {
                         return null;
                     }
 
                     // Find it's cooresponding value
-                    var choiceVal = choice.siblings(".value");
+                    var $choiceVal = $choice.siblings(".value");
 
                     // This (probably) only does something useful when the
                     // selected answer is the "none of the above" one
-                    var choiceNoneChild = choiceVal.children().eq(0);
+                    var $choiceNoneChild = $choiceVal.children().eq(0);
 
                     return {
                         // Some data about the "none of the above" answer
-                        isNone: choiceNoneChild.data("noneOfTheAbove"),
+                        isNone: $choiceNoneChild.data("noneOfTheAbove"),
                         // The raw text value that was chosen
-                        value: extractRawCode(choiceVal),
+                        // TODO(emily): Remove this at the same time references
+                        // to guess.value are removed down below, maybe (unless
+                        // we want to have the text of the correct answer in
+                        // the database)
+                        value: extractRawCode($choiceVal),
                         // The index of the value that was chosen
-                        index: choice.val()
+                        index: $choice.val()
                     };
                 },
-                solution: $.trim($(solution).text()),
+                solution: solutionText,
                 examples: [],
                 showGuess: function(guess) {
                     if (guess == null) {
@@ -1380,60 +1401,73 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                        .attr("checked", false);
                     } else {
                         // Select the correct radio button
-                        list.children().filter(function() {
-                            // TODO(emily): remove this backwards-compatible
-                            // code in 7/13
-                            if (guess.index != null) {
-                                // Filter using the index to choose the radio
-                                return guess.index ===
-                                    $(this).find("input").val();
-                            } else {
-                                // Fall back to the old style of checking
-                                return $.trim(extractRawCode(
-                                        $(this).find("span")
-                                    )) === $.trim(guess);
-                            }
+                        $list.children().filter(function() {
+                            // Filter using the index to choose the radio
+                            return guess.index ===
+                                $(this).find("input").val();
                         }).find("input").attr("checked", true);
                     }
                 }
             };
         },
         createValidator: function(solution) {
-            var extractRawCode = function(solution) {
-                return $(solution).clone()
-                    .find(".MathJax").remove().end()
-                    .find("code script").removeAttr("id").end()
-                    .html();
-            };
-            var correct = extractRawCode(solution);
+            // TODO(emily): Remove this backwards compatible code sometime
+            // after 8/2013
+            var correct = extractRawCode(solution.solution || solution);
+
+            function showReal() {
+                // Hacky stuff to make the correct solution appear when "none
+                // of the above" is the correct answer
+                var $list = $("#solutionarea").find("ul");
+                var $choice =
+                    $list.children().filter(function() {
+                        return $(this).find("span.value > span")
+                                      .data("noneOfTheAbove");
+                    }).find("input");
+                $choice.next().fadeOut("fast", function() {
+                    var $real = $list.data("realAnswer");
+                    $(this).replaceWith($real);
+                    $real.tex().fadeIn("fast");
+                });
+            }
 
             return function(guess) {
                 if (guess == null) {
                     return "";
-                // TODO(emily): remove this backwards-compatible code in 7/13
-                } else if ((guess.isNone || guess === "None of the above.") &&
-                        $("#solutionarea").find("ul").data("real-answer") !=
-                        null) {
-                    // Hacky stuff to make the correct solution appear when
-                    // "none of the above" is the correct answer
-                    var list = $("#solutionarea").find("ul");
-                    var choice =
-                        list.children().filter(function() {
-                            return $(this).find("span.value > span")
-                                          .data("noneOfTheAbove");
-                        }).find("input");
-                    choice.next().fadeOut("fast", function() {
-                        $(this).replaceWith(list.data("real-answer"))
-                               .fadeIn("fast");
-                    });
-                    return true;
-                } else if ($.trim((guess.value != null ? guess.value : guess)
-                                  .replace(/\r\n?|\n/g, "")) ===
-                           $.trim(correct.replace(/\r\n?|\n/g, ""))) {
-                    return true;
                 }
 
-                return false;
+                if (guess.index) {
+                    // New solutions include information about the correct
+                    // answer like the correct index, etc. We can use that to
+                    // make checking a lot simpler.
+                    if (guess.isNone && solution.noneIsCorrect) {
+                        showReal();
+                        return true;
+                    } else {
+                        return guess.index == solution.index;
+                    }
+                } else {
+                    // Old solutions just included the solution element, so we
+                    // have to use the old checks to see if the solution is
+                    // correct
+                    // TODO(emily): Remove this backwards compatible code
+                    // sometime after 8/2013
+
+                    // Check to see if the "none of the above" answer is
+                    // checked
+                    if (guess.isNone &&
+                            $("#solutionarea").find("ul").data("real-answer")
+                            != null) {
+                        showReal();
+                        return true;
+                    // Otherwise, just compare the text
+                    } else if ($.trim(guess.value).replace(/\r\n?|\n/g, "") ===
+                               $.trim(correct.replace(/\r\n?|\n/g, ""))) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             };
         }
     },

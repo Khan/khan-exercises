@@ -105,7 +105,9 @@
                         });
                     </div>
                     <div class="graphie" data-update="number-line">
-                        $( "#number-line" ).find( ".MathJax" ).slice( 1, -1 ).remove();
+                        _.each(graph.nl.labels.slice(1, -1), function(label) {
+                            label.remove();
+                        });
 
                         var position = "above";
                         $.each( NUMS_SORT, function( i, el ) {

@@ -4,6 +4,8 @@
 var Exercises = {
     localMode: true,
 
+    useKatex: true,
+
     khanExercisesUrlBase: "../",
 
     getCurrentFramework: function() {

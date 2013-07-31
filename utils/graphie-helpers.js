@@ -11,6 +11,7 @@ function numberLine(start, end, step, x, y, denominator) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
     set.push(graph.line([x, y], [x + end - start, y]));
+    set.labels = [];
     for (var i = 0; i <= end - start; i += step) {
         set.push(graph.line([x + i, y - 0.2], [x + i, y + 0.2]));
 
@@ -27,13 +28,17 @@ function numberLine(start, end, step, x, y, denominator) {
                     lab = base + "\\frac{" + Math.abs(Math.round(frac * denominator)) + "}{" + denominator + "}";
                 }
             }
-            graph.label([x + i, y - 0.2], "\\small{" + lab + "}", "below", { labelDistance: 3 });
+            var label = graph.label([x + i, y - 0.2], "\\small{" + lab + "}",
+                "below", { labelDistance: 3 });
+            set.labels.push(label);
+            set.push(label);
         }
         else {
-            graph.label([x + i, y - 0.2],
-                        "\\small{" + KhanUtil.localeToFixed(start + i, decPlaces) + "}",
-                        "below",
-                        { labelDistance: 3 });
+            var label = graph.label([x + i, y - 0.2],
+                "\\small{" + KhanUtil.localeToFixed(start + i, decPlaces) + "}",
+                "below", { labelDistance: 3 });
+            set.labels.push(label);
+            set.push(label);
         }
     }
     return set;
