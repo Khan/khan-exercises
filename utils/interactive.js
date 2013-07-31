@@ -608,8 +608,6 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 movablePoint.visibleShape.animate(movablePoint.normalStyle, 50);
                             //}
                         }
-
-                        graph.forceLabelTypeset();
                     });
                 }
             });
