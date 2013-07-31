@@ -1279,6 +1279,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // answers up.
             var isCategory = !!$choices.data("category");
 
+            // Since one of the choices is duplicated in category mode, we
+            // reduce the number of choices we have.
+            if (isCategory) {
+                numChoices -= 1;
+            }
+
             // This code removes duplicate answers by looking at the text
             // values of the choices and keeping the non-duplicate answers
             var dupes = {};
