@@ -19,8 +19,8 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
                 <var id="D">localeToFixed((NUMERATOR / 10000), 4)</var>
                 <var id="GCD">getGCD(round(D * 10000) , 10000)</var>
             </div>
-            <p class="question">Express <code><var>D</var></code> as a fraction. Reduce to lowest terms.</p>
-            <p class="solution" data-type="rational"><var>D</var></p>
+            <p class="question">Express <code><var>D</var></code> as a fraction.</p>
+            <p class="solution" data-type="rational" data-simplify="optional"><var>D</var></p>
             <div class="hints">
                 <div>
                     <p><code><var>D</var></code> can be represented as follows.</p>
@@ -31,10 +31,6 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
                     <p>You can also skip a few steps by making a fraction with <code><var>NUMERATOR</var></code> as the numerator and <code>10000</code> (because the decimal extends to the ten thousandths place) as the denominator.</p>
                     <p><code><var>fraction(NUMERATOR, 10000)</var></code></p>
                 </div>
-                <div data-if="GCD > 1">
-                    <p>Then, reduce the fractional part by dividing the numerator and denominator by <code><var>GCD</var></code>.</p>
-                    <p><code>=<var>fractionReduce(round(D * 10000) , 10000)</var></code></p>
-                </div>
             </div>
         </div>
 
@@ -42,12 +38,11 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
             <div class="vars">
                 <var id="W">randRange(1, 19)</var>
                 <var id="D">randRangeExclude(1, 99, [10 , 20 , 30 , 40 , 50 , 60 , 70 , 80 , 90])</var>
-                <var id="GCD">getGCD(D , 100)</var>
                 <var id="FIXED">localeToFixed((W + D / 100), 2)</var>
             </div>
-            <p class="question">Express <code><var>FIXED</var></code> as a mixed number. Reduce to lowest terms.</p>
+            <p class="question">Express <code><var>FIXED</var></code> as a mixed number.</p>
 
-            <p class="solution" data-type="mixed"><var>W + D / 100</var></p>
+            <p class="solution" data-type="mixed" data-simplify="optional"><var>W + D / 100</var></p>
 
             <div class="hints">
                 <div>
@@ -55,10 +50,6 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
                     <p><code>= <var>W</var> + <var>fraction(floor(D / 10), 10)</var> + <var>fraction(D % 10, 100)</var></code></p>
                 </div>
                 <p><code>= <var>W  + fraction(D, 100)</var></code></p>
-                <div data-if="GCD > 1">
-                    <p>Reduce the fractional part by dividing the numerator and denominator by <code><var>GCD</var></code>.</p>
-                    <p><code>=<var>W + fractionReduce(D , 100)</var></code></p>
-                </div>
             </div>
         </div>
 
