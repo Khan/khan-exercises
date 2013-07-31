@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying rational numbers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+
+            <div id="fractions">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="DENOMINATORS">[randRange(2, 9), randRange(2, 9), randRange(2, 9)]</var>
+                    <var id="NUMERATORS">[
+                        randRangeExclude(-9, 9, [0, DENOMINATORS[0], -DENOMINATORS[0]]),
+                        randRangeExclude(-9, 9, [0, DENOMINATORS[1], -DENOMINATORS[1]]),
+                        randRangeExclude(-9, 9, [0, DENOMINATORS[2], -DENOMINATORS[2]])]
+                    </var>
+                    <var id="FACTORS">[
+                       getGCD(NUMERATORS[0], DENOMINATORS[0]),
+                       getGCD(NUMERATORS[1], DENOMINATORS[1]),
+                       getGCD(NUMERATORS[2], DENOMINATORS[2])]
+                    </var>
+                    <var id="NUMERATOR">(NUMERATORS[0] / FACTORS[0]) * (NUMERATORS[1] / FACTORS[1]) * (N === 2 ? 1 : NUMERATORS[2] / FACTORS[2])</var>
+                    <var id="DENOMINATOR">(DENOMINATORS[0] / FACTORS[0]) * (DENOMINATORS[1] / FACTORS[1]) * (N === 2 ? 1 : DENOMINATORS[2] / FACTORS[2])</var>
+                    <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
+                </div>
+
+                <div class="question"><p><code>
+                    <var>fraction(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
+                    <span data-if="N === 3">\times <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span> = {?}
+                </code></p></div>
+                <div class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR</var></div>
+
+                <div class="hints">
+                    <div data-if="(FACTORS[0] !== 1 || FACTORS[1] !== 1) &amp;&amp; (N === 2 || FACTORS[2] !== 1)">
+                        <p>First, we can simplify the problem:</p>
+                        <p><code>
+                            <var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
+                            <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span> = {?}
+                        </code></p>
+                    </div>
+                    <p><code>
+                        <var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
+                        <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span> = 
+                        \dfrac{<var>NUMERATORS[0] / FACTORS[0]</var> \times <var>NUMERATORS[1] / FACTORS[1]</var>
+                        <span data-if="N === 3">\times <var>NUMERATORS[2] / FACTORS[2]</var></span>}
+                        {<var>DENOMINATORS[0] / FACTORS[0]</var> \times <var>DENOMINATORS[1] / FACTORS[1]</var>
+                        <span data-if="N === 3">\times <var>DENOMINATORS[2] / FACTORS[2]</var></span>}
+                    </code></p>
+
+                    <p><code>
+                        \phantom{<var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
+                        <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span>}
+                        = <var>fraction(NUMERATOR, DENOMINATOR)</var>
+                    </code></p>
+
+                    <div data-if="GCD !== 1">
+                        <p>Simplify:</p>
+                        <p><code>
+                            \phantom{<var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
+                            <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span>}
+                            = <var>fractionReduce(NUMERATOR, DENOMINATOR)</var>
+                        </code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
