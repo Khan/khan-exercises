@@ -68,6 +68,126 @@
                 </div>
             </div>
 
+            <div id="percentages">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="SIGNS">[randFromArray([1, -1]), randFromArray([1, -1]), randFromArray([1, -1])]</var>
+                    <var id="NUMS">[
+                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]),
+                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]),
+                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90])]
+                    </var>
+                    <var id="PLACES">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]</var>
+                    <var id="DECIMALS">[
+                        roundTo(PLACES[0], SIGNS[0] * NUMS[0] / pow(10, PLACES[0])),
+                        roundTo(PLACES[1], SIGNS[1] * NUMS[1] / pow(10, PLACES[1])),
+                        roundTo(PLACES[2], SIGNS[2] * NUMS[2] / pow(10, PLACES[2]))]
+                    </var>
+                    <var id="DIGITS">[
+                        padDigitsToNum(digits(NUMS[0]), PLACES[0] + 1),
+                        padDigitsToNum(digits(NUMS[1]), PLACES[1] + 1),
+                        padDigitsToNum(digits(NUMS[2]), PLACES[2] + 1)]
+                    </var>
+                    <var id="SUBSOL">roundTo(4, DECIMALS[0] * DECIMALS[1])</var>
+                    <var id="SUBSOL_DIGITS">padDigitsToNum(digits(NUMS[0] * NUMS[1]), PLACES[0] + PLACES[1])</var>
+                    <var id="HINTS1">[]</var>
+                    <var id="HINTS2">[]</var>
+                    <var id="SOLUTION">N === 2 ? SUBSOL : roundTo(6, SUBSOL * DECIMALS[2])</var>
+                </div>
+                
+                <div class="question"><p><code>
+                    <var>round(100 * DECIMALS[0])</var>\% \times <var>round(100 * DECIMALS[1])</var>\%
+                    <span data-if="N === 3">\times <var>round(100 * DECIMALS[2])</var>\%</span> = {?}
+                </code></p></div>
+
+                <div class="graphie">
+                    var g1 = new Multiplier(NUMS[0], NUMS[1], DIGITS[0], DIGITS[1], PLACES[0], PLACES[1]);
+                    HINTS1 = Array(g1.getNumHints());
+                    if (N === 3) {
+                        var g2 = new Multiplier(NUMS[0] * NUMS[1], NUMS[2], SUBSOL_DIGITS, DIGITS[2], PLACES[0] + PLACES[1], PLACES[2]);
+                        HINTS2 = Array(g2.getNumHints());
+                    }
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="decimal"><var>roundTo(4, 100 * SOLUTION)</var></span><code>\ \%</code>
+                </div>
+
+                <div class="hints">
+                    <p>First convert the percentages into decimals.</p>
+                    
+                    <div>
+                        <p>Convert each percentage into a decimal dividing by <code>100</code>.</p>
+                        <p><code>
+                            <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> <span data-if="N === 3">\times <var>DECIMALS[2]</var></span> = {?}
+                        </code></p>
+                    </div>
+
+                    <p data-if="N === 3">Let's deal with the first two numbers.</p>
+
+                    <div class="graphie" id="multi-1">
+                        graph.multiplier = new Multiplier(NUMS[0], NUMS[1], DIGITS[0], DIGITS[1], PLACES[0], PLACES[1]);
+                        graph.multiplier.show();
+                        graph.multiplier.showDecimals();
+                    </div>
+
+                    <div class="graphie" data-each="HINTS1 as hint" data-update="multi-1">
+                        graph.multiplier.showHint();
+                    </div>
+                    <div class="graphie" data-update="multi-1">
+                        graph.multiplier.showDecimalsInProduct();
+                    </div>
+
+                    <div>
+                        <p data-if="SIGNS[0] === -1 && SIGNS[1] === -1">
+                            Since both <code><var>DECIMALS[0]</var></code> and <code><var>DECIMALS[1]</var></code> are negative, the result is positive.
+                        </p>
+                        <p data-else-if="SIGNS[0] * SIGNS[1] === -1">
+                            A positive number times a negative number is a negative number.
+                        </p>
+                        <p><code><var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> = <var>SUBSOL</var></code></p>
+                    </div>
+
+                    <div data-if="N === 3" data-unwrap="">
+                        <div>
+                            <p>Therefore,</p>
+                            <p><code>
+                                <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> \times <var>DECIMALS[2]</var> = 
+                                <var>SUBSOL</var> \times <var>DECIMALS[2]</var>
+                            </code></p>
+                        </div>
+
+                        <div class="graphie" id="multi-2">
+                            graph.multiplier = new Multiplier(NUMS[0] * NUMS[1], NUMS[2], SUBSOL_DIGITS, DIGITS[2], PLACES[0] + PLACES[1], PLACES[2]);
+                            graph.multiplier.show();
+                            graph.multiplier.showDecimals();
+                        </div>
+
+                        <div class="graphie" data-each="HINTS2 as hint" data-update="multi-2">
+                            graph.multiplier.showHint();
+                        </div>
+                        <div class="graphie" data-update="multi-2">
+                            graph.multiplier.showDecimalsInProduct();
+                        </div>
+
+                        <div>
+                            <p data-if="SUBSOL < 0 && SIGNS[2] === -1">
+                                Since both <code><var>DECIMALS[0]</var></code> and <code><var>DECIMALS[1]</var></code> are negative, the result is positive.
+                            </p>
+                            <p data-else-if="SIGNS[0] * SIGNS[1] * SIGNS[2] === -1">
+                                A positive number times a negative number is a negative number.
+                            </p>
+                            <p><code><var>SUBSOL</var> \times <var>DECIMALS[2]</var> = <var>SOLUTION</var></code></p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>To convert a decimal into a percentage, multiply by <code>100</code>:</p>
+                        <p><code><var>SOLUTION</var> = <var>roundTo(4, 100 * SOLUTION)</var>\%</code></p>
+                    </div>
+                </div>
+            </div>
+
             <div id="terminating-decimals">
                 <div class="vars">
                     <var id="N">randRange(2, 3)</var>
