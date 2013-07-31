@@ -186,7 +186,7 @@ $.extend(KhanUtil, {
     // Function to retrieve the formula of a typeset math node
     retrieveMathFormula: function(elem) {
         return $(elem).data("mathFormula");
-    },
+    }
 });
 
 $.fn.tex = function() {
