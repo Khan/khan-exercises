@@ -723,12 +723,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 validator: Khan.answerTypes.radical.createValidatorFunctional(
                         solutionText, solutionData),
                 answer: function() {
-                    // Store the entered values in a list
-                    // If nothing is typed into one of the boxes, use 1
-                    return [
-                        inte.val().length > 0 ? inte.val() : "1",
-                        rad.val().length > 0 ? rad.val() : "1"
-                    ];
+                    return [inte.val(), rad.val()];
                 },
                 solution: ans,
                 examples: (options.simplify === "required") ?
@@ -753,6 +748,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var ans = KhanUtil.splitRadical(ansSquared);
 
             return function(guess) {
+                // If nothing typed into either box, don't grade the answer
+                if (guess[0].length === 0 && guess[1].length === 0) {
+                    return "";
+                }
+                // If nothing is typed into one of the boxes, use 1
+                guess[0] = guess[0].length > 0 ? guess[0] : "1";
+                guess[1] = guess[1].length > 0 ? guess[1] : "1";
                 // Parse the two floats from the guess
                 var inteGuess = parseFloat(guess[0]);
                 var radGuess = parseFloat(guess[1]);
@@ -798,9 +800,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // Make them look pretty
             $("<div class='radical'>")
                 .append($("<span>").append(inte))
-                .append('<span class="surd">&#8731;</span>')
-                .append($("<span>").append(rad))
-                .appendTo(solutionarea);
+                .append('<span class="surd" style="vertical-align: 6px;"><code>\\sqrt[3]{}</code></span>')
+                .append($("<span>").append(rad).addClass("overline"))
+                .appendTo(solutionarea).tex();
 
             var ansCubed = parseFloat(solutionText);
             var ans = KhanUtil.splitCube(ansCubed);
@@ -809,12 +811,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 validator: Khan.answerTypes.cuberoot.createValidatorFunctional(
                         solutionText, solutionData),
                 answer: function() {
-                    // Store the entered values in a list
-                    // If nothing is typed into one of the boxes, use 1
-                    return [
-                        inte.val().length > 0 ? inte.val() : "1",
-                        rad.val().length > 0 ? rad.val() : "1"
-                    ];
+                    return [inte.val(), rad.val()];
                 },
                 solution: ans,
                 examples: (options.simplify === "required") ?
@@ -839,6 +836,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var ans = KhanUtil.splitCube(ansCubed);
 
             return function(guess) {
+                // If nothing typed into either box, don't grade the answer
+                if (guess[0].length === 0 && guess[1].length === 0) {
+                    return "";
+                }
+                // If nothing is typed into one of the boxes, use 1
+                guess[0] = guess[0].length > 0 ? guess[0] : "1";
+                guess[1] = guess[1].length > 0 ? guess[1] : "1";
                 // Parse the two floats from the guess
                 var inteGuess = parseFloat(guess[0]);
                 var radGuess = parseFloat(guess[1]);
