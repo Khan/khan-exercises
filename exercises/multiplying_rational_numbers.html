@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying rational numbers</title>
@@ -67,8 +67,53 @@
                     </div>
                 </div>
             </div>
-        </div>
 
+            <div id="terminating-decimals">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="NUMS">[randRange(1, 99), randRange(1, 99), randRange(1, 99)]</var>
+                    <var id="PLACES">[randRange(0, 2), randRange(0, 2), randRange(0, 2)]</var>
+                    <var id="DECIMALS">[
+                        roundTo(PLACES[0], NUMS[0] / pow(10, PLACES[0])),
+                        roundTo(PLACES[1], NUMS[1] / pow(10, PLACES[1])),
+                        roundTo(PLACES[2], NUMS[2] / pow(10, PLACES[2]))]
+                    </var>
+                    <var id="DIGITS">[
+                        padDigitsToNum(digits(NUMS[0]), PLACES[0] + 1),
+                        padDigitsToNum(digits(NUMS[1]), PLACES[1] + 1),
+                        padDigitsToNum(digits(NUMS[2]), PLACES[2] + 1)]
+                    </var>
+                    <var id="SUBSOL">roundTo(4, DECIMALS[0] * DECIMALS[1])</var>
+                    <var id="DUMMY">[]</var>
+                    <var id="SOLUTION">N === 2 ? SUBSOL : roundTo(6, SUBSOL * DECIMALS[2])</var>
+                </div>
+                
+                <div class="question"><p><code>
+                    <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> <span data-if="N === 3">\times <var>DECIMALS[2]</var></span> = {?}
+                </code></p></div>
+
+                <div class="graphie" id="multi-1">
+                    graph.multiplier = new Multiplier(NUMS[0], NUMS[1], DIGITS[0], DIGITS[1], PLACES[0], PLACES[1]);
+                    graph.multiplier.show();
+                    graph.multiplier.showDecimals();
+                    DUMMY = Array(graph.multiplier.getNumHints());
+                </div>
+
+                <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
+
+                <div class="hints">
+                    <p data-if="N === 3">Let's start by dealing with the first two numbers.</p>
+
+                    <div class="graphie" data-each="DUMMY as dummy" data-update="multi-1">
+                        graph.multiplier.showHint();
+                    </div>
+                    <div class="graphie" data-update="multi-1">
+                        graph.multiplier.showDecimalsInProduct();
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </body>
 </html>
