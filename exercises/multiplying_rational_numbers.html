@@ -72,7 +72,11 @@
                 <div class="vars">
                     <var id="N">randRange(2, 3)</var>
                     <var id="SIGNS">[randFromArray([1, -1]), randFromArray([1, -1]), randFromArray([1, -1])]</var>
-                    <var id="NUMS">[randRange(1, 99), randRange(1, 99), randRange(1, 99)]</var>
+                    <var id="NUMS">[
+                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]),
+                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]),
+                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90])]
+                    </var>
                     <var id="PLACES" data-ensure="PLACES[0] !== 0 || PLACES[1] !== 0">[randRange(0, 2), randRange(0, 2), randRange(0, 2)]</var>
                     <var id="DECIMALS">[
                         roundTo(PLACES[0], SIGNS[0] * NUMS[0] / pow(10, PLACES[0])),
