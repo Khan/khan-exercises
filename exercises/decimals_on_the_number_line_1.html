@@ -15,14 +15,13 @@
         <var id="TENTHS"> randRange(1, 9) </var>
         <var id="SOLUTION"> TENTHS * MARK_INCREMENT </var>
         <var id="SOLN_TXT"> localeToFixed(SOLUTION, 1) </var>
-        <var id="ORANGE_DOT">$._("orange dot")</var>
         <var id="PIECE_OF_LINE">$._("piece of line")</var>
     </div>
 
     <div class="problems">
         <div>
             <div class="question">
-                <p>Move the <code>\large{\orange{\text{<var>ORANGE_DOT</var>}}}</code> to <code>\large{\orange{<var>SOLN_TXT</var>}}</code> on the number line.</p>
+                <p>Move the orange dot to <code>\pink{<var>SOLN_TXT</var>}</code> on the number line.</p>
 
                 <div class="graphie" id="number-line">
                     init({
@@ -70,22 +69,23 @@
             </div>
 
             <div class="hints">
-                <p>Above we've drawn the number line from <var>LOWER_BOUND</var> to <var>UPPER_BOUND</var>, divided into 10 equal pieces.</p>
+                <p>Above we've drawn the number line from <code><var>LOWER_BOUND</var></code> to <code><var>UPPER_BOUND</var></code>,
+                divided into <code>10</code> equal pieces.</p>
 
                 <div>
-                    <p>The line is divided into 10 pieces, which means:</p>
-                    <p>Piece of line <code> = \red{<var>MARK_INCREMENT</var>}</code>
+                    <p>The line is divided into <code>10</code> pieces, which means:</p>
+                    <p>Piece of line <code> = \purple{<var>MARK_INCREMENT</var>}</code>
                 </p></div>
 
-                <p><code>\orange{<var>SOLN_TXT</var>} = \red{<var>MARK_INCREMENT</var>} * \green{<var>TENTHS</var>}</code></p>
+                <p><code>\pink{<var>SOLN_TXT</var>} = \purple{<var>MARK_INCREMENT</var>} \times \green{<var>TENTHS</var>}</code></p>
 
                 <p data-if="isSingular(TENTHS)">
-                    Therefore, moving the <code>\orange{\text{<var>ORANGE_DOT</var>}} \space \green{1}</code>
-                    place will put it at the position <code>\orange{<var>SOLN_TXT</var>}</code>.
+                    Therefore, moving the orange dot <code>\green{1}</code>
+                    place will put it at the position <code>\pink{<var>SOLN_TXT</var>}</code>.
                 </p>
                 <p data-else="">
-                    Therefore, moving the <code>\large{\orange{\text{<var>ORANGE_DOT</var>}}\space \green{<var>TENTHS</var>}}</code>
-                    places will put it at the position <code>\large{\color{orange}{<var>SOLN_TXT</var>}}</code>.
+                    Therefore, moving the orange dot <code>\green{<var>TENTHS</var>}</code>
+                    places will put it at the position <code>\pink{<var>SOLN_TXT</var>}</code>.
                 </p>
 
                 <div>
@@ -103,10 +103,10 @@
                         line( [ 0, 0 ], [ SOLUTION, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
 
-                        label([TENTHS/10, -0.53], SOLN_TXT, "center", { color: "orange" });
+                        label([TENTHS/10, -0.53], SOLN_TXT, "center", { color: PINK });
                         graph.movablePoint.moveTo(SOLUTION, 0);
                     </div>
-                    <p>The orange number shows where <code>\large{\color{orange}{<var>SOLN_TXT</var>}}</code> is on the number line.</p>
+                    <p>The highlighted number shows where <code>\pink{<var>SOLN_TXT</var>}</code> is on the number line.</p>
                 </div>
 
             </div>

@@ -23,7 +23,7 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p>Move the <code>\large{\orange{\text{<var>ORANGE_DOT</var>}}}</code></strong> to <code>\large{\orange{<var>SOLUTION</var>}}</code></strong> on the number line. The distance between adjacent tick marks is 0.5.</p>
+                <p>Move the orange dot to <code>\pink{<var>SOLUTION</var>}</code></strong> on the number line.</p>
                 <div class="graphie" id="number-line">
                     init({
                         range: [[LOWER_BOUND - 0.3, UPPER_BOUND + 0.3], [-1, 1]],
@@ -75,17 +75,19 @@
             </div>
 
             <div class="hints">
-                <p> Because <code>\orange{<var>SOLUTION</var>}</code> is <span data-if="SOLUTION > 0">positive</span>
-                <span data-else="">negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span>
-                <span data-else="">left</span> of 0.</p>
+                <p data-if="SOLUTION > 0">
+                    Because <code>\pink{<var>SOLUTION</var>}</code> is positive the orange dot will be to the right of 0.
+                </p><p data-else="">
+                    Because <code>\pink{<var>SOLUTION</var>}</code> is negative the orange dot will be to the left of 0.
+                </p>
 
                 <div data-if="abs(SOLUTION) > 1">
                     <p>Separate the decimal from the whole number:</p>
-                    <p><code>\orange{<var>SOLUTION</var>} = \blue{<var>SOLUTION_WHOLE</var>} + \blue{<var>SOLUTION_DECIMAL</var>}</code></p>
+                    <p><code>\pink{<var>SOLUTION</var>} = \purple{<var>SOLUTION_WHOLE</var>} + \purple{<var>SOLUTION_DECIMAL</var>}</code></p>
                 </div>
 
                 <div>
-                    <p>Therefore, we know <code>\orange{<var>SOLUTION</var>}</code> lies between
+                    <p>Therefore, we know <code>\pink{<var>SOLUTION</var>}</code> lies between
                     <code>\green{<var>SOLUTION_WHOLE</var>}</code> and
                     <code>\green{<var>SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>}</code> on the number line.</p>
                     <div class="graphie" data-update="number-line">
@@ -100,15 +102,15 @@
                         line([0, 0], [SOLUTION, 0]);
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>The orange dot should be shifted to the position <code>\orange{<var>SOLUTION</var>}</code> right of 0.</p>
+                    <p>The orange dot should be shifted to the position <code>\pink{<var>SOLUTION</var>}</code> right of 0.</p>
                 </div>
 
                 <div>
                     <div class="graphie" data-update="number-line">
-                        label([SOLUTION, 0.53], SOLUTION, "center", { color: "#FFA500" });
+                        label([SOLUTION, 0.53], SOLUTION, "center", { color: PINK });
                         graph.movablePoint.moveTo(SOLUTION, 0);
                     </div>
-                    <p>The orange number shows where <code>\large{\orange{<var>SOLUTION</var>}}</code> is on the number line.</p>
+                    <p>The highlighted number shows where <code>\pink{<var>SOLUTION</var>}</code> is on the number line.</p>
                 </div>
 
             </div>
