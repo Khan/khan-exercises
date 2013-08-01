@@ -39,12 +39,14 @@
     </script>
     <script src="../../local-only/underscore.js"></script>
     <script src="../MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"></script>
+    <script src="../../local-only/katex/katex.js"></script>
 
     <!-- Include QUnit -->
     <link rel="stylesheet" href="../../test/qunit/qunit/qunit.css" type="text/css" media="screen">
     <script src="../../test/qunit/qunit/qunit.js"></script>
 
     <!-- Include utility files and tests. -->
+    <script src="../../exercises-stub.js"></script>
     <script src="../math.js"></script>
     <script src="../tex.js"></script>
     <script src="../tmpl.js"></script>
@@ -546,6 +548,9 @@
     });
 
     asyncTest("radio answerability", 8, function() {
+        // TODO(alpert): Get rid of MathJax
+        Exercises.useKatex = false;
+
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'><code>6<\/code><\/p>" +
             "<ul class='choices'>" +
@@ -598,6 +603,53 @@
             // Tell QUnit we're done.
             start();
         });
+    });
+
+    asyncTest("radio category", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>C<\/p>" +
+            "<ul class='choices' data-category='true'>" +
+                "<li>A<\/li>" +
+                "<li>B<\/li>" +
+                "<li>C<\/li>" +
+                "<li>D<\/li>" +
+            "<\/ul>"
+        );
+        jQuery("#qunit-fixture").runModules();
+
+        var $solutionarea = $("#solutionarea");
+        var $solution = $problem.children(".solution");
+
+        var answerData = Khan.answerTypes.radio.setup(
+                $solutionarea, $solution);
+
+        var validator = answerData.validator;
+        var getAnswer = answerData.answer;
+
+        // By default, nothing is checked so the validator gives ""
+        strictEqual(validator(getAnswer()), "", "initial validation is empty");
+
+        var texts = _.map($("#solutionarea span.value"), function(e) {
+            return $(e).text();
+        });
+        deepEqual(texts, ["A", "B", "C", "D"], "choices have the right order");
+
+        // If we check the right answer (6), then it'll return true
+        var $correctRadio = $("#solutionarea span.value")
+            .filter(function() { return (/C/).test($(this).html()); })
+            .closest("label").children("input");
+        $correctRadio.prop("checked", true);
+
+        strictEqual(validator(getAnswer()), true);
+
+        // If we check a wrong answer, then it'll return false
+        var $incorrectRadio = $("#solutionarea span.value")
+            .filter(function() { return (/A/).test($(this).html()); })
+            .closest("label").children("input");
+        $incorrectRadio.prop("checked", true);
+        strictEqual(validator(getAnswer()), false);
+
+        start();
     });
 
 })();
