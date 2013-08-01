@@ -38,7 +38,7 @@
                                   new Term(randRangeWeightedExclude(-10, 10, 1, 0.3, [0]), X)
             </var>
             <var id="NUMERATOR">FACTOR.multiply(TERM1).multiply(TERM2)</var>
-            <var id="NUM_FACTOR">NUMERATOR.terms[0].coefficient &gt; 0 ? NUMERATOR.factor() : NUMERATOR.factor().multiply(-1)</var>
+            <var id="NUM_FACTOR">NUMERATOR.terms[0].coefficient &gt; 0 ? NUMERATOR.getTermsGCD() : NUMERATOR.getTermsGCD().multiply(-1)</var>
 
             <var id="TERM3">new RationalExpression([[1, X], randRangeNonZero(-10, 10)])</var>
             <var id="TERM4">
@@ -46,7 +46,7 @@
                                   new Term(randRangeWeightedExclude(-10, 10, 1, 0.3, [0]), X)
             </var>
             <var id="DENOMINATOR">FACTOR.multiply(TERM3).multiply(TERM4)</var>
-            <var id="DEN_FACTOR">DENOMINATOR.terms[0].coefficient &gt; 0 ? DENOMINATOR.factor() : DENOMINATOR.factor().multiply(-1)</var>
+            <var id="DEN_FACTOR">DENOMINATOR.terms[0].coefficient &gt; 0 ? DENOMINATOR.getTermsGCD() : DENOMINATOR.getTermsGCD().multiply(-1)</var>
 
             <var id="TERM_FACTOR">DEN_FACTOR.coefficient &gt; 0 ? NUM_FACTOR.getGCD(DEN_FACTOR) : NUM_FACTOR.getGCD(DEN_FACTOR).multiply(-1)</var>
             <var id="NUM_FACTOR2">NUM_FACTOR.divide(TERM_FACTOR)</var>
