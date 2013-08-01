@@ -69,7 +69,7 @@ function piechart(divisions, colors, radius) {
     return set;
 }
 
-function rectchart(divisions, colors, y) {
+function rectchart(divisions, fills, y, strokes) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
 
@@ -80,20 +80,32 @@ function rectchart(divisions, colors, y) {
         sum += slice;
     });
 
+    var unit = graph.unscaleVector([1, 1]);
     var partial = 0;
     $.each(divisions, function(i, slice) {
-        var x = partial / sum, w = slice / sum;
-        set.push(graph.path([[x, y], [x + w, y], [x + w, y + 1], [x, y + 1]], {
-            stroke: KhanUtil.BACKGROUND,
-            fill: colors[i]
-        }));
-        partial += slice;
-    });
+        var fill = fills[i];
+        // If no stroke is provided, match the fill color so the rectangle
+        // appears to be the same size
+        var stroke = strokes && strokes[i] || fill;
 
-    for (var i = 0; i <= sum; i++) {
-        var x = i / sum;
-        set.push(graph.line([x, y + 0], [x, y + 1], { stroke: KhanUtil.BACKGROUND }));
-    }
+        for (var j = 0; j < slice; j++) {
+            var x = partial / sum, w = 1 / sum;
+            set.push(graph.path(
+                [
+                    [x + 2 * unit[0], y + 2 * unit[1]],
+                    [x + w - 2 * unit[0], y + 2 * unit[1]],
+                    [x + w - 2 * unit[0], y + 1 - 2 * unit[1]],
+                    [x + 2 * unit[0], y + 1 - 2 * unit[1]],
+                    true
+                ],
+                {
+                    stroke: stroke,
+                    fill: fill
+                }
+            ));
+            partial += 1;
+        }
+    });
 
     return set;
 }
