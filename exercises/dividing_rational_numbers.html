@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying rational numbers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+
+            <div id="fractions">
+                <div class="vars">
+                    <var id="ORDER">randRange(0, 1)</var>
+                    <var id="NUMS">randRange(2, 3)</var>
+                    <var id="D1">randRange(2, 9)</var>
+                    <var id="D2">randRange(2, 9)</var>
+                    <var id="D3">randRange(2, 9)</var>
+                    <var id="N1">randRangeExclude(-9, 9, [0, D1, -D1])</var>
+                    <var id="N2">randRangeExclude(-9, 9, [0, D2, -D2])</var>
+                    <var id="N3">randRangeExclude(-9, 9, [0, D3, -D3])</var>
+                    <var id="F1">getGCD(N1, D1)</var>
+                    <var id="F2">getGCD(N2, D2)</var>
+                    <var id="F3">getGCD(N3, D3)</var>
+                    <var id="SUB_N">ORDER ? (N1 / F1) * (D2 / F2) : (N2 / F2) * (D3 / F3)</var>
+                    <var id="SUB_D">ORDER ? (D1 / F1) * (N2 / F2) : (D2 / F2) * (N3 / F3)</var>
+                    <var id="SUB_F">getGCD(SUB_N, SUB_D)</var>
+                    <var id="NUMERATOR">(N1 / F1) * (D2 / F2) * (NUMS === 2 ? 1 : (ORDER ? D3 / F3 : N3 / F3))</var>
+                    <var id="DENOMINATOR">(D1 / F1) * (N2 / F2) * (NUMS === 2 ? 1 : (ORDER ? N3 / F3 : D3 / F3))</var>
+                    <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
+                </div>
+
+                <div class="question"><p><code>
+                    <span data-if="NUMS === 2"><var>fraction(N1, D1)</var> \div <var>fraction(N2, D2)</var></span>
+                    <span data-else-if="ORDER">\left(<var>fraction(N1, D1)</var> \div <var>fraction(N2, D2)</var>\right) \div <var>fraction(N3, D3)</var></span>
+                    <span data-else=""><var>fraction(N1, D1)</var> \div \left(<var>fraction(N2, D2)</var> \div <var>fraction(N3, D3)</var>\right)</span> = {?}
+                </code></p></div>
+
+                <div class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR</var></div>
+
+                <div class="hints">
+                    <div data-if="(F1 !== 1 || F2 !== 1) || (NUMS === 2 &amp;&amp; F3 !== 1)">
+                        <p>First, we can simplify the problem:</p>
+                        <p><code>
+                            <span data-if="NUMS === 2"><var>fractionReduce(N1, D1)</var> \div <var>fractionReduce(N2, D2)</var></span>
+                            <span data-else-if="ORDER">
+                                \left(<var>fractionReduce(N1, D1)</var> \div <var>fractionReduce(N2, D2)</var>\right) \div <var>fractionReduce(N3, D3)</var>
+                            </span>
+                            <span data-else="">
+                                <var>fractionReduce(N1, D1)</var> \div \left(<var>fractionReduce(N2, D2)</var> \div <var>fractionReduce(N3, D3)</var>\right)
+                            </span> = {?}
+                        </code></p>
+                    </div>
+
+                    <p>Dividing by a fraction is the same as multiply by the reciprocal of that fraction.</p>
+
+                    <p><code>\qquad = 
+                        <span data-if="NUMS === 2"><var>fractionReduce(N1, D1)</var> \times <var>fractionReduce(D2, N2)</var></span>
+                        <span data-else-if="ORDER">
+                            \left(<var>fractionReduce(N1, D1)</var> \times <var>fractionReduce(D2, N2)</var>\right) \div <var>fractionReduce(N3, D3)</var>
+                        </span>
+                        <span data-else="">
+                            <var>fractionReduce(N1, D1)</var> \div \left(<var>fractionReduce(N2, D2)</var> \times <var>fractionReduce(D3, N3)</var>\right)
+                        </span>
+                    </code></p>
+
+                    <p><code>\qquad = 
+                        <span data-if="NUMS === 2">\dfrac{<var>N1 / F1</var> \times <var>D2 / F2</var>}{<var>D1 / F1</var> \times <var>N2 / F2</var>}</span>
+                        <span data-else-if="ORDER">
+                            \left(\dfrac{<var>N1 / F1</var> \times <var>D2 / F2</var>}{<var>D1 / F1</var> \times <var>N2 / F2</var>}\right)
+                            \div <var>fractionReduce(N3, D3)</var>
+                        </span>
+                        <span data-else="">
+                            <var>fractionReduce(N1, D1)</var> \div
+                            \left(\dfrac{<var>N2 / F2</var> \times <var>D3 / F3</var>}{<var>D2 / F2</var> \times <var>N3 / F3</var>}\right)
+                        </span>
+                    </code></p>
+
+                    <div data-if="NUMS === 3" data-unwrap="">
+                        <p><code>\qquad = 
+                            <span data-else-if="ORDER"><var>fraction(SUB_N, SUB_D)</var> \div <var>fractionReduce(N3, D3)</var></span>
+                            <span data-else=""><var>fractionReduce(N1, D1)</var> \div <var>fraction(SUB_N, SUB_D)</var></span>
+                        </code></p>
+
+                        <p><code>\qquad = 
+                            <span data-if="ORDER"><var>fraction(SUB_N, SUB_D)</var> \times <var>fractionReduce(D3, N3)</var></span>
+                            <span data-else=""><var>fractionReduce(N1, D1)</var> \times <var>fraction(SUB_D, SUB_N)</var></span>
+                        </code></p>
+
+                        <div data-if="SUB_F !== 1">
+                            <p>Simplify:</p>
+                                <p><code>\qquad = 
+                                    <span data-if="ORDER"><var>fractionReduce(SUB_N, SUB_D)</var> \times <var>fractionReduce(D3, N3)</var></span>
+                                    <span data-else=""><var>fractionReduce(N1, D1)</var> \times <var>fractionReduce(SUB_D, SUB_N)</var></span>
+                                </code></p>
+                        </div>
+
+                        <p><code>\qquad = 
+                            <span data-if="ORDER">
+                                \dfrac{<var>SUB_N / SUB_F</var> \times <var>D3 / F3</var>}{<var>SUB_D / SUB_F</var> \times <var>N3 / F3</var>}
+                            </span>
+                            <span data-else="">
+                                \dfrac{<var>N1 / F1</var> \times <var>SUB_D / SUB_F</var>}{<var>D1 / F1</var> \times <var>SUB_N / SUB_F</var>}
+                            </span>
+                        </code></p>
+                    </div>
+
+                    <p><code>\qquad = <var>fraction(NUMERATOR, DENOMINATOR)</var></code></p>
+
+                    <div data-if="GCD !== 1">
+                        <p>Simplify:</p>
+                        <p><code>\qquad = <var>fractionReduce(NUMERATOR, DENOMINATOR)</var></code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
