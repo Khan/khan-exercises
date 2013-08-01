@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie graphie-helpers-arithmetic">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Multiplying rational numbers</title>
+    <title>Dividing rational numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -109,6 +109,98 @@
                         <p><code>\qquad = <var>fractionSimplify(NUMERATOR, DENOMINATOR)</var></code></p>
                     </div>
                 </div>
+            </div>
+
+            <div id="terminating-decimals-1">
+                <div class="vars">
+                    <var id="NUMS">randRange(2, 3)</var>
+                    <var id="S1">randFromArray([1, -1])</var>
+                    <var id="S2">randFromArray([1, -1])</var>
+                    <var id="S3">randFromArray([1, -1])</var>
+                    <var id="S4">S1 * S2 * S3</var>
+                    
+                    <var id="N2">randRange(2, 9)</var>
+                    <var id="N3">randRange(2, 9)</var>
+                    <var id="N4">randRange(1, 99)</var>
+                    <var id="N1">N4 * N2 * N3</var>
+
+                    <var id="P2">randRange(0, 1)</var>
+                    <var id="P3">randRange(0, 1)</var>
+                    <var id="P4">randRange(0, 1)</var>
+                    <var id="P1">P2 + P3 + P4</var>
+
+                    <var id="D2">roundTo(P2, S2 * N2 / pow(10, P2))</var>
+                    <var id="D3">roundTo(P3, S3 * N3 / pow(10, P3))</var>
+                    <var id="D4">roundTo(P4, S4 * N4 / pow(10, P4))</var>
+                    <var id="D1">roundTo(P1, D4 * D2 * D3)</var>
+
+                    <var id="SUBSOL">roundTo(4, D1 / D2)</var>
+                    <var id="SUBSOL_S">S1 * S2</var>
+                    <var id="SUBSOL_N">parseInt(decimalDigits(SUBSOL).reverse().join(""))</var>
+                    <var id="SUBSOL_P">decimalPlaces(SUBSOL)</var>
+                    <var id="HINTS1">0</var>
+                    <var id="HINTS2">0</var>
+                </div>
+
+                <div class="question"><p><code>(<var>D1</var> \div <var>D2</var>) \div <var>D3</var></code></p></div>
+
+                <div class="graphie">
+                    var g1 = new Divider(N2, N1, P2, P1);
+                    var g2 = new Divider(N3, SUBSOL_N, P3, SUBSOL_P);
+                    HINTS1 = Array(g1.getNumHints());
+                    HINTS2 = Array(g2.getNumHints());
+                </div>
+
+                <div class="solution" data-type="decimal"><var>D4</var></div>
+
+                <div class="hints">
+                    <p>Start with the numbers in parentheses</p>
+
+                    <div class="graphie" id="div-1">
+                        graph.divider = new Divider(N2, N1, P2, P1);
+                        graph.divider.show();
+                    </div>
+                    <div class="graphie" data-update="div-1">
+                        graph.divider.shiftDecimals();
+                    </div>
+                    <div class="graphie" data-each="HINTS1 as hint" data-update="div-1">
+                        graph.divider.showHint();
+                    </div>
+
+                    <div>
+                        <p data-if="S1 === -1 && S2 === -1">
+                            Since both <code><var>D1</var></code> and <code><var>D2</var></code> are negative, the result is positive.
+                        </p>
+                        <p data-else-if="SUBSOL_S === -1">
+                            A positive number times a negative number is a negative number.
+                        </p>
+                        <p><code><var>D1</var> \div <var>D2</var> = <var>SUBSOL</var></code></p>
+                    </div>
+
+                    <p><code>(<var>D1</var> \div <var>D2</var>) \div <var>D3</var> = <var>SUBSOL</var> \div <var>D3</var></code></p>
+
+                    <div class="graphie" id="div-2">
+                        graph.divider = new Divider(N3, SUBSOL_N, P3, SUBSOL_P);
+                        graph.divider.show();
+                    </div>
+                    <div class="graphie" data-update="div-2">
+                        graph.divider.shiftDecimals();
+                    </div>
+                    <div class="graphie" data-each="HINTS2 as hint" data-update="div-2">
+                        graph.divider.showHint();
+                    </div>
+
+                    <div>
+                        <p data-if="SUBSOL_S === -1 && S3 === -1">
+                            Since both <code><var>SUBSOL</var></code> and <code><var>D3</var></code> are negative, the result is positive.
+                        </p>
+                        <p data-else-if="SUBSOL_S * S3 === -1">
+                            A positive number times a negative number is a negative number.
+                        </p>
+                        <p><code><var>SUBSOL</var> \div <var>D3</var> = <var>D4</var></code></p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
