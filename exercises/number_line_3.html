@@ -43,8 +43,14 @@
             <div class="solution" data-forms="integer"><var>NUMBER</var></div>
 
             <div class="hints">
+                <p>Two tick marks are labeled.</p>
+                <p>The difference between them is <code><var>2 * SCALE</var></code>.</p>
+                <p>
+                    There is <code>1</code> tick mark between the labeled tick marks.
+                    So the difference between every two tick marks are <code><var>SCALE</var></code> numbers.
+                </p>
                 <div>
-                    <p>Fill in the other numbers on the number line.</p>
+                    <p>Label the other tick marks on the number line.</p>
                     <div class="graphie" data-update="number-line">
                         for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
                             if (x !== MIDPOINT - SCALE &amp;&amp; x !== MIDPOINT + SCALE &amp;&amp; x !== NUMBER) {
