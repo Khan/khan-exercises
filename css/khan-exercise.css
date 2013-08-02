@@ -734,7 +734,7 @@ html.exercise-browser {
 }
 
 
-.sortable .MathJax, .sortable .katex {
+.sortable code {
 	line-height: 65px;
 }
 
