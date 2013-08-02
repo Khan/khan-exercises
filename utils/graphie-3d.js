@@ -11,7 +11,8 @@ $.extend(KhanUtil, {
                 [0, 0, 0, 1]
             ]),
             scale: 5.0,
-            faces: []
+            faces: [],
+            sketches: []
         }, options);
 
         var graph = KhanUtil.currentGraph;
@@ -207,12 +208,64 @@ $.extend(KhanUtil, {
 
             return this;
         };
+		
+		
+		object.addSketch = function(options) {
+            var sketch = $.extend(true, {
+                verts: [],
+                color: "black",
+                lines: [],
+                labels: [],
+                opacityValue: 0.1
+            }, options);
 
+           
+
+            // find the array of the projected points of the sketch
+            sketch.mappedVerts = function() {
+                return _.map(this.verts, function(v) {
+                    return object.doProjection(object.verts[v]);
+                });
+            };
+
+            // create a path of the sketch
+            sketch.path = function() {
+                return graph.path(
+                    sketch.mappedVerts(),
+                    { fill: sketch.color, stroke: true }
+                );
+            };
+
+            // draw the sketch's lines
+            sketch.drawLines= function() {
+                return graph.path(
+                    sketch.mappedVerts(),
+                    { fill: null, stroke: "#666", opacity: sketch.opacityValue }
+                );
+            };
+
+            // draw all the objects on the face and return the set of them all
+            sketch.draw = function() {
+                var set = graph.raphael.set();
+
+                set.push(sketch.drawLines());
+
+                return set;
+            };
+
+         
+
+            this.sketches.push(sketch);
+
+            return this;
+        };
+		
         // draw the object, performing backface culling to ensure
         //   faces don't intersect each other
         object.draw = function() {
             var frontFaces = [];
             var backFaces = [];
+            var Sketches = [];
 
             // figure out which objects should be drawn in front,
             // and which in back
@@ -225,6 +278,9 @@ $.extend(KhanUtil, {
                     backFaces.push(face);
                 }
             });
+            _.each(object.sketches, function(sketch) {
+            	Sketches.push(sketch);
+            	});
 
             // draw each of the faces, and store it in a raphael set
             var image = graph.raphael.set();
@@ -236,6 +292,10 @@ $.extend(KhanUtil, {
                 face.toBack();
                 image.push(face.drawBack());
             });
+            _.each(Sketches, function(sketch) {
+                image.push(sketch.draw());
+            });
+            
             return image;
         };
 
