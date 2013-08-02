@@ -138,7 +138,7 @@
                     <var id="DIVISOR">NUMS === 2 ? N2 : N2 * N3</var>
                     <var id="DIVISOR_P">NUMS === 2 ? P2 : decimalPlaces(D2 * D3)</var>
                     <var id="DIVISOR_S">NUMS === 2 ? S2 : S2 * S3</var>
-                    <var id="SOLUTION">NUMS === 2 ? roundTo(4, S2 * S3 * D2 * D3) : D4</var>
+                    <var id="SOLUTION">NUMS === 2 ? roundTo(4, S3 * S4 * D3 * D4) : D4</var>
 
                     <var id="HINTS1">0</var>
                 </div>
@@ -161,7 +161,7 @@
                     </code></p>
 
                     <p data-if="NUMS === 3"><code>
-                        \phantom{(<var>D1</var> \div <var>D2</var>) \div <var>D3</var>} = <var>D1</var> \div <var>D2 * D3</var>
+                        \phantom{(<var>D1</var> \div <var>D2</var>) \div <var>D3</var>} = <var>D1</var> \div <var>roundTo(4, D2 * D3)</var>
                     </code></p>
 
                     <div class="graphie" id="div-1">
@@ -177,12 +177,15 @@
 
                     <div>
                         <p data-if="S1 === -1 && DIVISOR_S === -1">
-                            Since both <code><var>D1</var></code> and <code><var>D2</var></code> are negative, the result is positive.
+                            Since both <code><var>D1</var></code> and <code><var>DIVISOR</var></code> are negative, the result is positive.
                         </p>
-                        <p data-else-if="S1 * DIVISOR_S === -1">
+                        <p data-else-if="DIVISOR_S === -1">
                             A positive number divided by a negative number is a negative number.
                         </p>
-                        <p><code><var>D1</var> \div <var>DIVISOR_S * DIVISOR</var> = <var>SOLUTION</var></code></p>
+                        <p data-else-if="S1 === -1">
+                            A negative number divided by a positive number is a negative number.
+                        </p>
+                        <p><code><var>D1</var> \div <var>roundTo(DIVISOR_P, DIVISOR_S * DIVISOR / pow(10, DIVISOR_P))</var> = <var>SOLUTION</var></code></p>
                     </div>
                 </div>
             </div>
