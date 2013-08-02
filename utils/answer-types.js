@@ -1309,11 +1309,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 return getTextSquish(elem);
             });
 
-            // Shuffle the answers if we're not in category mode
-            if (!isCategory) {
-                shownChoices = KhanUtil.shuffle(shownChoices);
-            }
-
             // If removing duplicates made it so there aren't enough showing
             // solutions, regenerate the problem
             if (shownChoices.length < numChoices) {
@@ -1322,6 +1317,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // the end
             } else if (shownChoices.length > numChoices) {
                 shownChoices = shownChoices.slice(0, numChoices);
+            }
+
+            // Shuffle the answers if we're not in category mode
+            if (!isCategory) {
+                shownChoices = KhanUtil.shuffle(shownChoices);
             }
 
             // Find the index of the correct answer

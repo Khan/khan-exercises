@@ -724,9 +724,19 @@
     });
 
     asyncTest("radio none of the above answerability", 4, function() {
+        // Even if there are 500 distractors, the correct answer must always be
+        // mixed in as one of the correct ones -- we'll test that if there's
+        // only answer and we show "None of the above", then it's hiding the
+        // correct answer. (This test can pass even if the code is buggy 1/501
+        // of the time, but we'll have to live with that.)
+        var choices = _.range(500);
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>A<\/p>" +
-            "<ul class='choices' data-none='true'><\/ul>"
+            "<ul class='choices' data-none='true' data-show='1'>" +
+                _.map(choices, function(choice) {
+                    return "<li>" + choice + "<\/li>";
+                }).join("") +
+            "<\/ul>"
         );
         jQuery("#qunit-fixture").runModules();
 
