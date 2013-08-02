@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html data-require="math math-format polynomials rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with unlike denominators 5</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="SIGN">randFromArray(["+", "-"])</var>
+                    <var id="X">randVar()</var>
+
+                    <div data-ensure="A1 !== 0 || B1 !== 0">
+                        <var id="A1">randRangeWeighted(0, 9, 1, 0.4)</var>
+                        <var id="B1">randRangeWeighted(-10, 10, 0, 0.4)</var>
+                    </div>
+                    <div data-ensure="A2 !== 0 || B2 !== 0">
+                        <var id="A2">randRangeWeighted(0, 9, 1, 0.4)</var>
+                        <var id="B2">randRangeWeighted(-10, 10, 0, 0.4)</var>
+                    </div>
+                    <var id="NUMERATOR1">new RationalExpression([[A1, X], B1])</var>
+                    <var id="NUMERATOR2">new RationalExpression([[A2, X], B2])</var>
+
+                    <div data-ensure="A3 !== A4 || B3 !== B4">
+                        <var id="A3">randRangeWeighted(1, 9, 1, 0.4)</var>
+                        <var id="B3">randRangeNonZero(-10, 10)</var>
+                        <var id="A4">randRangeWeighted(1, 9, 1, 0.4)</var>
+                        <var id="B4">randRangeNonZero(-10, 10)</var>
+                    </div>
+                    <var id="DENOMINATOR1">new RationalExpression([[A3, X], B3])</var>
+                    <var id="DENOMINATOR2">new RationalExpression([[A4, X], B4])</var>
+
+                    <var id="PRODUCT1">DENOMINATOR2.multiply(NUMERATOR1)</var>
+                    <var id="PRODUCT2">SIGN === '+' ? DENOMINATOR1.multiply(NUMERATOR2) : DENOMINATOR1.multiply(NUMERATOR2).multiply(-1)</var>
+                    <var id="SUM">PRODUCT1.add(PRODUCT2)</var>
+                    <var id="DENOMINATOR">new Polynomial(0, 2, [T1*T2, T1+T2, 1], X)</var>
+                    <var id="ANSWER">"(" + SUM.toString() + ")/((" + DENOMINATOR1.toString() + ")(" + DENOMINATOR2.toString() + "))" </var>
+                </div>
+
+                <p class="problem">Simplify and expand the following expression:</p>
+                <p class="question"><code>
+                    \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>}<var>SIGN</var>\dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR2</var>}
+                </code></p>
+
+                <div class="solution" data-type="expression" data-simplify><var>ANSWER</var></div>
+
+                <div class="hints">
+                    <p data-if="SIGN === '+'">In order to add expressions, they must have a common denominator.</p>
+                    <p data-else="">In order to subtract expressions, they must have a common denominator.</p>
+
+                    <p>Get both fractions over a common denominator of <code>(<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>)</code>.</p>
+
+                    <div>
+                        <p>Multiply the first term by <code>\dfrac{<var>DENOMINATOR2</var>}{<var>DENOMINATOR2</var>}</code></p>
+                        <p><code>\qquad
+                            \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>} \times \dfrac{<var>DENOMINATOR2</var>}{<var>DENOMINATOR2</var>} = 
+                            \dfrac{<var>NUMERATOR1</var>(<var>DENOMINATOR2</var>)}{(<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>)}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>Multiply the second term by <code>\dfrac{<var>DENOMINATOR1</var>}{<var>DENOMINATOR1</var>}</code></p>
+                        <p><code>\qquad
+                            \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR2</var>} \times \dfrac{<var>DENOMINATOR1</var>}{<var>DENOMINATOR1</var>} = 
+                            \dfrac{<var>NUMERATOR2</var>(<var>DENOMINATOR1</var>)}{(<var>DENOMINATOR2</var>)(<var>DENOMINATOR1</var>)}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            \dfrac{<var>NUMERATOR1</var>(<var>DENOMINATOR2</var>)}{(<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>)} <var>SIGN</var>
+                            \dfrac{<var>NUMERATOR2</var>(<var>DENOMINATOR1</var>)}{(<var>DENOMINATOR2</var>)(<var>DENOMINATOR1</var>)}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p data-if="SIGN === '+'">Now both terms have a common denominator we can simply add the numerators:</p>
+                        <p data-else="">Now both terms have a common denominator we can simply subtract the numerators:</p>
+                        <p><code>\qquad
+                            \dfrac{<var>NUMERATOR1</var>(<var>DENOMINATOR2</var>) <var>SIGN</var> <var>NUMERATOR2</var>(<var>DENOMINATOR1</var>)}
+                            {(<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>)}
+                        </code></p>
+                    </div>
+
+                    <p><code>\qquad = \dfrac{<var>PRODUCT1</var> + <var>PRODUCT2</var>}{(<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>)}</code></p>
+                    <p><code>\qquad = \dfrac{<var>SUM</var>}{(<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>)}</code></p>
+
+                    <div>
+                        <p>Expand the denominator</p>
+                        <p><code>\qquad = \dfrac{<var>SUM</var>}{<var>DENOMINATOR</var>}</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
