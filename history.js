@@ -159,7 +159,7 @@ function renderReadOnlyProblem(event, args) {
                                 // backwards-compatible code in 7/13
                                 $("<p class='solution'>" +
                                   (guess.value != null ? guess.value : guess) +
-                                  "</p>").tmpl()
+                                  "</p>").runModules()
                             );
                             if (validator(guess)) {
                                 thissolutionarea

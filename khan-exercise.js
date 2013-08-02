@@ -246,6 +246,11 @@ var Khan = (function() {
             link.rel = "stylesheet";
             link.href = urlBase + "css/khan-exercise.css";
             document.getElementsByTagName("head")[0].appendChild(link);
+
+            link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = urlBase + "local-only/katex/katex.css";
+            document.getElementsByTagName("head")[0].appendChild(link);
         })();
     }
 
@@ -825,11 +830,13 @@ var Khan = (function() {
                 "../local-only/jquery.ui.dialog.js",
                 "../local-only/jquery.qtip.js",
                 "../local-only/underscore.js",
+                "../local-only/kas.js",
                 "../local-only/jed.js",
                 "../local-only/i18n.js",
                 // TODO(csilvers): I18N: pick the file based on lang=XX param
                 "../local-only/localeplanet/icu.en-US.js",
                 "../local-only/i18n.js",
+                "../local-only/katex/katex.js",
                 "../exercises-stub.js",
                 "../history.js",
                 "../interface.js",
@@ -1341,8 +1348,7 @@ var Khan = (function() {
         if (validator) {
             // Have MathJax redo the font metrics for the solution area
             // (ugh, this is gross)
-            MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
-                    $("#solutionarea")[0]]);
+            KhanUtil.processAllMath($("#solutionarea")[0], true);
 
             // Focus the first input
             // Use .select() and on a delay to make IE happy

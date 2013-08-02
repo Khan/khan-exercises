@@ -39,12 +39,14 @@
     </script>
     <script src="../../local-only/underscore.js"></script>
     <script src="../MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"></script>
+    <script src="../../local-only/katex/katex.js"></script>
 
     <!-- Include QUnit -->
     <link rel="stylesheet" href="../../test/qunit/qunit/qunit.css" type="text/css" media="screen">
     <script src="../../test/qunit/qunit/qunit.js"></script>
 
     <!-- Include utility files and tests. -->
+    <script src="../../exercises-stub.js"></script>
     <script src="../math.js"></script>
     <script src="../tex.js"></script>
     <script src="../tmpl.js"></script>
@@ -326,26 +328,6 @@
         start();
     });
 
-    asyncTest("number dollar", 6, function() {
-        var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='dollar'>1.42<\/p>"
-        );
-
-        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
-                $problem.children(".solution"));
-
-        testAnswer(answerData, "1.40", false, "wrong answer is wrong");
-        testAnswer(answerData, "$1.42", true, "right answer is right");
-        testAnswer(answerData, "1.42", true, "right answer is right without dollar sign");
-        testAnswer(answerData, " $ 1.42 ", true, "weirdly formatted right answer is right");
-
-        testAnswer(answerData, "$1.42$", false, "two dollar signs is wrong");
-        // TODO(alpert): wtf?
-        testAnswer(answerData, "1.4$2", true, "one dollar sign can be anywhere");
-
-        start();
-    });
-
     asyncTest("number mixed", 6, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='mixed'>-1.5<\/p>"
@@ -566,6 +548,9 @@
     });
 
     asyncTest("radio answerability", 8, function() {
+        // TODO(alpert): Get rid of MathJax
+        Exercises.useKatex = false;
+
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'><code>6<\/code><\/p>" +
             "<ul class='choices'>" +
@@ -618,6 +603,179 @@
             // Tell QUnit we're done.
             start();
         });
+    });
+
+    asyncTest("radio category", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>C<\/p>" +
+            "<ul class='choices' data-category='true'>" +
+                "<li>A<\/li>" +
+                "<li>B<\/li>" +
+                "<li>C<\/li>" +
+                "<li>D<\/li>" +
+            "<\/ul>"
+        );
+        jQuery("#qunit-fixture").runModules();
+
+        var $solutionarea = $("#solutionarea");
+        var $solution = $problem.children(".solution");
+
+        var answerData = Khan.answerTypes.radio.setup(
+                $solutionarea, $solution);
+
+        var validator = answerData.validator;
+        var getAnswer = answerData.answer;
+
+        // By default, nothing is checked so the validator gives ""
+        strictEqual(validator(getAnswer()), "", "initial validation is empty");
+
+        var texts = _.map($("#solutionarea span.value"), function(e) {
+            return $(e).text();
+        });
+        deepEqual(texts, ["A", "B", "C", "D"], "choices have the right order");
+
+        // If we check the right answer (C), then it'll return true
+        var $correctRadio = $("#solutionarea span.value")
+            .filter(function() { return (/C/).test($(this).html()); })
+            .closest("label").children("input");
+        $correctRadio.prop("checked", true);
+
+        strictEqual(validator(getAnswer()), true);
+
+        // If we check a wrong answer, then it'll return false
+        var $incorrectRadio = $("#solutionarea span.value")
+            .filter(function() { return (/A/).test($(this).html()); })
+            .closest("label").children("input");
+        $incorrectRadio.prop("checked", true);
+        strictEqual(validator(getAnswer()), false);
+
+        start();
+    });
+
+    asyncTest("radio setup", 24, function() {
+        var choices = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
+
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>C<\/p>" +
+            "<ul class='choices' data-show='11'>" +
+                _.map(choices, function(choice) {
+                    return "<li>" + choice + "<\/li>";
+                }).join("") +
+            "<\/ul>"
+        );
+        jQuery("#qunit-fixture").runModules();
+
+        var $solutionarea = $("#solutionarea");
+        var $solution = $problem.children(".solution");
+
+        var answerData = Khan.answerTypes.radio.setup(
+                $solutionarea, $solution);
+
+        var texts = _.map($("#solutionarea span.value"), function(e) {
+            return $(e).text();
+        });
+
+        strictEqual(texts.length, choices.length,
+            "The number of choices should be correct");
+        _.each(texts, function(text) {
+            ok(_.contains(choices, text),
+                "The text should be one of the provided choices")
+        });
+
+        var textCounts = _.countBy(texts);
+        _.each(textCounts, function(count) {
+            strictEqual(count, 1, "There should only be one of each choice");
+        });
+
+        // This can fail rarely, if the results were shuffled back into the
+        // original order, but that is unlikely
+        notDeepEqual(["C", "A", "B", "D", "E", "F", "G", "H", "I", "J", "K"],
+            texts, "The results were shuffled");
+
+        start();
+    });
+
+    asyncTest("radio none of the above setup", 2, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>A<\/p>" +
+            "<ul class='choices' data-none='true'>" +
+                "<li>B<\/li>" +
+                "<li>C<\/li>" +
+                "<li>D<\/li>" +
+            "<\/ul>"
+        );
+        jQuery("#qunit-fixture").runModules();
+
+        var $solutionarea = $("#solutionarea");
+        var $solution = $problem.children(".solution");
+
+        var answerData = Khan.answerTypes.radio.setup(
+                $solutionarea, $solution);
+
+        var texts = _.map($("#solutionarea span.value"), function(e) {
+            return $(e).text();
+        });
+
+        strictEqual(texts.length, 4, "The number of choices should be correct");
+        strictEqual(texts[3], "None of the above.",
+            "The last choice should be none of the above");
+
+        start();
+    });
+
+    asyncTest("radio none of the above answerability", 4, function() {
+        // Even if there are 500 distractors, the correct answer must always be
+        // mixed in as one of the correct ones -- we'll test that if there's
+        // only answer and we show "None of the above", then it's hiding the
+        // correct answer. (This test can pass even if the code is buggy 1/501
+        // of the time, but we'll have to live with that.)
+        var choices = _.range(500);
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>A<\/p>" +
+            "<ul class='choices' data-none='true' data-show='1'>" +
+                _.map(choices, function(choice) {
+                    return "<li>" + choice + "<\/li>";
+                }).join("") +
+            "<\/ul>"
+        );
+        jQuery("#qunit-fixture").runModules();
+
+        var $solutionarea = $("#solutionarea");
+        var $solution = $problem.children(".solution");
+
+        var answerData = Khan.answerTypes.radio.setup(
+                $solutionarea, $solution);
+
+        var validator = answerData.validator;
+        var getAnswer = answerData.answer;
+
+        var texts = _.map($("#solutionarea span.value"), function(e) {
+            return $(e).text();
+        });
+
+        deepEqual(texts, ["None of the above."],
+            "The only choice should be none of the above");
+
+        // By default, nothing is checked so the validator gives ""
+        strictEqual(validator(getAnswer()), "", "initial validation is empty");
+
+        // If we check the right answer (C), then it'll return true
+        var $correctRadio = $("#solutionarea span.value").first()
+            .closest("label").children("input");
+        $correctRadio.prop("checked", true);
+
+        // Make sure the answer gets marked as correct
+        strictEqual(validator(getAnswer()), true);
+
+        // Now, wait for the animation to wear off...
+        setTimeout(function() {
+            // Make sure that the correct solution is now shown
+            var newText = $("#solutionarea span.value").first().text();
+            strictEqual(newText, "A",
+                "The correct text appears after the answer is selected");
+
+            start();
+        }, 400);
     });
 
 })();

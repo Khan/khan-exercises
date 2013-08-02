@@ -981,13 +981,6 @@
                 // Focus the first input
                 $('.coefficient').eq(0).focus();
 
-                // Pressing enter submits the answer
-                $('.coefficient').on("keypress", function (e) {
-                    if (e.which == 13) {
-                        $('form#answerform').submit();
-                        return false;
-                    }
-                });
                 Khan.scratchpad.disable();
             </div>
             <div class="solution" data-type="custom">

@@ -113,108 +113,6 @@
             }
         };
 
-        var doLabelTypeset = function() {};
-        var mjCallback = null;
-
-        var setNeedsLabelTypeset = function() {
-            if (needsLabelTypeset) {
-                return;
-            }
-
-            needsLabelTypeset = true;
-
-            // This craziness is essentially
-            //     _.defer(function() {
-            //         needsLabelTypeset = false; typesetLabels();
-            //     })
-            // except that if you do run a setNeedsLabelTypeset() followed
-            // immediately by a MathJax.Hub.Queue, the labels should all have
-            // been typeset by the time the queued function runs.
-            doLabelTypeset = _.once(function() {
-                if (!needsLabelTypeset) {
-                    return;
-                }
-                needsLabelTypeset = false;
-                typesetLabels();
-                if (mjCallback) {
-                    mjCallback();
-                    mjCallback = null;
-                }
-            });
-            MathJax.Hub.Queue(function() {
-                if (!needsLabelTypeset) {
-                    return;
-                }
-                mjCallback = MathJax.Callback(function() {});
-                _.defer(function() {
-                    doLabelTypeset();
-                });
-                return mjCallback;
-            });
-        }
-
-        var typesetLabels = function() {
-            var spans = $(el).children(".graphie-label").get();
-            if (!spans.length) {
-                return;
-            }
-
-            MathJax.Hub.Queue(["Process", MathJax.Hub, el]);
-            MathJax.Hub.Queue(function() {
-                // If the graphie div is detached for some reason, the
-                // dimensions will all just be 0 anyway so don't bother trying
-                // to reposition.
-                if (!$.contains(document.body, el)) {
-                    return;
-                }
-
-                var callback = MathJax.Callback(function() {});
-
-                // Wait for the browser to render the labels
-                var tries = 0;
-                (function check() {
-                    var allRendered = true;
-
-                    // Iterate in reverse so we can delete while iterating
-                    for (var i = spans.length; i-- > 0;) {
-                        var span = spans[i];
-                        if (!$.contains(el, span) ||
-                                span.style.display === "none") {
-                            spans.splice(i, 1);
-                            continue;
-                        }
-                        var width = span.scrollWidth;
-                        var height = span.scrollHeight;
-
-                        // Heuristic to guess if the font has kicked in so we
-                        // have box metrics (magic number ick, but this seems
-                        // to work mostly-consistently)
-                        if (height > 18 || tries >= 10) {
-                            setLabelMargins(span, [width, height]);
-
-                            // Remove the span from the list so we don't look
-                            // at it a second time
-                            spans.splice(i, 1);
-                        } else {
-                            // Avoid an icky flash
-                            $(span).css("visibility", "hidden");
-                        }
-                    }
-
-                    if (spans.length) {
-                        // Some spans weren't ready -- wait a bit and try again
-                        tries++;
-                        setTimeout(check, 100);
-                    } else {
-                        // We're done!
-                        callback();
-                    }
-                })();
-
-                return callback;
-            });
-        };
-
         var svgPath = function(points) {
             // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
             function boundNumber(num) {
@@ -410,10 +308,7 @@
 
                 var $span = $("<span>").addClass("graphie-label");
 
-                if (latex) {
-                    var $script = $("<script type='math/tex'>").text(text);
-                    $span.append($script);
-                } else {
+                if (!latex) {
                     $span.html(text);
                 }
 
@@ -437,7 +332,19 @@
                 };
                 $span.setPosition(point);
 
-                setNeedsLabelTypeset();
+                var span = $span[0];
+                if (latex) {
+                    KhanUtil.processMath(span, text, false, function() {
+                        var width = span.scrollWidth;
+                        var height = span.scrollHeight;
+                        setLabelMargins(span, [width, height]);
+                    });
+                } else {
+                    var width = span.scrollWidth;
+                    var height = span.scrollHeight;
+                    setLabelMargins(span, [width, height]);
+                }
+
                 return $span;
             },
 
@@ -587,6 +494,8 @@
 
                 var w = (xRange[1] - xRange[0]) * xScale, h = (yRange[1] - yRange[0]) * yScale;
                 raphael.setSize(w, h);
+
+                this.dimensions = [w, h];
                 $(el).css({
                     "width": w,
                     "height": h
@@ -613,11 +522,7 @@
             scaleVector: scaleVector,
 
             unscalePoint: unscalePoint,
-            unscaleVector: unscaleVector,
-
-            forceLabelTypeset: function() {
-                doLabelTypeset();
-            }
+            unscaleVector: unscaleVector
         });
 
         $.each(drawingTools, function(name) {
@@ -727,6 +632,10 @@
                     [range[1][0] - (range[1][0] > 0 ? 1 : 0),
                      range[1][1] + (range[1][1] < 0 ? 1 : 0)]
                 ];
+
+            if (!$.isArray(unityLabels)) {
+                unityLabels = [unityLabels, unityLabels];
+            }
 
             if (smartLabelPositioning) {
                 var minusIgnorer = function(lf) { return function(a) {
@@ -855,7 +764,9 @@
                         yAxisPosition = (axisCenter[0] < 0) ? "right" : "left",
                         xShowZero = axisCenter[0] === 0 && axisCenter[1] !== 0,
                         yShowZero = axisCenter[0] !== 0 && axisCenter[1] === 0,
-                        showUnity = unityLabels || axisCenter[0] !== 0 || axisCenter[1] !== 0;
+                        axisOffCenter = axisCenter[0] !== 0 || axisCenter[1] !== 0,
+                        showUnityX = unityLabels[0] || axisOffCenter,
+                        showUnityY = unityLabels[1] || axisOffCenter;
 
                     // positive x-axis
                     for (var x = (xShowZero ? 0 : step) + axisCenter[0]; x <= stop; x += step) {
@@ -865,7 +776,7 @@
                     }
 
                     // negative x-axis
-                    for (var x = -step * (showUnity ? 1 : 2) + axisCenter[0]; x >= start; x -= step) {
+                    for (var x = -step * (showUnityX ? 1 : 2) + axisCenter[0]; x >= start; x -= step) {
                         if (x > start || !axisArrows) {
                             this.label([x, axisCenter[1]], xLabelFormat(x), xAxisPosition);
                         }
@@ -883,7 +794,7 @@
                     }
 
                     // negative y-axis
-                    for (var y = -step * (showUnity ? 1 : 2) + axisCenter[1]; y >= start; y -= step) {
+                    for (var y = -step * (showUnityY ? 1 : 2) + axisCenter[1]; y >= start; y -= step) {
                         if (y > start || !axisArrows) {
                             this.label([axisCenter[0], y], yLabelFormat(y), yAxisPosition);
                         }

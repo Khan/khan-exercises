@@ -11,6 +11,7 @@ function numberLine(start, end, step, x, y, denominator) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
     set.push(graph.line([x, y], [x + end - start, y]));
+    set.labels = [];
     for (var i = 0; i <= end - start; i += step) {
         set.push(graph.line([x + i, y - 0.2], [x + i, y + 0.2]));
 
@@ -27,13 +28,17 @@ function numberLine(start, end, step, x, y, denominator) {
                     lab = base + "\\frac{" + Math.abs(Math.round(frac * denominator)) + "}{" + denominator + "}";
                 }
             }
-            graph.label([x + i, y - 0.2], "\\small{" + lab + "}", "below", { labelDistance: 3 });
+            var label = graph.label([x + i, y - 0.2], "\\small{" + lab + "}",
+                "below", { labelDistance: 3 });
+            set.labels.push(label);
+            set.push(label);
         }
         else {
-            graph.label([x + i, y - 0.2],
-                        "\\small{" + KhanUtil.localeToFixed(start + i, decPlaces) + "}",
-                        "below",
-                        { labelDistance: 3 });
+            var label = graph.label([x + i, y - 0.2],
+                "\\small{" + KhanUtil.localeToFixed(start + i, decPlaces) + "}",
+                "below", { labelDistance: 3 });
+            set.labels.push(label);
+            set.push(label);
         }
     }
     return set;
@@ -64,7 +69,7 @@ function piechart(divisions, colors, radius) {
     return set;
 }
 
-function rectchart(divisions, colors, y) {
+function rectchart(divisions, fills, y, strokes) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
 
@@ -75,20 +80,32 @@ function rectchart(divisions, colors, y) {
         sum += slice;
     });
 
+    var unit = graph.unscaleVector([1, 1]);
     var partial = 0;
     $.each(divisions, function(i, slice) {
-        var x = partial / sum, w = slice / sum;
-        set.push(graph.path([[x, y], [x + w, y], [x + w, y + 1], [x, y + 1]], {
-            stroke: KhanUtil.BACKGROUND,
-            fill: colors[i]
-        }));
-        partial += slice;
-    });
+        var fill = fills[i];
+        // If no stroke is provided, match the fill color so the rectangle
+        // appears to be the same size
+        var stroke = strokes && strokes[i] || fill;
 
-    for (var i = 0; i <= sum; i++) {
-        var x = i / sum;
-        set.push(graph.line([x, y + 0], [x, y + 1], { stroke: KhanUtil.BACKGROUND }));
-    }
+        for (var j = 0; j < slice; j++) {
+            var x = partial / sum, w = 1 / sum;
+            set.push(graph.path(
+                [
+                    [x + 2 * unit[0], y + 2 * unit[1]],
+                    [x + w - 2 * unit[0], y + 2 * unit[1]],
+                    [x + w - 2 * unit[0], y + 1 - 2 * unit[1]],
+                    [x + 2 * unit[0], y + 1 - 2 * unit[1]],
+                    true
+                ],
+                {
+                    stroke: stroke,
+                    fill: fill
+                }
+            ));
+            partial += 1;
+        }
+    });
 
     return set;
 }

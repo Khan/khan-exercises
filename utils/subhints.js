@@ -26,7 +26,9 @@
             // TODO(alpert): This flashes when the subhint is revealed.
             // Flashing is better than the alternative, though:
             // https://uploads.hipchat.com/6574/33523/6qxvb1j5sh88vjv/upload.png
-            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $el[0]]);
+            $el.find("code").each(function(i, code) {
+                KhanUtil.processMath(code, null, true);
+            });
         });
 
         return false;
