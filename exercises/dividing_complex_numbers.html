@@ -12,20 +12,21 @@
             &amp;&amp; !(B_REAL === 1 &amp;&amp; B_IMAG === 0)  /* division by 1 */
             &amp;&amp; !(B_REAL === 0 &amp;&amp; B_IMAG === 1)  /* division by i */
             &amp;&amp; A_IMAG !== 0 &amp;&amp; A_REAL !== 0  /* hints with missing terms are hard */">
-        <var id="ANSWER_REAL">randRange( -5, 5 )</var>
-        <var id="ANSWER_IMAG">randRange( -5, 5 )</var>
-        <var id="B_REAL">randRange( -5, 5 )</var>
-        <var id="B_IMAG">randRange( -5, 5 )</var>
+        <var id="ANSWER_REAL">randRange(-5, 5)</var>
+        <var id="ANSWER_IMAG">randRange(-5, 5)</var>
+        <var id="B_REAL">randRange(-5, 5)</var>
+        <var id="B_IMAG">randRange(-5, 5)</var>
         <var id="A_REAL">ANSWER_REAL * B_REAL - ANSWER_IMAG * B_IMAG</var>
         <var id="A_IMAG">ANSWER_REAL * B_IMAG + ANSWER_IMAG * B_REAL</var>
         <var id="DENOMINATOR">B_REAL * B_REAL + B_IMAG * B_IMAG</var>
-        <var id="REAL_NUMERATOR">( A_REAL * B_REAL ) + ( A_IMAG * B_IMAG )</var>
-        <var id="IMAG_NUMERATOR">( A_IMAG * B_REAL ) - ( A_REAL * B_IMAG )</var>
-        <var id="ANSWER_REP">complexNumber( ANSWER_REAL, ANSWER_IMAG )</var>
-        <var id="A_REP">complexNumber( A_REAL, A_IMAG )</var>
-        <var id="B_REP">complexNumber( B_REAL, B_IMAG )</var>
+        <var id="REAL_NUMERATOR">(A_REAL * B_REAL) + (A_IMAG * B_IMAG)</var>
+        <var id="IMAG_NUMERATOR">(A_IMAG * B_REAL) - (A_REAL * B_IMAG)</var>
+        <var id="ANSWER_REP">complexNumber(ANSWER_REAL, ANSWER_IMAG)</var>
+        <var id="ANSWER">complexRegex(ANSWER_REAL, ANSWER_IMAG)</var>
+        <var id="A_REP">complexNumber(A_REAL, A_IMAG)</var>
+        <var id="B_REP">complexNumber(B_REAL, B_IMAG)</var>
         <var id="B_CONJUGATE_IMAG">-B_IMAG</var>
-        <var id="CONJUGATE">complexNumber( B_REAL, B_CONJUGATE_IMAG )</var>
+        <var id="CONJUGATE">complexNumber(B_REAL, B_CONJUGATE_IMAG)</var>
     </div>
 
     <div class="problems">
@@ -34,22 +35,7 @@
             <p>
                 <code>\qquad \dfrac{<var>A_REP</var>}{<var>B_REP</var>}</code>
             </p>
-            <div class="solution" data-type="multiple">
-                <span class="sol short50" data-fallback="0">
-                    <var>ANSWER_REAL</var>
-                </span>
-                <code>+</code>
-                <span class="sol short50" data-fallback="0">
-                    <var>ANSWER_IMAG</var>
-                </span>
-                <code>i</code>
-                <div class="example">
-                    Two numbers for both the real and imaginary parts
-                </div>
-                <div class="example">
-                    Example: <code>2 + 3i</code>
-                </div>
-            </div>
+            <div class="solution" data-type="regex"><var>ANSWER</var></div>
             <div class="hints">
                 <div data-if="B_REAL === 0 || B_IMAG === 0" data-unwrap="">
                     <p>Since we're dividing by a single term, we can simply divide each term in the numerator separately.</p>
