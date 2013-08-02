@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <div id="terminating-decimals-1">
+            <div id="terminating-decimals">
                 <div class="vars">
                     <var id="NUMS">randRange(2, 3)</var>
                     <var id="ORDER">randRange(0, 1)</var>
@@ -195,6 +195,110 @@
                             A negative number divided by a positive number is a negative number.
                         </p>
                         <p><code><var>DIVIDEND_D</var> \div <var>DIVISOR_D</var> = <var>SOLUTION</var></code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="percentages">
+                <div class="vars">
+                    <var id="NUMS">randRange(2, 3)</var>
+                    <var id="ORDER">randRange(0, 1)</var>
+
+                    <var id="S1">randFromArray([1, -1])</var>
+                    <var id="S2">randFromArray([1, -1])</var>
+                    <var id="S3">randFromArray([1, -1])</var>
+                    <var id="S4">S1 * S2 * S3</var>
+                    
+                    <var id="N2">randRange(2, 9)</var>
+                    <var id="N3">randRange(2, 9)</var>
+                    <var id="N4">randRange(1, 99)</var>
+                    <var id="N1">N4 * N2 * N3</var>
+
+                    <var id="P2">randRange(1, 2)</var>
+                    <var id="P3">randRange(1, 2)</var>
+                    <var id="P4">randRange(1, 2)</var>
+                    <var id="P1">P2 + P3 + P4</var>
+
+                    <var id="D2">roundTo(P2, S2 * N2 / pow(10, P2))</var>
+                    <var id="D3">roundTo(P3, S3 * N3 / pow(10, P3))</var>
+                    <var id="D4">roundTo(P4, S4 * N4 / pow(10, P4))</var>
+                    <var id="D1">roundTo(P1, D4 * D2 * D3)</var>
+
+                    <var id="DIVIDEND_N">NUMS === 2 || ORDER ? N1 : N1 * N3</var>
+                    <var id="DIVIDEND_P">NUMS === 2 || ORDER ? P1 : decimalPlaces(roundTo(4, D1 * D3))</var>
+                    <var id="DIVIDEND_S">NUMS === 2 || ORDER ? S1 : S1 * S3</var>
+                    <var id="DIVIDEND_D">roundTo(DIVIDEND_P,  DIVIDEND_S * DIVIDEND_N / pow(10,  DIVIDEND_P))</var>
+                    <var id="DIVISOR_N">NUMS === 2 || ORDER === 0 ? N2 : N2 * N3</var>
+                    <var id="DIVISOR_P">NUMS === 2 || ORDER === 0 ? P2 : decimalPlaces(roundTo(4, D2 * D3))</var>
+                    <var id="DIVISOR_S">NUMS === 2 || ORDER === 0 ? S2 : S2 * S3</var>
+                    <var id="DIVISOR_D">roundTo(DIVISOR_P, DIVISOR_S * DIVISOR_N / pow(10, DIVISOR_P))</var>
+                    <var id="SOLUTION">roundTo(4, DIVIDEND_D / DIVISOR_D)</var>
+
+                    <var id="HINTS1">0</var>
+                </div>
+
+                <div class="question"><p><code>
+                    <span data-if="NUMS === 2"><var>roundTo(2, D1*100)</var>\% \div <var>roundTo(2, D2 * 100)</var>\%</span>
+                    <span data-else-if="ORDER">(<var>roundTo(2, D1 * 100)</var>\% \div <var>roundTo(2, D2 * 100)</var>\%) \div <var>roundTo(2, D3 * 100)</var>\%</span>
+                    <span data-else=""><var>roundTo(2, D1 * 100)</var>\% \div (<var>roundTo(2, D2 * 100)</var>\% \div <var>roundTo(2, D3 * 100)</var>\%)</span>
+                </code></p></div>
+
+                <div class="graphie">
+                    var g1 = new Divider(DIVISOR_N, DIVIDEND_N, DIVISOR_P, DIVIDEND_P);
+                    HINTS1 = Array(g1.getNumHints());
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="decimal"><var>roundTo(2, 100 * SOLUTION)</var></span><code>\space \%</code>
+                </div>
+
+                <div class="hints">
+                    <div>
+                        <p>Convert each percentage into a decimal dividing by <code>100</code>.</p>
+                        <p><code>
+                            <span data-if="NUMS === 2"><var>D1</var> \div <var>D2</var></span>
+                            <span data-else-if="ORDER">(<var>D1</var> \div <var>D2</var>) \div <var>D3</var></span>
+                            <span data-else=""><var>D1</var> \div (<var>D2</var> \div <var>D3</var>)</span>
+                        </code></p>
+                    </div>
+
+                    <div data-if="NUMS === 3 && ORDER === 0" data-unwrap="">
+                        <p><code>\qquad = <var>D1</var> \times (<var>D3</var> \div <var>D2</var>)</code></p>
+                        <p><code>\qquad = (<var>D1</var> \times <var>D3</var>) \div <var>D2</var></code></p>
+                        <p><code>\qquad = <var>roundTo(4, D1 * D3)</var> \div <var>D2</var></code></p>
+                    </div>
+                    <div data-if="NUMS === 3 && ORDER === 1" data-unwrap="">
+                        <p><code>\qquad = <var>D1</var> \div (<var>D2</var> \times <var>D3</var>)</code></p>
+                        <p><code>\qquad = <var>D1</var> \div <var>roundTo(4, D2 * D3)</var></code></p>
+                    </div>
+
+                    <div class="graphie" id="div-1">
+                        graph.divider = new Divider(DIVISOR_N, DIVIDEND_N, DIVISOR_P, DIVIDEND_P);
+                        graph.divider.show();
+                    </div>
+                    <div class="graphie" data-update="div-1">
+                        graph.divider.shiftDecimals();
+                    </div>
+                    <div class="graphie" data-each="HINTS1 as hint" data-update="div-1">
+                        graph.divider.showHint();
+                    </div>
+
+                    <div>
+                        <p data-if="DIVIDEND_S === -1 && DIVISOR_S === -1">
+                            Since both <code><var>DIVIDEND_D</var></code> and <code><var>DIVISOR_D</var></code> are negative, the result is positive.
+                        </p>
+                        <p data-else-if="DIVISOR_S === -1">
+                            A positive number divided by a negative number is a negative number.
+                        </p>
+                        <p data-else-if="DIVIDEND_S === -1">
+                            A negative number divided by a positive number is a negative number.
+                        </p>
+                        <p><code><var>DIVIDEND_D</var> \div <var>DIVISOR_D</var> = <var>SOLUTION</var></code></p>
+                    </div>
+
+                    <div>
+                        <p>Convert the decimal into a percentage by multiplying by <code>100</code>.</p>
+                        <p><code><var>SOLUTION</var> = <var>SOLUTION * 100</var>\%</code></p>
                     </div>
                 </div>
             </div>
