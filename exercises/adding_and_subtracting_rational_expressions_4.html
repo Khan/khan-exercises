@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html data-require="math math-format polynomials rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with unlike denominators 4</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="SIGN">randFromArray(["+", "-"])</var>
+                    <var id="X">randVar()</var>
+                    <var id="N1">randRange(2, 9)</var>
+                    <var id="N2">randRange(2, 9)</var>
+                    <div data-ensure="T1 !== T2">
+                        <var id="T1">randRangeNonZero(-10, 10)</var>
+                        <var id="T2">randRangeNonZero(-10, 10)</var>
+                    </div>
+                    <var id="D1">new RationalExpression([[1, X], T1])</var>
+                    <var id="D2">new RationalExpression([[1, X], T2])</var>
+                    <var id="PRODUCT1">D2.multiply(N1)</var>
+                    <var id="PRODUCT2">SIGN === '+' ? D1.multiply(N2) : D1.multiply(N2).multiply(-1)</var>
+                    <var id="SUM">PRODUCT1.add(PRODUCT2)</var>
+                    <var id="DENOMINATOR">new Polynomial(0, 2, [T1*T2, T1+T2, 1], X)</var>
+                    <var id="ANSWER">"(" + SUM.toString() + ")/((" + D1.toString() + ")(" + D2.toString() + "))" </var>
+                </div>
+
+                <p class="problem">Simplify and expand the following expression:</p>
+                <p class="question"><code>
+                    \dfrac{<var>N1</var>}{<var>D1</var>}<var>SIGN</var>\dfrac{<var>N2</var>}{<var>D2</var>}
+                </code></p>
+
+                <div class="solution" data-type="expression" data-simplify><var>ANSWER</var></div>
+
+                <div class="hints">
+                    <p data-if="SIGN === '+'">In order to add expressions, they must have a common denominator.</p>
+                    <p data-else="">In order to subtract expressions, they must have a common denominator.</p>
+
+                    <p>Get both fractions over a common denominator of <code>(<var>D1</var>)(<var>D2</var>)</code>.</p>
+
+                    <div>
+                        <p>Multiply the first term by <code>\dfrac{<var>D2</var>}{<var>D2</var>}</code></p>
+                        <p><code>\qquad
+                            \dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>D2</var>} = 
+                            \dfrac{<var>N1</var>(<var>D2</var>)}{(<var>D1</var>)(<var>D2</var>)}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>Multiply the second term by <code>\dfrac{<var>D1</var>}{<var>D1</var>}</code></p>
+                        <p><code>\qquad
+                            \dfrac{<var>N2</var>}{<var>D2</var>} \times \dfrac{<var>D1</var>}{<var>D1</var>} = 
+                            \dfrac{<var>N2</var>(<var>D1</var>)}{(<var>D2</var>)(<var>D1</var>)}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            \dfrac{<var>N1</var>(<var>D2</var>)}{(<var>D1</var>)(<var>D2</var>)} <var>SIGN</var>
+                            \dfrac{<var>N2</var>(<var>D1</var>)}{(<var>D2</var>)(<var>D1</var>)}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p data-if="SIGN === '+'">Now both terms have a common denominator we can simply add the numerators:</p>
+                        <p data-else="">Now both terms have a common denominator we can simply subtract the numerators:</p>
+                        <p><code>\qquad
+                            \dfrac{<var>N1</var>(<var>D2</var>) <var>SIGN</var> <var>N2</var>(<var>D1</var>)}
+                            {(<var>D1</var>)(<var>D2</var>)}
+                        </code></p>
+                    </div>
+
+                    <p><code>\qquad = \dfrac{<var>PRODUCT1</var> + <var>PRODUCT2</var>}{(<var>D1</var>)(<var>D2</var>)}</code></p>
+                    <p><code>\qquad = \dfrac{<var>SUM</var>}{(<var>D1</var>)(<var>D2</var>)}</code></p>
+
+                    <div>
+                        <p>Expand the denominator</p>
+                        <p><code>\qquad = \dfrac{<var>SUM</var>}{<var>DENOMINATOR</var>}</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
