@@ -24,6 +24,10 @@ var extractRawCode = function(elem) {
     return $elem.html();
 };
 
+function getTextSquish(elem) {
+    return $(elem).text().replace(/\s+/g, "");
+}
+
 /*
  * Answer types
  *
@@ -1260,43 +1264,54 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var $choicesClone = $choices.clone(true).texCleanup();
             var $solutionClone = $(solution).clone(true).texCleanup();
 
-            // Join them together
-            var possibleChoices = $solutionClone.get().concat(
-                $choicesClone.children().get());
-
             // Retrieve the text of the solution so we can store it later
             var solutionText = $solutionClone.text();
 
-            // The number of choices is either the specified number of the
-            // number of choices provided
+            // Whether this is a category question, or if we should shuffle the
+            // answers up.
+            var isCategory = !!$choices.data("category");
+
+            if (isCategory) {
+                // If it's a category question, insert the solution into the
+                // list of choices at the correct place, by comparing by the
+                // text value of the elements.
+                var correctText = getTextSquish($solutionClone);
+                var possibleChoices = _.map(
+                    $choicesClone.children().get(),
+                    function(elem) {
+                        if (getTextSquish(elem) === correctText) {
+                            return $solutionClone[0];
+                        } else {
+                            return elem;
+                        }
+                    });
+            } else {
+                // Otherwise, the possible choices is just the correct answer
+                // and the other choices. We shuffle the choices here so that
+                // when we slice off some of the choices later, we don't always
+                // slice off the same ones.
+                var possibleChoices = $solutionClone.get().concat(
+                    KhanUtil.shuffle($choicesClone.children().get())
+                );
+            }
+
+            // The number of choices is either the number specified or the
+            // number of choices in the list of possible choices.
             var numChoices = +$choices.data("show") || possibleChoices.length;
 
             // Whether to show a "none of the above" solution in our set of
             // answers.
             var showNone = !!$choices.data("none");
 
-            // Whether this is a category question, or if we should shuffle the
-            // answers up.
-            var isCategory = !!$choices.data("category");
-
-            // Since one of the choices is duplicated in category mode, we
-            // reduce the number of choices we have.
-            if (isCategory) {
-                numChoices -= 1;
-            }
-
             // This code removes duplicate answers by looking at the text
             // values of the choices and keeping the non-duplicate answers
-            var dupes = {};
-            var shownChoices = [];
-            for (var i = 0; i < possibleChoices.length; i++) {
-                var $choice = $(possibleChoices[i]);
-                var choiceTextSquish = $choice.text().replace(/\s+/g, "");
+            var shownChoices = _.uniq(possibleChoices, false, function(elem) {
+                return getTextSquish(elem);
+            });
 
-                if (!dupes[choiceTextSquish]) {
-                    dupes[choiceTextSquish] = true;
-                    shownChoices.push($choice);
-                }
+            // Shuffle the answers if we're not in category mode
+            if (!isCategory) {
+                shownChoices = KhanUtil.shuffle(shownChoices);
             }
 
             // If removing duplicates made it so there aren't enough showing
@@ -1309,15 +1324,10 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 shownChoices = shownChoices.slice(0, numChoices);
             }
 
-            // Shuffle the answers if we're not in category mode
-            if (!isCategory) {
-                shownChoices = KhanUtil.shuffle(shownChoices);
-            }
-
             // Find the index of the correct answer
             var correctIndex;
-            _.each(shownChoices, function($choice, i) {
-                if ($choice[0] === $solutionClone[0]) {
+            _.each(shownChoices, function(choice, i) {
+                if (choice === $solutionClone[0]) {
                     correctIndex = i;
                 }
             });
@@ -1350,11 +1360,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
 
             // Wrap each of the choices in elements and add radio buttons
-            var wrappedChoices = _.map(shownChoices, function($choice, i) {
+            var wrappedChoices = _.map(shownChoices, function(choice, i) {
                 return $("<li><label>").find("label").append([
                     $('<input type="radio" name="solution">').val(i),
                     $('<span class="value">').append(
-                        $choice.contents()
+                        $(choice).contents()
                     )
                 ]).end();
             });
