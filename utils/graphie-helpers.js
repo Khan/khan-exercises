@@ -609,3 +609,41 @@ function labelDirection(angle) {
         return "below right";
     }
 }
+
+// arc orientation is "top"|"left"|"bottom"|"right".
+// arrow direction is clockwise (true) or counter-clockwise (false)
+function curvyArrow(center, radius, arcOrientation, arrowDirection, styles) {
+    styles = styles || {};
+    var graph = KhanUtil.currentGraph;
+    var set = graph.raphael.set();
+    var angles;
+    if (arcOrientation === "left") {
+        angles = [90, 270];
+    } else if (arcOrientation === "right") {
+        angles = [270, 90];
+    } else if (arcOrientation === "top") {
+        angles = [0, 180];
+    } else if (arcOrientation === "bottom") {
+        angles = [180, 0];
+    }
+    angles.push(styles);
+    var arcArgs = [center, radius].concat(angles);
+    set.push(graph.arc.apply(graph, arcArgs));
+
+    var offset = graph.unscaleVector([1, 1]);
+
+    // draw Arrows
+    var from = _.clone(center);
+    var to = _.clone(center);
+    if (arcOrientation === "left" || arcOrientation === "right") {
+        var left = arcOrientation === "left";
+        from[1] = to[1] = to[1] + radius * (arrowDirection === left ? 1 : -1);
+        to[0] = from[0] + offset[0] * (left ? 1 : -1);
+    } else {
+        var bottom = arcOrientation === "bottom";
+        from[0] = to[0] = to[0] + radius * (arrowDirection === bottom ? 1 : -1);
+        to[1] = from[1] + offset[1] * (bottom ? 1 : -1);
+    }
+    set.push(graph.line(from, to, _.extend({arrows: "->"}, styles)));
+    return set;
+}
