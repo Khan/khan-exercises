@@ -882,7 +882,7 @@ body.debug span.error {
 }
 
 /* Work around bug added in https://khanacademy.kilnhg.com/Review/K109777 */
-.MathJax .math {
+.new-header .MathJax .math {
     color: inherit;
 }
 
