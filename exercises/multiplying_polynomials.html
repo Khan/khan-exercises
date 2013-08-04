@@ -65,7 +65,7 @@
                         continue;
                     }
 
-                    coefs[ i ] = SOLUTION.coefs[ i ] * ( n + counter++ % 2 === 0  ? 1 : -1 );
+                    coefs[ i ] = SOLUTION.coefs[ i ] * ( rand(2)  ? 1 : -1 );
                 }
 
                 return new Polynomial( SOLUTION.minDegree, SOLUTION.maxDegree, coefs, SOLUTION.variable );
