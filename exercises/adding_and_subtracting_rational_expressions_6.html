@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html data-require="math math-format rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with unlike denominators 4</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="X">randVar()</var>
+                    <var id="SIGN1">randFromArray(["+", "-"])</var>
+                    <var id="SIGN2">randFromArray(["+", "-"])</var>
+                    <var id="N1">randRange(1, 9)</var>
+                    <var id="N2">randRange(1, 9)</var>
+                    <var id="N3">rand(2) ? new Term(randRange(1, 9)) : new Term(randRange(1, 9), X)</var>
+                    <var id="TERM1">new RationalExpression([[1, X], randRangeNonZero(-10, 10)])</var>
+                    <var id="TERM2">new RationalExpression([[1, X], randRangeNonZero(-10, 10)])</var>
+                    <var id="F1">randRangeWeighted(1, 9, 1, 0.4)</var>
+                    <var id="F2">randRangeWeighted(1, 9, 1, 0.4)</var>
+                    <var id="D1">TERM1.multiply(F1)</var>
+                    <var id="D2">TERM2.multiply(F2)</var>
+                    <var id="D3">TERM1.multiply(TERM2)</var>
+                    <var id="COMMON_DENOM">(F1 * F1 === 1) ? "(" + TERM1 + ")(" + TERM2 + ")" : (F1 * F1) + " \\cdot (" + TERM1 + ")(" + TERM2 + ")"</var>
+                    <var id="PRODUCT1">D2.multiply(N1)</var>
+                    <var id="PRODUCT2">SIGN1 === '+' ? D1.multiply(N2) : D1.multiply(N2).multiply(-1)</var>
+                    <var id="NUMERATOR">PRODUCT1.add(PRODUCT2)</var>
+                    <var id="DENOMINATOR">D1.multiply(D2)</var>
+                    <var id="ANSWER">"(" + NUMERATOR.toString() + ")/(" + DENOMINATOR.toString() + ")" </var>
+                </div>
+
+                <p class="problem">Simplify and expand the following expression:</p>
+                <p class="question"><code>
+                    \dfrac{<var>N1</var>}{<var>D1</var>}<var>SIGN1</var>
+                    \dfrac{<var>N2</var>}{<var>D2</var>}<var>SIGN2</var>
+                    \dfrac{<var>N3</var>}{<var>D3</var>}
+                </code></p>
+
+                <div class="solution" data-type="expression" data-simplify><var>ANSWER</var></div>
+
+                <div class="hints">
+                    <p>First find a common denominator by finding the least common multiple of the denominators.</p>
+                    <p>Try factoring the denominators.</p>
+
+                    <div data-if="F1 !== 1">
+                        <p>We can factor a <code><var>F1</var></code> out of denominator in the first term:</p>
+                        <p><code>\qquad\dfrac{<var>N1</var>}{<var>D1</var>} = \dfrac{<var>N1</var>}{<var>F1</var>(<var>TERM1</var>)}</code></p>
+                    </div>
+
+                    <div data-if="F2 !== 1">
+                        <p>We can factor a <code><var>F2</var></code> out of denominator in the second term:</p>
+                        <p><code>\qquad\dfrac{<var>N2</var>}{<var>D2</var>} = \dfrac{<var>N2</var>}{<var>F2</var>(<var>TERM2</var>)}</code></p>
+                    </div>
+
+                    <div>
+                        <p>We can factor the quadratic in the third term:</p>
+                        <p><code>\qquad\dfrac{<var>N3</var>}{<var>D3</var>} = \dfrac{<var>N3</var>}{(<var>TERM1</var>)(<var>TERM2</var>)}</code></p>
+                    </div>
+
+                    <div>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            \dfrac{<var>N1</var>}{<var>D1.toStringFactored()</var>}<var>SIGN1</var>
+                            \dfrac{<var>N2</var>}{<var>D2.toStringFactored()</var>}<var>SIGN2</var>
+                            \dfrac{<var>N3</var>}{(<var>TERM1</var>)(<var>TERM2</var>)}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>The least common multiple of the denominators is:</p>
+                        <p><code>\qquad<var>COMMON_DENOM</var></code></p>
+                    </div>
+
+                    <div>
+                        <p>In order to get the first term over
+                            <code><var>COMMON_DENOM</var></code>, multiply by 
+                            <code>\dfrac{<var>D2.toStringFactored()</var>}{<var>D2.toStringFactored()</var>}</code>
+                        </p>
+                        <p><code>\qquad
+                            \dfrac{<var>N1</var>}{<var>D1.toStringFactored()</var>} \times
+                            \dfrac{<var>D2.toStringFactored()</var>}{<var>D2.toStringFactored()</var>} = 
+                            \dfrac{<var>D2.multiply(N1).toStringFactored()</var>}{<var>COMMON_DENOM</var>}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>In order to get the second term over
+                            <code><var>COMMON_DENOM</var></code>, multiply by 
+                            <code>\dfrac{<var>D1.toStringFactored()</var>}{<var>D1.toStringFactored()</var>}</code>
+                        </p>
+                        <p><code>\qquad
+                            \dfrac{<var>N2</var>}{<var>D2.toStringFactored()</var>} \times
+                            \dfrac{<var>D1.toStringFactored()</var>}{<var>D1.toStringFactored()</var>} = 
+                            \dfrac{<var>D1.multiply(N2).toStringFactored()</var>}{<var>COMMON_DENOM</var>}
+                        </code></p>
+                    </div>
+
+                    <div data-if="F1 * F2 !== 1">
+                        <p>In order to get the third term over
+                            <code><var>COMMON_DENOM</var></code>, multiply by 
+                            <code>\dfrac{<var>F1 * F2</var>}{<var>F1 * F2</var>}</code>
+                        </p>
+                        <p><code>\qquad
+                            \dfrac{<var>N3</var>}{(<var>TERM1</var>)(<var>TERM2</var>)} \times
+                            \dfrac{<var>F1 * F2</var>}{<var>F1 * F2</var>} = 
+                            \dfrac{<var>N3.multiply(F1*F2).toStringFactored()</var>}{<var>COMMON_DENOM</var>}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            \dfrac{<var>D2.multiply(N1).toStringFactored()</var>}{<var>COMMON_DENOM</var>} <var>SIGN1</var>
+                            \dfrac{<var>D1.multiply(N2).toStringFactored()</var>}{<var>COMMON_DENOM</var>} <var>SIGN2</var>
+                            \dfrac{<var>N3.multiply(F1*F2).toStringFactored()</var>}{<var>COMMON_DENOM</var>}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p data-if="SIGN === '+'">Now both terms have a common denominator we can simply add the numerators:</p>
+                        <p data-else="">Now both terms have a common denominator we can simply subtract the numerators:</p>
+                        <p><code>\qquad
+                            \dfrac{<var>N1</var>(<var>D2</var>) <var>SIGN</var> <var>N2</var>(<var>D1</var>)}
+                            {(<var>D1</var>)(<var>D2</var>)}
+                        </code></p>
+                    </div>
+
+                    <p><code>\qquad = \dfrac{<var>PRODUCT1</var> + <var>PRODUCT2</var>}{(<var>D1</var>)(<var>D2</var>)}</code></p>
+                    <p><code>\qquad = \dfrac{<var>NUMERATOR</var>}{(<var>D1</var>)(<var>D2</var>)}</code></p>
+
+                    <div>
+                        <p>Expand the denominator</p>
+                        <p><code>\qquad = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
