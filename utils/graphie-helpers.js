@@ -44,9 +44,11 @@ function numberLine(start, end, step, x, y, denominator) {
     return set;
 }
 
-function piechart(divisions, colors, radius) {
+function piechart(divisions, colors, radius, strokeColor) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
+    var arcColor = strokeColor || "none";
+    var lineColor = strokeColor || "#fff";
 
     var sum = 0;
     $.each(divisions, function(i, slice) {
@@ -56,14 +58,14 @@ function piechart(divisions, colors, radius) {
     var partial = 0;
     $.each(divisions, function(i, slice) {
         set.push(graph.arc([0, 0], radius, partial * 360 / sum, (partial + slice) * 360 / sum, true, {
-            stroke: colors[2] || "none",
+            stroke: arcColor,
             fill: colors[i]
         }));
         partial += slice;
     });
 
     for (var i = 0; i < sum; i++) {
-        set.push(graph.line([0, 0], graph.polar(radius, i * 360 / sum), { stroke: colors[2] || "#fff" }));
+        set.push(graph.line([0, 0], graph.polar(radius, i * 360 / sum), { stroke: lineColor }));
     }
 
     return set;
