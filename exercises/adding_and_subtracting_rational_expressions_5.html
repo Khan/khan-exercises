@@ -39,7 +39,9 @@
                     <var id="NUMERATOR">PRODUCT1.add(PRODUCT2a)</var>
                     <var id="DENOMINATOR">DENOMINATOR1.multiply(DENOMINATOR2)</var>
                     <var id="GCD">DENOMINATOR.getGCD(NUMERATOR)</var>
-                    <var id="ANSWER">"(" + NUMERATOR.toString() + ")/(" + DENOMINATOR.toString() + ")" </var>
+                    <var id="FINAL_N">NUMERATOR.divide(GCD)</var>
+                    <var id="FINAL_D">DENOMINATOR.divide(GCD)</var>
+                    <var id="ANSWER">"(" + FINAL_N.toString() + ")/(" + FINAL_D.toString() + ")" </var>
                 </div>
 
                 <p class="problem">Simplify and expand the following expression:</p>
@@ -99,8 +101,13 @@
                     <p><code>\qquad = \dfrac{<var>NUMERATOR</var>}{(<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>)}</code></p>
 
                     <div>
-                        <p>Expand the denominator</p>
+                        <p>Expand the denominator:</p>
                         <p><code>\qquad = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+                    </div>
+
+                    <div data-if="!GCD.isOne()">
+                        <p>Simplify:</p>
+                        <p><code>\qquad = \dfrac{<var>FINAL_N</var>}{<var>FINAL_D</var>}</code></p>
                     </div>
                 </div>
             </div>
