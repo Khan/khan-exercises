@@ -42,7 +42,7 @@
 
             <div id="adding-zeros">
                 <div class="vars">
-                    <div data-ensure="D1 !== D2 || TRAILING1 !== TRAILING2">
+                    <div data-ensure="D1 !== 0 && D2 !== 0 && (D1 !== D2 || TRAILING1 !== TRAILING2)">
                         <var id="NUMS">[randRange(0, 9), randRange(0, 9)]</var>
                         <var id="DIGITS1">(function() {
                             var arr = shuffle(NUMS);
