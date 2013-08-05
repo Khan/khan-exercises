@@ -67,11 +67,13 @@
             <div id="same-digit-with-zeros">
                 <div class="vars">
                     <var id="A">randRange(1, 9)</var>
-                    <var id="D1, D2">shuffle([A, A, 10 * A, 10 * A]).slice(0,2)</var>
+                    <div data-ensure="D1 !== D2 || TRAILING1 !== TRAILING2">
+                        <var id="D1, D2">shuffle([A, A, 10 * A, 10 * A]).slice(0,2)</var>
+                        <var id="TRAILING1">D1 % 10 === 0 ? rand(2): 0</var>
+                        <var id="TRAILING2">D2 % 10 === 0 ? rand(2): 0</var>
+                    </div>
                     <var id="N1">D1 / 100</var>
                     <var id="N2">D2 / 100</var>
-                    <var id="TRAILING1">D1 % 10 === 0 ? rand(2): 0</var>
-                    <var id="TRAILING2">D2 % 10 === 0 ? rand(2): 0</var>
                     <var id="SOLUTION">(function() {
                         if (N1 === N2) {
                             return "=";
