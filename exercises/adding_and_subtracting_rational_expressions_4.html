@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials rational-expressions">
+<html data-require="math math-format rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting with unlike denominators 4</title>
@@ -22,9 +22,9 @@
                     <var id="D2">new RationalExpression([[1, X], T2])</var>
                     <var id="PRODUCT1">D2.multiply(N1)</var>
                     <var id="PRODUCT2">SIGN === '+' ? D1.multiply(N2) : D1.multiply(N2).multiply(-1)</var>
-                    <var id="SUM">PRODUCT1.add(PRODUCT2)</var>
-                    <var id="DENOMINATOR">new Polynomial(0, 2, [T1*T2, T1+T2, 1], X)</var>
-                    <var id="ANSWER">"(" + SUM.toString() + ")/((" + D1.toString() + ")(" + D2.toString() + "))" </var>
+                    <var id="NUMERATOR">PRODUCT1.add(PRODUCT2)</var>
+                    <var id="DENOMINATOR">D1.multiply(D2)</var>
+                    <var id="ANSWER">"(" + NUMERATOR.toString() + ")/(" + DENOMINATOR.toString() + ")" </var>
                 </div>
 
                 <p class="problem">Simplify and expand the following expression:</p>
@@ -74,11 +74,11 @@
                     </div>
 
                     <p><code>\qquad = \dfrac{<var>PRODUCT1</var> + <var>PRODUCT2</var>}{(<var>D1</var>)(<var>D2</var>)}</code></p>
-                    <p><code>\qquad = \dfrac{<var>SUM</var>}{(<var>D1</var>)(<var>D2</var>)}</code></p>
+                    <p><code>\qquad = \dfrac{<var>NUMERATOR</var>}{(<var>D1</var>)(<var>D2</var>)}</code></p>
 
                     <div>
                         <p>Expand the denominator</p>
-                        <p><code>\qquad = \dfrac{<var>SUM</var>}{<var>DENOMINATOR</var>}</code></p>
+                        <p><code>\qquad = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
                     </div>
                 </div>
             </div>
