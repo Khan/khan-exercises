@@ -12,7 +12,7 @@ var buildExpression = function(style, color, expression, prev) {
         var group = expression[i];
         groups.push(buildGroup(style, color, group, prev));
         prev = group;
-    };
+    }
     return groups;
 };
 
@@ -88,6 +88,11 @@ var buildGroup = function(style, color, group, prev) {
     } else if (group.type === "close") {
         return makeSpan("mclose" + color, [textit(group.value)]);
     } else if (group.type === "frac") {
+        if (utils.isBuggyWebKit) {
+            throw new ParseError(
+                    "KaTeX fractions don't work in WebKit <= 537.1");
+        }
+
         var fstyle = style;
         if (group.value.size === "dfrac") {
             fstyle = Style.DISPLAY;
@@ -150,7 +155,8 @@ var buildGroup = function(style, color, group, prev) {
     } else if (group.type === "namedfn") {
         return makeSpan("mop" + color, [textit(group.value.slice(1))]);
     } else {
-        throw "Lex error: Got group of unknown type: '" + group.type + "'";
+        throw new ParseError(
+            "Lex error: Got group of unknown type: '" + group.type + "'");
     }
 };
 
@@ -246,7 +252,6 @@ var clearNode = function(node) {
 };
 
 var process = function(toParse, baseNode) {
-    clearNode(baseNode);
     var tree = parseTree(toParse);
 
     var style = Style.TEXT;
@@ -254,6 +259,7 @@ var process = function(toParse, baseNode) {
     var span = makeSpan(style.cls(), expression);
     var katexNode = makeSpan("katex", [span]);
 
+    clearNode(baseNode);
     baseNode.appendChild(katexNode);
 };
 
@@ -263,7 +269,7 @@ module.exports = {
 };
 
 })()
-},{"./Style":2,"./ParseError":3,"./utils":4,"./parseTree":5}],2:[function(require,module,exports){
+},{"./Style":2,"./ParseError":3,"./parseTree":4,"./utils":5}],2:[function(require,module,exports){
 function Style(id, size, cramped) {
     this.id = id;
     this.size = size;
@@ -293,13 +299,13 @@ Style.prototype.cls = function() {
     return sizeNames[this.size] + (this.cramped ? " cramped" : " uncramped");
 };
 
-var D   = 0;
-var Dc  = 1;
-var T   = 2;
-var Tc  = 3;
-var S   = 4;
-var Sc  = 5;
-var SS  = 6;
+var D = 0;
+var Dc = 1;
+var T = 2;
+var Tc = 3;
+var S = 4;
+var Sc = 5;
+var SS = 6;
 var SSc = 7;
 
 var sizeNames = [
@@ -327,10 +333,22 @@ var fracDen = [Tc, Tc, Sc, Sc, SSc, SSc, SSc, SSc];
 
 module.exports = {
     DISPLAY: styles[D],
-    TEXT: styles[T],
+    TEXT: styles[T]
 };
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
+function ParseError(message) {
+    var self = new Error("TeX parse error: " + message);
+    self.name = "ParseError";
+    self.__proto__ = ParseError.prototype;
+    return self;
+}
+
+ParseError.prototype.__proto__ = Error.prototype;
+
+module.exports = ParseError;
+
+},{}],5:[function(require,module,exports){
 function fastContains(list, elem) {
     return list.indexOf(elem) !== -1;
 }
@@ -346,23 +364,42 @@ function slowContains(list, elem) {
 
 var contains = Array.prototype.indexOf ? fastContains : slowContains;
 
+function isBuggyWebKit() {
+    var userAgent = navigator.userAgent.toLowerCase();
+
+    var webkit = (/applewebkit\/(\d+)\.(\d+)/).exec(userAgent);
+    if (!webkit) {
+        return false;
+    }
+
+    var major = +webkit[1];
+    var minor = +webkit[2];
+
+    // 537.1 is last buggy, according to Chrome's bisect-builds.py which says:
+    //
+    // You are probably looking for a change made after 137695 (known bad), but
+    // no later than 137702 (first known good).
+    // CHANGELOG URL:
+    //   http://build.chromium.org/f/chromium/perf/dashboard/ui/changelog.html?url=/trunk/src&range=137695%3A137702
+    //
+    // Downloading these two builds:
+    //   http://commondatastorage.googleapis.com/chromium-browser-snapshots/Mac/137695/chrome-mac.zip
+    //   http://commondatastorage.googleapis.com/chromium-browser-snapshots/Mac/137702/chrome-mac.zip
+    // verifies this claim. The respective WebKit versions (r117232 and
+    // r117456) both are called 537.1 so let's throw out 537.1 as well as
+    // everything older.
+    //
+    // The responsible WebKit changeset appears to be this one:
+    //   http://trac.webkit.org/changeset/117339/
+    return major < 537 || (major == 537 && minor <= 1);
+}
+
 module.exports = {
-    contains: contains
-}
+    contains: contains,
+    isBuggyWebKit: isBuggyWebKit()
+};
 
-},{}],3:[function(require,module,exports){
-function ParseError(message) {
-    var self = new Error("TeX parse error: " + message);
-    self.name = "ParseError";
-    self.__proto__ = ParseError.prototype;
-    return self;
-}
-
-ParseError.prototype.__proto__ = Error.prototype;
-
-module.exports = ParseError;
-
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var Parser = require("./Parser");
 var parser = new Parser();
 
@@ -421,7 +458,7 @@ Parser.prototype.parseInput = function(pos) {
     var expression = this.parseExpression(pos);
     // If we succeeded, make sure there's an EOF at the end
     var EOF = this.lexer.lex(expression.position);
-    expect(EOF, 'EOF');
+    expect(EOF, "EOF");
     return expression;
 };
 
@@ -505,7 +542,7 @@ Parser.prototype.parseAtom = function(pos) {
         var node;
         if ((node = this.parseSuperscript(nextPos))) {
             if (sup) {
-                throw "Parse error: Double superscript";
+                throw new ParseError("Parse error: Double superscript");
             }
             nextPos = node.position;
             sup = node.result;
@@ -513,7 +550,7 @@ Parser.prototype.parseAtom = function(pos) {
         }
         if ((node = this.parseSubscript(nextPos))) {
             if (sub) {
-                throw "Parse error: Double subscript";
+                throw new ParseError("Parse error: Double subscript");
             }
             nextPos = node.position;
             sub = node.result;
@@ -772,7 +809,7 @@ Parser.prototype.parseNucleus = function(pos) {
 
 module.exports = Parser;
 
-},{"./Lexer":7,"./utils":4,"./ParseError":3}],7:[function(require,module,exports){
+},{"./utils":5,"./Lexer":7,"./ParseError":3}],7:[function(require,module,exports){
 var ParseError = require("./ParseError");
 
 // The main lexer class
@@ -789,18 +826,18 @@ function LexResult(type, text, position) {
 
 // "normal" types of tokens
 var normals = [
-    [/^[/|@."`0-9]/, 'textord'],
-    [/^[a-zA-Z]/, 'mathord'],
-    [/^[*+-]/, 'bin'],
-    [/^[=<>]/, 'rel'],
-    [/^[,;]/, 'punct'],
+    [/^[/|@."`0-9]/, "textord"],
+    [/^[a-zA-Z]/, "mathord"],
+    [/^[*+-]/, "bin"],
+    [/^[=<>:]/, "rel"],
+    [/^[,;]/, "punct"],
     [/^'/, "'"],
-    [/^\^/, '^'],
-    [/^_/, '_'],
-    [/^{/, '{'],
-    [/^}/, '}'],
-    [/^[(\[]/, 'open'],
-    [/^[)\]?!]/, 'close']
+    [/^\^/, "^"],
+    [/^_/, "_"],
+    [/^{/, "{"],
+    [/^}/, "}"],
+    [/^[(\[]/, "open"],
+    [/^[)\]?!]/, "close"]
 ];
 
 // Build a regex to easily parse the functions
@@ -817,7 +854,7 @@ Lexer.prototype.lex = function(pos) {
 
     // If there's no more input to parse, return an EOF token
     if (input.length === 0) {
-        return new LexResult('EOF', null, pos);
+        return new LexResult("EOF", null, pos);
     }
 
     var match;
