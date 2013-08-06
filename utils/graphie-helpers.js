@@ -649,3 +649,55 @@ function curvyArrow(center, radius, arcOrientation, arrowDirection, styles) {
     set.push(graph.line(from, to, _.extend({arrows: "->"}, styles)));
     return set;
 }
+
+function curlyBrace(startPointGraph, endPointGraph) {
+    var graph = KhanUtil.currentGraph;
+
+    var startPoint = graph.scalePoint(startPointGraph);
+    var endPoint = graph.scalePoint(endPointGraph);
+    var angle = KhanUtil.findAngle(endPoint, startPoint);
+    var length = KhanUtil.getDistance(endPoint, startPoint);
+    var midPoint = _.map(startPoint, function(start, i) {
+        return (start + endPoint[i]) / 2;
+    });
+
+    var specialLen = 16 * 2 + 13 * 2;
+    if (length < specialLen) {
+        throw new Error("Curly brace length is too short.");
+    }
+    var straight = (length - specialLen) / 2;
+    var half = length / 2;
+
+    var firstHook = "c 1 -3 6 -5 10 -6" +
+                    "c 0 0 3 -1 6 -1";
+
+    // Mirror of first hook.
+    var secondHook = "c 3 1 6 1 6 1" +
+                     "c 4 1 9 3 10 6";
+
+    var straightPart = "l " + straight + " 0";
+
+    var firstMiddle =
+            "c 5 0 10 -3 10 -3" +
+            "l 3 -4";
+
+    // Mirror of second middle
+    var secondMiddle =
+            "l 3 4" +
+            "c 0 0 5 3 10 3";
+
+    var path = [
+        "M -" + half + " 0",
+        firstHook,
+        straightPart,
+        firstMiddle,
+        secondMiddle,
+        straightPart,
+        secondHook
+    ].join("");
+
+    var brace = graph.raphael.path(path);
+    brace.rotate(angle);
+    brace.translate(midPoint[0], midPoint[1]);
+    return brace;
+}
