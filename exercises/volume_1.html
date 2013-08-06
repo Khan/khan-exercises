@@ -29,7 +29,8 @@
 <div class="exercise">
     <div class="problems">
        
-        <div id="graphic-find-volume" >
+     
+        <div id="find-volume" >
             <div class="vars">
                 <var id="DIMENSIONS">randRangeUnique(2,8,3)</var>
                 <var id="LENGTH">DIMENSIONS[0]</var>
@@ -213,9 +214,10 @@
                 </div>
             </p>
 
-            <div class="solution" data-forms="integer">
-                <var>LENGTH * WIDTH * HEIGHT</var>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="rational"><var>LENGTH*WIDTH*HEIGHT</var></span> <code><var>UNIT[0]</var>^3</code></p>
             </div>
+           
 
             <div class="hints">
                 <p>The volume of a shape is measured by the number of one <var>UNIT[1]</var> cubes which make up the shape.</p>
@@ -290,7 +292,7 @@
                 </p>
             </div>
         </div>
-        <div id="graphic-find-height" >
+        <div id="find-height" >
             <div class="vars">
                 <var id="DIMENSIONS">randRangeUnique(2,8,3)</var>
                 <var id="LENGTH">DIMENSIONS[0]</var>
@@ -331,11 +333,11 @@
                     }, {
                         verts: [0, 1, 5, 4],
                         color: COLOR3,
-                        labels: [[[-XBORD, YBORD, 0], "?"+UNIT[0]]]
+                        labels: [[[-XBORD, YBORD, 0], "\\Box"+UNIT[0]]]
                     }, {
                         verts: [2, 3, 7, 6],
                         color: COLOR3,
-                        labels: [[[-XBORD, -YBORD, 0], "?"+UNIT[0]]]
+                        labels: [[[-XBORD, -YBORD, 0], "\\Box"+UNIT[0]]]
                     }, {
                         verts: [1, 2, 6, 5],
                         color: COLOR2,
@@ -364,7 +366,7 @@
 
             <p class="question">
                 The volume of this box is <code><var>LENGTH*WIDTH*HEIGHT</var> <var>UNIT[0]</var>^3</code>.  
-                What is the number labeled <code>?</code> below?
+                What is the number labeled <code>\Box</code> below?
                 
                  <div class="graphie" id = "box">
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
@@ -535,18 +537,18 @@
                 </div>
                 
                 <p>
-                	Since the slabs have a height of <code>1 <var>UNIT[0]</var></code>, <code>?</code> is the number of these slabs which fill up the whole box.
+                	Since the slabs have a height of <code>1 <var>UNIT[0]</var></code>, <code>\Box</code> is the number of these slabs which fill up the whole box.
                 </p>
                 <p>
                 	We can figure out the number of slabs needed by seeing how many times <code><var>LENGTH*WIDTH</var></code>
                 	 goes into <code><var>LENGTH*WIDTH*HEIGHT</var></code>
                 </p>
                 <p>
-                	So <code>? = <var>LENGTH*WIDTH*HEIGHT</var> \div <var>LENGTH*WIDTH</var></code>
+                	So <code>\Box = <var>LENGTH*WIDTH*HEIGHT</var> \div <var>LENGTH*WIDTH</var></code>
                 </p>
                 <div>
                 	<p>
-                		Thus <code>? = <var>HEIGHT</var></code>
+                		Thus <code>\Box = <var>HEIGHT</var></code>
                 	</p>
                 	 <div class="graphie" data-update = "box">
 					 	for (var i = 0; i&lt;HEIGHT-1;i++){
@@ -574,19 +576,21 @@
                The post office will not ship any box which has an edge <code>10</code> meters or longer. 
              </p>
             <p class="question"> 
-               What are the dimensions of a box which will hold exactly  <var>LENGTH*WIDTH*HEIGHT</var> cubic meters of flour, but whose edge lengths are all less than 10 meters?
+               What are the dimensions of a box which will hold exactly  <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour, but whose edge lengths are all less than <code>10</code> meters?
             </p>
+            
+            
 
             <div class="solution" data-type="custom">
 				    <div class="instruction">
            			Length <code>=</code> 
-           		<input id="response1" type="text"/>
+           		<input id="response1" type="text"/> m
            		<br/>
            		Width <code>\hphantom{ }=</code>
-           		<input id="response2" type="text"/>
+           		<input id="response2" type="text"/> m
            		<br/>
            		Height <code> =</code> 
-           		<input id="response3" type="text"/>
+           		<input id="response3" type="text"/> m
            		
          		    </div>
                     <div class="guess">[$("input#response1").val(),$("input#response2").val(),$("input#response3").val()]</div>
@@ -601,7 +605,7 @@
             		The volume of a box is the product of the length, width and height of the box.
             	</p>
             	<p>
-            		So we need to find 3 numbers whose product is <code><var>LENGTH*WIDTH*HEIGHT</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these!
+            		So we need to find 3 numbers whose product is <code><var>LENGTH*WIDTH*HEIGHT</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these! 
             	</p>
             	<p>
             		For instance, the numbers <code><var>LENGTH</var></code>, <code><var>WIDTH</var></code>, and <code><var>HEIGHT</var></code> work, but there might be other solutions as well!
@@ -614,29 +618,171 @@
                 <var id="L1">randRange(2,12)</var>
                 <var id="W1">randRange(2,12)</var>
                 <var id="H1">randRange(2,12)</var>
-                <var id="L2">randRange(1,L1)</var>
-                <var id="W2">randRange(1,W1)</var>
-                <var id="H2">randRange(1,H1)</var>
+                <var id="L2">randRange(1,L1-1)</var>
+                <var id="W2">randRange(1,W1-1)</var>
+                <var id="H2">randRange(1,H1-1)</var>
+                <var id="MAX">max(max(L1,W1),H1)</var>
+                
+                <var id="COLOR1">"#78D0EF"</var>
+                <var id="COLOR2">"#B2B2B2"</var>
+                
+                <var id="VERTICES">[
+                [L1/MAX,W1/MAX,-H1/MAX],
+                [-L1/MAX,W1/MAX,-H1/MAX],
+                [-L1/MAX,-W1/MAX,-H1/MAX],
+                [L1/MAX,-W1/MAX,-H1/MAX],
+                [L1/MAX,W1/MAX,H1/MAX],
+                [-L1/MAX,W1/MAX,H1/MAX],
+                [-L1/MAX,-W1/MAX,H1/MAX],
+                [L1/MAX,-W1/MAX,H1/MAX],
+                [(-L1+2*L2)/MAX,-W1/MAX,-H1/MAX],
+                [(2*L2-L1)/MAX,(2*W2-W1)/MAX,-H1/MAX],
+                [-L1/MAX,(2*W2-W1)/MAX,-H1/MAX],
+                [-L1/MAX,-W1/MAX,(2*H2-H1)/MAX],
+                 [(-L1+2*L2)/MAX,-W1/MAX,(2*H2-H1)/MAX],
+                [(2*L2-L1)/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX],
+                [-L1/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX]
+                ]</var>
+                
+               <var id="SCALE">4.0</var>
+                <var id="FACES">[
+                    {
+                        verts: [0, 3, 2, 1],
+                        color: COLOR1
+                    },
+                    {
+                        verts: [5, 6, 7, 4],
+                        color: COLOR1
+                    },
+                    {
+                        verts: [4,7,3,0],
+                        color: COLOR1
+                    },
+                    {
+                        verts: [5,1,2,6],
+                        color: COLOR1
+                    },
+                    {
+                        verts: [5, 4, 0, 1],
+                        color: COLOR1
+                    },
+                    {
+                        verts: [6, 2, 3, 7],
+                        color: COLOR1
+                    },
+                    {
+                        verts: [2, 8, 9, 10],
+                        color: COLOR2
+                    },
+                     {
+                        verts: [11, 14, 13, 12],
+                        color: COLOR2
+                    },
+                     {
+                        verts: [2, 10, 14, 11],
+                        color: COLOR2
+                    },
+                     {
+                        verts: [8, 12, 13,9],
+                        color: COLOR2
+                    },
+                     {
+                        verts: [14, 10, 9, 13],
+                        color: COLOR2
+                    },
+                     {
+                        verts: [11, 12, 8, 2],
+                        color: COLOR2
+                    }
+                ]</var>
 
             </div>
              <p>
              	A water tank is <code><var>H1</var></code> feet high, <code><var>L1</var></code> feet long, and <code><var>W1</var></code> feet wide.  
-             	A solid metal box which is <code><var>H2</var></code> feet high, <code><var>L2</var></code> feet long, and <code><var>W1</var></code> feet wide
+             	A solid metal box which is <code><var>H2</var></code> feet high, <code><var>L2</var></code> feet long, and <code><var>W2</var></code> feet wide
              	 is sitting at the bottom of the tank.  The tank is filled with water.  
              </p>
             <p class="question"> 
 				What is the volume of the water in the tank?
             </p>
 
-            <div class="solution" data-forms="integer">
-                <var>L1*W1*H1 - L2*W2*H2</var>
+            <div class="solution" data-type="multiple">    
+               <p> <span class="sol"><var>L1*W1*H1 - L2*W2*H2</var></span> <code>\text{ft}^3</code></p>
             </div>
 
             <div class="hints">
-            	<p>
-            		The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = <var>H1*L1*W1</var></code> cubic feet, 
-            		and the metal box has a volume of <code><var>H2</var> \times <var>L2</var> \times <var>W2</var> = <var>H2*W2*L2</var></code> cubic feet.
-            	</p>
+            	<div>
+            	
+            	<div class="graphie" id = "box">
+                    init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
+                    addMouseLayer();
+                    				 
+					 <!--  graphing the initial object-->
+					  graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                    _.each(FACES, function(face) {
+                        graph.obj.addFace(face);
+                    });
+
+                    
+                    
+                    graph.obj.setPos([0, 0, 5]);
+
+                    graph.obj.rotate(1,0 , 0, PI/3);
+                    graph.obj.rotate(0, 1, 0, 0);
+                    graph.obj.rotate(0, 0, 1, PI/8);
+
+                    graph.obj.doDraw();
+
+                    GRAPH = graph;
+
+                    var spinner;
+                    setTimeout(function() {
+                        spinner = setInterval(function() {
+                            GRAPH.obj.rotate(0, 0, 1, 0);
+                            GRAPH.obj.doDraw();
+                        }, 50);
+                    }, 300);
+
+                    var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
+                        fill: "#000", opacity: 0.0
+                    });
+                    $(mouseTarget[0]).bind("vmousedown", function(event) {
+                        GRAPH.lastX = event.pageX;
+                        GRAPH.lastY = event.pageY;
+
+                        clearInterval(spinner);
+
+                        $(document).bind("vmousemove vmouseup", function(event) {
+                            event.preventDefault();
+
+                            var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
+                            var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+
+                            GRAPH.lastX = event.pageX;
+                            GRAPH.lastY = event.pageY;
+
+                            var xAxis = normalize(GRAPH.obj.perspective[1]);
+                            var yAxis = normalize(GRAPH.obj.perspective[0]);
+
+                            GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                            GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+
+                            GRAPH.obj.doDraw();
+
+                            if (event.type === "vmouseup") {
+                                $(document).unbind("vmousemove vmouseup");
+                            }
+                        })
+                    });
+
+                </div>
+            		
+            		<p>
+						The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = <var>H1*L1*W1</var></code> cubic feet, 
+						and the metal box has a volume of <code><var>H2</var> \times <var>L2</var> \times <var>W2</var> = <var>H2*W2*L2</var></code> cubic feet.
+            		</p>
+            		
+            	</div>
             	<p>
             		Since there is no water in the box, the volume of the water in the tank is the volume of the tank minus the volume of the metal box.
             	</p>
