@@ -1309,9 +1309,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 return getTextSquish(elem);
             });
 
+            // Here, we duplicate the old behaviour where, if there is one less
+            // choice than we want, we will just add in the "none of the above"
+            // choice instead of having it replace one of the real ones.
+            var addNoneChoice = showNone &&
+                    shownChoices.length === numChoices - 1;
+
             // If removing duplicates made it so there aren't enough showing
-            // solutions, regenerate the problem
-            if (shownChoices.length < numChoices) {
+            // solutions (and we're not going to add in one last choice),
+            // regenerate the problem
+            if (shownChoices.length < numChoices && !addNoneChoice) {
                 return false;
             // Otherwise, if there are too many choices, throw away some from
             // the end
@@ -1353,7 +1360,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     );
                 }
 
-                shownChoices.splice(shownChoices.length - 1, 1,
+                var noneIndex = shownChoices.length - 1;
+                if (addNoneChoice) {
+                    noneIndex = shownChoices.length;
+                }
+
+                shownChoices.splice(noneIndex, 1,
                     // We have to wrap this in something so that when we unwrap
                     // it below, it maintains its data attributes
                     $("<span>").append($none));

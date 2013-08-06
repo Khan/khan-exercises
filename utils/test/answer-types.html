@@ -723,6 +723,34 @@
         start();
     });
 
+    asyncTest("radio none of the above setup 2", 2, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>A<\/p>" +
+            "<ul class='choices' data-none='true' data-show='5'>" +
+                "<li>B<\/li>" +
+                "<li>C<\/li>" +
+                "<li>D<\/li>" +
+            "<\/ul>"
+        );
+        jQuery("#qunit-fixture").runModules();
+
+        var $solutionarea = $("#solutionarea");
+        var $solution = $problem.children(".solution");
+
+        var answerData = Khan.answerTypes.radio.setup(
+                $solutionarea, $solution);
+
+        var texts = _.map($("#solutionarea span.value"), function(e) {
+            return $(e).text();
+        });
+
+        strictEqual(texts.length, 5, "The number of choices should be correct");
+        strictEqual(texts[4], "None of the above.",
+            "The last choice should be none of the above");
+
+        start();
+    });
+
     asyncTest("radio none of the above answerability", 4, function() {
         // Even if there are 500 distractors, the correct answer must always be
         // mixed in as one of the correct ones -- we'll test that if there's
