@@ -29,7 +29,7 @@
                     var ns = localeToFixed(d, p);
                     var t = round(ns * 1000, 4);
 
-                    if (ns !==0 &amp;&amp; !used[t]) {
+                    if (parseFloat(ns) !== 0 &amp;&amp; !used[t]) {
                         used[t] = true;
                         p = pow(10, p);
                         n = round(ns * p, 4);
