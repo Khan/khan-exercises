@@ -14,7 +14,7 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="A">randRange(0, 9)</var>
+            <var id="A">randRangeWeighted(0, 9, 0, 0.5)</var>
             <var id="B">randRange(1, 9)</var>
             <var id="C" data-ensure="C !== B">randRange(1, 9)</var>
             <var id="NUMS">(function() {
@@ -29,12 +29,12 @@
                     var ns = localeToFixed(d, p);
                     var t = round(ns * 1000, 4);
 
-                    if (!used[t]) {
+                    if (ns !==0 &amp;&amp; !used[t]) {
                         used[t] = true;
                         p = pow(10, p);
                         n = round(ns * p, 4);
 
-                        array.push([d, ns, n, p]);
+                        array.push([d, ns, n, p, t]);
                     }
                 }
 
@@ -54,7 +54,7 @@
                 return el[1];
             }).join( "," )</var>
             <var id="NUMS_SORT">$.extend(true, [], NUMS).sort(function(a, b) {
-                return a[0] - b[0];
+                return a[4] - b[4];
             })</var>
             <var id="NUMS_SORT_TEX">$.map(NUMS_SORT, function(el) {
                 return round(el[1] * MAX_P, 4);
