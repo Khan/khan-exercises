@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+  <html data-require="math">
+      <head>
+          <title>Noni's Homework</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+              <VAR ID="FIRNUM">randRange(2,6)</var>
+              <VAR ID="SECNUM">randRange(0,2)</var>
+              <VAR ID="MULNUM">randRange(2,5)</var>
+              <VAR ID="COEF0">(FIRNUM + SECNUM)*MULNUM</var>
+              </div>
+
+              <div class="problems">
+                  <div id="Solve for the variable n">
+                      <p class="problem">Solve for variable n<Var>Solve for n</p>
+                      <p class="question"><Var>FIRNUM</Var>n<span data-if="SECNUM > 0"> + <Var>SECNUM</Var>n</span> = <Var>COEF0</Var></p>
+                      <p class="solution"><VAR>MULNUM</var></p>
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p data-if="SECNUM > 0"> "Gather" like terms.<br/> <var>FIRNUM</var>n + <var>SECNUM</var>n is <code><var>FIRNUM+SECNUM</var></code>n.</p>
+		  <p data-else>Since there is only one term with n there is no need to "gather".</p>
+                  <p> <code><var>FIRNUM+SECNUM</var></code>n = <code><var>(FIRNUM + SECNUM)*MULNUM</var></code>
+                  <p> Now "isolate" the variable n by multiplying by the "inverse" of the coefficient of n.</p>
+                  <p> In this case to coefficient of n is <code><var>FIRNUM+SECNUM</var></code>.</br> Learning the words "coefficient" and "inverse" is time well spent for later when you use matrices and linear algebra to solve complex problems like on your NintendoDS.</p>
+                  <p> The inverse of <code><var>FIRNUM+SECNUM</var></code> is <code>\frac {1}{<var>FIRNUM+SECNUM</var>}</code></p>
+                  <p> Now remember the fundamental rule of balance.<br/>  What you do to one side of an equation you do to the other.</br> <code>\frac {1}{<var>FIRNUM+SECNUM</var>}</code> is multiplied to both sides</p>
+                  <p> <code>\frac {1}{<var>FIRNUM+SECNUM</var>}</code> * <code><var>FIRNUM+SECNUM</var></code>n = <code><var>(FIRNUM + SECNUM)*MULNUM</var></code> * <code>\frac {1}{<var>FIRNUM+SECNUM</var>}</code> 
+                  <p> n = <var>MULNUM</var> 
+              </div>
+          </div>
+      </body>
+  </html>
