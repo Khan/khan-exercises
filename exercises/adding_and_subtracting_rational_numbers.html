@@ -428,16 +428,15 @@
                         INTEGERS[2] + (INTEGERS[2] &lt; 0 ? -1 : 1) * REPEATS[2] / DENOMINATORS[2]]
                     </var>
                     <var id="SAME_DENOM">N === 2 ? DIGITS[0] === DIGITS[1] : (DIGITS[0] === DIGITS[1]) &amp;&amp; (DIGITS[0] === DIGITS[2])</var>
-                    <var id="FACTORS">[
-                        (DIGITS[0] === 1) ? 11 : 1,
-                        (DIGITS[1] === 1) ? 11 : 1,
-                        (DIGITS[2] === 1) ? 11 : 1]
+                    <var id="DENOMINATOR">getLCM.apply(KhanUtil, DENOMINATORS.slice(0, N))</var>
+                    <var id="FACTORS">_.map(DENOMINATORS, function(d) {
+                        return DENOMINATOR / d;
+                    })</var>
+                    <var id="NUMERATOR">
+                        N === 2 ?
+                        round((NUMERATORS[0] / DENOMINATORS[0] + NUMERATORS[1] / DENOMINATORS[1]) * DENOMINATOR) :
+                        round((NUMERATORS[0] / DENOMINATORS[0] + NUMERATORS[1] / DENOMINATORS[1] + NUMERATORS[2] / DENOMINATORS[2]) * DENOMINATOR)
                     </var>
-                    <var id="NUMERATOR">N === 2 ?
-                        NUMERATORS[0] * FACTORS[0] + NUMERATORS[1] * FACTORS[1] :
-                        NUMERATORS[0] * FACTORS[0] + NUMERATORS[1] * FACTORS[1] + NUMERATORS[2] * FACTORS[2]
-                    </var>
-                    <var id="DENOMINATOR">SAME_DENOM ? DENOMINATORS[0] : 99</var>
                     <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
                 </div>
 
