@@ -428,7 +428,7 @@
                         INTEGERS[2] + (INTEGERS[2] &lt; 0 ? -1 : 1) * REPEATS[2] / DENOMINATORS[2]]
                     </var>
                     <var id="SAME_DENOM">N === 2 ? DIGITS[0] === DIGITS[1] : (DIGITS[0] === DIGITS[1]) &amp;&amp; (DIGITS[0] === DIGITS[2])</var>
-                    <var id="FACTORS">[
+                    <var id="FACTORS">SAME_DENOM ? [1, 1, 1] : [
                         (DIGITS[0] === 1) ? 11 : 1,
                         (DIGITS[1] === 1) ? 11 : 1,
                         (DIGITS[2] === 1) ? 11 : 1]
