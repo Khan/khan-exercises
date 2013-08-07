@@ -27,13 +27,14 @@
                     var d = n / 10000;
                     var p = randRange(2, 4);
                     var ns = localeToFixed(d, p);
+                    var t = round(ns * 1000, 4);
 
-                    p = pow(10, p);
-                    n = round(ns * p, 4);
+                    if (!used[t]) {
+                        used[t] = true;
+                        p = pow(10, p);
+                        n = round(ns * p, 4);
 
-                    if (!used[n]) {
                         array.push([d, ns, n, p]);
-                        used[n] = true;
                     }
                 }
 
