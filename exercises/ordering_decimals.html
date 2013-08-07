@@ -27,7 +27,7 @@
                     var d = n / 10000;
                     var p = randRange(2, 4);
                     var ns = localeToFixed(d, p);
-                    var t = round(ns * 1000, 4);
+                    var t = round(ns * 10000, 4);
 
                     if (parseFloat(ns) !== 0 &amp;&amp; !used[t]) {
                         used[t] = true;
