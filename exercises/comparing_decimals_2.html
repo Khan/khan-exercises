@@ -56,8 +56,8 @@
                             arr.push(0);
                             return arr;
                         })()</var>
-                        <var id="TRAILING1">DIGITS1[3] === 0 ? rand(2): 0</var>
-                        <var id="TRAILING2">DIGITS1[3] === 0 ? rand(2): 0</var>
+                        <var id="TRAILING1">DIGITS1[3] === 0 &amp;&amp; rand(2) ? "0" : ""</var>
+                        <var id="TRAILING2">DIGITS1[3] === 0 &amp;&amp; rand(2) ? "0" : ""</var>
                         <var id="D1">1000 * DIGITS1[3] + DIGITS1[2] * 100 + DIGITS1[1] * 10 + DIGITS1[0]</var>
                         <var id="D2">1000 * DIGITS2[3] + DIGITS2[2] * 100 + DIGITS2[1] * 10 + DIGITS2[0]</var>
                     </div>
@@ -75,8 +75,8 @@
 
                 <div class="problem">
                     <p>Fill in the blank.</p>
-                    <p><code>\large{<var>N1</var><span data-if="TRAILING1">0</span>}</code> ____
-                       <code>\large{<var>N2</var><span data-if="TRAILING2">0</span>}</code></p>
+                    <p><code>\large{<var>N1</var><var>TRAILING1</var>}</code> ____
+                       <code>\large{<var>N2</var><var>TRAILING2</var>}</code></p>
                 </div>
 
                 <p class="solution"><code><var>SOLUTION</var></code></p>
