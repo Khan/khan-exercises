@@ -35,8 +35,8 @@
                 <div class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR</var></div>
 
                 <div class="hints">
-                    <div data-if="(FACTORS[0] !== 1 || FACTORS[1] !== 1) &amp;&amp; (N === 2 || FACTORS[2] !== 1)">
-                        <p>First, we can simplify the problem:</p>
+                    <div data-if="(FACTORS[0] !== 1 || FACTORS[1] !== 1) || (N === 2 || FACTORS[2] !== 1)">
+                        <p>First, we can simplify each fraction individually:</p>
                         <p><code>
                             <var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
                             <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span> = {?}
@@ -117,7 +117,7 @@
                     <p>First convert the percentages into decimals.</p>
                     
                     <div>
-                        <p>Convert each percentage into a decimal dividing by <code>100</code>.</p>
+                        <p>Convert each percentage into a decimal dividing by <code>100</code>. Now we have:</p>
                         <p><code>
                             <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> <span data-if="N === 3">\times <var>DECIMALS[2]</var></span> = {?}
                         </code></p>
@@ -233,6 +233,10 @@
                 <div class="hints">
                     <p data-if="N === 3">Let's start by dealing with the first two numbers.</p>
 
+                    <p data-if="SIGNS[0] === -1 || SIGNS[1] === -1">
+                        We'll multiply the positive versions of the numbers first, then figure out the sign afterwards.
+                    </p>
+
                     <div class="graphie" id="multi-1">
                         graph.multiplier = new Multiplier(NUMS[0], NUMS[1], DIGITS[0], DIGITS[1], PLACES[0], PLACES[1]);
                         graph.multiplier.show();
@@ -280,7 +284,7 @@
 
                         <div>
                             <p data-if="SUBSOL < 0 && SIGNS[2] === -1">
-                                Since both <code><var>DECIMALS[0]</var></code> and <code><var>DECIMALS[1]</var></code> are negative, the result is positive.
+                                Since both <code><var>SUBSOL</var></code> and <code><var>DECIMALS[2]</var></code> are negative, the result is positive.
                             </p>
                             <p data-else-if="SIGNS[0] * SIGNS[1] * SIGNS[2] === -1">
                                 A positive number times a negative number is a negative number.
