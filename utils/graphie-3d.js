@@ -94,7 +94,7 @@ $.extend(KhanUtil, {
                 color: "black",
                 lines: [],
                 labels: [],
-                infront: false
+                infront: false,
             }, options);
 
             // compute the normal of a face
@@ -123,6 +123,21 @@ $.extend(KhanUtil, {
                     return object.doProjection(object.verts[v]);
                 });
             };
+            
+            //find the zdepth of the face
+            face.zDepth = function(){
+            	var a = object.verts[this.verts[0]];
+                var b = object.verts[this.verts[1]];
+                var c = object.verts[this.verts[2]];
+            	
+            	var x = a[0]+b[0]+c[0];
+            	var y = a[1]+b[1]+c[1];
+            	var z = a[2]+b[2]+c[2];
+            	return object.doPerspective([x,y,z])[2];
+            	};
+            	
+                
+            
 
             // create a path of the face
             face.path = function() {
@@ -266,7 +281,11 @@ $.extend(KhanUtil, {
             var frontFaces = [];
             var backFaces = [];
             var Sketches = [];
-
+			object.faces.sort(
+				function(a,b){
+					return a.zDepth()-b.zDepth();
+					});
+							
             // figure out which objects should be drawn in front,
             // and which in back
             _.each(object.faces, function(face) {
