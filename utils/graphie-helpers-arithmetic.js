@@ -411,15 +411,24 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     var digitsProduct = KhanUtil.integerToDigits(a * b);
     var highlights = [];
     var carry = 0;
-    var leadingZero = (digitsB[digitsB.length - 1] === 0);
-    var numHints = leadingZero ? digitsA.length * (digitsB.length-1) + 1: digitsA.length * digitsB.length + 1;
     var indexA = 0;
     var indexB = 0;
     var maxNumDigits = Math.max(deciA + deciB, digitsProduct.length);
+    
+    var leadingZero = 0;
+    for (var i=digitsB.length-1; i>0; i--) {
+        if (digitsB[i] === 0) {
+            leadingZero++;
+        } else {
+            break;
+        }
+    }
+
+    var numHints = digitsA.length * (digitsB.length - leadingZero) + 1;
 
     this.show = function() {
         graph.init({
-            range: [[-2 - maxNumDigits, 12], [-numHints, 3]],
+            range: [[-2 - maxNumDigits, 12], [-Math.max(numHints, 6), 3]],
             scale: [20, 40]
         });
 
@@ -439,7 +448,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     this.showHint = function() {
         this.removeHighlights();
 
-        if (indexB === digitsB.length -1 || leadingZero) {
+        if (indexB === digitsB.length - leadingZero) {
             this.showFinalAddition();
             return;
         }
@@ -490,7 +499,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
             while (digitsProduct.length < deciA + deciB + 1) {
                 digitsProduct.unshift(0);
             }
-            var y = leadingZero ? 1 - digitsB.length : -digitsB.length;
+            var y = leadingZero - digitsB.length;
 
             graph.path([[-1 - digitsProduct.length, y + 0.5], [1, y + 0.5]]);
             graph.label([-1 - digitsProduct.length, y + 1] , "\\LARGE{+\\vphantom{0}}");
@@ -515,11 +524,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
 
     this.showDecimalsInProduct = function() {
         var x = -maxNumDigits;
-        var y = -Math.max(digitsB.length * digitsA.length, 3 + digitsB.length);
-
-        if (leadingZero) {
-            y = -Math.max((digitsB.length - 1) * digitsA.length, 2 + digitsB.length);
-        }
+        var y = -Math.max((digitsB.length - leadingZero) * digitsA.length, 3 + digitsB.length - leadingZero);
 
         graph.label([x, y + 2],
             $.ngettext("\\text{The top number has 1 digit to the right of the decimal.}", "\\text{The top number has %(num)s digits to the right of the decimal.}", deciA), "right");
@@ -533,7 +538,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         graph.style({
             fill: "#000"
         }, function() {
-            var y = leadingZero ? 1 - digitsB.length : -digitsB.length;
+            var y = -digitsB.length + leadingZero;
             graph.ellipse([-deciB - deciA + 0.5, y -0.2], [0.08, 0.04]);
         });
     };
