@@ -1094,7 +1094,7 @@
                  			                 		
                  		                 		
 					 <!--  graphing the initial object-->
-					  graph.obj = make3dObject(VERTICES, { scale: SCALE });
+					  graph.obj = make3dObject(VERTICES, { scale: SCALE, facesTransparent: false, faceBorder:true });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
                     });

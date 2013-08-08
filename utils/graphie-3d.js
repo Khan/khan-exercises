@@ -12,7 +12,10 @@ $.extend(KhanUtil, {
             ]),
             scale: 5.0,
             faces: [],
-            sketches: []
+            sketches: [],
+            facesTransparent: true,
+            faceBorder: false
+            
         }, options);
 
         var graph = KhanUtil.currentGraph;
@@ -124,7 +127,7 @@ $.extend(KhanUtil, {
                 });
             };
             
-            //find the zdepth of the face
+            //find the zdepth of the face:  i.e.  how close the face is to the camera
             face.zDepth = function(){
             	var a = object.verts[this.verts[0]];
                 var b = object.verts[this.verts[1]];
@@ -146,7 +149,15 @@ $.extend(KhanUtil, {
                     { fill: face.color, stroke: false }
                 );
             };
-
+			
+			face.drawBorder = function(){
+			
+				  return graph.path(
+                    face.mappedVerts().concat(true),
+                    { fill: null, stroke: "#666", opacity: 1 }
+                );
+				};
+			
             // draw the face's lines
             face.drawLines = function() {
                 var set = graph.raphael.set();
@@ -198,10 +209,12 @@ $.extend(KhanUtil, {
 
             // draw the face in the back, which is just the outline
             face.drawBack = function() {
+            	if (object.facesTransparent){
                 return graph.path(
                     face.mappedVerts(),
                     { fill: null, stroke: "#666", opacity: 0.1 }
                 );
+                }
             };
 
             face.toFront = function() {
@@ -224,7 +237,7 @@ $.extend(KhanUtil, {
             return this;
         };
 		
-		
+		//add a sketch to the object, with the verts being indicies of the objects.verts array
 		object.addSketch = function(options) {
             var sketch = $.extend(true, {
                 verts: [],
@@ -281,6 +294,10 @@ $.extend(KhanUtil, {
             var frontFaces = [];
             var backFaces = [];
             var Sketches = [];
+			
+			//sorts the objects faces by their zDepth, so that faces further away are drawn first.  This is the "painters" algorithm, which should be fine for our purposes.
+			// If we ever end up in a situation where we need to draw configurations with nontrivial cycles, we will really need more powerful 3d capabilities
+			// i.e.  webGL
 			object.faces.sort(
 				function(a,b){
 					return a.zDepth()-b.zDepth();
@@ -306,6 +323,9 @@ $.extend(KhanUtil, {
             _.each(frontFaces, function(face) {
                 face.toFront();
                 image.push(face.draw());
+                if (object.faceBorder){
+                	image.push(face.drawBorder());
+                	};
             });
             _.each(backFaces, function(face) {
                 face.toBack();
