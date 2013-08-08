@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying rational numbers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+
+            <div id="fractions">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="DENOMINATORS">[randRange(2, 9), randRange(2, 9), randRange(2, 9)]</var>
+                    <var id="NUMERATORS">_.map(DENOMINATORS, function(x) {
+                        return randRangeExclude(-9, 9, [0, x, -x]);
+                    })</var>
+                    <var id="FACTORS">_.map(DENOMINATORS, function(x, i) {
+                       return getGCD(NUMERATORS[i], x);
+                    })</var>
+                    <var id="NUMERATOR">(NUMERATORS[0] / FACTORS[0]) * (NUMERATORS[1] / FACTORS[1]) * (N === 2 ? 1 : NUMERATORS[2] / FACTORS[2])</var>
+                    <var id="DENOMINATOR">(DENOMINATORS[0] / FACTORS[0]) * (DENOMINATORS[1] / FACTORS[1]) * (N === 2 ? 1 : DENOMINATORS[2] / FACTORS[2])</var>
+                    <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
+                </div>
+
+                <div class="question"><p><code>
+                    <var>fraction(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
+                    <span data-if="N === 3">\times <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span> = {?}
+                </code></p></div>
+                <div class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR</var></div>
+
+                <div class="hints">
+                    <div data-if="(FACTORS[0] !== 1 || FACTORS[1] !== 1) || (N === 2 || FACTORS[2] !== 1)">
+                        <p>First, we can simplify each fraction individually:</p>
+                        <p><code>
+                            <var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
+                            <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span> = {?}
+                        </code></p>
+                    </div>
+                    <p><code>
+                        <var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
+                        <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span> = 
+                        \dfrac{<var>NUMERATORS[0] / FACTORS[0]</var> \times <var>NUMERATORS[1] / FACTORS[1]</var>
+                        <span data-if="N === 3">\times <var>NUMERATORS[2] / FACTORS[2]</var></span>}
+                        {<var>DENOMINATORS[0] / FACTORS[0]</var> \times <var>DENOMINATORS[1] / FACTORS[1]</var>
+                        <span data-if="N === 3">\times <var>DENOMINATORS[2] / FACTORS[2]</var></span>}
+                    </code></p>
+
+                    <p><code>
+                        \phantom{<var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
+                        <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span>}
+                        = <var>fraction(NUMERATOR, DENOMINATOR)</var>
+                    </code></p>
+
+                    <div data-if="GCD !== 1">
+                        <p>Simplify:</p>
+                        <p><code>
+                            \phantom{<var>fractionReduce(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fractionReduce(NUMERATORS[1], DENOMINATORS[1])</var>
+                            <span data-if="N === 3">\times <var>fractionReduce(NUMERATORS[2], DENOMINATORS[2])</var></span>}
+                            = <var>fractionReduce(NUMERATOR, DENOMINATOR)</var>
+                        </code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="percentages">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="PLACES">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]</var>
+                    <var id="SIGNS">_.map(PLACES, function() {return randFromArray([1, -1]); })</var>
+                    <var id="NUMS">_.map(SIGNS, function() {
+                        return randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]);
+                    })</var>
+                    <var id="DECIMALS">_.map(PLACES, function(p, i) {
+                        return roundTo(p, SIGNS[i] * NUMS[i] / pow(10, p));
+                    })</var>
+                    <var id="DIGITS">_.map(PLACES, function(p, i) {
+                        return padDigitsToNum(digits(NUMS[i]), p + 1);
+                    })</var>
+                    <var id="SUBSOL">roundTo(4, DECIMALS[0] * DECIMALS[1])</var>
+                    <var id="SUBSOL_DIGITS">padDigitsToNum(digits(NUMS[0] * NUMS[1]), PLACES[0] + PLACES[1])</var>
+                    <var id="HINTS1">[]</var>
+                    <var id="HINTS2">[]</var>
+                    <var id="SOLUTION">N === 2 ? SUBSOL : roundTo(6, SUBSOL * DECIMALS[2])</var>
+                </div>
+                
+                <div class="question"><p><code>
+                    <var>round(100 * DECIMALS[0])</var>\% \times <var>round(100 * DECIMALS[1])</var>\%
+                    <span data-if="N === 3">\times <var>round(100 * DECIMALS[2])</var>\%</span> = {?}
+                </code></p></div>
+
+                <div class="graphie">
+                    var g1 = new Multiplier(NUMS[0], NUMS[1], DIGITS[0], DIGITS[1], PLACES[0], PLACES[1]);
+                    HINTS1 = Array(g1.getNumHints());
+                    if (N === 3) {
+                        var g2 = new Multiplier(NUMS[0] * NUMS[1], NUMS[2], SUBSOL_DIGITS, DIGITS[2], PLACES[0] + PLACES[1], PLACES[2]);
+                        HINTS2 = Array(g2.getNumHints());
+                    }
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="decimal"><var>roundTo(4, 100 * SOLUTION)</var></span><code>\ \%</code>
+                </div>
+
+                <div class="hints">
+                    <p>First convert the percentages into decimals.</p>
+                    
+                    <div>
+                        <p>Convert each percentage into a decimal dividing by <code>100</code>. Now we have:</p>
+                        <p><code>
+                            <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> <span data-if="N === 3">\times <var>DECIMALS[2]</var></span> = {?}
+                        </code></p>
+                    </div>
+
+                    <p data-if="N === 3">Let's deal with the first two numbers.</p>
+
+                    <div class="graphie" id="multi-1">
+                        graph.multiplier = new Multiplier(NUMS[0], NUMS[1], DIGITS[0], DIGITS[1], PLACES[0], PLACES[1]);
+                        graph.multiplier.show();
+                        graph.multiplier.showDecimals();
+                    </div>
+
+                    <div class="graphie" data-each="HINTS1 as hint" data-update="multi-1">
+                        graph.multiplier.showHint();
+                    </div>
+                    <div class="graphie" data-update="multi-1">
+                        graph.multiplier.showDecimalsInProduct();
+                    </div>
+
+                    <div>
+                        <p data-if="SIGNS[0] === -1 && SIGNS[1] === -1">
+                            Since both <code><var>DECIMALS[0]</var></code> and <code><var>DECIMALS[1]</var></code> are negative, the result is positive.
+                        </p>
+                        <p data-else-if="SIGNS[0] * SIGNS[1] === -1">
+                            A positive number times a negative number is a negative number.
+                        </p>
+                        <p><code><var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> = <var>SUBSOL</var></code></p>
+                    </div>
+
+                    <div data-if="N === 3" data-unwrap="">
+                        <div>
+                            <p>Therefore,</p>
+                            <p><code>
+                                <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> \times <var>DECIMALS[2]</var> = 
+                                <var>SUBSOL</var> \times <var>DECIMALS[2]</var>
+                            </code></p>
+                        </div>
+
+                        <div class="graphie" id="multi-2">
+                            graph.multiplier = new Multiplier(NUMS[0] * NUMS[1], NUMS[2], SUBSOL_DIGITS, DIGITS[2], PLACES[0] + PLACES[1], PLACES[2]);
+                            graph.multiplier.show();
+                            graph.multiplier.showDecimals();
+                        </div>
+
+                        <div class="graphie" data-each="HINTS2 as hint" data-update="multi-2">
+                            graph.multiplier.showHint();
+                        </div>
+                        <div class="graphie" data-update="multi-2">
+                            graph.multiplier.showDecimalsInProduct();
+                        </div>
+
+                        <div>
+                            <p data-if="SUBSOL < 0 && SIGNS[2] === -1">
+                                Since both <code><var>DECIMALS[0]</var></code> and <code><var>DECIMALS[1]</var></code> are negative, the result is positive.
+                            </p>
+                            <p data-else-if="SIGNS[0] * SIGNS[1] * SIGNS[2] === -1">
+                                A positive number times a negative number is a negative number.
+                            </p>
+                            <p><code><var>SUBSOL</var> \times <var>DECIMALS[2]</var> = <var>SOLUTION</var></code></p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>To convert a decimal into a percentage, multiply by <code>100</code>:</p>
+                        <p><code><var>SOLUTION</var> = <var>roundTo(4, 100 * SOLUTION)</var>\%</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="terminating-decimals">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="PLACES" data-ensure="PLACES[0] !== 0 || PLACES[1] !== 0">[randRange(0, 2), randRange(0, 2), randRange(0, 2)]</var>
+                    <var id="SIGNS">_.map(PLACES, function() { return randFromArray([1, -1]); })</var>
+                    <var id="NUMS">_.map(PLACES, function() {
+                        return randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]);
+                    })</var>
+                    <var id="DECIMALS">_.map(PLACES, function(p, i) {
+                        return roundTo(p, SIGNS[i] * NUMS[i] / pow(10, p));
+                    })</var>
+                    <var id="DIGITS">_.map(PLACES, function(p, i) {
+                        return padDigitsToNum(digits(NUMS[i]), p + 1);
+                    })</var>
+                    <var id="SUBSOL">roundTo(4, DECIMALS[0] * DECIMALS[1])</var>
+                    <var id="SUBSOL_DIGITS">padDigitsToNum(digits(NUMS[0] * NUMS[1]), PLACES[0] + PLACES[1])</var>
+                    <var id="HINTS1">[]</var>
+                    <var id="HINTS2">[]</var>
+                    <var id="SOLUTION">N === 2 ? SUBSOL : roundTo(6, SUBSOL * DECIMALS[2])</var>
+                </div>
+                
+                <div class="question"><p><code>
+                    <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> <span data-if="N === 3">\times <var>DECIMALS[2]</var></span> = {?}
+                </code></p></div>
+
+                <div class="graphie">
+                    var g1 = new Multiplier(NUMS[0], NUMS[1], DIGITS[0], DIGITS[1], PLACES[0], PLACES[1]);
+                    HINTS1 = Array(g1.getNumHints());
+                    if (N === 3) {
+                        var g2 = new Multiplier(NUMS[0] * NUMS[1], NUMS[2], SUBSOL_DIGITS, DIGITS[2], PLACES[0] + PLACES[1], PLACES[2]);
+                        HINTS2 = Array(g2.getNumHints());
+                    }
+                </div>
+
+                <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
+
+                <div class="hints">
+                    <p data-if="N === 3">Let's start by dealing with the first two numbers.</p>
+
+                    <p data-if="SIGNS[0] === -1 || SIGNS[1] === -1">
+                        We'll multiply the positive versions of the numbers first, then figure out the sign afterwards.
+                    </p>
+
+                    <div class="graphie" id="multi-1">
+                        graph.multiplier = new Multiplier(NUMS[0], NUMS[1], DIGITS[0], DIGITS[1], PLACES[0], PLACES[1]);
+                        graph.multiplier.show();
+                        graph.multiplier.showDecimals();
+                    </div>
+
+                    <div class="graphie" data-each="HINTS1 as hint" data-update="multi-1">
+                        graph.multiplier.showHint();
+                    </div>
+                    <div class="graphie" data-update="multi-1">
+                        graph.multiplier.showDecimalsInProduct();
+                    </div>
+
+                    <div>
+                        <p data-if="SIGNS[0] === -1 && SIGNS[1] === -1">
+                            Since both <code><var>DECIMALS[0]</var></code> and <code><var>DECIMALS[1]</var></code> are negative, the result is positive.
+                        </p>
+                        <p data-else-if="SIGNS[0] * SIGNS[1] === -1">
+                            A positive number times a negative number is a negative number.
+                        </p>
+                        <p><code><var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> = <var>SUBSOL</var></code></p>
+                    </div>
+
+                    <div data-if="N === 3" data-unwrap="">
+                        <div>
+                            <p>Therefore,</p>
+                            <p><code>
+                                <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> \times <var>DECIMALS[2]</var> = 
+                                <var>SUBSOL</var> \times <var>DECIMALS[2]</var>
+                            </code></p>
+                        </div>
+
+                        <div class="graphie" id="multi-2">
+                            graph.multiplier = new Multiplier(NUMS[0] * NUMS[1], NUMS[2], SUBSOL_DIGITS, DIGITS[2], PLACES[0] + PLACES[1], PLACES[2]);
+                            graph.multiplier.show();
+                            graph.multiplier.showDecimals();
+                        </div>
+
+                        <div class="graphie" data-each="HINTS2 as hint" data-update="multi-2">
+                            graph.multiplier.showHint();
+                        </div>
+                        <div class="graphie" data-update="multi-2">
+                            graph.multiplier.showDecimalsInProduct();
+                        </div>
+
+                        <div>
+                            <p data-if="SUBSOL < 0 && SIGNS[2] === -1">
+                                Since both <code><var>SUBSOL</var></code> and <code><var>DECIMALS[2]</var></code> are negative, the result is positive.
+                            </p>
+                            <p data-else-if="SIGNS[0] * SIGNS[1] * SIGNS[2] === -1">
+                                A positive number times a negative number is a negative number.
+                            </p>
+                            <p><code><var>SUBSOL</var> \times <var>DECIMALS[2]</var> = <var>SOLUTION</var></code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="repeating-decimals">
+                <div class="vars" data-ensure="DECIMALS[0] !== DECIMALS[1] && DECIMALS[0] !== DECIMALS[1] && DECIMALS[1] !== DECIMALS[2]">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="LETTERS">['x', 'y', 'z'].slice(0, N)</var>
+                    <var id="INTEGERS">_.map(LETTERS, function() {
+                        return randRangeWeighted(-3, 3, 0, 0.5);
+                    })</var>
+                    <var id="DIGITS">_.map(LETTERS, function() {
+                        return randRange(1, 2);
+                    })</var>
+                    <var id="REPEATS">_.map(DIGITS, function(digit) {
+                        return digit === 1 ? randRange(1, 8) : randRange(10, 98);
+                    })</var>
+                    <var id="DENOMINATORS">_.map(DIGITS, function(digit) {
+                        return pow(10, digit) - 1;
+                    })</var>
+                    </var>
+                    <var id="NUMERATORS">_.map(INTEGERS, function(int, i) {
+                        return int * DENOMINATORS[i] + REPEATS[i] * (int &lt; 0 ? -1 : 1);
+                    })</var>
+                    <var id="DECIMALS">_.map(INTEGERS, function(int, i) {
+                        return int + (int &lt; 0 ? -1 : 1) * REPEATS[i] / DENOMINATORS[i];
+                    })</var>
+                    <var id="NUMERATOR">_.reduce(NUMERATORS, function(x, y) { return x * y; }, 1)</var>
+                    <var id="DENOMINATOR">_.reduce(DENOMINATORS, function(x, y) { return x * y; }, 1)</var>
+                    <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
+                </div>
+
+                <div class="problems">
+                    <div>
+                        <p class="question"><code>
+                            <var>INTEGERS[0]</var>.\overline{<var>REPEATS[0]</var>} \times <var>INTEGERS[1]</var>.\overline{<var>REPEATS[1]</var>}
+                            <span data-if="N === 3"> \times <var>INTEGERS[2]</var>.\overline{<var>REPEATS[2]</var>}</span> = {?}
+                        </code></p>
+                        <p class="solution" data-type="rational" data-simplify="optional"><var>NUMERATOR / DENOMINATOR</var></p>
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p>First convert the repeating decimals to fractions.</p>
+
+                    <div data-each="[0, 1, 2].slice(0, N) as i">
+                        <p><code>\begin{align*}
+                            <var>pow(10, DIGITS[i])</var><var>LETTERS[i]</var> &amp;= <var>floorTo(4, DECIMALS[i] * pow(10, DIGITS[i]))</var>...\\
+                            <var>LETTERS[i]</var> &amp;= <var>floorTo(4, DECIMALS[i])</var>...\end{align*}
+                        </code></p>
+                        <p><code>\begin{align*}
+                            <var>DENOMINATORS[i]</var><var>LETTERS[i]</var> &amp;= <var>NUMERATORS[i]</var> \\
+                            <var>LETTERS[i]</var> &amp;= <var>fraction(NUMERATORS[i], DENOMINATORS[i])</var>\end{align*}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>So, the problem becomes:</p>
+                        <p><code>
+                            <var>fraction(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
+                            <span data-if="N === 3"> \times <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span> = {?}
+                        </code></p>
+                    </div>
+
+                    <p><code>
+                        \phantom{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
+                        <span data-if="N === 3"> \times <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span>}
+                        = \dfrac{<var>NUMERATORS[0]</var> \times <var>NUMERATORS[1]</var> <span data-if="N === 3"> \times <var>NUMERATORS[2]</var></span>}
+                        {<var>DENOMINATORS[0]</var> \times <var>DENOMINATORS[1]</var> <span data-if="N === 3"> \times <var>DENOMINATORS[2]</var></span>}
+                    </code></p>
+
+                    <p><code>
+                        \phantom{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var> \times <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
+                        <span data-if="N === 3"> \times <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span>}
+                        = <var>fraction(NUMERATOR, DENOMINATOR)</var>
+                    </code></p>
+
+                    <div data-if="GCD !== 1">
+                        <p>Simplify:</p>
+                        <p><code>\large{= <var>fraction(NUMERATOR / GCD, DENOMINATOR / GCD)</var>}</code></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
