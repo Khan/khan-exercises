@@ -23,15 +23,14 @@
                 var used = {};
 
                 while (array.length &lt; 5) {
-                    var n = parseInt(shuffle(digits).join(""));
+                    var n = digitsToInteger(shuffle(digits));
                     var p = randRange(2, 4);
                     var ns = localeToFixed(n / 10000, p);
                     var d = round(ns * 10000, 4);
 
                     if (d !== 0 &amp;&amp; !used[d]) {
                         used[d] = true;
-                        p = pow(10, p);
-                        n = round(ns * p, 4);
+                        n = round(ns * pow(10, p), 4);
 
                         array.push([ns, n, p, d]);
                     }
@@ -41,7 +40,7 @@
             })()</var>
 
             <var id="MAX_P">(function() {
-                var p = 10;
+                var p = 1;
                 for (var i=0; i &lt; NUMS.length; i++) {
                     if (NUMS[i][2] &gt; p) {
                         p = NUMS[i][2];
@@ -49,6 +48,7 @@
                 }
                 return p;
             })()</var>
+            <var id="P">pow(10, MAX_P)</var>
             <var id="NUMS_TEX">$.map(NUMS, function(el) {
                 return el[1];
             }).join( "," )</var>
@@ -56,7 +56,7 @@
                 return a[3] - b[3];
             })</var>
             <var id="NUMS_SORT_TEX">$.map(NUMS_SORT, function(el) {
-                return round(el[0] * MAX_P, 4);
+                return round(el[0] * P, 4);
             }).join( "," )</var>
             <var id="DECIMAL_SORT_TEX">$.map(NUMS_SORT, function(el) {
                 return el[0];
@@ -94,22 +94,22 @@
                 </div>
 
                 <div class="hints">
-                    <p>Convert each number to a fraction.</p>
-                    
-                    <p><code>\begin{align*}
-                        <span data-each="NUMS as NUM"><var>NUM[0]</var> &amp;= \dfrac{<var>NUM[1]</var>}{<var>NUM[2]</var>} \\</span>
+                    <p><code>\qquad \begin{align*}
+                        <span data-each="NUMS as NUM">
+                            <var>NUM[0]</var> &amp;= <var>NUM[1]</var> \text{ <var>placesRightOfDecimalPlural[NUM[2]]</var>} \\</span>
                     \end{align*}</code></p>
                     
-                    <p>Put each fraction over a common denominator of <var>MAX_P</var>.</p>
+                    <p>Get each number in <var>placesRightOfDecimalPlural[MAX_P]</var>.</p>
                     
                     <p><code>\qquad \begin{align*}
-                        <span data-each="NUMS as NUM"> &amp;= \dfrac{<var>round(NUM[0] * MAX_P, 4)</var>}{<var>MAX_P</var>} \\</span>
+                        <span data-each="NUMS as NUM">
+                            <var>NUM[0]</var> &amp;= <var>round(NUM[0] * P, 4)</var>\text{ <var>placesRightOfDecimalPlural[MAX_P]</var>} \\</span>
                     \end{align*}</code></p>
                     
-                    <p>Order the numerators: <code>\Large{<var>NUMS_SORT_TEX</var>}</code>.</p>
+                    <p>Order the numbers: <code>\Large{<var>NUMS_SORT_TEX</var>}</code>.</p>
 
                     <div>
-                        <p>Convert back to decimals by dividing by <code><var>MAX_P</var></code></p>
+                        <p>Convert back to decimals.</p>
                         <p><code>\Large{<var>DECIMAL_SORT_TEX</var>}</code>.</p>
                     </div>
                 </div>
