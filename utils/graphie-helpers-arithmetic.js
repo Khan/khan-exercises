@@ -439,7 +439,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     this.showHint = function() {
         this.removeHighlights();
 
-        if (indexB === digitsB.length || (indexB === digitsB.length - 1 && digitsB[indexB] === 0)) {
+        if (indexB === digitsB.length -1 || leadingZero) {
             this.showFinalAddition();
             return;
         }
