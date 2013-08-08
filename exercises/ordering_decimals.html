@@ -2,7 +2,7 @@
 <html data-require="math math-format interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Ordering numbers</title>
+    <title>Ordering decimals</title>
     <script src="../khan-exercise.js"></script>
     <style>
         .sort-key {
@@ -24,17 +24,16 @@
 
                 while (array.length &lt; 5) {
                     var n = parseInt(shuffle(digits).join(""));
-                    var d = n / 10000;
                     var p = randRange(2, 4);
-                    var ns = localeToFixed(d, p);
-                    var t = round(ns * 10000, 4);
+                    var ns = localeToFixed(n / 10000, p);
+                    var d = round(ns * 10000, 4);
 
-                    if (parseFloat(ns) !== 0 &amp;&amp; !used[t]) {
-                        used[t] = true;
+                    if (d !== 0 &amp;&amp; !used[d]) {
+                        used[d] = true;
                         p = pow(10, p);
                         n = round(ns * p, 4);
 
-                        array.push([d, ns, n, p, t]);
+                        array.push([ns, n, p, d]);
                     }
                 }
 
@@ -44,8 +43,8 @@
             <var id="MAX_P">(function() {
                 var p = 10;
                 for (var i=0; i &lt; NUMS.length; i++) {
-                    if (NUMS[i][3] &gt; p) {
-                        p = NUMS[i][3];
+                    if (NUMS[i][2] &gt; p) {
+                        p = NUMS[i][2];
                     }
                 }
                 return p;
@@ -54,13 +53,13 @@
                 return el[1];
             }).join( "," )</var>
             <var id="NUMS_SORT">$.extend(true, [], NUMS).sort(function(a, b) {
-                return a[4] - b[4];
+                return a[3] - b[3];
             })</var>
             <var id="NUMS_SORT_TEX">$.map(NUMS_SORT, function(el) {
-                return round(el[1] * MAX_P, 4);
+                return round(el[0] * MAX_P, 4);
             }).join( "," )</var>
             <var id="DECIMAL_SORT_TEX">$.map(NUMS_SORT, function(el) {
-                return el[1];
+                return el[0];
             }).join( "," )</var>
 
             <var id="SORTER">createSorter()</var>
@@ -73,8 +72,8 @@
                     <p>Order the following numbers from least to greatest:</p>
                     <ul id="sortable">
                         <li data-each="NUMS as NUM">
-                            <span class="sort-key"><var>NUM[1]</var></span>
-                            <code><var>NUM[1]</var></code>
+                            <span class="sort-key"><var>NUM[0]</var></span>
+                            <code><var>NUM[0]</var></code>
                         </li>
                     </ul>
                     <p><var>SORTER.init("sortable")</var></p>
@@ -98,13 +97,13 @@
                     <p>Convert each number to a fraction.</p>
                     
                     <p><code>\begin{align*}
-                        <span data-each="NUMS as NUM"><var>NUM[1]</var> &amp;= \dfrac{<var>NUM[2]</var>}{<var>NUM[3]</var>} \\</span>
+                        <span data-each="NUMS as NUM"><var>NUM[0]</var> &amp;= \dfrac{<var>NUM[1]</var>}{<var>NUM[2]</var>} \\</span>
                     \end{align*}</code></p>
                     
                     <p>Put each fraction over a common denominator of <var>MAX_P</var>.</p>
                     
                     <p><code>\qquad \begin{align*}
-                        <span data-each="NUMS as NUM"> &amp;= \dfrac{<var>round(NUM[1] * MAX_P, 4)</var>}{<var>MAX_P</var>} \\</span>
+                        <span data-each="NUMS as NUM"> &amp;= \dfrac{<var>round(NUM[0] * MAX_P, 4)</var>}{<var>MAX_P</var>} \\</span>
                     \end{align*}</code></p>
                     
                     <p>Order the numerators: <code>\Large{<var>NUMS_SORT_TEX</var>}</code>.</p>
