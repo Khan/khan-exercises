@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive word-problems">
+<head>
+    <title>Sets intuition</title>
+    <script src="../khan-exercise.js"></script>
+    
+    <style>
+        img.avatar {
+          width: 40px;
+          position: relative;
+          bottom: -8px
+    </style>
+
+    <script>
+        var sectionBorders = {
+            sectionA: [-2, -1, -1, 1],
+            sectionB: [1, 2, -1, 1],
+            sectionAB: [0, 0, -1, 1],
+            outerSection: [-3, 3, 3, 3],
+            circleA: [-2, 0, -1, 1],
+            circleB: [0, 2, -1, 1]
+        };
+        
+        var pointInRect = function(x, y, left, right, bottom, top) {
+            return (x >= left) && (x <= right)
+                && (y >= bottom) && (y <= top);
+        };
+    
+        var inSection = function(x, y, section) {
+            var c = virtGridCoords(x, y);
+            var borders = sectionBorders[section];
+            return pointInRect(c[0], c[1],
+                borders[0], borders[1], borders[2], borders[3]);
+        };
+        
+        var limitX = function(x) {
+            if (x < -3.4) { x = -3.4; }
+            else if (x >  3.4) { x =  3.4; }                  
+            return x;
+        };
+        
+        var limitY = function(y) {
+            if (y < -1.5) { y = -1.5; }
+            else if (y >  3) { y =  3; }                    
+            return y;
+        };
+        
+        var virtGridCoords = function(x, y) {   
+            ry = Math.round(y);                    
+            if (ry === 0) {
+                if (x < 0) { x += 0.4; }
+                else if (x > 0) { x -= 0.4; }
+            }               
+            rx = Math.round(x);
+            if (ry === 2 && (rx === -1 || rx ===  1)) {
+                if (y > 1.8) {
+                    ry = 3;
+                } else {
+                    ry = 1;
+                }
+            }           
+            return [rx, ry];   
+        };
+         
+        var normalizeVirtCoords = function(x, y) {
+            if (y === 0) {
+                if (x < 0) { x -= 0.4; }
+                else if (x > 0) { x += 0.4; }
+            }
+            return [x, y];   
+        };
+        
+        var sectionIndexToCoords = function(i, section) {
+            var borders = sectionBorders[section];
+            var sectionWidth = borders[1] - borders[0] + 1;
+            var x = borders[0] + (i % sectionWidth);                  
+            var y =  borders[3] - Math.floor(i / sectionWidth);
+            return normalizeVirtCoords(x, y);
+        };    
+    </script>
+    
+    
+</head>
+<body>
+<div class="exercise">
+
+    <div class="vars">
+                       
+        <var id="ELEMENTS">
+            _.range(7)
+        </var>
+        
+        <var id="USED">
+            randRange(5,7)
+        </var>
+        
+        <var id="SHUFFLED_ELEMENTS">
+            shuffle(ELEMENTS, USED)
+        </var>
+        
+        <var id="A">
+            shuffle(SHUFFLED_ELEMENTS.slice(0,randRange(3,5)))
+        </var>
+
+        <var id="B">
+            shuffle(SHUFFLED_ELEMENTS.slice(randRange(2,4)))
+        </var>
+        
+        <var id="SECTION_A">
+            _.difference(A,B)
+        </var>
+        
+        <var id="SECTION_A_COUNT">
+            _(SECTION_A).size()
+        </var>
+        
+        <var id="SECTION_B">
+            _.difference(B, A)
+        </var>
+
+        <var id="SECTION_B_COUNT">
+            _(SECTION_B).size()
+        </var>
+                
+        <var id="SECTION_AB">
+            _.intersection(A,B)
+        </var>
+        
+        <var id="SECTION_AB_COUNT">
+            _(SECTION_AB).size()
+        </var>
+              
+        <var id="AVATAR_IMAGES">[
+            "spunky-sam.png",
+            "mr-pink.png",
+            "orange-juice-squid.png",
+            "purple-pi.png",
+            "mr-pants.png",
+            "old-spice-man.png",
+            "marcimus.png"
+        ]</var>     
+
+        <var id="IMAGE_PATH">
+            (function(e) {
+                return Khan.imageBase + "avatars/" + AVATAR_IMAGES[e];    
+            })
+        </var>
+
+        <var id="ELEMENT_TAG">
+            (function(e) {  
+                return "&lt;img class=avatar src=" + IMAGE_PATH(e) + "&gt;";  
+            })
+        </var>
+        
+        <var id="SECTIONS">[
+            {
+                elements: SECTION_AB,
+                count:  SECTION_AB_COUNT,
+                name:   "sectionAB",
+                description: "in both sets"
+            },
+            {
+                elements: SECTION_A,
+                count:  SECTION_A_COUNT,
+                name:   "sectionA",
+                description: "in set A, but not in set B"
+            },
+            {
+                elements: SECTION_B,
+                count:  SECTION_B_COUNT,
+                name:   "sectionB",
+                description: "in set B, but not in set A"
+            }          
+        ]</var>
+    
+    </div>
+
+    <div class="problems">    
+        <div id="avatar-sets">
+        
+            <div class="problem">
+                <p>Let's have following sets of avatars:</p>
+                <p>
+                    <code>\Huge{A =\{}</code>
+                    <span data-each="A as ELEMENT">
+                        <var>ELEMENT_TAG(ELEMENT)</var> 
+                    </span>
+                    <code>\Huge{\}}</code>
+                </p>
+                <p>
+                    <code>\Huge{B =\{}</code>
+                    <span data-each="B as ELEMENT">
+                        <var>ELEMENT_TAG(ELEMENT)</var> 
+                    </span>
+                    <code>\Huge{\}}</code>
+                </p>
+            </div>
+            
+            <p class="question">
+                Drag the avatars into the appropriate parts of the set diagram.
+            </p>
+            
+            <div class="graphie" id="setDiagram">
+                graph.scale = 55;
+                graph.options = {
+                    range: [[-4.1, 4.1], [-2.3, 3.8]],
+                    scale: [graph.scale, graph.scale]
+                };
+                          
+                init(graph.options);
+                addMouseLayer();                
+                
+                // set circles
+                
+                var radius = 1.87
+                var circleA = circle([-1.05,0], radius, {
+                    fill: KhanUtil.BLUE,
+                    opacity: 0.25,
+                    strokeWidth: 0
+                });
+                var circleB = circle([1.05,0], radius, {
+                    fill: KhanUtil.GREEN,
+                    opacity: 0.25,
+                    strokeWidth: 0
+                });
+                circleA.isHighlighted = false;
+                circleB.isHighlighted = false;
+                circle([-1.05,0], radius, {
+                    stroke: KhanUtil.BLUE,
+                    strokeWidth: 3
+                });
+                circle([1.05,0], radius, {
+                    stroke: KhanUtil.GREEN,
+                    strokeWidth: 3
+                });
+                label([-2.8,1.8], "A", {
+                    color: KhanUtil.BLUE,
+                    fontSize: "24pt"
+                });
+                label([2.8,1.8], "B", {
+                    color: KhanUtil.GREEN,
+                    fontSize: "24pt"
+                });
+                                
+                var highlight = function(circleX) {
+                    if (!circleX.isHighlighted) {
+                        circleX.animate({ opacity: 0.4 }, 50);
+                        circleX.isHighlighted = true;
+                    }
+                };
+                var noHighlight = function(circleX) {
+                    if (circleX.isHighlighted) {
+                        circleX.animate({ opacity: 0.25 }, 50);
+                        circleX.isHighlighted = false;
+                    }
+                };
+                
+                var addMovableImage = function(element) {
+                    var position = [element-3, 3];                
+                    var newPoint = addMovablePoint({
+                        coord: position,
+                        onMove: function(x, y) {
+                            x = limitX(x);
+                            y = limitY(y);
+                            this.moveImage([x, y]);
+                            if (inSection(x, y, "circleA")) {
+                                highlight(circleA);
+                            } else {
+                                noHighlight(circleA);
+                            }
+                            if (inSection(x, y, "circleB")) {
+                                highlight(circleB);
+                            } else {
+                                noHighlight(circleB);
+                            }                                                 
+                        },
+                        onMoveEnd: function(x, y) {
+                            noHighlight(circleA);
+                            noHighlight(circleB);
+                            x = limitX(x);
+                            y = limitY(y);
+                            c = virtGridCoords(x, y);
+                            position = normalizeVirtCoords(c[0], c[1]);
+                            this.moveImage(position);
+                            return position;
+                        }        
+                    });
+                    newPoint.element = element;
+                    
+                    newPoint.visibleShape.remove();
+                    newPoint.visibleShape = bogusShape;
+                    newPoint.mouseTarget.attr({ scale: 1.1 });
+                    newPoint.elementImage = raphael.image(IMAGE_PATH(element),
+                        scalePoint(position)[0] - 25,
+                        scalePoint(position)[1] - 25,
+                        50, 50).attr({ opacity: 1 });
+                        
+                    newPoint.moveImage = function(newPosition) {
+                        this.setCoord(newPosition);
+                        var shiftH = this.elementImage.attr("width")/2;
+                        var shiftV = this.elementImage.attr("height")/2;
+                        this.elementImage.attr({
+                            "x": scalePoint(newPosition)[0] - shiftH,
+                            "y": scalePoint(newPosition)[1] - shiftV
+                        });
+                    };
+
+
+                    // Scale avatar on hover 
+                    $(newPoint.mouseTarget[0]).on(
+                        "vmouseover vmouseout vmouseup vmousedown", function(event) {
+                            if (event.type === "vmouseover"
+                                || event.type === "vmousedown") {
+                                if (!KhanUtil.dragging || newPoint.dragging) {
+                                    newPoint.elementImage.toFront();
+                                    newPoint.elementImage.animate({
+                                        scale: 1.4
+                                    }, 50);                                
+                                }                            
+                            } else if (event.type === "vmouseup"
+                                || (!newPoint.dragging)) {
+                                newPoint.elementImage.animate({
+                                    scale: 1
+                                }, 50);                                                               
+                            }
+                    });                
+                
+                    return newPoint;
+                };
+                
+                // elements as points
+                graph.points = [];
+                for (var element=0; element &lt; 7; element++) {
+                    graph.points.push(addMovableImage(element));        
+                }
+            </div>
+            
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the elements into the appropriate sections of the set diagram.
+                </div>
+                <div class="guess">                
+                    (function(){
+                        var guess = [];
+                        _(graph.points).each(function(point) {
+                            guess.push(point.coord);
+                        });
+                        return guess;
+                    })()
+                </div>
+                <div class="validator-function">
+                    var guessA = [];
+                    var guessB = [];
+                    var guessAB = [];
+                    _(ELEMENTS).each(function(element) {
+                        var c = guess[element];
+                        if (inSection(c[0], c[1], "sectionA")) {
+                            guessA.push(element);    
+                        }
+                        if (inSection(c[0], c[1], "sectionB")) {
+                            guessB.push(element);    
+                        }
+                        if (inSection(c[0], c[1], "sectionAB")) {
+                            guessAB.push(element);    
+                        }
+                    });                    
+                    if (_.every([guessA, guessB, guessAB], _.isEmpty)) {
+                        return "";
+                    }
+                    return _.isEqual(guessAB, sortNumbers(SECTION_AB))
+                        &amp;&amp; _.isEqual(guessA, sortNumbers(SECTION_A))
+                        &amp;&amp; _.isEqual(guessB, sortNumbers(SECTION_B));
+                </div>
+                <div class="show-guess">
+                    _(ELEMENTS).each(function(element) {
+                        graph.points[element].moveImage(guess[element]);
+                    });              
+                </div>
+            </div>           
+        </div>
+    </div>
+
+    <div class="hints">
+        <div data-each="SECTIONS as S">
+            <div data-if="S.count !== 0">
+                <span data-if="S.count === 1">Avatar</span>
+                <span data-else>Avatars</span>
+                <span data-each="S.elements as ELEMENT">
+                    <var>ELEMENT_TAG(ELEMENT)</var> 
+                </span>
+                <var>plural("is", S.count)</var>
+                <var>S.description</var>.
+            </div>
+            <div data-else>
+                There are not any elements <var>S.description</var>.
+            </div>
+            
+            <div class="graphie" data-update="setDiagram">
+                
+                // make room in the section
+                for (var element=0; element &lt; 7; element++) {
+                    var point = graph.points[element];
+                    if (inSection(point.coord[0], point.coord[1], S.name)) {
+                        var newPosition = sectionIndexToCoords(element, "outerSection");
+                        point.moveImage(newPosition);    
+                    }   
+                }
+                
+                // place the elements which belongs to this section in it
+                for (var i=0; i &lt; S.count; i++) {
+                    var newPosition = sectionIndexToCoords(i, S.name);
+                    var element = S.elements[i];
+                    graph.points[element].moveImage(newPosition);
+                }
+ 
+            
+            </div>            
+        </div>
+        
+        <div data-if="USED &lt; 6">
+            And all the other avatars are not in any set.
+        </div>
+        <div data-else-if="USED === 6">
+            And the last avatar is not in any set.
+        </div>
+        <div data-else>
+            There is no other avatar left.
+        </div>
+    </div>
+  
+</div>
+</body>
+</html>
