@@ -73,7 +73,7 @@
                     return [f1, f2];
                 })()
             </var>
-            <var id="FACTOR_PRODUCT">FACTORS[0].multiply(FACTORS[1])</var>
+            <var id="FACTOR_PRODUCT">new RationalExpression([FACTORS[0].multiply(FACTORS[1])])</var>
             <var id="TERM_A">new RationalExpression([[1, X], A])</var>
             <var id="TERM_B">new RationalExpression([[1, X], B])</var>
             <var id="TERM_C">new RationalExpression([[1, X], C])</var>
@@ -95,7 +95,7 @@
 
                     <var id="CANCEL">TERM_C</var>
                     <var id="CANCEL_ORDER">[ORDER[0] ? [0, 1] : [1, 2], ORDER]</var>
-                    <var id="COMMON_FACTOR">FACTOR_PRODUCT.coefficient &lt; 0 ? -FACTOR_PRODUCT.getGCD(FACTOR1) : FACTOR_PRODUCT.getGCD(FACTOR1)</var>
+                    <var id="COMMON_FACTOR">FACTOR_PRODUCT.isNegative() ? -FACTOR_PRODUCT.getGCD(FACTOR1) : FACTOR_PRODUCT.getGCD(FACTOR1)</var>
                     <var id="NUMERSOL">NUMERATORS[0].divide(COMMON_FACTOR)</var>
                     <var id="DENOMSOL">FACTOR_PRODUCT.divide(COMMON_FACTOR)</var>
                     <var id="SOL">CANCEL.terms[1].coefficient !== B ? -CANCEL.terms[1] : 0</var>
@@ -137,7 +137,7 @@
 
                     <var id="CANCEL">TERM_A</var>
                     <var id="CANCEL_ORDER">[ORDER[0] ? [0, 2] : [0, 1], ORDER]</var>
-                    <var id="COMMON_FACTOR">FACTOR_PRODUCT.coefficient &lt; 0 ? -FACTOR_PRODUCT.getGCD(FACTOR1) : FACTOR_PRODUCT.getGCD(FACTOR1)</var>
+                    <var id="COMMON_FACTOR">FACTOR_PRODUCT.isNegative() ? -FACTOR_PRODUCT.getGCD(FACTOR1) : FACTOR_PRODUCT.getGCD(FACTOR1)</var>
                     <var id="NUMERSOL">TERM_C.multiply(FACTOR1 / COMMON_FACTOR)</var>
                     <var id="DENOMSOL">FACTOR_PRODUCT.divide(COMMON_FACTOR)</var>
                     <var id="SOL">CANCEL.terms[1].coefficient !== B ? -CANCEL.terms[1] : 0</var>
