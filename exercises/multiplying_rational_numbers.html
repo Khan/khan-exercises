@@ -13,16 +13,12 @@
                 <div class="vars">
                     <var id="N">randRange(2, 3)</var>
                     <var id="DENOMINATORS">[randRange(2, 9), randRange(2, 9), randRange(2, 9)]</var>
-                    <var id="NUMERATORS">[
-                        randRangeExclude(-9, 9, [0, DENOMINATORS[0], -DENOMINATORS[0]]),
-                        randRangeExclude(-9, 9, [0, DENOMINATORS[1], -DENOMINATORS[1]]),
-                        randRangeExclude(-9, 9, [0, DENOMINATORS[2], -DENOMINATORS[2]])]
-                    </var>
-                    <var id="FACTORS">[
-                       getGCD(NUMERATORS[0], DENOMINATORS[0]),
-                       getGCD(NUMERATORS[1], DENOMINATORS[1]),
-                       getGCD(NUMERATORS[2], DENOMINATORS[2])]
-                    </var>
+                    <var id="NUMERATORS">_.map(DENOMINATORS, function(x) {
+                        return randRangeExclude(-9, 9, [0, x, -x]);
+                    })</var>
+                    <var id="FACTORS">_.map(DENOMINATORS, function(x, i) {
+                       return getGCD(NUMERATORS[i], x);
+                    })</var>
                     <var id="NUMERATOR">(NUMERATORS[0] / FACTORS[0]) * (NUMERATORS[1] / FACTORS[1]) * (N === 2 ? 1 : NUMERATORS[2] / FACTORS[2])</var>
                     <var id="DENOMINATOR">(DENOMINATORS[0] / FACTORS[0]) * (DENOMINATORS[1] / FACTORS[1]) * (N === 2 ? 1 : DENOMINATORS[2] / FACTORS[2])</var>
                     <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
@@ -71,23 +67,17 @@
             <div id="percentages">
                 <div class="vars">
                     <var id="N">randRange(2, 3)</var>
-                    <var id="SIGNS">[randFromArray([1, -1]), randFromArray([1, -1]), randFromArray([1, -1])]</var>
-                    <var id="NUMS">[
-                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]),
-                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]),
-                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90])]
-                    </var>
                     <var id="PLACES">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]</var>
-                    <var id="DECIMALS">[
-                        roundTo(PLACES[0], SIGNS[0] * NUMS[0] / pow(10, PLACES[0])),
-                        roundTo(PLACES[1], SIGNS[1] * NUMS[1] / pow(10, PLACES[1])),
-                        roundTo(PLACES[2], SIGNS[2] * NUMS[2] / pow(10, PLACES[2]))]
-                    </var>
-                    <var id="DIGITS">[
-                        padDigitsToNum(digits(NUMS[0]), PLACES[0] + 1),
-                        padDigitsToNum(digits(NUMS[1]), PLACES[1] + 1),
-                        padDigitsToNum(digits(NUMS[2]), PLACES[2] + 1)]
-                    </var>
+                    <var id="SIGNS">_.map(PLACES, function() {return randFromArray([1, -1]); })</var>
+                    <var id="NUMS">_.map(SIGNS, function() {
+                        return randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]);
+                    })</var>
+                    <var id="DECIMALS">_.map(PLACES, function(p, i) {
+                        return roundTo(p, SIGNS[i] * NUMS[i] / pow(10, p));
+                    })</var>
+                    <var id="DIGITS">_.map(PLACES, function(p, i) {
+                        return padDigitsToNum(digits(NUMS[i]), p + 1);
+                    })</var>
                     <var id="SUBSOL">roundTo(4, DECIMALS[0] * DECIMALS[1])</var>
                     <var id="SUBSOL_DIGITS">padDigitsToNum(digits(NUMS[0] * NUMS[1]), PLACES[0] + PLACES[1])</var>
                     <var id="HINTS1">[]</var>
@@ -191,23 +181,17 @@
             <div id="terminating-decimals">
                 <div class="vars">
                     <var id="N">randRange(2, 3)</var>
-                    <var id="SIGNS">[randFromArray([1, -1]), randFromArray([1, -1]), randFromArray([1, -1])]</var>
-                    <var id="NUMS">[
-                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]),
-                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]),
-                        randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90])]
-                    </var>
                     <var id="PLACES" data-ensure="PLACES[0] !== 0 || PLACES[1] !== 0">[randRange(0, 2), randRange(0, 2), randRange(0, 2)]</var>
-                    <var id="DECIMALS">[
-                        roundTo(PLACES[0], SIGNS[0] * NUMS[0] / pow(10, PLACES[0])),
-                        roundTo(PLACES[1], SIGNS[1] * NUMS[1] / pow(10, PLACES[1])),
-                        roundTo(PLACES[2], SIGNS[2] * NUMS[2] / pow(10, PLACES[2]))]
-                    </var>
-                    <var id="DIGITS">[
-                        padDigitsToNum(digits(NUMS[0]), PLACES[0] + 1),
-                        padDigitsToNum(digits(NUMS[1]), PLACES[1] + 1),
-                        padDigitsToNum(digits(NUMS[2]), PLACES[2] + 1)]
-                    </var>
+                    <var id="SIGNS">_.map(PLACES, function() { return randFromArray([1, -1]); })</var>
+                    <var id="NUMS">_.map(PLACES, function() {
+                        return randRangeExclude(1, 99, [10, 20, 30, 40, 50, 60, 70, 80, 90]);
+                    })</var>
+                    <var id="DECIMALS">_.map(PLACES, function(p, i) {
+                        return roundTo(p, SIGNS[i] * NUMS[i] / pow(10, p));
+                    })</var>
+                    <var id="DIGITS">_.map(PLACES, function(p, i) {
+                        return padDigitsToNum(digits(NUMS[i]), p + 1);
+                    })</var>
                     <var id="SUBSOL">roundTo(4, DECIMALS[0] * DECIMALS[1])</var>
                     <var id="SUBSOL_DIGITS">padDigitsToNum(digits(NUMS[0] * NUMS[1]), PLACES[0] + PLACES[1])</var>
                     <var id="HINTS1">[]</var>
