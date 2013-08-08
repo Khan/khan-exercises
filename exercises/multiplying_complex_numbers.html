@@ -28,14 +28,13 @@
         <var id="B_REP">"\\color{" + BLUE + "}{" + complexNumber( B_REAL, B_IMAG ) + "}"</var>
         <var id="ANSWER_REAL">( A_REAL * B_REAL ) - ( A_IMAG * B_IMAG )</var>
         <var id="ANSWER_IMAG">( A_REAL * B_IMAG ) + ( A_IMAG * B_REAL )</var>
-        <var id="ANSWER">complexRegex(ANSWER_REAL, ANSWER_IMAG)</var>
     </div>
 
     <div class="problems">
         <div id="multiply-cplx">
             <p class="question">Multiply the following complex numbers:</p>
             <p><code>(<var>A_REP</var>) \cdot (<var>B_REP</var>)</code></p>
-            <div class="solution" data-type="regex"><var>ANSWER</var></div>
+            <div class="solution" data-type="expression" data-simplify><var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i</div>
             <div class="hints">
                 <p>
                     Complex numbers are multiplied like any two binomials.

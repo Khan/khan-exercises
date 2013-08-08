@@ -7,54 +7,6 @@ $.extend(KhanUtil, {
     // TODO(alpert): Should this be a global?
     dragging: false,
 
-    unscaledSvgPath: function(points) {
-        return $.map(points, function(point, i) {
-            if (point === true) {
-                return "z";
-            }
-            return (i === 0 ? "M" : "L") + point[0] + " " + point[1];
-        }).join("");
-    },
-
-    getDistance: function(point1, point2) {
-        var a = point1[0] - point2[0];
-        var b = point1[1] - point2[1];
-        return Math.sqrt(a * a + b * b);
-    },
-
-    /**
-     * Return the difference between two sets of coordinates
-     */
-    coordDiff: function(startCoord, endCoord) {
-        return _.map(endCoord, function(val, i) {
-            return endCoord[i] - startCoord[i];
-        });
-    },
-
-    /**
-     * Round the given coordinates to a given snap value
-     * (e.g., nearest 0.2 increment)
-     */
-    snapCoord: function(coord, snap) {
-        return _.map(coord, function(val, i) {
-            return KhanUtil.roundToNearest(snap[i], val);
-        });
-    },
-
-    // Find the angle between two or three points
-    findAngle: function(point1, point2, vertex) {
-        if (vertex === undefined) {
-            var x = point1[0] - point2[0];
-            var y = point1[1] - point2[1];
-            if (!x && !y) {
-                return 0;
-            }
-            return (180 + Math.atan2(-y, -x) * 180 / Math.PI + 360) % 360;
-        } else {
-            return KhanUtil.findAngle(point1, vertex) - KhanUtil.findAngle(point2, vertex);
-        }
-    },
-
     createSorter: function() {
         var sorter = {};
         var list;
@@ -357,6 +309,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             coord: [0, 0],
             snapX: 0,
             snapY: 0,
+            pointSize: 4,
             highlight: false,
             dragging: false,
             visible: true,
@@ -391,7 +344,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         if (movablePoint.visible) {
             graph.style(movablePoint.normalStyle, function() {
-                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [4 / graph.scale[0], 4 / graph.scale[1]]);
+                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [movablePoint.pointSize / graph.scale[0], movablePoint.pointSize / graph.scale[1]]);
             });
         }
         movablePoint.normalStyle.scale = 1;
@@ -607,8 +560,6 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 movablePoint.visibleShape.animate(movablePoint.normalStyle, 50);
                             //}
                         }
-
-                        graph.forceLabelTypeset();
                     });
                 }
             });
@@ -936,19 +887,15 @@ $.extend(KhanUtil.Graphie.prototype, {
         for (var i = 0; i < lineSegment.ticks; ++i) {
             lineSegment.tick[i] = KhanUtil.bogusShape;
         }
-        var path = KhanUtil.unscaledSvgPath([[0, 0], [graph.scale[0], 0]]);
+        var path = KhanUtil.unscaledSvgPath([[0, 0], [1, 0]]);
         for (var i = 0; i < lineSegment.ticks; ++i) {
-            var tickoffset = (0.5 * graph.scale[0]) - (lineSegment.ticks - 1) * 1 + (i * 2);
+            var tickoffset = 0.5 - ((lineSegment.ticks - 1) + (i * 2)) / graph.scale[0];
             path += KhanUtil.unscaledSvgPath([[tickoffset, -7], [tickoffset, 7]]);
         }
         lineSegment.visibleLine = graph.raphael.path(path);
         lineSegment.visibleLine.attr(lineSegment.normalStyle);
         if (!lineSegment.fixed) {
-            lineSegment.mouseTarget = graph.mouselayer.rect(
-                graph.scalePoint([graph.range[0][0], graph.range[1][1]])[0],
-                graph.scalePoint([graph.range[0][0], graph.range[1][1]])[1] - 15,
-                graph.scaleVector([1, 1])[0], 30
-            );
+            lineSegment.mouseTarget = graph.mouselayer.rect(0, -15, 1, 30);
             lineSegment.mouseTarget.attr({fill: "#000", "opacity": 0.0});
         }
 
@@ -965,42 +912,26 @@ $.extend(KhanUtil.Graphie.prototype, {
                     this.coordZ = this.pointZ.coord;
                 }
             }
-            var angle = KhanUtil.findAngle(this.coordZ, this.coordA);
             var scaledA = graph.scalePoint(this.coordA);
-            var lineLength = KhanUtil.getDistance(this.coordA, this.coordZ);
-            if (this.extendLine) {
-                if (this.coordA[0] !== this.coordZ[0]) {
-                    var slope = (this.coordZ[1] - this.coordA[1]) / (this.coordZ[0] - this.coordA[0]);
-                    var y1 = slope * (graph.range[0][0] - this.coordA[0]) + this.coordA[1];
-                    var y2 = slope * (graph.range[0][1] - this.coordA[0]) + this.coordA[1];
-                    if (this.coordA[0] < this.coordZ[0]) {
-                        scaledA = graph.scalePoint([graph.range[0][0], y1]);
-                        scaledA[0]++;
-                    } else {
-                        scaledA = graph.scalePoint([graph.range[0][1], y2]);
-                        scaledA[0]--;
-                    }
-                    lineLength = KhanUtil.getDistance([graph.range[0][0], y1], [graph.range[0][1], y2]);
-                } else {
-                    if (this.coordA[1] < this.coordZ[1]) {
-                        scaledA = graph.scalePoint([this.coordA[0], graph.range[1][0]]);
-                    } else {
-                        scaledA = graph.scalePoint([this.coordA[0], graph.range[1][1]]);
-                    }
-                    lineLength = graph.range[1][1] - graph.range[1][0];
-                }
-            }
-            this.visibleLine.translate(scaledA[0] - this.visibleLine.attr("translation").x,
-                    scaledA[1] - this.visibleLine.attr("translation").y);
-            this.visibleLine.rotate(-angle, scaledA[0], scaledA[1]);
-            this.visibleLine.scale(lineLength, 1, scaledA[0], scaledA[1]);
+            var scaledZ = graph.scalePoint(this.coordZ);
+            var angle = KhanUtil.findAngle(scaledZ, scaledA);
+            var lineLength = KhanUtil.getDistance(scaledZ, scaledA);
 
+            var elements = [this.visibleLine];
             if (!this.fixed) {
-                this.mouseTarget.translate(scaledA[0] - this.mouseTarget.attr("translation").x,
-                        scaledA[1] - this.mouseTarget.attr("translation").y);
-                this.mouseTarget.rotate(-angle, scaledA[0], scaledA[1]);
-                this.mouseTarget.scale(lineLength, 1, scaledA[0], scaledA[1]);
+                elements.push(this.mouseTarget);
             }
+            _.each(elements, function(element) {
+                element.translate(scaledA[0] - element.attr("translation").x,
+                        scaledA[1] - element.attr("translation").y);
+                element.rotate(angle, scaledA[0], scaledA[1]);
+                if (this.extendLine) {
+                    element.translate(-0.5, 0);
+                    lineLength = graph.dimensions[0] + graph.dimensions[1];
+                    lineLength = 2 * lineLength;
+                }
+                element.scale(lineLength, 1, scaledA[0], scaledA[1]);
+            }, this);
         };
 
         // Change z-order to back;

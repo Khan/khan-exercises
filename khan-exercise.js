@@ -246,6 +246,11 @@ var Khan = (function() {
             link.rel = "stylesheet";
             link.href = urlBase + "css/khan-exercise.css";
             document.getElementsByTagName("head")[0].appendChild(link);
+
+            link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = urlBase + "local-only/katex/katex.css";
+            document.getElementsByTagName("head")[0].appendChild(link);
         })();
     }
 
@@ -609,13 +614,13 @@ var Khan = (function() {
                 e.preventDefault();
 
                 var report = $("#issue").css("display") !== "none",
-                    form = $("#issue form").css("display") !== "none";
+                    form = $("#issue .issue-form").css("display") !== "none";
 
                 if (report && form) {
                     $("#issue").hide();
                 } else if (!report || !form) {
                     $("#issue-status").removeClass("error").html(issueIntro);
-                    $("#issue, #issue form").show();
+                    $("#issue, #issue .issue-form").show();
                     $("html, body").animate({
                         scrollTop: $("#issue").offset().top
                     }, 500, function() {
@@ -633,11 +638,11 @@ var Khan = (function() {
             });
 
             // Submit an issue.
-            $("#issue form input:submit").click(function(e) {
+            $("#issue .issue-form input:submit").click(function(e) {
                 e.preventDefault();
 
                 // don't do anything if the user clicked a second time quickly
-                if ($("#issue form").css("display") === "none") return;
+                if ($("#issue .issue-form").css("display") === "none") return;
 
                 var framework = Exercises.getCurrentFramework(),
                     issueInfo = framework === "khan-exercises" ?
@@ -754,7 +759,7 @@ var Khan = (function() {
                     dataType: "json",
                     success: function(data) {
                         // hide the form
-                        $("#issue form").hide();
+                        $("#issue .issue-form").hide();
 
                         // show status message
                         $("#issue-status").removeClass("error")
@@ -825,11 +830,13 @@ var Khan = (function() {
                 "../local-only/jquery.ui.dialog.js",
                 "../local-only/jquery.qtip.js",
                 "../local-only/underscore.js",
+                "../local-only/kas.js",
                 "../local-only/jed.js",
                 "../local-only/i18n.js",
                 // TODO(csilvers): I18N: pick the file based on lang=XX param
                 "../local-only/localeplanet/icu.en-US.js",
                 "../local-only/i18n.js",
+                "../local-only/katex/katex.js",
                 "../exercises-stub.js",
                 "../history.js",
                 "../interface.js",
@@ -1341,8 +1348,7 @@ var Khan = (function() {
         if (validator) {
             // Have MathJax redo the font metrics for the solution area
             // (ugh, this is gross)
-            MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
-                    $("#solutionarea")[0]]);
+            KhanUtil.processAllMath($("#solutionarea")[0], true);
 
             // Focus the first input
             // Use .select() and on a delay to make IE happy

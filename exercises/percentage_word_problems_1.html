@@ -43,7 +43,9 @@
             <p class="question" data-if="isMale(1)">
                 <var>person(1)</var> has <var>BANK_MORE</var> dollars in the bank today. Yesterday, he had <var>BANK_FEWER</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account increase over the past day? (Round your answer to the nearest hundredth of a percent.)</p><p class="question" data-else="">
                 <var>person(1)</var> has <var>BANK_MORE</var> dollars in the bank today. Yesterday, she had <var>BANK_FEWER</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account increase over the past day? (Round your answer to the nearest hundredth of a percent.)</p>
-            <p class="solution" data-forms="percent"><var>roundTo(4, (BANK_MORE - BANK_FEWER) / BANK_FEWER)</var></p>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-inexact="" data-max-error="0.0001"><var>100 * roundTo(4, (BANK_MORE - BANK_FEWER) / BANK_FEWER)</var></span> <code>\%</code>
+            </div>
             <div class="hints">
                 <p>The bank account grew by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
                 <p><code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_FEWER</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var>\%</code></p>
@@ -53,7 +55,9 @@
             <p class="question" data-if="isMale(1)">
                 <var>person(1)</var> has <var>BANK_FEWER</var> dollars in the bank today. Yesterday, he had <var>BANK_MORE</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account decrease over the past day? (Round your answer to the nearest hundredth of a percent.)</p><p class="question" data-else="">
                 <var>person(1)</var> has <var>BANK_FEWER</var> dollars in the bank today. Yesterday, she had <var>BANK_MORE</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account decrease over the past day? (Round your answer to the nearest hundredth of a percent.)</p>
-            <p class="solution" data-forms="percent"><var>roundTo(4, (BANK_MORE - BANK_FEWER) / BANK_MORE)</var></p>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-inexact="" data-max-error="0.0001"><var>100 * roundTo(4, (BANK_MORE - BANK_FEWER) / BANK_MORE)</var></span> <code>\%</code>
+            </div>
             <div class="hints">
                 <p>The bank account decreased by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
                 <p><code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_MORE</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var>\%</code></p>
@@ -68,7 +72,7 @@
             <p class="question" data-if="isMale(1)">
                 <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than he did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did he have this time last year? (Round to the nearest penny, which is 1/100 of a dollar.)</p><p class="question" data-else="">
                 <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than she did this time last year. If <var>person(1)</var> has <var>YEAR_THIS</var> dollars today, how many dollars did she have this time last year? (Round to the nearest penny, which is 1/100 of a dollar.)</p>
-            <p class="solution" data-forms="dollar"><var>YEAR_LAST</var></p>
+            <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>YEAR_LAST</var></span></div>
             <div class="hints">
                 <p data-if="isMale(1)">Let <code>x</code> be the amount of money that he had last year.</p><p data-else="">Let <code>x</code> be the amount of money that she had last year.</p>
                 <p><code>x + <var>YEAR_PERCENT_MORE / 100</var>x = <var>YEAR_THIS</var></code></p>

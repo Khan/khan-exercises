@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Comparing decimals 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="different">
+                <div class="vars">
+                    <var id="D1">randRange(2, 99)</var>
+                    <var id="D2" data-ensure="D1 !== D2">randRange(2, 99)</var>
+                    <var id="T1">Math.floor(D1 / 10)</var>
+                    <var id="T2">Math.floor(D2 / 10)</var>
+                    <var id="N1">D1 / 100</var>
+                    <var id="N2">D2 / 100</var>
+                    <var id="SOLUTION">(function() {
+                        if (N1 === N2) {
+                            return "=";
+                        } else {
+                            return N1 &lt; N2 ? "&lt;" : "&gt;";
+                        }
+                    })()
+                    </var>
+                </div>
+
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+                </div>
+
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
+                </ul>
+            </div>
+
+            <div id="with-zeros">
+                <div class="vars">
+                    <var id="D1, D2">shuffle([10 * randRange(1, 9), randRange(2, 9)])</var>
+                    <var id="N1">D1 / 100</var>
+                    <var id="N2">D2 / 100</var>
+                    <var id="T1">Math.floor(D1 / 10)</var>
+                    <var id="T2">Math.floor(D2 / 10)</var>
+                    <var id="SOLUTION">N1 &lt; N2 ? "&lt;" : "&gt;"</var>
+                </div>
+
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+                </div>
+
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div>
+                <div><code>\large{&lt;}</code> means "less than".</div>
+                <div><code>\large{&gt;}</code> means "greater than".</div>
+            </div>
+
+            <div class="graphie" id="n1">
+                init({
+                    range: [[-1, 21], [-0.5, 10.5]],
+                    scale: 20
+                });
+
+                style({
+                    fill: "#CCC",
+                    strokeWidth: 2,
+                    stroke: KhanUtil.BACKGROUND
+                });
+                rect(10, 0, 10, 10);
+
+
+                style({
+                    fill : BLUE,
+                    color: BLUE,
+                    fillOpacity: 0.6,
+                });
+                rect(10, 0, T1, 10);
+
+                if (D1 % 10) {
+                    rect(10 + T1, 0, 1, D1 % 10);
+                    grid([0, 10], [0, 10]).translate(200.5, 0);
+                    label([0, 8], N1 + " = \\dfrac{" + T1 + "}{10} + \\dfrac{" + (D1 % 10) + "}{100}", "right");
+                } else {
+                    for (var i = 0; i &lt; 9; i++){
+                        line([11 + i, 0], [11 + i, 10]);
+                    }
+                    label([0, 8], N1 + " = \\dfrac{" + T1 + "}{10}", "right");
+                }
+            </div>
+
+            <div class="graphie" data-update="n1">
+                label([0, 5], N1 + " = \\dfrac{" + D1 + "}{100}", "right");
+                if (D1 % 10 === 0) {
+                    grid([0, 10], [0, 10]).translate(200.5, 0);
+                }
+            </div>
+
+            <div class="graphie" id="n2">
+                init({
+                    range: [[-1, 21], [-0.5, 10.5]],
+                    scale: 20
+                });
+
+                style({
+                    fill: "#CCC",
+                    strokeWidth: 2,
+                    stroke: KhanUtil.BACKGROUND
+                });
+                rect(10, 0, 10, 10);
+
+
+                style({
+                    fill : GREEN,
+                    color: GREEN,
+                    fillOpacity: 0.6,
+                });
+                rect(10, 0, T2, 10);
+
+                if (D2 % 10) {
+                    rect(10 + T2, 0, 1, D2 % 10);
+                    grid([0, 10], [0, 10]).translate(200.5, 0);
+                    label([0, 8], N2 + " = \\dfrac{" + T2 + "}{10} + \\dfrac{" + (D2 % 10) + "}{100}", "right");
+                } else {
+                    for (var i = 0; i &lt; 9; i++){
+                        line([11 + i, 0], [11 + i, 10]);
+                    }
+                    label([0, 8], N2 + " = \\dfrac{" + T2 + "}{10}", "right");
+                }
+            </div>
+
+            <div class="graphie" data-update="n2">
+                label([0, 5], N2 + " = \\dfrac{" + D2 + "}{100}", "right");
+                if (D2 % 10 === 0) {
+                    grid([0, 10], [0, 10]).translate(200.5, 0);
+                }
+            </div>
+
+            <p data-if="N1 === N2">
+                <code>\large{\blue{<var>D1</var> \text{ hundredths}}}</code> is the same as <code>\large{\green{<var>D2</var> \text{ hundredths}}}</code>.
+            </p>
+            <p data-else-if="N1 > N2">
+                <code>\large{\blue{<var>D1</var> \text{ hundredths}}}</code> is more than <code>\large{\green{<var>D2</var> \text{ hundredths}}}</code>.
+            </p>
+            <p data-else="">
+                <code>\large{\blue{<var>D1</var> \text{ hundredths}}}</code> is less than <code>\large{\green{<var>D2</var> \text{ hundredths}}}</code>.
+            </p>
+
+            <p data-if="N1 === N2">Therefore <code>\large{<var>N1</var>}</code> = <code>\large{<var>N2</var>}</code>.</p>
+            <p data-else="">
+                Therefore <code>\large{<var>N1</var>}
+                <span data-if="N1 > N2">&gt;</span><span data-else="">&lt;</span>
+                \large{<var>N2</var>}</code>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

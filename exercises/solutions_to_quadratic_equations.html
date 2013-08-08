@@ -51,11 +51,9 @@
                     </p></div>
                     <div>
                         <div class="graphie">
-                            $("#quadratic script").text(
+                            KhanUtil.processMath($("#quadratic")[0],
                                 "\\qquad x = \\dfrac{-b \\pm" +
-                                " \\sqrt{\\blue{b^2 - 4ac}}}{2a}");
-                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
-                                $("#quadratic")[0]]);
+                                " \\sqrt{\\blue{b^2 - 4ac}}}{2a}", true);
                         </div>
                         <div>
                             Think about what the part of the quadratic

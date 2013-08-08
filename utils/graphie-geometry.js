@@ -322,12 +322,19 @@ function pointLineDistance(p, l) {
     return num / den;
 }
 
-//Reflects a point p over line l
+// Reflects a point p over line l
 function reflectPoint(l, p) {
-    var m = (l[1][1] - l[0][1]) / (l[1][0] - l[0][0]);
-    var k = l[0][1] - m * l[0][0];
-    var d = (p[0] + (p[1] - k) * m) / (1 + m * m);
-    return ([2 * d - p[0], 2 * d * m - p[1] + 2 * k]);
+    var vx = l[1][0] - l[0][0];
+    var vy = l[1][1] - l[0][1];
+    var vl = Math.sqrt(vx * vx + vy * vy);
+    vx /= vl;
+    vy /= vl;
+
+    var dot = (p[0] - l[0][0]) * vx + (p[1] - l[0][1]) * vy;
+    var rx = l[0][0] + vx * dot;
+    var ry = l[0][1] + vy * dot;
+
+    return [rx + (rx - p[0]), ry + (ry - p[1])];
 }
 
 //Returns an array of points where a path intersects a line
