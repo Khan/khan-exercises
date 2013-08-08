@@ -586,8 +586,10 @@ $.extend(KhanUtil, {
 
             if (that instanceof KhanUtil.Term) {
                 GCD = t1.getGCD(that);
-            } else {
+            } else if (that instanceof KhanUtil.RationalExpression) {
                 GCD = t1.getGCD(that.getTermsGCD());
+            } else {
+                return KhanUtil.getGCD(that, t1.coefficient);
             }
 
             if (GCD.coefficient < 0) {
