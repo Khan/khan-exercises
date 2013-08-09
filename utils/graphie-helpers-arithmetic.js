@@ -1,3 +1,7 @@
+(function() {
+
+var decimalPointSymbol = icu.getDecimalFormatSymbols().decimal_separator;
+
 function Adder(a, b, digitsA, digitsB) {
     var graph = KhanUtil.currentGraph;
     digitsA = digitsA || KhanUtil.digits(a);
@@ -112,7 +116,8 @@ function Adder(a, b, digitsA, digitsB) {
     this.showDecimals = function(deciA, deciB) {
         for (var i = 0; i < 3; i++) {
             graph.style({ fill: "#000" }, function() {
-                graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.08, 0.04]);
+                graph.label([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.1],
+                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
             });
         }
         this.showSideLabel("\\text{Make sure the decimals are lined up.}");
@@ -254,7 +259,8 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
     this.showDecimals = function(deciA, deciB) {
         for (var i = 0; i < 3; i++) {
             graph.style({ fill: "#000" }, function() {
-                graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.08, 0.04]);
+                graph.label([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.1],
+                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
             });
         }
         this.showSideLabel("\\text{Make sure the decimals are lined up.}");
@@ -309,8 +315,8 @@ Subtractor.numHintsFor = function(a, b) {
     };
 
     // I hate global variables
-    DecimalAdder = decimate(Adder);
-    DecimalSubtractor = decimate(Subtractor);
+    KhanUtil.DecimalAdder = decimate(Adder);
+    KhanUtil.DecimalSubtractor = decimate(Subtractor);
 })();
 
 function drawCircles(num, color) {
@@ -504,9 +510,11 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
             fill: "#000"
         }, function() {
             if (deciA > 0)
-                graph.ellipse([-deciA + 0.5, 1.8], [0.08, 0.04]);
+                graph.label([-deciA + 0.5, 1.9],
+                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
             if (deciB > 0)
-                graph.ellipse([-deciB + 0.5, 0.8], [0.08, 0.04]);
+                graph.label([-deciB + 0.5, 0.9],
+                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
         });
     };
 
@@ -525,7 +533,8 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         graph.style({
             fill: "#000"
         }, function() {
-            graph.ellipse([-deciB - deciA + 0.5, -0.2 - digitsB.length], [0.08, 0.04]);
+            graph.label([-deciB - deciA + 0.5, -0.1 - digitsB.length],
+                "\\LARGE{" + decimalPointSymbol + "}", "center", true);
         });
     };
 }
@@ -560,10 +569,15 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             fill: "#000"
         }, function() {
             if (deciDivisor !== 0) {
-                decimals = decimals.concat(graph.ellipse([-1 - deciDivisor, -0.2], [0.08, 0.04]));
+                decimals = decimals.concat(
+                    graph.label([-1 - deciDivisor, -0.1],
+                        "\\LARGE{" + decimalPointSymbol + "}", "center", true));
             }
             if (deciDividend !== 0) {
-                decimals = decimals.concat(graph.ellipse([digitsDividend.length - deciDividend - 0.5, -0.2], [0.08, 0.04]));
+                decimals = decimals.concat(
+                    graph.label(
+                        [digitsDividend.length - deciDividend - 0.5, -0.1],
+                        "\\LARGE{" + decimalPointSymbol + "}", "center", true));
             }
         });
 
@@ -669,8 +683,10 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
         graph.style({
                 fill: "#000"
             }, function() {
-                graph.ellipse([digitsDividend.length + deciDiff - 0.5, -0.2], [0.08, 0.04]);
-                graph.ellipse([digitsDividend.length + deciDiff - 0.5, 0.8], [0.08, 0.04]);
+                graph.label([digitsDividend.length + deciDiff - 0.5, -0.1],
+                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
+                graph.label([digitsDividend.length + deciDiff - 0.5, 0.9],
+                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
             });
     }
 
@@ -688,7 +704,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             graph.style({
                 fill: "#000"
             }, function() {
-                graph.ellipse([-1, -0.2], [0.08, 0.04]);
+                graph.label([-1, -0.1],
+                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
             });
         } else {
             // TODO(jeresig): i18n: This probably won't work in multiple langs
@@ -745,3 +762,14 @@ function squareFractions(nom, den, perLine, spacing, size) {
 
     return arr;
 }
+
+KhanUtil.Adder = Adder;
+KhanUtil.Subtractor = Subtractor;
+KhanUtil.Multiplier = Multiplier;
+KhanUtil.Divider = Divider;
+KhanUtil.drawCircles = drawCircles;
+KhanUtil.drawDigits = drawDigits;
+KhanUtil.drawRow = drawRow;
+KhanUtil.crossOutCircles = crossOutCircles;
+
+})();

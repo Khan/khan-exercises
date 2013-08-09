@@ -813,6 +813,8 @@ var Khan = (function() {
             (new Date().getTime() & 0xffffffff);
 
     if (localMode) {
+        var lang = Khan.query.lang || "en-US";
+
         // Load in jQuery and underscore, as well as the interface glue code
         // TODO(cbhl): Don't load history.js if we aren't in readOnly mode.
         var initScripts = [
@@ -833,8 +835,7 @@ var Khan = (function() {
                 "../local-only/kas.js",
                 "../local-only/jed.js",
                 "../local-only/i18n.js",
-                // TODO(csilvers): I18N: pick the file based on lang=XX param
-                "../local-only/localeplanet/icu.en-US.js",
+                "../local-only/localeplanet/icu." + lang + ".js",
                 "../local-only/i18n.js",
                 "../local-only/katex/katex.js",
                 "../exercises-stub.js",

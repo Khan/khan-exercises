@@ -390,6 +390,13 @@ $.extend(KhanUtil, {
         var thousands = icu.getDecimalFormatSymbols().grouping_separator;
         var decimal = icu.getDecimalFormatSymbols().decimal_separator;
 
+        // Note that this is not actually the space character. You can find
+        // this character in the icu.XX.js files that use space separators (for
+        // example, icu.fr.js)
+        if (thousands === " ") {
+            thousands = "\\;";
+        }
+
         if (str[0].length >= 5) {
             str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g,
                                     "$1{" + thousands + "}");

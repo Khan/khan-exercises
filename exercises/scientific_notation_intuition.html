@@ -15,17 +15,21 @@
             <var id="E">ZEROES + ( NUMBER_SEED_LENGTH - 1 )</var>
 
             <var id="BASE">NUMBER_SEED / pow( 10, E - ZEROES )</var>
+            <var id="BASE_STR">localeToFixed(BASE, E - ZEROES)</var>
 
             <var id="LEADING">floor( BASE )</var>
-            <var id="TRAIL">( BASE + "" ).substring( 1 )</var>
+            <var id="TRAIL">BASE_STR.substring( 1 )</var>
 
             <var id="DECIMAL">
                 ZEROES &gt; 0 ?
                     NUMBER_SEED * pow( 10, ZEROES ) :
-                    localeToFixed( NUMBER_SEED * pow( 10, ZEROES ), -1 * ZEROES )
+                    // NOTE: Don't use toFixed unless you have a good reason,
+                    // use localeToFixed instead. Here, since we're passing off
+                    // to commafy, we need toFixed.
+                    (NUMBER_SEED * pow( 10, ZEROES )).toFixed(-1 * ZEROES)
             </var>
             <var id="PRETTY_DECIMAL">commafy( DECIMAL )</var>
-            <var id="SCIENTIFIC">BASE + " \\times 10^{" + E + "}"</var>
+            <var id="SCIENTIFIC">BASE_STR + " \\times 10^{" + E + "}"</var>
 
             <code>\newcommand{\exponentColor}[1]{\color{purple}{#1}}\newcommand{\leadingColor}[1]{\color{green}{#1}}</code>
         </div>
@@ -33,7 +37,7 @@
         <div class="problems">
             <div>
                 <p class="question">
-                    Express the top number in scientific notation by dragging the decimal point in the bottom number:
+                    Express the top number in scientific notation by dragging the decimal in the bottom number:
                 </p>
                 <div class="problem">
                     <div class="graphie" id="scinot">
@@ -42,6 +46,9 @@
                             scale: [23, 45]
                         });
                         graph.decimalPlace = E;
+
+                        var decimal =
+                            icu.getDecimalFormatSymbols().decimal_separator;
 
                         graph.digits = [];
                         for ( var i = -5; i &lt; 0; ++i ) {
@@ -78,8 +85,41 @@
                             }
                         });
 
+                        graph.decimal.visibleShape.remove();
+                        graph.decimal.visibleShape = label([graph.decimalPlace, -0.3], "\\Huge{" + decimal + "}");
+                        graph.decimal.visibleShape.css("color",
+                            KhanUtil.BLUE);
+
+                        graph.decimal.onHighlight = function() {
+                            graph.decimal.visibleShape.css("color",
+                                KhanUtil.ORANGE);
+                            $({scale: 1}).animate({scale: 1.5}, {
+                                step: function(now) {
+                                    graph.decimal.visibleShape.css(
+                                        "transform",
+                                        "scale(" + now + ")"
+                                    );
+                                },
+                                duration: 50
+                            });
+                        }
+
+                        graph.decimal.onUnhighlight = function() {
+                            graph.decimal.visibleShape.css("color",
+                                KhanUtil.BLUE);
+                            $({scale: 1.5}).animate({scale: 1}, {
+                                step: function(now) {
+                                    graph.decimal.visibleShape.css(
+                                        "transform",
+                                        "scale(" + now + ")"
+                                    );
+                                },
+                                duration: 50
+                            });
+                        }
+
                         style({ stroke: null, fill: "black" }, function() {
-                            ellipse( [ E, 1.7 ], [ 4 / 23, 4 / 45 ] );
+                            label( [ E, 1.7 ], "\\Huge{" + decimal + "}");
                         });
 
                         var lastPlaceAndExp = [null, null];
@@ -99,7 +139,7 @@
                                     ++i;
                                 }
                                 graph.exp.remove();
-                                graph.exp = label( [ i - 1, 0 ], "\\color{gray}{\\huge{ \\times 10^{\\color{" + BLUE + "}{" + exp + "}}}}", "right" );
+                                graph.exp = label( [ i - 1, 0.25 ], "\\color{gray}{\\huge{ \\times 10^{\\color{" + BLUE + "}{" + exp + "}}}}", "right" );
                                 while ( i &lt; 11 ) {
                                     graph.digits[i + 5].hide()
                                     ++i;
@@ -113,7 +153,7 @@
                                     ++i;
                                 }
                                 graph.exp.remove();
-                                graph.exp = label( [ i - 1, 0 ], "\\color{gray}{\\huge{ \\times 10^{\\color{" + BLUE + "}{" + exp + "}}}}", "right" );
+                                graph.exp = label( [ i - 1, 0.25 ], "\\color{gray}{\\huge{ \\times 10^{\\color{" + BLUE + "}{" + exp + "}}}}", "right" );
                                 while ( i &lt; 11 ) {
                                     graph.digits[i + 5].hide()
                                     ++i;
@@ -129,16 +169,17 @@
                             }
                             var exp = E - x;
                             setDecimal( x + 1, exp );
+                            graph.decimal.visibleShape.setPosition([x, y]);
                         };
                     </div>
                     <p>
-                        As you move the decimal point, the exponent will automatically change so both numbers are always equal.
+                        As you move the decimal, the exponent will automatically change so both numbers are always equal.
                     </p>
                 </div>
 
                 <div class="solution" data-type="custom">
                     <div class="instruction">
-                        Move the decimal point in the bottom number by dragging it left or right.
+                        Move the decimal in the bottom number by dragging it left or right.
                     </div>
                     <div class="guess">E - graph.decimal.coord[0]</div>
                     <div class="validator-function">
@@ -159,11 +200,11 @@
                     <p data-if="isSingular(abs( E ))">
                         Moving the decimal to the <span data-if="E < 0">right</span><span data-else="">left</span>
                         <code><var>abs( E )</var></code> place leaves us with
-                        <code class="hint_pink"><var>BASE</var></code>.
+                        <code class="hint_pink"><var>BASE_STR</var></code>.
                     </p><p data-else="">
                         Moving the decimal to the <span data-if="E < 0">right</span><span data-else="">left</span>
                         <code><var>abs( E )</var></code> places leaves us with
-                        <code class="hint_pink"><var>BASE</var></code>.
+                        <code class="hint_pink"><var>BASE_STR</var></code>.
                     </p>
 
                     <p data-if="isSingular(abs( E ))">
@@ -187,7 +228,7 @@
                     <div>
                         <p><strong>
                             <code><var>PRETTY_DECIMAL</var></code> in scientific notation is
-                            <code>\color{<var>PINK</var>}{<var>BASE</var>}\times \color{<var>BLUE</var>}{10^{<var>E</var>}}</code>.
+                            <code>\color{<var>PINK</var>}{<var>BASE_STR</var>}\times \color{<var>BLUE</var>}{10^{<var>E</var>}}</code>.
                         </strong></p>
                         <div class="graphie" data-update="scinot">
                             var place = graph.decimal.coord[0];

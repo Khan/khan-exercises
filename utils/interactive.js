@@ -431,12 +431,18 @@ $.extend(KhanUtil.Graphie.prototype, {
                     movablePoint.highlight = true;
                     if (!KhanUtil.dragging) {
                         movablePoint.visibleShape.animate(movablePoint.highlightStyle, 50);
+                        if (movablePoint.onHighlight) {
+                            movablePoint.onHighlight();
+                        }
                     }
 
                 } else if (event.type === "vmouseout") {
                     movablePoint.highlight = false;
                     if (!movablePoint.dragging) {
                         movablePoint.visibleShape.animate(movablePoint.normalStyle, 50);
+                        if (movablePoint.onUnhighlight) {
+                            movablePoint.onUnhighlight();
+                        }
                     }
 
                 } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
@@ -558,6 +564,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                             // FIXME: check is commented out since firefox isn't always sending mouseout for some reason
                             //if (!movablePoint.highlight) {
                                 movablePoint.visibleShape.animate(movablePoint.normalStyle, 50);
+                                if (movablePoint.onUnhighlight) {
+                                    movablePoint.onUnhighlight();
+                                }
                             //}
                         }
                     });
