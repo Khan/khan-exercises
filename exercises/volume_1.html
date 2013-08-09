@@ -28,166 +28,7 @@
 <body>
 <div class="exercise">
     <div class="problems">
-       
-        
-        <div id="find-volume-count">
-            <div class="vars" data-ensure="DIMENSIONS[0]*DIMENSIONS[1]*DIMENSIONS[2]&lt;33&amp;&amp;DIMENSIONS[0]*DIMENSIONS[1]*DIMENSIONS[2]&gt;1">
-                <var id="DIMENSIONS" >randRange(1,4,3)</var>
-                <var id="LENGTH">DIMENSIONS[0]</var>
-                <var id="WIDTH">DIMENSIONS[1]</var>
-                <var id="HEIGHT">DIMENSIONS[2]</var>
-                <var id="MAX">max(max(LENGTH, WIDTH), HEIGHT)</var>
-                <var id="XBORD">LENGTH/MAX</var>
-                <var id="YBORD">WIDTH/MAX</var>
-                <var id="ZBORD">HEIGHT/MAX</var>
-                
-               <var id="UNIT">[["\\text{ cm}","centimeter", "centimeters"], ["\\text{ m}","meter", "meters"], ["\\text{ in}","inch","inches"], ["\\text{ft}", "foot", "feet"]][randRange(0,3)]</var>
-                
-                <var id="COLOR1">"#D7ED3A"</var>
-                <var id="COLOR2">"#38C77F"</var>
-                <var id="COLOR3">"#78D0EF"</var>
-                <var id="COLOR4">"#F0B63A"</var>
-                <var id="VERTICES">[
-                    [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
-                    [LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
-                    [LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
-                    [LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX],
-                    [-LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
-                    [-LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
-                    [-LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
-                    [-LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX]
-                ]</var>
-                <var id="SCALE">4.0</var>
-                <var id="FACES">[
-                    {
-                        verts: [3, 2, 1, 0],
-                        color: COLOR1
-                    },  {
-                        verts: [0, 1, 5, 4],
-                        color: COLOR3
-                    }, {
-                        verts: [3, 0, 4, 7],
-                        color: COLOR2
-                    }
-                ]</var>
-               
-                
-            </div>
 
-            <p class="question">
-                What is the volume of this box?
-            </p>
-                
-                <p>
-                	Note:  Each cube is a cubic <var>UNIT[1]</var>
-                </p>
-                 <div class="graphie" id = "box">
-                    init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
-                    addMouseLayer();
-         
-					 var start1 = 7;
-					 
-					 for (var i = 1; i &lt; LENGTH;i++){
-					 	VERTICES.push([(-LENGTH+2*i)/MAX,-WIDTH/MAX,HEIGHT/MAX]);
-					 	};
-					 	
-					  for (var i = 1; i &lt; LENGTH;i++){
-					 	VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,HEIGHT/MAX]);
-					 	};
-					 	
-					 for (var i = 1; i &lt; LENGTH;i++){
-					 	VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,-HEIGHT/MAX]);
-					 	};
-					 	
-					 var start2=VERTICES.length-1;
-					 
-					  for (var i = 1; i &lt; WIDTH;i++){
-					 	VERTICES.push([-LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
-					 	};
-					 	
-					 for (var i = 1; i &lt; WIDTH;i++){
-					 	VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
-					 	};
-					 	
-					  for (var i = 1; i &lt; WIDTH;i++){
-					 	VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,-HEIGHT/MAX]);
-					 	};
-					 	
-					 	var start3 = VERTICES.length-1;
-					 	
-					 for (var i = 1; i &lt; HEIGHT;i++){
-					 	VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-					 	};
-					 	
-					 for (var i = 1; i &lt; HEIGHT;i++){
-					 	VERTICES.push([LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-					 	};
-					 
-					 for (var i = 1; i &lt; HEIGHT;i++){
-					 	VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-					 	};
-					 	
-					 
-					 
-					 <!--  graphing the initial object-->
-					  graph.obj = make3dObject(VERTICES, { scale: SCALE });
-                    _.each(FACES, function(face) {
-                        graph.obj.addFace(face);
-                    });
-            		
-            		for (var i = 1;i&lt;LENGTH;i++){
-            			graph.obj.addSketch({ verts: [start1+i,start1+i+LENGTH-1,start1+i+2*LENGTH-2], opacityValue:0.5});
-            		};
-            		
-            		for (var i = 1;i&lt;WIDTH;i++){
-            			graph.obj.addSketch({ verts: [start2+i,start2+i+WIDTH-1,start2+i+2*WIDTH-2], opacityValue:0.5});
-            		};
-            		
-            		for (var i = 1;i&lt;HEIGHT;i++){
-            			graph.obj.addSketch({ verts: [start3+i,start3+i+HEIGHT-1,start3+i+2*HEIGHT-2], opacityValue:0.5});
-            		};
-                    
-                    graph.obj.setPos([0, 0, 5]);
-
-                    graph.obj.rotate(1,0 , 0, PI/3);
-                    graph.obj.rotate(0, 1, 0, 0);
-                    graph.obj.rotate(0, 0, 1, PI/6);
-
-                    graph.obj.doDraw();
-
-                    GRAPH = graph;
-
-                    var spinner;
-                    setTimeout(function() {
-                        spinner = setInterval(function() {
-                            GRAPH.obj.rotate(0, 0, 1, 0);
-                            GRAPH.obj.doDraw();
-                        }, 50);
-                    }, 300);
-
-                    
-
-                </div>
-            
-
-            <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="rational"><var>LENGTH*WIDTH*HEIGHT</var></span> <code><var>UNIT[0]</var>^3</code></p>
-            </div>
-           
-
-            <div class="hints">
-            	<p>
-            		The volume is measured by counting the number of cubic <var>UNIT[2]</var>.
-            	</p>
-            	<p>
-            		Carefully count the cubes.  Some of the cubes might be hidden behind other cubes.  Try to visualize all of the cubes.
-            	</p>
-            	<p>
-            		There are a total of <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubes.
-            	</p>
-            	
-            </div>
-        </div>
         <div id="find-volume" >
             <div class="vars">
                 <var id="DIMENSIONS">randRangeUnique(2,8,3)</var>
@@ -267,7 +108,7 @@
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
                     
-                    <!--Adding verticies for the slabs-->
+                    //Adding verticies for the slabs
                     for (var i = 1; i &lt; HEIGHT;i++ ){
                     	VERTICES.push( [LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
                 		VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
@@ -277,7 +118,7 @@
                     	
                  
                     
-                    <!--Adding verticies for the cubes in one slab-->	
+                    //Adding verticies for the cubes in one slab	
                     for (var i = 1; i &lt; LENGTH; i++ ){
                     	VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
                     	};
@@ -306,7 +147,7 @@
                 
 					
 					 
-					 <!--  graphing the initial object-->
+					 //  graphing the initial object
 					  graph.obj = make3dObject(VERTICES, { scale: SCALE });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
@@ -399,31 +240,31 @@
                    </p>
                    <div class="graphie" data-update = "box">
 					 	var start = 8+4*(HEIGHT-1)-1
-					 	<!-- bottom lenth-->
+					 	// bottom lenth
 					 	for (var i = 1; i&lt;LENGTH;i++){
                				graph.obj.addSketch({ verts: [start+i, start+LENGTH+i-1], opacityValue: 0.5}); 
                	  		};
-               	  			<!-- bottom width-->
+               	  			// bottom width
                	  		start = start+2*(LENGTH-1);
                	  		for (var i = 1; i&lt;WIDTH;i++){
                				graph.obj.addSketch({ verts: [start+i, start+WIDTH+i-1], opacityValue: 0.5}); 
                	  		};
-               	  			<!-- top lenth-->
+               	  			// top lenth
                	  		start = start+2*(WIDTH-1);
                	  		for (var i = 1; i&lt;LENGTH;i++){
                				graph.obj.addSketch({ verts: [start+i, start+LENGTH+i-1]}); 
                	  		};
-               	  			<!-- top lenth-->
+               	  			// top lenth
                	  		start = start+2*(LENGTH-1);
                	  		for (var i = 1; i&lt;WIDTH;i++){
                				graph.obj.addSketch({ verts: [start+i, start+WIDTH+i-1]}); 
                	  		}; 
-               	  			<!-- sides-->
+               	  			// sides
                	  	    start = 8+4*(HEIGHT-1)-1
                	  		for (var i = 1; i&lt;2*LENGTH+2*WIDTH-3;i++){
                				graph.obj.addSketch({ verts: [start+i, start+2*LENGTH-2+2*WIDTH-2+i], opacityValue: 0.5}); 
                	  		};
-               	  			<!-- corners and top edges-->
+               	  			// corners and top edges
                	  			graph.obj.addSketch({ verts: [1, 2,6,5,1], opacityValue: 0.5});
                	  			
                	  			graph.obj.addSketch({ verts: [1, 8], opacityValue: 0.5});
@@ -527,7 +368,7 @@
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
                     
-                    <!--Adding verticies for the slabs-->
+                    //Adding verticies for the slabs
                     for (var i = 1; i &lt; HEIGHT;i++ ){
                     	VERTICES.push( [LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
                 		VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
@@ -537,7 +378,7 @@
                     	
                   
                     
-                    <!--Adding verticies for the cubes in one slab-->	
+                    //Adding verticies for the cubes in one slab	
                     for (var i = 1; i &lt; LENGTH; i++ ){
                     	VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
                     	};
@@ -566,7 +407,7 @@
                 
 					
 					 
-					 <!--  graphing the initial object-->
+					 //  graphing the initial object
 					  graph.obj = make3dObject(VERTICES, { scale: SCALE });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
@@ -646,31 +487,31 @@
                 	<div class="graphie" data-update = "box">
 					 	var start = 8+4*(HEIGHT-1)-1
 		
-					 	<!-- bottom lenth-->
+					 	// bottom lenth
 					 	for (var i = 1; i&lt;LENGTH;i++){
                				graph.obj.addSketch({ verts: [start+i, start+LENGTH+i-1], opacityValue: 0.5}); 
                	  		};
-               	  			<!-- bottom width-->
+               	  			// bottom width
                	  		start = start+2*(LENGTH-1);
                	  		for (var i = 1; i&lt;WIDTH;i++){
                				graph.obj.addSketch({ verts: [start+i, start+WIDTH+i-1], opacityValue: 0.5}); 
                	  		};
-               	  			<!-- top lenth-->
+               	  			// top lenth
                	  		start = start+2*(WIDTH-1);
                	  		for (var i = 1; i&lt;LENGTH;i++){
                				graph.obj.addSketch({ verts: [start+i, start+LENGTH+i-1]}); 
                	  		};
-               	  			<!-- top lenth-->
+               	  			// top lenth
                	  		start = start+2*(LENGTH-1);
                	  		for (var i = 1; i&lt;WIDTH;i++){
                				graph.obj.addSketch({ verts: [start+i, start+WIDTH+i-1]}); 
                	  		}; 
-               	  			<!-- sides-->
+               	  			// sides
                	  	    start = 8+4*(HEIGHT-1)-1
                	  		for (var i = 1; i&lt;2*LENGTH+2*WIDTH-3;i++){
                				graph.obj.addSketch({ verts: [start+i, start+2*LENGTH-2+2*WIDTH-2+i], opacityValue: 0.5}); 
                	  		};
-               	  			<!-- corners and top edges-->
+               	  			// corners and top edges
                	  			graph.obj.addSketch({ verts: [1, 2,6,5,1], opacityValue: 0.5});
                	  			
                	  			graph.obj.addSketch({ verts: [1, 8], opacityValue: 0.5});
@@ -713,729 +554,7 @@
                 
             </div>
         </div>
-        <div id="sending-flour" >
-            <div class="vars">
-               
-                <var id="LENGTH">randRange(2,7)</var>
-                <var id="WIDTH">randRange(2,7)</var>
-                <var id="HEIGHT">randRange(2,7)</var>
-                
-              
-               
-                
-            </div>
-             <p>
-             	<var>person(1)</var> needs to ship a package of flour to a baker.  <span data-if="isMale(1)">He</span><span data-else>She</span> has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.  
-               The post office will not ship any box which has an edge <code>10</code> meters or longer. 
-             </p>
-            <p class="question"> 
-               What are the dimensions of a box which will hold exactly  <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour, but whose edge lengths are all less than <code>10</code> meters?
-            </p>
-            
-            
-
-            <div class="solution" data-type="custom">
-				    <div class="instruction">
-           			Length <code>=</code> 
-           		<input id="response1" type="text"/> m
-           		<br/>
-           		Width <code>\hphantom{ }=</code>
-           		<input id="response2" type="text"/> m
-           		<br/>
-           		Height <code> =</code> 
-           		<input id="response3" type="text"/> m
-           		
-         		    </div>
-                    <div class="guess">[$("input#response1").val(),$("input#response2").val(),$("input#response3").val()]</div>
-                    <div class="validator-function">
-                        return  guess[0]*guess[1]*guess[2] == LENGTH*WIDTH*HEIGHT &amp;&amp; guess[0]&lt; 10 &amp;&amp; guess[1] &lt; 10 &amp;&amp; guess[2] &lt; 10
-                    </div>
-                   
-                </div>
-
-            <div class="hints">
-            	<p>
-            		The volume of a box is the product of the length, width and height of the box.
-            	</p>
-            	<p>
-            		So we need to find 3 numbers whose product is <code><var>LENGTH*WIDTH*HEIGHT</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these! 
-            	</p>
-            	<p>
-            		For instance, the numbers <code><var>LENGTH</var></code>, <code><var>WIDTH</var></code>, and <code><var>HEIGHT</var></code> work, but there might be other solutions as well!
-            	</p>
-            </div>
-        </div>
-        <div id="box-minus-box" >
-            <div class="vars">
-               
-                <var id="L1">randRange(2,12)</var>
-                <var id="W1">randRange(2,12)</var>
-                <var id="H1">randRange(2,12)</var>
-                <var id="L2">randRange(1,L1-1)</var>
-                <var id="W2">randRange(1,W1-1)</var>
-                <var id="H2">randRange(1,H1-1)</var>
-                <var id="MAX">max(max(L1,W1),H1)</var>
-                
-                <var id="COLOR">"#78D0EF"</var>
-                                
-                <var id="VERTICES">[
-                [L1/MAX,W1/MAX,-H1/MAX],
-                [-L1/MAX,W1/MAX,-H1/MAX],
-                [-L1/MAX,-W1/MAX,-H1/MAX],
-                [L1/MAX,-W1/MAX,-H1/MAX],
-                [L1/MAX,W1/MAX,H1/MAX],
-                [-L1/MAX,W1/MAX,H1/MAX],
-                [-L1/MAX,-W1/MAX,H1/MAX],
-                [L1/MAX,-W1/MAX,H1/MAX],
-                [(-L1+2*L2)/MAX,-W1/MAX,-H1/MAX],
-                [(2*L2-L1)/MAX,(2*W2-W1)/MAX,-H1/MAX],
-                [-L1/MAX,(2*W2-W1)/MAX,-H1/MAX],
-                [-L1/MAX,-W1/MAX,(2*H2-H1)/MAX],
-                 [(-L1+2*L2)/MAX,-W1/MAX,(2*H2-H1)/MAX],
-                [(2*L2-L1)/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX],
-                [-L1/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX]
-                ]</var>
-                
-               <var id="SCALE">4.0</var>
-                <var id="FACES">[
-                    {
-                        verts: [0, 3, 2, 1],
-                        color: COLOR
-                    },
-                    {
-                        verts: [5, 6, 7, 4],
-                        color: COLOR
-                    },
-                    {
-                        verts: [4,7,3,0],
-                        color: COLOR
-                    },
-                    {
-                        verts: [5,1,2,6],
-                        color: COLOR
-                    },
-                    {
-                        verts: [5, 4, 0, 1],
-                        color: COLOR
-                    },
-                    {
-                        verts: [6, 2, 3, 7],
-                        color: COLOR
-                    }
-                ]</var>
-
-            </div>
-             <p>
-             	A water tank is <code><var>H1</var></code> feet high, <code><var>L1</var></code> feet long, and <code><var>W1</var></code> feet wide.  
-             	A solid metal box which is <code><var>H2</var></code> feet high, <code><var>L2</var></code> feet long, and <code><var>W2</var></code> feet wide
-             	 is sitting at the bottom of the tank.  The tank is filled with water.  
-             </p>
-            <p class="question"> 
-				What is the volume of the water in the tank?
-            </p>
-
-            <div class="solution" data-type="multiple">    
-               <p> <span class="sol"><var>L1*W1*H1 - L2*W2*H2</var></span> <code>\text{ft}^3</code></p>
-            </div>
-
-            <div class="hints">
-            	<div>
-            	
-            	<div class="graphie" id = "box">
-                    init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
-                    addMouseLayer();
-                    				 
-					 <!--  graphing the initial object-->
-					  graph.obj = make3dObject(VERTICES, { scale: SCALE });
-                    _.each(FACES, function(face) {
-                        graph.obj.addFace(face);
-                    });
-                    
-                    graph.obj.addSketch(
-                    	{verts: [8,9,10,2]}
-                    	);
-                    
-                    graph.obj.addSketch(
-                    	{verts: [11,12,13,14,11]}
-                    	);
-                    	
-                    graph.obj.addSketch(
-                    	{verts: [2,11]}
-                    	);
-                    
-                    graph.obj.addSketch(
-                    	{verts: [8,12]}
-                    	);
-                    	
-                    graph.obj.addSketch(
-                    	{verts: [9,13]}
-                    	);
-                    
-                    graph.obj.addSketch(
-                    	{verts: [10,14]}
-                    	);
-                    
-                     
-
-                    
-                    
-                    graph.obj.setPos([0, 0, 5]);
-
-                    graph.obj.rotate(1,0 , 0, PI/3);
-                    graph.obj.rotate(0, 1, 0, 0);
-                    graph.obj.rotate(0, 0, 1, PI/8);
-
-                    graph.obj.doDraw();
-
-                    GRAPH = graph;
-
-                    var spinner;
-                    setTimeout(function() {
-                        spinner = setInterval(function() {
-                            GRAPH.obj.rotate(0, 0, 1, 0);
-                            GRAPH.obj.doDraw();
-                        }, 50);
-                    }, 300);
-
-                    var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
-                        fill: "#000", opacity: 0.0
-                    });
-                    $(mouseTarget[0]).bind("vmousedown", function(event) {
-                        GRAPH.lastX = event.pageX;
-                        GRAPH.lastY = event.pageY;
-
-                        clearInterval(spinner);
-
-                        $(document).bind("vmousemove vmouseup", function(event) {
-                            event.preventDefault();
-
-                            var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
-                            var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
-
-                            GRAPH.lastX = event.pageX;
-                            GRAPH.lastY = event.pageY;
-
-                            var xAxis = normalize(GRAPH.obj.perspective[1]);
-                            var yAxis = normalize(GRAPH.obj.perspective[0]);
-
-                            GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
-                            GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
-
-                            GRAPH.obj.doDraw();
-
-                            if (event.type === "vmouseup") {
-                                $(document).unbind("vmousemove vmouseup");
-                            }
-                        })
-                    });
-
-                </div>
-            		
-            		<p>
-						The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = <var>H1*L1*W1</var></code> cubic feet, 
-						and the metal box has a volume of <code><var>H2</var> \times <var>L2</var> \times <var>W2</var> = <var>H2*W2*L2</var></code> cubic feet.
-            		</p>
-            		
-            	</div>
-            	<p>
-            		Since there is no water in the box, the volume of the water in the tank is the volume of the tank minus the volume of the metal box.
-            	</p>
-            	<p>
-            		The volume of the water in the tank is <code><var>H1*L1*W1</var> \text{ft}^3 - <var>H2*L2*W2</var> \text{ft}^3 = <var>H1*L1*W1 - H2*L2*W2</var>\text{ft}^3</code> 
-            	</p>
-            </div>
-        </div>
-        <div id="weirdShape" >
-            <div class="vars">
-            	<var id=VOL>randRange(3,8)</var>
-               <var id="UNIT">[["\\text{ cm}","centimeter", "centimeters"], ["\\text{ m}","meter", "meters"], ["\\text{ in}","inch","inches"], ["\\text{ft}", "foot", "feet"]][randRange(0,3)]</var>
-                
-                <var id="COLOR1">"#D7ED3A"</var>
-                <var id="COLOR2">"#38C77F"</var>
-                <var id="COLOR3">"#78D0EF"</var>
-                <var id="COLOR4">"#F0B63A"</var>
-                <var id="VERTICES">[
-                  
-                ]</var>
-                <var id="SCALE">2.0</var>
-                <var id="FACES">[
-                 
-                ]</var>
-                <var id="surfaceArea">0</var>
-               
-                
-                
-            </div>
-
-            <p class="question">
-                What is the volume of this shape?
-            </p>
-			<p>
-				Each cube is has side lengths of one <var>UNIT[1]</var>
-			</p>                
-                 <div class="graphie" id = "box">
-                    init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
-                    addMouseLayer();
-                    
-                   
-                 	<!--cubes stores the positions of the cubes-->
-                 	var cubes = [[0,0,0]];
-                 	<!-- inArray checks whether a point is in the array allready.  For example inArray([0,0,0],[[0,0,0,],[0,0,1]]) = true,
-                 		   but inArray([0,0,2],[[0,0,0],[0,0,1]])  = false.  This is only used for an ordered triple and an array of ordered triples.
-                 		-->
-                 	var inArray = function(point,array){
-                 		for (var i=0; i&lt; array.length;i++){
-                 			if (point[0] == array[i][0] &amp;&amp; point[1] == array[i][1] &amp;&amp; point[2] == array[i][2]){
-                 				return true;
-                 				}
-                 			}
-                 		return false;
-                 		}
-                 	<!--This will store the boundary of the current set of cubes-->
-                 	
-                 	
-                 	<!--Add cubes to cubes from the current boundary until we have VOL cubes-->
-                 	for (var i = 0; i &lt; VOL-1; i++){
-                 		var boundary =  [];
-                 		<!-- Figuring out the current boundary-->
-                 		 for (var j = 0; j&lt;cubes.length;j++){
-                 		 	var cube0 = [cubes[j][0]+1,cubes[j][1],cubes[j][2]];
-                 		 	var cube1 = [cubes[j][0],cubes[j][1]+1,cubes[j][2]];
-                 		 	var cube2 = [cubes[j][0],cubes[j][1],cubes[j][2]+1];
-                 		 	var cube3 = [cubes[j][0]-1,cubes[j][1],cubes[j][2]];
-                 		 	var cube4 = [cubes[j][0],cubes[j][1]-1,cubes[j][2]];
-                 		 	var cube5 = [cubes[j][0],cubes[j][1],cubes[j][2]-1];
-                 		 	if (! inArray(cube0,cubes) &amp;&amp; ! inArray(cube0,boundary)){
-                 		 		boundary.push(cube0);
-                 		 		}
-                 		 	if (! inArray(cube1,cubes) &amp;&amp; ! inArray(cube1,boundary)){
-                 		 		boundary.push(cube1);
-                 		 		}
-                 		 	if (! inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
-                 		 		boundary.push(cube2);
-                 		 		}
-                 		 	if (! inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
-                 		 		boundary.push(cube2);
-                 		 		}
-                 		 	if (! inArray(cube3,cubes) &amp;&amp; ! inArray(cube3,boundary)){
-                 		 		boundary.push(cube3);
-                 		 		}
-                 		 	if (! inArray(cube4,cubes) &amp;&amp; ! inArray(cube4,boundary)){
-                 		 		boundary.push(cube4);
-                 		 		}
-                 		 	}
-                 		 	
-                 		 	cubes.push(boundary[randRange(0,boundary.length-1)]);                 		
-                 		}
-                 		
-                 		<!-- Addind vertices and faces-->
-                 		
-                 		for (var i  = 0; i&lt;VOL;i++){
-                 			var index = VERTICES.length;
-                 			VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
-                 			VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
-                 			VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
-                 			VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
-                 			VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
-                 			VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
-                 			VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
-                 			VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
-                 			
-                 			<!--only add a face if there is not another cube next to it-->
-                 			if (! inArray([cubes[i][0]+1,cubes[i][1],cubes[i][2]],cubes)){
-                 				FACES.push({
-                 					verts: [index,index+4,index+5,index+1],
-                 					color: COLOR1
-                 					});
-                 					
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0]-1,cubes[i][1],cubes[i][2]],cubes)){
-                 				FACES.push({
-                 					verts: [index+7,index+3,index+2,index+6],
-                 					color: COLOR1
-                 					});
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0],cubes[i][1]+1,cubes[i][2]],cubes)){
-                 				FACES.push({
-                 					verts: [index,index+3,index+7,index+4],
-                 					color: COLOR2
-                 					});
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0],cubes[i][1]-1,cubes[i][2]],cubes)){
-                 				FACES.push({
-                 					verts: [index+5,index+6,index+2,index+1],
-                 					color: COLOR2
-                 					});
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0],cubes[i][1],cubes[i][2]+1],cubes)){
-                 				FACES.push({
-                 					verts: [index+4,index+7,index+6,index+5],
-                 					color: COLOR3
-                 					});
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0],cubes[i][1],cubes[i][2]-1],cubes)){
-                 				FACES.push({
-                 					verts: [index+3,index,index+1,index+2],
-                 					color: COLOR3
-                 					});
-                 					surfaceArea++
-                 				}
-                 			}
-                 			                 		
-                 		                 		
-					 <!--  graphing the initial object-->
-					  graph.obj = make3dObject(VERTICES, { scale: SCALE, facesTransparent: false, faceBorder:true });
-                    _.each(FACES, function(face) {
-                        graph.obj.addFace(face);
-                    });
-            		
-            		
-                    
-                    
-                    graph.obj.setPos([0, 0, 5]);
-
-                    graph.obj.rotate(1,0 , 0, PI/3);
-                    graph.obj.rotate(0, 1, 0, 0);
-                    graph.obj.rotate(0, 0, 1, PI/8);
-
-                    graph.obj.doDraw();
-
-                   GRAPH = graph;
-
-                    var spinner;
-                    setTimeout(function() {
-                        spinner = setInterval(function() {
-                            GRAPH.obj.rotate(0, 0, 1, 0);
-                            GRAPH.obj.doDraw();
-                        }, 50);
-                    }, 300);
-
-                    var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
-                        fill: "#000", opacity: 0.0
-                    });
-                    $(mouseTarget[0]).bind("vmousedown", function(event) {
-                        GRAPH.lastX = event.pageX;
-                        GRAPH.lastY = event.pageY;
-
-                        clearInterval(spinner);
-
-                        $(document).bind("vmousemove vmouseup", function(event) {
-                            event.preventDefault();
-
-                            var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
-                            var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
-
-                            GRAPH.lastX = event.pageX;
-                            GRAPH.lastY = event.pageY;
-
-                            var xAxis = normalize(GRAPH.obj.perspective[1]);
-                            var yAxis = normalize(GRAPH.obj.perspective[0]);
-
-                            GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
-                            GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
-
-                            GRAPH.obj.doDraw();
-
-                            if (event.type === "vmouseup") {
-                                $(document).unbind("vmousemove vmouseup");
-                            }
-                        })
-                    });
-
-					
-					
-                    
-
-                </div>
-            
-
-            <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="rational"><var>VOL</var></span> <code><var>UNIT[0]</var>^3</code></p>
-            </div>
-           
-
-            <div class="hints"></div>
-        </div>
-        <div id="big-to-small-unit-conversion" >
-            <div class="vars">
-            	<var id="UNITS">[["feet","inches",12,"foot","ft","in"],["yards","feet",3,"yard","y","ft"],["meters","decimeters",10,"meter","m","dm"],["centimeters","millimeters",10,"centimeter","cm","mm"]][randRange(0,3)]</var>
-            	<var id="VOL">randRangeExclude(2, 11,[3,10])</var>
-                <var id="LENGTH">UNITS[2]</var>
-                <var id="WIDTH">UNITS[2]</var>
-                <var id="HEIGHT">UNITS[2]</var>
-                <var id="MAX">UNITS[2]</var>
-                <var id="XBORD">LENGTH/MAX</var>
-                <var id="YBORD">WIDTH/MAX</var>
-                <var id="ZBORD">HEIGHT/MAX</var>
-                
-               <var id="UNIT">[["\\text{ cm}","centimeter", "centimeters"], ["\\text{ m}","meter", "meters"], ["\\text{ in}","inch","inches"], ["\\text{ft}", "foot", "feet"]][randRange(0,3)]</var>
-                
-                <var id="COLOR1">"#D7ED3A"</var>
-                <var id="COLOR2">"#38C77F"</var>
-                <var id="COLOR3">"#78D0EF"</var>
-                <var id="COLOR4">"#F0B63A"</var>
-                <var id="BASE">HEIGHT * 2</var>
-                <var id="VERTICES">[
-                    [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
-                    [LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
-                    [LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
-                    [LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX],
-                    [-LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
-                    [-LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
-                    [-LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
-                    [-LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX]
-                ]</var>
-                <var id="SCALE">4.0</var>
-                <var id="FACES">[
-                    {
-                        verts: [3, 2, 1, 0],
-                        color: COLOR1,
-                        labels: [[[XBORD, 0, ZBORD], 1 + "\\text{"+UNITS[4]+"} = " + UNITS[2]+"\\text{"+UNITS[5]+"}"]]
-                    }, {
-                        verts: [4, 5, 6, 7],
-                        color: COLOR1,
-                        labels: [[[-XBORD, 0, -ZBORD], 1 + "\\text{"+UNITS[4]+"} = " + UNITS[2]+"\\text{"+UNITS[5]+"}"]]
-                    }, {
-                        verts: [0, 1, 5, 4],
-                        color: COLOR3
-                    }, {
-                        verts: [2, 3, 7, 6],
-                        color: COLOR3
-                    }, {
-                        verts: [1, 2, 6, 5],
-                        color: COLOR2
-                    }, {
-                        verts: [3, 0, 4, 7],
-                        color: COLOR2
-                    }
-                ]</var>
-               
-                <var id="GRAPH">{}</var>
-                <var id="UNWRAPGRAPH">{}</var>
-
-                <var id="BASE_TEXT">$._("base")</var>
-                <var id="HEIGHT_TEXT">$._("height")</var>
-                
-                
-            </div>
-
-            <p class="question">
-               	How many cubic <var>UNITS[1]</var> fit in <code><var>VOL</var></code> cubic <var>UNITS[0]</var>?
-            </p>
-
-            <div class="solution">
-              	<var>VOL*UNITS[2]*UNITS[2]*UNITS[2]</var>
-            </div>
-    
-            <div class="hints">
-            <p>First we will figure out how many cubic <var>UNITS[1]</var> fit in one cubic <var>UNITS[3]</var></p>
-            <p>
-            	There are <code><var>UNITS[2]</var></code> <var>UNITS[1]</var> in every <var>UNITS[3]</var>.
-            </p>
-            <div>
-				<p>
-					Thus a cubic <var>UNITS[3]</var> is the same as a 
-					<code><var>UNITS[2]</var> \text{<var>UNITS[5]</var>} \times <var>UNITS[2]</var> \text{<var>UNITS[5]</var>} \times<var>UNITS[2]</var> \text{<var>UNITS[5]</var>} </code>
-					cube.
-				</p>
-                <div class="graphie" id = "box">
-                    init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
-                    addMouseLayer();
-                    
-                    <!--Adding verticies for the slabs-->
-                    for (var i = 1; i &lt; HEIGHT;i++ ){
-                    	VERTICES.push( [LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                		VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                		VERTICES.push([-LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                		VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                    	};
-                    	
-                    console.log(VERTICES.length);
-                    
-                    <!--Adding verticies for the cubes in one slab-->	
-                    for (var i = 1; i &lt; LENGTH; i++ ){
-                    	VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
-                    	};
-                    for (var i = 1; i &lt; LENGTH; i++ ){
-                    	VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT)/MAX]);
-                    	};
-                    for (var i = 1; i &lt; WIDTH; i++ ){
-                    	VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                    	};
-                    for (var i = 1; i &lt; WIDTH; i++ ){
-                    	VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                    	};
-                    	
-                     for (var i = 1; i &lt; LENGTH; i++ ){
-                    	VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                    	};
-                    for (var i = 1; i &lt; LENGTH; i++ ){
-                    	VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                    	};
-                    for (var i = 1; i &lt; WIDTH; i++ ){
-                    	VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                    	};
-                    for (var i = 1; i &lt; WIDTH; i++ ){
-                    	VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                    	};
-                
-					
-					 
-					 <!--  graphing the initial object-->
-					  graph.obj = make3dObject(VERTICES, { scale: SCALE });
-                    _.each(FACES, function(face) {
-                        graph.obj.addFace(face);
-                    });
-                    
-             
-               
-               
-					
-                   
-                    
-                    
-                    graph.obj.setPos([0, 0, 5]);
-
-                    graph.obj.rotate(1,0 , 0, PI/3);
-                    graph.obj.rotate(0, 1, 0, 0);
-                    graph.obj.rotate(0, 0, 1, PI/8);
-
-                    graph.obj.doDraw();
-
-                    GRAPH = graph;
-
-                    var spinner;
-                    setTimeout(function() {
-                        spinner = setInterval(function() {
-                            GRAPH.obj.rotate(0, 0, 1, 0);
-                            GRAPH.obj.doDraw();
-                        }, 50);
-                    }, 300);
-
-                    var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
-                        fill: "#000", opacity: 0.0
-                    });
-                    $(mouseTarget[0]).bind("vmousedown", function(event) {
-                        GRAPH.lastX = event.pageX;
-                        GRAPH.lastY = event.pageY;
-
-                        clearInterval(spinner);
-
-                        $(document).bind("vmousemove vmouseup", function(event) {
-                            event.preventDefault();
-
-                            var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
-                            var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
-
-                            GRAPH.lastX = event.pageX;
-                            GRAPH.lastY = event.pageY;
-
-                            var xAxis = normalize(GRAPH.obj.perspective[1]);
-                            var yAxis = normalize(GRAPH.obj.perspective[0]);
-
-                            GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
-                            GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
-
-                            GRAPH.obj.doDraw();
-
-                            if (event.type === "vmouseup") {
-                                $(document).unbind("vmousemove vmouseup");
-                            }
-                        })
-                    });
-
-                </div>
-            </div>
-                
-                <div>  
-					<p>
-					To make counting the <code>1</code> <var>UNITS[5]</var> cubes easier, break the box into <code><var>HEIGHT</var></code> slabs which are each 
-					<code><var>WIDTH</var> \text{<var>UNITS[5]</var>}</code> wide,  <code><var>LENGTH</var> \text{<var>UNITS[5]</var>}</code> long, and 
-					<code>1 \text{<var>UNITS[5]</var>}</code> high.
-					</p>
-                
-					 <div class="graphie" data-update = "box">
-					 	for (var i = 0; i&lt;HEIGHT-1;i++){
-               				graph.obj.addSketch({ verts: [8+4*i,9+4*i,10+4*i,11+4*i,8+4*i]}); 
-               	  		};
-					</div>
-                </div>
-				<div>
-                   <p>
-                	   Each slab has <code><var>WIDTH</var></code> rows containing <code><var>LENGTH</var></code> cubes, so there are 
-                	   <code><var>WIDTH</var> \times <var>LENGTH</var> = <var>WIDTH*LENGTH</var></code> cubes in each slab.
-                   </p>
-                   <div class="graphie" data-update = "box">
-					 	var start = 8+4*(HEIGHT-1)-1
-					 	for (var i = 1; i&lt; LENGTH+1; i++){
-					 		console.log(VERTICES[start+i]);
-					 		};
-					 	<!-- bottom lenth-->
-					 	for (var i = 1; i&lt;LENGTH;i++){
-               				graph.obj.addSketch({ verts: [start+i, start+LENGTH+i-1], opacityValue: 0.5}); 
-               	  		};
-               	  			<!-- bottom width-->
-               	  		start = start+2*(LENGTH-1);
-               	  		for (var i = 1; i&lt;WIDTH;i++){
-               				graph.obj.addSketch({ verts: [start+i, start+WIDTH+i-1], opacityValue: 0.5}); 
-               	  		};
-               	  			<!-- top lenth-->
-               	  		start = start+2*(WIDTH-1);
-               	  		for (var i = 1; i&lt;LENGTH;i++){
-               				graph.obj.addSketch({ verts: [start+i, start+LENGTH+i-1]}); 
-               	  		};
-               	  			<!-- top lenth-->
-               	  		start = start+2*(LENGTH-1);
-               	  		for (var i = 1; i&lt;WIDTH;i++){
-               				graph.obj.addSketch({ verts: [start+i, start+WIDTH+i-1]}); 
-               	  		}; 
-               	  			<!-- sides-->
-               	  	    start = 8+4*(HEIGHT-1)-1
-               	  		for (var i = 1; i&lt;2*LENGTH+2*WIDTH-3;i++){
-               				graph.obj.addSketch({ verts: [start+i, start+2*LENGTH-2+2*WIDTH-2+i], opacityValue: 0.5}); 
-               	  		};
-               	  			<!-- corners and top edges-->
-               	  			graph.obj.addSketch({ verts: [1, 2,6,5,1], opacityValue: 0.5});
-               	  			
-               	  			graph.obj.addSketch({ verts: [1, 8], opacityValue: 0.5});
-               	  			graph.obj.addSketch({ verts: [2, 11], opacityValue: 0.5});
-               	  			graph.obj.addSketch({ verts: [5, 9], opacityValue: 0.5});
-               	  			graph.obj.addSketch({ verts: [6, 10], opacityValue: 0.5});
-               	  			
-               	  			graph.obj.addSketch({ verts: [8, 9,10,11,8], opacityValue: 0.5});
-               	  			
-               	  			
-               	  		
-               	  		
-               	  		
-               	  		
-					</div>
-                </div>
-                <p>Since there are <code><var>WIDTH*LENGTH</var></code> cubes in each slab, there are a total of 
-                <code><var>HEIGHT</var> \times <var>WIDTH*LENGTH</var> = <var>HEIGHT*WIDTH*LENGTH</var></code> cubic <var>UNITS[1]</var> in 
-                one cubic <var>UNITS[3]</var></p>
-                <p>
-                	Since <code><var>HEIGHT*WIDTH*LENGTH</var></code> cubic <var>UNITS[1]</var> fit in 
-                one cubic <var>UNITS[3]</var>, <code><var>HEIGHT*WIDTH*LENGTH</var> \times <var>VOL</var></code> cubic <var>UNITS[1]</var> fit in 
-                <code><var>VOL</var></code> cubic <var>UNITS[0]</var>.
-                </p>
-                <p>
-                	So <code><var>HEIGHT*WIDTH*LENGTH*VOL</var></code> cubic <var>UNITS[1]</var> fit in 
-                <code><var>VOL</var></code> cubic <var>UNITS[0]</var>.
-                </p>
-            </div>
-            
-        </div>
+      
         
         
 

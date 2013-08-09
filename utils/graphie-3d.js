@@ -97,7 +97,7 @@ $.extend(KhanUtil, {
                 color: "black",
                 lines: [],
                 labels: [],
-                infront: false,
+                infront: false
             }, options);
 
             // compute the normal of a face
@@ -237,7 +237,7 @@ $.extend(KhanUtil, {
             return this;
         };
 		
-		//add a sketch to the object, with the verts being indicies of the objects.verts array
+		//add a sketch to the object, which is a path that always gets drawn
 		object.addSketch = function(options) {
             var sketch = $.extend(true, {
                 verts: [],
@@ -274,11 +274,7 @@ $.extend(KhanUtil, {
 
             // draw all the objects on the face and return the set of them all
             sketch.draw = function() {
-                var set = graph.raphael.set();
-
-                set.push(sketch.drawLines());
-
-                return set;
+               return  graph.raphael.set().push(sketch.drawLines());
             };
 
          
@@ -293,19 +289,19 @@ $.extend(KhanUtil, {
         object.draw = function() {
             var frontFaces = [];
             var backFaces = [];
-            var Sketches = [];
+			var faces = object.faces.slice();
 			
 			//sorts the objects faces by their zDepth, so that faces further away are drawn first.  This is the "painters" algorithm, which should be fine for our purposes.
 			// If we ever end up in a situation where we need to draw configurations with nontrivial cycles, we will really need more powerful 3d capabilities
 			// i.e.  webGL
-			object.faces.sort(
+			faces.sort(
 				function(a,b){
 					return a.zDepth()-b.zDepth();
 					});
 							
             // figure out which objects should be drawn in front,
             // and which in back
-            _.each(object.faces, function(face) {
+            _.each(faces, function(face) {
                 var vert = object.doPerspective(object.verts[face.verts[0]]);
                 var normal = face.normal();
                 if (KhanUtil.vectorDot(object.doRotation(normal), vert) < 0) {
@@ -314,9 +310,7 @@ $.extend(KhanUtil, {
                     backFaces.push(face);
                 }
             });
-            _.each(object.sketches, function(sketch) {
-            	Sketches.push(sketch);
-            	});
+           
 
             // draw each of the faces, and store it in a raphael set
             var image = graph.raphael.set();
@@ -331,7 +325,7 @@ $.extend(KhanUtil, {
                 face.toBack();
                 image.push(face.drawBack());
             });
-            _.each(Sketches, function(sketch) {
+            _.each(object.sketches, function(sketch) {
                 image.push(sketch.draw());
             });
             
