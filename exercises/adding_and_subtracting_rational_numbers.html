@@ -410,13 +410,11 @@
                     </var>
                     <var id="DIGITS">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]
                     </var>
-                    <div data-ensure="REPEATS[0]%10 !== Math.floor(REPEATS[0]/10) &amp;&amp; REPEATS[1]%10 !== Math.floor(REPEATS[1]/10) &amp;&amp; REPEATS[2]%10 !== Math.floor(REPEATS[2]/10)">
-                        <var id="REPEATS">[
-                            (DIGITS[0] === 1) ? randRange(1, 8) : randRange(10, 98),
-                            (DIGITS[1] === 1) ? randRange(1, 8) : randRange(10, 98),
-                            (DIGITS[2] === 1) ? randRange(1, 8) : randRange(10, 98)]
-                        </var>
-                    </div>
+                    <var id="REPEATS" data-ensure="REPEATS[0] % 11 !== 0 &amp;&amp; REPEATS[1] % 11 !== 0 &amp;&amp; REPEATS[2] % 11 !== 0">[
+                        (DIGITS[0] === 1) ? randRange(1, 8) : randRange(10, 98),
+                        (DIGITS[1] === 1) ? randRange(1, 8) : randRange(10, 98),
+                        (DIGITS[2] === 1) ? randRange(1, 8) : randRange(10, 98)]
+                    </var>
                     <var id="DENOMINATORS">[pow(10, DIGITS[0]) - 1, pow(10, DIGITS[1]) - 1, pow(10, DIGITS[2]) - 1]
                     </var>
                     <var id="NUMERATORS">[
