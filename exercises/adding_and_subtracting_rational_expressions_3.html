@@ -37,7 +37,7 @@
         <div class="problems">
             <div id="two-expr">
                 <div class="vars">
-                    <var id="EXPR2">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
+                    <var id="EXPR2" data-ensure="!EXPR1.divide(EXPR2)">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
                     <var id="N1">ORDER ? EXPR1 : TERM1</var>
                     <var id="D1">ORDER ? EXPR2 : TERM2</var>
                     <var id="N2">ORDER ? TERM1 : EXPR1</var>
