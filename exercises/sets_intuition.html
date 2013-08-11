@@ -9,6 +9,7 @@
           width: 40px;
           position: relative;
           bottom: -8px
+        }
     </style>
 
     <script>
@@ -288,42 +289,25 @@
                     newPoint.element = element;
                     
                     newPoint.visibleShape.remove();
-                    newPoint.visibleShape = bogusShape;
-                    newPoint.mouseTarget.attr({ scale: 1.1 });
-                    newPoint.elementImage = raphael.image(IMAGE_PATH(element),
+                    newPoint.visibleShape = raphael.image(IMAGE_PATH(element),
                         scalePoint(position)[0] - 25,
                         scalePoint(position)[1] - 25,
                         50, 50).attr({ opacity: 1 });
+                    newPoint.mouseTarget.attr({ scale: 1.1 });
                         
                     newPoint.moveImage = function(newPosition) {
                         this.setCoord(newPosition);
-                        var shiftH = this.elementImage.attr("width")/2;
-                        var shiftV = this.elementImage.attr("height")/2;
-                        this.elementImage.attr({
+                        var shiftH = this.visibleShape.attr("width")/2;
+                        var shiftV = this.visibleShape.attr("height")/2;
+                        this.visibleShape.attr({
                             "x": scalePoint(newPosition)[0] - shiftH,
                             "y": scalePoint(newPosition)[1] - shiftV
                         });
                     };
 
-
-                    // Scale avatar on hover 
-                    $(newPoint.mouseTarget[0]).on(
-                        "vmouseover vmouseout vmouseup vmousedown", function(event) {
-                            if (event.type === "vmouseover"
-                                || event.type === "vmousedown") {
-                                if (!KhanUtil.dragging || newPoint.dragging) {
-                                    newPoint.elementImage.toFront();
-                                    newPoint.elementImage.animate({
-                                        scale: 1.4
-                                    }, 50);                                
-                                }                            
-                            } else if (event.type === "vmouseup"
-                                || (!newPoint.dragging)) {
-                                newPoint.elementImage.animate({
-                                    scale: 1
-                                }, 50);                                                               
-                            }
-                    });                
+                    newPoint.highlightStyle = {
+                        scale: 1.4
+                    };                
                 
                     return newPoint;
                 };
@@ -340,13 +324,9 @@
                     Drag the elements into the appropriate sections of the set diagram.
                 </div>
                 <div class="guess">                
-                    (function(){
-                        var guess = [];
-                        _(graph.points).each(function(point) {
-                            guess.push(point.coord);
-                        });
-                        return guess;
-                    })()
+                    _(graph.points).map(function(point) {
+                        return point.coord;
+                    })
                 </div>
                 <div class="validator-function">
                     var guessA = [];
@@ -424,7 +404,7 @@
             And the last avatar is not in any set.
         </div>
         <div data-else>
-            There is no other avatar left.
+            There are no other avatars left.
         </div>
     </div>
   
