@@ -153,10 +153,12 @@
 
             <div>
                 <p>Therefore:</p>
-                <p><code>\qquad <var>Y</var> = \dfrac{<span data-if="FACTOR_SIGN">-</span>
-                    <span data-if="NUM_FACTOR2.isOne()"><var>TERM1</var></span>
-                    <span data-else-if="NUM_FACTOR2.toString() === '-1'"><var>TERM1.multiply(-1)</var></span>
-                    <span data-else=""><var>NUM_FACTOR2</var>(<var>TERM1</var>)</span>}{
+                <p><code>\qquad <var>Y</var> = \dfrac{
+                    <span data-if="NUM_FACTOR2.isOne()">
+                        <span data-if="FACTOR_SIGN"><var>TERM1.multiply(-1)</var></span>
+                        <span data-else=""><var>TERM1</var></span>
+                    </span>
+                    <span data-else=""><span data-if="FACTOR_SIGN">-</span><var>NUM_FACTOR2</var>(<var>TERM1</var>)</span>}{
                     <span data-if="DEN_FACTOR2.isOne()"><var>TERM3</var></span>
                     <span data-else=""><var>DEN_FACTOR2</var>(<var>TERM3</var>)</span>}</code>,
                 <code><var>X</var> \neq <var>-A</var></code></p>
