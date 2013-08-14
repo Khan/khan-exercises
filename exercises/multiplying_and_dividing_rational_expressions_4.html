@@ -309,9 +309,9 @@
             </div>
 
             <p><code><var>Y</var> =
-                <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>}</span>
-                <span data-else-if="DENOMSOL.toString() !== '-1'"><var>NUMERSOL.multiply(-1).toStringFactored()</var></span>
-                <span data-else=""><var>NUMERSOL.toStringFactored()</var></span>
+                <span data-if="DENOMSOL.toString() == '1'"><var>NUMERSOL.toStringFactored()</var></span>
+                <span data-else-if="DENOMSOL.toString() == '-1'"><var>NUMERSOL.multiply(-1).toStringFactored()</var></span>
+                <span data-else="">\dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>}</span>
                 ; \space <var>X</var> \neq <var>-B</var>
                 <span data-if="SOL !== 0">; \space <var>X</var> \neq <var>-CANCEL.terms[1]</var></span>
             </code></p>
