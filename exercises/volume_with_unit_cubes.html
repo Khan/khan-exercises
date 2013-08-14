@@ -39,9 +39,7 @@
                 <var id="XBORD">LENGTH/MAX</var>
                 <var id="YBORD">WIDTH/MAX</var>
                 <var id="ZBORD">HEIGHT/MAX</var>
-                
                <var id="UNIT">[["\\text{ cm}","centimeter", "centimeters"], ["\\text{ m}","meter", "meters"], ["\\text{ in}","inch","inches"], ["\\text{ft}", "foot", "feet"]][randRange(0,3)]</var>
-                
                 <var id="COLOR1">"#D7ED3A"</var>
                 <var id="COLOR2">"#38C77F"</var>
                 <var id="COLOR3">"#78D0EF"</var>
@@ -77,74 +75,74 @@
                 What is the volume of this box?
             </p>
                 
-                <p>
-                	Note:  Each cube is a cubic <var>UNIT[1]</var>
-                </p>
-                 <div class="graphie" id = "box">
+             <p>
+                 Note:  Each cube is a cubic <var>UNIT[1]</var>
+            </p>
+            <div class="graphie" id = "box">
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
          
-					 var start1 = 7;
-					 
-					 for (var i = 1; i &lt; LENGTH;i++){
-					 	VERTICES.push([(-LENGTH+2*i)/MAX,-WIDTH/MAX,HEIGHT/MAX]);
-					 	};
-					 	
-					  for (var i = 1; i &lt; LENGTH;i++){
-					 	VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,HEIGHT/MAX]);
-					 	};
-					 	
-					 for (var i = 1; i &lt; LENGTH;i++){
-					 	VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,-HEIGHT/MAX]);
-					 	};
-					 	
-					 var start2=VERTICES.length-1;
-					 
-					  for (var i = 1; i &lt; WIDTH;i++){
-					 	VERTICES.push([-LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
-					 	};
-					 	
-					 for (var i = 1; i &lt; WIDTH;i++){
-					 	VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
-					 	};
-					 	
-					  for (var i = 1; i &lt; WIDTH;i++){
-					 	VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,-HEIGHT/MAX]);
-					 	};
-					 	
-					 	var start3 = VERTICES.length-1;
-					 	
-					 for (var i = 1; i &lt; HEIGHT;i++){
-					 	VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-					 	};
-					 	
-					 for (var i = 1; i &lt; HEIGHT;i++){
-					 	VERTICES.push([LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-					 	};
-					 
-					 for (var i = 1; i &lt; HEIGHT;i++){
-					 	VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-					 	};
-					 	
-					 
-					 
-					 //graphing the initial object
-					  graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                     var start1 = 7;
+                     
+                     for (var i = 1; i &lt; LENGTH;i++){
+                         VERTICES.push([(-LENGTH+2*i)/MAX,-WIDTH/MAX,HEIGHT/MAX]);
+                         };
+                         
+                      for (var i = 1; i &lt; LENGTH;i++){
+                         VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,HEIGHT/MAX]);
+                         };
+                         
+                     for (var i = 1; i &lt; LENGTH;i++){
+                         VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,-HEIGHT/MAX]);
+                         };
+                         
+                     var start2=VERTICES.length-1;
+                     
+                      for (var i = 1; i &lt; WIDTH;i++){
+                         VERTICES.push([-LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
+                         };
+                         
+                     for (var i = 1; i &lt; WIDTH;i++){
+                         VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
+                         };
+                         
+                      for (var i = 1; i &lt; WIDTH;i++){
+                         VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,-HEIGHT/MAX]);
+                         };
+                         
+                         var start3 = VERTICES.length-1;
+                         
+                     for (var i = 1; i &lt; HEIGHT;i++){
+                         VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                         };
+                         
+                     for (var i = 1; i &lt; HEIGHT;i++){
+                         VERTICES.push([LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                         };
+                     
+                     for (var i = 1; i &lt; HEIGHT;i++){
+                         VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                         };
+                         
+                     
+                     
+                     //graphing the initial object
+                      graph.obj = make3dObject(VERTICES, { scale: SCALE });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
                     });
-            		
-            		for (var i = 1;i&lt;LENGTH;i++){
-            			graph.obj.addSketch({ verts: [start1+i,start1+i+LENGTH-1,start1+i+2*LENGTH-2], opacityValue:0.5});
-            		};
-            		
-            		for (var i = 1;i&lt;WIDTH;i++){
-            			graph.obj.addSketch({ verts: [start2+i,start2+i+WIDTH-1,start2+i+2*WIDTH-2], opacityValue:0.5});
-            		};
-            		
-            		for (var i = 1;i&lt;HEIGHT;i++){
-            			graph.obj.addSketch({ verts: [start3+i,start3+i+HEIGHT-1,start3+i+2*HEIGHT-2], opacityValue:0.5});
-            		};
+                    
+                    for (var i = 1;i&lt;LENGTH;i++){
+                        graph.obj.addSketch({ verts: [start1+i,start1+i+LENGTH-1,start1+i+2*LENGTH-2], opacityValue:0.5});
+                    };
+                    
+                    for (var i = 1;i&lt;WIDTH;i++){
+                        graph.obj.addSketch({ verts: [start2+i,start2+i+WIDTH-1,start2+i+2*WIDTH-2], opacityValue:0.5});
+                    };
+                    
+                    for (var i = 1;i&lt;HEIGHT;i++){
+                        graph.obj.addSketch({ verts: [start3+i,start3+i+HEIGHT-1,start3+i+2*HEIGHT-2], opacityValue:0.5});
+                    };
                     
                     graph.obj.setPos([0, 0, 5]);
 
@@ -155,11 +153,6 @@
                     graph.obj.doDraw();
 
                     GRAPH = graph;
-
-                   
-
-                    
-
                 </div>
             
 
@@ -169,173 +162,165 @@
            
 
             <div class="hints">
-            	<p>
-            		The volume is measured by counting the number of cubic <var>UNIT[2]</var>.
-            	</p>
-            	<p>
-            		Carefully count the cubes.  Some of the cubes might be hidden behind other cubes.  Try to visualize all of the cubes.
-            	</p>
-            	<p>
-            		There are a total of <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubes.
-            	</p>
-            	
+                <p>
+                    The volume is measured by counting the number of cubic <var>UNIT[2]</var>.
+                </p>
+                <p>
+                    Carefully count the cubes.  Some of the cubes might be hidden behind other cubes.  Try to visualize all of the cubes.
+                </p>
+                <p>
+                    There are a total of <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubes.
+                </p>
+                
             </div>
         </div>
         <div id="weirdShape" >
             <div class="vars">
-            	<var id=VOL>randRange(3,8)</var>
+                <var id=VOL>randRange(3,8)</var>
                <var id="UNIT">[["\\text{ cm}","centimeter", "centimeters"], ["\\text{ m}","meter", "meters"], ["\\text{ in}","inch","inches"], ["\\text{ft}", "foot", "feet"]][randRange(0,3)]</var>
-                
                 <var id="COLOR1">"#D7ED3A"</var>
                 <var id="COLOR2">"#38C77F"</var>
                 <var id="COLOR3">"#78D0EF"</var>
                 <var id="COLOR4">"#F0B63A"</var>
-                <var id="VERTICES">[
-                  
-                ]</var>
+                <var id="VERTICES">[]</var>
                 <var id="SCALE">2.0</var>
-                <var id="FACES">[
-                 
-                ]</var>
+                <var id="FACES">[]</var>
                 <var id="surfaceArea">0</var>
-               
-                
-                
             </div>
 
             <p class="question">
                 What is the volume of this shape?
             </p>
-			<p>
-				Each cube is has side lengths of one <var>UNIT[1]</var>
-			</p>                
+            <p>
+                Each cube has side lengths of one <var>UNIT[1]</var>.  You can click and drag to rotate the shape.
+            </p>                
                  <div class="graphie" id = "box">
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
                     
                    
-                 	//cubes stores the positions of the cubes
-                 	var cubes = [[0,0,0]];
-                 	// inArray checks whether a point is in the array allready.  For example inArray([0,0,0],[[0,0,0,],[0,0,1]]) = true,
-                 	//but inArray([0,0,2],[[0,0,0],[0,0,1]])  = false.  This is only used for an ordered triple and an array of ordered triples.
-                 		
-                 	var inArray = function(point,array){
-                 		for (var i=0; i&lt; array.length;i++){
-                 			if (point[0] == array[i][0] &amp;&amp; point[1] == array[i][1] &amp;&amp; point[2] == array[i][2]){
-                 				return true;
-                 				}
-                 			}
-                 		return false;
-                 		}
-                 	//This will store the boundary of the current set of cubes
-                 	
-                 	
-                 	//Add cubes to cubes from the current boundary until we have VOL cubes
-                 	for (var i = 0; i &lt; VOL-1; i++){
-                 		var boundary =  [];
-                 		// Figuring out the current boundary
-                 		 for (var j = 0; j&lt;cubes.length;j++){
-                 		 	var cube0 = [cubes[j][0]+1,cubes[j][1],cubes[j][2]];
-                 		 	var cube1 = [cubes[j][0],cubes[j][1]+1,cubes[j][2]];
-                 		 	var cube2 = [cubes[j][0],cubes[j][1],cubes[j][2]+1];
-                 		 	var cube3 = [cubes[j][0]-1,cubes[j][1],cubes[j][2]];
-                 		 	var cube4 = [cubes[j][0],cubes[j][1]-1,cubes[j][2]];
-                 		 	var cube5 = [cubes[j][0],cubes[j][1],cubes[j][2]-1];
-                 		 	if (! inArray(cube0,cubes) &amp;&amp; ! inArray(cube0,boundary)){
-                 		 		boundary.push(cube0);
-                 		 		}
-                 		 	if (! inArray(cube1,cubes) &amp;&amp; ! inArray(cube1,boundary)){
-                 		 		boundary.push(cube1);
-                 		 		}
-                 		 	if (! inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
-                 		 		boundary.push(cube2);
-                 		 		}
-                 		 	if (! inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
-                 		 		boundary.push(cube2);
-                 		 		}
-                 		 	if (! inArray(cube3,cubes) &amp;&amp; ! inArray(cube3,boundary)){
-                 		 		boundary.push(cube3);
-                 		 		}
-                 		 	if (! inArray(cube4,cubes) &amp;&amp; ! inArray(cube4,boundary)){
-                 		 		boundary.push(cube4);
-                 		 		}
-                 		 	}
-                 		 	
-                 		 	cubes.push(boundary[randRange(0,boundary.length-1)]);                 		
-                 		}
-                 		
-                 		// Addind vertices and faces
-                 		
-                 		for (var i  = 0; i&lt;VOL;i++){
-                 			var index = VERTICES.length;
-                 			VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
-                 			VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
-                 			VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
-                 			VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
-                 			VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
-                 			VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
-                 			VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
-                 			VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
-                 			
-                 			//only add a face if there is not another cube next to it
-                 			if (! inArray([cubes[i][0]+1,cubes[i][1],cubes[i][2]],cubes)){
-                 				FACES.push({
-                 					verts: [index,index+4,index+5,index+1],
-                 					color: COLOR1
-                 					});
-                 					
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0]-1,cubes[i][1],cubes[i][2]],cubes)){
-                 				FACES.push({
-                 					verts: [index+7,index+3,index+2,index+6],
-                 					color: COLOR1
-                 					});
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0],cubes[i][1]+1,cubes[i][2]],cubes)){
-                 				FACES.push({
-                 					verts: [index,index+3,index+7,index+4],
-                 					color: COLOR2
-                 					});
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0],cubes[i][1]-1,cubes[i][2]],cubes)){
-                 				FACES.push({
-                 					verts: [index+5,index+6,index+2,index+1],
-                 					color: COLOR2
-                 					});
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0],cubes[i][1],cubes[i][2]+1],cubes)){
-                 				FACES.push({
-                 					verts: [index+4,index+7,index+6,index+5],
-                 					color: COLOR3
-                 					});
-                 					surfaceArea++
-                 				}
-                 				
-                 			if (! inArray([cubes[i][0],cubes[i][1],cubes[i][2]-1],cubes)){
-                 				FACES.push({
-                 					verts: [index+3,index,index+1,index+2],
-                 					color: COLOR3
-                 					});
-                 					surfaceArea++
-                 				}
-                 			}
-                 			                 		
-                 		                 		
-					 //  graphing the initial object
-					  graph.obj = make3dObject(VERTICES, { scale: SCALE, facesTransparent: false, faceBorder:true });
+                     //cubes stores the positions of the cubes
+                     var cubes = [[0,0,0]];
+                     // inArray checks whether a point is in the array allready.  For example inArray([0,0,0],[[0,0,0,],[0,0,1]]) = true,
+                     //but inArray([0,0,2],[[0,0,0],[0,0,1]])  = false.  This is only used for an ordered triple and an array of ordered triples.
+                         
+                     var inArray = function(point,array){
+                         for (var i=0; i&lt; array.length;i++){
+                             if (point[0] == array[i][0] &amp;&amp; point[1] == array[i][1] &amp;&amp; point[2] == array[i][2]){
+                                 return true;
+                                 }
+                             }
+                         return false;
+                         }
+                     //This will store the boundary of the current set of cubes
+                     
+                     
+                     //Add cubes to cubes from the current boundary until we have VOL cubes
+                     for (var i = 0; i &lt; VOL-1; i++){
+                         var boundary =  [];
+                         // Figuring out the current boundary
+                          for (var j = 0; j&lt;cubes.length;j++){
+                              var cube0 = [cubes[j][0]+1,cubes[j][1],cubes[j][2]];
+                              var cube1 = [cubes[j][0],cubes[j][1]+1,cubes[j][2]];
+                              var cube2 = [cubes[j][0],cubes[j][1],cubes[j][2]+1];
+                              var cube3 = [cubes[j][0]-1,cubes[j][1],cubes[j][2]];
+                              var cube4 = [cubes[j][0],cubes[j][1]-1,cubes[j][2]];
+                              var cube5 = [cubes[j][0],cubes[j][1],cubes[j][2]-1];
+                              if (! inArray(cube0,cubes) &amp;&amp; ! inArray(cube0,boundary)){
+                                  boundary.push(cube0);
+                                  }
+                              if (! inArray(cube1,cubes) &amp;&amp; ! inArray(cube1,boundary)){
+                                  boundary.push(cube1);
+                                  }
+                              if (! inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
+                                  boundary.push(cube2);
+                                  }
+                              if (! inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
+                                  boundary.push(cube2);
+                                  }
+                              if (! inArray(cube3,cubes) &amp;&amp; ! inArray(cube3,boundary)){
+                                  boundary.push(cube3);
+                                  }
+                              if (! inArray(cube4,cubes) &amp;&amp; ! inArray(cube4,boundary)){
+                                  boundary.push(cube4);
+                                  }
+                              }
+                              
+                              cubes.push(boundary[randRange(0,boundary.length-1)]);                         
+                         }
+                         
+                         // Addind vertices and faces
+                         
+                         for (var i  = 0; i&lt;VOL;i++){
+                             var index = VERTICES.length;
+                             VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
+                             VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
+                             VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
+                             VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
+                             VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
+                             VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
+                             VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
+                             VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
+                             
+                             //only add a face if there is not another cube next to it
+                             if (! inArray([cubes[i][0]+1,cubes[i][1],cubes[i][2]],cubes)){
+                                 FACES.push({
+                                     verts: [index,index+4,index+5,index+1],
+                                     color: COLOR1
+                                     });
+                                     
+                                     surfaceArea++
+                                 }
+                                 
+                             if (! inArray([cubes[i][0]-1,cubes[i][1],cubes[i][2]],cubes)){
+                                 FACES.push({
+                                     verts: [index+7,index+3,index+2,index+6],
+                                     color: COLOR1
+                                     });
+                                     surfaceArea++
+                                 }
+                                 
+                             if (! inArray([cubes[i][0],cubes[i][1]+1,cubes[i][2]],cubes)){
+                                 FACES.push({
+                                     verts: [index,index+3,index+7,index+4],
+                                     color: COLOR2
+                                     });
+                                     surfaceArea++
+                                 }
+                                 
+                             if (! inArray([cubes[i][0],cubes[i][1]-1,cubes[i][2]],cubes)){
+                                 FACES.push({
+                                     verts: [index+5,index+6,index+2,index+1],
+                                     color: COLOR2
+                                     });
+                                     surfaceArea++
+                                 }
+                                 
+                             if (! inArray([cubes[i][0],cubes[i][1],cubes[i][2]+1],cubes)){
+                                 FACES.push({
+                                     verts: [index+4,index+7,index+6,index+5],
+                                     color: COLOR3
+                                     });
+                                     surfaceArea++
+                                 }
+                                 
+                             if (! inArray([cubes[i][0],cubes[i][1],cubes[i][2]-1],cubes)){
+                                 FACES.push({
+                                     verts: [index+3,index,index+1,index+2],
+                                     color: COLOR3
+                                     });
+                                     surfaceArea++
+                                 }
+                             }
+                                                      
+                                                  
+                     //  graphing the initial object
+                      graph.obj = make3dObject(VERTICES, { scale: SCALE, facesTransparent: false, faceBorder:true });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
                     });
-            		
-            		
+                    
+                    
                     
                     
                     graph.obj.setPos([0, 0, 5]);
@@ -388,8 +373,8 @@
                         })
                     });
 
-					
-					
+                    
+                    
                     
 
                 </div>
@@ -401,15 +386,15 @@
            
 
             <div class="hints">
-            	<p>
-            		The volume of a shape can measured by the number of cubic <var>UNIT[2]</var> which make up the shape.
-            	</p>
-            	<p>
-            		There are <code><var>VOL</var></code> cubes.
-            	</p>
-            	<p>
-            		The volume is <code><var>VOL</var> <var>UNIT[0]</var>^3</code>
-            	</p>
+                <p>
+                    The volume of a shape can measured by the number of cubic <var>UNIT[2]</var> which make up the shape.
+                </p>
+                <p>
+                    There are <code><var>VOL</var></code> cubes.
+                </p>
+                <p>
+                    The volume is <code><var>VOL</var> <var>UNIT[0]</var>^3</code>
+                </p>
             </div>
         </div>
 
