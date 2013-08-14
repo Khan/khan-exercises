@@ -15,6 +15,8 @@
 "!"                   return '!'
 "("                   return '('
 ")"                   return ')'
+"e"                   return 'E'
+"pi"                  return 'PI'
 "ans"                 return 'ANS'
 [a-z]+                return 'FN'
 <<EOF>>               return 'EOF'
@@ -58,6 +60,10 @@ e
         {$$ = [$1, $3];}
     | '(' e ')'
         {$$ = $2;}
+    | E
+        {$$ = $1;}
+    | PI
+        {$$ = $1;}
     | ANS
         {$$ = $1;}
     | NUM
