@@ -410,7 +410,7 @@
                     </var>
                     <var id="DIGITS">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]
                     </var>
-                    <var id="REPEATS">[
+                    <var id="REPEATS" data-ensure="REPEATS[0] % 11 !== 0 &amp;&amp; REPEATS[1] % 11 !== 0 &amp;&amp; REPEATS[2] % 11 !== 0">[
                         (DIGITS[0] === 1) ? randRange(1, 8) : randRange(10, 98),
                         (DIGITS[1] === 1) ? randRange(1, 8) : randRange(10, 98),
                         (DIGITS[2] === 1) ? randRange(1, 8) : randRange(10, 98)]
