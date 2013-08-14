@@ -1716,7 +1716,7 @@ var Khan = (function() {
                 if ($.trim(instr) !== "") {
                     lastInstr = instr;
                     row = $("<div>").addClass("calc-row");
-                    indiv = $("<div>").addClass("input").text(instr.replace(/pi/, "\u03c0")).appendTo(row);
+                    indiv = $("<div>").addClass("input").text(instr.replace(/pi/g, "\u03c0")).appendTo(row);
                     try {
                         output = ans = Calculator.calculate(instr, ans);
                         if (typeof output === "number") {
