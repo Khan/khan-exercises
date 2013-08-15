@@ -27,6 +27,22 @@
 </head>
 <body>
 <div class="exercise">
+    <div class="vars">
+        <var id="UNIT_TEXT,UNIT">randFromArray([
+            ["\\text{ " + $._("cm") + "}", new Plural(function(num) {
+            return $.ngettext("centimeter", "centimeters", num);
+            })],
+            ["\\text{ " + $._("m") + "}", new Plural(function(num) {
+            return $.ngettext("meter", "meters", num);
+            })],
+            ["\\text{ " + $._("in") + "}", new Plural(function(num) {
+            return $.ngettext("inch", "inches", num);
+            })],
+            ["\\text{ " + $._("ft") + "}", new Plural(function(num) {
+            return $.ngettext("foot", "feet", num);
+            })]
+        ])</var>
+    </div>
     <div class="problems">
 
         <div id="find-volume" >
@@ -39,9 +55,6 @@
                 <var id="XBORD">LENGTH/MAX</var>
                 <var id="YBORD">WIDTH/MAX</var>
                 <var id="ZBORD">HEIGHT/MAX</var>
-
-               <var id="UNIT">[["\\text{ cm}","centimeter", "centimeters"], ["\\text{ m}","meter", "meters"], ["\\text{ in}","inch","inches"], ["\\text{ft}", "foot", "feet"]][randRange(0,3)]</var>
-
                 <var id="COLOR1">"#D7ED3A"</var>
                 <var id="COLOR2">"#38C77F"</var>
                 <var id="COLOR3">"#78D0EF"</var>
@@ -62,27 +75,27 @@
                     {
                         verts: [3, 2, 1, 0],
                         color: COLOR1,
-                        labels: [[[XBORD, 0, ZBORD], WIDTH+UNIT[0]]]
+                        labels: [[[XBORD, 0, ZBORD], WIDTH + UNIT_TEXT]]
                     }, {
                         verts: [4, 5, 6, 7],
                         color: COLOR1,
-                        labels: [[[-XBORD, 0, -ZBORD],WIDTH+UNIT[0]]]
+                        labels: [[[-XBORD, 0, -ZBORD],WIDTH + UNIT_TEXT]]
                     }, {
                         verts: [0, 1, 5, 4],
                         color: COLOR3,
-                        labels: [[[-XBORD, YBORD, 0], HEIGHT+UNIT[0]]]
+                        labels: [[[-XBORD, YBORD, 0], HEIGHT + UNIT_TEXT]]
                     }, {
                         verts: [2, 3, 7, 6],
                         color: COLOR3,
-                        labels: [[[-XBORD, -YBORD, 0], HEIGHT+UNIT[0]]]
+                        labels: [[[-XBORD, -YBORD, 0], HEIGHT + UNIT_TEXT]]
                     }, {
                         verts: [1, 2, 6, 5],
                         color: COLOR2,
-                        labels: [[[0, -YBORD, -ZBORD], LENGTH+UNIT[0]]]
+                        labels: [[[0, -YBORD, -ZBORD], LENGTH + UNIT_TEXT]]
                     }, {
                         verts: [3, 0, 4, 7],
                         color: COLOR2,
-                        labels: [[[0, YBORD, ZBORD], LENGTH+UNIT[0]]]
+                        labels: [[[0, YBORD, ZBORD], LENGTH + UNIT_TEXT]]
                     }
                 ]</var>
                 <var id = "FACEDIVIDERS">[
@@ -203,17 +216,17 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="rational"><var>LENGTH*WIDTH*HEIGHT</var></span> <code><var>UNIT[0]</var>^3</code></p>
+                <p><span class="sol" data-type="rational"><var>LENGTH*WIDTH*HEIGHT</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
             </div>
 
 
             <div class="hints">
-                <p>The volume of a shape is measured by the number of one <var>UNIT[1]</var> cubes which make up the shape.</p>
+                <p>The volume of a shape is measured by the number of one <var>UNIT</var> cubes which make up the shape.</p>
                 <div>
                     <p>
                     To make counting the cubes easier, break the box into <code><var>HEIGHT</var></code> slabs which are each
-                    <code><var>WIDTH</var> <var>UNIT[0]</var></code> wide,  <code><var>LENGTH</var> <var>UNIT[0]</var></code> long, and
-                    <code>1 <var>UNIT[0]</var></code> high.
+                    <code><var>WIDTH</var> <var>UNIT_TEXT</var></code> wide,  <code><var>LENGTH</var> <var>UNIT_TEXT</var></code> long, and
+                    <code>1 <var>UNIT_TEXT</var></code> high.
                     </p>
 
                      <div class="graphie" data-update = "box">
@@ -265,7 +278,7 @@
                 <p>Since there are <code><var>WIDTH*LENGTH</var></code> cubes in each slab, there are a total of
                 <code><var>HEIGHT</var> \times <var>WIDTH*LENGTH</var> = <var>HEIGHT*WIDTH*LENGTH</var></code> cubes in the whole box.</p>
                 <p>
-                    Since each cube is a cubic <var>UNIT[1]</var>, the volume of the box is <code><var>HEIGHT*WIDTH*LENGTH</var> <var>UNIT[0]</var>^3</code>
+                    Since each cube is a cubic <var>UNIT</var>, the volume of the box is <code><var>HEIGHT*WIDTH*LENGTH</var> <var>UNIT_TEXT</var>^3</code>
                 </p>
             </div>
         </div>
@@ -279,7 +292,6 @@
                 <var id="XBORD">LENGTH/MAX</var>
                 <var id="YBORD">WIDTH/MAX</var>
                 <var id="ZBORD">HEIGHT/MAX</var>
-                <var id="UNIT">[["\\text{ cm}","centimeter", "centimeters"], ["\\text{ m}","meter", "meters"], ["\\text{ in}","inch","inches"], ["\\text{ft}", "foot", "feet"]][randRange(0,3)]</var>
                 <var id="COLOR1">"#D7ED3A"</var>
                 <var id="COLOR2">"#38C77F"</var>
                 <var id="COLOR3">"#78D0EF"</var>
@@ -300,27 +312,27 @@
                     {
                         verts: [3, 2, 1, 0],
                         color: COLOR1,
-                        labels: [[[XBORD, 0, ZBORD], WIDTH+UNIT[0]]]
+                        labels: [[[XBORD, 0, ZBORD], WIDTH + UNIT_TEXT]]
                     }, {
                         verts: [4, 5, 6, 7],
                         color: COLOR1,
-                        labels: [[[-XBORD, 0, -ZBORD],WIDTH+UNIT[0]]]
+                        labels: [[[-XBORD, 0, -ZBORD],WIDTH + UNIT_TEXT]]
                     }, {
                         verts: [0, 1, 5, 4],
                         color: COLOR3,
-                        labels: [[[-XBORD, YBORD, 0], "\\Box"+UNIT[0]]]
+                        labels: [[[-XBORD, YBORD, 0], "\\Box" + UNIT_TEXT]]
                     }, {
                         verts: [2, 3, 7, 6],
                         color: COLOR3,
-                        labels: [[[-XBORD, -YBORD, 0], "\\Box"+UNIT[0]]]
+                        labels: [[[-XBORD, -YBORD, 0], "\\Box" + UNIT_TEXT]]
                     }, {
                         verts: [1, 2, 6, 5],
                         color: COLOR2,
-                        labels: [[[0, -YBORD, -ZBORD], LENGTH+UNIT[0]]]
+                        labels: [[[0, -YBORD, -ZBORD], LENGTH + UNIT_TEXT]]
                     }, {
                         verts: [3, 0, 4, 7],
                         color: COLOR2,
-                        labels: [[[0, YBORD, ZBORD], LENGTH+UNIT[0]]]
+                        labels: [[[0, YBORD, ZBORD], LENGTH + UNIT_TEXT]]
                     }
                 ]</var>
                 <var id = "FACEDIVIDERS">[
@@ -340,7 +352,7 @@
             </div>
 
             <p class="question">
-                The volume of this box is <code><var>LENGTH*WIDTH*HEIGHT</var> <var>UNIT[0]</var>^3</code>.
+                The volume of this box is <code><var>LENGTH*WIDTH*HEIGHT</var> <var>UNIT_TEXT</var>^3</code>.
                 What is the number labeled <code>\Box</code> below?
             </p>
 
@@ -448,9 +460,16 @@
             <div class="hints">
                 <div>
                     <p>
-                        The volume of the <code><var>LENGTH</var> <var>UNIT[0]</var></code> by <code><var>WIDTH</var> <var>UNIT[0]</var></code>
-                        by <code>1 <var>UNIT[0]</var></code> slab pictured above is <code><var>LENGTH*WIDTH</var> <var>UNIT[0]</var>^3</code> since there are
-                        <code><var>LENGTH</var></code> rows of <code><var>WIDTH</var></code> cubic <var>UNIT[2]</var>.
+                        The volume of the <code>
+                            <var>LENGTH</var> <var>UNIT_TEXT</var> \times
+                            <var>WIDTH</var> <var>UNIT_TEXT</var> \times
+                            1 <var>UNIT_TEXT</var>
+                        </code> slab pictured above is <code>
+                            <var>LENGTH*WIDTH</var> <var>UNIT_TEXT</var>^3
+                        </code> since there are
+                        <code><var>LENGTH</var></code> rows of
+                        <code><var>WIDTH</var></code> cubic
+                        <var>plural_form(UNIT)</var>.
                     </p>
                     <div class="graphie" data-update = "box">
                          var start = 8+4*(HEIGHT-1)-1
@@ -493,7 +512,7 @@
                 </div>
 
                 <p>
-                    Since the slabs have a height of <code>1 <var>UNIT[0]</var></code>, <code>\Box</code> is the number of these slabs which fill up the whole box.
+                    Since the slabs have a height of <code>1</code> <var>UNIT</var>, <code>\Box</code> is the number of these slabs which fill up the whole box.
                 </p>
                 <p>
                     We can figure out the number of slabs needed by seeing how many times <code><var>LENGTH*WIDTH</var></code>

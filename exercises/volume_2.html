@@ -39,8 +39,10 @@
                 <var id="HEIGHT">randRange(2,7)</var>            
             </div>
              <p>
-                 <var>person(1)</var> needs to ship a package of flour to a baker.  <span data-if="isMale(1)">He</span><span data-else>She</span> has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.  
-               The post office will not ship any box which has an edge <code>10</code> meters or longer. 
+                 <var>person(1)</var> needs to ship a package of flour to a baker.
+                 <span data-if="isMale(1)">He has <code><var>LENGTH * WIDTH * HEIGHT</var></code> cubic meters of flour to send</span>
+                 <span data-else>She has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.</span>
+                 The post office will not ship any box which has an edge <code>10</code> meters or longer.
              </p>
             <p class="question"> 
                What are the dimensions of a box which will hold exactly  <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour, but whose edge lengths are all less than <code>10</code> meters?
@@ -253,18 +255,46 @@
         </div>
         <div id="big-to-small-unit-conversion" >
             <div class="vars">
-                <var id="UNITS">[["feet","inches",12,"foot","ft","in"],["yards","feet",3,"yard","y","ft"],["meters","decimeters",10,"meter","m","dm"],["centimeters","millimeters",10,"centimeter","cm","mm"]][randRange(0,3)]</var>
+                <var id="FROM,TO,FROM_TEXT,TO_TEXT,CONVERSION">randFromArray([
+                    [
+                        new Plural(function(num) {
+                            return $.ngettext("foot", "feet", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("inch", "inches", num);
+                        }), $._("ft"), $._("in"), 12
+                    ],
+                    [
+                        new Plural(function(num) {
+                            return $.ngettext("yard", "yards", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("foot", "feet", num);
+                        }), $._("yd"), $._("ft"), 3
+                    ],
+                    [
+                        new Plural(function(num) {
+                            return $.ngettext("meter", "meters", num);
+                        }), new Plural(function(num) {
+                            return $.ngettext("decimeter", "decimeters", num);
+                        }), $._("m"), $._("dm"), 10
+                    ],
+                    [
+                        new Plural(function(num) {
+                            return $.ngettext("centimeter", "centimeters", num);
+                        }), new Plural(function(num) {
+                            return $.ngettext("millimeter", "millimeters", num);
+                        }), $._("cm"), $._("mm"), 10
+                    ]
+                ])</var>
                 <var id="VOL">randRangeExclude(2, 11,[3,10])</var>
-                <var id="LENGTH">UNITS[2]</var>
-                <var id="WIDTH">UNITS[2]</var>
-                <var id="HEIGHT">UNITS[2]</var>
-                <var id="MAX">UNITS[2]</var>
+                <var id="LENGTH">CONVERSION</var>
+                <var id="WIDTH">CONVERSION</var>
+                <var id="HEIGHT">CONVERSION</var>
+                <var id="MAX">CONVERSION</var>
                 <var id="XBORD">LENGTH/MAX</var>
                 <var id="YBORD">WIDTH/MAX</var>
                 <var id="ZBORD">HEIGHT/MAX</var>
-                
-               <var id="UNIT">[["\\text{ cm}","centimeter", "centimeters"], ["\\text{ m}","meter", "meters"], ["\\text{ in}","inch","inches"], ["\\text{ft}", "foot", "feet"]][randRange(0,3)]</var>
-                
                 <var id="COLOR1">"#D7ED3A"</var>
                 <var id="COLOR2">"#38C77F"</var>
                 <var id="COLOR3">"#78D0EF"</var>
@@ -285,11 +315,11 @@
                     {
                         verts: [3, 2, 1, 0],
                         color: COLOR1,
-                        labels: [[[XBORD, 0, ZBORD], 1 + "\\text{"+UNITS[4]+"} = " + UNITS[2]+"\\text{"+UNITS[5]+"}"]]
+                        labels: [[[XBORD, 0, ZBORD], "1 \\text{" + FROM_TEXT + "} = " + CONVERSION + " \\text{" + TO_TEXT + "}"]]
                     }, {
                         verts: [4, 5, 6, 7],
                         color: COLOR1,
-                        labels: [[[-XBORD, 0, -ZBORD], 1 + "\\text{"+UNITS[4]+"} = " + UNITS[2]+"\\text{"+UNITS[5]+"}"]]
+                        labels: [[[XBORD, 0, ZBORD], "1 \\text{" + FROM_TEXT + "} = " + CONVERSION + " \\text{" + TO_TEXT + "}"]]
                     }, {
                         verts: [0, 1, 5, 4],
                         color: COLOR3
@@ -315,22 +345,27 @@
             </div>
 
             <p class="question">
-                   How many cubic <var>UNITS[1]</var> fit in <code><var>VOL</var></code> cubic <var>UNITS[0]</var>?
+                   How many cubic <var>plural_form(TO)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>?
             </p>
 
             <div class="solution">
-                  <var>VOL*UNITS[2]*UNITS[2]*UNITS[2]</var>
+                  <var>VOL * CONVERSION * CONVERSION * CONVERSION</var>
+
             </div>
     
             <div class="hints">
-            <p>First we will figure out how many cubic <var>UNITS[1]</var> fit in one cubic <var>UNITS[3]</var></p>
+            <p>First we will figure out how many cubic <var>plural_form(TO)</var> fit in one cubic <var>FROM</var>.</p>
             <p>
-                There are <code><var>UNITS[2]</var></code> <var>UNITS[1]</var> in every <var>UNITS[3]</var>.
+                There are <code><var>CONVERSION</var></code> <var>plural_form(TO, CONVERSION)</var> in every <var>FROM</var>.
             </p>
             <div>
                 <p>
-                    Thus a cubic <var>UNITS[3]</var> is the same as a 
-                    <code><var>UNITS[2]</var> \text{<var>UNITS[5]</var>} \times <var>UNITS[2]</var> \text{<var>UNITS[5]</var>} \times<var>UNITS[2]</var> \text{<var>UNITS[5]</var>} </code>
+                    So a cubic <var>FROM</var> is the same as a
+                    <code>
+                        <var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                        \times <var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                        \times<var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                    </code>
                     cube.
                 </p>
                 <div class="graphie" id = "box">
@@ -432,16 +467,26 @@
             </div>
                 
                <p>
-                       Thus there are <code><var>UNITS[2]</var> \times <var>UNITS[2]</var> \times <var>UNITS[2]</var>  = <var>UNITS[2]*UNITS[2]*UNITS[2]</var> \text{<var>UNITS[5]</var>}^3 </code> 
-                       in each cubic <var>UNITS[3]</var>, by the volume formula.
+                       There are
+                       <code><var>CONVERSION</var> \times <var>CONVERSION</var>
+                           \times <var>CONVERSION</var>  =
+                           <var>CONVERSION * CONVERSION * CONVERSION</var>
+                           \text{ <var>TO_TEXT</var>}^3
+                       </code>
+                       in each cubic <var>FROM</var>, by the volume formula.
                </p>
                <p>
-                       Since we have <code><var>VOL</var></code> cubic <var>UNITS[0]</var>, and each cubic <var>UNITS[3]</var> holds 
-                       <code><var>UNITS[2]*UNITS[2]*UNITS[2]</var></code> cubic <var>UNITS[1]</var>, we have a total of <code><var>VOL</var> \times <var>UNITS[2]*UNITS[2]*UNITS[2]</var></code>
-                       cubic <var>UNITS[1]</var>.
+                       Since we have <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>, and each cubic <var>FROM</var> holds
+                       <code><var>CONVERSION * CONVERSION *
+                               CONVERSION</var></code> cubic
+                       <var>plural_form(TO, CONVERSION * CONVERSION *
+                           CONVERSION)</var>, we have a total of
+                       <code><var>VOL</var> \times <var>CONVERSION * CONVERSION
+                               * CONVERSION</var></code>
+                       cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var>.
                </p>
                <p>
-                       Thus <code><var>VOL*UNITS[2]*UNITS[2]*UNITS[2]</var></code> cubic <var>UNITS[1]</var> fit in <code><var>VOL</var></code> cubic <var>UNITS[3]</var>.
+                       So <code><var>VOL * CONVERSION * CONVERSION * CONVERSION</var></code> cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(TO, VOL)</var>.
                </p>
             </div>
             
