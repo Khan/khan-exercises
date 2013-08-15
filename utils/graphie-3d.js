@@ -11,7 +11,11 @@ $.extend(KhanUtil, {
                 [0, 0, 0, 1]
             ]),
             scale: 5.0,
-            faces: []
+            faces: [],
+            sketches: [],
+            facesTransparent: true,
+            faceBorder: false
+            
         }, options);
 
         var graph = KhanUtil.currentGraph;
@@ -122,6 +126,21 @@ $.extend(KhanUtil, {
                     return object.doProjection(object.verts[v]);
                 });
             };
+            
+            //find the zdepth of the face:  i.e.  how close the face is to the camera
+            face.zDepth = function(){
+            	var a = object.verts[this.verts[0]];
+                var b = object.verts[this.verts[1]];
+                var c = object.verts[this.verts[2]];
+            	
+            	var x = a[0]+b[0]+c[0];
+            	var y = a[1]+b[1]+c[1];
+            	var z = a[2]+b[2]+c[2];
+            	return object.doPerspective([x,y,z])[2];
+            	};
+            	
+                
+            
 
             // create a path of the face
             face.path = function() {
@@ -130,7 +149,15 @@ $.extend(KhanUtil, {
                     { fill: face.color, stroke: false }
                 );
             };
-
+			
+			face.drawBorder = function(){
+			
+				  return graph.path(
+                    face.mappedVerts().concat(true),
+                    { fill: null, stroke: "#666", opacity: 1 }
+                );
+				};
+			
             // draw the face's lines
             face.drawLines = function() {
                 var set = graph.raphael.set();
@@ -182,10 +209,12 @@ $.extend(KhanUtil, {
 
             // draw the face in the back, which is just the outline
             face.drawBack = function() {
+            	if (object.facesTransparent){
                 return graph.path(
                     face.mappedVerts(),
                     { fill: null, stroke: "#666", opacity: 0.1 }
                 );
+                }
             };
 
             face.toFront = function() {
@@ -207,16 +236,72 @@ $.extend(KhanUtil, {
 
             return this;
         };
+		
+		//add a sketch to the object, which is a path that always gets drawn
+		object.addSketch = function(options) {
+            var sketch = $.extend(true, {
+                verts: [],
+                color: "black",
+                lines: [],
+                labels: [],
+                opacityValue: 0.1
+            }, options);
 
+           
+
+            // find the array of the projected points of the sketch
+            sketch.mappedVerts = function() {
+                return _.map(this.verts, function(v) {
+                    return object.doProjection(object.verts[v]);
+                });
+            };
+
+            // create a path of the sketch
+            sketch.path = function() {
+                return graph.path(
+                    sketch.mappedVerts(),
+                    { fill: sketch.color, stroke: true }
+                );
+            };
+
+            // draw the sketch's lines
+            sketch.drawLines= function() {
+                return graph.path(
+                    sketch.mappedVerts(),
+                    { fill: null, stroke: "#666", opacity: sketch.opacityValue }
+                );
+            };
+
+            // draw all the objects on the face and return the set of them all
+            sketch.draw = function() {
+               return  graph.raphael.set().push(sketch.drawLines());
+            };
+
+         
+
+            this.sketches.push(sketch);
+
+            return this;
+        };
+		
         // draw the object, performing backface culling to ensure
         //   faces don't intersect each other
         object.draw = function() {
             var frontFaces = [];
             var backFaces = [];
-
+			var faces = object.faces.slice();
+			
+			//sorts the objects faces by their zDepth, so that faces further away are drawn first.  This is the "painters" algorithm, which should be fine for our purposes.
+			// If we ever end up in a situation where we need to draw configurations with nontrivial cycles, we will really need more powerful 3d capabilities
+			// i.e.  webGL
+			faces.sort(
+				function(a,b){
+					return a.zDepth()-b.zDepth();
+					});
+							
             // figure out which objects should be drawn in front,
             // and which in back
-            _.each(object.faces, function(face) {
+            _.each(faces, function(face) {
                 var vert = object.doPerspective(object.verts[face.verts[0]]);
                 var normal = face.normal();
                 if (KhanUtil.vectorDot(object.doRotation(normal), vert) < 0) {
@@ -225,17 +310,25 @@ $.extend(KhanUtil, {
                     backFaces.push(face);
                 }
             });
+           
 
             // draw each of the faces, and store it in a raphael set
             var image = graph.raphael.set();
             _.each(frontFaces, function(face) {
                 face.toFront();
                 image.push(face.draw());
+                if (object.faceBorder){
+                	image.push(face.drawBorder());
+                	};
             });
             _.each(backFaces, function(face) {
                 face.toBack();
                 image.push(face.drawBack());
             });
+            _.each(object.sketches, function(sketch) {
+                image.push(sketch.draw());
+            });
+            
             return image;
         };
 
