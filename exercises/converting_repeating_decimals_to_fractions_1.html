@@ -27,19 +27,35 @@
             <p class="question">Rewrite as a simplified fraction.</p>
             <p><code>\large{<var>N1</var>.\overline{<var>N2</var>} = {?}}</code></p>
             <p class="solution" data-type="rational"><var>N4</var></p>
+            <div class="hints">
+                <p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+                <p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
+                <var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
+                <div>
+                    <p>Subtracting the two equations, we have:</p>
+                    <p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+                </div>
+                <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+                <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+            </div>
         </div>
-    </div>
-
-    <div class="hints">
-        <p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
-        <p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
-        <var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
         <div>
-            <p>Subtracting the two equations, we have:</p>
-            <p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+            <p class="question">Rewrite <span data-if="N1>0"><code><var>N1</var></code></span><code><var>fraction(N2, 9, false, true )</var></code> as a repeating decimal.  Include only the first ten digits in your answer</p>
+            <p class="solution" data-type="decimal"><var>roundTo(9, N4 - (N4 % 0.000000001))</var></p>
+            <div class="hints">
+                <p>This mixed number has <code><var>N1</var></code> as the whole number, so the decimal will start with <code><var>N1</var></code>.</p>
+                <p data-if="N1 === 0">You don't have to write the zero, but it counts as one of the ten digits.</p></p>
+                <p>Fractions are division problems, so we can get the decimal portion by dividing 
+                    <span data-if="(N2%3)"><code><var>N2</var></code> by <code><var>9</var></code></span>
+                    <span data-if="!(N2%3)"><code><var>N2/3</var></code> by <code><var>3</var></code></span>.
+                </p>
+                <p>The answer will be <code><var>N1</var></code>, then the decimal point, then 
+                    <span data-if="(N2%3)"><code><var>N2</var></code> divided by <code><var>9</var></code></span>
+                    <span data-if="!(N2%3)"><code><var>N2/3</var></code> divided by <code><var>3</var></code></span>.
+                </p>
+                <p><code><var>roundTo(9, N4 - (N4 % 0.000000001))</var></code></p>
+            </div>
         </div>
-        <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
-        <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
     </div>
     </div>
 </body>
