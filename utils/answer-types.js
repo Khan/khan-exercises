@@ -1340,9 +1340,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             });
 
             // We figure out if the "none of the above" choice is correct if we
-            // have such an answer and if the last shown answer is correct
-            var noneIsCorrect = showNone &&
-                    correctIndex === shownChoices.length - 1;
+            // have such an answer and if the last shown answer is correct.
+            // Note that we check against numChoices to decide if it is the
+            // last choice, not shownChoices.length, because in the case that
+            // we're going to be strictly adding the "none of the above"
+            // choice, shownChoices.length won't accurately show the number of
+            // choices that will be shown.
+            var noneIsCorrect = showNone && correctIndex === numChoices - 1;
 
             // If showNone, replace the last solution with "None of the above",
             // which reveals the correct answer when it is picked and is right.
