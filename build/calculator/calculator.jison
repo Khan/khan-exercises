@@ -26,11 +26,11 @@
 
 /* operator associations and precedence */
 
-%right UMINUS
 %left '+' '-'
 %left '*' '/'
 %right '^'
 %right '!'
+%right UMINUS
 
 %start expressions
 
