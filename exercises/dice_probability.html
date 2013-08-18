@@ -254,7 +254,7 @@
             <div class="vars" data-apply="prependVars">
                 <var id="EVEN">rand(2)</var>
                 <var id="PRED">function(x, y) {
-                    return x % 2 === EVEN &amp;&amp; y === Y;
+                    return x % 2 !== EVEN &amp;&amp; y === Y;
                 }</var>
             </div>
 
@@ -264,15 +264,17 @@
                     die is even and the white die is <code><var>Y</var></code>?
                 </span><span data-else>
                     For a given roll, what is the probability that the black
-                    die is even and the white die is <code><var>Y</var></code>?
+                    die is odd and the white die is <code><var>Y</var></code>?
                 </span>
             </span>
 
             <div class="hints" data-apply="prependContents">
                 <p data-if="EVEN">
-                    How many even numbers are there on the black die?
+                    How many matching outcomes are there with an even number on the black die and
+                    <code><var>Y</var></code> on the white die?
                 </p><p data-else>
-                    How many odd numbers are there on the black die?
+                    How many matching outcomes are there with an odd number on the black die and
+                    <code><var>Y</var></code> on the white die?
                 </p>
             </div>
         </div>
