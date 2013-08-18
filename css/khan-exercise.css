@@ -184,7 +184,7 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     display: block;
     font: inherit;
     margin: 5px 3px 3px;
-    width: 169px;
+    width: 98%;
     padding-right: 25px;
 }
 
@@ -197,9 +197,9 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     font: 10px/1.5 Menlo, Monaco, Courier, monospace;
     color: #999;
     text-decoration: none;
-    line-height: 10px;
+    line-height: 9px;
     height: 19px;
-    top: 5px;
+    top: 2px;
     right: 6px;
 }
 

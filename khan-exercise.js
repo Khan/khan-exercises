@@ -1736,7 +1736,7 @@ var Khan = (function() {
                 }
 
                 input.val("");
-                input[0].scrollIntoView(false);
+                history.scrollTop(history[0].scrollHeight);
             };
 
             input.on("keyup", function(e) {
