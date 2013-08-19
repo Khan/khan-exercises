@@ -22,6 +22,12 @@ $.extend(KhanUtil, {
     },
 
     writeExpressionFraction: function(numerator, denominator) {
+        if (denominator.toString() === '1') {
+            return numerator.toString();
+        }
+        if (denominator.toString() === '-1') {
+            return numerator.multiply(-1).toString();
+        }
         if (numerator.isNegative()) {
             return "-\\dfrac{" + numerator.multiply(-1).toString() + "}{" + denominator.toString() + "}";
         } else {
