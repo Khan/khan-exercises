@@ -25,21 +25,17 @@
             })()
             </var>
             <var id="FACTORS">[randRangeWeighted(1, 5, 1, 0.5), randRangeWeighted(1, 5, 1, 0.5), randRangeWeighted(1, 5, 1, 0.5)]</var>
-            <var id="DENOMINATORS">[
-                DENOMINATOR.multiply(FACTORS[0]),
-                DENOMINATOR.multiply(FACTORS[1]),
-                DENOMINATOR.multiply(FACTORS[2])]
-            </var>
+            <var id="DENOMINATORS">_.map(FACTORS, function(f) { return DENOMINATOR.multiply(f); })</var>
             <var id="COMMON_FACTOR">(function(){
                 var GCD = FACTORS[0] * FACTORS[1] / getGCD(FACTORS[0], FACTORS[1]);
                 return GCD * FACTORS[2] / getGCD(FACTORS[2], GCD);
             })()
             </var>
-            <var id="MULTIPLES">[COMMON_FACTOR / FACTORS[0], COMMON_FACTOR / FACTORS[1], COMMON_FACTOR / FACTORS[2]]</var>
             <var id="COMMON_DENOM">DENOMINATOR.multiply(COMMON_FACTOR)</var>
-            <var id="PRODUCTS">[NUMERATORS[0].multiply(MULTIPLES[0]), NUMERATORS[1].multiply(MULTIPLES[1]), NUMERATORS[2].multiply(MULTIPLES[2])]</var>
+            <var id="MULTIPLES">_.map(FACTORS, function(f) { return COMMON_FACTOR / f; })</var>
+            <var id="PRODUCTS">_.map(NUMERATORS, function(n, i) { return n.multiply(MULTIPLES[i]); })</var>
             <var id="SUMS">(function(){
-                var s1 = PRODUCTS[0].add(PRODUCTS[1]).add(PRODUCTS[2]);
+                var s1 = PRODUCTS[1].add(PRODUCTS[2]);
                 return [s1, PRODUCTS[0].add(s1.multiply(-1))];
             })()
             </var>
