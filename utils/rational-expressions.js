@@ -30,9 +30,11 @@ $.extend(KhanUtil, {
         }
         if (numerator.isNegative()) {
             return "-\\dfrac{" + numerator.multiply(-1).toString() + "}{" + denominator.toString() + "}";
-        } else {
-            return "\\dfrac{" + numerator.toString() + "}{" + denominator.toString() + "}";
         }
+        if (denominator.isNegative()) {
+            return "-\\dfrac{" + numerator.toString() + "}{" + denominator.multiply(-1).toString() + "}";
+        }
+        return "\\dfrac{" + numerator.toString() + "}{" + denominator.toString() + "}";
     },
 
     /*
