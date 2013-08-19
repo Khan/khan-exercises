@@ -237,20 +237,17 @@ var Khan = (function() {
     // Add in the site stylesheets
     if (localMode) {
         (function() {
-            var link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = urlBase + "css/khan-site.css";
-            document.getElementsByTagName("head")[0].appendChild(link);
+            var addLink = function(url) {
+                var link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = urlBase + url;
+                document.getElementsByTagName("head")[0].appendChild(link);
+            };
 
-            link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = urlBase + "css/khan-exercise.css";
-            document.getElementsByTagName("head")[0].appendChild(link);
-
-            link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = urlBase + "local-only/katex/katex.css";
-            document.getElementsByTagName("head")[0].appendChild(link);
+            addLink("css/khan-site.css");
+            addLink("css/khan-exercise.css");
+            addLink("local-only/katex/katex.less.css");
+            addLink("local-only/katex/fonts/fonts.css");
         })();
     }
 
