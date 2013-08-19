@@ -28,7 +28,7 @@
             <var id="CONSTANT" data-ensure="getGCD(COEFFICIENT, CONSTANT) === 1">randRangeNonZero(-10, 10)</var>
             <var id="COMMON_TERM">new RationalExpression([[COEFFICIENT, X], CONSTANT])</var>
 
-            <var id="FRACTION">(function() {
+            <var id="FRACTION1, FRACTION2 , FRACTION3">(function() {
                 if (rand(2)) {
                     var expr2 = new Term(randRangeWeighted(1, 8, 1, 0.25), X);
                     var term2 = new Term(randRange(1, 10));
@@ -82,10 +82,10 @@
                     ];
                 }
             })()</var>
-            <var id="NUMERPRODUCT">FRACTION[0].numerator.multiply(FRACTION[1].numerator)</var>
-            <var id="DENOMPRODUCT">FRACTION[0].denominator.multiply(FRACTION[1].denominator)</var>
-            <var id="NUMERTERM">FRACTION[2].numerator[0].multiply(FRACTION[2].numerator[1])</var>
-            <var id="DENOMTERM">FRACTION[2].denominator[0].multiply(FRACTION[2].denominator[1])</var>
+            <var id="NUMERPRODUCT">FRACTION1.numerator.multiply(FRACTION2.numerator)</var>
+            <var id="DENOMPRODUCT">FRACTION1.denominator.multiply(FRACTION2.denominator)</var>
+            <var id="NUMERTERM">FRACTION3.numerator[0].multiply(FRACTION3.numerator[1])</var>
+            <var id="DENOMTERM">FRACTION3.denominator[0].multiply(FRACTION3.denominator[1])</var>
             <var id="FACTOR">DENOMTERM.coefficient &gt; 0 ?
                 NUMERTERM.getGCD(DENOMTERM) :
                 NUMERTERM.getGCD(DENOMTERM).multiply(-1)
@@ -100,24 +100,24 @@
         <div class="problems">
             <div id="multiply">
                 <p class="question">
-                    <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator.string</var>}{<var>FRACTION[0].denominator.string</var>} \times
-                                            \dfrac{<var>FRACTION[1].numerator.string</var>}{<var>FRACTION[1].denominator.string</var>}
+                    <p><code><var>Y</var> = \dfrac{<var>FRACTION1.numerator.string</var>}{<var>FRACTION1.denominator.string</var>} \times
+                                            \dfrac{<var>FRACTION2.numerator.string</var>}{<var>FRACTION2.denominator.string</var>}
                     </code></p>
                 </p>
             </div>
 
             <div id="divide">
                 <p class="question">
-                    <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator.string</var>}{<var>FRACTION[0].denominator.string</var>} \div
-                                            \dfrac{<var>FRACTION[1].denominator.string</var>}{<var>FRACTION[1].numerator.string</var>}
+                    <p><code><var>Y</var> = \dfrac{<var>FRACTION1.numerator.string</var>}{<var>FRACTION1.denominator.string</var>} \div
+                                            \dfrac{<var>FRACTION2.denominator.string</var>}{<var>FRACTION2.numerator.string</var>}
                     </code></p>
                 </p>
 
                 <div class="hints" data-apply="prependContents">
                     <div>
                         <p>Dividing by an expression is the same as multiplying by its inverse.</p>
-                        <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator.string</var>}{<var>FRACTION[0].denominator.string</var>} \times
-                                                \dfrac{<var>FRACTION[1].numerator.string</var>}{<var>FRACTION[1].denominator.string</var>}
+                        <p><code><var>Y</var> = \dfrac{<var>FRACTION1.numerator.string</var>}{<var>FRACTION1.denominator.string</var>} \times
+                                                \dfrac{<var>FRACTION2.numerator.string</var>}{<var>FRACTION2.denominator.string</var>}
                         </code></p>
                     </div>
                 </div>
@@ -168,23 +168,23 @@
             <p>When multiplying fractions, we multiply the numerators and the denominators.</p>
 
             <p><code><var>Y</var> = \dfrac{
-                <span data-if="FRACTION[0].numerator.parenthesise">(<var>FRACTION[0].numerator.string</var>)</span>
-                <span data-else=""><var>FRACTION[0].numerator.string</var></span> \times
-                <span data-if="FRACTION[1].numerator.parenthesise">(<var>FRACTION[1].numerator.string</var>)</span>
-                <span data-else=""><var>FRACTION[1].numerator.string</var></span> } {
-                <span data-if="FRACTION[0].denominator.parenthesise">(<var>FRACTION[0].denominator.string</var>)</span>
-                <span data-else=""><var>FRACTION[0].denominator.string</var></span> \times
-                <span data-if="FRACTION[1].denominator.parenthesise">(<var>FRACTION[1].denominator.string</var>)</span>
-                <span data-else=""><var>FRACTION[1].denominator.string</var></span> }
+                <span data-if="FRACTION1.numerator.parenthesise">(<var>FRACTION1.numerator.string</var>)</span>
+                <span data-else=""><var>FRACTION1.numerator.string</var></span> \times
+                <span data-if="FRACTION2.numerator.parenthesise">(<var>FRACTION2.numerator.string</var>)</span>
+                <span data-else=""><var>FRACTION2.numerator.string</var></span> } {
+                <span data-if="FRACTION1.denominator.parenthesise">(<var>FRACTION1.denominator.string</var>)</span>
+                <span data-else=""><var>FRACTION1.denominator.string</var></span> \times
+                <span data-if="FRACTION2.denominator.parenthesise">(<var>FRACTION2.denominator.string</var>)</span>
+                <span data-else=""><var>FRACTION2.denominator.string</var></span> }
             </code></p>
 
-            <p data-if="FRACTION[0].numerator.parenthesise || FRACTION[0].denominator.parenthesise ||
-                        FRACTION[1].numerator.parenthesise || FRACTION[1].denominator.parenthesise"><code>
+            <p data-if="FRACTION1.numerator.parenthesise || FRACTION1.denominator.parenthesise ||
+                        FRACTION2.numerator.parenthesise || FRACTION2.denominator.parenthesise"><code>
                 <var>Y</var> = \dfrac
-                    {<var>FRACTION[2].numerator[0]</var>
-                    <span data-if="FRACTION[2].numerator[1].toString() !== '1'"> \times <var>FRACTION[2].numerator[1]</var></span>(<var>COMMON_TERM</var>)}
-                    {<var>FRACTION[2].denominator[0]</var>
-                    <span data-if="FRACTION[2].denominator[1].toString() !== '1'"> \times <var>FRACTION[2].denominator[1]</var></span>(<var>COMMON_TERM</var>)}
+                    {<var>FRACTION3.numerator[0]</var>
+                    <span data-if="FRACTION3.numerator[1].toString() !== '1'"> \times <var>FRACTION3.numerator[1]</var></span>(<var>COMMON_TERM</var>)}
+                    {<var>FRACTION3.denominator[0]</var>
+                    <span data-if="FRACTION3.denominator[1].toString() !== '1'"> \times <var>FRACTION3.denominator[1]</var></span>(<var>COMMON_TERM</var>)}
             </code></p>
 
             <p><code>
