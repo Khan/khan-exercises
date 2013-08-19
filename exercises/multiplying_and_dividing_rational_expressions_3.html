@@ -156,7 +156,7 @@
                                 </tr>
                             </tbody></table></td>
                             <td>
-                                <code> \space <var>X</var> \neq </code><span class="sol soln-dom short32">a</span>
+                                <code> \space <var>X</var> \neq \space </code><span class="sol soln-dom short32">a</span>
                             </td>
                         </tr>
                     </tbody></table>
@@ -191,16 +191,15 @@
                 <var>Y</var> = \dfrac{<var>NUMERTERM</var>(<var>COMMON_TERM</var>)}{<var>DENOMTERM</var>(<var>COMMON_TERM</var>)}
             </code></p>
 
-            <p>We can cancel the <code><span data-if="COEFFICIENT !== 1"><var>COEFFICIENT</var></span><var>X</var> + <var>CONSTANT</var></code>
-                so long as <code><span data-if="COEFFICIENT !== 1"><var>COEFFICIENT</var></span><var>X</var> + <var>CONSTANT</var> \neq 0</code>.</p>
+            <p>We can cancel the <code><var>COMMON_TERM</var></code> so long as <code><var>COMMON_TERM</var></var> \neq 0</code>.</p>
 
             <p>Therefore <code><var>X</var> \neq <var>fraction(-CONSTANT, COEFFICIENT, true, true)</var></code>.</p>
 
             <p><code><var>Y</var>
                 = \dfrac{<var>NUMERTERM</var> \cancel{(<var>COMMON_TERM</var>})}{<var>DENOMTERM</var> \cancel{(<var>COMMON_TERM</var>)}}
-                = \dfrac{<var>NUMERTERM</var>}{<var>DENOMTERM</var>}
+                = <var>writeExpressionFraction(NUMERTERM, DENOMTERM)</var>
                 <span data-if="FACTOR.toString() !== '1'">=
-                    <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
+                    <span data-if="DENOMSOL.toString() !== '1'"><var>writeExpressionFraction(NUMERSOL, DENOMSOL)</var></span>
                     <span data-else=""><var>NUMERSOL</var></span>
                 </span>
             </code></p>
