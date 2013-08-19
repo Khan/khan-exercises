@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions rational-expressions">
+<html data-require="math math-format rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying rational expressions 2</title>
@@ -11,7 +11,7 @@
                 expr += " - ";
             }
             if (term !== 0) {
-                expr += "(" + KhanUtil.getPrimeFactorization( Math.abs(term) ).join( "\\cdot" );
+                expr += "(" + KhanUtil.getPrimeFactorization(Math.abs(term)).join("\\cdot");
             }
             return expr;
         };
@@ -64,17 +64,13 @@
         <div class="problems">
             <div>
                 <div class="vars">
-                    <div data-ensure="X !== Y">
-                        <var id="X">randVar()</var>
-                        <var id="Y">randVar()</var>
-                    </div>
+                    <var id="X">randVar()</var>
+                    <var id="Y" data-ensure="X !== Y">randVar()</var>
                     <div data-ensure="COEFFICIENT1 !== 0 || CONSTANT1 !== 0">
                         <var id="COEFFICIENT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
                         <var id="CONSTANT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
                     </div>
-                    <div data-ensure="COEFFICIENT1 !== 0 || COEFFICIENT2 !== 0">
-                        <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
-                    </div>
+                    <var id="COEFFICIENT2" data-ensure="COEFFICIENT1 !== 0 || COEFFICIENT2 !== 0">randRangeWeighted(-10, 10, 0, 0.15)</var>
 
                     <var id="CONSTANT2">(function() {
                         if (getGCD(COEFFICIENT1, CONSTANT1) !== 1 &amp;&amp; getGCD(COEFFICIENT2, CONSTANT1) !== 1) {
@@ -89,25 +85,18 @@
                         }
                     })()</var>
 
-                    <var id="FACTOR">randRange( 2, 12 )</var>
+                    <var id="FACTOR">randRange(2, 12)</var>
                     <var id="DEGREE">randRangeWeighted(0, 2, 0, 0.5)</var>
-                    <var id="FACTORDEGREE">expr(["*", FACTOR, ["^", X, DEGREE]])</var>
-                    <var id="NUMERATOR">expr(["+", ["*", FACTOR * COEFFICIENT1, ["^", X, DEGREE + 1]], ["*", FACTOR * CONSTANT1, ["^", X, DEGREE]]])</var>
-                    <var id="DENOMINATOR">expr(["+", ["*", FACTOR * COEFFICIENT2, ["^", X, DEGREE + 1]], ["*", FACTOR * CONSTANT2, ["^", X, DEGREE]]])</var>
-                    <var id="NUMERATORSOL">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
-                    <var id="DENOMINATORSOL">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
-                    <var id="NEGNUMERATORSOL">expr(["+", ["*", -COEFFICIENT1, X], -CONSTANT1])</var>
-                    <var id="NEGDENOMINATORSOL">expr(["+", ["*", -COEFFICIENT2, X], -CONSTANT2])</var>
-                    <var id="REGEX">(function() {
-                        if (COEFFICIENT2 &lt; 0 || (COEFFICIENT2 === 0 &amp;&amp; CONSTANT2 &lt; 0)) {
-                            return [getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1),
-                                    getExpressionRegex(-COEFFICIENT2, X, -CONSTANT2)];
-                        } else {
-                            return [getExpressionRegex(COEFFICIENT1, X, CONSTANT1),
-                                    getExpressionRegex(COEFFICIENT2, X, CONSTANT2)];
-                        }
+                    <var id="FACTORDEGREE">(function() {
+                        var d = {};
+                        d[X] = DEGREE;
+                        return new Term(FACTOR, d);
                     })()
                     </var>
+                    <var id="NUMERATORSOL">new RationalExpression([[COEFFICIENT1, X], CONSTANT1])</var>
+                    <var id="DENOMINATORSOL">new RationalExpression([[COEFFICIENT2, X], CONSTANT2])</var>
+                    <var id="NUMERATOR">NUMERATORSOL.multiply(FACTORDEGREE)</var>
+                    <var id="DENOMINATOR">DENOMINATORSOL.multiply(FACTORDEGREE)</var>
                 </div>
 
                 <p class="question">Simplify the following expression:</p>
@@ -116,9 +105,14 @@
 
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>REGEX[0]</var></span>
-                        <span class="sol" data-type="regex"><var>REGEX[1]</var></span>
+                        <span class="sol" data-type="regex"><var>NUMERATORSOL.regex(true)</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMINATORSOL.regex(true)</var></span>
                     </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NUMERATORSOL.multiply(-1).regex(true)</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMINATORSOL.multiply(-1).regex(true)</var></span>
+                    </div>
+
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
                             <table>
@@ -165,21 +159,13 @@
 
                     <div>
                         <p>Dividing both the numerator and denominator by <code><var>FACTORDEGREE</var></code> gives:</p>
-                        <div data-if="DENOMINATORSOL === '1'">
-                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply, <code><var>Y</var> = <var>NUMERATORSOL</var></code>
+                        <div data-if="DENOMINATORSOL.toString() === '1'">
+                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply, 
+                            <code><var>Y</var> = <var>NUMERATORSOL</var></code>
                         </div>
                         <div data-else="">
                             <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code>
                         </div>
-                    </div>
-
-                    <div data-if="exprIsNegated(DENOMINATORSOL) && DENOMINATORSOL !== '-1'">
-                        <p>To avoid a negative denominator, multiply the numerator and denominator by -1:</p>
-                        <div><code><var>Y</var> = \dfrac{<var>NEGNUMERATORSOL</var>}{<var>NEGDENOMINATORSOL</var>}</code></div>
-                    </div>
-                    <div data-if="DENOMINATORSOL === '-1'">
-                        <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
-                        <div><code><var>Y</var> = <var>NEGNUMERATORSOL</var></code></div>
                     </div>
                 </div>
             </div>
