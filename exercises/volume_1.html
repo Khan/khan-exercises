@@ -99,18 +99,19 @@
                     }
                 ]</var>
                 <var id = "FACEDIVIDERS">[
-                {verts: [8,9,10,11],
-                color: "#A9A9A9"},
-                 {verts: [12,13,14,15],
-                color: "#A9A9A9"}
-                ]
-                </var>
+                    {
+                        verts: [8,9,10,11],
+                        color: "#A9A9A9"
+                    }, {
+                        verts: [12,13,14,15],
+                        color: "#A9A9A9"
+                    }
+                ]</var>
                 <var id="GRAPH">{}</var>
                 <var id="UNWRAPGRAPH">{}</var>
 
                 <var id="BASE_TEXT">$._("base")</var>
                 <var id="HEIGHT_TEXT">$._("height")</var>
-
 
             </div>
 
@@ -133,29 +134,29 @@
                 //Adding verticies for the cubes in one slab
                 for (var i = 1; i &lt; LENGTH; i++ ){
                     VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
-                    };
+                };
                 for (var i = 1; i &lt; LENGTH; i++ ){
                     VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT)/MAX]);
-                    };
+                };
                 for (var i = 1; i &lt; WIDTH; i++ ){
                     VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                    };
+                };
                 for (var i = 1; i &lt; WIDTH; i++ ){
                     VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                    };
+                };
 
-                 for (var i = 1; i &lt; LENGTH; i++ ){
+                for (var i = 1; i &lt; LENGTH; i++ ){
                     VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                    };
+                };
                 for (var i = 1; i &lt; LENGTH; i++ ){
                     VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                    };
+                };
                 for (var i = 1; i &lt; WIDTH; i++ ){
                     VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                    };
+                };
                 for (var i = 1; i &lt; WIDTH; i++ ){
                     VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                    };
+                };
 
                 // graphing the initial object
                 graph.obj = make3dObject(VERTICES, { scale: SCALE });
@@ -176,7 +177,7 @@
                 var spinner;
                 setTimeout(function() {
                     spinner = setInterval(function() {
-                        GRAPH.obj.rotate(0, 0, 1, 0);
+                        GRAPH.obj.rotate(0, 0, 1, 0.01);
                         GRAPH.obj.doDraw();
                     }, 50);
                 }, 300);
@@ -212,7 +213,6 @@
                         }
                     })
                 });
-
             </div>
 
             <div class="solution" data-type="multiple">

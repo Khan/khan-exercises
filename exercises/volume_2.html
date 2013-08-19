@@ -28,15 +28,12 @@
 <body>
 <div class="exercise">
     <div class="problems">
-       
-        
-    
         <div id="sending-flour" >
             <div class="vars">
-               
+
                 <var id="LENGTH">randRange(2,7)</var>
                 <var id="WIDTH">randRange(2,7)</var>
-                <var id="HEIGHT">randRange(2,7)</var>            
+                <var id="HEIGHT">randRange(2,7)</var>
             </div>
              <p>
                  <var>person(1)</var> needs to ship a package of flour to a baker.
@@ -44,26 +41,26 @@
                  <span data-else>She has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.</span>
                  The post office will not ship any box which has an edge <code>10</code> meters or longer.
              </p>
-            <p class="question"> 
+            <p class="question">
                What are the dimensions of a box which will hold exactly  <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour, but whose edge lengths are all less than <code>10</code> meters?
             </p>
             <div class="solution" data-type="custom">
                     <div class="instruction">
-                       Length <code>=</code> 
+                       Length <code>=</code>
                    <input id="response1" type="text"/> m
                    <br/>
                    Width <code>\hphantom{ }=</code>
                    <input id="response2" type="text"/> m
                    <br/>
-                   Height <code> =</code> 
+                   Height <code> =</code>
                    <input id="response3" type="text"/> m
-                   
+
                      </div>
                     <div class="guess">[$("input#response1").val(),$("input#response2").val(),$("input#response3").val()]</div>
                     <div class="validator-function">
                         return  guess[0]*guess[1]*guess[2] == LENGTH*WIDTH*HEIGHT &amp;&amp; guess[0]&lt; 10 &amp;&amp; guess[1] &lt; 10 &amp;&amp; guess[2] &lt; 10
                     </div>
-                   
+
                 </div>
 
             <div class="hints">
@@ -71,7 +68,7 @@
                     The volume of a box is the product of the length, width and height of the box.
                 </p>
                 <p>
-                    So we need to find <code>3</code> numbers whose product is <code><var>LENGTH*WIDTH*HEIGHT</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these! 
+                    So we need to find <code>3</code> numbers whose product is <code><var>LENGTH*WIDTH*HEIGHT</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these!
                 </p>
                 <p>
                     For instance, the numbers <code><var>LENGTH</var></code>, <code><var>WIDTH</var></code>, and <code><var>HEIGHT</var></code> work, but there might be other solutions as well!
@@ -80,7 +77,7 @@
         </div>
         <div id="box-minus-box" >
             <div class="vars">
-               
+
                 <var id="L1">randRange(2,12)</var>
                 <var id="W1">randRange(2,12)</var>
                 <var id="H1">randRange(2,12)</var>
@@ -88,27 +85,27 @@
                 <var id="W2">randRange(1,W1-1)</var>
                 <var id="H2">randRange(1,H1-1)</var>
                 <var id="MAX">max(max(L1,W1),H1)</var>
-                
+
                 <var id="COLOR">"#78D0EF"</var>
-                                
+
                 <var id="VERTICES">[
-                [L1/MAX,W1/MAX,-H1/MAX],
-                [-L1/MAX,W1/MAX,-H1/MAX],
-                [-L1/MAX,-W1/MAX,-H1/MAX],
-                [L1/MAX,-W1/MAX,-H1/MAX],
-                [L1/MAX,W1/MAX,H1/MAX],
-                [-L1/MAX,W1/MAX,H1/MAX],
-                [-L1/MAX,-W1/MAX,H1/MAX],
-                [L1/MAX,-W1/MAX,H1/MAX],
-                [(-L1+2*L2)/MAX,-W1/MAX,-H1/MAX],
-                [(2*L2-L1)/MAX,(2*W2-W1)/MAX,-H1/MAX],
-                [-L1/MAX,(2*W2-W1)/MAX,-H1/MAX],
-                [-L1/MAX,-W1/MAX,(2*H2-H1)/MAX],
-                 [(-L1+2*L2)/MAX,-W1/MAX,(2*H2-H1)/MAX],
-                [(2*L2-L1)/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX],
-                [-L1/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX]
+                    [L1/MAX,W1/MAX,-H1/MAX],
+                    [-L1/MAX,W1/MAX,-H1/MAX],
+                    [-L1/MAX,-W1/MAX,-H1/MAX],
+                    [L1/MAX,-W1/MAX,-H1/MAX],
+                    [L1/MAX,W1/MAX,H1/MAX],
+                    [-L1/MAX,W1/MAX,H1/MAX],
+                    [-L1/MAX,-W1/MAX,H1/MAX],
+                    [L1/MAX,-W1/MAX,H1/MAX],
+                    [(-L1+2*L2)/MAX,-W1/MAX,-H1/MAX],
+                    [(2*L2-L1)/MAX,(2*W2-W1)/MAX,-H1/MAX],
+                    [-L1/MAX,(2*W2-W1)/MAX,-H1/MAX],
+                    [-L1/MAX,-W1/MAX,(2*H2-H1)/MAX],
+                    [(-L1+2*L2)/MAX,-W1/MAX,(2*H2-H1)/MAX],
+                    [(2*L2-L1)/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX],
+                    [-L1/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX]
                 ]</var>
-                
+
                <var id="SCALE">4.0</var>
                 <var id="FACES">[
                     {
@@ -139,55 +136,55 @@
 
             </div>
              <p>
-                 A water tank is <code><var>H1</var></code> feet high, <code><var>L1</var></code> feet long, and <code><var>W1</var></code> feet wide.  
+                 A water tank is <code><var>H1</var></code> feet high, <code><var>L1</var></code> feet long, and <code><var>W1</var></code> feet wide.
                  A solid metal box which is <code><var>H2</var></code> feet high, <code><var>L2</var></code> feet long, and <code><var>W2</var></code> feet wide
-                  is sitting at the bottom of the tank.  The tank is filled with water.  
+                  is sitting at the bottom of the tank.  The tank is filled with water.
              </p>
-            <p class="question"> 
+            <p class="question">
                 What is the volume of the water in the tank?
             </p>
 
-            <div class="solution" data-type="multiple">    
+            <div class="solution" data-type="multiple">
                <p> <span class="sol"><var>L1*W1*H1 - L2*W2*H2</var></span> <code>\text{ft}^3</code></p>
             </div>
 
             <div class="hints">
                 <div>
-                
+
                 <div class="graphie" id = "box">
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
-                                     
+
                      //  graphing the initial object
                       graph.obj = make3dObject(VERTICES, { scale: SCALE });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
                     });
-                    
+
                     graph.obj.addSketch(
                         {verts: [8,9,10,2]}
-                        );
-                    
+                    );
+
                     graph.obj.addSketch(
                         {verts: [11,12,13,14,11]}
-                        );
-                        
+                    );
+
                     graph.obj.addSketch(
                         {verts: [2,11]}
-                        );
-                    
+                    );
+
                     graph.obj.addSketch(
                         {verts: [8,12]}
-                        );
-                        
+                    );
+
                     graph.obj.addSketch(
                         {verts: [9,13]}
-                        );
-                    
+                    );
+
                     graph.obj.addSketch(
                         {verts: [10,14]}
-                        );
-                        
+                    );
+
                     graph.obj.setPos([0, 0, 5]);
                     graph.obj.rotate(1,0 , 0, PI/3);
                     graph.obj.rotate(0, 1, 0, 0);
@@ -238,18 +235,16 @@
                     });
 
                 </div>
-                    
                     <p>
-                        The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = <var>H1*L1*W1</var></code> cubic feet, 
+                        The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = <var>H1*L1*W1</var></code> cubic feet,
                         and the metal box has a volume of <code><var>H2</var> \times <var>L2</var> \times <var>W2</var> = <var>H2*W2*L2</var></code> cubic feet.
                     </p>
-                    
                 </div>
                 <p>
                     Since there is no water in the box, the volume of the water in the tank is the volume of the tank minus the volume of the metal box.
                 </p>
                 <p>
-                    The volume of the water in the tank is <code><var>H1*L1*W1</var> \text{ft}^3 - <var>H2*L2*W2</var> \text{ft}^3 = <var>H1*L1*W1 - H2*L2*W2</var>\text{ft}^3</code> 
+                    The volume of the water in the tank is <code><var>H1*L1*W1</var> \text{ft}^3 - <var>H2*L2*W2</var> \text{ft}^3 = <var>H1*L1*W1 - H2*L2*W2</var>\text{ft}^3</code>
                 </p>
             </div>
         </div>
@@ -334,14 +329,12 @@
                         color: COLOR2
                     }
                 ]</var>
-               
+
                 <var id="GRAPH">{}</var>
                 <var id="UNWRAPGRAPH">{}</var>
 
                 <var id="BASE_TEXT">$._("base")</var>
                 <var id="HEIGHT_TEXT">$._("height")</var>
-                
-                
             </div>
 
             <p class="question">
@@ -352,7 +345,7 @@
                   <var>VOL * CONVERSION * CONVERSION * CONVERSION</var>
 
             </div>
-    
+
             <div class="hints">
             <p>First we will figure out how many cubic <var>plural_form(TO)</var> fit in one cubic <var>FROM</var>.</p>
             <p>
@@ -371,46 +364,44 @@
                 <div class="graphie" id = "box">
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
-                    
+
                     //Adding verticies for the slabs
                     for (var i = 1; i &lt; HEIGHT;i++ ){
                         VERTICES.push( [LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
                         VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
                         VERTICES.push([-LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
                         VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                        };
-                        
-                    console.log(VERTICES.length);
-                    
-                    //Adding verticies for the cubes in one slab    
+                    };
+
+                    //Adding verticies for the cubes in one slab
                     for (var i = 1; i &lt; LENGTH; i++ ){
                         VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; LENGTH; i++ ){
                         VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; WIDTH; i++ ){
                         VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; WIDTH; i++ ){
                         VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                        };
-                        
-                     for (var i = 1; i &lt; LENGTH; i++ ){
+                    };
+
+                    for (var i = 1; i &lt; LENGTH; i++ ){
                         VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; LENGTH; i++ ){
                         VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; WIDTH; i++ ){
                         VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; WIDTH; i++ ){
                         VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                        };
+                    };
 
-                     //  graphing the initial object
-                      graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                    //  graphing the initial object
+                    graph.obj = make3dObject(VERTICES, { scale: SCALE });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
                     });
@@ -462,10 +453,9 @@
                             }
                         })
                     });
-
                 </div>
             </div>
-                
+
                <p>
                        There are
                        <code><var>CONVERSION</var> \times <var>CONVERSION</var>
@@ -489,13 +479,7 @@
                        So <code><var>VOL * CONVERSION * CONVERSION * CONVERSION</var></code> cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(TO, VOL)</var>.
                </p>
             </div>
-            
         </div>
-        
-        
-
-
-        
     </div>
 </div>
 </body>

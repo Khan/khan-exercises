@@ -81,99 +81,95 @@
                         color: COLOR2
                     }
                 ]</var>
-               
-                
             </div>
 
             <p class="question">
                 What is the volume of this box?
             </p>
-                
-             <p>
-                 Note:  Each cube is a cubic <var>UNIT</var>
+
+            <p>
+                Note:  Each cube is a cubic <var>UNIT</var>
             </p>
             <div class="graphie" id = "box">
-                    init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
-                    addMouseLayer();
-         
-                     var start1 = 7;
-                     
-                     for (var i = 1; i &lt; LENGTH;i++){
-                         VERTICES.push([(-LENGTH+2*i)/MAX,-WIDTH/MAX,HEIGHT/MAX]);
-                         };
-                         
-                      for (var i = 1; i &lt; LENGTH;i++){
-                         VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,HEIGHT/MAX]);
-                         };
-                         
-                     for (var i = 1; i &lt; LENGTH;i++){
-                         VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,-HEIGHT/MAX]);
-                         };
-                         
-                     var start2=VERTICES.length-1;
-                     
-                      for (var i = 1; i &lt; WIDTH;i++){
-                         VERTICES.push([-LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
-                         };
-                         
-                     for (var i = 1; i &lt; WIDTH;i++){
-                         VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
-                         };
-                         
-                      for (var i = 1; i &lt; WIDTH;i++){
-                         VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,-HEIGHT/MAX]);
-                         };
-                         
-                         var start3 = VERTICES.length-1;
-                         
-                     for (var i = 1; i &lt; HEIGHT;i++){
-                         VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                         };
-                         
-                     for (var i = 1; i &lt; HEIGHT;i++){
-                         VERTICES.push([LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                         };
-                     
-                     for (var i = 1; i &lt; HEIGHT;i++){
-                         VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                         };
-                         
-                     
-                     
-                     //graphing the initial object
-                      graph.obj = make3dObject(VERTICES, { scale: SCALE });
-                    _.each(FACES, function(face) {
-                        graph.obj.addFace(face);
-                    });
-                    
-                    for (var i = 1;i&lt;LENGTH;i++){
-                        graph.obj.addSketch({ verts: [start1+i,start1+i+LENGTH-1,start1+i+2*LENGTH-2], opacityValue:0.5});
-                    };
-                    
-                    for (var i = 1;i&lt;WIDTH;i++){
-                        graph.obj.addSketch({ verts: [start2+i,start2+i+WIDTH-1,start2+i+2*WIDTH-2], opacityValue:0.5});
-                    };
-                    
-                    for (var i = 1;i&lt;HEIGHT;i++){
-                        graph.obj.addSketch({ verts: [start3+i,start3+i+HEIGHT-1,start3+i+2*HEIGHT-2], opacityValue:0.5});
-                    };
-                    
-                    graph.obj.setPos([0, 0, 5]);
+                init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
+                addMouseLayer();
 
-                    graph.obj.rotate(1,0 , 0, PI/3);
-                    graph.obj.rotate(0, 1, 0, 0);
-                    graph.obj.rotate(0, 0, 1, PI/6);
+                var start1 = 7;
 
-                    graph.obj.doDraw();
+                for (var i = 1; i &lt; LENGTH;i++){
+                    VERTICES.push([(-LENGTH+2*i)/MAX,-WIDTH/MAX,HEIGHT/MAX]);
+                };
 
-                    GRAPH = graph;
-                </div>
-            
+                for (var i = 1; i &lt; LENGTH;i++){
+                    VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,HEIGHT/MAX]);
+                };
+
+                for (var i = 1; i &lt; LENGTH;i++){
+                    VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,-HEIGHT/MAX]);
+                };
+
+                var start2=VERTICES.length-1;
+
+                for (var i = 1; i &lt; WIDTH;i++){
+                    VERTICES.push([-LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
+                };
+
+                for (var i = 1; i &lt; WIDTH;i++){
+                    VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
+                };
+
+                for (var i = 1; i &lt; WIDTH;i++){
+                    VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,-HEIGHT/MAX]);
+                };
+
+                var start3 = VERTICES.length-1;
+
+                for (var i = 1; i &lt; HEIGHT;i++){
+                    VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                };
+
+                for (var i = 1; i &lt; HEIGHT;i++){
+                    VERTICES.push([LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                };
+
+                for (var i = 1; i &lt; HEIGHT;i++){
+                    VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                };
+
+
+
+                //graphing the initial object
+                graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                _.each(FACES, function(face) {
+                    graph.obj.addFace(face);
+                });
+
+                for (var i = 1;i&lt;LENGTH;i++){
+                    graph.obj.addSketch({ verts: [start1+i,start1+i+LENGTH-1,start1+i+2*LENGTH-2], opacityValue:0.5});
+                };
+
+                for (var i = 1;i&lt;WIDTH;i++){
+                    graph.obj.addSketch({ verts: [start2+i,start2+i+WIDTH-1,start2+i+2*WIDTH-2], opacityValue:0.5});
+                };
+
+                for (var i = 1;i&lt;HEIGHT;i++){
+                    graph.obj.addSketch({ verts: [start3+i,start3+i+HEIGHT-1,start3+i+2*HEIGHT-2], opacityValue:0.5});
+                };
+
+                graph.obj.setPos([0, 0, 5]);
+
+                graph.obj.rotate(1,0 , 0, PI/3);
+                graph.obj.rotate(0, 1, 0, 0);
+                graph.obj.rotate(0, 0, 1, PI/6);
+
+                graph.obj.doDraw();
+
+                GRAPH = graph;
+            </div>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol" data-type="rational"><var>LENGTH*WIDTH*HEIGHT</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
             </div>
-           
 
             <div class="hints">
                 <p>
@@ -185,7 +181,6 @@
                 <p>
                     There are a total of <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubes.
                 </p>
-                
             </div>
         </div>
         <div id="weirdShape" >
@@ -206,198 +201,185 @@
             </p>
             <p>
                 Each cube has side lengths of one <var>UNIT</var>.  You can click and drag to rotate the shape.
-            </p>                
-                 <div class="graphie" id = "box">
-                    init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
-                    addMouseLayer();
-                    
-                   
-                     //cubes stores the positions of the cubes
-                     var cubes = [[0,0,0]];
-                     // inArray checks whether a point is in the array allready.  For example inArray([0,0,0],[[0,0,0,],[0,0,1]]) = true,
-                     //but inArray([0,0,2],[[0,0,0],[0,0,1]])  = false.  This is only used for an ordered triple and an array of ordered triples.
-                         
-                     var inArray = function(point,array){
-                         for (var i=0; i&lt; array.length;i++){
-                             if (point[0] == array[i][0] &amp;&amp; point[1] == array[i][1] &amp;&amp; point[2] == array[i][2]){
-                                 return true;
-                                 }
-                             }
-                         return false;
-                         }
-                     //This will store the boundary of the current set of cubes
-                     
-                     
-                     //Add cubes to cubes from the current boundary until we have VOL cubes
-                     for (var i = 0; i &lt; VOL-1; i++){
-                         var boundary =  [];
-                         // Figuring out the current boundary
-                          for (var j = 0; j&lt;cubes.length;j++){
-                              var cube0 = [cubes[j][0]+1,cubes[j][1],cubes[j][2]];
-                              var cube1 = [cubes[j][0],cubes[j][1]+1,cubes[j][2]];
-                              var cube2 = [cubes[j][0],cubes[j][1],cubes[j][2]+1];
-                              var cube3 = [cubes[j][0]-1,cubes[j][1],cubes[j][2]];
-                              var cube4 = [cubes[j][0],cubes[j][1]-1,cubes[j][2]];
-                              var cube5 = [cubes[j][0],cubes[j][1],cubes[j][2]-1];
-                              if (! inArray(cube0,cubes) &amp;&amp; ! inArray(cube0,boundary)){
-                                  boundary.push(cube0);
-                                  }
-                              if (! inArray(cube1,cubes) &amp;&amp; ! inArray(cube1,boundary)){
-                                  boundary.push(cube1);
-                                  }
-                              if (! inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
-                                  boundary.push(cube2);
-                                  }
-                              if (! inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
-                                  boundary.push(cube2);
-                                  }
-                              if (! inArray(cube3,cubes) &amp;&amp; ! inArray(cube3,boundary)){
-                                  boundary.push(cube3);
-                                  }
-                              if (! inArray(cube4,cubes) &amp;&amp; ! inArray(cube4,boundary)){
-                                  boundary.push(cube4);
-                                  }
-                              }
-                              
-                              cubes.push(boundary[randRange(0,boundary.length-1)]);                         
-                         }
-                         
-                         // Addind vertices and faces
-                         
-                         for (var i  = 0; i&lt;VOL;i++){
-                             var index = VERTICES.length;
-                             VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
-                             VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
-                             VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
-                             VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
-                             VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
-                             VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
-                             VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
-                             VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
-                             
-                             //only add a face if there is not another cube next to it
-                             if (! inArray([cubes[i][0]+1,cubes[i][1],cubes[i][2]],cubes)){
-                                 FACES.push({
-                                     verts: [index,index+4,index+5,index+1],
-                                     color: COLOR1
-                                     });
-                                     
-                                     surfaceArea++
-                                 }
-                                 
-                             if (! inArray([cubes[i][0]-1,cubes[i][1],cubes[i][2]],cubes)){
-                                 FACES.push({
-                                     verts: [index+7,index+3,index+2,index+6],
-                                     color: COLOR1
-                                     });
-                                     surfaceArea++
-                                 }
-                                 
-                             if (! inArray([cubes[i][0],cubes[i][1]+1,cubes[i][2]],cubes)){
-                                 FACES.push({
-                                     verts: [index,index+3,index+7,index+4],
-                                     color: COLOR2
-                                     });
-                                     surfaceArea++
-                                 }
-                                 
-                             if (! inArray([cubes[i][0],cubes[i][1]-1,cubes[i][2]],cubes)){
-                                 FACES.push({
-                                     verts: [index+5,index+6,index+2,index+1],
-                                     color: COLOR2
-                                     });
-                                     surfaceArea++
-                                 }
-                                 
-                             if (! inArray([cubes[i][0],cubes[i][1],cubes[i][2]+1],cubes)){
-                                 FACES.push({
-                                     verts: [index+4,index+7,index+6,index+5],
-                                     color: COLOR3
-                                     });
-                                     surfaceArea++
-                                 }
-                                 
-                             if (! inArray([cubes[i][0],cubes[i][1],cubes[i][2]-1],cubes)){
-                                 FACES.push({
-                                     verts: [index+3,index,index+1,index+2],
-                                     color: COLOR3
-                                     });
-                                     surfaceArea++
-                                 }
-                             }
-                                                      
-                                                  
-                     //  graphing the initial object
-                      graph.obj = make3dObject(VERTICES, { scale: SCALE, facesTransparent: false, faceBorder:true });
-                    _.each(FACES, function(face) {
-                        graph.obj.addFace(face);
-                    });
-                    
-                    
-                    
-                    
-                    graph.obj.setPos([0, 0, 5]);
+            </p>
+            <div class="graphie" id = "box">
+                init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
+                addMouseLayer();
 
-                    graph.obj.rotate(1,0 , 0, PI/3);
-                    graph.obj.rotate(0, 1, 0, 0);
-                    graph.obj.rotate(0, 0, 1, PI/8);
+                //cubes stores the positions of the cubes
+                var cubes = [[0,0,0]];
 
-                    graph.obj.doDraw();
+                // inArray checks whether a point is in the array already.
+                // For example inArray([0,0,0],[[0,0,0,],[0,0,1]]) = true,
+                // but inArray([0,0,2],[[0,0,0],[0,0,1]]) = false. This is
+                // only used for an ordered triple and an array of ordered
+                // triples.
 
-                   GRAPH = graph;
+                var inArray = function(point,array) {
+                    for (var i=0; i&lt; array.length;i++) {
+                        if (point[0] == array[i][0] &amp;&amp; point[1] == array[i][1] &amp;&amp; point[2] == array[i][2]){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                //This will store the boundary of the current set of cubes
 
-                    var spinner;
-                    setTimeout(function() {
-                        spinner = setInterval(function() {
-                            GRAPH.obj.rotate(0, 0, 1, 0);
-                            GRAPH.obj.doDraw();
-                        }, 50);
-                    }, 300);
 
-                    var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
-                        fill: "#000", opacity: 0.0
-                    });
-                    $(mouseTarget[0]).bind("vmousedown", function(event) {
+                //Add cubes to cubes from the current boundary until we have VOL cubes
+                for (var i = 0; i &lt; VOL-1; i++){
+                    var boundary =  [];
+                    // Figuring out the current boundary
+                    for (var j = 0; j&lt;cubes.length;j++){
+                        var cube0 = [cubes[j][0]+1,cubes[j][1],cubes[j][2]];
+                        var cube1 = [cubes[j][0],cubes[j][1]+1,cubes[j][2]];
+                        var cube2 = [cubes[j][0],cubes[j][1],cubes[j][2]+1];
+                        var cube3 = [cubes[j][0]-1,cubes[j][1],cubes[j][2]];
+                        var cube4 = [cubes[j][0],cubes[j][1]-1,cubes[j][2]];
+                        var cube5 = [cubes[j][0],cubes[j][1],cubes[j][2]-1];
+
+                        if (!inArray(cube0,cubes) &amp;&amp; ! inArray(cube0,boundary)){
+                            boundary.push(cube0);
+                        }
+
+                        if (!inArray(cube1,cubes) &amp;&amp; ! inArray(cube1,boundary)){
+                            boundary.push(cube1);
+                        }
+
+                        if (!inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
+                            boundary.push(cube2);
+                        }
+
+                        if (!inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
+                            boundary.push(cube2);
+                        }
+
+                        if (!inArray(cube3,cubes) &amp;&amp; ! inArray(cube3,boundary)){
+                            boundary.push(cube3);
+                        }
+
+                        if (!inArray(cube4,cubes) &amp;&amp; ! inArray(cube4,boundary)){
+                            boundary.push(cube4);
+                        }
+                    }
+
+                    cubes.push(boundary[randRange(0,boundary.length-1)]);
+                }
+
+                // Addind vertices and faces
+                for (var i = 0; i &lt; VOL; i++) {
+                    var index = VERTICES.length;
+
+                    VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
+                    VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
+                    VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
+                    VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
+                    VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
+                    VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
+                    VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
+                    VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
+
+                    //only add a face if there is not another cube next to it
+                    if (!inArray([cubes[i][0]+1,cubes[i][1],cubes[i][2]],cubes)) {
+                        FACES.push({
+                            verts: [index,index+4,index+5,index+1],
+                            color: COLOR1
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0]-1,cubes[i][1],cubes[i][2]],cubes)) {
+                        FACES.push({
+                            verts: [index+7,index+3,index+2,index+6],
+                            color: COLOR1
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0],cubes[i][1]+1,cubes[i][2]],cubes)) {
+                        FACES.push({
+                            verts: [index,index+3,index+7,index+4],
+                            color: COLOR2
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0],cubes[i][1]-1,cubes[i][2]],cubes)) {
+                        FACES.push({
+                            verts: [index+5,index+6,index+2,index+1],
+                            color: COLOR2
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0],cubes[i][1],cubes[i][2]+1],cubes)) {
+                        FACES.push({
+                            verts: [index+4,index+7,index+6,index+5],
+                            color: COLOR3
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0],cubes[i][1],cubes[i][2]-1],cubes)) {
+                        FACES.push({
+                            verts: [index+3,index,index+1,index+2],
+                            color: COLOR3
+                        });
+                        surfaceArea++;
+                    }
+                }
+
+                //  graphing the initial object
+                graph.obj = make3dObject(VERTICES, { scale: SCALE, facesTransparent: false, faceBorder:true });
+
+                _.each(FACES, function(face) {
+                    graph.obj.addFace(face);
+                });
+
+                graph.obj.setPos([0, 0, 5]);
+
+                graph.obj.rotate(1,0 , 0, PI/3);
+                graph.obj.rotate(0, 1, 0, 0);
+                graph.obj.rotate(0, 0, 1, PI/8);
+
+                graph.obj.doDraw();
+
+                GRAPH = graph;
+
+                var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
+                    fill: "#000", opacity: 0.0
+                });
+
+                $(mouseTarget[0]).bind("vmousedown", function(event) {
+                    GRAPH.lastX = event.pageX;
+                    GRAPH.lastY = event.pageY;
+
+                    $(document).bind("vmousemove vmouseup", function(event) {
+                        event.preventDefault();
+
+                        var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
+                        var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+
                         GRAPH.lastX = event.pageX;
                         GRAPH.lastY = event.pageY;
 
-                        clearInterval(spinner);
+                        var xAxis = normalize(GRAPH.obj.perspective[1]);
+                        var yAxis = normalize(GRAPH.obj.perspective[0]);
 
-                        $(document).bind("vmousemove vmouseup", function(event) {
-                            event.preventDefault();
+                        GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                        GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
 
-                            var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
-                            var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+                        GRAPH.obj.doDraw();
 
-                            GRAPH.lastX = event.pageX;
-                            GRAPH.lastY = event.pageY;
-
-                            var xAxis = normalize(GRAPH.obj.perspective[1]);
-                            var yAxis = normalize(GRAPH.obj.perspective[0]);
-
-                            GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
-                            GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
-
-                            GRAPH.obj.doDraw();
-
-                            if (event.type === "vmouseup") {
-                                $(document).unbind("vmousemove vmouseup");
-                            }
-                        })
-                    });
-
-                    
-                    
-                    
-
-                </div>
-            
-
+                        if (event.type === "vmouseup") {
+                            $(document).unbind("vmousemove vmouseup");
+                        }
+                    })
+                });
+            </div>
             <div class="solution" data-type="multiple">
                 <p><span class="sol" data-type="rational"><var>VOL</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
             </div>
-           
-
             <div class="hints">
                 <p>
                     The volume of a shape can measured by the number of cubic <var>plural_form(UNIT)</var> which make up the shape.
