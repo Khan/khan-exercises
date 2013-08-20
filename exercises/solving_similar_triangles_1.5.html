@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solving similar triangles 1.5</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="A_POINTS">["A", "B", "C"]</var>
+            <var id="B_POINTS">["A", "D", "E"]</var>
+
+            <var id="SIDE_A">randRange(2, 10)</var>
+            <var id="HEIGHT_A">randRange(1, SIDE_A)</var>
+            <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
+            
+            <var id="SIDE_B">randRange(2, 10)</var>
+            <var id="HEIGHT_B">(SIDE_A + SIDE_B) * HEIGHT_A / SIDE_A</var>
+            <var id="HEIGHT_B2">fractionReduce((SIDE_A + SIDE_B) * HEIGHT_A, SIDE_A)</var>
+
+            <var id="TRI_A">new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50 * SIDE_A / (SIDE_A + SIDE_B) * HEIGHT_A / HEIGHT_B, {})</var>
+            <var id="TRI_B">function(){
+                    var trA = new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50, {});
+                    trA.labels = { "points" : B_POINTS };
+                    return trA;
+                }()
+            </var>
+        </div>
+
+        <div class="problems">
+            <div id="similar">
+
+                <div class="problem"><p>What is the length of <code>\overline{DE}</code>?</p></div>
+                <div class="question">
+                    <div class="graphie" id="triangles">
+                        var tri_range = TRI_B.boundingRange(1);
+
+                        init({
+                            range: [[tri_range[0][0], tri_range[0][1]],
+                                    [tri_range[1][0], tri_range[1][1]]],
+                            scale: 400 / (tri_range[0][1] - tri_range[0][0])
+                        })
+
+                        style({
+                            strokeWidth: 1,
+                            stroke: KhanUtil.BLACK
+                        });
+
+                        var x_max = TRI_B.boundingRange()[0][1];
+                        var y_max = TRI_B.boundingRange()[1][1];
+                        var line_x = x_max * SIDE_A / (SIDE_A + SIDE_B);
+                        var line_y = y_max * HEIGHT_A / HEIGHT_B;
+                        var square = (tri_range[0][1] - tri_range[0][0]) / 25;
+
+                        rect(x_max - square, 0, square, square);
+                        rect(line_x - square, 0, square, square);
+
+                        style({
+                            strokeWidth: 2,
+                            stroke: KhanUtil.BLUE
+                        });
+
+                        TRI_A.draw();
+                        TRI_B.draw();
+                        TRI_B.drawLabels();
+
+                        style({
+                            color: "black"
+                        });
+                        label([line_x, 0], "B", "below");
+                        label([line_x, line_y], "C", "above");
+                        label([line_x/2, 0], SIDE_A, "below");
+                        label([line_x, line_y/2], HEIGHT_A, "right");
+                        label([(SIDE_A + SIDE_B/2) * x_max / (SIDE_A + SIDE_B) , 0], SIDE_B, "below");
+                    </div>
+                </div>
+
+                <div class="solution"><var>HEIGHT_B</var></div>
+
+                <div class="hints">
+                    <p>
+                        Notice that <code>\triangle ABC</code> and <code>\triangle ADE</code> 
+                        both have a right angle and share <code>\angle BAC</code>.
+                    </p>
+
+                    <p>Therefore <code>\triangle ABC</code> and <code>\triangle ADE</code> are similar triangles.</p>
+                    
+                    <p>
+                        Therefore, the ratio <code>\overline{DE} : \overline{AD}</code>
+                        is equal to the ratio <code>\overline{BC} : \overline{AB}</code>
+                    </p>
+
+                    <p><code>\overline{BC} : \overline{AB} = <var>fraction(HEIGHT_A, SIDE_A)</var></code></p>
+
+                    <p><code>
+                        \overline{DE} : \overline{AD} = \dfrac{\overline{DE}}{<var>SIDE_A + SIDE_B</var>}
+                         = <var>fraction(HEIGHT_A, SIDE_A)</var>
+                     </code></p>
+
+                     <p><code>
+                        \overline{DE} = <var>SIDE_A + SIDE_B</var> \times <var>fraction(HEIGHT_A, SIDE_A)</var> = <var>HEIGHT_B2</var>
+                     </code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
