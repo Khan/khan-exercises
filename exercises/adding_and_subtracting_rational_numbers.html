@@ -1,512 +1,87 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<html data-require="math math-format">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting rational numbers</title>
     <script src="../khan-exercise.js"></script>
-    <script type="text/javascript">
-        function rearrangeTerms(n1, n2, p1, p2) {
-            if (n1 * n2 < 0 && Math.abs(n1 / Math.pow(10, p1)) < Math.abs(n2 / Math.pow(10, p2))) {
-                var t = n1;
-                n1 = n2;
-                n2 = t;
-                t = p1;
-                p1 = p2;
-                p2 = t;
-            }
-
-            if (n1 < 0) {
-                n1 *= -1;
-                n2 *= -1;
-                var neg = true;
-            } else {
-                var neg = false;
-            }
-            return [n1, n2, p1, p2, neg];
-        }
-    </script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
 
             <div id="decimals">
-                <div class="vars">
+                <div class="vars" >
                     <var id="N">randRange(2, 3)</var>
-                    <var id="NUMS">[randRangeNonZero(-999, 999), randRangeNonZero(-999, 999), randRangeNonZero(-999, 999)]</var>
-                    <var id="PLACES">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]</var>
-                    <var id="DECIMALS">[
-                        roundTo(PLACES[0], NUMS[0] / pow(10, PLACES[0])),
-                        roundTo(PLACES[1], NUMS[1] / pow(10, PLACES[1])),
-                        roundTo(PLACES[2], NUMS[2] / pow(10, PLACES[2]))]
-                    </var>
-                    <var id="NEWNUMS, NEWPLACES, NEWDECS, NEG">(function() {
-                        var t = rearrangeTerms(NUMS[0], NUMS[1], PLACES[0], PLACES[1]);
-                        var nums = [t[0], t[1]];
-                        var places = [t[2], t[3]];
-                        var decimals = [roundTo(t[2], t[0] / pow(10, t[2])), roundTo(t[3], t[1] / pow(10, t[3]))];
-                        var negs = [t[4]];
-
-                        if (N === 3) {
-                            var subsol = NUMS[0] * pow(10, PLACES[1] - 1) + NUMS[1] * pow(10, PLACES[0] - 1);
-                            var subsolp = PLACES[0] + PLACES[1] - 1;
-
-                            if (subsol % 10 === 0) {
-                                subsol /= 10;
-                                subsolp--;
-                            }
-
-                            t = rearrangeTerms(subsol, NUMS[2], subsolp, PLACES[2]);
-                            nums = nums.concat([t[0], t[1]]);
-                            places = places.concat([t[2], t[3]]);
-                            decimals = decimals.concat([roundTo(t[2], t[0] / pow(10, t[2])), roundTo(t[3], t[1] / pow(10, t[3]))])
-                            negs.push(t[4]);
-                        }
-
-                        return [nums, places, decimals, negs];
-                    })()
-                    </var>
-                    <var id="N_HINTS1">(function() {
-                        if (NEWNUMS[1] &lt; 0) {
-                            return DecimalAdder.numHintsFor(NEWNUMS[0], NEWPLACES[0], -NEWNUMS[1], NEWPLACES[1]);
-                        } else {
-                            return DecimalAdder.numHintsFor(NEWNUMS[0], NEWPLACES[0], NEWNUMS[1], NEWPLACES[1]);
-                        };
-                    })()
-                    </var>
-                    <var id="N_HINTS2">(function() {
-                        if (NEWNUMS[3] &lt; 0) {
-                            return DecimalAdder.numHintsFor(NEWNUMS[2], NEWPLACES[2], -NEWNUMS[3], NEWPLACES[3]);
-                        } else {
-                            return DecimalAdder.numHintsFor(NEWNUMS[2], NEWPLACES[2], NEWNUMS[3], NEWPLACES[3]);
-                        };
-                    })()
-                    </var>
-                    <var id="SUBSOL">roundTo(2,DECIMALS[0] + DECIMALS[1])</var>
-                    <var id="SOLUTION">roundTo(2, SUBSOL + (N === 2 ? 0 : DECIMALS[2]))</var>
-                </div>
-
-                <div class="question">
-                    <p><code><var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> <span data-if="N === 3"> + <var>DECIMALS[2]</var></span> = {?}</code></p>
-                </div>
-                <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
-
-                <div class="hints">
-                    <p data-if="N === 3">Let's start by dealing with the first two numbers.</p>
-
-                    <div data-if="NUMS[0] !== NEWNUMS[0]">
-                        <p><code>
-                            <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> =
-                            <span data-if="NEG[0]">-(<var>NEWDECS[0]</var> + <var>NEWDECS[1]</var>)</span>
-                            <span data-else=""><var>NEWDECS[0]</var> + <var>NEWDECS[1]</var></span>
-                        </code></p>
-                    </div>
-
-                    <div class="graphie" id="numbers1">
-                        if (NEWNUMS[1] &lt; 0) {
-                            graph.adder = new DecimalSubtractor(NEWNUMS[0], NEWPLACES[0], -NEWNUMS[1], NEWPLACES[1]);
-                        } else {
-                            graph.adder = new DecimalAdder(NEWNUMS[0], NEWPLACES[0], NEWNUMS[1], NEWPLACES[1]);
-                        }
-                            graph.adder.show();
-                            graph.adder.showDecimals();
-                    </div>
-
-                    <div class="graphie" data-each="N_HINTS1 times" data-update="numbers1">
-                        graph.adder.showHint();
-                    </div>
-
-                    <div>
-                        <p>Therefore: </p>
-                        <p data-if="N === 3"><code>
-                            <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> + <var>DECIMALS[2]</var>
-                            <span data-if="NEG[0]"> = -(<var>-SUBSOL</var>) + <var>DECIMALS[2]</var></span> =
-                            <var>SUBSOL</var> + <var>DECIMALS[2]</var>
-                        </code></p>
-
-                        <p data-else=""><code><var>DECIMALS[0]</var> + <var>DECIMALS[1]</var>
-                            <span data-if="NEG[0]"> = -(<var>-SUBSOL</var>)</span> = <var>SUBSOL</var>
-                        </code></p>
-                    </div>
-
-                    <div data-if="N === 3" data-unwrap="">
-                        <div data-if="NUMS[2] !== NEWNUMS[3]">
-                            <p><code>
-                                <var>SUBSOL</var> + <var>DECIMALS[2]</var> =
-                                <span data-if="NEG[1]">-(<var>NEWDECS[2]</var> + <var>NEWDECS[3]</var>)</span>
-                                <span data-else=""><var>NEWDECS[2]</var> + <var>NEWDECS[3]</var></span>
-                            </code></p>
-                        </div>
-
-                        <div class="graphie" id="numbers2">
-                            if (NEWNUMS[3] &lt; 0) {
-                                graph.adder = new DecimalSubtractor(NEWNUMS[2], NEWPLACES[2], -NEWNUMS[3], NEWPLACES[3]);
-                            } else {
-                                graph.adder = new DecimalAdder(NEWNUMS[2], NEWPLACES[2], NEWNUMS[3], NEWPLACES[3]);
-                            }
-                                graph.adder.show();
-                                graph.adder.showDecimals();
-                        </div>
-
-                        <div class="graphie" data-each="N_HINTS2 times" data-update="numbers2">
-                            graph.adder.showHint();
-                        </div>
-
-                        <div>
-                            <p>Therefore: </p>
-                            <p><code>
-                                <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> + <var>DECIMALS[2]</var>
-                                <span data-if="NEG[1]"> = -(<var>-SOLUTION</var>)</span> = <var>SOLUTION</var>
-                            </code></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="percents">
-                <div class="vars">
-                    <var id="N">randRange(2, 3)</var>
-                    <var id="NUMS">[randRangeNonZero(-999, 999), randRangeNonZero(-999, 999), randRangeNonZero(-999, 999)]</var>
-                    <var id="PLACES">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]</var>
-                    <var id="DECIMALS">[
-                        roundTo(PLACES[0], NUMS[0] / pow(10, PLACES[0])),
-                        roundTo(PLACES[1], NUMS[1] / pow(10, PLACES[1])),
-                        roundTo(PLACES[2], NUMS[2] / pow(10, PLACES[2]))]
-                    </var>
-                    <var id="NEWNUMS, NEWPLACES, NEWDECS, NEG">(function() {
-                        var t = rearrangeTerms(NUMS[0], NUMS[1], PLACES[0], PLACES[1]);
-                        var nums = [t[0], t[1]];
-                        var places = [t[2], t[3]];
-                        var decimals = [roundTo(t[2], t[0] / pow(10, t[2])), roundTo(t[3], t[1] / pow(10, t[3]))];
-                        var negs = [t[4]];
-
-                        if (N === 3) {
-                            var subsol = NUMS[0] * pow(10, PLACES[1] - 1) + NUMS[1] * pow(10, PLACES[0] - 1);
-                            var subsolp = PLACES[0] + PLACES[1] - 1;
-
-                            if (subsol % 10 === 0) {
-                                subsol /= 10;
-                                subsolp--;
-                            }
-
-                            t = rearrangeTerms(subsol, NUMS[2], subsolp, PLACES[2]);
-                            nums = nums.concat([t[0], t[1]]);
-                            places = places.concat([t[2], t[3]]);
-                            decimals = decimals.concat([roundTo(t[2], t[0] / pow(10, t[2])), roundTo(t[3], t[1] / pow(10, t[3]))])
-                            negs.push(t[4]);
-                        }
-
-                        return [nums, places, decimals, negs];
-                    })()
-                    </var>
-                    <var id="N_HINTS1">(function() {
-                        if (NEWNUMS[1] &lt; 0) {
-                            return DecimalAdder.numHintsFor(NEWNUMS[0], NEWPLACES[0], -NEWNUMS[1], NEWPLACES[1]);
-                        } else {
-                            return DecimalAdder.numHintsFor(NEWNUMS[0], NEWPLACES[0], NEWNUMS[1], NEWPLACES[1]);
-                        };
-                    })()
-                    </var>
-                    <var id="N_HINTS2">(function() {
-                        if (NEWNUMS[3] &lt; 0) {
-                            return DecimalAdder.numHintsFor(NEWNUMS[2], NEWPLACES[2], -NEWNUMS[3], NEWPLACES[3]);
-                        } else {
-                            return DecimalAdder.numHintsFor(NEWNUMS[2], NEWPLACES[2], NEWNUMS[3], NEWPLACES[3]);
-                        };
-                    })()
-                    </var>
-                    <var id="SUBSOL">roundTo(2,DECIMALS[0] + DECIMALS[1])</var>
-                    <var id="SOLUTION">roundTo(2, SUBSOL + (N === 2 ? 0 : DECIMALS[2]))</var>
-                </div>
-
-                <div class="question">
-                    <p><code><var>DECIMALS[0]</var>\% + <var>DECIMALS[1]</var>\% <span data-if="N === 3"> + <var>DECIMALS[2]</var>\%</span> = {?}</code></p>
-                </div>
-                <div class="solution" data-type="multiple">
-                    <span class="sol" data-forms="decimal"><var>SOLUTION</var></span><code>\ \%</code>
-                </div>
-
-                <div class="hints">
-                    <p>Percentages can be treated like decimals.</p>
-
-                    <p data-if="N === 3">Let's start by dealing with the first two numbers.</p>
-
-                    <div data-if="NUMS[0] !== NEWNUMS[0]">
-                        <p><code>
-                            <var>DECIMALS[0]</var>\% + <var>DECIMALS[1]</var>\% =
-                            <span data-if="NEG[0]">-(<var>NEWDECS[0]</var> + <var>NEWDECS[1]</var>)\%</span>
-                            <span data-else="">(<var>NEWDECS[0]</var> + <var>NEWDECS[1]</var>)\%</span>
-                        </code></p>
-                    </div>
-
-                    <div class="graphie" id="numbers1">
-                        if (NEWNUMS[1] &lt; 0) {
-                            graph.adder = new DecimalSubtractor(NEWNUMS[0], NEWPLACES[0], -NEWNUMS[1], NEWPLACES[1]);
-                        } else {
-                            graph.adder = new DecimalAdder(NEWNUMS[0], NEWPLACES[0], NEWNUMS[1], NEWPLACES[1]);
-                        }
-                            graph.adder.show();
-                            graph.adder.showDecimals();
-                    </div>
-
-                    <div class="graphie" data-each="N_HINTS1 times" data-update="numbers1">
-                        graph.adder.showHint();
-                    </div>
-
-                    <div>
-                        <p>Therefore: </p>
-                        <p data-if="N === 3"><code>
-                            <var>DECIMALS[0]</var>\% + <var>DECIMALS[1]</var>\% + <var>DECIMALS[2]</var>\%
-                            <span data-if="NEG[0]"> = -(<var>-SUBSOL</var>\%) + <var>DECIMALS[2]</var>\%</span> =
-                            <var>SUBSOL</var>\% + <var>DECIMALS[2]</var>\%
-                        </code></p>
-
-                        <p data-else=""><code><var>DECIMALS[0]</var>\% + <var>DECIMALS[1]</var>\%
-                            <span data-if="NEG[0]"> = -(<var>-SUBSOL</var>\%)</span> = <var>SUBSOL</var>\%
-                        </code></p>
-                    </div>
-
-                    <div data-if="N === 3" data-unwrap="">
-                        <div data-if="NUMS[2] !== NEWNUMS[3]">
-                            <p><code>
-                                <var>SUBSOL</var>\% + <var>DECIMALS[2]</var>\% =
-                                <span data-if="NEG[1]">-(<var>NEWDECS[2]</var> + <var>NEWDECS[3]</var>)\%</span>
-                                <span data-else="">(<var>NEWDECS[2]</var> + <var>NEWDECS[3]</var>)\%</span>
-                            </code></p>
-                        </div>
-
-                        <div class="graphie" id="numbers2">
-                            if (NEWNUMS[3] &lt; 0) {
-                                graph.adder = new DecimalSubtractor(NEWNUMS[2], NEWPLACES[2], -NEWNUMS[3], NEWPLACES[3]);
-                            } else {
-                                graph.adder = new DecimalAdder(NEWNUMS[2], NEWPLACES[2], NEWNUMS[3], NEWPLACES[3]);
-                            }
-                                graph.adder.show();
-                                graph.adder.showDecimals();
-                        </div>
-
-                        <div class="graphie" data-each="N_HINTS2 times" data-update="numbers2">
-                            graph.adder.showHint();
-                        </div>
-
-                        <div>
-                            <p>Therefore: </p>
-                            <p><code>
-                                <var>DECIMALS[0]</var>\% + <var>DECIMALS[1]</var>\% + <var>DECIMALS[2]</var>\%
-                                <span data-if="NEG[1]"> = -(<var>-SOLUTION</var>\%)</span> = <var>SOLUTION</var>\%
-                            </code></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="fractions-2">
-                <div class="vars">
-                    <div data-ensure="D1 !== D2">
-                        <var id="D1">randRange(2, 9)</var>
-                        <var id="D2">randRange(2, 9)</var>
-                    </div>
-                    <var id="N1">randRangeExclude(-9, 9, [0, N1, -N1])</var>
-                    <var id="N2">randRangeExclude(-9, 9, [0, N2, -N2])</var>
-                    <var id="LCM">getLCM(D1, D2)</var>
-                    <var id="F1">LCM / D1</var>
-                    <var id="F2">LCM / D2</var>
-                </div>
-
-                <div class="question">
-                    <p><code><var>fraction(N1, D1)</var> + <var>fraction(N2, D2)</var> = {?}</code></p>
-                </div>
-                <div class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></div>
-
-                <div class="hints">
-                    <p>
-                        First, we need to find a common denominator.
-                        The least common multiple of <code><var>D1</var></code> and <code><var>D2</var></code> is the smallest possible common denominator.
-                    </p>
-                    <p><code>\lcm(<var>D1</var>, <var>D2</var>) = <var>LCM</var></code></p>
-                    <p>Now, we need to change both fractions to have a denominator of <code><var>LCM</var></code>.</p>
-                    <p><code>\begin{align*}
-                        <var>fraction(N1, D1)</var>\cdot <var>fraction(F1, F1)</var> &amp;= <var>fraction(N1 * F1, LCM)</var>\\
-                        <var>fraction(N2, D2)</var>\cdot <var>fraction(F2, F2)</var> &amp;= <var>fraction(N2 * F2, LCM)</var>
-                        \end{align*}</code></p>
-                    <div>
-                        <p>So, the problem becomes:</p>
-                        <p><code><var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> = {?}</code></p>
-                    </div>
-                    <div>
-                        <p data-if="N2 > 0">Add the numerators.</p><p data-else="">Subtract the numerators.</p>
-                        <p><code><var>fraction(F1 * N1 + F2 * N2, LCM)</var></code></p>
-                    </div>
-                    <div data-if="getGCD(F1 * N1 + F2 * N2, LCM) !== 1">
-                        <p>Simplify.</p>
-                        <p><code><var>fractionReduce(F1 * N1 + F2 * N2, LCM)</var></code></p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="fractions-3">
-                <div class="vars">
-                    <div data-ensure="getGCD(D1, D2) !== 1 || getGCD(D1, D3) !== 1 || getGCD(D2, D3) !== 1">
-                        <var id="D1">randRange(2, 9)</var>
-                        <var id="D2">randRange(2, 9)</var>
-                        <var id="D3">randRange(2, 9)</var>
-                    </div>
-                    <var id="N1">randRangeExclude(-9, 9, [0, D1, -D1])</var>
-                    <var id="N2">randRangeExclude(-9, 9, [0, D2, -D2])</var>
-                    <var id="N3">randRangeExclude(-9, 9, [0, D3, -D3])</var>
-                    <var id="LCM">getLCM(getLCM(D1, D2), getLCM(D1, D3))</var>
-                    <var id="F1">LCM / D1</var>
-                    <var id="F2">LCM / D2</var>
-                    <var id="F3">LCM / D3</var>
-                </div>
-
-                <div class="question">
-                    <p><code><var>fraction(N1, D1)</var> + <var>fraction(N2, D2)</var> + <var>fraction(N3, D3)</var> = {?}</code></p>
-                </div>
-                <div class="solution" data-type="rational"><var>N1 / D1 + N2 / D2 + N3 / D3</var></div>
-
-                <div class="hints">
-                    <p>
-                        First, we need to find a common denominator.
-                        The least common multiple of <code><var>D1</var></code> and <code><var>D2</var></code> and <code><var>D3</var></code>
-                        is the smallest possible common denominator.
-                    </p>
-                    <p><code>\lcm(<var>D1</var>, <var>D2</var>, <var>D3</var>) = <var>LCM</var></code></p>
-                    <p>Now, we need to change both fractions to have a denominator of <code><var>LCM</var></code>.</p>
-                    <p><code>\begin{align*}
-                        <var>fraction(N1, D1)</var>\cdot <var>fraction(F1, F1)</var> &amp;= <var>fraction(N1 * F1, LCM)</var>\\
-                        <var>fraction(N2, D2)</var>\cdot <var>fraction(F2, F2)</var> &amp;= <var>fraction(N2 * F2, LCM)</var>\\
-                        <var>fraction(N3, D3)</var>\cdot <var>fraction(F3, F3)</var> &amp;= <var>fraction(N3 * F3, LCM)</var>
-                    \end{align*}</code></p>
-                    <div>
-                        <p>So, the problem becomes:</p>
-                        <p><code><var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> + <var>fraction(N3 * F3, LCM)</var>= {?}</code></p>
-                    </div>
-                    <div>
-                        <p><code>
-                            \phantom{<var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> + <var>fraction(N3 * F3, LCM)</var>}
-                            = \dfrac{<var>N1 * F1</var> + <var>N2 * F2</var> + <var>N3 * F3</var>}{<var>LCM</var>}
-                        </code></p>
-                        <p><code>
-                            \phantom{<var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> + <var>fraction(N3 * F3, LCM)</var>}
-                            = <var>fraction(N1 * F1 + N2 * F2 + N3 * F3, LCM)</var>
-                        </code></p>
-                    </div>
-                    <div data-if="getGCD(N1 * F1 + N2 * F2 + N3 * F3, LCM ) !== 1">
-                        <p>Simplify.</p>
-                        <p><code><var>fractionReduce(N1 * F1 + N2 * F2 + N3 * F3, LCM)</var></code></p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="repeating-decimals">
-                <div class="vars">
-                    <var id="N">randRange(2, 3)</var>
-                    <var id="LETTERS">['x', 'y', 'z']</var>
-                    <var id="INTEGERS">[
-                        randRangeWeighted(-3, 3, 0, 0.5),
-                        randRangeWeighted(-3, 3, 0, 0.5),
-                        randRangeWeighted(-3, 3, 0, 0.5)]
-                    </var>
-                    <var id="DIGITS">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]
-                    </var>
-                    <var id="REPEATS" data-ensure="REPEATS[0] % 11 !== 0 &amp;&amp; REPEATS[1] % 11 !== 0 &amp;&amp; REPEATS[2] % 11 !== 0">[
-                        (DIGITS[0] === 1) ? randRange(1, 8) : randRange(10, 98),
-                        (DIGITS[1] === 1) ? randRange(1, 8) : randRange(10, 98),
-                        (DIGITS[2] === 1) ? randRange(1, 8) : randRange(10, 98)]
-                    </var>
-                    <var id="DENOMINATORS">[pow(10, DIGITS[0]) - 1, pow(10, DIGITS[1]) - 1, pow(10, DIGITS[2]) - 1]
-                    </var>
-                    <var id="NUMERATORS">[
-                        INTEGERS[0] * DENOMINATORS[0] + REPEATS[0] * (INTEGERS[0] &lt; 0 ? -1 : 1),
-                        INTEGERS[1] * DENOMINATORS[1] + REPEATS[1] * (INTEGERS[1] &lt; 0 ? -1 : 1),
-                        INTEGERS[2] * DENOMINATORS[2] + REPEATS[2] * (INTEGERS[2] &lt; 0 ? -1 : 1)]
-                    </var>
-                    <var id="DECIMALS">[
-                        INTEGERS[0] + (INTEGERS[0] &lt; 0 ? -1 : 1) * REPEATS[0] / DENOMINATORS[0],
-                        INTEGERS[1] + (INTEGERS[1] &lt; 0 ? -1 : 1) * REPEATS[1] / DENOMINATORS[1],
-                        INTEGERS[2] + (INTEGERS[2] &lt; 0 ? -1 : 1) * REPEATS[2] / DENOMINATORS[2]]
-                    </var>
-                    <var id="SAME_DENOM">N === 2 ? DIGITS[0] === DIGITS[1] : (DIGITS[0] === DIGITS[1]) &amp;&amp; (DIGITS[0] === DIGITS[2])</var>
-                    <var id="DENOMINATOR">getLCM.apply(KhanUtil, DENOMINATORS.slice(0, N))</var>
-                    <var id="FACTORS">_.map(DENOMINATORS, function(d) {
-                        return DENOMINATOR / d;
+                    <var id="TYPES" data-ensure="TYPES[0] !== TYPES[1] || (N === 3 && TYPES[0] !== TYPES[2])">[
+                        randFromArray(["decimal", "percentage", "fraction", "fraction"]),
+                        randFromArray(["decimal", "percentage", "fraction", "fraction"]),
+                        randFromArray(["decimal", "percentage", "fraction", "fraction"])
+                    ].slice(0, N)</var>
+                    <var id="DENOMINATORS">_.map(TYPES, function(x) {
+                        return randFromArray([2, 4, 5, 8, 10, 20, 25, 40, 50, 100]);
                     })</var>
-                    <var id="NUMERATOR">
-                        N === 2 ?
-                        round((NUMERATORS[0] / DENOMINATORS[0] + NUMERATORS[1] / DENOMINATORS[1]) * DENOMINATOR) :
-                        round((NUMERATORS[0] / DENOMINATORS[0] + NUMERATORS[1] / DENOMINATORS[1] + NUMERATORS[2] / DENOMINATORS[2]) * DENOMINATOR)
-                    </var>
-                    <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
+                    <var id="NUMERATORS">_.map(DENOMINATORS, function(d) {
+                        return randFromArray([-1, 1]) * randRange(1, d * 2);
+                    })</var>
+                    <var id ="DECIMALS">_.map(DENOMINATORS, function(d, i) {
+                        return roundTo(3, NUMERATORS[i] / d);
+                    })</var>
+                    <var id="NUMS">_.map(TYPES, function(t, i) {
+                        if (t === "fraction") {
+                            return fraction(NUMERATORS[i], DENOMINATORS[i]);
+                        } else if (t === "percentage") {
+                            return round(100 * DECIMALS[i]) + "\\%";
+                        } else {
+                            return DECIMALS[i];
+                        }
+                    })</var>
+                    <var id="TOCHANGE">(function() {
+                        var arr = [];
+                        for (var i=0; i &lt; N; i++) {
+                            if (TYPES[i] !== 'decimal') {
+                                arr.push(i);
+                            }
+                        }
+                        return arr;
+                    })()</var>
+                    <var id="SOLUTION">(function() {
+                        var x = 0;
+                        for (var i=0; i &lt; N; i++) {
+                            x += NUMERATORS[i] / DENOMINATORS[i];
+                        }
+                        return roundTo(3, x);
+                    })()</var>
                 </div>
 
-                <div class="problems">
-                    <div>
-                        <p class="question"><code>
-                            <var>INTEGERS[0]</var>.\overline{<var>REPEATS[0]</var>}
-                            + <var>INTEGERS[1]</var>.\overline{<var>REPEATS[1]</var>}
-                            <span data-if="N === 3"> + <var>INTEGERS[2]</var>.\overline{<var>REPEATS[2]</var>}</span> = {?}
-                        </code></p>
-                        <p class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR</var></p>
-                    </div>
+                <div class="question">
+                    <p><code>
+                        <var>NUMS[0]</var> + <var>NUMS[1]</var> <span data-if="N === 3"> + <var>NUMS[2]</var></span> = {?}
+                    </code></p>
                 </div>
+                <div class="solution" data-type="number"><var>SOLUTION</var></div>
 
                 <div class="hints">
-                    <p>First convert the repeating decimals to fractions.</p>
+                    <div>First get all of the numbers in decimal form.</div>
 
-                    <div data-each="[0, 1, 2].slice(0, N) as i">
-                        <p><code>\begin{align*}
-                            <var>pow(10, DIGITS[i])</var><var>LETTERS[i]</var> &amp;= <var>floorTo(4, DECIMALS[i] * pow(10, DIGITS[i]))</var>...\\
-                            <var>LETTERS[i]</var> &amp;= <var>floorTo(4, DECIMALS[i])</var>...\end{align*}
-                        </code></p>
-                        <p><code>\begin{align*}
-                            <var>DENOMINATORS[i]</var><var>LETTERS[i]</var> &amp;= <var>NUMERATORS[i]</var> \\
-                            <var>LETTERS[i]</var> &amp;= <var>fraction(NUMERATORS[i], DENOMINATORS[i])</var>\end{align*}
+                    <div data-each="TOCHANGE as i">
+                        <p data-if="TYPES[i] === 'fraction'"><code>\qquad<var>NUMS[i]</var> = <var>DECIMALS[i]</var></code></p>
+                        <p data-else=""><code>\qquad
+                            <var>NUMS[i]</var> = <var>fraction(round(NUMERATORS[i] * 100 / DENOMINATORS[i]), 100)</var> = <var>DECIMALS[i]</var>
                         </code></p>
                     </div>
 
                     <div>
-                        <p>So, the problem becomes:</p>
-                        <p><code>
-                            <var>fraction(NUMERATORS[0], DENOMINATORS[0])</var>
-                            + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
-                            <span data-if="N === 3"> + <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span> = {?}
-                        </code></p>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> <span data-if="N === 3"> + <var>DECIMALS[2]</var></span> = {?}
+                        </code></p>                 
                     </div>
 
-                    <div data-if="!SAME_DENOM" data-unwrap="">
-                        <div>
-                            <p>Get all the fractions over the same denominators:</p>
-                            <p><code>
-                                <var>fraction(NUMERATORS[0], DENOMINATORS[0])</var><span data-if="DIGITS[0] === 1">\cdot \dfrac{11}{11}</span>
-                                + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var><span data-if="DIGITS[1] === 1">\cdot \dfrac{11}{11}</span>
-                                <span data-if="N === 3">
-                                    + <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var><span data-if="DIGITS[2] === 1">\cdot \dfrac{11}{11}</span>
-                                </span> =
-                                <var>fraction(NUMERATORS[0] * FACTORS[0], DENOMINATORS[0] * FACTORS[0])</var>
-                                + <var>fraction(NUMERATORS[1] * FACTORS[1], DENOMINATORS[1] * FACTORS[1])</var>
-                                <span data-if="N === 3"> + <var>fraction(NUMERATORS[2] * FACTORS[2], DENOMINATORS[2] * FACTORS[2])</var></span>
-                            </code></p>
-                        </div>
-
-                        <p><code>
-                                \phantom{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var><span data-if="DIGITS[0] === 1">\cdot \dfrac{11}{11}</span>
-                                + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var><span data-if="DIGITS[1] === 1">\cdot \dfrac{11}{11}</span>
-                                <span data-if="N === 3">
-                                    + <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var><span data-if="DIGITS[2] === 1">\cdot \dfrac{11}{11}</span>
-                                </span>} = <var>fraction(NUMERATOR, DENOMINATOR)</var>
-                        </code></p>
-                    </div>
-
-                    <p data-else=""><code>
-                        \phantom{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var>
-                        + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
-                        <span data-if="N === 3"> + <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span>} = <var>fraction(NUMERATOR, DENOMINATOR)</var>
-                    </code></p>
-
-                    <div data-if="GCD !== 1">
-                        <p>Simplify:</p>
-                        <p><code>= <var>fraction(NUMERATOR / GCD, DENOMINATOR / GCD)</var></code></p>
+                    <div>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> <span data-if="N === 3"> + <var>DECIMALS[2]</var></span> = <var>SOLUTION</var>
+                        </code></p>                 
                     </div>
                 </div>
             </div>
