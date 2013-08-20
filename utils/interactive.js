@@ -7,54 +7,6 @@ $.extend(KhanUtil, {
     // TODO(alpert): Should this be a global?
     dragging: false,
 
-    unscaledSvgPath: function(points) {
-        return $.map(points, function(point, i) {
-            if (point === true) {
-                return "z";
-            }
-            return (i === 0 ? "M" : "L") + point[0] + " " + point[1];
-        }).join("");
-    },
-
-    getDistance: function(point1, point2) {
-        var a = point1[0] - point2[0];
-        var b = point1[1] - point2[1];
-        return Math.sqrt(a * a + b * b);
-    },
-
-    /**
-     * Return the difference between two sets of coordinates
-     */
-    coordDiff: function(startCoord, endCoord) {
-        return _.map(endCoord, function(val, i) {
-            return endCoord[i] - startCoord[i];
-        });
-    },
-
-    /**
-     * Round the given coordinates to a given snap value
-     * (e.g., nearest 0.2 increment)
-     */
-    snapCoord: function(coord, snap) {
-        return _.map(coord, function(val, i) {
-            return KhanUtil.roundToNearest(snap[i], val);
-        });
-    },
-
-    // Find the angle between two or three points
-    findAngle: function(point1, point2, vertex) {
-        if (vertex === undefined) {
-            var x = point1[0] - point2[0];
-            var y = point1[1] - point2[1];
-            if (!x && !y) {
-                return 0;
-            }
-            return (180 + Math.atan2(-y, -x) * 180 / Math.PI + 360) % 360;
-        } else {
-            return KhanUtil.findAngle(point1, vertex) - KhanUtil.findAngle(point2, vertex);
-        }
-    },
-
     createSorter: function() {
         var sorter = {};
         var list;
@@ -479,12 +431,18 @@ $.extend(KhanUtil.Graphie.prototype, {
                     movablePoint.highlight = true;
                     if (!KhanUtil.dragging) {
                         movablePoint.visibleShape.animate(movablePoint.highlightStyle, 50);
+                        if (movablePoint.onHighlight) {
+                            movablePoint.onHighlight();
+                        }
                     }
 
                 } else if (event.type === "vmouseout") {
                     movablePoint.highlight = false;
                     if (!movablePoint.dragging) {
                         movablePoint.visibleShape.animate(movablePoint.normalStyle, 50);
+                        if (movablePoint.onUnhighlight) {
+                            movablePoint.onUnhighlight();
+                        }
                     }
 
                 } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
@@ -606,6 +564,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                             // FIXME: check is commented out since firefox isn't always sending mouseout for some reason
                             //if (!movablePoint.highlight) {
                                 movablePoint.visibleShape.animate(movablePoint.normalStyle, 50);
+                                if (movablePoint.onUnhighlight) {
+                                    movablePoint.onUnhighlight();
+                                }
                             //}
                         }
                     });

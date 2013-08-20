@@ -24,6 +24,10 @@ var extractRawCode = function(elem) {
     return $elem.html();
 };
 
+function getTextSquish(elem) {
+    return $(elem).text().replace(/\s+/g, "");
+}
+
 /*
  * Answer types
  *
@@ -1260,42 +1264,61 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var $choicesClone = $choices.clone(true).texCleanup();
             var $solutionClone = $(solution).clone(true).texCleanup();
 
-            // Join them together
-            var possibleChoices = $solutionClone.get().concat(
-                $choicesClone.children().get());
-
             // Retrieve the text of the solution so we can store it later
             var solutionText = $solutionClone.text();
 
-            // The number of choices is either the specified number of the
-            // number of choices provided
+            // Whether this is a category question, or if we should shuffle the
+            // answers up.
+            var isCategory = !!$choices.data("category");
+
+            if (isCategory) {
+                // If it's a category question, insert the solution into the
+                // list of choices at the correct place, by comparing by the
+                // text value of the elements.
+                var correctText = getTextSquish($solutionClone);
+                var possibleChoices = _.map(
+                    $choicesClone.children().get(),
+                    function(elem) {
+                        if (getTextSquish(elem) === correctText) {
+                            return $solutionClone[0];
+                        } else {
+                            return elem;
+                        }
+                    });
+            } else {
+                // Otherwise, the possible choices is just the correct answer
+                // and the other choices. We shuffle the choices here so that
+                // when we slice off some of the choices later, we don't always
+                // slice off the same ones.
+                var possibleChoices = $solutionClone.get().concat(
+                    KhanUtil.shuffle($choicesClone.children().get())
+                );
+            }
+
+            // The number of choices is either the number specified or the
+            // number of choices in the list of possible choices.
             var numChoices = +$choices.data("show") || possibleChoices.length;
 
             // Whether to show a "none of the above" solution in our set of
             // answers.
             var showNone = !!$choices.data("none");
 
-            // Whether this is a category question, or if we should shuffle the
-            // answers up.
-            var isCategory = !!$choices.data("category");
-
             // This code removes duplicate answers by looking at the text
             // values of the choices and keeping the non-duplicate answers
-            var dupes = {};
-            var shownChoices = [];
-            for (var i = 0; i < possibleChoices.length; i++) {
-                var $choice = $(possibleChoices[i]);
-                var choiceTextSquish = $choice.text().replace(/\s+/g, "");
+            var shownChoices = _.uniq(possibleChoices, false, function(elem) {
+                return getTextSquish(elem);
+            });
 
-                if (!dupes[choiceTextSquish]) {
-                    dupes[choiceTextSquish] = true;
-                    shownChoices.push($choice);
-                }
-            }
+            // Here, we duplicate the old behaviour where, if there is one less
+            // choice than we want, we will just add in the "none of the above"
+            // choice instead of having it replace one of the real ones.
+            var addNoneChoice = showNone &&
+                    shownChoices.length === numChoices - 1;
 
             // If removing duplicates made it so there aren't enough showing
-            // solutions, regenerate the problem
-            if (shownChoices.length < numChoices) {
+            // solutions (and we're not going to add in one last choice),
+            // regenerate the problem
+            if (shownChoices.length < numChoices && !addNoneChoice) {
                 return false;
             // Otherwise, if there are too many choices, throw away some from
             // the end
@@ -1310,16 +1333,20 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // Find the index of the correct answer
             var correctIndex;
-            _.each(shownChoices, function($choice, i) {
-                if ($choice[0] === $solutionClone[0]) {
+            _.each(shownChoices, function(choice, i) {
+                if (choice === $solutionClone[0]) {
                     correctIndex = i;
                 }
             });
 
             // We figure out if the "none of the above" choice is correct if we
-            // have such an answer and if the last shown answer is correct
-            var noneIsCorrect = showNone &&
-                    correctIndex === shownChoices.length - 1;
+            // have such an answer and if the last shown answer is correct.
+            // Note that we check against numChoices to decide if it is the
+            // last choice, not shownChoices.length, because in the case that
+            // we're going to be strictly adding the "none of the above"
+            // choice, shownChoices.length won't accurately show the number of
+            // choices that will be shown.
+            var noneIsCorrect = showNone && correctIndex === numChoices - 1;
 
             // If showNone, replace the last solution with "None of the above",
             // which reveals the correct answer when it is picked and is right.
@@ -1337,18 +1364,23 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     );
                 }
 
-                shownChoices.splice(shownChoices.length - 1, 1,
+                var noneIndex = shownChoices.length - 1;
+                if (addNoneChoice) {
+                    noneIndex = shownChoices.length;
+                }
+
+                shownChoices.splice(noneIndex, 1,
                     // We have to wrap this in something so that when we unwrap
                     // it below, it maintains its data attributes
                     $("<span>").append($none));
             }
 
             // Wrap each of the choices in elements and add radio buttons
-            var wrappedChoices = _.map(shownChoices, function($choice, i) {
+            var wrappedChoices = _.map(shownChoices, function(choice, i) {
                 return $("<li><label>").find("label").append([
                     $('<input type="radio" name="solution">').val(i),
                     $('<span class="value">').append(
-                        $choice.contents()
+                        $(choice).contents()
                     )
                 ]).end();
             });
@@ -1800,7 +1832,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     $tex.css({opacity: 1.0})
                     var tex = result.expr.asTex(options);
                     if (tex !== lastParsedTex) {
-                        $tex.html("<code>" + tex + "</code>").tex();
+                        $tex.empty().append($("<code>").text(tex)).tex();
                         lastParsedTex = tex;
                     }
                 } else {

@@ -17,13 +17,13 @@
         <div class="problems">
             <div id="integer">
                 <div class="vars">
+                    <var id="NUMERCOEFF">NUMERCONST &lt; 1 ? randRange(1, 5) : randRange(0, 5)</var>
                     <div data-ensure="SIGN * NUMERCOEFF !== CONSTANT * DENOMCOEFF">
                         <var id="CONSTANT">randRange(2, 10)</var>
                         <var id="DENOMCOEFF">randRangeWeighted(1, 5, 1, 0.25)</var>
                         <var id="DENOMCONST">randRangeWeighted(-10, 10, 0, 0.25)</var>
                         <var id="NUMERCONST" data-ensure="DENOMCONST !== NUMERCONST">randRange(-10, 10)</var>
                     </div>
-                    <var id="NUMERCOEFF">NUMERCONST &lt; 1 ? randRange(1, 5) : randRange(0, 5)</var>
                     <var id="NUMERATOR">new RationalExpression([[NUMERCOEFF, X], [NUMERCONST]])</var>
                     <var id="DENOMINATOR">new RationalExpression([[DENOMCOEFF, X], [DENOMCONST]])</var>
                     <var id="PRODUCT">DENOMINATOR.multiply(CONSTANT)</var>
@@ -72,13 +72,13 @@
 
             <div id="fraction">
                 <div class="vars">
+                    <var id="NUMERCOEFF">NUMERCONST &lt; 1 ? randRange(1, 5) : randRange(0, 5)</var>
                     <div data-ensure="DENOMCOEFF !== SIGN * NUMERCOEFF * CONSTANT">
                         <var id="CONSTANT">randRange(2, 10)</var>
                         <var id="DENOMCOEFF">randRangeWeighted(1, 5, 1, 0.25)</var>
                         <var id="DENOMCONST">randRangeWeighted(-10, 10, 0, 0.25)</var>
                         <var id="NUMERCONST" data-ensure="DENOMCONST !== NUMERCONST">randRange(-10, 10)</var>
                     </div>
-                    <var id="NUMERCOEFF">NUMERCONST &lt; 1 ? randRange(1, 5) : randRange(0, 5)</var>
                     <var id="NUMERATOR">new RationalExpression([[NUMERCOEFF, X], [NUMERCONST]])</var>
                     <var id="DENOMINATOR">new RationalExpression([[DENOMCOEFF, X], [DENOMCONST]])</var>
                     <var id="PRODUCT">NUMERATOR.multiply(CONSTANT * SIGN)</var>

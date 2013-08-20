@@ -17,13 +17,13 @@
     <span id="warning-bar-close">(<a href="">close</a>)</span>
 </div>
 <div id="problem-and-answer">
-    <div id="problemarea">
-        <div id="scratchpad"><div></div></div>
-        <div id="workarea"></div>
-        <div id="hintsarea"></div>
-    </div>
-    <div id="answer_area_wrap"><div id="answer_area">
-        <form id="answerform" name="answerform">
+    <form id="answerform" name="answerform">
+        <div id="problemarea">
+            <div id="scratchpad"><div></div></div>
+            <div id="workarea"></div>
+            <div id="hintsarea"></div>
+        </div>
+        <div id="answer_area_wrap"><div id="answer_area">
             <input style="position: absolute; left: -9999px; width: 1px; height: 1px" type="submit">
             <div class="info-box" id="answercontent">
                 <span id="examples-show">Acceptable formats</span>
@@ -63,12 +63,11 @@
                     <div class="clear"></div>
                 </div>
             </div>
-        </form>
         <div class="info-box" id="calculator" style="display: none;">
             <span class="info-box-header">Calculator</span>
             <div class="calculator">
                 <div class="history fancy-scrollbar">
-                    <div class="calc-row input"><input type="text"><div class="status"><a href="#" data-behavior="angle-mode"><br>DEG</a></div></div>
+                    <div class="calc-row input"><input type="text"><div class="status"><a href="#" data-behavior="angle-mode">RAD<br></a></div></div>
                 </div>
                 <div class="keypad">
                     <div class="calc-row">
@@ -78,7 +77,10 @@
                     <a href="#" data-text="sin(">sin</a><a href="#" data-text="cos(">cos</a><a href="#" data-text="tan(">tan</a><a href="#" data-text="sqrt(">√</a><a href="#" data-text="^">x<sup>y</sup></a>
                     </div>
                     <div class="calc-row">
-                    <a href="#" class="dark">7</a><a href="#" class="dark">8</a><a href="#" class="dark">9</a><a href="#">(</a><a href="#">)</a>
+                    <a href="#" data-text="e^">e<sup>x</sup></a><a href="#" data-text="ln(">ln</a><a href="#" data-text="pi">&pi;</a><a href="#">(</a><a href="#">)</a>
+                    </div>
+                    <div class="calc-row">
+                    <a href="#" class="dark">7</a><a href="#" class="dark">8</a><a href="#" class="dark">9</a>
                     </div>
                     <div class="calc-row">
                     <a href="#" class="dark">4</a><a href="#" class="dark">5</a><a href="#" class="dark">6</a><a href="#" data-text="*">×</a><a href="#" data-text="/">÷</a>
@@ -95,7 +97,7 @@
         <div class="info-box" id="issue" style="display:none;">
             <span class="info-box-header">Report a Problem</span>
             <span class="info-box-sub-description" id="issue-status"></span>
-            <form>
+            <div class="issue-form">
                 <fieldset>
                     <legend>Issue Type</legend>
                     <ul>
@@ -122,9 +124,10 @@
                 <input class="simple-button" type="submit" value="Submit Issue">
                 <a href="/#" id="issue-cancel">Cancel</a>
                 <img id="issue-throbber" name="issue-throbber" style="display:none;">
-            </form>
+            </div>
         </div>
     </div></div>
+    </form>
     <div style="clear: both;"></div>
 </div>
 </body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dividing polynomials by binomials 2</title>
@@ -10,29 +10,24 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <div data-ensure="abs(A) !== abs(B)">
-                    <var id="A">randRangeNonZero( -10, 10 )</var>
-                    <var id="B">randRangeNonZero( -10, 10 )</var>
-                </div>
-                <div data-ensure="abs(C) !== 1">
-                    <var id="C">randRangeNonZero( -10, 10 )</var>
-                </div>
-                <var id="SQUARE">1</var>
-                <var id="CONSTANT">SQUARE * A * B</var>
-                <var id="SIMPLECONSTANT">A * B</var>
-                <var id="LINEAR">SQUARE * (-A - B)</var>
-                <var id="SIMPLELINEAR">-A - B</var>
-                <var id="SOLUTIONCONSTANT">C * -B</var>
+                <var id="X">randVar()</var>
+                <var id="Y" data-ensure="X !== Y">randVar()</var>
+                <var id="A">randRangeNonZero(-10, 10)</var>
+                <var id="B" data-ensure="abs(A) !== abs(B)">randRangeNonZero(-10, 10)</var>
+                <var id="C">randRangeExclude(-10, 10, [-1, 0, 1])</var>
+                <var id="CONSTANT">A * B</var>
+                <var id="LINEAR">-A - B</var>
+                <var id="SOLUTION">new RationalExpression([[C, X], C * -B])</var>
             </div>
 
             <p class="problem">Simplify the following expression:</p>
-            <p class="question"><code>\dfrac{<var>plus(C * SQUARE + "x^2")</var> + <var>plus( C * LINEAR + "x" )</var> + <var>C * CONSTANT</var>}{x + <var>-A</var>}</code></p>
+            <p class="question"><code><var>Y</var> = 
+                \dfrac{<var>C</var><var>X</var>^2 + <var>C * LINEAR</var><var>X</var> + <var>C * CONSTANT</var>}{<var>X</var> + <var>-A</var>}
+            </code></p>
 
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="regex">^\s*<var>C &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( C )</var>\s*[xX]\s*<var>SOLUTIONCONSTANT &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>SOLUTIONCONSTANT &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*<var>C &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( C )</var>\s*[xX]\s*$</div>
-                <div class="input-format"><span class="entry"></span></div>
-                <div class="example">a simplified expression, like <b>2x+2</b></div>
+            <div class="solution" data-type="multiple">
+                <code><var>Y</var> = \space</code><span class="sol short50" data-type="regex"><var>SOLUTION.regex(true)</var></span> 
+                <code><var>X</var> \neq </code> <span class="sol short50" data-type="number"><var>A</var></span>
             </div>
 
             <div class="hints">
@@ -40,42 +35,40 @@
 
                 <div>
                     <p>We notice that all the terms in the numerator have a common factor of <code><var>C</var></code>, so we can rewrite the expression:</p>
-                    <p><code>\dfrac{<var>C</var>(<var>plus(SQUARE + "x^2")</var> + <var>plus(LINEAR + "x" )</var> + <var>CONSTANT</var>)}{x + <var>-A</var>}</code></p>
+                    <p><code>
+                        <var>Y</var> =\dfrac{<var>C</var>(<var>X</var>^2 + <var>LINEAR</var><var>X</var> + <var>CONSTANT</var>)}{<var>X</var> + <var>-A</var>}
+                    </code></p>
                 </div>
 
                 <div>
                     <p>Then we factor the remaining polynomial:</p>
-                    <p><code>
-                        x^2 <var>SIMPLELINEAR &gt;= 0 ? "+" : ""</var> <var>plus( "\\color{" + GREEN + "}{" + SIMPLELINEAR + "}x" )</var>
-                        <var>SIMPLECONSTANT &gt;= 0 ? "+" : ""</var> <var>plus( "\\color{" + BLUE + "}{" + SIMPLECONSTANT + "}" )</var>
+                    <p><code><var>X</var>^2 
+                        <var>LINEAR &gt; 0 ? "+" : ""</var> \green{<var>LINEAR</var>}<var>X</var> <var>CONSTANT &gt; 0 ? "+" : ""</var> \blue{<var>CONSTANT</var>}
                     </code></p>
-                    <p><code>
-                        \color{<var>PINK</var>}{<var>-A</var>} + \color{<var>PINK</var>}{<var>-B</var>} =
-                        \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}
-                    </code></p>
-                    <p><code>
-                        \color{<var>PINK</var>}{<var>-A</var>} \times \color{<var>PINK</var>}{<var>-B</var>} =
-                        \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
-                    </code></p>
+                    <p><code>\pink{<var>-A</var>} <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>} = \green{<var>LINEAR</var>}</code></p>
+                    <p><code>\pink{<var>-A</var>} \times \pink{<var>-B</var>} = \blue{<var>CONSTANT</var>}</code></p>
                 </div>
 
-                <p>
-                    <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
-                    (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})</code>
-                </p>
+                <p><code>
+                    (<var>X</var> <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
+                    (<var>X</var> <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})
+                </code></p>
 
                 <div>
                     <p>This gives us a factored expression:</p>
-                    <p><code>\dfrac{<var>C</var>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
-                    (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})}{x + <var>-A</var>}</code></p>
+                    <p><code>\dfrac{<var>C</var>(<var>X</var> <var>A &lt; 0 ? "+" : ""</var> \pink{<var>-A</var>})
+                    (<var>X</var> <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>})}{<var>X</var> + <var>-A</var>}</code></p>
                 </div>
 
-                <p>We can now divide the numerator and denominator by <code>(x + <var>-A</var>)</code>.</p>
+                <p>
+                    We can divide the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code> 
+                    on condition that <code><var>X</var> \neq <var>A</var></code>.
+                </p>
 
-                <p>This leaves us with <code><var>C</var>(x + <var>-B</var>)</code></p>
-
-                <p>We distribute the <code><var>C</var></code> to give <code><var>C</var>x + <var>SOLUTIONCONSTANT</var></code></p>
-
+                <div>
+                    <p>Therefore</p>
+                    <p><code><var>Y</var> = <var>C</var>(<var>X</var> + <var>-B</var>); <var>X</var> \neq <var>A</var></code></p>
+                </div>
             </div>
         </div>
     </div>

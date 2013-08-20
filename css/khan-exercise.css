@@ -268,9 +268,9 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 
 #issue #issue-status.error { font-weight: bold; color: #A21; font-size: 1.2em; }
 #issue-link { font-style: italic; }
-#issue form label { display: block; }
-#issue form input[type=text] { display: block; width: 98%; }
-#issue form textarea { display: block; width: 98%; height: 100px; }
+#issue .issue-form label { display: block; }
+#issue .issue-form input[type=text] { display: block; width: 98%; }
+#issue .issue-form textarea { display: block; width: 98%; height: 100px; }
 #issue-cancel { float: right; }
 #issue fieldset {
   list-style: none;
@@ -734,7 +734,7 @@ html.exercise-browser {
 }
 
 
-.sortable .MathJax, .sortable .katex {
+.sortable code {
 	line-height: 65px;
 }
 
@@ -882,7 +882,7 @@ body.debug span.error {
 }
 
 /* Work around bug added in https://khanacademy.kilnhg.com/Review/K109777 */
-.MathJax .math {
+.new-header .MathJax .math {
     color: inherit;
 }
 

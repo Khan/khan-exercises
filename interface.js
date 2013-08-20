@@ -167,15 +167,22 @@ function handleAttempt(data) {
         score = Khan.scoreInput();
     }
 
-    // Stop if the user didn't try to skip the question and also didn't yet
-    // enter a response
-    if (score.empty && !skipped) {
-        return false;
-    }
-
     if (!canAttempt) {
         // Just don't allow further submissions once a correct answer or skip
         // has been called or sometimes the server gets confused.
+        return false;
+    }
+
+    // Is this a message to be shown?
+    if (score.message != null) {
+        $("#check-answer-results > p").html(score.message).show().tex();
+    } else {
+        $("#check-answer-results > p").hide();
+    }
+
+    // Stop if the user didn't try to skip the question and also didn't yet
+    // enter a response
+    if (score.empty && !skipped) {
         return false;
     }
 
@@ -208,7 +215,6 @@ function handleAttempt(data) {
     } else if (score.correct) {
         // Correct answer, so show the next question button.
         $("#check-answer-button").hide();
-        $("#check-answer-results > p").hide();
         $("#next-question-button")
             .prop("disabled", false)
             .removeClass("buttonDisabled")
@@ -223,13 +229,6 @@ function handleAttempt(data) {
             .parent()  // .check-answer-wrapper makes shake behave
             .effect("shake", {times: 3, distance: 5}, 480)
             .val($._("Try Again"));
-
-        // Is this a message to be shown?
-        if (score.message != null) {
-            $("#check-answer-results > p").html(score.message).show().tex();
-        } else {
-            $("#check-answer-results > p").hide();
-        }
 
         if (framework === "perseus") {
             // TODO(alpert)?
@@ -380,8 +379,8 @@ function updateHintButtonText() {
 
     if (hintsAreFree) {
         $hintButton.val(hintsUsed ?
-                $._("Show next step (%(hintsLeft)s left)", {hintsLeft: hintsLeft}) :
-                $._("Show solution"));
+                $._("Show next hint (%(hintsLeft)s left)", {hintsLeft: hintsLeft}) :
+                $._("Show hints (%(hintsLeft)s available)", {hintsLeft: hintsLeft}));
     } else {
         $hintButton.val(hintsUsed ?
                 $.ngettext("I'd like another hint (1 hint left)",

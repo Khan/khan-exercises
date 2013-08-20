@@ -15,17 +15,21 @@
             <var id="E">ZEROES + ( NUMBER_SEED_LENGTH - 1 )</var>
 
             <var id="BASE">NUMBER_SEED / pow( 10, E - ZEROES )</var>
+            <var id="BASE_STR">localeToFixed(BASE, E - ZEROES)</var>
 
             <var id="LEADING">floor( BASE )</var>
-            <var id="TRAIL">( BASE + "" ).substring( 1 )</var>
+            <var id="TRAIL">BASE_STR.substring( 1 )</var>
 
             <var id="DECIMAL">
                 ZEROES &gt; 0 ?
                     NUMBER_SEED * pow( 10, ZEROES ) :
-                    localeToFixed(NUMBER_SEED * pow( 10, ZEROES ), -1 * ZEROES)
+                    // NOTE: Don't use toFixed unless you have a good reason,
+                    // use localeToFixed instead. Here, since we're passing off
+                    // to commafy, we need toFixed.
+                    (NUMBER_SEED * pow( 10, ZEROES )).toFixed(-1 * ZEROES)
             </var>
             <var id="PRETTY_DECIMAL">commafy( DECIMAL )</var>
-            <var id="SCIENTIFIC">BASE + " \\times 10^{" + E + "}"</var>
+            <var id="SCIENTIFIC">BASE_STR + " \\times 10^{" + E + "}"</var>
 
             <code>\newcommand{\exponentColor}[1]{\color{purple}{#1}}\newcommand{\leadingColor}[1]{\color{green}{#1}}</code>
         </div>
@@ -66,8 +70,8 @@
                 <p class="solution"><var>DECIMAL</var></p>
 
                 <div class="hints">
-                    <p class="digits"><code><var>SCIENTIFIC</var> = <var>BASE</var> \times <var>TEN_POWER</var></code></p>
-                    <p class="answer"><code><var>BASE</var> \times <var>TEN_POWER</var> = <var>PRETTY_DECIMAL</var></code></p>
+                    <p class="digits"><code><var>SCIENTIFIC</var> = <var>BASE_STR</var> \times <var>TEN_POWER</var></code></p>
+                    <p class="answer"><code><var>BASE_STR</var> \times <var>TEN_POWER</var> = <var>PRETTY_DECIMAL</var></code></p>
                 </div>
             </div>
         </div>

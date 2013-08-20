@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="ANSWER_IMAG !== -1">
+    <div class="vars" data-ensure="ANSWER_IMAG !== -1 &amp;&amp; (A_IMAG !== 0 || B_IMAG !== 0)">
         <var id="A_REAL">randRange(-5, 5)</var>
         <var id="A_IMAG">randRange(-5, 5)</var>
         <var id="B_REAL">randRange(-5, 5)</var>
@@ -16,7 +16,6 @@
         <var id="OPERATOR">(OPERATION === "add" ? "+" : "-" )</var>
         <var id="ANSWER_REAL">(OPERATION === "add" ? (A_REAL + B_REAL) : (A_REAL - B_REAL))</var>
         <var id="ANSWER_IMAG">(OPERATION === "add" ? (A_IMAG + B_IMAG) : (A_IMAG - B_IMAG))</var>
-        <var id="ANSWER">complexRegex(ANSWER_REAL, ANSWER_IMAG)</var>
         <var id="A_REP">complexNumber(A_REAL, A_IMAG)</var>
         <var id="B_REP">complexNumber(B_REAL, B_IMAG)</var>
         <var id="A_REP_COLORED">"\\color{" + ORANGE + "}{" + A_REP + "}"</var>
@@ -34,7 +33,7 @@
                 <span data-else-if="OPERATION === 'subtract'">Subtract the following complex numbers:</span>
             </p>
             <p><code>(<var>A_REP_COLORED</var>) <var>OPERATOR</var> (<var>B_REP_COLORED</var>)</code></p>
-            <div class="solution" data-type="regex"><var>ANSWER</var></div>
+            <div class="solution" data-type="expression" data-simplify><var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i</div>
             <div class="hints">
                 <p>
                     <span data-if="OPERATION === 'add'">

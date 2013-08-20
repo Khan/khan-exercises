@@ -47,7 +47,7 @@ $.extend(KhanUtil, {
         var $elem = $(elem);
 
         // Only process if it hasn't been done before, or it is forced
-        if ($elem.data("mathFormula") == null || force) {
+        if ($elem.attr("data-math-formula") == null || force) {
             var $katexHolder = findChildOrAdd($elem, "katex-holder");
             var $mathjaxHolder = findChildOrAdd($elem, "mathjax-holder");
 
@@ -60,9 +60,9 @@ $.extend(KhanUtil, {
 
             // If text wasn't provided, we look in two places
             if (text == null) {
-                if ($elem.data("mathFormula")) {
+                if ($elem.attr("data-math-formula")) {
                     // The old typeset formula
-                    text = $elem.data("mathFormula");
+                    text = $elem.attr("data-math-formula");
                 } else if ($script.length) {
                     // The contents of the <script> tag
                     text = $script.html();
@@ -77,7 +77,7 @@ $.extend(KhanUtil, {
             }
 
             // Store the formula that we're using
-            $elem.data("mathFormula", text);
+            $elem.attr("data-math-formula", text);
 
             if (Exercises.useKatex) {
                 // Try to process the nodes with KaTeX first
@@ -85,7 +85,7 @@ $.extend(KhanUtil, {
                     katex.process(text, $katexHolder[0]);
                     // If that worked, and we previously formatted with
                     // mathjax, do some mathjax cleanup
-                    if ($elem.data("mathType") === "mathjax") {
+                    if ($elem.attr("data-math-type") === "mathjax") {
                         // Remove the old mathjax stuff
                         var jax = MathJax.Hub.getJaxFor($script[0]);
                         if (jax) {
@@ -96,7 +96,7 @@ $.extend(KhanUtil, {
                             }
                         }
                     }
-                    $elem.data("mathType", "katex");
+                    $elem.attr("data-math-type", "katex");
                     // Call the callback
                     if (callback) {
                         doCallback(elem, callback);
@@ -115,7 +115,7 @@ $.extend(KhanUtil, {
 
             // (Note: we don't need to do any katex cleanup here, because
             // KaTeX is smart and cleans itself up)
-            $elem.data("mathType", "mathjax");
+            $elem.attr("data-math-type", "mathjax");
             // Update the script tag, or add one if necessary
             if (!$script.length) {
                 $mathjaxHolder.append("<script type='math/tex'>" +
@@ -150,7 +150,7 @@ $.extend(KhanUtil, {
         $elem = $(elem);
         $elem.filter("code").add($elem.find("code")).each(function() {
             var $this = $(this);
-            var text = $this.data("mathFormula");
+            var text = $this.attr("data-math-formula");
             if (text == null) {
                 text = $this.text();
                 $this.empty();
@@ -164,7 +164,7 @@ $.extend(KhanUtil, {
         var $elem = $(elem);
 
         // Only mess with it if it's been processed before
-        if ($elem.data("mathFormula")) {
+        if ($elem.attr("data-math-formula")) {
             // Remove MathJax remnants
             if (typeof MathJax !== "undefined") {
                 var jax = MathJax.Hub.getJaxFor($elem.find("script")[0]);
@@ -176,8 +176,8 @@ $.extend(KhanUtil, {
                 }
             }
 
-            $elem.text($elem.data("mathFormula"));
-            $elem.data("mathFormula", null);
+            $elem.text($elem.attr("data-math-formula"));
+            $elem.attr("data-math-formula", null);
         }
 
         return elem;
@@ -185,7 +185,7 @@ $.extend(KhanUtil, {
 
     // Function to retrieve the formula of a typeset math node
     retrieveMathFormula: function(elem) {
-        return $(elem).data("mathFormula");
+        return $(elem).attr("data-math-formula");
     }
 });
 
@@ -196,14 +196,6 @@ $.fn.tex = function() {
 };
 
 $.fn.texCleanup = function() {
-    // This gets called before each problem. In some cases, before the first
-    // problem, MathJax isn't loaded yet. No worries--there's nothing to clean
-    // up anyway
-    if (typeof MathJax === "undefined") {
-        KhanUtil.debugLog("MathJax undefined in Cleanup");
-        return;
-    }
-
     this.find("code").each(function() {
         KhanUtil.cleanupMath(this);
     });

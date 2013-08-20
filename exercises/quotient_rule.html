@@ -18,11 +18,16 @@
 
             <var id="NOTATION">funcNotation("x")</var>
 
-            <var id="ANSWER">function( a, b, c, d, e, min ) {
+            <var id="ANSWER">function(a, b, c, d, e, min) {
                 // create fraction of the form ( (a)(b) + (c)(d) ) / e^2
-                var term1 = "(" + a + ")" + ( a === b ? "^2" : "(" + b + ")" ),
-                    term2 = "(" + c + ")" + ( c === d ? "^2" : "(" + d + ")" );
-                return "\\dfrac{" + term1 + min + term2 + "}{(" + e + ")^2}";
+
+                var term1 = "\\left(" + a + "\\right)" +
+                        (a === b ? "^2" : "\\left(" + b + "\\right)");
+                var term2 = "\\left(" + c + "\\right)" +
+                        (c === d ? "^2" : "\\left(" + d + "\\right)");
+
+                return "\\dfrac{" + term1 + min + term2 + "}" +
+                        "{\\left(" + e + "\\right)^2}";
             }</var>
 
         </div>
