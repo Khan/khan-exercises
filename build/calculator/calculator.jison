@@ -28,9 +28,9 @@
 
 %left '+' '-'
 %left '*' '/'
+%right UMINUS
 %right '^'
 %right '!'
-%right UMINUS
 
 %start expressions
 
