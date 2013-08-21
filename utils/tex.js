@@ -197,7 +197,7 @@ $.fn.tex = function() {
 };
 
 $.fn.texCleanup = function() {
-    this.find("code").each(function() {
+    this.filter("code").add(this.find("code")).each(function() {
         KhanUtil.cleanupMath(this);
     });
 
