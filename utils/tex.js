@@ -178,6 +178,7 @@ $.extend(KhanUtil, {
 
             $elem.text($elem.attr("data-math-formula"));
             $elem.attr("data-math-formula", null);
+            $elem.attr("data-math-type", null);
         }
 
         return elem;
