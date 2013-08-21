@@ -87,7 +87,11 @@
     function testMultipleAnswer(answerData, inputs, result, description) {
         _.chain($("#solutionarea input")).zip(inputs).each(function(args) {
             var el = args[0], text = args[1];
-            $(el).val(text);
+            if (typeof text === "string") {
+                $(el).val(text);
+            } else {
+                $(el).prop("checked", text);
+            }
         });
         checkAnswer(
             answerData, result, description + " [" + inputs.join(", ") + "]");
@@ -517,9 +521,9 @@
         testMultipleAnswer(answerData, ["7", "3/2"], true, "right answer is right");
         testMultipleAnswer(answerData, ["7", "1.5"], true, "right answer is right");
         testMultipleAnswer(answerData, ["3/2", "7"], false, "wrong answer is wrong");
-        testMultipleAnswer(answerData, ["7", ""], "", "incomplete answer is incomplete");
-        testMultipleAnswer(answerData, ["", "3/2"], "", "incomplete answer is incomplete");
-        testMultipleAnswer(answerData, ["", ""], "", "incomplete answer is incomplete");
+        testMultipleAnswer(answerData, ["7", ""], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", "3/2"], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", ""], "", "empty answer is empty");
         testMultipleAnswer(answerData, ["7", "6/4"], "string", "unsimplified right answer provides a message");
 
         start();
@@ -540,9 +544,49 @@
         testMultipleAnswer(answerData, ["1", "7"], false, "wrong answer is wrong");
         testMultipleAnswer(answerData, ["7", "2"], false, "wrong answer is wrong");
         testMultipleAnswer(answerData, ["7", ""], true, "right answer is right");
-        testMultipleAnswer(answerData, ["", "1"], "", "incomplete answer is incomplete");
-        testMultipleAnswer(answerData, ["", "2"], "", "incomplete answer is incomplete");
-        testMultipleAnswer(answerData, ["", ""], "", "incomplete answer is incomplete");
+        testMultipleAnswer(answerData, ["", "1"], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", "2"], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", ""], "", "empty answer is empty");
+
+        start();
+    });
+
+    asyncTest("multiple with true checkbox", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='multiple'>" +
+                // Doing data-text here so that '' grades true; `set` will
+                // behave similarly
+                "<span class='sol' data-type='text'><\/span>" +
+                "<span class='sol' data-type='checkbox'>true<\/span>" +
+            "<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["", true], true, "right answer is right");
+        testMultipleAnswer(answerData, ["", false], "", "empty answer is empty");
+        testMultipleAnswer(answerData, ["7", false], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", true], false, "wrong answer is wrong");
+
+        start();
+    });
+
+    asyncTest("multiple with false checkbox", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='multiple'>" +
+                "<span class='sol'>12<\/span>" +
+                "<span class='sol' data-type='checkbox'>false<\/span>" +
+            "<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["12", false], true, "right answer is right");
+        testMultipleAnswer(answerData, ["", false], "", "empty answer is empty");
+        testMultipleAnswer(answerData, ["", true], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["12", true], false, "nonsensical answer is wrong");
 
         start();
     });

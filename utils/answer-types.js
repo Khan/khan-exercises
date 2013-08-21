@@ -28,6 +28,15 @@ function getTextSquish(elem) {
     return $(elem).text().replace(/\s+/g, "");
 }
 
+// TODO(alpert): Don't duplicate from khan-exercise.js
+function checkIfAnswerEmpty(guess) {
+    // If multiple-answer, join all responses and check if that's empty
+    // Remove commas left by joining nested arrays in case multiple-answer is
+    // nested
+    return $.trim(guess) === "" || (guess instanceof Array &&
+             $.trim(guess.join("").replace(/,/g, "")) === "");
+}
+
 /*
  * Answer types
  *
@@ -93,18 +102,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
             $(solutionarea).append(input);
 
-            // The fallback variable is used in place of the answer, if no
-            // answer is provided (i.e. the field is left blank)
-            var fallback = solutionData.fallback;
-
             return {
                 validator: Khan.answerTypes.text.createValidatorFunctional(
                         solutionText, solutionData),
                 answer: function() {
-                    // return the value in the text box, or the fallback
-                    return input.val().length > 0 ?
-                        input.val() :
-                        (fallback != null ? fallback + "" : "");
+                    return input.val();
                 },
                 solution: $.trim(solutionText),
                 examples: [],
@@ -121,7 +123,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             correct = $.trim(correct);
 
             return function(guess) {
-                guess = $.trim(guess);
+                // The fallback variable is used in place of the answer, if no
+                // answer is provided (i.e. the field is left blank)
+                var fallback = "" + (options.fallback || "");
+
+                guess = $.trim(guess) || fallback;
                 if (guess.toLowerCase() === correct.toLowerCase()) {
                     if (correct === guess || options.correctCase === "optional") {
                         return true;
@@ -257,15 +263,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 }
             });
 
-            var fallback = solutionData.fallback
-
             return {
                 validator: Khan.answerTypes.predicate.createValidatorFunctional(
                         solutionText, solutionData),
                 answer: function() {
-                    return input.val().length > 0 ?
-                        input.val() :
-                        (fallback != null ? fallback + "" : "");
+                    return input.val();
                 },
                 solution: $.trim(solutionText),
                 examples: examples,
@@ -575,7 +577,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // validator function
             return function(guess) {
-                guess = $.trim(guess);
+                // The fallback variable is used in place of the answer, if no
+                // answer is provided (i.e. the field is left blank)
+                var fallback = "" + (options.fallback || "");
+
+                guess = $.trim(guess) || fallback;
                 var ret = false;
 
                 if (guess === "") {
@@ -686,17 +692,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
             $(solutionarea).append(input);
 
-            // The fallback variable is used in place of the answer, if no
-            // answer is provided (i.e. the field is left blank)
-            var fallback = solutionData.fallback;
-
             return {
                 validator: Khan.answerTypes.regex.createValidatorFunctional(
                         solutionText, solutionData),
                 answer: function() {
-                   return input.val().length > 0 ?
-                       input.val() :
-                       (fallback != null ? fallback + "" : "");
+                   return input.val();
                 },
                 solution: $.trim(solutionText),
                 examples: [],
@@ -715,7 +715,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             regex = new RegExp($.trim(regex), flags);
 
             return function(guess) {
-                guess = $.trim(guess);
+                // The fallback variable is used in place of the answer, if no
+                // answer is provided (i.e. the field is left blank)
+                var fallback = "" + (options.fallback || "");
+
+                guess = $.trim(guess) || fallback;
                 return guess.match(regex) != null;
             };
         }
@@ -1018,30 +1022,34 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             return function(guess) {
                 var valid = true;
-                var missing_required_answer = false;
-                var invalid_reason = "";
+                var allEmpty = true;
+                var message = "";
 
                 // Iterate over each of the elements in the guess
                 $.each(guess, function(i, g) {
                     // Check whether that answer is right by validating it
-                    // with the cooresponding validator
+                    // with the corresponding validator
                     var pass = validators[i](g);
 
-                    // If no answer was provided, break;
+                    if (!checkIfAnswerEmpty(g) && !checkIfAnswerEmpty(pass)) {
+                        allEmpty = false;
+                    }
+
                     if (pass === "") {
-                        missing_required_answer = true;
-                        return false;
-                    } else if (typeof pass === "string") {
-                        invalid_reason = pass;
+                        valid = false;
                     } else {
-                        valid = valid && pass;
+                        if (typeof pass === "string") {
+                            message = pass;
+                        } else {  // pass is true or false
+                            valid = valid && pass;
+                        }
                     }
                 });
 
-                if (missing_required_answer) {
+                if (allEmpty) {
                     return "";
-                } else if (invalid_reason.length > 0) {
-                    return invalid_reason;
+                } else if (message) {
+                    return message;
                 } else {
                     return valid;
                 }
@@ -1657,15 +1665,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
             $(solutionarea).append(input);
 
-            var fallback = solutionData.fallback;
-
             return {
                 validator: Khan.answerTypes.primeFactorization.createValidatorFunctional(
                         solutionText, solutionData),
                 answer: function() {
-                    return input.val().length > 0 ?
-                        input.val() :
-                        (fallback != null ? fallback + "" : "");
+                    return input.val();
                 },
                 solution: $.trim(solutionText),
                 examples: [
@@ -1707,7 +1711,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 validator: Khan.answerTypes.checkbox.createValidatorFunctional(
                         solutionText, solutionData),
                 answer: function() {
-                    return input.is(":checked");
+                    // False as "" so that checkIfAnswerEmpty recognizes it as
+                    // empty
+                    return input.is(":checked") || "";
                 },
                 solution: $.trim(solutionText),
                 examples: [],
@@ -1721,7 +1727,19 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             correct = $.trim(correct) === "true";
 
             return function(guess) {
-                return correct === guess;
+                // If checkbox is unchecked, guess will be ""; cast to bool
+                if (!!correct === !!guess) {
+                    return true;
+                } else if (!guess) {
+                    // If unchecked, we'll say that the answer is empty, which
+                    // is necessary to ensure that a new question with
+                    // checkboxes counts as empty. Empty in a multiple grades
+                    // as false though so this shouldn't have any adverse
+                    // effects.
+                    return "";
+                } else {
+                    return false;
+                }
             };
         }
     },
