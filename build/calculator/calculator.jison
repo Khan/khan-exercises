@@ -26,9 +26,9 @@
 
 /* operator associations and precedence */
 
-%right UMINUS
 %left '+' '-'
 %left '*' '/'
+%right UMINUS
 %right '^'
 %right '!'
 
