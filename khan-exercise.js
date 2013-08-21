@@ -1404,12 +1404,8 @@ var Khan = (function() {
                 examples.append("<li>" + example + "</li>");
             });
 
-            examples.children().runModules();
-
             $("#examples-show").qtip({
                 content: {
-                    // TODO(alpert): I'd imagine MathJax is unhappy about this
-                    // removal
                     text: examples.remove(),
                     prerender: true
                 },
@@ -1424,7 +1420,13 @@ var Khan = (function() {
                         length: 0
                     }
                 },
-                hide: {delay: 0}
+                hide: {delay: 0},
+                events: {
+                    render: function() {
+                        // Only run the modules when the qtip is actually shown
+                        examples.children().runModules();
+                    }
+                }
             });
         } else {
             $("#examples-show").hide();

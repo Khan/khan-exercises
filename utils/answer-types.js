@@ -965,7 +965,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // Find all the example classes from the solution, and store
                 // those
                 examples: (function() {
-                    var ex = solution.find(".example").map(function(i, el) {
+                    var ex = solution.find(".example").texCleanup()
+                                     .map(function(i, el) {
                         return $(el).html();
                     });
                     if (ex.length === 0 && answerDataArray.length === 1) {
@@ -1122,7 +1123,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return answer;
                 },
                 solution: solution,
-                examples: solution.find(".example").map(function(i, el) {
+                examples: solution.find(".example").texCleanup()
+                                  .map(function(i, el) {
                     return $(el).html();
                 }),
                 showGuess: function(guess) {
@@ -1594,7 +1596,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                                 KhanUtil.currentGraph);
                 },
                 solution: $.trim($(solution).text()),
-                examples: solution.find(".example").map(function(i, el) {
+                examples: solution.find(".example").texCleanup()
+                                  .map(function(i, el) {
                     return $(el).html();
                 }),
                 showCustomGuess: function(guess) {
