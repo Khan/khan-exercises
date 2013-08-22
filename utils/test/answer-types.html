@@ -551,6 +551,75 @@
         start();
     });
 
+    asyncTest("multiple with coefficient +1", 6, function() {
+        var forms = "integer, proper, improper, mixed, decimal, coefficient";
+
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='multiple'>" +
+                "<span class='sol' data-forms='" + forms + "'>7<\/span> x + " +
+                "<span class='sol' data-forms='" + forms + "'>1<\/span> y" +
+            "<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["7", "1"], true, "right answer is right");
+        testMultipleAnswer(answerData, ["1", "7"], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", "2"], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", ""], true, "right answer is right");
+        testMultipleAnswer(answerData, ["", "2"], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", ""], "", "empty answer is empty");
+
+        start();
+    });
+
+    asyncTest("multiple with coefficient -1", 7, function() {
+        var forms = "integer, proper, improper, mixed, decimal, coefficient";
+
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='multiple'>" +
+                "<span class='sol' data-forms='" + forms + "'>7<\/span> x + " +
+                "<span class='sol' data-forms='" + forms + "'>-1<\/span> y" +
+            "<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["7", "-1"], true, "right answer is right");
+        testMultipleAnswer(answerData, ["-1", "7"], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", "2"], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", "-"], true, "right answer is right");
+        testMultipleAnswer(answerData, ["7", ""], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", "2"], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", ""], "", "empty answer is empty");
+
+        start();
+    });
+
+    asyncTest("multiple with two coefficients of 1", 5, function() {
+        var forms = "integer, proper, improper, mixed, decimal, coefficient";
+
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='multiple'>" +
+                "<span class='sol' data-forms='" + forms + "'>1<\/span> x + " +
+                "<span class='sol' data-forms='" + forms + "'>1<\/span> y" +
+            "<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["1", "1"], true, "right answer is right");
+        testMultipleAnswer(answerData, ["1", ""], true, "right answer is right");
+        testMultipleAnswer(answerData, ["1", " "], true, "right answer is right");
+        testMultipleAnswer(answerData, ["", "1"], true, "right answer is right");
+        testMultipleAnswer(answerData, ["", ""], "", "empty answer is empty");
+
+        start();
+    });
+
     asyncTest("multiple with true checkbox", 4, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +

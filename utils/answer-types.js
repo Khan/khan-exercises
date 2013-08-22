@@ -461,6 +461,22 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return possibilities;
                 },
 
+                // Converts '' to 1 and '-' to -1 so you can write "[___] x"
+                // and accept sane things
+                coefficient: function(text) {
+                    var match, possibilities = [];
+
+                    // Replace unicode minus sign with hyphen
+                    text = text.replace(/\u2212/, "-");
+
+                    if (text === "") {
+                        possibilities = [{ value: 1, exact: true }];
+                    } else if (text === "-") {
+                        possibilities = [{ value: -1, exact: true }];
+                    }
+                    return possibilities;
+                },
+
                 // simple log(c) form
                 log: function(text) {
                     var match, possibilities = [];
@@ -583,10 +599,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 guess = $.trim(guess) || fallback;
                 var ret = false;
-
-                if (guess === "") {
-                    return "";
-                }
 
                 // iterate over all the acceptable forms, and if one of the
                 // answers is correct, return true
