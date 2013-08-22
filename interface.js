@@ -41,6 +41,7 @@ var PerseusBridge = Exercises.PerseusBridge,
     numHints,
     hintsUsed,
     lastAttemptOrHint,
+    lastAttemptContent,
     firstProblem = true;
 
 $(Exercises)
@@ -130,6 +131,7 @@ function newProblem(e, data) {
     numHints = data.numHints;
     hintsUsed = data.userExercise ? data.userExercise.lastCountHints : 0;
     lastAttemptOrHint = new Date().getTime();
+    lastAttemptContent = null;
 
     var framework = Exercises.getCurrentFramework();
     $("#problem-and-answer")
@@ -201,9 +203,19 @@ function handleAttempt(data) {
     }
 
     var curTime = new Date().getTime();
-    var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
+    var millisTaken = curTime - lastAttemptOrHint;
+    var timeTaken = Math.round(millisTaken / 1000);
     var stringifiedGuess = JSON.stringify(score.guess);
+    
     lastAttemptOrHint = curTime;
+
+    // If user hasn't changed their answer and is resubmitting w/in one second
+    // of last attempt, don't allow this attempt. They're probably just
+    // smashing Enter.
+    if (stringifiedGuess === lastAttemptContent && millisTaken < 1000) {
+        return false;
+    }
+    lastAttemptContent = stringifiedGuess;
 
     Exercises.guessLog.push(score.guess);
     Exercises.userActivityLog.push([
@@ -372,6 +384,12 @@ function onHintShown(e, data) {
     var curTime = new Date().getTime();
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
     lastAttemptOrHint = curTime;
+
+    // When a hint is shown, clear the "last attempt content" that is used to
+    // detect duplicate, repeated attempts. Once the user clicks on a hint, we
+    // consider their next attempt to be unique and legitimate even if it's the
+    // same answer they attempted previously.
+    lastAttemptContent = null;
 
     Exercises.userActivityLog.push(["hint-activity", "0", timeTaken]);
 
