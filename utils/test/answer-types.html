@@ -390,6 +390,35 @@
         start();
     });
 
+    asyncTest("number leading zeros are okay on decimals", 1, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number'>0.372<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "0.372", true, "right answer is right");
+
+        start();
+    });
+
+    asyncTest("number leading zeros are not okay on integers", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number'>372<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "372", true, "right answer is right");
+        testAnswer(answerData, "0.372", false, "leading zeros are wrong");
+        testAnswer(answerData, "00.372", false, "two leading zeros are wrong");
+        testAnswer(answerData, "0.000.372", false, "many leading zeros are wrong");
+
+        start();
+    });
+
     asyncTest("number inexact", 4, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-inexact data-max-error='1'>123.45<\/p>"

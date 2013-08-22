@@ -553,20 +553,23 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     }
 
                     var normal = function(text) {
-                        var match = $.trim(text)
+                        text = $.trim(text);
 
+                        var match = text
                             // Replace unicode minus sign with hyphen
                             .replace(/\u2212/, "-")
-
                             // Remove space after +, -
                             .replace(/([+-])\s+/g, "$1")
-
-                            // Extract integer, numerator and denominator If
+                            // Extract integer, numerator and denominator. If
                             // commas or spaces are used, they must be in the
                             // "correct" places
                             .match(/^([+-]?(?:\d{1,3}(?:[, ]?\d{3})*\.?|\d{0,3}(?:[, ]?\d{3})*\.(?:\d{3}[, ]?)*\d{1,3}))$/);
 
-                        if (match) {
+                        // You can't start a number with `0,`, to prevent us
+                        // interpeting '0.342' as correct for '342'
+                        var badLeadingZero = text.match(/^0[0,]*,/);
+
+                        if (match && !badLeadingZero) {
                             var x = parseFloat(match[1].replace(/[, ]/g, ""));
 
                             if (options.inexact === undefined) {
