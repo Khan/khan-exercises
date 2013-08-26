@@ -119,6 +119,8 @@
                         fill: "#000", opacity: 0.0
                     });
                     $(mouseTarget[0]).bind("vmousedown", function(event) {
+                        event.preventDefault();
+
                         GRAPH.lastX = event.pageX;
                         GRAPH.lastY = event.pageY;
 
