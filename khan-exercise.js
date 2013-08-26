@@ -701,7 +701,8 @@ var Khan = (function() {
                         snowleo: agent_contains("OS X 10_6") || agent_contains("OS X 10.6"),
                         lion: agent_contains("OS X 10_7") || agent_contains("OS X 10.7"),
                         scratchpad: (/scratch\s*pad/i).test(body),
-                        ipad: agent_contains("iPad")
+                        ipad: agent_contains("iPad"),
+                        undef: Exercises.guessLog == null
                     },
                     labels = [];
                 $.each(flags, function(k, v) {
@@ -716,7 +717,7 @@ var Khan = (function() {
                     labels.push(type.slice("issue-".length));
 
                     var hintOrVideoMsg = $._("Please click the hint button above " +
-                        "to see our solution, or watch a video for additional help.");
+                        "to see our solution or watch a video for additional help.");
                     var refreshOrBrowserMsg = $._("Please try a hard refresh " +
                         "(press Ctrl + Shift + R) or use Khan Academy from a " +
                         "different browser (such as Chrome or Firefox).");
