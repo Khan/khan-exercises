@@ -206,7 +206,7 @@ function handleAttempt(data) {
     var millisTaken = curTime - lastAttemptOrHint;
     var timeTaken = Math.round(millisTaken / 1000);
     var stringifiedGuess = JSON.stringify(score.guess);
-    
+
     lastAttemptOrHint = curTime;
 
     // If user hasn't changed their answer and is resubmitting w/in one second
