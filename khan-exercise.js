@@ -1165,6 +1165,10 @@ var Khan = (function() {
                 // Or by its ID
                 problems.filter("#" + id);
 
+            if (!problem.length) {
+                throw new Error("Unknown problem type " + id);
+            }
+
         // Otherwise we grab a problem at random from the bag of problems
         // we made earlier to ensure that every problem gets shown the
         // appropriate number of times
