@@ -351,6 +351,8 @@
                 });
 
                 $(mouseTarget[0]).bind("vmousedown", function(event) {
+                    event.preventDefault();
+
                     GRAPH.lastX = event.pageX;
                     GRAPH.lastY = event.pageY;
 
