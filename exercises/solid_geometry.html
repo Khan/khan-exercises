@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-3d math-format interactive">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Solid geometry</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -119,6 +119,8 @@
                         fill: "#000", opacity: 0.0
                     });
                     $(mouseTarget[0]).bind("vmousedown", function(event) {
+                        event.preventDefault();
+
                         GRAPH.lastX = event.pageX;
                         GRAPH.lastY = event.pageY;
 
@@ -311,7 +313,7 @@
                 of each of the faces, and add all the areas up.</p>
                 <div>
                     <p>To see this better, let's try unwrapping the box:
-                    <input onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')" type="submit" value="Unwrap!"></p>
+                    <input onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')" type="submit" value="Unwrap!"/></p>
                     <div class="graphie">
                         var verts = [
                             [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],

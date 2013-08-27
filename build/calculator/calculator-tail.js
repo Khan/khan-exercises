@@ -10,7 +10,7 @@ var Calculator = (function(parser) {
     };
 
     return _.bindAll({
-        angleMode: "DEG",
+        angleMode: "RAD",
         parser: parser,
         parse: _.bind(parser.parse, parser),
 
@@ -33,6 +33,10 @@ var Calculator = (function(parser) {
                 } else {
                     throw new CalculatorError("Invalid variable ans");
                 }
+            } else if (tree === "pi") {
+                return Math.PI;
+            } else if (tree === "e") {
+                return Math.E;
             } else if (_.isNumber(tree)) {
                 return tree;
             } else if (_.isArray(tree)) {
@@ -70,6 +74,13 @@ var Calculator = (function(parser) {
                     atan: function(a) {
                         var ans = fromRad(Math.atan(a));
                         if (isNaN(ans)) {
+                            throw new CalculatorError("undefined");
+                        }
+                        return ans;
+                    },
+                    ln: function(a) {
+                        var ans = Math.log(a);
+                        if (isNaN(ans) || !isFinite(ans)) {
                             throw new CalculatorError("undefined");
                         }
                         return ans;

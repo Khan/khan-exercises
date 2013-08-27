@@ -73,7 +73,9 @@
                     slidingWindow.getXLims()
                 </div>
                 <div class="validator-function">
-                    if (NO_SOLUTION) {
+                    if (_.isEqual(guess, slidingWindow.startRange)) {
+                        return "";
+                    } else if (NO_SOLUTION) {
                         return true;
                     }
                     return _.any(PROBLEM_RANGES, function(problemRange) {
@@ -92,16 +94,6 @@
                     </span>
                     No solution
                 </label>
-            </div>
-            <div class="sol" data-type="custom">
-                <div class="guess">
-                    _.isEqual(slidingWindow.getXLims(), slidingWindow.startRange)
-                    &amp;&amp;
-                    !$("#solutionarea input").eq(0).is(":checked")
-                </div>
-                <div class="validator-function">
-                    return guess ? "" : true;
-                </div>
             </div>
         </div>
 
