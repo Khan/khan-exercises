@@ -10,18 +10,16 @@
         <div class="problems">
 
             <div id="decimals">
-                <div class="vars" >
+                <div class="vars">
                     <var id="N">randRange(2, 3)</var>
-                    <var id="TYPES" data-ensure="TYPES[0] !== TYPES[1] || (N === 3 && TYPES[0] !== TYPES[2])">[
-                        randFromArray(["decimal", "percentage", "fraction", "fraction"]),
-                        randFromArray(["decimal", "percentage", "fraction", "fraction"]),
-                        randFromArray(["decimal", "percentage", "fraction", "fraction"])
-                    ].slice(0, N)</var>
+                    <var id="TYPES" data-ensure="TYPES[0] !== TYPES[1] || (N === 3 && TYPES[0] !== TYPES[2])">_.map(_.range(N), function() {
+                        return randFromArray(["decimal", "percentage", "fraction", "fraction"]);
+                    }).slice(0, N)</var>
                     <var id="DENOMINATORS">_.map(TYPES, function(x) {
                         return randFromArray([2, 4, 5, 8, 10, 20, 25, 40, 50, 100]);
                     })</var>
                     <var id="NUMERATORS">_.map(DENOMINATORS, function(d) {
-                        return randFromArray([-1, 1]) * randRange(1, d * 2);
+                        return randRangeNonZero(-d * 2, d * 2);
                     })</var>
                     <var id ="DECIMALS">_.map(DENOMINATORS, function(d, i) {
                         return roundTo(3, NUMERATORS[i] / d);
@@ -37,7 +35,7 @@
                     })</var>
                     <var id="TOCHANGE">(function() {
                         var arr = [];
-                        for (var i=0; i &lt; N; i++) {
+                        for (var i = 0; i &lt; N; i++) {
                             if (TYPES[i] !== 'decimal') {
                                 arr.push(i);
                             }
@@ -46,7 +44,7 @@
                     })()</var>
                     <var id="SOLUTION">(function() {
                         var x = 0;
-                        for (var i=0; i &lt; N; i++) {
+                        for (var i = 0; i &lt; N; i++) {
                             x += NUMERATORS[i] / DENOMINATORS[i];
                         }
                         return roundTo(3, x);
@@ -77,12 +75,9 @@
                         </code></p>                 
                     </div>
 
-                    <div>
-                        <p>Now we have:</p>
-                        <p><code>\qquad
-                            <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> <span data-if="N === 3"> + <var>DECIMALS[2]</var></span> = <var>SOLUTION</var>
-                        </code></p>                 
-                    </div>
+                    <p><code>\qquad
+                        <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> <span data-if="N === 3"> + <var>DECIMALS[2]</var></span> = <var>SOLUTION</var>
+                    </code></p>
                 </div>
             </div>
 
