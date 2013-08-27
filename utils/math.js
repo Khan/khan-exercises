@@ -62,8 +62,6 @@ $.extend(KhanUtil, {
         $._("thousand")],
     placesRightOfDecimal: [$._("one"), $._("tenth"), $._("hundredth"),
         $._("thousandth"),$._("ten thousandth")],
-    placesRightOfDecimalPlural: [$._("ones"), $._("tenths"), $._("hundredths"),
-        $._("thousandths"), $._("ten thousandths")],
 
     powerToPlace: function(power) {
         if (power < 0) {
