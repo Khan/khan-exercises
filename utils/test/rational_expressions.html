@@ -249,8 +249,6 @@
         checkRegex(e2.regex(true), "4(1-3x)", true, "factored reversed is right");
         checkRegex(e3.regex(true), "x + 5", true, "coefficient of one ignored is right");
         checkRegex(e3.regex(true), "1x + 5", false, "coefficient of one included is wrong (?)");
-
-        console.log(e2.regex(true));
         start();
     });
 
