@@ -140,7 +140,7 @@ function DrawingScratchpad(elem) {
                 "fill-opacity": 0.15,
                 "stroke-opacity": 0.5,
                 "fill": "#ff0000",  // oh noes! its red and gonna asplodes!
-                "stroke": "#ff0000",
+                "stroke": "#ff0000"
             });
             eraser.sx = X;
             eraser.sy = Y;
