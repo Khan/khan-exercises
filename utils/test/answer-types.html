@@ -558,7 +558,7 @@
         start();
     });
 
-    asyncTest("multiple with fallback", 7, function() {
+    asyncTest("multiple with fallback 1", 7, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
                 "<span class='sol'>7<\/span>" +
@@ -574,6 +574,28 @@
         testMultipleAnswer(answerData, ["7", "2"], false, "wrong answer is wrong");
         testMultipleAnswer(answerData, ["7", ""], true, "right answer is right");
         testMultipleAnswer(answerData, ["", "1"], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", "2"], false, "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", ""], "", "empty answer is empty");
+
+        start();
+    });
+
+    asyncTest("multiple with fallback 0", 7, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='multiple'>" +
+                "<span class='sol'>7<\/span>" +
+                "<span class='sol' data-fallback='0'>0<\/span>" +
+            "<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["7", "0"], true, "right answer is right");
+        testMultipleAnswer(answerData, ["0", "7"], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", "2"], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", ""], true, "right answer is right");
+        testMultipleAnswer(answerData, ["", "0"], false, "incomplete answer is wrong");
         testMultipleAnswer(answerData, ["", "2"], false, "incomplete answer is wrong");
         testMultipleAnswer(answerData, ["", ""], "", "empty answer is empty");
 

@@ -125,7 +125,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // The fallback variable is used in place of the answer, if no
                 // answer is provided (i.e. the field is left blank)
-                var fallback = "" + (options.fallback || "");
+                var fallback =
+                    options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
                 if (guess.toLowerCase() === correct.toLowerCase()) {
@@ -598,7 +599,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // The fallback variable is used in place of the answer, if no
                 // answer is provided (i.e. the field is left blank)
-                var fallback = "" + (options.fallback || "");
+                var fallback =
+                    options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
                 var ret = false;
@@ -732,7 +734,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // The fallback variable is used in place of the answer, if no
                 // answer is provided (i.e. the field is left blank)
-                var fallback = "" + (options.fallback || "");
+                var fallback =
+                    options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
                 return guess.match(regex) != null;
@@ -1183,7 +1186,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // Store a copy of each of the validators. If one correctly
                 // identifies a guess, remove it from this array, so duplicate
                 // answers aren't marked correct twice
-                    unusedValidators = validatorArray.slice(0);
+                unusedValidators = validatorArray.slice(0);
 
                 // Go through each of the guesses
                 $.each(guess, function(i, g) {
@@ -1196,7 +1199,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                         // If this validator completely accepts this answer
                         // or returns a check answer message
-                         if (pass !== false) {
+                        if (pass !== false) {
                             // remove the working validator
                             unusedValidators.splice(i, 1);
                             // store correct
