@@ -81,16 +81,21 @@
                 <div class="solution"><var>HEIGHT_A</var></div>
 
                 <div class="hints" data-apply="appendContents">
-                    <p><code>\overline{AD} : \overline{AB} = <var>fraction(HEIGHT_A, SIDE_A)</var></code></p>
+                    <div>
+                        <p><code>\overline{AB} : \overline{BC} = \dfrac{<var>SIDE_A</var>}{x}</code></p>
+                        <p data-if="HEIGHT_N % SIDE_A"><code>
+                            \overline{AD} : \overline{DE} = <var>SIDE_A + SIDE_B</var> \div <var>HEIGHT_B2</var> = 
+                            <var>SIDE_A + SIDE_B</var> \times <var>fractionReduce(SIDE_A, HEIGHT_N)</var> = 
+                            <var>fractionReduce(SIDE_A * (SIDE_A + SIDE_B), HEIGHT_N)</var>
+                        </code></p>
+                        <p data-else=""><code>\overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A + SIDE_B</var>}{<var>HEIGHT_B</var>}</code></p>
+                    </div>
 
                     <p><code>
-                        \overline{DE} : \overline{AD} = \dfrac{\overline{DE}}{<var>SIDE_A + SIDE_B</var>}
-                         = <var>fraction(HEIGHT_A, SIDE_A)</var>
-                     </code></p>
-
-                     <p><code>
-                        \overline{DE} = <var>SIDE_A + SIDE_B</var> \times <var>fraction(HEIGHT_A, SIDE_A)</var> = <var>HEIGHT_B2</var>
-                     </code></p>
+                        \dfrac{<var>SIDE_A</var>}{x} =
+                        <span data-if="HEIGHT_N % SIDE_A"><var>fractionReduce(SIDE_A * (SIDE_A + SIDE_B), HEIGHT_N)</var></span>
+                        <span data-else="">\dfrac{<var>SIDE_A + SIDE_B</var>}{<var>HEIGHT_B</var>}</span>
+                    </code></p>
                 </div>
             </div>
 
