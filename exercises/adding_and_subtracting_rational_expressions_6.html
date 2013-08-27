@@ -13,13 +13,13 @@
                     <var id="X">randVar()</var>
                     <var id="SIGN1">randFromArray(["+", "-"])</var>
                     <var id="SIGN2">randFromArray(["+", "-"])</var>
-                    <var id="N1">randRange(1, 9)</var>
-                    <var id="N2">randRange(1, 9)</var>
-                    <var id="N3">rand(2) ? new Term(randRange(1, 9)) : new Term(randRange(1, 9), X)</var>
+                    <var id="N1">randRange(1, 5)</var>
+                    <var id="N2">randRange(1, 5)</var>
+                    <var id="N3">rand(2) ? new Term(randRange(1, 5)) : new Term(randRange(1, 5), X)</var>
                     <var id="TERM1">new RationalExpression([[1, X], randRangeNonZero(-10, 10)])</var>
                     <var id="TERM2">new RationalExpression([[1, X], randRangeNonZero(-10, 10)])</var>
-                    <var id="F1">randRangeWeighted(1, 9, 1, 0.4)</var>
-                    <var id="F2">randRangeWeighted(1, 9, 1, 0.4)</var>
+                    <var id="F1">randRangeWeighted(1, 5, 1, 0.4)</var>
+                    <var id="F2">randRangeWeighted(1, 5, 1, 0.4)</var>
                     <var id="D1">TERM1.multiply(F1)</var>
                     <var id="D2">TERM2.multiply(F2)</var>
                     <var id="D3">TERM1.multiply(TERM2)</var>
@@ -82,7 +82,7 @@
                     <div>
                         <p>In order to get the first term over
                             <code><var>COMMON_DENOM</var></code>, multiply by 
-                            <code>\dfrac{<var>D2.toStringFactored()</var>}{<var>D2.toStringFactored()</var>}</code>
+                            <code>\dfrac{<var>D2.toStringFactored()</var>}{<var>D2.toStringFactored()</var>}</code>:
                         </p>
                         <p><code>\qquad
                             \dfrac{<var>N1</var>}{<var>D1.toStringFactored()</var>} \times
@@ -94,7 +94,7 @@
                     <div>
                         <p>In order to get the second term over
                             <code><var>COMMON_DENOM</var></code>, multiply by 
-                            <code>\dfrac{<var>D1.toStringFactored()</var>}{<var>D1.toStringFactored()</var>}</code>
+                            <code>\dfrac{<var>D1.toStringFactored()</var>}{<var>D1.toStringFactored()</var>}</code>:
                         </p>
                         <p><code>\qquad
                             \dfrac{<var>N2</var>}{<var>D2.toStringFactored()</var>} \times
@@ -106,7 +106,7 @@
                     <div data-if="F1 * F2 !== 1">
                         <p>In order to get the third term over
                             <code><var>COMMON_DENOM</var></code>, multiply by 
-                            <code>\dfrac{<var>F1 * F2</var>}{<var>F1 * F2</var>}</code>
+                            <code>\dfrac{<var>F1 * F2</var>}{<var>F1 * F2</var>}</code>:
                         </p>
                         <p><code>\qquad
                             \dfrac{<var>N3</var>}{(<var>TERM1</var>)(<var>TERM2</var>)} \times
