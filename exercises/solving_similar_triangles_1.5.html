@@ -7,30 +7,23 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-            <var id="SIDE_A">randRange(2, 10)</var>
-            <var id="HEIGHT_A">randRange(1, SIDE_A)</var>
-            <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
-            
-            <var id="SIDE_B">randRange(2, 10)</var>
-            <var id="HEIGHT_N">(SIDE_A + SIDE_B) * HEIGHT_A</var>
-            <var id="GCD">getGCD(HEIGHT_N, SIDE_A)</var>
-            <var id="HEIGHT_B">HEIGHT_N / SIDE_A</var>
-            <var id="HEIGHT_B2">fractionReduce(HEIGHT_N, SIDE_A)</var>
-
-            <var id="TRI_A">new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50 * (SIDE_A / (SIDE_A + SIDE_B)) * HEIGHT_A / HEIGHT_B, {})</var>
-            <var id="TRI_B">function(){
-                    var trA = new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50, {});
-                    trA.labels = { "points" : ["A", "D", "E"] };
-                    return trA;
-                }()
-            </var>
-        </div>
-
         <div class="problems">
             <div id="side-a">
-                <div class="vars">
-                    <var id="LABELS">["x", HEIGHT_A, SIDE_B, HEIGHT_B2]</var>
+                <div class="vars" data-ensure="ANGLE < 45">
+                    <var id="HEIGHT_A">randRange(1, 10)</var>
+                    <var id="HEIGHT_B">HEIGHT_A + randRange(1, 20)</var>
+                    <var id="SIDE_B">randRange(1, 10)</var>
+                    <var id="SIDE_A">SIDE_B * HEIGHT_A / (HEIGHT_B - HEIGHT_A)</var>
+
+                    <var id="LABELS">["x", HEIGHT_A, SIDE_B, HEIGHT_B]</var>
+                    <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
+                    <var id="TRI_A">new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50 * (SIDE_A / (SIDE_A + SIDE_B)) * HEIGHT_A / HEIGHT_B, {})</var>
+                    <var id="TRI_B">function(){
+                            var trA = new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50, {});
+                            trA.labels = { "points" : ["A", "D", "E"] };
+                            return trA;
+                        }()
+                    </var>
                 </div>
 
                 <div class="solution"><var>SIDE_A</var></div>
@@ -38,44 +31,47 @@
                 <div class="hints" data-apply="appendContents">
                     <div>
                         <p><code>\overline{AB} : \overline{BC} = \dfrac{x}{<var>HEIGHT_A</var>}</code></p>
-                        <p data-if="HEIGHT_N % SIDE_A"><code>
-                            \overline{AD} : \overline{DE} = (x + <var>SIDE_B</var>) \div <var>HEIGHT_B2</var> = 
-                            <var>fractionReduce(SIDE_A, HEIGHT_N)</var>(x + <var>SIDE_B</var>)
-                        </code></p>
-                        <p data-else=""><code>\overline{AD} : \overline{DE} = \dfrac{x + <var>SIDE_B</var>}{<var>HEIGHT_B</var>}</code></p>
+                        <p><code>\overline{AD} : \overline{DE} = \dfrac{x + <var>SIDE_B</var>}{<var>HEIGHT_B</var>}</code></p>
                     </div>
 
-                    <p data-if="HEIGHT_N % SIDE_A"><code>
-                        \dfrac{x}{<var>HEIGHT_A</var>} = <var>fractionReduce(SIDE_A, HEIGHT_N)</var>(x + <var>SIDE_B</var>)
-                    </code></p>
-                    <p data-else=""><code>
+                    <p><code>
                         \dfrac{x}{<var>HEIGHT_A</var>} = \dfrac{x + <var>SIDE_B</var>}{<var>HEIGHT_B</var>}
                     </code></p>
 
                     <p><code>
-                        <var>HEIGHT_N / GCD</var>x =
-                        <span data-if="HEIGHT_A !== 1"><var>HEIGHT_A</var></span>
-                        <span data-if="HEIGHT_A !== 1 && SIDE_A / GCD !== 1">\cdot</span>
-                        <span data-if="SIDE_A / GCD !== 1"><var>SIDE_A / GCD</var></span>
-                        <span data-if="HEIGHT_A * SIDE_A / GCD === 1"> x + <var>SIDE_B</var></span>
-                        <span data-else=""> (x + <var>SIDE_B</var>)</span>
+                        <var>HEIGHT_B</var>x =
+                        <span data-if="HEIGHT_A !== 1"><var>HEIGHT_A</var>(x + <var>SIDE_B</var>)</span>
+                        <span data-else="">x + <var>SIDE_B</var></span>
                     </code></p>
 
-                    <p data-if="HEIGHT_A * SIDE_A / GCD !== 1"><code>
-                        <var>HEIGHT_N / GCD</var>x = <var>HEIGHT_A * SIDE_A / GCD</var>x + <var>HEIGHT_A * SIDE_A * SIDE_B / GCD</var>
+                    <p data-if="HEIGHT_A !== 1"><code>
+                        <var>HEIGHT_B</var>x = <var>HEIGHT_A</var>x + <var>HEIGHT_A * SIDE_B</var>
                     </code></p>
 
-                    <p><code>
-                        <var>plus((HEIGHT_N - HEIGHT_A * SIDE_A) / GCD + "x")</var> = <var>HEIGHT_A * SIDE_A * SIDE_B / GCD</var>
-                    </code></p>
+                    <p><code><var>plus(HEIGHT_B - HEIGHT_A + "x")</var> = <var>HEIGHT_A * SIDE_B</var></code></p>
 
-                    <p><code>x = <var>SIDE_A</var></code></p>
+                    <p data-if="HEIGHT_B - HEIGHT_A !== 1" ><code>
+                        x = <var>fractionReduce(HEIGHT_A * SIDE_B, HEIGHT_B - HEIGHT_A)</var>
+                    </code></p>
                 </div>
             </div>
 
             <div id="height-a">
                 <div class="vars">
-                    <var id="LABELS">[SIDE_A, "x", SIDE_B, HEIGHT_B2]</var>
+                    <var id="SIDE_A">randRange(1, 10)</var>
+                    <var id="SIDE_B">randRange(1, 10)</var>
+                    <var id="HEIGHT_B">randRange(1, SIDE_A + SIDE_B)</var>
+                    <var id="HEIGHT_A">HEIGHT_B * SIDE_A / (SIDE_A + SIDE_B)</var>
+
+                    <var id="LABELS">[SIDE_A, "x", SIDE_B, HEIGHT_B]</var>
+                    <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
+                    <var id="TRI_A">new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50 * (SIDE_A / (SIDE_A + SIDE_B)) * HEIGHT_A / HEIGHT_B, {})</var>
+                    <var id="TRI_B">function(){
+                            var trA = new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50, {});
+                            trA.labels = { "points" : ["A", "D", "E"] };
+                            return trA;
+                        }()
+                    </var>
                 </div>
 
                 <div class="solution"><var>HEIGHT_A</var></div>
@@ -83,61 +79,105 @@
                 <div class="hints" data-apply="appendContents">
                     <div>
                         <p><code>\overline{AB} : \overline{BC} = \dfrac{<var>SIDE_A</var>}{x}</code></p>
-                        <p data-if="HEIGHT_N % SIDE_A"><code>
-                            \overline{AD} : \overline{DE} = <var>SIDE_A + SIDE_B</var> \div <var>HEIGHT_B2</var> = 
-                            <var>SIDE_A + SIDE_B</var> \times <var>fractionReduce(SIDE_A, HEIGHT_N)</var> = 
-                            <var>fractionReduce(SIDE_A * (SIDE_A + SIDE_B), HEIGHT_N)</var>
-                        </code></p>
-                        <p data-else=""><code>\overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A + SIDE_B</var>}{<var>HEIGHT_B</var>}</code></p>
+                        <p><code>\overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A</var> + <var>SIDE_B</var>}{<var>HEIGHT_B</var>} = 
+                            <var>fraction(SIDE_A + SIDE_B, HEIGHT_B)</var></code></p>
                     </div>
 
                     <p><code>
-                        \dfrac{<var>SIDE_A</var>}{x} =
-                        <span data-if="HEIGHT_N % SIDE_A"><var>fractionReduce(SIDE_A * (SIDE_A + SIDE_B), HEIGHT_N)</var></span>
-                        <span data-else="">\dfrac{<var>SIDE_A + SIDE_B</var>}{<var>HEIGHT_B</var>}</span>
+                        \dfrac{<var>SIDE_A</var>}{x} = \dfrac{<var>SIDE_A + SIDE_B</var>}{<var>HEIGHT_B</var>}
                     </code></p>
+
+                    <p><code><var>SIDE_A * HEIGHT_B</var> = <var>SIDE_A + SIDE_B</var>x</code></p>
+                    <p><code>x = <var>fractionReduce(SIDE_A * HEIGHT_B, SIDE_A + SIDE_B)</var></code></p>
                 </div>
             </div>
 
-            <div id="side-b">
+            <div id="side-b" data-ensure="ANGLE > 20 && ANGLE < 50">
                 <div class="vars">
-                    <var id="LABELS">[SIDE_A, HEIGHT_A, "x", HEIGHT_B2]</var>
+                    <var id="SIDE_A">randRange(1, 10)</var>
+                    <var id="HEIGHT_A">randRange(1, SIDE_A)</var>
+                    <var id="HEIGHT_B">HEIGHT_A + randRange(1, 10)</var>
+                    <var id="SIDE_B">SIDE_A * (HEIGHT_B - HEIGHT_A) / HEIGHT_A</var>
+                    
+                    <var id="LABELS">[SIDE_A, HEIGHT_A, "x", HEIGHT_B]</var>
+                    <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
+                    <var id="TRI_A">new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50 * (SIDE_A / (SIDE_A + SIDE_B)) * HEIGHT_A / HEIGHT_B, {})</var>
+                    <var id="TRI_B">function(){
+                            var trA = new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50, {});
+                            trA.labels = { "points" : ["A", "D", "E"] };
+                            return trA;
+                        }()
+                    </var>
                 </div>
 
-                <div class="solution"><var>SIDE_B</var></div>
+                <div class="solution" data-type="rational"><var>SIDE_B</var></div>
 
                 <div class="hints" data-apply="appendContents">
-                    <p><code>\overline{BC} : \overline{AB} = <var>fraction(HEIGHT_A, SIDE_A)</var></code></p>
+                    <div>
+                        <p><code>\overline{AB} : \overline{BC} = <var>fraction(SIDE_A, HEIGHT_A)</var></code></p>
+                        <p><code>\overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A</var> + x}{<var>HEIGHT_B</var>}</code></p>
+                    </div>
 
                     <p><code>
-                        \overline{DE} : \overline{AD} = \dfrac{\overline{DE}}{<var>SIDE_A + SIDE_B</var>}
-                         = <var>fraction(HEIGHT_A, SIDE_A)</var>
-                     </code></p>
+                        \dfrac{<var>SIDE_A</var> + x}{<var>HEIGHT_B</var>} = <var>fraction(SIDE_A, HEIGHT_A)</var>
+                    </code></p>
 
-                     <p><code>
-                        \overline{DE} = <var>SIDE_A + SIDE_B</var> \times <var>fraction(HEIGHT_A, SIDE_A)</var> = <var>HEIGHT_B2</var>
-                     </code></p>
+                    <p><code>
+                        <span data-if="HEIGHT_A !== 1"><var>HEIGHT_A</var>(<var>SIDE_A</var> + x)</span>
+                        <span data-else=""><var>SIDE_A</var> + x</span>
+                        = <var>HEIGHT_B * SIDE_A</var> 
+                    </code></p>
+
+                    <p data-if="HEIGHT_A !== 1"><code>
+                        <var>HEIGHT_A * SIDE_A</var> + <var>HEIGHT_A</var>x = <var>HEIGHT_B * SIDE_A</var>
+                    </code></p>
+
+                    <p><code><var>plus(HEIGHT_A + "x")</var> = <var>HEIGHT_B * SIDE_A - HEIGHT_A * SIDE_A</var></code></p>
+
+                    <p data-if="HEIGHT_A !== 1"><code>x = <var>fractionReduce(HEIGHT_B * SIDE_A - HEIGHT_A * SIDE_A, HEIGHT_A)</var></code></p>
                 </div>
             </div>
 
-            <div id="height-b">
+            <div id="height-b" data-ensure="ANGLE < 45">
                 <div class="vars">
+                    <var id="SIDE_A">randRange(1, 10)</var>
+                    <var id="SIDE_B">randRange(1, 10)</var>
+                    <var id="HEIGHT_A">randRange(1, SIDE_A)</var>
+                    <var id="HEIGHT_B">(SIDE_A + SIDE_B) * HEIGHT_A / SIDE_A</var>
+
                     <var id="LABELS">[SIDE_A, HEIGHT_A, SIDE_B, "x"]</var>
+                    <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
+                    <var id="TRI_A">new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50 * (SIDE_A / (SIDE_A + SIDE_B)) * HEIGHT_A / HEIGHT_B, {})</var>
+                    <var id="TRI_B">function(){
+                            var trA = new Triangle([0, 0],  [ANGLE, 90, 90 - ANGLE], 50, {});
+                            trA.labels = { "points" : ["A", "D", "E"] };
+                            return trA;
+                        }()
+                    </var>
                 </div>
 
-                <div class="solution"><var>HEIGHT_B</var></div>
+                <div class="solution" data-type="rational"><var>HEIGHT_B</var></div>
 
                 <div class="hints" data-apply="appendContents">
-                    <p><code>\overline{BC} : \overline{AB} = <var>fraction(HEIGHT_A, SIDE_A)</var></code></p>
+                    <div>
+                        <p><code>\overline{AB} : \overline{BC} = <var>fraction(SIDE_A, HEIGHT_A)</var></code></p>
+                        <p><code>\overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A</var> + <var>SIDE_B</var>}{x}
+                            = \dfrac{<var>SIDE_A + SIDE_B</var>}{x}
+                        </code></p>
+                    </div>
+
+                    <p><code><var>fraction(SIDE_A, HEIGHT_A)</var> = \dfrac{<var>SIDE_A + SIDE_B</var>}{x}</code></p>
 
                     <p><code>
-                        \overline{DE} : \overline{AD} = \dfrac{\overline{DE}}{<var>SIDE_A + SIDE_B</var>}
-                         = <var>fraction(HEIGHT_A, SIDE_A)</var>
-                     </code></p>
+                        <var>plus(SIDE_A + "x")</var> = <var>HEIGHT_A * (SIDE_A + SIDE_B)</var>
+                    </code></p>
 
-                     <p><code>
-                        \overline{DE} = <var>SIDE_A + SIDE_B</var> \times <var>fraction(HEIGHT_A, SIDE_A)</var> = <var>HEIGHT_B2</var>
-                     </code></p>
+                    <p data-ensure="SIDE_A !== 1"><code>
+                        x = <var>fraction(HEIGHT_A * (SIDE_A + SIDE_B), SIDE_A)</var> 
+                        <span data-if="getGCD(HEIGHT_A * (SIDE_A + SIDE_B), SIDE_A) !== 1">
+                            = <var>fractionReduce(HEIGHT_A * (SIDE_A + SIDE_B), SIDE_A)</var>
+                        </span>
+                    </code></p>
                 </div>
             </div>
 
@@ -163,7 +203,7 @@
                 var y_max = TRI_B.boundingRange()[1][1];
                 var line_x = x_max * SIDE_A / (SIDE_A + SIDE_B);
                 var line_y = y_max * HEIGHT_A / HEIGHT_B;
-                var square = (tri_range[0][1] - tri_range[0][0]) / 25;
+                var square = (tri_range[0][1] - tri_range[0][0]) / 36;
 
                 rect(x_max - square, 0, square, square);
                 rect(line_x - square, 0, square, square);
@@ -191,10 +231,7 @@
         </div>
 
         <div class="hints">
-            <p>
-                Notice that <code>\triangle ABC</code> and <code>\triangle ADE</code> 
-                both have a right angle and share <code>\angle BAC</code>.
-            </p>
+            <p><code>\triangle ABC</code> and <code>\triangle ADE</code> both have a right angle and share <code>\angle BAC</code>.</p>
 
             <p>Therefore <code>\triangle ABC</code> and <code>\triangle ADE</code> are similar triangles.</p>
             
