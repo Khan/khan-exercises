@@ -16,8 +16,6 @@
             <var id="A">randRangeNonZero(-10, 10)</var>
             <var id="B">randRangeNonZero(-10, 10)</var>
             <var id="NUMERATOR" data-ensure="NUMERATOR !== A || NUMERATOR !== B">randFromArray([A, B, randRangeNonZero(-10, 10)])</var>
-            <var id="SOL1">NUMERATOR === A ? 0 : A</var>
-            <var id="SOL2">NUMERATOR === B || A === B ? 0 : B</var>
             <var id="CONSTANT">A * B</var>
             <var id="COEFFICIENT">-A - B</var>
             <var id="TERMS">(function() {
@@ -58,20 +56,12 @@
                 </p>
 
                 <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="number"><var>SOL1</var></span>
-                        <span class="sol" data-type="number"><var>SOL2</var></span>
-                    </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="number"><var>SOL2</var></span>
-                        <span class="sol" data-type="number"><var>SOL1</var></span>
-                    </div>
+                    <span class="set-sol" data-type="number" data-if="NUMERATOR !== A"><var>A</var></span>
+                    <span class="set-sol" data-type="number" data-if="NUMERATOR !== B &amp;&amp; A !== B"><var>B</var></span>
 
                     <div class="input-format">
-                        <div class="entry" data-type="multiple">
-                            <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
-                            <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
-                        </div>
+                        <div><code>x = </code> <span class="entry short50" data-fallback="0">a</span></div>
+                        <div><code>x = </code> <span class="entry short50" data-fallback="0">a</span></div>
                     </div>
                 </div>
 
