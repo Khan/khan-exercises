@@ -28,7 +28,7 @@
             <var id="Y" data-ensure="X !== Y">randVar()</var>
 
             <var id="EXPR1">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
-            <div data-ensure="getGCD(TERM1.coefficient, TERM2.coefficient) === 1">
+            <div data-ensure="TERM1.getGCD(TERM2).toString() === '1'">
                 <var id="TERM1">new Term(randRangeNonZero(-10, 10))</var>
                 <var id="TERM2">new Term(randRange(1, 10))</var>
             </div>
@@ -97,12 +97,12 @@
 
        <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.regex(!(NUMERSOL instanceof Term))</var></span>
-                <span class="sol" data-type="regex"><var>DENOMSOL.regex(!(DENOMSOL instanceof Term))</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.regex(true)</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(!(NUMERSOL instanceof Term))</var></span>
-                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex(!(DENOMSOL instanceof Term))</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(true)</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex(true)</var></span>
             </div>
 
             <div class="input-format">

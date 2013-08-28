@@ -131,11 +131,12 @@
         start();
     });
 
-    asyncTest("term regex", 7, function() {
+    asyncTest("term regex", 8, function() {
         checkRegex(t1.regex(), "4", true, "right answer is right");
         checkRegex(t1.regex(), "-4", false, "wrong answer is wrong");
+        checkRegex(t1.regex(), "4x", false, "wrong answer is wrong");
         checkRegex(t1.regex(), "  4 ", true, "right answer with spaces is right");
-        checkRegex(t1.regex(true), " + 4 ", true, "right answer leading sign is right");
+        checkRegex(t1.regex(true), "4", true, "ignore passed in true");
         checkRegex(t3.regex(), "-12x", true, "right answer is right");
         checkRegex(t3.regex(), " 1 2 x ", false, "wrong answer with spaces is wrong");
         checkRegex(t4.regex(), "12x^2", true, "right answer is right");

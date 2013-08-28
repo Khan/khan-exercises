@@ -126,13 +126,13 @@
 
         <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex() + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.regex()</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.regex()</var></span>
                 <span class="sol" data-type="rational"><var>-CONSTANT/COEFFICIENT</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex() + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex()</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex()</var></span>
                 <span class="sol" data-type="rational"><var>-CONSTANT/COEFFICIENT</var></span>
             </div>
 
@@ -146,12 +146,12 @@
                             <td><table>
                                 <tbody><tr>
                                     <td class="soln-top">
-                                        <span class="sol short50">a</span>
+                                        <span class="sol short32">a</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="soln-bot">
-                                        <span class="sol short50" data-fallback="1">a</span>
+                                        <span class="sol short32" data-fallback="1">a</span>
                                     </td>
                                 </tr>
                             </tbody></table></td>
