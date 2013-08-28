@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html data-require="math graphie subhints">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Solving for time in air</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="ANGLE">20+rand(60)</var>
+                <var id="VELOCITY">10+rand(15)</var><!-- initial velocity -->
+                <var id="G">-9.8</var><!-- gravitational acceleration -->
+            </div>
+
+            <div class="problems">
+
+                <div id="time-in-air" data-calculator>
+                    <p class="problem">A projectile is launched at an angle of <var>ANGLE</var> degrees with an initial velocity of <var>VELOCITY</var> m/s.</p>
+
+                    <div class="question">
+                        <p>What is the total time in the air (in seconds)? Use <code><var>G</var>\,\mathrm{m/s^2}</code> as the gravitational acceleration, and round your answer to one decimal place (do not round until the final answer).</p>
+                        <div class="graphie" id="diagram">
+                            init({range: [[-2, 8], [-1, 7]], scale: [20, 20] });
+                            line([-2, 0], [8, 0]); <!--- ground --->
+                            style({strokeWidth: 3, arrows: "-&gt;"});
+                            line([0, 0], [6*cos(ANGLE * PI / 180), 6*sin(ANGLE * PI / 180)]);
+                            label([-ANGLE/50+2.6, ANGLE<35 ? 0.4 : 0.5], ANGLE + "^{\\circ}", "center");
+                            label([(-ANGLE/20)+2.5, 2], VELOCITY + "\\space \\text{m/s}", "center");
+                        </div>
+                    </div>
+
+                    <div class="solution" data-type="multiple">
+                        <span class="sol" data-inexact data-type="decimal">
+                            <var>roundTo(1, -2*(VELOCITY * sin(ANGLE * PI / 180) / G))</var>
+                        </span> seconds
+                    </div>
+
+                    <div class="hints">
+                        <div>
+                            <p>Let's first break down the velocity vector into its vertical and horizontal components.</p>
+                            <div class="graphie" data-update="diagram">
+                                style({ stroke: "#28AE7B", strokeWidth: 3, arrows: "-&gt;"});
+                                line([0, 0], [6*cos(ANGLE * PI / 180), 0]);
+                                style({ stroke: "#FFA500", strokeWidth: 3, arrows: "-&gt;"});
+                                line([6*cos(ANGLE * PI / 180), 0], [6*cos(ANGLE * PI / 180), 6*sin(ANGLE * PI / 180)] );
+                                label([3*cos(ANGLE * PI / 180), -0.7], "\\vec{v}_x = <var>VELOCITY</var>\\cdot\\mathrm{cos}<var>ANGLE</var>", "center", {color: "#28AE7B"});
+                                label([6*cos(ANGLE * PI / 180)+3, 3*sin(ANGLE * PI / 180)], "\\vec{v}_y = <var>VELOCITY</var>\\cdot\\mathrm{sin}<var>ANGLE</var>", "center", {color: "#FFA500"});
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <p>We know displacement is equal to average velocity times the change in time, the average velocity (with constant acceleration) is the average of the initial and final velocity, and the final velocity is equal to the initial velocity plus the acceleration times the change in time. This gives us the following equations:</p>
+                            <p><code>1) \space \vec{s} = \vec{v}_a \cdot \Delta t</code></p>
+							<p><code>2) \space \vec{v}_a = \dfrac{\vec{v}_i+\vec{v_f}}{2}</code></p>
+							<p><code>3) \space \vec{v}_f = \vec{v}_i + \vec{a} \cdot \Delta t</code></p>
+                        </div>
+                        
+                        <div>
+                            <p>Combining these three equations gives us:</p>
+                            <p><code>\vec{s} = \vec{v_i} \Delta t + \dfrac{1}{2} \vec{a} (\Delta t)^2</code>[<a href="#" class="show-subhint" data-subhint="combining">Show me how</a>]</p>
+							<div class="subhint" id="combining">
+								<p>Plug the second one into the first for <code>\vec{v}_a</code>.</p>
+								<p><code>\vec{s} = \dfrac{\vec{v}_i + \vec{v}_f}{2} \cdot \Delta t</code></p>
+								<p>Now put the third one in for <code>\vec{v}_f</code>.</p>
+								<p><code>\vec{s} = \dfrac{\vec{v}_i + \vec{v}_i + \vec{a} \cdot \Delta t}{2} \cdot \Delta t</code></p>
+								<p><code>\vec{s} = \dfrac{2\vec{v}_i + \vec{a} \cdot \Delta t}{2} \cdot \Delta t</code></p>
+								<p><code>\vec{s} = (\dfrac{2\vec{v}_i}{2} + \dfrac{\vec{a} \cdot \Delta t}{2}) \cdot \Delta t</code></p>
+								<p><code>\vec{s} = (\vec{v}_i + \dfrac{\vec{a} \cdot \Delta t}{2}) \cdot \Delta t</code></p>
+								<p><code>\vec{s} = \vec{v}_i \Delta t + \dfrac{\vec{a} \cdot (\Delta t)^2}{2}</code></p>
+								<p><code>\vec{s} = \vec{v}_i \Delta t + \dfrac{1}{2} \vec{a} (\Delta t)^2</code></p>
+							</div>
+						</div>
+                        
+                        <div>
+                            <p>Now that we have an equation for displacement as a function of time, we want to find the time at which the displacement in the y direction is zero (when the projectile hits the ground).</p>
+                        </div>
+                        
+                        <div>
+                            <p>Let's plug in the values in the y direction for displacement, acceleration, and initial velocity.</p>
+                            <p>We know that the acceleration (due to gravity) will be <code><var>G</var>\mathrm{m/s^2}</code>, we already found the initial velocity in the y direction, <code><var>VELOCITY</var> \cdot \mathrm{sin}(<var>ANGLE</var>^{\circ})</code>, and the vertical displacement will be zero.</p>
+                            <p><code>0 = <var>VELOCITY</var> \space \mathrm{sin}(<var>ANGLE</var>^{\circ}) \Delta t + \dfrac{1}{2} (<var>G</var>) (\Delta t)^2</code></p>
+                        </div>
+                        
+                        <div>
+                            <p>Solving for <code>\Delta t</code> gives us:</p>
+							<p><code>\Delta t = \dfrac{<var>VELOCITY</var> \mathrm{sin}(<var>ANGLE</var>^{\circ})}{<var>-0.5 * G</var>} \space\space \mathrm{OR} \space\space \Delta t = 0</code>[<a href="#" class="show-subhint" data-subhint="solve-for-t">Show me how</a>]</p>
+							<div class="subhint" id="solve-for-t">
+								<p><code>0 = <var>VELOCITY</var> \space \mathrm{sin}(<var>ANGLE</var>^{\circ}) \Delta t - <var>-0.5*G</var> (\Delta t)^2</code></p>
+								<p>Factor out <code>\Delta t</code>.</p>
+								<p><code>0 = \Delta t (<var>VELOCITY</var> \space \mathrm{sin}(<var>ANGLE</var>^{\circ}) - <var>-0.5*G</var> \Delta t)</code></p>
+								<p>By the zero product property, we know:</p>
+								<p><code>\Delta t = 0 \space\space \mathrm{OR} \space\space <var>VELOCITY</var> \space \mathrm{sin}(<var>ANGLE</var>^{\circ}) - <var>-0.5*G</var> \Delta t = 0</code></p>
+								<p><code><var>VELOCITY</var> \space \mathrm{sin}(<var>ANGLE</var>^{\circ}) - <var>-0.5*G</var> \Delta t = 0</code></p>
+								<p><code><var>VELOCITY</var> \space \mathrm{sin}(<var>ANGLE</var>^{\circ}) = <var>-0.5*G</var> \Delta t</code></p>
+								<p><code>\dfrac{<var>VELOCITY</var> \space \mathrm{sin}(<var>ANGLE</var>^{\circ})}{<var>-0.5*G</var>} = \Delta t</code></p>
+							</div>
+						</div>
+                        
+                        <div>
+                            <p>Since <code>\Delta t</code> can't be 0 (that's where we started) we know that <code>\Delta t \approx <var>roundTo(1, (VELOCITY * sin(ANGLE * PI / 180)) / (-0.5 * G))</var> \space \mathrm{seconds}</code>.</p>
+                        </div>
+                        
+                    </div> <!-- hints -->
+                </div>
+            </div> <!-- problems -->
+        </div> <!-- exercise -->
+    </body>
+</html>
