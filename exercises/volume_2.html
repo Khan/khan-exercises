@@ -36,9 +36,9 @@
                 <var id="HEIGHT">randRange(2,7)</var>
             </div>
              <p>
-                 <var>person(1)</var> needs to ship a package of flour to a baker.  <span data-if="isMale(1)">He</span><span data-else>She</span> 
-                 has <code><var>LENGTH*WIDTH*HEIGHT</var></code> 
-                 cubic meters of flour to send.  
+                 <var>person(1)</var> needs to ship a package of flour to a baker.  
+                 <span data-if="isMale(1)">He has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.</span>
+                 <span data-else>She has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.</span> 
                The post office will not ship any box which has an edge <code>10</code> meters or longer. 
              </p>
             <p class="question"> 
@@ -350,7 +350,7 @@
             </p>
             
             <p>
-            	Recall that there are <code><var>CONVERSION</var></code> <var>plural_form(TO)</var> in every <var>FROM</var>.
+            	Recall that there are <code><var>CONVERSION</var></code> <var>plural_form(TO,CONVERSION)</var> in every <var>FROM</var>.
             </p>
             
 
