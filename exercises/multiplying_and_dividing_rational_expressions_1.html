@@ -2,7 +2,7 @@
 <html data-require="math math-format rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Multiplying and dividing rational expressions by a constant</title>
+    <title>Multiplying and dividing rational expressions  1</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
         #solutionarea td {
@@ -23,21 +23,18 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <div data-ensure="X !== Y">
-                <var id="X">randVar()</var>
-                <var id="Y">randVar()</var>
+            <var id="X">randVar()</var>
+            <var id="Y" data-ensure="X !== Y">randVar()</var>
+
+            <div data-ensure="!(DENOMINATOR.divide(NUMERATOR))">
+                <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
+                <var id="DENOMCONST">randRangeWeighted(-10, 10, 0, 0.25)</var>
+                <var id="DENOMINATOR">new RationalExpression([[DENOMCOEFF, X], [DENOMCONST]])</var>
+                <var id="NUMERCONST" data-ensure="DENOMCONST !== 0 || NUMERCONST !== 0">randRange(-10, 10)</var>
+                <var id="NUMERCOEFF" data-ensure="NUMERCOEFF !== 0 || NUMERCONST !== 0">randRange(-8, 8)</var>
+                <var id="NUMERATOR">new RationalExpression([[NUMERCOEFF, X], [NUMERCONST]])</var>
             </div>
-            <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
-            <var id="DENOMCONST">randRangeWeighted(-10, 10, 0, 0.25)</var>
-            <var id="DENOMINATOR">new RationalExpression([[DENOMCOEFF, X], [DENOMCONST]])</var>
-            
-            <div data-ensure="DENOMCONST !== 0 || NUMERCONST !== 0">
-                <var id="NUMERCONST">randRange(-10, 10)</var>
-            </div>
-            <div data-ensure="NUMERCOEFF !== 0 || NUMERCONST !== 0">
-                <var id="NUMERCOEFF">randRange(-8, 8)</var>
-            </div>
-            <var id="NUMERATOR">new RationalExpression([[NUMERCOEFF, X], [NUMERCONST]])</var>
+
             <var id="CONSTANT">randRange(0, 1) ? [randRange(2, 10), 1] : [1, randRange(2, 10)]</var>
             <var id="NUMERPRODUCT">NUMERATOR.multiply(CONSTANT[0])</var>
             <var id="DENOMPRODUCT">DENOMINATOR.multiply(CONSTANT[1])</var>
@@ -79,12 +76,12 @@
                 <tbody><tr>
                     <td class="soln-name" rowspan="2"><code><var>Y</var>=</code></td>
                     <td class="soln-top">
-                        <span class="sol short50" data-type="regex"><var>NUMERSOL.regex()</var></span>
+                        <span class="sol short50" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
                     </td>
                 </tr>
                 <tr>
                     <td class="soln-bot">
-                        <span class="sol short50" data-type="regex"><var>DENOMSOL.regex()</var></span>
+                        <span class="sol short50" data-type="regex"><var>DENOMSOL.regex(true)</var></span>
                     </td>
                 </tr>
             </tbody></table>

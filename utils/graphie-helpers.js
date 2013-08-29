@@ -44,9 +44,11 @@ function numberLine(start, end, step, x, y, denominator) {
     return set;
 }
 
-function piechart(divisions, colors, radius) {
+function piechart(divisions, colors, radius, strokeColor) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
+    var arcColor = strokeColor || "none";
+    var lineColor = strokeColor || "#fff";
 
     var sum = 0;
     $.each(divisions, function(i, slice) {
@@ -56,20 +58,20 @@ function piechart(divisions, colors, radius) {
     var partial = 0;
     $.each(divisions, function(i, slice) {
         set.push(graph.arc([0, 0], radius, partial * 360 / sum, (partial + slice) * 360 / sum, true, {
-            stroke: colors[2] || "none",
+            stroke: arcColor,
             fill: colors[i]
         }));
         partial += slice;
     });
 
     for (var i = 0; i < sum; i++) {
-        set.push(graph.line([0, 0], graph.polar(radius, i * 360 / sum), { stroke: colors[2] || "#fff" }));
+        set.push(graph.line([0, 0], graph.polar(radius, i * 360 / sum), { stroke: lineColor }));
     }
 
     return set;
 }
 
-function rectchart(divisions, colors, y) {
+function rectchart(divisions, fills, y, strokes) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
 
@@ -80,20 +82,32 @@ function rectchart(divisions, colors, y) {
         sum += slice;
     });
 
+    var unit = graph.unscaleVector([1, 1]);
     var partial = 0;
     $.each(divisions, function(i, slice) {
-        var x = partial / sum, w = slice / sum;
-        set.push(graph.path([[x, y], [x + w, y], [x + w, y + 1], [x, y + 1]], {
-            stroke: KhanUtil.BACKGROUND,
-            fill: colors[i]
-        }));
-        partial += slice;
-    });
+        var fill = fills[i];
+        // If no stroke is provided, match the fill color so the rectangle
+        // appears to be the same size
+        var stroke = strokes && strokes[i] || fill;
 
-    for (var i = 0; i <= sum; i++) {
-        var x = i / sum;
-        set.push(graph.line([x, y + 0], [x, y + 1], { stroke: KhanUtil.BACKGROUND }));
-    }
+        for (var j = 0; j < slice; j++) {
+            var x = partial / sum, w = 1 / sum;
+            set.push(graph.path(
+                [
+                    [x + 2 * unit[0], y + 2 * unit[1]],
+                    [x + w - 2 * unit[0], y + 2 * unit[1]],
+                    [x + w - 2 * unit[0], y + 1 - 2 * unit[1]],
+                    [x + 2 * unit[0], y + 1 - 2 * unit[1]],
+                    true
+                ],
+                {
+                    stroke: stroke,
+                    fill: fill
+                }
+            ));
+            partial += 1;
+        }
+    });
 
     return set;
 }
@@ -596,4 +610,94 @@ function labelDirection(angle) {
     } else if (angle > 270 && angle < 360) {
         return "below right";
     }
+}
+
+// arc orientation is "top"|"left"|"bottom"|"right".
+// arrow direction is clockwise (true) or counter-clockwise (false)
+function curvyArrow(center, radius, arcOrientation, arrowDirection, styles) {
+    styles = styles || {};
+    var graph = KhanUtil.currentGraph;
+    var set = graph.raphael.set();
+    var angles;
+    if (arcOrientation === "left") {
+        angles = [90, 270];
+    } else if (arcOrientation === "right") {
+        angles = [270, 90];
+    } else if (arcOrientation === "top") {
+        angles = [0, 180];
+    } else if (arcOrientation === "bottom") {
+        angles = [180, 0];
+    }
+    angles.push(styles);
+    var arcArgs = [center, radius].concat(angles);
+    set.push(graph.arc.apply(graph, arcArgs));
+
+    var offset = graph.unscaleVector([1, 1]);
+
+    // draw Arrows
+    var from = _.clone(center);
+    var to = _.clone(center);
+    if (arcOrientation === "left" || arcOrientation === "right") {
+        var left = arcOrientation === "left";
+        from[1] = to[1] = to[1] + radius * (arrowDirection === left ? 1 : -1);
+        to[0] = from[0] + offset[0] * (left ? 1 : -1);
+    } else {
+        var bottom = arcOrientation === "bottom";
+        from[0] = to[0] = to[0] + radius * (arrowDirection === bottom ? 1 : -1);
+        to[1] = from[1] + offset[1] * (bottom ? 1 : -1);
+    }
+    set.push(graph.line(from, to, _.extend({arrows: "->"}, styles)));
+    return set;
+}
+
+function curlyBrace(startPointGraph, endPointGraph) {
+    var graph = KhanUtil.currentGraph;
+
+    var startPoint = graph.scalePoint(startPointGraph);
+    var endPoint = graph.scalePoint(endPointGraph);
+    var angle = KhanUtil.findAngle(endPoint, startPoint);
+    var length = KhanUtil.getDistance(endPoint, startPoint);
+    var midPoint = _.map(startPoint, function(start, i) {
+        return (start + endPoint[i]) / 2;
+    });
+
+    var specialLen = 16 * 2 + 13 * 2;
+    if (length < specialLen) {
+        throw new Error("Curly brace length is too short.");
+    }
+    var straight = (length - specialLen) / 2;
+    var half = length / 2;
+
+    var firstHook = "c 1 -3 6 -5 10 -6" +
+                    "c 0 0 3 -1 6 -1";
+
+    // Mirror of first hook.
+    var secondHook = "c 3 1 6 1 6 1" +
+                     "c 4 1 9 3 10 6";
+
+    var straightPart = "l " + straight + " 0";
+
+    var firstMiddle =
+            "c 5 0 10 -3 10 -3" +
+            "l 3 -4";
+
+    // Mirror of second middle
+    var secondMiddle =
+            "l 3 4" +
+            "c 0 0 5 3 10 3";
+
+    var path = [
+        "M -" + half + " 0",
+        firstHook,
+        straightPart,
+        firstMiddle,
+        secondMiddle,
+        straightPart,
+        secondHook
+    ].join("");
+
+    var brace = graph.raphael.path(path);
+    brace.rotate(angle);
+    brace.translate(midPoint[0], midPoint[1]);
+    return brace;
 }

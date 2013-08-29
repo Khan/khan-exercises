@@ -301,18 +301,20 @@
                     <var id="N">1</var>
                     <var id="HOURS">randRange(1, 3)</var>
                     <var id="SOLUTION">HOURS * D</var>
-                    <var id="HOUR">$._("hour")</var>
+                    <var id="HOUR">new Plural(function(num) {
+                        return $.ngettext("hour", "hours", num);
+                    })</var>
                     <var id="HOUR_PER_EXERCISE">$._("hour per exercise")</var>
                     <var id="NUMBER_OF_EXERCISES">$._("number of exercises")</var>
                     <var id="EXERCISES_PER_HOUR">$._("exercises per hour")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
-                    <var>person(1)</var> works out for <code><var>HOURS</var></code> <var>HOUR</var> every day. To keep his
+                    <var>person(1)</var> works out for <code><var>HOURS</var></code> <var>plural_form(HOUR, HOURS)</var> every day. To keep his
                     exercise routines interesting, he includes different types of exercises, such as
                     <var>plural_form(exercise(1))</var> and <var>plural_form(exercise(2))</var>, in each workout.
                 </p><p class="problem" data-else="">
-                    <var>person(1)</var> works out for <code><var>HOURS</var></code> <var>HOUR</var> every day. To keep her
+                    <var>person(1)</var> works out for <code><var>HOURS</var></code> <var>plural_form(HOUR, HOURS)</var> every day. To keep her
                     exercise routines interesting, she includes different types of exercises, such as
                     <var>plural_form(exercise(1))</var> and <var>plural_form(exercise(2))</var>, in each workout.
                 </p>
@@ -326,11 +328,11 @@
                 <div class="hints">
                     <p>
                         To find out how many types of exercise <var>person(1)</var> could do in each workout, divide
-                        the total amount of exercise time (<code><var>HOURS</var></code> <var>HOUR</var>) by the amount of
+                        the total amount of exercise time (<code><var>HOURS</var></code> <var>plural_form(HOUR, HOURS)</var>) by the amount of
                         time each exercise type takes (<code>\frac{1}{<var>D</var>}</code> of an hour).
                     </p>
                     <p><code>
-                        \dfrac{\red{<var>HOURS</var> \text{ <var>HOUR</var>}}}
+                        \dfrac{\red{<var>HOURS</var> \text{ <var>plural_form(HOUR, HOURS)</var>}}}
                         {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>HOUR_PER_EXERCISE</var>}}} = \green{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
@@ -339,12 +341,12 @@
                         is <code>\green{<var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}</code>.
                     </p>
                     <p><code>
-                        \red{<var>HOURS</var>\text{ <var>HOUR</var>}} \times
+                        \red{<var>HOURS</var>\text{ <var>plural_form(HOUR, HOURS)</var>}} \times
                         \green{<var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}
                         = \green{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                     </code></p>
                     <p><code>
-                        \phantom{<var>HOURS</var>\text{ <var>HOUR</var>} \times <var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}
+                        \phantom{<var>HOURS</var>\text{ <var>plural_form(HOUR, HOURS)</var>} \times <var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}
                         = \green{<var>D * HOURS</var> \text{ exercises}}
                     </code></p>
                     <p><var>person(1)</var> can do <var>SOLUTION</var> different types of exercise per workout.</p>

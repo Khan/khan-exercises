@@ -1,166 +1,302 @@
-@import "fonts/fonts.css";
-
 /*
-thin space: 1/6 quad
-medium space: 2/9 quad
-thick space: 5/18 quad
-
 things to do:
-^ _ and styles
-\sin
 \sum, \int, \lim
-\frac
 \sqrt
 big parens
 */
-
 .katex {
-    font: normal 1.21em katex_main;
-    line-height: 1.2;
+  display: inline-block;
+  font: normal 1.21em katex_main;
+  line-height: 1.2;
+  white-space: nowrap;
 }
-
+.katex .base {
+  display: inline-block;
+}
+.katex .strut {
+  display: inline-block;
+}
+.katex .strut.bottom {
+  vertical-align: top;
+}
 .katex .mathit {
-    font-family: katex_math;
-    font-style: italic;
+  font-family: katex_math;
+  font-style: italic;
 }
-
-.katex .textstyle > .mbin + .minner { margin-left: 0.22222em; }
-.katex .textstyle > .mbin + .mop { margin-left: 0.22222em; }
-.katex .textstyle > .mbin + .mopen { margin-left: 0.22222em; }
-.katex .textstyle > .mbin + .mord { margin-left: 0.22222em; }
-.katex .textstyle > .mclose + .mbin { margin-left: 0.22222em; }
-.katex .textstyle > .mclose + .minner { margin-left: 0.16667em; }
-.katex              .mclose + .mop { margin-left: 0.16667em; }
-.katex .textstyle > .mclose + .mrel { margin-left: 0.27778em; }
-.katex .textstyle > .minner + .mbin { margin-left: 0.22222em; }
-.katex .textstyle > .minner + .minner { margin-left: 0.16667em; }
-.katex              .minner + .mop { margin-left: 0.16667em; }
-.katex .textstyle > .minner + .mopen { margin-left: 0.16667em; }
-.katex .textstyle > .minner + .mord { margin-left: 0.16667em; }
-.katex .textstyle > .minner + .mpunct { margin-left: 0.16667em; }
-.katex .textstyle > .minner + .mrel { margin-left: 0.27778em; }
-.katex .textstyle > .mop + .minner { margin-left: 0.16667em; }
-.katex              .mop + .mop { margin-left: 0.16667em; }
-.katex              .mop + .mord { margin-left: 0.16667em; }
-.katex .textstyle > .mop + .mrel { margin-left: 0.27778em; }
-.katex .textstyle > .mord + .mbin { margin-left: 0.22222em; }
-.katex .textstyle > .mord + .minner { margin-left: 0.16667em; }
-.katex              .mord + .mop { margin-left: 0.16667em; }
-.katex .textstyle > .mord + .mrel { margin-left: 0.27778em; }
-.katex .textstyle > .mpunct + .mbin { margin-left: 0.16667em; }
-.katex .textstyle > .mpunct + .mclose { margin-left: 0.16667em; }
-.katex .textstyle > .mpunct + .minner { margin-left: 0.16667em; }
-.katex .textstyle > .mpunct + .mop { margin-left: 0.16667em; }
-.katex .textstyle > .mpunct + .mopen { margin-left: 0.16667em; }
-.katex .textstyle > .mpunct + .mord { margin-left: 0.16667em; }
-.katex .textstyle > .mpunct + .mpunct { margin-left: 0.16667em; }
-.katex .textstyle > .mpunct + .mrel { margin-left: 0.16667em; }
-.katex .textstyle > .mrel + .minner { margin-left: 0.27778em; }
-.katex .textstyle > .mrel + .mop { margin-left: 0.27778em; }
-.katex .textstyle > .mrel + .mopen { margin-left: 0.27778em; }
-.katex .textstyle > .mrel + .mord { margin-left: 0.27778em; }
-
-.katex .textstyle > .scriptstyle { font-size: 0.66667em; }
-.katex .scriptstyle > .scriptscriptstyle { font-size: 0.75em; }
-
-.katex .msub {
-    vertical-align: bottom;
-    position: relative;
-    top: 0.2em;
+.katex .amsrm {
+  font-family: katex_ams;
 }
-
-.katex .msup {
-    position: relative;
-    top: -0.5em;
+.katex .textstyle > .mord + .mop {
+  margin-left: 0.16667em;
 }
-
+.katex .textstyle > .mord + .mbin {
+  margin-left: 0.22222em;
+}
+.katex .textstyle > .mord + .mrel {
+  margin-left: 0.27778em;
+}
+.katex .textstyle > .mord + .minner {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mop + .mord {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mop + .mop {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mop + .mrel {
+  margin-left: 0.27778em;
+}
+.katex .textstyle > .mop + .minner {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mbin + .mord {
+  margin-left: 0.22222em;
+}
+.katex .textstyle > .mbin + .mop {
+  margin-left: 0.22222em;
+}
+.katex .textstyle > .mbin + .mopen {
+  margin-left: 0.22222em;
+}
+.katex .textstyle > .mbin + .minner {
+  margin-left: 0.22222em;
+}
+.katex .textstyle > .mrel + .mord {
+  margin-left: 0.27778em;
+}
+.katex .textstyle > .mrel + .mop {
+  margin-left: 0.27778em;
+}
+.katex .textstyle > .mrel + .mopen {
+  margin-left: 0.27778em;
+}
+.katex .textstyle > .mrel + .minner {
+  margin-left: 0.27778em;
+}
+.katex .textstyle > .mclose + .mop {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mclose + .mbin {
+  margin-left: 0.22222em;
+}
+.katex .textstyle > .mclose + .mrel {
+  margin-left: 0.27778em;
+}
+.katex .textstyle > .mclose + .minner {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mpunct + .mord {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mpunct + .mop {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mpunct + .mrel {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mpunct + .mopen {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mpunct + .mclose {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mpunct + .mpunct {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .mpunct + .minner {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .minner + .mord {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .minner + .mop {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .minner + .mbin {
+  margin-left: 0.22222em;
+}
+.katex .textstyle > .minner + .mrel {
+  margin-left: 0.27778em;
+}
+.katex .textstyle > .minner + .mopen {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .minner + .mpunct {
+  margin-left: 0.16667em;
+}
+.katex .textstyle > .minner + .minner {
+  margin-left: 0.16667em;
+}
+.katex .mord + .mop {
+  margin-left: 0.16667em;
+}
+.katex .mop + .mord {
+  margin-left: 0.16667em;
+}
+.katex .mop + .mop {
+  margin-left: 0.16667em;
+}
+.katex .mclose + .mop {
+  margin-left: 0.16667em;
+}
+.katex .minner + .mop {
+  margin-left: 0.16667em;
+}
+.katex .reset-textstyle.textstyle {
+  font-size: 1em;
+}
+.katex .reset-textstyle.scriptstyle {
+  font-size: 0.66667em;
+}
+.katex .reset-textstyle.scriptscriptstyle {
+  font-size: 0.5em;
+}
+.katex .reset-scriptstyle.textstyle {
+  font-size: 1.5em;
+}
+.katex .reset-scriptstyle.scriptstyle {
+  font-size: 1em;
+}
+.katex .reset-scriptstyle.scriptscriptstyle {
+  font-size: 0.75em;
+}
+.katex .reset-scriptscriptstyle.textstyle {
+  font-size: 2em;
+}
+.katex .reset-scriptscriptstyle.scriptstyle {
+  font-size: 1.5em;
+}
+.katex .reset-scriptscriptstyle.scriptscriptstyle {
+  font-size: 1em;
+}
+.katex .baseline-align-hack-outer {
+  display: inline-block;
+  vertical-align: top;
+}
+.katex .baseline-align-hack-middle {
+  display: block;
+  height: 0;
+}
+.katex .baseline-align-hack-inner {
+  display: inline-block;
+}
 .katex .msupsub {
-    display: inline-table;
-    table-layout: fixed;
-    vertical-align: middle;
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
 }
-
-.katex .msupsub > .msup, .katex .msupsub > .msub {
-    display: table-row;
-    vertical-align: baseline;
+.katex .msupsub .msup,
+.katex .msupsub .msub {
+  display: block;
+  height: 0;
+  position: relative;
 }
-
-.katex .mfrac { display: inline-table; }
-
-/* TODO(alpert): Where do these numbers come from? */
-.katex .mfrac.textstyle.displaystyle { vertical-align: 0.58em; }
-.katex .mfrac.textstyle { vertical-align: 0.50em; }
-.katex .mfrac.scriptstyle { vertical-align: 0.50em; }
-.katex .mfrac.scriptscriptstyle { vertical-align: 0.6em; }
-
-.katex .mfracnum, .katex .mfracmid, .katex .mfracden {
-    display: table-row;
-    text-align: center;
+.katex .msupsub .msup > span,
+.katex .msupsub .msub > span {
+  display: inline-block;
 }
-
-.katex .mfracmid:before {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    content: "";
-    display: block;
+.katex .mfrac {
+  display: inline-block;
+  vertical-align: top;
 }
-
-.katex .mfracmid:after {
-    border-bottom-style: solid;
-    border-bottom-width: 0.05em;
-    content: "";
-    display: block;
-    margin-top: -1px;
+.katex .mfrac .mfracnum,
+.katex .mfrac .mfracmid,
+.katex .mfrac .mfracden {
+  display: block;
+  height: 0;
+  position: relative;
+  text-align: center;
 }
-
-.katex .mfracnum > span {
-    display: inline-block;
-    vertical-align: bottom;
+.katex .mfrac .mfracnum > span,
+.katex .mfrac .mfracmid > span,
+.katex .mfrac .mfracden > span {
+  display: inline-block;
 }
-
+.katex .mfrac .mfracmid > span {
+  width: 100%;
+}
+.katex .mfrac .mfracmid > span:before {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  content: "";
+  display: block;
+}
+.katex .mfrac .mfracmid > span:after {
+  border-bottom-style: solid;
+  border-bottom-width: 0.05em;
+  content: "";
+  display: block;
+  margin-top: -1px;
+}
 .katex .mspace {
-    display: inline-block;
+  display: inline-block;
 }
-
 .katex .mspace.thinspace {
-    width: 0.16667em;
+  width: 0.16667em;
 }
-
 .katex .mspace.mediumspace {
-    width: 0.22222em;
+  width: 0.22222em;
 }
-
 .katex .mspace.thickspace {
-    width: 0.27778em;
+  width: 0.27778em;
 }
-
 .katex .mspace.quad {
-    width: 1em;
+  width: 1em;
 }
-
 .katex .mspace.qquad {
-    width: 2em;
+  width: 2em;
 }
-
-.katex .llap, .katex .rlap {
-    width: 0;
-    position: relative;
+.katex .llap,
+.katex .rlap {
+  width: 0;
+  position: relative;
 }
-
-.katex .llap > span {
-    position: absolute;
-    right: 0;
-}
-
+.katex .llap > span,
 .katex .rlap > span {
-    position: absolute;
-    left: 0;
+  position: absolute;
 }
-
-.katex .blue { color: #6495ed; }
-.katex .orange { color: #ffa500; }
-.katex .pink { color: #ff00af; }
-.katex .red { color: #df0030; }
-.katex .green { color: #28ae7b; }
-.katex .gray { color: gray; }
-.katex .purple { color: #9d38bd; }
+.katex .llap > span {
+  right: 0;
+}
+.katex .rlap > span {
+  left: 0;
+}
+.katex .blue {
+  color: #6495ed;
+}
+.katex .orange {
+  color: #ffa500;
+}
+.katex .pink {
+  color: #ff00af;
+}
+.katex .red {
+  color: #df0030;
+}
+.katex .green {
+  color: #28ae7b;
+}
+.katex .gray {
+  color: gray;
+}
+.katex .purple {
+  color: #9d38bd;
+}
+.katex .katex-logo .a {
+  font-size: 0.75em;
+  margin-left: -0.32em;
+  position: relative;
+  top: -0.2em;
+}
+.katex .katex-logo .t {
+  margin-left: -0.23em;
+}
+.katex .katex-logo .e {
+  margin-left: -0.1667em;
+  position: relative;
+  top: 0.2155em;
+}
+.katex .katex-logo .x {
+  margin-left: -0.125em;
+}

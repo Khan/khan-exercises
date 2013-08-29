@@ -46,6 +46,9 @@ Exercises.RelatedVideos = {
             });
 
             container.toggle(videos.length > 0);
+            if (videos.length > 0) {
+                $(Exercises).trigger("relatedVideosRendered");
+            }
             self._bindEvents();
         });
     },

@@ -2,7 +2,7 @@
 <html data-require="math graphie graphie-3d math-format interactive word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Volume 2</title>
+    <title>Volume word problems</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
         var makeSquare = function(left, width, bottom, height, color) {
@@ -28,15 +28,12 @@
 <body>
 <div class="exercise">
     <div class="problems">
-       
-        
-    
         <div id="sending-flour" >
             <div class="vars">
-               
+
                 <var id="LENGTH">randRange(2,7)</var>
                 <var id="WIDTH">randRange(2,7)</var>
-                <var id="HEIGHT">randRange(2,7)</var>            
+                <var id="HEIGHT">randRange(2,7)</var>
             </div>
              <p>
                  <var>person(1)</var> needs to ship a package of flour to a baker.  <span data-if="isMale(1)">He</span><span data-else>She</span> 
@@ -70,7 +67,7 @@
                         &amp;&amp; guess[0]&lt; 10 &amp;&amp; guess[1] &lt; 10 &amp;&amp; guess[2] &lt; 10
                         &amp;&amp; isInt(guess[0]) &amp;&amp; isInt(guess[1]) &amp;&amp; isInt(guess[2])
                     </div>
-                   
+
                 </div>
 
             <div class="hints">
@@ -78,7 +75,7 @@
                     The volume of a box is the product of the length, width and height of the box.
                 </p>
                 <p>
-                    So we need to find <code>3</code> numbers whose product is <code><var>LENGTH*WIDTH*HEIGHT</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these! 
+                    So we need to find <code>3</code> numbers whose product is <code><var>LENGTH*WIDTH*HEIGHT</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these!
                 </p>
                 <p>
                     For instance, the numbers <code><var>LENGTH</var></code>, <code><var>WIDTH</var></code>, and <code><var>HEIGHT</var></code> work, but there might be other solutions as well!
@@ -87,7 +84,7 @@
         </div>
         <div id="box-minus-box" >
             <div class="vars">
-               
+
                 <var id="L1">randRange(2,12)</var>
                 <var id="W1">randRange(2,12)</var>
                 <var id="H1">randRange(2,12)</var>
@@ -95,27 +92,27 @@
                 <var id="W2">randRange(1,W1-1)</var>
                 <var id="H2">randRange(1,H1-1)</var>
                 <var id="MAX">max(max(L1,W1),H1)</var>
-                
+
                 <var id="COLOR">"#78D0EF"</var>
-                                
+
                 <var id="VERTICES">[
-                [L1/MAX,W1/MAX,-H1/MAX],
-                [-L1/MAX,W1/MAX,-H1/MAX],
-                [-L1/MAX,-W1/MAX,-H1/MAX],
-                [L1/MAX,-W1/MAX,-H1/MAX],
-                [L1/MAX,W1/MAX,H1/MAX],
-                [-L1/MAX,W1/MAX,H1/MAX],
-                [-L1/MAX,-W1/MAX,H1/MAX],
-                [L1/MAX,-W1/MAX,H1/MAX],
-                [(-L1+2*L2)/MAX,-W1/MAX,-H1/MAX],
-                [(2*L2-L1)/MAX,(2*W2-W1)/MAX,-H1/MAX],
-                [-L1/MAX,(2*W2-W1)/MAX,-H1/MAX],
-                [-L1/MAX,-W1/MAX,(2*H2-H1)/MAX],
-                 [(-L1+2*L2)/MAX,-W1/MAX,(2*H2-H1)/MAX],
-                [(2*L2-L1)/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX],
-                [-L1/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX]
+                    [L1/MAX,W1/MAX,-H1/MAX],
+                    [-L1/MAX,W1/MAX,-H1/MAX],
+                    [-L1/MAX,-W1/MAX,-H1/MAX],
+                    [L1/MAX,-W1/MAX,-H1/MAX],
+                    [L1/MAX,W1/MAX,H1/MAX],
+                    [-L1/MAX,W1/MAX,H1/MAX],
+                    [-L1/MAX,-W1/MAX,H1/MAX],
+                    [L1/MAX,-W1/MAX,H1/MAX],
+                    [(-L1+2*L2)/MAX,-W1/MAX,-H1/MAX],
+                    [(2*L2-L1)/MAX,(2*W2-W1)/MAX,-H1/MAX],
+                    [-L1/MAX,(2*W2-W1)/MAX,-H1/MAX],
+                    [-L1/MAX,-W1/MAX,(2*H2-H1)/MAX],
+                    [(-L1+2*L2)/MAX,-W1/MAX,(2*H2-H1)/MAX],
+                    [(2*L2-L1)/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX],
+                    [-L1/MAX,(2*W2-W1)/MAX,(2*H2-H1)/MAX]
                 ]</var>
-                
+
                <var id="SCALE">4.0</var>
                 <var id="FACES">[
                     {
@@ -146,55 +143,55 @@
 
             </div>
              <p>
-                 A water tank is <code><var>H1</var></code> feet high, <code><var>L1</var></code> feet long, and <code><var>W1</var></code> feet wide.  
+                 A water tank is <code><var>H1</var></code> feet high, <code><var>L1</var></code> feet long, and <code><var>W1</var></code> feet wide.
                  A solid metal box which is <code><var>H2</var></code> feet high, <code><var>L2</var></code> feet long, and <code><var>W2</var></code> feet wide
-                  is sitting at the bottom of the tank.  The tank is filled with water.  
+                  is sitting at the bottom of the tank.  The tank is filled with water.
              </p>
-            <p class="question"> 
+            <p class="question">
                 What is the volume of the water in the tank?
             </p>
 
-            <div class="solution" data-type="multiple">    
+            <div class="solution" data-type="multiple">
                <p> <span class="sol"><var>L1*W1*H1 - L2*W2*H2</var></span> <code>\text{ft}^3</code></p>
             </div>
 
             <div class="hints">
                 <div>
-                
+
                 <div class="graphie" id = "box">
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
-                                     
+
                      //  graphing the initial object
                       graph.obj = make3dObject(VERTICES, { scale: SCALE });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
                     });
-                    
+
                     graph.obj.addSketch(
                         {verts: [8,9,10,2]}
-                        );
-                    
+                    );
+
                     graph.obj.addSketch(
                         {verts: [11,12,13,14,11]}
-                        );
-                        
+                    );
+
                     graph.obj.addSketch(
                         {verts: [2,11]}
-                        );
-                    
+                    );
+
                     graph.obj.addSketch(
                         {verts: [8,12]}
-                        );
-                        
+                    );
+
                     graph.obj.addSketch(
                         {verts: [9,13]}
-                        );
-                    
+                    );
+
                     graph.obj.addSketch(
                         {verts: [10,14]}
-                        );
-                        
+                    );
+
                     graph.obj.setPos([0, 0, 5]);
                     graph.obj.rotate(1,0 , 0, PI/3);
                     graph.obj.rotate(0, 1, 0, 0);
@@ -216,6 +213,8 @@
                         fill: "#000", opacity: 0.0
                     });
                     $(mouseTarget[0]).bind("vmousedown", function(event) {
+                        event.preventDefault();
+
                         GRAPH.lastX = event.pageX;
                         GRAPH.lastY = event.pageY;
 
@@ -245,29 +244,58 @@
                     });
 
                 </div>
-                    
                     <p>
-                        The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = <var>H1*L1*W1</var></code> cubic feet, 
+                        The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = <var>H1*L1*W1</var></code> cubic feet,
                         and the metal box has a volume of <code><var>H2</var> \times <var>L2</var> \times <var>W2</var> = <var>H2*W2*L2</var></code> cubic feet.
                     </p>
-                    
                 </div>
                 <p>
                     Since there is no water in the box, the volume of the water in the tank is the volume of the tank minus the volume of the metal box.
                 </p>
                 <p>
-                    The volume of the water in the tank is <code><var>H1*L1*W1</var> \text{ft}^3 - <var>H2*L2*W2</var> \text{ft}^3 = <var>H1*L1*W1 - H2*L2*W2</var>\text{ft}^3</code> 
+                    The volume of the water in the tank is <code><var>H1*L1*W1</var> \text{ft}^3 - <var>H2*L2*W2</var> \text{ft}^3 = <var>H1*L1*W1 - H2*L2*W2</var>\text{ft}^3</code>
                 </p>
             </div>
         </div>
         <div id="big-to-small-unit-conversion" >
             <div class="vars">
-                <var id="UNITS">[["feet","inches",12,"foot","ft","in"],["yards","feet",3,"yard","y","ft"],["meters","decimeters",10,"meter","m","dm"],["centimeters","millimeters",10,"centimeter","cm","mm"]][randRange(0,3)]</var>
+                <var id="FROM,TO,FROM_TEXT,TO_TEXT,CONVERSION">randFromArray([
+                    [
+                        new Plural(function(num) {
+                            return $.ngettext("foot", "feet", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("inch", "inches", num);
+                        }), $._("ft"), $._("in"), 12
+                    ],
+                    [
+                        new Plural(function(num) {
+                            return $.ngettext("yard", "yards", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("foot", "feet", num);
+                        }), $._("yd"), $._("ft"), 3
+                    ],
+                    [
+                        new Plural(function(num) {
+                            return $.ngettext("meter", "meters", num);
+                        }), new Plural(function(num) {
+                            return $.ngettext("decimeter", "decimeters", num);
+                        }), $._("m"), $._("dm"), 10
+                    ],
+                    [
+                        new Plural(function(num) {
+                            return $.ngettext("centimeter", "centimeters", num);
+                        }), new Plural(function(num) {
+                            return $.ngettext("millimeter", "millimeters", num);
+                        }), $._("cm"), $._("mm"), 10
+                    ]
+                ])</var>
                 <var id="VOL">randRangeExclude(2, 11,[3,10])</var>
-                <var id="LENGTH">UNITS[2]</var>
-                <var id="WIDTH">UNITS[2]</var>
-                <var id="HEIGHT">UNITS[2]</var>
-                <var id="MAX">UNITS[2]</var>
+                <var id="LENGTH">CONVERSION</var>
+                <var id="WIDTH">CONVERSION</var>
+                <var id="HEIGHT">CONVERSION</var>
+                <var id="MAX">CONVERSION</var>
                 <var id="XBORD">LENGTH/MAX</var>
                 <var id="YBORD">WIDTH/MAX</var>
                 <var id="ZBORD">HEIGHT/MAX</var>
@@ -290,11 +318,11 @@
                     {
                         verts: [3, 2, 1, 0],
                         color: COLOR1,
-                        labels: [[[XBORD, 0, ZBORD], 1 + "\\text{"+UNITS[4]+"} = " + UNITS[2]+"\\text{"+UNITS[5]+"}"]]
+                        labels: [[[XBORD, 0, ZBORD], "1 \\text{" + FROM_TEXT + "} = " + CONVERSION + " \\text{" + TO_TEXT + "}"]]
                     }, {
                         verts: [4, 5, 6, 7],
                         color: COLOR1,
-                        labels: [[[-XBORD, 0, -ZBORD], 1 + "\\text{"+UNITS[4]+"} = " + UNITS[2]+"\\text{"+UNITS[5]+"}"]]
+                        labels: [[[XBORD, 0, ZBORD], "1 \\text{" + FROM_TEXT + "} = " + CONVERSION + " \\text{" + TO_TEXT + "}"]]
                     }, {
                         verts: [0, 1, 5, 4],
                         color: COLOR3
@@ -309,81 +337,84 @@
                         color: COLOR2
                     }
                 ]</var>
-               
+
                 <var id="GRAPH">{}</var>
                 <var id="UNWRAPGRAPH">{}</var>
 
                 <var id="BASE_TEXT">$._("base")</var>
                 <var id="HEIGHT_TEXT">$._("height")</var>
-                
-                
             </div>
 
             <p class="question">
-                How many cubic <var>UNITS[1]</var> fit in <code><var>VOL</var></code> cubic <var>UNITS[0]</var>?
+                How many cubic <var>plural_form(TO)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>?
             </p>
+            
             <p>
-                Recall that there are <code><var>UNITS[2]</var></code> <var>UNITS[1]</var> in every <var>UNITS[3]</var>.
+            	Recall that there are <code><var>CONVERSION</var></code> <var>plural_form(TO)</var> in every <var>FROM</var>.
             </p>
+            
 
             <div class="solution">
-                  <var>VOL*UNITS[2]*UNITS[2]*UNITS[2]</var>
+                  <var>VOL * CONVERSION * CONVERSION * CONVERSION</var>
+
             </div>
-    
+
             <div class="hints">
-            <p>First we will figure out how many cubic <var>UNITS[1]</var> fit in one cubic <var>UNITS[3]</var></p>
+            <p>First we will figure out how many cubic <var>plural_form(TO)</var> fit in one cubic <var>FROM</var>.</p>
             <p>
-                There are <code><var>UNITS[2]</var></code> <var>UNITS[1]</var> in every <var>UNITS[3]</var>.
+                There are <code><var>CONVERSION</var></code> <var>plural_form(TO, CONVERSION)</var> in every <var>FROM</var>.
             </p>
             <div>
                 <p>
-                    Thus a cubic <var>UNITS[3]</var> is the same as a 
-                    <code><var>UNITS[2]</var> \text{<var>UNITS[5]</var>} \times <var>UNITS[2]</var> \text{<var>UNITS[5]</var>} \times<var>UNITS[2]</var> \text{<var>UNITS[5]</var>} </code>
+                    So a cubic <var>FROM</var> is the same as a
+                    <code>
+                        <var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                        \times <var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                        \times<var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                    </code>
                     cube.
                 </p>
                 <div class="graphie" id = "box">
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
-                    
+
                     //Adding verticies for the slabs
                     for (var i = 1; i &lt; HEIGHT;i++ ){
                         VERTICES.push( [LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
                         VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
                         VERTICES.push([-LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
                         VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                        };
-                        
-                    console.log(VERTICES.length);
-                    
-                    //Adding verticies for the cubes in one slab    
+                    };
+
+                    //Adding verticies for the cubes in one slab
                     for (var i = 1; i &lt; LENGTH; i++ ){
                         VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; LENGTH; i++ ){
                         VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; WIDTH; i++ ){
                         VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; WIDTH; i++ ){
                         VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                        };
-                        
-                     for (var i = 1; i &lt; LENGTH; i++ ){
+                    };
+
+                    for (var i = 1; i &lt; LENGTH; i++ ){
                         VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; LENGTH; i++ ){
                         VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; WIDTH; i++ ){
                         VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                        };
+                    };
                     for (var i = 1; i &lt; WIDTH; i++ ){
                         VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                        };
+                    };
 
-                     //  graphing the initial object
-                      graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                    //  graphing the initial object
+                    graph.obj = make3dObject(VERTICES, { scale: SCALE });
                     _.each(FACES, function(face) {
                         graph.obj.addFace(face);
                     });
@@ -435,30 +466,33 @@
                             }
                         })
                     });
-
                 </div>
             </div>
-                
+
                <p>
-                       Thus there are <code><var>UNITS[2]</var> \times <var>UNITS[2]</var> \times <var>UNITS[2]</var>  = <var>UNITS[2]*UNITS[2]*UNITS[2]</var> \text{<var>UNITS[5]</var>}^3 </code> 
-                       in each cubic <var>UNITS[3]</var>, by the volume formula.
+                       There are
+                       <code><var>CONVERSION</var> \times <var>CONVERSION</var>
+                           \times <var>CONVERSION</var>  =
+                           <var>CONVERSION * CONVERSION * CONVERSION</var>
+                           \text{ <var>TO_TEXT</var>}^3
+                       </code>
+                       in each cubic <var>FROM</var>, by the volume formula.
                </p>
                <p>
-                       Since we have <code><var>VOL</var></code> cubic <var>UNITS[0]</var>, and each cubic <var>UNITS[3]</var> holds 
-                       <code><var>UNITS[2]*UNITS[2]*UNITS[2]</var></code> cubic <var>UNITS[1]</var>, we have a total of <code><var>VOL</var> \times <var>UNITS[2]*UNITS[2]*UNITS[2]</var></code>
-                       cubic <var>UNITS[1]</var>.
+                       Since we have <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>, and each cubic <var>FROM</var> holds
+                       <code><var>CONVERSION * CONVERSION *
+                               CONVERSION</var></code> cubic
+                       <var>plural_form(TO, CONVERSION * CONVERSION *
+                           CONVERSION)</var>, we have a total of
+                       <code><var>VOL</var> \times <var>CONVERSION * CONVERSION
+                               * CONVERSION</var></code>
+                       cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var>.
                </p>
                <p>
-                       Thus <code><var>VOL*UNITS[2]*UNITS[2]*UNITS[2]</var></code> cubic <var>UNITS[1]</var> fit in <code><var>VOL</var></code> cubic <var>UNITS[3]</var>.
+                       So <code><var>VOL * CONVERSION * CONVERSION * CONVERSION</var></code> cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(TO, VOL)</var>.
                </p>
             </div>
-            
         </div>
-        
-        
-
-
-        
     </div>
 </div>
 </body>

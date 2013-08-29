@@ -131,11 +131,12 @@
         start();
     });
 
-    asyncTest("term regex", 7, function() {
+    asyncTest("term regex", 8, function() {
         checkRegex(t1.regex(), "4", true, "right answer is right");
         checkRegex(t1.regex(), "-4", false, "wrong answer is wrong");
+        checkRegex(t1.regex(), "4x", false, "wrong answer is wrong");
         checkRegex(t1.regex(), "  4 ", true, "right answer with spaces is right");
-        checkRegex(t1.regex(true), " + 4 ", true, "right answer leading sign is right");
+        checkRegex(t1.regex(true), "4", true, "ignore passed in true");
         checkRegex(t3.regex(), "-12x", true, "right answer is right");
         checkRegex(t3.regex(), " 1 2 x ", false, "wrong answer with spaces is wrong");
         checkRegex(t4.regex(), "12x^2", true, "right answer is right");
@@ -195,10 +196,10 @@
         start();
     });
 
-    asyncTest("factor expression", 3, function() {
-        strictEqual(e1.factor().toString(), "4", "single digit");
-        strictEqual(e4.factor().toString(), "2", "digit factor");
-        strictEqual(e5.factor().toString(), "2x", "term factor");
+    asyncTest("expression term GCD", 3, function() {
+        strictEqual(e1.getTermsGCD().toString(), "4", "single digit");
+        strictEqual(e4.getTermsGCD().toString(), "2", "digit factor");
+        strictEqual(e5.getTermsGCD().toString(), "2x", "term factor");
         start();
     });
 
@@ -217,6 +218,22 @@
         start();
     });
 
+    asyncTest("coefficient of term", 4, function() {
+        strictEqual(e3.getCoefficentOfTerm('x'), 1, "coefficient of positive term");
+        strictEqual(e4.getCoefficentOfTerm('x'), -12, "coefficient of negative term");
+        strictEqual(e4.getCoefficentOfTerm('x2'), 0, "coefficient of non-existant term");
+        strictEqual(e5.getCoefficentOfTerm('x2y3'), 0, "coefficient of multi-variable term");
+        start();
+    });
+
+    asyncTest("evaluation expression", 4, function() {
+        strictEqual(e1.evaluate(3), 4, "constant expression");
+        strictEqual(e2.evaluate(3), -32, "evaluate positive");
+        strictEqual(e3.evaluate(-3), 2, "evaluate negative");
+        strictEqual(e4.evaluate({x: 3, y: 2}), 112, "evaluate multiple");
+        start();
+    });
+
     asyncTest("expression regex", 14, function() {
         checkRegex(e1.regex(), "4", true, "digit right answer is right");
         checkRegex(e1.regex(), "-4", false, "digit wrong answer is wrong");
@@ -228,7 +245,7 @@
         checkRegex(e2.regex(), "(-12x+4)", false, "right answer parenthesised is wrong (?)");
         checkRegex(e2.regex(true), "4(-3x+1)", true, "factored positive is right");
         checkRegex(e2.regex(true), "-4(3x-1)", true, "factored negative is right");
-        checkRegex(e2.regex(true), "(-3x+1)4", true, "factor following is right");
+        checkRegex(e2.regex(true), "(-3x+1)4", false, "factor following is wrong");
         checkRegex(e2.regex(true), "4(1-3x)", true, "factored reversed is right");
         checkRegex(e3.regex(true), "x + 5", true, "coefficient of one ignored is right");
         checkRegex(e3.regex(true), "1x + 5", false, "coefficient of one included is wrong (?)");
@@ -244,6 +261,12 @@
         checkRegex(e4.regex(), "4 - 12x + 2x^2y^3", true, "right answer CBA is right");
         checkRegex(e4.regex(true), "2(x^2y^3 - 6x + 2)", true, "right answer variables factored is right");
         checkRegex(e4.regex(), "2y^3x^2 - 12x + 4", true, "right answer variables reversed is right");
+        start();
+    });
+
+    asyncTest("isEqual", 2, function() {
+        strictEqual(e1.isEqualTo(new KhanUtil.RationalExpression([4])), true, "single digit equal to single digit");
+        strictEqual(e2.isEqualTo(e1.add(t3)), true, "expression equal to sum of terms");
         start();
     });
 

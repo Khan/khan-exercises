@@ -195,20 +195,24 @@
                 <span data-if="TYPE === 'smallest'">
                     <span data-if="isSingular(SOLUTION)">
                         The <var>LOCATION_DISPLAY</var> with the fewest <var>plural_form(ITEM)</var> had <var>SOLUTION</var> <var>ITEM</var>.
-                    </span><span data-else="">
+                    </span>
+                    <span data-else="">
                         The <var>LOCATION_DISPLAY</var> with the fewest <var>plural_form(ITEM)</var> had <var>SOLUTION</var> <var>plural_form(ITEM, SOLUTION)</var>.
                     </span>
                 </span>
                 <span data-else-if="TYPE === 'largest'">
                     <span data-if="isSingular(SOLUTION)">
                         The <var>LOCATION_DISPLAY</var> with the most <var>plural_form(ITEM)</var> had <var>SOLUTION</var> <var>ITEM</var>.
-                    </span><span data-else="">
+                    </span>
+                    <span data-else="">
                         The <var>LOCATION_DISPLAY</var> with the most <var>plural_form(ITEM)</var> had <var>SOLUTION</var> <var>plural_form(ITEM, SOLUTION)</var>.
                     </span>
+                </span>
                 <span data-else="">
                     <span data-if="isSingular(SOLUTION)">
                         There are <var>SOLUTION</var> <var>LOCATION_DISPLAY</var> that match our question.
-                    </span><span data-else="">
+                    </span>
+                    <span data-else="">
                         There are <var>SOLUTION</var> <var>plural_form(LOCATION_DISPLAY, SOLUTION)</var> that match our question.
                     </span>
                 </span>

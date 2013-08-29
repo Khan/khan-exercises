@@ -125,8 +125,24 @@ table.limit th:first-child { text-align: right; }
 body.debug .graphie { outline: 1px dashed #fdd; }
 .graphie svg { position: absolute; top: 0; left: 0; }
 
-#scratchpad { padding-left: 20px; overflow: hidden; display: none; }
-#scratchpad div { position: absolute; margin-top: -20px; z-index: 1; min-width: 514px; height: 98%; outline: 1px solid #ccc; }
+#scratchpad {
+    display: none;
+    margin: 0 10px;
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+#scratchpad div {
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
 #scratchpad-not-available { display: none; }
 #extras .report-issue-link { float: right; font-size: 11px; }
 
@@ -184,7 +200,7 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     display: block;
     font: inherit;
     margin: 5px 3px 3px;
-    width: 169px;
+    width: 98%;
     padding-right: 25px;
 }
 
@@ -197,9 +213,9 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     font: 10px/1.5 Menlo, Monaco, Courier, monospace;
     color: #999;
     text-decoration: none;
-    line-height: 10px;
+    line-height: 9px;
     height: 19px;
-    top: 5px;
+    top: 2px;
     right: 6px;
 }
 
@@ -268,9 +284,9 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 
 #issue #issue-status.error { font-weight: bold; color: #A21; font-size: 1.2em; }
 #issue-link { font-style: italic; }
-#issue form label { display: block; }
-#issue form input[type=text] { display: block; width: 98%; }
-#issue form textarea { display: block; width: 98%; height: 100px; }
+#issue .issue-form label { display: block; }
+#issue .issue-form input[type=text] { display: block; width: 98%; }
+#issue .issue-form textarea { display: block; width: 98%; height: 100px; }
 #issue-cancel { float: right; }
 #issue fieldset {
   list-style: none;
@@ -734,7 +750,7 @@ html.exercise-browser {
 }
 
 
-.sortable .MathJax, .sortable .katex {
+.sortable code {
 	line-height: 65px;
 }
 
@@ -882,7 +898,7 @@ body.debug span.error {
 }
 
 /* Work around bug added in https://khanacademy.kilnhg.com/Review/K109777 */
-.MathJax .math {
+.new-header .MathJax .math {
     color: inherit;
 }
 
