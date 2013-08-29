@@ -1182,11 +1182,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             return function(guess) {
                 // Whether the entire solution is correct or not
-                var valid = true,
+                var valid = true;
                 // Store a copy of each of the validators. If one correctly
                 // identifies a guess, remove it from this array, so duplicate
                 // answers aren't marked correct twice
-                unusedValidators = validatorArray.slice(0);
+                var unusedValidators = validatorArray.slice(0);
 
                 // Go through each of the guesses
                 $.each(guess, function(i, g) {
