@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>isSingular Test</title>
+</head>
+<body>
+    <!-- Test 1: isSingular ok -->
+    <span data-if="isSingular(A)">There are <var>A</var> blue dot.</span>
+    <span data-else="">There are <var>A</var> blue dots.</span>
+
+    <!-- Test 2: isSingular ok with nested random span -->
+    <span data-if="isSingular(A)">There are <span>A</span> blue dot.</span>
+    <span data-else="">There are <span>A</span> blue dots.</span>
+
+    <!-- Test 3: isSingular not at the top level -->    
+    <span data-if="isSingular(AMOUNT)" data-unwrap="">
+        <span data-if="TYPE === 'less-than'">Yo!</span>
+        <span data-if="TYPE === 'greater-than'">Yo yo!</span>
+    </span><span data-else="" data-unwrap="">
+        <span data-if="TYPE === 'less-than'">Yos!</span>
+        <span data-if="TYPE === 'greater-than'">Yos yos!</span>
+    </span>
+
+    <!-- Test 4: nested isSingular is ok -->
+    <span data-if="isSingular(AMOUNT)" data-unwrap="">
+        <span data-if="isSingular(CHANGE)">Yo!</span>
+        <span data-else="">Yo yo!</span>
+    </span><span data-else="" data-unwrap="">
+        <span data-if="isSingular(CHANGE)">Yo yo yo!</span>
+        <span data-else=""">Yo yo yo yo!</span>
+    </span>
+
+
+</body>
+</html>
