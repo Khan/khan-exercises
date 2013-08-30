@@ -682,6 +682,7 @@ var Khan = (function() {
                 if (mathjaxLoadFailures.length > 0) {
                     body += "\n\n" + mathjaxLoadFailures;
                 }
+                body += "\n\n" + debugLogLog.join("\n");
 
                 // flagging of browsers/os for issue labels. very primitive, but
                 // hopefully sufficient.
@@ -1070,8 +1071,13 @@ var Khan = (function() {
             makeProblem(typeOverride, seedOverride);
         }
 
+        // Use a separate variable here because if exerciseID changes, we still
+        // want to log the old one.
+        var exid = exerciseId;
+        debugLog("loading and rendering " + exid);
         startLoadingExercise(exerciseId, exerciseName, exerciseFile).then(
             function() {
+                debugLog("loaded " + exid + ", now rendering");
                 finishRender();
             });
     }
@@ -1186,7 +1192,7 @@ var Khan = (function() {
         // Find which exercise this problem is from
         exercise = problem.parents("div.exercise").eq(0);
 
-        debugLog("chose problem type and seed");
+        debugLog("chose problem type and seed for " + exercise.data("name"));
 
         // Work with a clone to avoid modifying the original
         problem = problem.clone();
