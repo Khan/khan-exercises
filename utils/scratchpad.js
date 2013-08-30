@@ -61,7 +61,10 @@ function DrawingScratchpad(elem) {
         shapes.remove();
         for (var i = 0; i < state.length; i++) {
             if (state[i].type == "path") {
-                shapes.push(pad.path(state[i].path).attr(line_default).attr("stroke", state[i].stroke));
+                shapes.push(pad.path(state[i].path).attr(line_default).attr({
+                    stroke: state[i].stroke,
+                    "clip-rect": [0, 40, pad.width, pad.height - 40]
+                }));
             }
         }
     }
@@ -122,20 +125,17 @@ function DrawingScratchpad(elem) {
 
     function mousedown(X, Y, e) {
         if (!X || !Y || !e) return;
+        if (Y <= 40) return;
 
         if (eraser) {
             eraser.remove();
             eraser = null;
         }
-        saveState();
-        var startlen = shapes.length;
 
         if (tool == "draw") {
+            saveState();
             startPen(X, Y);
         } else if (tool == "erase") {
-            if (Y <= 40) {
-                return;
-            }
             eraser = pad.rect(X, Y, 0, 0).attr({
                 "fill-opacity": 0.15,
                 "stroke-opacity": 0.5,
@@ -144,9 +144,6 @@ function DrawingScratchpad(elem) {
             });
             eraser.sx = X;
             eraser.sy = Y;
-        }
-        if (shapes.length == startlen) {
-            undoHistory.pop();
         }
     }
 
@@ -177,11 +174,16 @@ function DrawingScratchpad(elem) {
         path = null;
         if (tool == "erase" && eraser) {
             saveState();
+            var actuallyErased = false;
             var ebox = eraser.getBBox();
             for (var i = 0; i < shapes.length; i++) {
                 if (rectsIntersect(ebox, shapes[i].getBBox())) {
+                    actuallyErased = true;
                     shapes[i].remove();
                 }
+            }
+            if (!actuallyErased) {
+                undoHistory.pop();
             }
             eraser.animate({"fill-opacity": 0}, 100, function() {
                 eraser.remove();
