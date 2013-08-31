@@ -54,7 +54,7 @@ $(Exercises)
     .bind("gotoNextProblem", gotoNextProblem)
     .bind("updateUserExercise", updateUserExercise)
     .bind("clearExistingProblem", clearExistingProblem)
-    .bind("enableOptOut", enableOptOut);
+    .bind("showOptOut", showOptOut);
 
 
 function problemTemplateRendered() {
@@ -611,11 +611,8 @@ function updateUserExercise(e, data) {
     }
 }
 
-function enableOptOut() {
-    $("#opt-out-button")
-        .prop("disabled", false)
-        .removeClass("buttonDisabled")
-        .show();
+function showOptOut() {
+    $("#opt-out-button").show();
 }
 
 function enableCheckAnswer() {
@@ -627,6 +624,10 @@ function enableCheckAnswer() {
     $("#skip-question-button")
         .prop("disabled", false)
         .removeClass("buttonDisabled");
+
+    $("#opt-out-button")
+        .prop("disabled", false)
+        .removeClass("buttonDisabled");
 }
 
 function disableCheckAnswer() {
@@ -636,6 +637,10 @@ function disableCheckAnswer() {
         .val($._("Please wait..."));
 
     $("#skip-question-button")
+        .prop("disabled", true)
+        .addClass("buttonDisabled");
+
+    $("#opt-out-button")
         .prop("disabled", true)
         .addClass("buttonDisabled");
 }
