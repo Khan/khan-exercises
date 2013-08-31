@@ -73,10 +73,11 @@
                     slidingWindow.getXLims()
                 </div>
                 <div class="validator-function">
-                    if (_.isEqual(guess, slidingWindow.startRange)) {
-                        return "";
-                    } else if (NO_SOLUTION) {
+                    if (NO_SOLUTION &amp;&amp;
+                            $(".sol.no-solution :checkbox").prop("checked") ) {
                         return true;
+                    } else if (_.isEqual(guess, slidingWindow.startRange)) {
+                        return "";
                     }
                     return _.any(PROBLEM_RANGES, function(problemRange) {
                         return _.isEqual(guess, problemRange);
