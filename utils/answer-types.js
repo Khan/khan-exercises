@@ -1182,6 +1182,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             return function(guess) {
                 // Whether the entire solution is correct or not
+                var allEmpty = true;
                 var valid = true;
                 // Store a copy of each of the validators. If one correctly
                 // identifies a guess, remove it from this array, so duplicate
@@ -1209,6 +1210,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         }
                     });
 
+                    if (!checkIfAnswerEmpty(g) &&
+                            !checkIfAnswerEmpty(correct)) {
+                        allEmpty = false;
+                    }
+
                     // If we didn't get it right, and the answer isn't empty,
                     // the entire solution is false
                     //
@@ -1228,11 +1234,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     if (typeof correct === "string") {
                         valid = correct;
                     }
-
-                    // If we've run out of validators, stop
-                    if (unusedValidators.length === 0) {
-                        return false;
-                    }
                 });
 
                 // If there were more correct answers than possible guesses
@@ -1249,7 +1250,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // incorrect, some of the answers are missing
                     valid = false;
                 }
-                return valid;
+                return allEmpty ? "" : valid;
             };
         }
     },
