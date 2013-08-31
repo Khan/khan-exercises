@@ -1,7 +1,7 @@
 <!DOCTYPE html> <html data-require="math math-format expressions rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Adding and subtracting with unlike denominators 3</title>
+    <title>Adding and subtracting rational expressions 3</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
         #solutionarea td {
@@ -28,7 +28,7 @@
             <var id="Y" data-ensure="X !== Y">randVar()</var>
 
             <var id="EXPR1">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
-            <div data-ensure="getGCD(TERM1.coefficient, TERM2.coefficient) === 1">
+            <div data-ensure="TERM1.getGCD(TERM2).toString() === '1'">
                 <var id="TERM1">new Term(randRangeNonZero(-10, 10))</var>
                 <var id="TERM2">new Term(randRange(1, 10))</var>
             </div>

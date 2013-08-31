@@ -246,7 +246,7 @@ var Khan = (function() {
 
             addLink("css/khan-site.css");
             addLink("css/khan-exercise.css");
-            addLink("local-only/katex/katex.less.css");
+            addLink("local-only/katex/katex.css");
             addLink("local-only/katex/fonts/fonts.css");
         })();
     }
@@ -682,6 +682,7 @@ var Khan = (function() {
                 if (mathjaxLoadFailures.length > 0) {
                     body += "\n\n" + mathjaxLoadFailures;
                 }
+                body += "\n\n" + debugLogLog.join("\n");
 
                 // flagging of browsers/os for issue labels. very primitive, but
                 // hopefully sufficient.
@@ -701,7 +702,8 @@ var Khan = (function() {
                         snowleo: agent_contains("OS X 10_6") || agent_contains("OS X 10.6"),
                         lion: agent_contains("OS X 10_7") || agent_contains("OS X 10.7"),
                         scratchpad: (/scratch\s*pad/i).test(body),
-                        ipad: agent_contains("iPad")
+                        ipad: agent_contains("iPad"),
+                        undef: Exercises.guessLog == null
                     },
                     labels = [];
                 $.each(flags, function(k, v) {
@@ -716,7 +718,7 @@ var Khan = (function() {
                     labels.push(type.slice("issue-".length));
 
                     var hintOrVideoMsg = $._("Please click the hint button above " +
-                        "to see our solution, or watch a video for additional help.");
+                        "to see our solution or watch a video for additional help.");
                     var refreshOrBrowserMsg = $._("Please try a hard refresh " +
                         "(press Ctrl + Shift + R) or use Khan Academy from a " +
                         "different browser (such as Chrome or Firefox).");
@@ -1069,8 +1071,13 @@ var Khan = (function() {
             makeProblem(typeOverride, seedOverride);
         }
 
+        // Use a separate variable here because if exerciseID changes, we still
+        // want to log the old one.
+        var exid = exerciseId;
+        debugLog("loading and rendering " + exid);
         startLoadingExercise(exerciseId, exerciseName, exerciseFile).then(
             function() {
+                debugLog("loaded " + exid + ", now rendering");
                 finishRender();
             });
     }
@@ -1164,6 +1171,10 @@ var Khan = (function() {
                 // Or by its ID
                 problems.filter("#" + id);
 
+            if (!problem.length) {
+                throw new Error("Unknown problem type " + id);
+            }
+
         // Otherwise we grab a problem at random from the bag of problems
         // we made earlier to ensure that every problem gets shown the
         // appropriate number of times
@@ -1181,7 +1192,7 @@ var Khan = (function() {
         // Find which exercise this problem is from
         exercise = problem.parents("div.exercise").eq(0);
 
-        debugLog("chose problem type and seed");
+        debugLog("chose problem type and seed for " + exercise.data("name"));
 
         // Work with a clone to avoid modifying the original
         problem = problem.clone();

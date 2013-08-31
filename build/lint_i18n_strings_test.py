@@ -10,6 +10,7 @@ import lint_i18n_strings
 # Directories used for test files
 _TEST_ROOT = 'lint_test'
 
+# TODO(csilvers): automatically create a testcase from each of these.
 TESTS = {
     'pronoun': {
         'nodes_changed': 6,
@@ -72,6 +73,15 @@ TESTS = {
     'ok_text': {
         'nodes_changed': 0,
         'errors': []
+    },
+    'issingular': {
+        'nodes_changed': 0,
+        'errors': ['\'isSingular\' nodes must contain text directly; '
+                   'distribute this node into its children:\n'
+                   '<span data-if="isSingular(AMOUNT)" data-unwrap="">\n'
+                   '        <span data-if="TYPE === \'less-than\'">Yo!</span>'
+                   '\n        <span data-if="TYPE === \'greater-than\'">Yo yo!'
+                   '</span>\n    </span>']
     },
 }
 
@@ -170,6 +180,13 @@ class LintStringsTest(unittest.TestCase):
 
     def test_dollars_in_vars(self):
         self.run_test('dollars_in_vars')
+
+    @unittest.skip("TODO(csilvers): Figure out why this test is broken")
+    def test_ok_text(self):
+        self.run_test('ok_text')
+
+    def test_issingular(self):
+        self.run_test('issingular')
 
 
 def _slurp(filename):

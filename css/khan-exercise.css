@@ -125,8 +125,24 @@ table.limit th:first-child { text-align: right; }
 body.debug .graphie { outline: 1px dashed #fdd; }
 .graphie svg { position: absolute; top: 0; left: 0; }
 
-#scratchpad { padding-left: 20px; overflow: hidden; display: none; }
-#scratchpad div { position: absolute; margin-top: -20px; z-index: 1; min-width: 514px; height: 98%; outline: 1px solid #ccc; }
+#scratchpad {
+    display: none;
+    margin: 0 10px;
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+#scratchpad div {
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
 #scratchpad-not-available { display: none; }
 #extras .report-issue-link { float: right; font-size: 11px; }
 

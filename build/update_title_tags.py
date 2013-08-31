@@ -3,6 +3,7 @@ file with its display name.
 """
 
 import codecs
+import errno
 import os
 
 import requests
@@ -22,13 +23,20 @@ def fix_title(filename, title):
     lines = []
     title_lines = 0
 
-    with codecs.open(full_filename, 'r', encoding='utf-8') as f:
-        for line in f.readlines():
-            if '<title>' in line:
-                line = u"%s<title>%s</title>\n" % (
-                        line.split('<title>', 1)[0], title)
-                title_lines += 1
-            lines.append(line)
+    try:
+        with codecs.open(full_filename, 'r', encoding='utf-8') as f:
+            for line in f.readlines():
+                if '<title>' in line:
+                    line = u"%s<title>%s</title>\n" % (
+                            line.split('<title>', 1)[0], title)
+                    title_lines += 1
+                lines.append(line)
+    except IOError, e:
+        # If the file's missing, the exercise probably isn't live, so skip it.
+        if e.errno == errno.ENOENT:
+            return
+        else:
+            raise
 
     assert title_lines == 1
 

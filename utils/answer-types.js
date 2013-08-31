@@ -125,7 +125,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // The fallback variable is used in place of the answer, if no
                 // answer is provided (i.e. the field is left blank)
-                var fallback = "" + (options.fallback || "");
+                var fallback =
+                    options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
                 if (guess.toLowerCase() === correct.toLowerCase()) {
@@ -461,6 +462,22 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return possibilities;
                 },
 
+                // Converts '' to 1 and '-' to -1 so you can write "[___] x"
+                // and accept sane things
+                coefficient: function(text) {
+                    var match, possibilities = [];
+
+                    // Replace unicode minus sign with hyphen
+                    text = text.replace(/\u2212/, "-");
+
+                    if (text === "") {
+                        possibilities = [{ value: 1, exact: true }];
+                    } else if (text === "-") {
+                        possibilities = [{ value: -1, exact: true }];
+                    }
+                    return possibilities;
+                },
+
                 // simple log(c) form
                 log: function(text) {
                     var match, possibilities = [];
@@ -537,20 +554,23 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     }
 
                     var normal = function(text) {
-                        var match = $.trim(text)
+                        text = $.trim(text);
 
+                        var match = text
                             // Replace unicode minus sign with hyphen
                             .replace(/\u2212/, "-")
-
                             // Remove space after +, -
                             .replace(/([+-])\s+/g, "$1")
-
-                            // Extract integer, numerator and denominator If
+                            // Extract integer, numerator and denominator. If
                             // commas or spaces are used, they must be in the
                             // "correct" places
                             .match(/^([+-]?(?:\d{1,3}(?:[, ]?\d{3})*\.?|\d{0,3}(?:[, ]?\d{3})*\.(?:\d{3}[, ]?)*\d{1,3}))$/);
 
-                        if (match) {
+                        // You can't start a number with `0,`, to prevent us
+                        // interpeting '0.342' as correct for '342'
+                        var badLeadingZero = text.match(/^0[0,]*,/);
+
+                        if (match && !badLeadingZero) {
                             var x = parseFloat(match[1].replace(/[, ]/g, ""));
 
                             if (options.inexact === undefined) {
@@ -579,14 +599,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // The fallback variable is used in place of the answer, if no
                 // answer is provided (i.e. the field is left blank)
-                var fallback = "" + (options.fallback || "");
+                var fallback =
+                    options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
                 var ret = false;
-
-                if (guess === "") {
-                    return "";
-                }
 
                 // iterate over all the acceptable forms, and if one of the
                 // answers is correct, return true
@@ -717,7 +734,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // The fallback variable is used in place of the answer, if no
                 // answer is provided (i.e. the field is left blank)
-                var fallback = "" + (options.fallback || "");
+                var fallback =
+                    options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
                 return guess.match(regex) != null;
@@ -1164,11 +1182,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             return function(guess) {
                 // Whether the entire solution is correct or not
-                var valid = true,
+                var allEmpty = true;
+                var valid = true;
                 // Store a copy of each of the validators. If one correctly
                 // identifies a guess, remove it from this array, so duplicate
                 // answers aren't marked correct twice
-                    unusedValidators = validatorArray.slice(0);
+                var unusedValidators = validatorArray.slice(0);
 
                 // Go through each of the guesses
                 $.each(guess, function(i, g) {
@@ -1181,7 +1200,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                         // If this validator completely accepts this answer
                         // or returns a check answer message
-                         if (pass !== false) {
+                        if (pass !== false) {
                             // remove the working validator
                             unusedValidators.splice(i, 1);
                             // store correct
@@ -1190,6 +1209,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             return false;
                         }
                     });
+
+                    if (!checkIfAnswerEmpty(g) &&
+                            !checkIfAnswerEmpty(correct)) {
+                        allEmpty = false;
+                    }
 
                     // If we didn't get it right, and the answer isn't empty,
                     // the entire solution is false
@@ -1210,11 +1234,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     if (typeof correct === "string") {
                         valid = correct;
                     }
-
-                    // If we've run out of validators, stop
-                    if (unusedValidators.length === 0) {
-                        return false;
-                    }
                 });
 
                 // If there were more correct answers than possible guesses
@@ -1231,7 +1250,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // incorrect, some of the answers are missing
                     valid = false;
                 }
-                return valid;
+                return allEmpty ? "" : valid;
             };
         }
     },
@@ -1387,9 +1406,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // Wrap each of the choices in elements and add radio buttons
             var wrappedChoices = _.map(shownChoices, function(choice, i) {
-                return $("<li><label>").find("label").append([
+                return $("<li><label></label></li>").find("label").append([
                     $('<input type="radio" name="solution">').val(i),
-                    $('<span class="value">').append(
+                    $('<span class="value"></span>').append(
                         $(choice).contents()
                     )
                 ]).end();

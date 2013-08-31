@@ -61,8 +61,8 @@ _FUNCTION_RE = re.compile(r'^\s*(\w+)\(.*\)\s*$')
 # We're looking for all nodes that have non-whitespace text inside of them
 # as a direct child node. Additionally we make sure the node isn't inside
 # of a node that matches the same criteria.
-_HAS_TEXT = '*[./text()[normalize-space(.)!=""]]'
-_XPATH_FIND_NODES = '//%s[not(ancestor::%s)]' % (_HAS_TEXT, _HAS_TEXT)
+_HAS_TEXT = './text()[normalize-space(.)!=""]'
+_XPATH_FIND_NODES = '//*[%s][not(ancestor::*[%s])]' % (_HAS_TEXT, _HAS_TEXT)
 
 # All the tags that we want to make sure that strings don't contain
 _REJECT_NODES = [
@@ -238,7 +238,8 @@ def lint_file(filename, apply_fix, verbose):
         filters.append(AmbiguousPluralFilter)
 
     # Collect all the i18n-able nodes out of file
-    nodes = _extract_nodes(filename)
+    html_tree = lxml.html.html5parser.parse(filename, parser=PARSER)
+    nodes = _extract_nodes(html_tree, filename)
 
     # Root HTML Tree
     root_tree = nodes[0].getroottree() if nodes else None
@@ -261,6 +262,22 @@ def lint_file(filename, apply_fix, verbose):
         for lint_node in lint_nodes:
             errors.append("Contains invalid node:\n%s\nInvalid node:\n%s" % (
                 _get_outerhtml(node), _get_outerhtml(lint_node)))
+
+    # A second kind of error is when we have an <span
+    # data-if="isSingular(...)"> that doesn't have natural language
+    # (or another isSingular) inside it -- that is, it has nested
+    # <span> tags instead.  This isn't allowed: isSingular needs to be
+    # at the lowest level of nesting.
+    _IS_SINGULAR = '*[contains(@data-if,"isSingular")]'
+    # "isSingular" nodes which don't contain text directly and don't
+    # contain at least one "isSingular" child node.
+    search_expr = '//%s[not(%s)][not(./%s)]' % (_IS_SINGULAR, _HAS_TEXT,
+                                                _IS_SINGULAR)
+    non_bottom_level_issingular = html_tree.xpath(search_expr)
+    for lint_node in non_bottom_level_issingular:
+        errors.append("'isSingular' nodes must contain text directly;"
+                      " distribute this node into its children:\n%s" % (
+                          _get_outerhtml(lint_node)))
 
     # And now we run the nodes through all of our fixable filters. These
     # filters detect nodes that can be automatically fixed (and fixes them
@@ -1669,11 +1686,8 @@ def _check_plural_is_ambiguous(plural_arg):
     return True
 
 
-def _extract_nodes(filename):
+def _extract_nodes(html_tree, filename):
     """Extract all the i18n-able nodes out of a file."""
-    # Parse the HTML tree
-    html_tree = lxml.html.html5parser.parse(filename, parser=PARSER)
-
     # Turn all the tags into a full XPath selector
     search_expr = _XPATH_FIND_NODES
 
