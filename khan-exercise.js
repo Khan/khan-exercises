@@ -407,6 +407,7 @@ var Khan = (function() {
                 callback();
                 return;
             }
+            debugLog("loadScript loading " + url);
 
             // Adapted from jQuery getScript (ajax/script.js) -- can't use
             // jQuery here because we load jQuery using this routine
@@ -424,6 +425,8 @@ var Khan = (function() {
             script.onload = script.onreadystatechange = function() {
                 if (!script.readyState ||
                         (/loaded|complete/).test(script.readyState)) {
+                    debugLog("loadScript loaded " + url);
+
                     // Handle memory leak in IE
                     script.onload = script.onreadystatechange = null;
 
@@ -472,6 +475,7 @@ var Khan = (function() {
         error: function() {
             if (typeof console !== "undefined") {
                 $.each(arguments, function(ix, arg) {
+                    debugLog("error: " + arg);
                     console.error(arg);
                 });
             }
@@ -1977,14 +1981,17 @@ var Khan = (function() {
         // Promises for remote exercises contained within this one
         var subpromises = [];
 
+        debugLog("loadExercise start " + fileName);
         // Packing occurs on the server but at the same "exercises/" URL
         $.get(urlBase + "exercises/" + fileName, function(data, status, xhr) {
             if (!(/success|notmodified/).test(status)) {
                 // Maybe loading from a file:// URL?
+                debugLog("loadExercise err " + xhr.status + " " + fileName);
                 Khan.error("Error loading exercise from file " + fileName +
                         xhr.status + " " + xhr.statusText);
                 return;
             }
+            debugLog("loadExercise got " + fileName);
 
             // Get rid of any external scripts in data before we shove data
             // into a jQuery object. IE8 will attempt to fetch these external
@@ -2015,6 +2022,7 @@ var Khan = (function() {
 
             // Maybe the exercise we just loaded loads some others
             remoteExercises.each(function() {
+                debugLog("loadExercise sub " + $(this).data("name"));
                 subpromises.push(loadExercise(this));
             });
 
@@ -2029,6 +2037,7 @@ var Khan = (function() {
             }
 
             $.each(requires.concat(Khan.getBaseModules()), function(i, mod) {
+                debugLog("loadExercise submod " + (mod.src || mod));
                 subpromises.push(loadModule(mod));
             });
 
@@ -2059,10 +2068,12 @@ var Khan = (function() {
             // Wait for any subexercises to load, then resolve the promise
             $.when.apply($, subpromises).then(function() {
                 // Success; all subexercises loaded
+                debugLog("loadExercise finish " + fileName);
                 promise.resolve();
             }, function() {
                 // Failure; some subexercises failed to load
                 // TODO(alpert): Find a useful error message
+                debugLog("loadExercise subfail " + fileName);
                 promise.reject();
             });
         });
@@ -2087,6 +2098,7 @@ var Khan = (function() {
         } else {
             selfPromise = $.Deferred();
         }
+        debugLog("loadModule mod " + src);
 
         var depsPromises = [];
 
