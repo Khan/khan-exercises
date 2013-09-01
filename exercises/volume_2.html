@@ -36,29 +36,36 @@
                 <var id="HEIGHT">randRange(2,7)</var>
             </div>
              <p>
-                 <var>person(1)</var> needs to ship a package of flour to a baker.
-                 <span data-if="isMale(1)">He has <code><var>LENGTH * WIDTH * HEIGHT</var></code> cubic meters of flour to send</span>
-                 <span data-else>She has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.</span>
-                 The post office will not ship any box which has an edge <code>10</code> meters or longer.
+                 <var>person(1)</var> needs to ship a package of flour to a baker.  
+                 <span data-if="isMale(1)">He has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.</span>
+                 <span data-else>She has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.</span> 
+               The post office will not ship any box which has an edge <code>10</code> meters or longer. 
              </p>
-            <p class="question">
-               What are the dimensions of a box which will hold exactly  <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour, but whose edge lengths are all less than <code>10</code> meters?
+            <p class="question"> 
+               What are the dimensions of a box which will hold exactly  <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour, but whose edge lengths are all integers less than <code>10</code> meters?
             </p>
             <div class="solution" data-type="custom">
                     <div class="instruction">
-                       Length <code>=</code>
-                   <input id="response1" type="text"/> m
-                   <br/>
-                   Width <code>\hphantom{ }=</code>
-                   <input id="response2" type="text"/> m
-                   <br/>
-                   Height <code> =</code>
-                   <input id="response3" type="text"/> m
-
-                     </div>
+                    <table>
+                    <tr>
+                        <td>Length <code>=</code> </td>
+                        <td> <input id="response1" type="text"/> m</td>
+                    </tr>   
+                   	<tr>
+                        <td>Width <code>\hphantom{ }=</code></td>
+                        <td><input id="response2" type="text"/> m</td>
+                   	</tr>
+                   	<tr>
+                   	    <td>Height <code>=</code></td>
+                        <td><input id="response3" type="text"/> m</td>
+                    </tr>
+                    </table>
+                    </div>
                     <div class="guess">[$("input#response1").val(),$("input#response2").val(),$("input#response3").val()]</div>
                     <div class="validator-function">
-                        return  guess[0]*guess[1]*guess[2] == LENGTH*WIDTH*HEIGHT &amp;&amp; guess[0]&lt; 10 &amp;&amp; guess[1] &lt; 10 &amp;&amp; guess[2] &lt; 10
+                        return  guess[0]*guess[1]*guess[2] == LENGTH*WIDTH*HEIGHT 
+                        &amp;&amp; guess[0]&lt; 10 &amp;&amp; guess[1] &lt; 10 &amp;&amp; guess[2] &lt; 10
+                        &amp;&amp; isInt(guess[0]) &amp;&amp; isInt(guess[1]) &amp;&amp; isInt(guess[2])
                     </div>
 
                 </div>
@@ -295,7 +302,6 @@
                 <var id="COLOR1">"#D7ED3A"</var>
                 <var id="COLOR2">"#38C77F"</var>
                 <var id="COLOR3">"#78D0EF"</var>
-                <var id="COLOR4">"#F0B63A"</var>
                 <var id="BASE">HEIGHT * 2</var>
                 <var id="VERTICES">[
                     [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
@@ -340,8 +346,13 @@
             </div>
 
             <p class="question">
-                   How many cubic <var>plural_form(TO)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>?
+                How many cubic <var>plural_form(TO)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>?
             </p>
+            
+            <p>
+            	Recall that there are <code><var>CONVERSION</var></code> <var>plural_form(TO,CONVERSION)</var> in every <var>FROM</var>.
+            </p>
+            
 
             <div class="solution">
                   <var>VOL * CONVERSION * CONVERSION * CONVERSION</var>
