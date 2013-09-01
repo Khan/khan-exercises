@@ -23,11 +23,14 @@
             <var id="D">D_PARENT === 1 ? D_OFFSPRING : D_PARENT</var>
             <var id="N_PARENT_EXPANDED">N_PARENT * (D_PARENT === 1 ? D : 1)</var>
             <var id="N_OFFSPRING_EXPANDED">N_OFFSPRING * (D_OFFSPRING === 1 ? D : 1)</var>
+            <var id="UNIT">new Plural(function(n) {
+                return $.ngettext("unit", "units", n);
+            })</var>
         </div>
 
         <div class="problems">
             <div>
-                <p class="question">The starting block below is <code><var>CODE_PARENT</var></code> units long. Use the tools to the right to convert the starting block into the goal block that is <code><var>CODE_OFFSPRING</var></code> units long. You can see your progress as the current block.</p>
+                <p class="question">The starting block below is <code><var>CODE_PARENT</var></code> <var>D_PARENT === 1 ? plural_form(UNIT, N_PARENT) : plural_form(UNIT)</var> long. Use the tools to the right to convert the starting block into the goal block that is <code><var>CODE_OFFSPRING</var></code> units long. You can see your progress as the current block.</p>
 
                 <p>Starting Block:</p>
 
