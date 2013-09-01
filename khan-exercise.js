@@ -1419,6 +1419,10 @@ var Khan = (function() {
                 examples.append("<li>" + example + "</li>");
             });
 
+            if ($("#examples-show").data("qtip")) {
+                $("#examples-show").qtip("destroy", /* immediate */ true);
+            }
+
             $("#examples-show").qtip({
                 content: {
                     text: examples.remove(),
