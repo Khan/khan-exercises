@@ -231,12 +231,8 @@ $.extend(KhanUtil, {
         }
 
         function getThetaFromXY(x, y) {
-            var angle = Math.atan(y / x);
-            if (x <= 0 && y > 0) {
-                angle += Math.PI;
-            } else if (x < 0 && y < 0) {
-                angle += Math.PI;
-            } else if (x >= 0 && y < 0) {
+            var angle = Math.atan2(y, x);
+            if (angle < 0) {
                 angle += 2 * Math.PI;
             }
             angle = angle * 180 / Math.PI;
