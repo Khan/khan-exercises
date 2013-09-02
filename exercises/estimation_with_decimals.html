@@ -19,60 +19,74 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return localeToFixed( n / 1000, randRange( 1, 2 ) ); } )</var>
-                <var id="ANSWER">sum( $.map( VALUES, round ) )</var>
-                <var id="TYPES">randFromArray( [ [ "jogging", "ran", "mile" ], [ "riding a bicycle ", "traveled", "mile" ], [ "collecting mushrooms", "collected", "pound" ], [ "painting a roof", "painted", "square foot" ], [ "harvesting grain", "harvested", "tonne" ] ] )</var>
+                <var id="VALUES">_.map(
+                    randRange(1000, 16000, randRange(3, 7)),
+                    function( n ) {
+                        var x = n / 1000;
+                        // Number, decimal places to which it's displayed
+                        return [x, randRange(1, 2)];
+                    })</var>
+                <var id="ANSWER">sum($.map(VALUES, function(pair) {
+                    return round(pair[0]);
+                }))</var>
+                <var id="TYPES">randFromArray([
+                    ["jogging", "ran", new Plural(function(n) {
+                        return $.ngettext("mile", "miles", n);
+                    })],
+                    ["riding a bicycle", "traveled", new Plural(function(n) {
+                        return $.ngettext("mile", "miles", n);
+                    })],
+                    ["collecting mushrooms", "collected", new Plural(function(n) {
+                        return $.ngettext("pound", "pounds", n);
+                    })],
+                    ["painting a roof", "painted", new Plural(function(n) {
+                        return $.ngettext("square foot", "square feet", n);
+                    })],
+                    ["harvesting grain", "harvested", new Plural(function(n) {
+                        return $.ngettext("tonne", "tonnes", n);
+                    })]
+                ])</var>
                 <var id="ACC">0</var>
-                <var id="SIZE">
-                    $.map( VALUES, function( i ){
-                        if ( round( i ) &lt; i ) {
-                            return "smaller than";
-                        }
-                        else{
-                            return "bigger or equal to";
-                        }
-                    } )
-                </var>
                 <var id="SUM">
                     (function() {
                         var sum = 0;
-                        $.each( VALUES, function( i, val ) {
-                            sum += parseFloat( val );
+                        $.each(VALUES, function( i, pair ) {
+                            sum += roundTo(pair[1], pair[0]);
                         });
-                        return roundTo( 2, sum );
+                        return sum;
                     })()
                 </var>
             </div>
             <p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
-            <p class="question" data-if="isMale(1)">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>AMBIGUOUS_PLURAL(TYPES[ 2 ])</var>) each day, estimate how much he <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p><p class="question" data-else="">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>AMBIGUOUS_PLURAL(TYPES[ 2 ])</var>) each day, estimate how much she <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p>
+            <p class="question" data-if="isMale(1)">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural_form(TYPES[ 2 ])</var>) each day, estimate how much he <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p><p class="question" data-else="">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural_form(TYPES[ 2 ])</var>) each day, estimate how much she <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p>
             <div class="fake_header estimation">
                 <span>Day<br> <span style="color:white">" "</span></span>
-                <span>Amount <br><font size="2">(in <var>AMBIGUOUS_PLURAL(TYPES[ 2 ])</var>)</font></span>
+                <span>Amount <br><font size="2">(in <var>plural_form(TYPES[ 2 ])</var>)</font></span>
             </div>
-            <div class="fake_row estimation" data-each="VALUES as i, val">
+            <div class="fake_row estimation" data-each="VALUES as i, pair">
                 <span><var>i+1</var></span>
-                <span><var>val</var></span>
+                <span><var>localeToFixed(pair[0], pair[1])</var></span>
             </div>
             <p><br>Note that if you first sum the exact amounts (<var>localeToFixed(SUM, 2)</var>) and then round, you'll get <var>round( SUM )</var>. For fun, pay attention to how this number compares with your estimate.</p>
             <p class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
+                <span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural_form(TYPES[ 2 ], ANSWER)</var>
             </p>
 
             <div class="hints">
-                <p>Round all the numbers to the nearest <var>TYPES[ 2 ]</var> and add them up.</p>
+                <p>Round all the numbers to the nearest <var>plural_form(TYPES[ 2 ], 1)</var> and add them up.</p>
                 <div class="fake_header estimation">
                     <span>Day</span>
                     <span>Amount</span>
                     <span>Rounded</span>
                     <span>Running total</span>
                 </div>
-                <div class="fake_row estimation" data-each="VALUES as i, val">
+                <div class="fake_row estimation" data-each="VALUES as i, pair">
                     <span><var>i+1</var></span>
-                    <span><var>val</var></span>
-                    <span><var>round( val )</var></span>
-                    <span><var>ACC += round( val )</var></span>
+                    <span><var>localeToFixed(pair[0], pair[1])</var></span>
+                    <span><var>round(pair[0])</var></span>
+                    <span><var>ACC += round(pair[0])</var></span>
                 </div>
-                <p>Therefore the estimate is <code><var>ANSWER</var></code> <var>AMBIGUOUS_PLURAL(TYPES[ 2 ])</var>.</p>
+                <p>Therefore the estimate is <code><var>ANSWER</var></code> <var>plural_form(TYPES[ 2 ], ANSWER)</var>.</p>
             </div>
         </div>
     </div>
