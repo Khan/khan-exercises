@@ -43,8 +43,7 @@
                 <var id="LOSE">randRange(5,10)</var>
                 <var id="PROFIT">MAKE_COUNT*MAKE - LOSE_COUNT*LOSE</var>
                 <var id="ANS_F,ANS">
-                    [fraction(PROFIT,10,true,false),
-                    localeToFixed(PROFIT/10, 2)]
+                    [fraction(PROFIT,10,true,false), PROFIT/10]
                 </var>
             </div>
 
@@ -117,8 +116,8 @@
                     we get the expected amount of money you will make:
                     <code>(<var>MAKE</var>\cdot<var>MAKE_FR</var>) +
                         (-<var>LOSE</var>\cdot<var>LOSE_FR</var>) =
-                        <var>ANS_F</var> = <span data-if="ANS < 0">-$<var>-ANS</var></span>
-                        <span data-else="">$<var>ANS</var></span>.
+                        <var>ANS_F</var> = <span data-if="ANS < 0">-$<var>localeToFixed(-ANS, 2)</var></span>
+                        <span data-else="">$<var>localeToFixed(ANS, 2)</var></span>.
                     </code>
                 </p>
             </div>
