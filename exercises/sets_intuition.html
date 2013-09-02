@@ -104,7 +104,7 @@
         </var>
 
         <var id="B">
-            shuffle(SHUFFLED_ELEMENTS.slice(randRange(2,4)))
+            shuffle(SHUFFLED_ELEMENTS.slice(randRange(2,3)))
         </var>
         
         <var id="SECTION_A">
@@ -129,6 +129,14 @@
         
         <var id="SECTION_AB_COUNT">
             _(SECTION_AB).size()
+        </var>
+        
+        <var id="SET_A_SIZE">
+            SECTION_A_COUNT + SECTION_AB_COUNT
+        </var>
+        
+        <var id="SET_B_SIZE">
+            SECTION_B_COUNT + SECTION_AB_COUNT
         </var>
               
         <var id="AVATAR_IMAGES">[
@@ -173,6 +181,84 @@
                 description: "in set B, but not in set A"
             }          
         ]</var>
+        
+        <var id="QUESTION,QUESTION_HINT,ANSWER" data-ensure="ANSWER >= 0">            
+        randFromArray([
+             [
+                "How many avatars are in set A?",
+                $._("There are &lt;code&gt;%(aSize)s&lt;/code&gt; elements in set A.",
+                    {aSize: SET_A_SIZE}),
+                SET_A_SIZE
+             ],
+             [
+                "How many avatars are in set B?",
+                $._("There are &lt;code&gt;%(bSize)s&lt;/code&gt; elements in set B.",
+                    {bSize: SET_B_SIZE}),
+                SET_B_SIZE
+             ],
+             [
+                "How many avatars are in at least one of these sets?",
+                $._("There %(beSecAPl)s &lt;code&gt;%(secASize)s&lt;/code&gt; \
+                    %(elementsSecAPl)s, which %(beSecAPl)s in set A, but not in set B, \
+                    &lt;code&gt;%(secBSize)s&lt;/code&gt; \
+                    %(elementsSecBPl)s, which %(beSecBPl)s in set B, but not in set A, \
+                    and &lt;code&gt;%(secABSize)s&lt;/code&gt; \
+                    %(elementsSecABPl)s, which %(beSecABPl)s in both sets. \
+                    So together, there are &lt;code&gt;%(secASize)s + %(secBSize)s \
+                    + %(secABSize)s = %(uSize)s&lt;/code&gt; elements in at least \
+                    one of the sets.",
+                    {secASize: SECTION_A_COUNT, secBSize: SECTION_B_COUNT,
+                    secABSize: SECTION_AB_COUNT,
+                    elementsSecAPl: plural("element", SECTION_A_COUNT),
+                    elementsSecBPl: plural("element", SECTION_B_COUNT),
+                    elementsSecABPl: plural("element", SECTION_B_COUNT),
+                    beSecAPl: plural("is", SECTION_A_COUNT),
+                    beSecBPl: plural("is", SECTION_B_COUNT),
+                    beSecABPl: plural("is", SECTION_B_COUNT),                    
+                    uSize: SECTION_A_COUNT + SECTION_B_COUNT + SECTION_AB_COUNT}),
+                SECTION_A_COUNT + SECTION_B_COUNT + SECTION_AB_COUNT
+             ],
+             [
+                "How many more avatars are in set A than in set B?",
+                $._("There are &lt;code&gt;%(aSize)s&lt;/code&gt; elements in set A \
+                    and &lt;code&gt;%(bSize)s&lt;/code&gt; elements in set B, so \
+                    set A has &lt;code&gt;%(aSize)s - %(bSize)s = %(more)s&lt;/code&gt; \
+                    more %(elementsPl)s than set B.",
+                    {aSize: SET_A_SIZE, bSize: SET_B_SIZE, more: SET_A_SIZE - SET_B_SIZE,
+                    elementsPl: plural("element", SET_A_SIZE - SET_B_SIZE)}),
+                SET_A_SIZE - SET_B_SIZE
+             ],
+             [
+                "How many more avatars are in set B than in set A?",
+                $._("There are &lt;code&gt;%(bSize)s&lt;/code&gt; elements in set B \
+                    and &lt;code&gt;%(aSize)s&lt;/code&gt; elements in set A, so \
+                    set B has &lt;code&gt;%(bSize)s - %(aSize)s = %(more)s&lt;/code&gt; \
+                    more %(elementsPl)s than set A.",
+                    {aSize: SET_A_SIZE, bSize: SET_B_SIZE, more: SET_B_SIZE - SET_A_SIZE,
+                    elementsPl: plural("element", SET_B_SIZE - SET_A_SIZE)}),
+                SET_B_SIZE - SET_A_SIZE
+             ],
+             [
+                "How many less avatars are in set A than in set B?",
+                $._("There are &lt;code&gt;%(aSize)s&lt;/code&gt; elements in set A \
+                    and &lt;code&gt;%(bSize)s&lt;/code&gt; elements in set B, so \
+                    set A has &lt;code&gt;%(bSize)s - %(aSize)s = %(less)s&lt;/code&gt; \
+                    less %(elementsPl)s than set B.",
+                    {aSize: SET_A_SIZE, bSize: SET_B_SIZE, less: SET_B_SIZE - SET_A_SIZE,
+                    elementsPl: plural("element", SET_B_SIZE - SET_A_SIZE)}),
+                SET_B_SIZE - SET_A_SIZE
+             ],
+             [
+                "How many less avatars are in set B than in set A?",
+                $._("There are &lt;code&gt;%(bSize)s&lt;/code&gt; elements in set B \
+                    and &lt;code&gt;%(aSize)s&lt;/code&gt; elements in set A, so \
+                    set B has &lt;code&gt;%(aSize)s - %(bSize)s = %(less)s&lt;/code&gt; \
+                    less %(elementsPl)s than set A.",
+                    {aSize: SET_A_SIZE, bSize: SET_B_SIZE, less: SET_A_SIZE - SET_B_SIZE,
+                    elementsPl: plural("element", SET_A_SIZE - SET_B_SIZE)}),
+                SET_A_SIZE - SET_B_SIZE
+             ]
+        ])</var>
     
     </div>
 
@@ -198,7 +284,8 @@
             </div>
             
             <p class="question">
-                Drag the avatars into the appropriate parts of the set diagram.
+                Drag the avatars into the appropriate parts of the set diagram
+                and answer the question about the sets.
             </p>
             
             <div class="graphie" id="setDiagram">
@@ -319,42 +406,51 @@
                 }
             </div>
             
-            <div class="solution" data-type="custom">
-                <div class="instruction">
-                    Drag the elements into the appropriate sections of the set diagram.
+            <div class="solution" data-type="multiple">
+                <var>QUESTION</var>
+            
+                <div class="sol" data-type="text">
+                    <var>ANSWER</var>
                 </div>
-                <div class="guess">                
-                    _(graph.points).map(function(point) {
-                        return point.coord;
-                    })
-                </div>
-                <div class="validator-function">
-                    var guessA = [];
-                    var guessB = [];
-                    var guessAB = [];
-                    _(ELEMENTS).each(function(element) {
-                        var c = guess[element];
-                        if (inSection(c[0], c[1], "sectionA")) {
-                            guessA.push(element);    
+                
+                <div class="sol" data-type="custom">                
+                    <div class="instruction">
+                        Don't forget to drag the avatars into the appropriate
+                        sections of the set diagram.
+                    </div>                                    
+                    <div class="guess">                
+                        _(graph.points).map(function(point) {
+                            return point.coord;
+                        })
+                    </div>
+                    <div class="validator-function">                 
+                        var guessA = [];
+                        var guessB = [];
+                        var guessAB = [];
+                        _(ELEMENTS).each(function(element) {
+                            var c = guess[element];
+                            if (inSection(c[0], c[1], "sectionA")) {
+                                guessA.push(element);    
+                            }
+                            if (inSection(c[0], c[1], "sectionB")) {
+                                guessB.push(element);    
+                            }
+                            if (inSection(c[0], c[1], "sectionAB")) {
+                                guessAB.push(element);    
+                            }
+                        });                    
+                        if (_.every([guessA, guessB, guessAB], _.isEmpty)) {
+                            return "";
                         }
-                        if (inSection(c[0], c[1], "sectionB")) {
-                            guessB.push(element);    
-                        }
-                        if (inSection(c[0], c[1], "sectionAB")) {
-                            guessAB.push(element);    
-                        }
-                    });                    
-                    if (_.every([guessA, guessB, guessAB], _.isEmpty)) {
-                        return "";
-                    }
-                    return _.isEqual(guessAB, sortNumbers(SECTION_AB))
-                        &amp;&amp; _.isEqual(guessA, sortNumbers(SECTION_A))
-                        &amp;&amp; _.isEqual(guessB, sortNumbers(SECTION_B));
-                </div>
-                <div class="show-guess">
-                    _(ELEMENTS).each(function(element) {
-                        graph.points[element].moveImage(guess[element]);
-                    });              
+                        return _.isEqual(guessAB, sortNumbers(SECTION_AB))
+                            &amp;&amp; _.isEqual(guessA, sortNumbers(SECTION_A))
+                            &amp;&amp; _.isEqual(guessB, sortNumbers(SECTION_B));
+                    </div>
+                    <div class="show-guess">
+                        _(ELEMENTS).each(function(element) {
+                            graph.points[element].moveImage(guess[element]);
+                        });              
+                    </div>
                 </div>
             </div>           
         </div>
@@ -362,7 +458,7 @@
 
     <div class="hints">
         <div data-each="SECTIONS as S">
-            <div data-if="S.count !== 0">
+            <p data-if="S.count !== 0">
                 <span data-if="S.count === 1">Avatar</span>
                 <span data-else>Avatars</span>
                 <span data-each="S.elements as ELEMENT">
@@ -370,10 +466,10 @@
                 </span>
                 <var>plural("is", S.count)</var>
                 <var>S.description</var>.
-            </div>
-            <div data-else>
+            </p>
+            <p data-else>
                 There are not any elements <var>S.description</var>.
-            </div>
+            </p>
             
             <div class="graphie" data-update="setDiagram">
                 
@@ -397,15 +493,19 @@
             </div>            
         </div>
         
-        <div data-if="USED &lt; 6">
-            And all the other avatars are not in any set.
-        </div>
-        <div data-else-if="USED === 6">
-            And the last avatar is not in any set.
-        </div>
-        <div data-else>
+        <p data-if="USED &lt; 6">
+            All the other avatars are not in any set.
+        </p>
+        <p data-else-if="USED === 6">
+            The last avatar is not in any set.
+        </p>
+        <p data-else>
             There are no other avatars left.
-        </div>
+        </p>
+        
+        <p>
+            <var>QUESTION_HINT</var>
+        </p>
     </div>
   
 </div>
