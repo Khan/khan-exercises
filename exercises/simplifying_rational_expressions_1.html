@@ -2,7 +2,7 @@
 <html data-require="math math-format rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Simplifying rational expression with exponent properties</title>
+    <title>Simplifying rational expressions 1</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
         function getExpression(coefficient1, coefficient2, degree1, degree2, vari) {
@@ -96,7 +96,7 @@
 
                 <p><code>
                     \dfrac{<var>X</var>^<var>DEGREE1</var>}{<var>X</var>^<var>DEGREE2</var>} = 
-                    \dfrac{<var>VARIABLE1.join(" \\cdot ")</var>}{<var>VARIABLE2.join(" \\cdot ")</var>} =
+                    <span data-if="DEGREE1 * DEGREE2 !== 1">\dfrac{<var>VARIABLE1.join(" \\cdot ")</var>}{<var>VARIABLE2.join(" \\cdot ")</var>} =</span>
                     <var>POWERFRACTION</var>
                 </code></p>
 
