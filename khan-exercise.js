@@ -701,7 +701,8 @@ var Khan = (function() {
                         snowleo: agent_contains("OS X 10_6") || agent_contains("OS X 10.6"),
                         lion: agent_contains("OS X 10_7") || agent_contains("OS X 10.7"),
                         scratchpad: (/scratch\s*pad/i).test(body),
-                        ipad: agent_contains("iPad")
+                        ipad: agent_contains("iPad"),
+                        undef: Exercises.guessLog == null
                     },
                     labels = [];
                 $.each(flags, function(k, v) {
@@ -716,7 +717,7 @@ var Khan = (function() {
                     labels.push(type.slice("issue-".length));
 
                     var hintOrVideoMsg = $._("Please click the hint button above " +
-                        "to see our solution, or watch a video for additional help.");
+                        "to see our solution or watch a video for additional help.");
                     var refreshOrBrowserMsg = $._("Please try a hard refresh " +
                         "(press Ctrl + Shift + R) or use Khan Academy from a " +
                         "different browser (such as Chrome or Firefox).");
@@ -1164,6 +1165,10 @@ var Khan = (function() {
                 // Or by its ID
                 problems.filter("#" + id);
 
+            if (!problem.length) {
+                throw new Error("Unknown problem type " + id);
+            }
+
         // Otherwise we grab a problem at random from the bag of problems
         // we made earlier to ensure that every problem gets shown the
         // appropriate number of times
@@ -1404,12 +1409,8 @@ var Khan = (function() {
                 examples.append("<li>" + example + "</li>");
             });
 
-            examples.children().runModules();
-
             $("#examples-show").qtip({
                 content: {
-                    // TODO(alpert): I'd imagine MathJax is unhappy about this
-                    // removal
                     text: examples.remove(),
                     prerender: true
                 },
@@ -1424,7 +1425,13 @@ var Khan = (function() {
                         length: 0
                     }
                 },
-                hide: {delay: 0}
+                hide: {delay: 0},
+                events: {
+                    render: function() {
+                        // Only run the modules when the qtip is actually shown
+                        examples.children().runModules();
+                    }
+                }
             });
         } else {
             $("#examples-show").hide();
@@ -1733,7 +1740,7 @@ var Khan = (function() {
                 }
 
                 input.val("");
-                input[0].scrollIntoView(false);
+                history.scrollTop(history[0].scrollHeight);
             };
 
             input.on("keyup", function(e) {

@@ -178,6 +178,7 @@ $.extend(KhanUtil, {
 
             $elem.text($elem.attr("data-math-formula"));
             $elem.attr("data-math-formula", null);
+            $elem.attr("data-math-type", null);
         }
 
         return elem;
@@ -196,7 +197,7 @@ $.fn.tex = function() {
 };
 
 $.fn.texCleanup = function() {
-    this.find("code").each(function() {
+    this.filter("code").add(this.find("code")).each(function() {
         KhanUtil.cleanupMath(this);
     });
 

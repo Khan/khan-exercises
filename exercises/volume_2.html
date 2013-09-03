@@ -2,7 +2,7 @@
 <html data-require="math graphie graphie-3d math-format interactive word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Volume 2</title>
+    <title>Volume word problems</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
         var makeSquare = function(left, width, bottom, height, color) {
@@ -206,6 +206,8 @@
                         fill: "#000", opacity: 0.0
                     });
                     $(mouseTarget[0]).bind("vmousedown", function(event) {
+                        event.preventDefault();
+
                         GRAPH.lastX = event.pageX;
                         GRAPH.lastY = event.pageY;
 

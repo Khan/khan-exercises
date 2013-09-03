@@ -43,8 +43,11 @@
             <div class="solution" data-forms="integer"><var>NUMBER</var></div>
 
             <div class="hints">
+                <p>Two tick marks are labeled.</p>
+                <p>The distance between the two labeled tick marks is <code><var>2 * SCALE</var></code>.</p>
+                <p>Therefore, the space between each pair of tick marks is <code><var>2 * SCALE</var> / 2 = <var>SCALE</var></code></p>
                 <div>
-                    <p>Fill in the other numbers on the number line.</p>
+                    <p>Label the other tick marks on the number line.</p>
                     <div class="graphie" data-update="number-line">
                         for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
                             if (x !== MIDPOINT - SCALE &amp;&amp; x !== MIDPOINT + SCALE &amp;&amp; x !== NUMBER) {

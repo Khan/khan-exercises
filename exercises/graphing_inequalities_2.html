@@ -179,6 +179,10 @@
                         graph.dasharray === "- " ? false : true ]
                     </div>
                     <div class="validator-function">
+                        if (_.isEqual(guess, [[-5, 5], [5, 5], false, true])) {
+                            return "";
+                        }
+
                         var slope = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
                         var yint = slope * ( 0 - guess[0][0] ) + guess[0][1];
                         return abs( SLOPE - slope ) &lt; 0.001

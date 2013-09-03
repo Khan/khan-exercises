@@ -303,6 +303,10 @@
                         graph.dasharray2 === "- " ? false : true ]
                     </div>
                     <div class="validator-function">
+                        if (_.isEqual(guess, [[-5,5],[5,5],false,true,[-5,-5],[5,-5],true,true])) {
+                            return "";
+                        }
+
                         var slope1 = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
                         var yint1 = slope1 * ( 0 - guess[0][0] ) + guess[0][1];
                         var slope2 = ( guess[5][1] - guess[4][1] ) / ( guess[5][0] - guess[4][0] );

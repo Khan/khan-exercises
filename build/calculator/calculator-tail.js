@@ -79,7 +79,7 @@ var Calculator = (function(parser) {
                         return ans;
                     },
                     ln: function(a) {
-                        var ans = Math.log(a) / Math.log(Math.E);
+                        var ans = Math.log(a);
                         if (isNaN(ans) || !isFinite(ans)) {
                             throw new CalculatorError("undefined");
                         }

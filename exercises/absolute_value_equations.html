@@ -63,27 +63,6 @@
                             No solution
                         </label>
                     </div>
-                    <!--
-                        Hack to not grade an unanswered question.
-                        Note that this custom answer is required. It checks to
-                        see if both textboxes are empty and the checkbox isn't
-                        checked. In that case, the custom validator returns "".
-                        Since it's required, this will cause the entire answer
-                        to not be graded. Otherwise it returns true an the
-                        rest of the multiple answer will be checked normally.
-                    -->
-                    <div class="sol" data-type="custom">
-                        <div class="guess">
-                            $("#solutionarea input").eq(0).val() === ""
-                            &amp;&amp;
-                            $("#solutionarea input").eq(1).val() === ""
-                            &amp;&amp;
-                            !$("#solutionarea input").eq(2).is(":checked")
-                        </div>
-                        <div class="validator-function">
-                            return guess ? "" : true;
-                        </div>
-                    </div>
                     <span class="example">
                         one or two integers, like <code>6</code>
                     </span>

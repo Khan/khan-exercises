@@ -1,7 +1,7 @@
 <!DOCTYPE html> <html data-require="math math-format expressions rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Adding and subtracting with unlike denominators 3</title>
+    <title>Adding and subtracting rational expressions 3</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
         #solutionarea td {
@@ -97,12 +97,12 @@
 
        <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
-                <span class="sol" data-type="regex"><var>DENOMSOL.regex(true)</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.regex(!(NUMERSOL instanceof Term))</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.regex(!(DENOMSOL instanceof Term))</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(true)</var></span>
-                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex(true)</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(!(NUMERSOL instanceof Term))</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex(!(DENOMSOL instanceof Term))</var></span>
             </div>
 
             <div class="input-format">
