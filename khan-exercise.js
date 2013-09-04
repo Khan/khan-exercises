@@ -1757,11 +1757,19 @@ var Khan = (function() {
                 history.scrollTop(history[0].scrollHeight);
             };
 
-            input.on("keyup", function(e) {
-                if (e.which === 13) {
+            // The enter handler needs to bind to keypress to prevent the
+            // surrounding form submit... (http://stackoverflow.com/a/587575)
+            input.on("keypress", function(e) {
+                if (e.which === 13 /* enter */) {
                     evaluate();
                     return false;
-                } else if (e.which === 38) {
+                }
+            });
+
+            // ...but the arrow-key handler needs to bind to keyup because
+            // keypress isn't triggered.
+            input.on("keyup", function(e) {
+                if (e.which === 38 /* up */) {
                     if (lastInstr !== "") {
                         input.val(lastInstr);
                     }
