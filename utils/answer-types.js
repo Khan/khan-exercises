@@ -1250,7 +1250,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // incorrect, some of the answers are missing
                     valid = false;
                 }
-                return allEmpty ? "" : valid;
+
+                return allEmpty && validatorArray.length ? "" : valid;
             };
         }
     },
