@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<em><!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-geometry math-format">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -33,11 +33,13 @@
                         init({
                             range: [ [-1, 12 ], [ -8, -1 ] ]
                         })
-                        var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, randRange(0, 1 ) + 0.5, "", 3 );
+                        var sideRatio = randRange(0, 1 ) + 0.5;
+                        var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, sideRatio, "", 3 );
                         q.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.7, 0 ] );
                         q.boxOut( [ [ [ 11, -10 ], [ 11, 10 ] ] ], [ -0.7, 0 ] );
 
                         q.draw();
+                        q.drawTicks([2,0,2,0]);
                         q.labels = { "angles" : ANG_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return localeToFixed(x, 1); } ) };
                         q.drawLabels();
                     </div>
@@ -80,8 +82,24 @@
                     <p>Opposite angles of a parallelogram are equal.</p>
                     <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
+                <div class="question">
+                    <div class="graphie">
+                        init({
+                            range: [ [-1, 12 ], [ -8, -1 ] ]
+                        })
+                        var sideRatio = randRange(0, 1 ) + 0.5;
+                        var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, sideRatio, "", 3 );
+                        q.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.7, 0 ] );
+                        q.boxOut( [ [ [ 11, -10 ], [ 11, 10 ] ] ], [ -0.7, 0 ] );
+
+                        q.draw();
+                        q.drawTicks([2,1,2,1]);
+                        q.labels = { "angles" : ANG_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return localeToFixed(x, 1); } ) };
+                        q.drawLabels();
+                    </div>
+                </div>
             </div>
-            <div id="parallelogram2" data-type="trapezoid">
+            <div id="parallelogram2" data-type="parallelogram1">
                 <div class="vars">
                     <var id="ANGLES">randomQuadAngles.parallelogram()</var>
                     <var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
@@ -108,6 +126,7 @@
                         q.boxOut( [ [ [ 12, -10 ], [ 12, 10 ] ] ], [ -0.7, 0 ] );
 
                         q.draw();
+                        q.drawTicks([2,1,2,1]);
                         q.labels = { "angles" : ANG_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return localeToFixed(x, 1); } ) };
                         q.drawLabels();
                     </div>
@@ -142,8 +161,23 @@
                     <p>Angles between the non-equal sides of a kite are equal.</p>
                     <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
+                <div class="question">
+                    <div class="graphie">
+                        init({
+                            range: [ [-1, 13 ], [ -8, -1 ] ]
+                        })
+                        var q = new Quadrilateral( [ 3.5, -7 ],  ANGLES, 1, "", 3 );
+                        q.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.7, 0 ] );
+                        q.boxOut( [ [ [ 12, -10 ], [ 12, 10 ] ] ], [ -0.7, 0 ] );
+
+                        q.draw();
+                        q.labels = { "angles" : ANG_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return localeToFixed(x, 1); } ) };
+                        q.drawLabels();
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </body>
 </html>
+</em>

@@ -230,6 +230,35 @@ function updateFocusDirectrix(deltaX, deltaY, deltaK) {
     redrawParabola(true);
 }
 
+function drawCenteredTickMarks(line, nticks, spacing, size){
+	var graph = KhanUtil.currentGraph;
+	
+	// get endpoints for this side
+	var ptA = line[0],
+		ptB = line[1],
+		// get midpoint
+		ptC = [(ptA[0]+ptB[0])/2, (ptA[1]+ptB[1])/2],
+		// length
+		len = Math.sqrt((ptA[0]-ptB[0])*(ptA[0]-ptB[0]) + (ptA[1]-ptB[1])*(ptA[1]-ptB[1]));
+		// unit vector from A to B
+		ux = (ptB[0]-ptA[0])/len,
+		uy = (ptB[1]-ptA[1])/len;
+		
+	var effectLength = (nticks - 1) * spacing;
+	// loop over tick marks
+	for(var j = 0; j < nticks; j++){
+		// compute center of this tick based on spacing and total number
+		var cx = ptC[0] + ux * (j*spacing - effectLength/2);
+		var cy = ptC[1] + uy * (j*spacing - effectLength/2);
+		// draw tick mark perpendicular to the original side: (-y,x) orientation
+		var halfwidth  = size * uy / 2,
+		    halfheight = size * ux / 2;
+		graph.path([
+			[cx - halfwidth, cy + halfheight],
+			[cx + halfwidth, cy - halfheight]]);
+	}
+}
+
 function ParallelLines(x1, y1, x2, y2, distance) {
     var lowerIntersection;
     var upperIntersection;
