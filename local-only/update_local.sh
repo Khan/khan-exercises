@@ -56,8 +56,13 @@ cp -f "$webapp_root"/third_party/javascript-khansrc/localeplanet/icu.* \
 rm -f "$destdir/localeplanet/icu.__language__.js"
 
 # Update khan-site.css
-python "$webapp_root/deploy/combine.py" shared.css exercises.css \
+python "$webapp_root/deploy/compress.py" shared.css exercises.css \
+   --readable --no-update-manifest
+
+cat "$webapp_root/genfiles/combined-stylesheets-prod/en/shared-package"-* \
+    "$webapp_root/genfiles/combined-stylesheets-prod/en/exercises-package"-* \
     | sed 's|url(/*\(.*images.*\))|url(http://www.khanacademy.org/\1)|' \
     > "$exercises_root/css/khan-site.css"
+
 cat "$exercises_root/css/khan-exercise-dev.css" \
     >> "$exercises_root/css/khan-site.css"
