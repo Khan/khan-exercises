@@ -76,5 +76,17 @@
     <div class="validator-function">
         "\\text{" + BLAH + "'s " + SOMETHING + " has eaten " + $.shuffle(THINGS) + "}"
     </div>
+
+    <!-- this should not cause the linter to complain about missing $._ -->
+    <code>\text{&gt;&gt; 1 2 3 4 5 6 7 8 9 10 ... 11 12}</code>
+
+    <!-- nor this.  These are all math operators or units (R = 'remainder') -->
+    <code>\text{5 R 4, 7 ft, 6 g/mol, }</code>
+
+    <!-- and these are all chemical symbols -->
+    <code>\text{H}_2 + \text{AgNo}_3 + \text{ Cu} + \text{(PO)}_4</code>
+
+    <!-- but this should complain even though the first \text is ok. -->
+    <code>\text{12345} + \text{Hello, dolly the sheep!}</code>
 </body>
 </html>

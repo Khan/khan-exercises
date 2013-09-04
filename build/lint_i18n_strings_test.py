@@ -55,11 +55,11 @@ TESTS = {
             'Re-run with --fix to automatically fix them.']
     },
     'text': {
-        'nodes_changed': 11,
+        'nodes_changed': 12,
         'errors': [
             'Using $._ inside of a <var>:\n<var>$._("%(something)s", '
                 '{something: something})</var>',
-            '11 nodes need to be fixed. '
+            '12 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
     },
     'dollars_in_vars': {
