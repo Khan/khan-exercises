@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Geometric Interpretation of the Binomial Theorem forward</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="A">randRange( 1, 10 )</var>
+                <var id="B">randRange( 1, 10 )</var>
+                <var id="AREA_SQUARE_TOP">A * A</var>
+                <var id="AREA_SQUARE_BOTTOM">B * B</var>
+                <var id="AREA_ONE_RECTANGLE">A * B</var>
+                <var id="FIRST_COEFFICIENT">AREA_SQUARE_TOP</var>
+                <var id="SECOND_COEFFICIENT">2 * AREA_ONE_RECTANGLE</var>
+                <var id="THIRD_COEFFICIENT">AREA_SQUARE_BOTTOM</var>
+            </div> <!-- end vars.-->
+            
+            <div class="problems">
+                <div id="problem-type-or-description">
+ 
+                    <p class="problem">
+                        <!-- problem description in text --> 
+                        Think of 
+                        <code><var>A</var>x + <var>B</var></code>
+                        as the 
+                        <strong>side of a square</strong>:
+                        <code>(<var>A</var>x + <var>B</var>)^{2}</code>
+                        would then be the 
+                        <strong>area of the square</strong>.
+                        <strong>Now try to calculate the binomial coefficients</strong>
+                        by adding the areas of the two squares and the two rectangles:
+                        <p>
+                            <code>(<var>A</var>x + <var>B</var>)^{2}</code> =
+                            <span style="color:red">? </span><code>x^{2}</code> +
+                            <span style="color:blue">? </span><code>x</code> +
+                            <span style="color:green">?</span>
+                        </p>
+ 
+                        <!-- geometrical illustration of the problem -->
+                        <div class="graphie" id="areacalc">
+                            init({
+                                range: [[-1, 21], [-0.5, 10.5]],
+                                scale: 20
+                            });
+                            <!-- problem restated as labels on the square -->
+                            label([10, 8], "<var>A</var> x", "left"); <!-- label top left -->
+                            label([10, 3], "<var>B</var>", "left"); <!-- label bottom left -->
+                            label([12, 10], "<var>A</var> x", "above"); <!-- label above left -->
+                            label([17, 10], "<var>B</var>", "above"); <!-- label above right -->
+                            <!-- top red square -->
+                            style({
+                                strokeWidth: 2,
+                                fill: "red",
+                                stroke: KhanUtil.BACKGROUND
+                            });
+                            rect(10, 6, 4, 4);
+                            <!-- bottom green square -->
+                            style({
+                                strokeWidth: 2,
+                                fill: "green",
+                                stroke: KhanUtil.BACKGROUND
+                            });
+                            rect(14, 0, 6, 6);
+                            <!-- bottom left rectangle -->
+                            style({
+                                strokeWidth: 2,
+                                fill: "blue",
+                                stroke: KhanUtil.BACKGROUND
+                            });
+                            rect(10, 0, 4, 6); 
+                            <!-- top right rectangle -->
+                            style({
+                                strokeWidth: 2,
+                                fill: "blue",
+                                stroke: KhanUtil.BACKGROUND
+                            });
+                            rect(14, 6, 6, 4); 
+                        </div> <!-- end of illustration -->
+                    </p>  <!-- end problem -->
+
+                    <!-- the solution consists of the three bionomial coefficients -->
+                    <div class="solution" data-type="multiple">
+                        <p>
+                            <span class="sol short25" data-type="number"><var>FIRST_COEFFICIENT</var></span> <code>x^{2} +</code>
+                            <span class="sol short25" data-type="number"><var>SECOND_COEFFICIENT</var></span> <code>x +</code>
+                            <span class="sol short25" data-type="number"><var>THIRD_COEFFICIENT</var></span>
+                        </p> 
+                        <p class="example">provide three Integers</p>
+                    </div> <!-- end solutions -->
+                </div> <!-- end of problem-type or description -->
+            </div> <!-- end of problems -->
+
+            <!-- hints -->
+            <div class="hints">
+                <div> <!-- 1st hint: for computing the 1st coefficient -->
+                    <div class="hint_red">
+                        You receive the coefficient for <code>x^{2}</code> by computing the area of the red square.
+                    </div>
+                    <div class="graphie" data-update="areacalc">
+                        style({
+                            color: "white",
+                        });
+                        label([13, 8], "<var>AREA_SQUARE_TOP</var> x^{2}", "left");
+                    </div>
+                </div>
+                <div> <!-- 2nd hint: for computing the 2nd coefficient -->
+                    <div class="hint_blue">
+                        You receive the coefficient for <code>x</code> by adding the area of the rectangles.
+                    </div>
+                    <div class="graphie" data-update="areacalc">
+                        style({
+                            color: "white",
+                        });
+                        label([13, 3], "<var>AREA_ONE_RECTANGLE</var> x", "left");
+                        style({
+                            color: "white",
+                        });
+                        label([18, 8], "<var>AREA_ONE_RECTANGLE</var> x", "left");
+                    </div>
+                </div>
+                <div> <!-- 3rd hint: for computing the constant -->
+                    <div class="hint_green">
+                        You receive the constant by computing the area of the green square.
+                    </div>
+                    <div class="graphie" data-update="areacalc" class="hint_green">
+                        style({
+                            color: "white",
+                        });
+                        label([18, 3], "<var>AREA_SQUARE_BOTTOM</var>", "left");
+                    </div>
+                </div>
+                <!-- 4th hint: add areas -->
+                <div>
+                    Now add all these areas:
+                    <code>
+                        <var>AREA_SQUARE_TOP</var> x^{2} + 
+                        <var>AREA_ONE_RECTANGLE</var> x + 
+                        <var>AREA_ONE_RECTANGLE</var> x + 
+                        <var>AREA_SQUARE_BOTTOM</var>
+                    </code>
+                </div>
+            </div> <!-- end of hints -->
+        </div> <!-- end of exercise -->
+    </body>
+</html>
