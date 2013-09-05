@@ -690,6 +690,20 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
 
     area = 0.5 * vectorProduct([this.points[0], this.points[2]], [this.points[3], this.points[1]]);
 
+	this.drawParallelMarks = function(ticks) {
+		/*
+		This function draws T tick marks on side S, where inputs to this function are the
+		number of ticks for each side 0..3
+		In other words, to put 1 tick on sides 1 and 3, and 2 ticks on sides 0 and 2:
+
+			q = Quadrilateral(...);
+			...
+			q.drawTicks([2,1,2,1]); // proper markings for a parallelogram - opposite sides have same # of ticks.
+		*/
+		for(var i = 0; i < ticks.length; i++){
+			drawCenteredArrows(this.sides[i], ticks[i], 0.1, 0.4, 150);
+		}
+	}
 }
 
 
