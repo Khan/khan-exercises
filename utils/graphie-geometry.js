@@ -481,13 +481,16 @@ function Triangle(center, angles, scale, labels, points) {
 
 
     this.angleScale = function(ang) {
-        if (ang > 90) {
+        if (ang > 130) {
+            return 0.6;
+        }
+        else if (ang > 90) {
             return 0.5;
         }
         else if (ang > 40) {
             return 0.6;
         }
-        else if (ang < 25) {
+        else if (ang > 25) {
             return 0.7;
         }
         return 0.8;
