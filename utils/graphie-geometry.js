@@ -690,7 +690,7 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
     this.sideTooShort = function() {
         var shortestSide = _.min(this.sideLengths);
         var allSides = _.reduce(this.sideLengths, function(acc,n) { return acc+n; }, 0);
-        return shortestSide/allSides < 0.12 && {whichSide:this.sideLengths.indexOf(shortestSide)};
+        return shortestSide/allSides < 0.12 && {whichSide:_.indexOf(this.sideLengths,shortestSide)};
     }
 
     this.isCrossed = function() {
