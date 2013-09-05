@@ -23,8 +23,8 @@
                     randRange(1000, 16000, randRange(3, 7)),
                     function( n ) {
                         var x = n / 1000;
-                        // Number, decimal places to which it's displayed
-                        return [x, randRange(1, 2)];
+                        var precision = randRange(1, 2);
+                        return [roundTo(precision, x), precision];
                     })</var>
                 <var id="ANSWER">sum($.map(VALUES, function(pair) {
                     return round(pair[0]);
