@@ -481,13 +481,16 @@ function Triangle(center, angles, scale, labels, points) {
 
 
     this.angleScale = function(ang) {
-        if (ang > 90) {
+        if (ang > 130) {
+            return 0.6;
+        }
+        else if (ang > 90) {
             return 0.5;
         }
         else if (ang > 40) {
             return 0.6;
         }
-        else if (ang < 25) {
+        else if (ang > 25) {
             return 0.7;
         }
         return 0.8;
@@ -648,7 +651,7 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
 
     this.generatePoints = function() {
         var once = false;
-        while ((! once) || this.isCrossed()) {
+        while ((! once) || this.isCrossed() || this.sideTooShort()) {
             var len = Math.sqrt(2 * this.scale * this.scale * this.sideRatio * this.sideRatio - 2 * this.sideRatio * this.scale * this.scale * this.sideRatio * this.cosines[3]);
             once = true;
             var tX = [0, this.scale * this.sideRatio * this.cosines[0] , len * Math.cos((this.angles[0] - (180 - this.angles[3]) / 2) * Math.PI / 180), this.scale, this.scale + Math.cos((180 - this.angles[1]) * Math.PI / 180)];
@@ -664,14 +667,30 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
             this.sideLengths = $.map(this.sides, lineLength);
             this.niceSideLengths = $.map(this.sideLengths, function(x) { return parseFloat(x.toFixed(1)); });
 
-            if (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0 || this.sideLengths[2] < 0.09) {
+            if (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0) {
                 this.sideRatio -= 0.3;
             }
 
             if (vectorProduct([this.points[0], this.points[3]], [this.points[0], this.points[2]]) < 0) {
                 this.sideRatio += 0.3;
             }
+
+            var tooShort = this.sideTooShort();
+            if (tooShort) {
+                if (tooShort.whichSide % 2 == 0) {
+                    this.sideRatio -= 0.05;
+                }
+                else {
+                    this.sideRatio += 0.05;
+                }
+            }
         }
+    }
+
+    this.sideTooShort = function() {
+        var shortestSide = _.min(this.sideLengths);
+        var allSides = _.reduce(this.sideLengths, function(acc,n) { return acc+n; }, 0);
+        return shortestSide/allSides < 0.12 && {whichSide:this.sideLengths.indexOf(shortestSide)};
     }
 
     this.isCrossed = function() {
