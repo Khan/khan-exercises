@@ -690,7 +690,7 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
 
     area = 0.5 * vectorProduct([this.points[0], this.points[2]], [this.points[3], this.points[1]]);
 
-	this.drawTicks = function(ticks) {
+	this.drawParallelMarks = function(ticks) {
 		/*
 		This function draws T tick marks on side S, where inputs to this function are the
 		number of ticks for each side 0..3
@@ -699,11 +699,9 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
 			q = Quadrilateral(...);
 			...
 			q.drawTicks([2,1,2,1]); // proper markings for a parallelogram - opposite sides have same # of ticks.
-		
-		TODO(?) factor out a function that draws some # of ticks on a single segment, then loop 4 times over that. Give this functionality to all other polygons?
 		*/
 		for(var i = 0; i < ticks.length; i++){
-			drawCenteredTickMarks(this.sides[i], ticks[i], 0.1, 0.4);
+			drawCenteredArrows(this.sides[i], ticks[i], 0.1, 0.4, 150);
 		}
 	}
 }

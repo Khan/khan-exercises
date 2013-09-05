@@ -259,6 +259,47 @@ function drawCenteredTickMarks(line, nticks, spacing, size){
 	}
 }
 
+function drawCenteredArrows(line, nticks, spacing, size, angle){
+	var graph = KhanUtil.currentGraph;
+	
+	// get endpoints for this side
+	var ptA = line[0],
+		ptB = line[1];
+
+	// ensure that AB is pointing more east than west (so that the arrows for parallel lines point in the same direction)
+	if(ptA[0] > ptB[0]){
+		var tmp = ptA;
+		ptA = ptB;
+		ptB = tmp;
+	}
+	
+		// get midpoint
+	var	ptC = [(ptA[0]+ptB[0])/2, (ptA[1]+ptB[1])/2],
+		// length
+		len = Math.sqrt((ptA[0]-ptB[0])*(ptA[0]-ptB[0]) + (ptA[1]-ptB[1])*(ptA[1]-ptB[1]));
+		// unit vector from A to B
+		ux = (ptB[0]-ptA[0])/len,
+		uy = (ptB[1]-ptA[1])/len;
+	
+	var effectLength = (nticks - 1) * spacing;
+	var radians = Math.PI * angle / 180;
+	var pointToTailShift = size / (2 * Math.tan(radians / 2));
+	// loop over tick marks
+	for(var j = 0; j < nticks; j++){
+		// compute center of this arrow based on spacing and total number
+		var cx = ptC[0] + ux * (j*spacing - effectLength/2);
+		var cy = ptC[1] + uy * (j*spacing - effectLength/2);
+		
+		// draw arrow mark pointing along the original line
+		var halfwidth  = size * uy / 2,
+		    halfheight = size * ux / 2;
+		graph.path([
+			[cx - halfwidth, cy + halfheight],
+			[cx + pointToTailShift*ux, cy+pointToTailShift*uy],
+			[cx + halfwidth, cy - halfheight]]);
+	}
+}
+
 function ParallelLines(x1, y1, x2, y2, distance) {
     var lowerIntersection;
     var upperIntersection;
