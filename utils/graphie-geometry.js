@@ -677,7 +677,7 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
 
             var tooShort = this.sideTooShort();
             if (tooShort) {
-                if (tooShort.whichSide % 2 == 0) {
+                if (tooShort.whichSide % 2 === 0) {
                     this.sideRatio -= 0.05;
                 }
                 else {
@@ -688,6 +688,7 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
     }
 
     this.sideTooShort = function() {
+        if (this.sideRatio === 1) return false;
         var shortestSide = _.min(this.sideLengths);
         var allSides = _.reduce(this.sideLengths, function(acc,n) { return acc+n; }, 0);
         return shortestSide/allSides < 0.12 && {whichSide:_.indexOf(this.sideLengths,shortestSide)};
