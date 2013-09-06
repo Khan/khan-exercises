@@ -1844,10 +1844,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // Assemble the solution area
             var $input = $('<input type="text">');
             var $tex = $('<span class="tex"/>');
-            var $error = $('<span class="error"/>').append(
-                $('<span class="buddy"/>'),
-                $('<span class="message">Sorry, I don\'t understand that!</span>')
-            );
+            var $error = $('<span class="error"/>').append($('<span class="buddy"/>'));
+            var $badinput = $('<span class="message">Sorry I don\'t understand that!</span>');
+            var $multmsg = $('<span class="message">Use *, not x, for multiplication.</span>');
 
             $(solutionarea).append(
                 $('<span class="expression"/>').append(
@@ -1868,7 +1867,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var update = function() {
                 clearTimeout(errorTimeout);
                 var result = KAS.parse($input.val(), options);
-                if (result.parsed) {
+                var shouldShowMultMsg = xUsedAsMultOp($input.val());
+                if (result.parsed && !shouldShowMultMsg) {
                     hideError();
                     $tex.css({opacity: 1.0})
                     var tex = result.expr.asTex(options);
@@ -1877,9 +1877,25 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         lastParsedTex = tex;
                     }
                 } else {
-                    errorTimeout = setTimeout(showError, 2000);
+                    $('.error > .message').remove();
+                    var $msg = shouldShowMultMsg ? $multmsg : $badinput;
+                    $('.error').append($msg);
+                    //chance of a showMultMsg false positive is very low, so
+                    //we can lower the wait to show the msg as well
+                    var timeout = shouldShowMultMsg ? 150 : 2000;
+                    errorTimeout = setTimeout(showError, timeout);
                     $tex.css({opacity: 0.5});
                 }
+            };
+
+            var xUsedAsMultOp = function(inputStr) {
+                if (!_.contains(inputStr, "x")) {
+                    return false;
+                }
+                var multTestInput = inputStr.replace(/x/gi,"*");
+                var multTest = KAS.parse(multTestInput, options);
+                if (!multTest.parsed) return false;
+                return KAS.compare(multTest.expr, solution, options).equal;
             };
 
             var showError = function() {
@@ -1995,6 +2011,19 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 // An unsuccessful parse doesn't count as wrong
                 if (!answer.parsed) return "";
+
+                // Using x as * is ignored to give a chance for the
+                // warning message to show up without counting it wrong
+                var xUsedAsMultOp = function(inputStr) {
+                    if (!_.contains(inputStr, "x")) {
+                        return false;
+                    }
+                    var multTestInput = inputStr.replace(/x/gi,"*");
+                    var multTest = KAS.parse(multTestInput, options);
+                    if (!multTest.parsed) return false;
+                    return KAS.compare(multTest.expr, solution, options).equal;
+                };
+                if (xUsedAsMultOp(guess)) return "";
 
                 var result = KAS.compare(answer.expr, solution, options);
 
