@@ -166,7 +166,7 @@ function DrawingScratchpad(elem) {
 
 
     function mouseup(x, y) {
-        if (tool === "draw") {
+        if (tool === "draw" && path) {
             pathstr += "L" + x + "," + y;
             prevPen = null;
             path.attr("path", pathstr);
@@ -194,7 +194,7 @@ function DrawingScratchpad(elem) {
     }
 
     function mousemove(X, Y) {
-        if (tool == "draw") {
+        if (tool == "draw" && path) {
             pathstr += "Q" + prevPen.x + "," + prevPen.y + "," +
                 (prevPen.x + X) / 2 + "," + (prevPen.y + Y) / 2;
             prevPen = {x: X, y: Y};
