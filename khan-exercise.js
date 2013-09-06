@@ -812,8 +812,11 @@ var Khan = (function() {
     }
 
     // Seed the random number generator with the user's hash
-    randomSeed = localMode && parseFloat(Khan.query.seed) || userCRC32 ||
-            (new Date().getTime() & 0xffffffff);
+    if (localMode && Khan.query.seed) {
+        randomSeed = parseFloat(Khan.query.seed);
+    } else {
+        randomSeed = userCRC32 || (new Date().getTime() & 0xffffffff);
+    }
 
     if (localMode) {
         var lang = Khan.query.lang || "en-US";
