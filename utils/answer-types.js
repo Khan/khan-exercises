@@ -1996,6 +1996,18 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // An unsuccessful parse doesn't count as wrong
                 if (!answer.parsed) return "";
 
+                // Using X as * is "almost right", so pass message about that
+                var xUsedAsMultOp = function(inputStr) {
+                    if (!_.contains(inputStr, "x")) {
+                        return false;
+                    }
+                    var multTestInput = inputStr.replace(/x/gi,"*");
+                    var multTest = KAS.parse(multTestInput, options);
+                    if (!multTest.parsed) return false;
+                    return KAS.compare(multTest.expr, solution, options).equal;
+                };
+                if (xUsedAsMultOp(guess)) return "Use *, not x, for multiplication.";
+
                 var result = KAS.compare(answer.expr, solution, options);
 
                 if (result.equal) {
