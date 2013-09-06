@@ -41,8 +41,7 @@ var PerseusBridge = Exercises.PerseusBridge,
     numHints,
     hintsUsed,
     lastAttemptOrHint,
-    lastAttemptContent,
-    firstProblem = true;
+    lastAttemptContent;
 
 $(Exercises)
     .bind("problemTemplateRendered", problemTemplateRendered)
@@ -541,16 +540,6 @@ function request(method, data) {
 
 
 function readyForNextProblem(e, data) {
-    if (!firstProblem) {
-        // As both of the following variables are only used to make sure the
-        // client matches the server on pageLoad, we will set them back to 0
-        // all other times to be on the safe side and to make sure that hints
-        // are not pre-filled in topic-mode when not the first problem.
-        data.userExercise.lastCountHints = 0;
-        data.userExercise.lastAttemptNumber = 0;
-    }
-    firstProblem = false;
-
     userExercise = data.userExercise;
     problemNum = userExercise.totalDone + 1;
 
