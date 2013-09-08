@@ -115,6 +115,13 @@ function problemTemplateRendered() {
         }
     });
 
+    // Notepad toggle
+    $("#notepad-show").click(function(e) {
+        e.preventDefault();
+        Khan.notepad.toggle();
+        Khan.notepad.focus();
+    });
+
     // These shouldn't interfere...
     $(PerseusBridge).trigger("problemTemplateRendered");
     $(Khan).trigger("problemTemplateRendered");
@@ -242,6 +249,10 @@ function handleAttempt(data) {
         $("#positive-reinforcement").show();
         $("#skip-question-button").prop("disabled", true);
         $("#opt-out-button").prop("disabled", true);
+
+        // Hide and clear notepad.
+        Khan.notepad.hide();
+        Khan.notepad.clear();
     } else {
         // Wrong answer. Enable all the input elements
 
