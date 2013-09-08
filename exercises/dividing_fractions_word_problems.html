@@ -247,10 +247,9 @@
                     <var id="D">randRange(6, 30)</var>
                     <var id="CHOCOLATE">randRange(1, 3)</var>
                     <var id="SOLUTION">D * CHOCOLATE</var>
-                    <var id="POUND_OF_CHOCOLATE">$._("pound of chocolate")</var>
                     <var id="POUND_PER_BAG">$._("pound per bag")</var>
                     <var id="NUMBER_OF_BAGS">$._("number of bags")</var>
-                    <var id="POUND">$._("pound")</var>
+                    <var id="POUND">$._(plural("pound",CHOCOLATE))</var>
                     <var id="BAGS_PER_POUND">$._("bags per pound")</var>
                 </div>
 
