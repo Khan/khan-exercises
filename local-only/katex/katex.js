@@ -1,6 +1,6 @@
 (function(e){if("function"==typeof bootstrap)bootstrap("katex",e);else if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else if("undefined"!=typeof ses){if(!ses.ok())return;ses.makeKatex=e}else"undefined"!=typeof window?window.katex=e():global.katex=e()})(function(){var define,ses,bootstrap,module,exports;
 return (function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({1:[function(require,module,exports){
-var ParseError = require("./ParseError");
+(function(){var ParseError = require("./ParseError");
 
 var buildTree = require("./buildTree");
 var parseTree = require("./parseTree");
@@ -19,6 +19,7 @@ module.exports = {
     ParseError: ParseError
 };
 
+})()
 },{"./ParseError":2,"./buildTree":3,"./parseTree":4,"./utils":5}],2:[function(require,module,exports){
 function ParseError(message) {
     var self = new Error("TeX parse error: " + message);
@@ -125,7 +126,10 @@ var groupToType = {
 };
 
 var getTypeOfGroup = function(group) {
-    if (group.type === "supsub") {
+    if (group == null) {
+        // Like when typesetting $^3$
+        return groupToType.ord;
+    } else if (group.type === "supsub") {
         return getTypeOfGroup(group.value.base);
     } else if (group.type === "llap" || group.type === "rlap") {
         return getTypeOfGroup(group.value);
@@ -409,7 +413,30 @@ var groupTypes = {
         var x = makeSpan(["x"], [mathrm("X")]);
 
         return makeSpan(["katex-logo", options.color], [k, a, t, e, x]);
+    },
+
+    sizing: function(group, options, prev) {
+        var inner = buildGroup(group.value.value,
+                options.withSize(group.value.size), prev);
+
+        return makeSpan(
+            ["sizing", "reset-" + options.size, group.value.size,
+                getTypeOfGroup(group.value.value)],
+            [inner]);
     }
+};
+
+var sizingMultiplier = {
+    size1: 0.5,
+    size2: 0.7,
+    size3: 0.8,
+    size4: 0.9,
+    size5: 1.0,
+    size6: 1.2,
+    size7: 1.44,
+    size8: 1.73,
+    size9: 2.07,
+    size10: 2.49
 };
 
 var buildGroup = function(group, options, prev) {
@@ -427,6 +454,24 @@ var buildGroup = function(group, options, prev) {
             if (multiplier > 1) {
                 throw new ParseError(
                     "Error: Can't go from small to large style");
+            }
+
+            groupNode.height *= multiplier;
+            groupNode.depth *= multiplier;
+        }
+
+        if (options.size !== options.parentSize) {
+            var multiplier = sizingMultiplier[options.size] /
+                    sizingMultiplier[options.parentSize];
+
+            if (multiplier > 1) {
+                throw new ParseError(
+                    "Error: Can't go from small to large size");
+            }
+
+            if (options.depth > 1) {
+                throw new ParseError(
+                    "Error: Can't use sizing outside of the root node");
             }
 
             groupNode.height *= multiplier;
@@ -467,6 +512,7 @@ var charLookup = {
     "\\space": "\u00a0",
     "\\times": "\u00d7",
     "\\to": "\u2192",
+    "\\triangle": "\u25b3",
 
     "\\alpha": "\u03b1",
     "\\beta": "\u03b2",
@@ -551,7 +597,7 @@ var amsrm = function(value) {
 
 var buildTree = function(tree) {
     // Setup the default options
-    var options = new Options(Style.TEXT, "");
+    var options = new Options(Style.TEXT, "size5", "");
 
     var expression = buildExpression(tree, options);
     var span = makeSpan(["base", options.style.cls()], expression);
@@ -579,29 +625,120 @@ var parseTree = function(toParse) {
 module.exports = parseTree;
 
 },{"./Parser":10}],6:[function(require,module,exports){
-function Options(style, color, parentStyle) {
+function Options(style, size, color, depth, parentStyle, parentSize) {
     this.style = style;
     this.color = color;
+    this.size = size;
+
+    // TODO(emily): Get rid of depth when we can actually use sizing everywhere
+    if (!depth) {
+        depth = 0;
+    }
+    this.depth = depth;
 
     if (!parentStyle) {
         parentStyle = style;
     }
     this.parentStyle = parentStyle;
+
+    if (!parentSize) {
+        parentSize = size;
+    }
+    this.parentSize = parentSize;
 }
 
 Options.prototype.withStyle = function(style) {
-    return new Options(style, this.color, this.style);
+    return new Options(style, this.size, this.color, this.depth + 1,
+        this.style, this.size);
+};
+
+Options.prototype.withSize = function(size) {
+    return new Options(this.style, size, this.color, this.depth + 1,
+        this.style, this.size);
 };
 
 Options.prototype.withColor = function(color) {
-    return new Options(this.style, color, this.style);
+    return new Options(this.style, this.size, color, this.depth + 1,
+        this.style, this.size);
 };
 
 Options.prototype.reset = function() {
-    return new Options(this.style, this.color, this.style);
+    return new Options(this.style, this.size, this.color, this.depth + 1,
+        this.style, this.size);
 };
 
 module.exports = Options;
+
+},{}],8:[function(require,module,exports){
+// These objects store the data about the DOM nodes we create, as well as some
+// extra data. They can then be transformed into real DOM nodes with the toDOM
+// function. They are useful for both storing extra properties on the nodes, as
+// well as providing a way to easily work with the DOM.
+
+function span(classes, children, height, depth, style) {
+    this.classes = classes || [];
+    this.children = children || [];
+    this.height = height || 0;
+    this.depth = depth || 0;
+    this.style = style || {};
+}
+
+span.prototype.toDOM = function() {
+    var span = document.createElement("span");
+
+    var classes = this.classes.slice();
+    for (var i = classes.length - 1; i >= 0; i--) {
+        if (!classes[i]) {
+            classes.splice(i, 1);
+        }
+    }
+
+    span.className = classes.join(" ");
+
+    for (var style in this.style) {
+        if (this.style.hasOwnProperty(style)) {
+            span.style[style] = this.style[style];
+        }
+    }
+
+    for (var i = 0; i < this.children.length; i++) {
+        span.appendChild(this.children[i].toDOM());
+    }
+
+    return span;
+};
+
+function documentFragment(children, height, depth) {
+    this.children = children || [];
+    this.height = height || 0;
+    this.depth = depth || 0;
+}
+
+documentFragment.prototype.toDOM = function() {
+    var frag = document.createDocumentFragment();
+
+    for (var i = 0; i < this.children.length; i++) {
+        frag.appendChild(this.children[i].toDOM());
+    }
+
+    return frag;
+};
+
+function textNode(value, height, depth) {
+    this.value = value || "";
+    this.height = height || 0;
+    this.depth = depth || 0;
+}
+
+textNode.prototype.toDOM = function() {
+    return document.createTextNode(this.value);
+};
+
+module.exports = {
+    span: span,
+    documentFragment: documentFragment,
+    textNode: textNode
+};
 
 },{}],7:[function(require,module,exports){
 function Style(id, size, multiplier, cramped) {
@@ -679,77 +816,6 @@ var fracDen = [Tc, Tc, Sc, Sc, SSc, SSc, SSc, SSc];
 module.exports = {
     DISPLAY: styles[D],
     TEXT: styles[T]
-};
-
-},{}],8:[function(require,module,exports){
-// These objects store the data about the DOM nodes we create, as well as some
-// extra data. They can then be transformed into real DOM nodes with the toDOM
-// function. They are useful for both storing extra properties on the nodes, as
-// well as providing a way to easily work with the DOM.
-
-function span(classes, children, height, depth, style) {
-    this.classes = classes || [];
-    this.children = children || [];
-    this.height = height || 0;
-    this.depth = depth || 0;
-    this.style = style || {};
-}
-
-span.prototype.toDOM = function() {
-    var span = document.createElement("span");
-
-    var classes = this.classes.slice();
-    for (var i = classes.length - 1; i >= 0; i--) {
-        if (!classes[i]) {
-            classes.splice(i, 1);
-        }
-    }
-
-    span.className = classes.join(" ");
-
-    for (var style in this.style) {
-        if (this.style.hasOwnProperty(style)) {
-            span.style[style] = this.style[style];
-        }
-    }
-
-    for (var i = 0; i < this.children.length; i++) {
-        span.appendChild(this.children[i].toDOM());
-    }
-
-    return span;
-};
-
-function documentFragment(children, height, depth) {
-    this.children = children || [];
-    this.height = height || 0;
-    this.depth = depth || 0;
-}
-
-documentFragment.prototype.toDOM = function() {
-    var frag = document.createDocumentFragment();
-
-    for (var i = 0; i < this.children.length; i++) {
-        frag.appendChild(this.children[i].toDOM());
-    }
-
-    return frag;
-};
-
-function textNode(value, height, depth) {
-    this.value = value || "";
-    this.height = height || 0;
-    this.depth = depth || 0;
-}
-
-textNode.prototype.toDOM = function() {
-    return document.createTextNode(this.value);
-};
-
-module.exports = {
-    span: span,
-    documentFragment: documentFragment,
-    textNode: textNode
 };
 
 },{}],9:[function(require,module,exports){
@@ -1016,6 +1082,12 @@ var colorFuncs = [
     "\\blue", "\\orange", "\\pink", "\\red", "\\green", "\\gray", "\\purple"
 ];
 
+// A list of 1-argument sizing functions
+var sizeFuncs = [
+    "\\tiny", "\\scriptsize", "\\footnotesize", "\\small", "\\normalsize",
+    "\\large", "\\Large", "\\LARGE", "\\huge", "\\Huge"
+];
+
 // A map of elements that don't have arguments, and should simply be placed
 // into a group depending on their type. The keys are the groups that items can
 // be placed in, and the values are lists of element types that should be
@@ -1030,6 +1102,7 @@ var copyFuncs = {
         "\\angle",
         "\\infty",
         "\\prime",
+        "\\triangle",
         "\\Gamma",
         "\\Delta",
         "\\Theta",
@@ -1177,6 +1250,20 @@ Parser.prototype.parseNucleus = function(pos) {
             throw new ParseError(
                 "Expected group after '" + nucleus.text + "'");
         }
+    } else if (utils.contains(sizeFuncs, nucleus.type)) {
+        // If this is a color function, parse its argument and return
+        var group = this.parseGroup(nucleus.position);
+        if (group) {
+            return new ParseResult(
+                new ParseNode("sizing", {
+                    size: "size" + (sizeFuncs.indexOf(nucleus.type) + 1),
+                    value: group.result
+                }),
+                group.position);
+        } else {
+            throw new ParseError(
+                "Expected group after '" + nucleus.text + "'");
+        }
     } else if (nucleus.type === "\\llap" || nucleus.type === "\\rlap") {
         // If this is an llap or rlap, parse its argument and return
         var group = this.parseGroup(nucleus.position);
@@ -1229,7 +1316,7 @@ Parser.prototype.parseNucleus = function(pos) {
 
 module.exports = Parser;
 
-},{"./Lexer":11,"./ParseError":2,"./utils":5}],11:[function(require,module,exports){
+},{"./Lexer":11,"./utils":5,"./ParseError":2}],11:[function(require,module,exports){
 var ParseError = require("./ParseError");
 
 // The main lexer class

@@ -300,3 +300,36 @@ big parens
 .katex .katex-logo .x {
   margin-left: -0.125em;
 }
+.katex .sizing {
+  display: inline-block;
+}
+.katex .reset-size5.size1 {
+  font-size: 0.5em;
+}
+.katex .reset-size5.size2 {
+  font-size: 0.7em;
+}
+.katex .reset-size5.size3 {
+  font-size: 0.8em;
+}
+.katex .reset-size5.size4 {
+  font-size: 0.9em;
+}
+.katex .reset-size5.size5 {
+  font-size: 1.0em;
+}
+.katex .reset-size5.size6 {
+  font-size: 1.2em;
+}
+.katex .reset-size5.size7 {
+  font-size: 1.44em;
+}
+.katex .reset-size5.size8 {
+  font-size: 1.73em;
+}
+.katex .reset-size5.size9 {
+  font-size: 2.07em;
+}
+.katex .reset-size5.size10 {
+  font-size: 2.49em;
+}
