@@ -39,9 +39,6 @@
             <var id="Y_DEGREES">round( Y * 180 / PI )</var>
             <var id="Y_RADIANS">KhanUtil.toFraction( Y / Math.PI, 0.001 )</var>
 
-            <!-- 90deg, 90 deg, 90 degrees, 90 DEGREES, etc. -->
-            <var id="Y_DEGREES_REGEX">( Y_DEGREES === 0 ? "^(\\s*0*\\s*)|" : "^" ) + Y_DEGREES + "\\s*[Dd][Ee][Gg]([Rr][Ee][Ee][Ss])?\\s*$"</var>
-
             <var id="PRETTY">function( n ) {
 
                 var sign = n &lt; 0 ? "-" : "";
@@ -69,12 +66,17 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p>What is the principal value of <code><var>FN_TEX( PRETTY( X ) )</var></code>?</p>
-                    <p>Note: please answer in terms of <span data-if="DEG">degrees (ex: "180 deg" or "180 degrees")</span><span data-else="">radians (ex: "3/4 pi")</span>.</p>
+                    <p>In <span data-if="DEG">degrees</span><span data-else="">radians</span>,
+                    what is the principal value of <code><var>FN_TEX( PRETTY( X ) )</var></code>?</p>
                 </div>
-
-                <div data-if="DEG"><p class="solution" data-type="regex"><var>Y_DEGREES_REGEX</var></p></div>
-                <div data-else=""><p class="solution" data-forms="pi"><var>Y</var></p></div>
+                <div class="solution" data-type="multiple">
+                    <p data-if="DEG">
+                        <span class="sol" data-forms="integer"><var>Y_DEGREES</var></span><code>\Large{{}^\circ}</code>
+                    </p>
+                    <p data-else="">
+                        <span class="sol" data-forms="pi"><var>Y</var></span> radians
+                    </p>
+                </div>
             </div>
         </div>
 
