@@ -19,7 +19,7 @@
             ])</var>
         <var id="DISTANCE_PER_DAY">$._("%(distance_unit)s per day", {distance_unit: plural_form(distance( 1, NUM1 ))})</var>
         <var id="DAYS">$._("days")</var>
-        <var id="DAYS_DRIVING">$._("number of days "+BIKING)</var>
+        <var id="DAYS_BIKING">$._("number of days "+BIKING)</var>
         <var id="ROWS_OF_CROPS">$._("rows of %(crop)s", {crop: plural_form(crop( 1 ))})</var>
         <var id="CROPS_PER_ROW">$._("%(crop)s per row", {crop: plural_form(crop( 1 ))})</var>
         </div>
@@ -207,7 +207,7 @@
                     by the number of <var>plural_form(distance(1))</var> <var>BIKED</var> each day.
                     </p>
                     <p>
-                    <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>DISTANCE_PER_DAY</var>} = \text{<var>DAYS_DRIVING</var>}</code>
+                    <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>DISTANCE_PER_DAY</var>} = \text{<var>DAYS_BIKING</var>}</code>
                     </p>
                     <p>
                     <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>DISTANCE_PER_DAY</var>} = <var>NUM1</var>\text{ <var>DAYS</var>}</code>
