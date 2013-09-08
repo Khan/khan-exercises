@@ -181,7 +181,7 @@ $.extend(KhanUtil, {
 
                         // Now ((2pi * revolutions) + angle) represents the full angle
                         // Redraw the angle only if it's changed
-                        if (graph.angle != angle + (graph.revolutions * 2 * Math.PI)) {
+                        if (graph.angle !== angle + (graph.revolutions * 2 * Math.PI)) {
                             KhanUtil.setAngle(angle + (graph.revolutions * 2 * Math.PI));
                         }
 
@@ -271,9 +271,9 @@ $.extend(KhanUtil, {
         sinText = prettyAngles[sinText] ? prettyAngles[sinText] : sinText;
 
         // Position the distance labels and right-angle marker based on quadrant
-        if (!(angle % Math.PI)) {
+        if (angle % Math.PI === 0) {
             graph.cosLabel = graph.label([Math.cos(angle) / 2, 0], cosText, "below");
-        } else if (!(angle % (Math.PI / 2))) {
+        } else if (angle % (Math.PI / 2) === 0) {
             graph.sinLabel = graph.label([Math.cos(angle), Math.sin(angle) / 2], sinText, "right");
         } else if (graph.quadrant === 1) {
             graph.cosLabel = graph.label([Math.cos(angle) / 2, 0], cosText, "below");

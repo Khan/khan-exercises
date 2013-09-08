@@ -229,6 +229,7 @@ $.tmpl = {
         }
 
         function doEval() {
+            /* jshint -W085 */
             // Use the methods from JavaScript's built-in Math methods
             with (Math) {
                 // And the methods provided by the library
@@ -242,6 +243,7 @@ $.tmpl = {
                     }
                 }
             }
+            /* jshint +W085 */
         }
 
         if (Khan.query.debug != null) {
@@ -335,7 +337,6 @@ $.fn.tmpl = function() {
 
         // If undefined, do nothing
         } else if (ret === undefined) {
-;
 
         // If a (possibly-empty) array of nodes, replace this one with those
         // The type of ret is checked to ensure it is not a function
@@ -457,7 +458,7 @@ $.fn.tmpl = function() {
             $elem = $(elem);
 
         // Look through each of the attr processors, see if our element has the matching attribute
-        for (var attr in $.tmpl.attr) {
+        _.each($.tmpl.attr, function(fn, attr) {
             var value;
 
             if ((/^data-/).test(attr)) {
@@ -467,7 +468,7 @@ $.fn.tmpl = function() {
             }
 
             if (value !== undefined) {
-                ret = $.tmpl.attr[attr](elem, value);
+                ret = fn(elem, value);
 
                 // If a function, run after all of the other templating
                 if (typeof ret === "function") {
@@ -478,7 +479,7 @@ $.fn.tmpl = function() {
                     return ret;
                 }
             }
-        }
+        });
 
         // Look up the processor based on the tag name
         var type = elem.nodeName.toLowerCase();

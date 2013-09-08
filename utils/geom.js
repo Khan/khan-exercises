@@ -23,9 +23,9 @@
 
             points = points.slice(0);
             points.sort(function(a, b) {
-                if (a == v0) {
+                if (a === v0) {
                     return -1;
-                } else if (b == v0) {
+                } else if (b === v0) {
                     return 1;
                 }
 

@@ -19,7 +19,7 @@
             var arg = nArgs[0];
             if (KhanUtil.exprIsNumber(arg)) {
                arg = -KhanUtil.exprNumValue(arg);
-            } else if (KhanUtil.opIsMultiplication(arg.op) || arg.op == "()") {
+            } else if (KhanUtil.opIsMultiplication(arg.op) || arg.op === "()") {
                arg.args[0] = {op: "-", args: [arg.args[0]]};
             } else {
                return {op: "-", args: [normalForm(arg, steps)]};
@@ -91,7 +91,7 @@
             var arg2 = args2[pos2];
             if ((!ignoreConstants) || KhanUtil.hasVariables(arg1) || KhanUtil.hasVariables(arg2)) {
                 var cmpArgs = compareNormalForms(args1[pos1], args2[pos2]);
-                if (cmpArgs != 0) {
+                if (cmpArgs !== 0) {
                     return cmpArgs;
                 }
             }
@@ -162,7 +162,7 @@
         //$.each(expr1.args, function(iArg, arg) {
         for (var iArg = 0; iArg < expr1.args.length; iArg++) {
             var cmpArgs = compareNormalForms(expr1.args[iArg], expr2.args[iArg]);
-            if (cmpArgs != 0) {
+            if (cmpArgs !== 0) {
                 return cmpArgs;
             }
         }
@@ -179,7 +179,7 @@
             op: "times",
             args: terms
         };
-    }
+    };
 
     var splitNumCstVar = function(expr) {
         if (KhanUtil.exprIsNumber(expr)) {
@@ -208,7 +208,7 @@
     };
 
     var compareNormalFormsWithExp = function(expr1, expr2, ignoreExp) {
-        if ((expr1.op != "^") && (expr2.op !== "^")) {
+        if ((expr1.op !== "^") && (expr2.op !== "^")) {
             return compareNormalFormsNoExp(expr1, expr2);
         }
         var expr1WithExp = KhanUtil.addExpIfNone(expr1);
@@ -247,7 +247,7 @@
        nfExpr1.strExpr = KhanUtil.exprToStrExpr(nfExpr1);
        nfExpr2.strExpr = KhanUtil.exprToStrExpr(nfExpr2);
        return (compareNormalForms(nfExpr1, nfExpr2) === 0);
-    }
+    };
 
     $.extend(KhanUtil, {
         normalForm: normalForm,

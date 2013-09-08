@@ -102,12 +102,14 @@ $.extend(KhanUtil, {
                         doCallback(elem, callback);
                     }
                     return;
-                } catch (e) {
+                } catch (err) {
                     // IE doesn't do instanceof correctly, so we resort to
                     // manual checking
-                    if (e.__proto__ !== katex.ParseError.prototype) {
-                        throw e;
+                    /* jshint -W103 */
+                    if (err.__proto__ !== katex.ParseError.prototype) {
+                        throw err;
                     }
+                    /* jshint +W103 */
                 }
             }
 

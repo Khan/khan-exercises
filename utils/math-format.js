@@ -547,15 +547,15 @@ $.extend(KhanUtil, {
 
     complexFraction: function(real, realDenominator, imag, imagDenominator) {
         var ret = "";
-        if (real == 0 && imag == 0) {
+        if (real === 0 && imag === 0) {
             ret = "0";
         }
-        if (real != 0) {
+        if (real !== 0) {
             ret += KhanUtil.fraction(real, realDenominator, false, true);
         }
-        if (imag != 0) {
+        if (imag !== 0) {
             if (imag / imagDenominator > 0) {
-                if (real != 0) {
+                if (real !== 0) {
                     ret += " + ";
                 }
                 ret += KhanUtil.fraction(imag, imagDenominator, false, true) + " i";

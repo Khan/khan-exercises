@@ -48,7 +48,7 @@ function renderReadOnlyProblem(event, args) {
                 })
                 .data("disabled", true);
             return this;
-        }
+        };
 
         $.fn.enable = function() {
             this.removeClass("disabled")
@@ -57,7 +57,7 @@ function renderReadOnlyProblem(event, args) {
                 })
                 .data("disabled", false);
             return this;
-        }
+        };
 
         if (userExercise.totalDone === 0) {
             $("#previous-problem").disable();

@@ -47,7 +47,6 @@ $.extend(KhanUtil, {
         $.extend(this, {
             fromLaTeX: fromLaTeX,
             toLaTeX: toLaTeX,
-            eval: eval,
             intern: intern,
             node: node,
             dump: dump,
@@ -72,15 +71,11 @@ $.extend(KhanUtil, {
             return model.format(n, "large", KhanUtil.BLUE);
         }
 
-        function eval(n) {
-            KhanUtil.assert(false);
-            return void 0;
-        }
-
         function intern(n) {
             // nodify number and string literals
+            var nid;
             if ($.type(n) === "number") {
-                var nid = numberMap[n];
+                nid = numberMap[n];
                 if (nid === void 0) {
                     nodePool.push({op: "num", args: [n]});
                     nid = nodePool.length - 1;
@@ -88,7 +83,7 @@ $.extend(KhanUtil, {
                 }
             }
             else if ($.type(n) === "string") {
-                var nid = stringMap[n];
+                nid = stringMap[n];
                 if (nid === void 0) {
                     nodePool.push({op: "str", args: [n]});
                     nid = nodePool.length - 1;
@@ -104,7 +99,7 @@ $.extend(KhanUtil, {
                     args += args_nids[i] = intern(n.args[i]);
                 }
                 var key = op + count + args;
-                var nid = nodeMap[key];
+                nid = nodeMap[key];
                 if (nid === void 0) {
                     nodePool.push({
                         op: op,
@@ -144,17 +139,17 @@ $.extend(KhanUtil, {
         }
 
         function dump(n) {
-
+            var s;
             if ($.type(n) === "object") {
                 switch (n.op) {
                 case "num":
-                    var s = n.args[0];
+                    s = n.args[0];
                     break;
                 case "str":
-                    var s = "\"" + n.args[0] + "\"";
+                    s = "\"" + n.args[0] + "\"";
                     break;
                 default:
-                    var s = "{ op: \"" + n.op + "\", args: [";
+                    s = "{ op: \"" + n.op + "\", args: [";
                     for (var i = 0; i < n.args.length; i++) {
                         if (i > 0) {
                             s += " , ";
@@ -166,10 +161,10 @@ $.extend(KhanUtil, {
                 }
             }
             else if ($.type(n) === "string") {
-                var s = "\"" + n + "\"";
+                s = "\"" + n + "\"";
             }
             else {
-                var s = n;
+                s = n;
             }
             return s;
         }

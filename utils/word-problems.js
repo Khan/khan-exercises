@@ -79,7 +79,7 @@ $.extend(KhanUtil, {
     },
 
     isSingular: function(num) {
-        return num == 1;
+        return num === 1;
     },
 
     // DEPRECATED

@@ -100,7 +100,7 @@
                 occFactors[iFactor] = 0;
             }
         }
-    }
+    };
 
     var factorSum = function(expr) {
         var factors = [];
@@ -140,18 +140,18 @@
 
     var genTermsFactors = function(factors, occFactors, nbTerms, factorsPerTerm, numTotal) {
        var hasNonNumFactor = false;
-       var minNumFactor = undefined;
-       var maxNumFactor = undefined;
+       var minNumFactor;
+       var maxNumFactor;
        var excludedFromTerm = [];
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
           excludedFromTerm[iFactor] = KhanUtil.randRange(0, nbTerms - 1);
        }
        var collidingHashes;
+       var termsOccFactors = [];
        do {
           var terms = [];
           var termsHashes = {};
           var collidingHashes = false;
-          var termsOccFactors = [];
           for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
              var termNumTotal = numTotal;
              termsOccFactors[iTerm] = KhanUtil.initOccArray(factors.length);
@@ -216,7 +216,7 @@
           terms.push(term);
        }
        return terms;
-    }
+    };
 
     var genAllTerms = function(factors, sharedOccFactors, termsOccFactors) {
        var terms = [];
@@ -284,7 +284,7 @@
           }
           return {op: "*", args: args, opsStyles: opsStyles};
        }
-    }
+    };
 
     var genDecomposition = function(factors, occFactors, sharedOccFactors, sharedStyle) {
         var exprLeft = KhanUtil.genExprFromExpFactors(factors, occFactors);
@@ -304,7 +304,7 @@
             }
         }
         return listFactors;
-    }
+    };
 
     var genHintListFactors = function(factors, occFactors) {
        var listFactors = genListFactors(factors, occFactors);
@@ -384,7 +384,7 @@
     };
 
     var solveDiffOfSquaresExercise = function(expr, options) {
-       if (KhanUtil.exprIsNumber(expr) || (expr.args.length != 2)) {
+       if (KhanUtil.exprIsNumber(expr) || (expr.args.length !== 2)) {
            return undefined;
        }
        if (expr.op === "-") {

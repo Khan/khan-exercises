@@ -45,7 +45,7 @@ function DrawingScratchpad(elem) {
     function saveState() {
         for (var i = 0, state = []; i < shapes.length; i++) {
             if (!shapes[i].removed) {
-                if (shapes[i].type == "path") {
+                if (shapes[i].type === "path") {
                     state.push({
                         path: shapes[i].attr("path").toString(),
                         stroke: shapes[i].attr("stroke"),
@@ -60,7 +60,7 @@ function DrawingScratchpad(elem) {
     function loadState(state) {
         shapes.remove();
         for (var i = 0; i < state.length; i++) {
-            if (state[i].type == "path") {
+            if (state[i].type === "path") {
                 shapes.push(pad.path(state[i].path).attr(line_default).attr({
                     stroke: state[i].stroke,
                     "clip-rect": [0, 40, pad.width, pad.height - 40]
@@ -124,18 +124,22 @@ function DrawingScratchpad(elem) {
     var eraser = null;
 
     function mousedown(X, Y, e) {
-        if (!X || !Y || !e) return;
-        if (Y <= 40) return;
+        if (!X || !Y || !e) {
+            return;
+        }
+        if (Y <= 40) {
+            return;
+        }
 
         if (eraser) {
             eraser.remove();
             eraser = null;
         }
 
-        if (tool == "draw") {
+        if (tool === "draw") {
             saveState();
             startPen(X, Y);
-        } else if (tool == "erase") {
+        } else if (tool === "erase") {
             eraser = pad.rect(X, Y, 0, 0).attr({
                 "fill-opacity": 0.15,
                 "stroke-opacity": 0.5,
@@ -172,7 +176,7 @@ function DrawingScratchpad(elem) {
             path.attr("path", pathstr);
         }
         path = null;
-        if (tool == "erase" && eraser) {
+        if (tool === "erase" && eraser) {
             saveState();
             var actuallyErased = false;
             var ebox = eraser.getBBox();
@@ -194,12 +198,12 @@ function DrawingScratchpad(elem) {
     }
 
     function mousemove(X, Y) {
-        if (tool == "draw" && path) {
+        if (tool === "draw" && path) {
             pathstr += "Q" + prevPen.x + "," + prevPen.y + "," +
                 (prevPen.x + X) / 2 + "," + (prevPen.y + Y) / 2;
             prevPen = {x: X, y: Y};
             path.attr("path", pathstr);
-        } else if (tool == "erase" && eraser) {
+        } else if (tool === "erase" && eraser) {
             var x1 = Math.min(X, eraser.sx),
                 x2 = Math.max(X, eraser.sx),
                 y1 = Math.max(40, Math.min(Y, eraser.sy)),
@@ -250,5 +254,5 @@ function DrawingScratchpad(elem) {
     this.clear = function() {
         shapes.remove();
         undoHistory = [[]];
-    }
+    };
 }

@@ -27,6 +27,7 @@ $.extend(KhanUtil, {
         };
 
 
+        var triangle;
         //
         // Side-Side-Side
         //
@@ -35,7 +36,7 @@ $.extend(KhanUtil, {
             options.angles[1] = randomAngle(options.angles[1]);
             options.angles[2] = randomAngle(options.angles[2]);
             options.ticks = [1, 2, 3];
-            var triangle = KhanUtil.addInteractiveTriangle(options);
+            triangle = KhanUtil.addInteractiveTriangle(options);
 
             // Point 0 is a fixed distance from point 1
             triangle.points[0].constraints.fixedDistance = { dist: options.sides[0], point: triangle.points[1] };
@@ -100,7 +101,7 @@ $.extend(KhanUtil, {
             options.sides[2] = randomSide(options.sides[2]);
             options.ticks = [1, 2, 0];
             options.numArcs = [0, 1, 0];
-            var triangle = KhanUtil.addInteractiveTriangle(options);
+            triangle = KhanUtil.addInteractiveTriangle(options);
 
             // Point 0 is a fixed distance from point 1
             triangle.points[0].constraints.fixedDistance = { dist: options.sides[0], point: triangle.points[1] };
@@ -182,7 +183,7 @@ $.extend(KhanUtil, {
             options.angles[2] = randomAngle(options.angles[2]);
             options.ticks = [1, 2, 0];
             options.numArcs = [1, 0, 0];
-            var triangle = KhanUtil.addInteractiveTriangle(options);
+            triangle = KhanUtil.addInteractiveTriangle(options);
 
             // Point 0 can be used to rotate the shape
             triangle.setRotationPoint(0);
@@ -241,7 +242,7 @@ $.extend(KhanUtil, {
             options.sides[2] = randomSide(options.sides[2]);
             options.ticks = [1, 0, 0];
             options.numArcs = [1, 2, 0];
-            var triangle = KhanUtil.addInteractiveTriangle(options);
+            triangle = KhanUtil.addInteractiveTriangle(options);
 
             // Point 0 can be used to rotate the shape
             triangle.setRotationPoint(0);
@@ -323,7 +324,7 @@ $.extend(KhanUtil, {
             options.sides[2] = randomSide(options.sides[2]);
             options.ticks = [0, 1, 0];
             options.numArcs = [1, 2, 0];
-            var triangle = KhanUtil.addInteractiveTriangle(options);
+            triangle = KhanUtil.addInteractiveTriangle(options);
 
             // Point 0 is a fixed angle from points 2 and 1
             triangle.points[0].constraints.fixedAngle = { angle: options.angles[1] * (triangle.reflected ? -1 : 1), vertex: triangle.points[1], ref: triangle.points[2] };
@@ -382,7 +383,7 @@ $.extend(KhanUtil, {
             options.sides[1] *= scale;
             options.sides[2] *= scale;
             options.numArcs = [2, 3, 1];
-            var triangle = KhanUtil.addInteractiveTriangle(options);
+            triangle = KhanUtil.addInteractiveTriangle(options);
             triangle.isCongruent = scale === 1;
 
             // The shape is always a triangle, so we don't need 4 points visible
