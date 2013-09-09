@@ -232,6 +232,44 @@ $.extend(KhanUtil, {
         return KhanUtil.formattedSquareRootOf(n) !== ("\\sqrt{" + n + "}");
     },
 
+    // For numbers 0-20, return the spelling of the number, otherwise
+    // just return the number itself.  This is superior to cardinal()
+    // in that it can be translated easily.
+    cardinalThrough20: function(n) {
+        var cardinalUnits = [$._("zero"), $._("one"), $._("two"), $._("three"),
+            $._("four"), $._("five"), $._("six"), $._("seven"), $._("eight"),
+            $._("nine"), $._("ten"), $._("eleven"), $._("twelve"),
+            $._("thirteen"), $._("fourteen"), $._("fifteen"), $._("sixteen"),
+            $._("seventeen"), $._("eighteen"), $._("nineteen"), $._("twenty")];
+        if (n >= 0 && n <= 20) {
+            return cardinalUnits[n];
+        }
+        return n;
+    },
+
+    CardinalThrough20: function(n) {
+        // NOTE(csilvers): I *think* this always does the right thing,
+        // since scripts that capitalize always do so the same way.
+        var card = KhanUtil.cardinalThrough20(n);
+        return card.charAt(0).toUpperCase() + card.slice(1);
+    },
+
+    ordinalThrough20: function(n) {
+        var ordinalUnits = [$._("zeroth"), $._("first"), $._("second"),
+            $._("third"), $._("fourth"), $._("fifth"), $._("sixth"),
+            $._("seventh"), $._("eighth"), $._("ninth"), $._("tenth"),
+            $._("eleventh"), $._("twelfth"), $._("thirteenth"),
+            $._("fourteenth"), $._("fifteenth"), $._("sixteenth"),
+            $._("seventeenth"), $._("eighteenth"), $._("nineteenth"),
+            $._("twentieth")];
+        if (n >= 0 && n <= 20) {
+            return ordinalUnits[n];
+        }
+        // This should "never" happen, but better to give weird results
+        // than to raise an error.  I think.
+        return n + "th";
+    },
+
     // Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
     // TODO(csilvers): I18N: this doesn't work at all outside English.
     // cf. https://github.com/kslazarev/numbers_and_words (Ruby, sadly).
@@ -328,24 +366,6 @@ $.extend(KhanUtil, {
     Cardinal: function(n) {
         var card = KhanUtil.cardinal(n);
         return card.charAt(0).toUpperCase() + card.slice(1);
-    },
-
-    // TODO(csilvers): I18N: this is not locale-safe.
-    ordinal: function(n) {
-        if (n <= 9) {
-            return ["zeroth", "first", "second", "third", "fourth", "fifth",
-                    "sixth", "seventh", "eighth", "ninth"][n];
-        } else if (Math.floor(n / 10) % 10 === 1) {
-            // Teens
-            return n + "th";
-        } else {
-            var lastDigit = n % 10;
-            if (1 <= lastDigit && lastDigit <= 3) {
-                return n + ["st", "nd", "rd"][lastDigit - 1];
-            } else {
-                return n + "th";
-            }
-        }
     },
 
     // Depends on expressions.js for expression formatting
