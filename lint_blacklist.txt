@@ -15,7 +15,6 @@ utils/test/**
 
 # TODO(csilvers): fix these
 build/kathjax-config.js
-utils/answer-types.js
 utils/calculator.js
 utils/chemistry.js
 utils/congruency.js
