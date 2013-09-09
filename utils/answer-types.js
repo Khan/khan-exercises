@@ -1454,7 +1454,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         // the database)
                         value: extractRawCode($choiceVal),
                         // The index of the value that was chosen
-                        index: $choice.val()
+                        index: +$choice.val()
                     };
                 },
                 solution: solutionText,
@@ -1504,6 +1504,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // New solutions include information about the correct
                     // answer like the correct index, etc. We can use that to
                     // make checking a lot simpler.
+
+                    // TODO(alpert): Casting to a number here is necessary
+                    // since guesses before 9 Sep 2013 had the index stored as
+                    // a string -- I'm adding in the cast here for timeline
+                    // compatibility but this can be removed after 1 Nov 2013
+                    var index = +guess.index;
+
                     if (guess.isNone && solution.noneIsCorrect) {
                         showReal();
                         return true;
