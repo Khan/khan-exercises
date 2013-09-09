@@ -35,10 +35,10 @@
                     </div>
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
-                            <b>Completed Square:</b> <br />
-                            <code>(x + {}</code><span class="sol short32"></span> <code>)^2 = {}</code> <span class="sol short32"></span> <br /><br />
-                            <b>Solution:</b> <br />
-                            <code>x = {}</code><span class="sol short32"></span><code>\quad\text{or}\quad x = {}</code><span class="sol short32"></span>
+                            <b>Completed Square:</b> <br>
+                            <code>(x + {}</code><span class="sol short32"></span> <code>)^2 = {}</code> <span class="sol short32"></span> <br><br>
+                            <b>Solution:</b> <br>
+                            <code>x = {}</code><span class="sol short32"></span><code>\quad\text{<var>$._("or")</var>}\quad x = {}</code><span class="sol short32"></span>
                         </div>
                     </div>
                 </div>
@@ -49,9 +49,9 @@
                 </div>
                 <div class="solution" data-type="multiple">
                     <p>
-                        <b>Completed Square:</b> <br />
-                        <code>(x + {}</code><span class="sol short32"><var>-X1</var></span> <code>)^2 = {}</code> <span class="sol short32">0</span> <br /><br />
-                        <b>Solution:</b> <br />
+                        <b>Completed Square:</b> <br>
+                        <code>(x + {}</code><span class="sol short32"><var>-X1</var></span> <code>)^2 = {}</code> <span class="sol short32">0</span> <br><br>
+                        <b>Solution:</b> <br>
                         <code>x = \quad</code><span class="sol short32"><var>X1</var></span>
                     </p>
                 </div>
@@ -89,7 +89,7 @@
             </div>
             <div>
                 <div data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0">
-                    <p>So the solutions are: <code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var> \text{ or } x = <var>-B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) )</var></code></p>
+                    <p>So the solutions are: <code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var> \text{ <var>$._("or")</var> } x = <var>-B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) )</var></code></p>
                 </div>
                 <div data-else="">
                     <p>The solution is: <code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var></code></p>
