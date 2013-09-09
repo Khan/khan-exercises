@@ -21,65 +21,16 @@
             <div class="problems">
                 <div id="problem-type-or-description">
                     <p class="question">
-                        <code>(<var>A</var>x + <var>B</var>)^{2}</code> =
-                        <span style="color:red">? </span><code>x^{2}</code> +
-                        <span style="color:blue">? </span><code>x</code> +
-                        <span style="color:green">?</span>
+                        What is the area of this rectangle?
                     </p>
                     <p class="problem">
-                        <!-- problem description in text --> 
-                        Think of 
-                        <code><var>A</var>x + <var>B</var></code>
-                        as the 
-                        <strong>side of a square</strong>:
-                        <code>(<var>A</var>x + <var>B</var>)^{2}</code>
-                        would then be the 
-                        <strong>area of the square</strong>.
-                        <strong>Now try to calculate the binomial coefficients</strong>
-                        <span style="color:red">?</span>, 
-                        <span style="color:blue"> ?</span> and
-                        <span style="color:green"> ? </span>
-                        by adding the areas of the inner squares and rectangles:
- 
                         <!-- geometrical illustration of the problem -->
-                        <div class="graphie" id="areacalc">
-                            init({
-                                range: [[-1, 21], [-0.5, 10.5]],
-                                scale: 20
-                            });
+                        <div class="graphie" id="areagraph">
+                            init({range: [[-1, 21], [-0.5, 10.5]],scale: 20});
                             <!-- problem restated as labels on the square -->
-                            label([10, 8], "<var>A</var> x", "left"); <!-- label top left -->
-                            label([10, 3], "<var>B</var>", "left"); <!-- label bottom left -->
-                            label([12, 10], "<var>A</var> x", "above"); <!-- label above left -->
-                            label([17, 10], "<var>B</var>", "above"); <!-- label above right -->
-                            <!-- top red square -->
-                            style({
-                                strokeWidth: 2,
-                                fill: "red",
-                                stroke: KhanUtil.BACKGROUND
-                            });
-                            rect(10, 6, 4, 4);
-                            <!-- bottom green square -->
-                            style({
-                                strokeWidth: 2,
-                                fill: "green",
-                                stroke: KhanUtil.BACKGROUND
-                            });
-                            rect(14, 0, 6, 6);
-                            <!-- bottom left rectangle -->
-                            style({
-                                strokeWidth: 2,
-                                fill: "blue",
-                                stroke: KhanUtil.BACKGROUND
-                            });
-                            rect(10, 0, 4, 6); 
-                            <!-- top right rectangle -->
-                            style({
-                                strokeWidth: 2,
-                                fill: "blue",
-                                stroke: KhanUtil.BACKGROUND
-                            });
-                            rect(14, 6, 6, 4); 
+                            rect(10, 0, 10, 10);
+                            graph.labelLeft = label([10, 5], "<var>A</var> x + <var>B</var>", "left");
+                            graph.labelTop = label([15, 10], "<var>A</var> x + <var>B</var>", "above"); 
                         </div> <!-- end of illustration -->
                     </p>  <!-- end problem -->
 
@@ -90,59 +41,39 @@
                             <span class="sol short25" data-type="number"><var>SECOND_COEFFICIENT</var></span> <code>x +</code>
                             <span class="sol short25" data-type="number"><var>THIRD_COEFFICIENT</var></span>
                         </p> 
-                        <p class="example">provide three Integers</p>
+                        <p class="example">Provide three Integers.<br>The first Coefficient should not be left empty!</p>
                     </div> <!-- end solutions -->
                 </div> <!-- end of problem-type or description -->
             </div> <!-- end of problems -->
 
             <!-- hints -->
             <div class="hints">
-                <div> <!-- 1st hint: for computing the 1st coefficient -->
-                    <div class="hint_red">
-                        You receive the coefficient for <code>x^{2}</code> by computing the area of the red square.
-                    </div>
-                    <div class="graphie" data-update="areacalc">
-                        style({
-                            color: "white",
-                        });
-                        label([13, 8], "<var>AREA_SQUARE_TOP</var> x^{2}", "left");
-                    </div>
-                </div>
-                <div> <!-- 2nd hint: for computing the 2nd coefficient -->
-                    <div class="hint_blue">
-                        You receive the coefficient for <code>x</code> by adding the area of the blue rectangles.
-                    </div>
-                    <div class="graphie" data-update="areacalc">
-                        style({
-                            color: "white",
-                        });
-                        label([13, 3], "<var>AREA_ONE_RECTANGLE</var> x", "left");
-                        style({
-                            color: "white",
-                        });
-                        label([18, 8], "<var>AREA_ONE_RECTANGLE</var> x", "left");
+                <div class="hint_blue"> 
+                    <strong>Structure the square:</strong> Add the areas of all the little squares and rectangles.
+                    <div class="graphie" data-update="areagraph">
+                        rect(10, 6, 4, 4, {stroke: BLUE});
+                        rect(10, 0, 4, 6, {stroke: BLUE});
+                        rect(14, 6, 6, 4, {stroke: BLUE});
+                        rect(14, 0, 6, 6, {stroke: BLUE});
+                        rect(10, 0, 10, 10, {strokeDasharray: "-"});
+                        graph.labelTop.remove();
+                        graph.labelLeft.remove();
+                        label([10, 6], "+ ", "left", {color: BLUE}); <!-- label middle left -->
+                        label([14, 10], "+ ", "above", {color: BLUE}); <!-- label middle above -->
+                        label([10, 8], "<var>A</var> x", "left", {color: BLUE}); <!-- label top left -->
+                        label([10, 3], "<var>B</var>", "left", {color: BLUE}); <!-- label bottom left -->
+                        label([12, 10], "<var>A</var> x", "above", {color: BLUE}); <!-- label above left -->
+                        label([17, 10], "<var>B</var>", "above", {color: BLUE}); <!-- label above right -->
                     </div>
                 </div>
-                <div> <!-- 3rd hint: for computing the constant -->
-                    <div class="hint_green">
-                        You receive the constant by computing the area of the green square.
-                    </div>
-                    <div class="graphie" data-update="areacalc" class="hint_green">
-                        style({
-                            color: "white",
-                        });
-                        label([18, 3], "<var>AREA_SQUARE_BOTTOM</var>", "left");
-                    </div>
-                </div>
-                <!-- 4th hint: add areas -->
-                <div>
-                    Now add all these areas:
-                    <code>
-                        <var>AREA_SQUARE_TOP</var> x^{2} + 
-                        <var>AREA_ONE_RECTANGLE</var> x + 
-                        <var>AREA_ONE_RECTANGLE</var> x + 
-                        <var>AREA_SQUARE_BOTTOM</var>
-                    </code>
+                <div class="hint_green">
+                     Now add these four area numbers!
+                     <div class="graphie" data-update="areagraph">
+                         label([13, 3], "<var>AREA_ONE_RECTANGLE</var> x", "left", {color: GREEN}); 
+                         label([18, 8], "<var>AREA_ONE_RECTANGLE</var> x", "left", {color: GREEN}); 
+                         label([13, 8], "<var>AREA_SQUARE_TOP</var> x^{2}", "left", {color: GREEN});
+                         label([18, 3], "<var>AREA_SQUARE_BOTTOM</var>", "left", {color: GREEN}); 
+                     </div> 
                 </div>
             </div> <!-- end of hints -->
         </div> <!-- end of exercise -->
