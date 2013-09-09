@@ -544,7 +544,7 @@ $.extend(KhanUtil, {
             };
         };
 
-        $(".question").prepend("<button id=\"reflect\">" +
+        $(".question").prepend("<button id='reflect' type='button'>" +
             $._("Reflect shape") + "</button>");
         $("button#reflect").bind("click", function(event) {
             this.blur();
