@@ -233,8 +233,8 @@ $.extend(KhanUtil, {
     },
 
     // For numbers 0-20, return the spelling of the number, otherwise
-    // just return the number itself.  This is superior to cardinal()
-    // in that it can be translated easily.
+    // just return the number itself as a string.  This is superior to
+    // cardinal() in that it can be translated easily.
     cardinalThrough20: function(n) {
         var cardinalUnits = [$._("zero"), $._("one"), $._("two"), $._("three"),
             $._("four"), $._("five"), $._("six"), $._("seven"), $._("eight"),
@@ -244,7 +244,7 @@ $.extend(KhanUtil, {
         if (n >= 0 && n <= 20) {
             return cardinalUnits[n];
         }
-        return n;
+        return String(n);
     },
 
     CardinalThrough20: function(n) {
