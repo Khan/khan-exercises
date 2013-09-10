@@ -1153,7 +1153,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
             // Create path
             polygon.path = KhanUtil.unscaledSvgPath(scaledCoords.concat(true));
-        }
+        };
 
         polygon.transform = function() {
             polygon.update();
