@@ -458,28 +458,30 @@ $.fn.tmpl = function() {
             $elem = $(elem);
 
         // Look through each of the attr processors, see if our element has the matching attribute
-        _.each($.tmpl.attr, function(fn, attr) {
-            var value;
+        for (var attr in $.tmpl.attr) {
+            if ($.tmpl.attr.hasOwnProperty(attr)) {
+                var value;
 
-            if ((/^data-/).test(attr)) {
-                value = $elem.data(attr.replace(/^data-/, ""));
-            } else {
-                value = $elem.attr(attr);
-            }
+                if ((/^data-/).test(attr)) {
+                    value = $elem.data(attr.replace(/^data-/, ""));
+                } else {
+                    value = $elem.attr(attr);
+                }
 
-            if (value !== undefined) {
-                ret = fn(elem, value);
+                if (value !== undefined) {
+                    ret = $.tmpl.attr[attr](elem, value);
 
-                // If a function, run after all of the other templating
-                if (typeof ret === "function") {
-                    post.push(ret);
+                    // If a function, run after all of the other templating
+                    if (typeof ret === "function") {
+                        post.push(ret);
 
-                // Return anything else (boolean, array of nodes for replacement, object for data-each)
-                } else if (ret !== undefined) {
-                    return ret;
+                    // Return anything else (boolean, array of nodes for replacement, object for data-each)
+                    } else if (ret !== undefined) {
+                        return ret;
+                    }
                 }
             }
-        });
+        }
 
         // Look up the processor based on the tag name
         var type = elem.nodeName.toLowerCase();
