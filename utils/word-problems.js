@@ -198,6 +198,7 @@ $.extend(KhanUtil, {
         };
     })(),
 
+    // OBSOLETE.  TODO(csilvers): remove from here and tests after I confirm.
     // Pluralize with a code tag around the number
     // - pluralTex(NUMBER, singular):
     //        - if necessary, magically pluralize <singular>
