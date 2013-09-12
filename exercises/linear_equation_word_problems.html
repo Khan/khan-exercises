@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems khanscript">
+<html data-require="math math-format word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Linear equation word problems</title>
@@ -7,9 +7,6 @@
 </head>
 <body>
 <div class="exercise">
-    <script type="text/khanscript">
-        Khan.scratchpad.disable();
-    </script>
     <div class="problems">
         <div id="magazine_subscription_selling">
             <div class="vars" data-ensure="Q &lt; R">
@@ -42,40 +39,9 @@
                 number of subscriptions she needs to sell?
             </p>
 
-            <div class="solution" data-type="custom">
-                <div class="instruction">
-                    <input type="text" id="guessans"> subscriptions
-                </div>
-                <div class="guess">[
-                    $("#guessans").val(),
-                    $("#firsttext").val(),
-                    $("#secondtext").val()
-                ]</div>
-                <div class="validator-function">
-                    var correct = X;
-                    var solutionDiv = $("&lt;div&gt;").text(correct);
-                    var validator = Khan.answerTypes.number.createValidator(solutionDiv);
-                    return validator(guess[0]);
-                </div>
-                <div class="show-guess-solutionarea">
-                    if (guess != null) {
-                        $("#guessans").val(guess[0]);
-                    }
-                    else {
-                        $("#guessans").val("");
-                        if ($("#firsttext").length &gt; 0) {
-                            $("#firsttext").text("");
-                            $("#secondtext").text("");
-                        }
-                    }
-                </div>
-                <div class="show-guess">
-                    if (guess != null &amp;&amp; $("#firsttext").length &gt; 0) {
-                        guess[1] === null ? $("#firsttext").text("") : $("#firsttext").text(guess[1]);
-                        guess[2] === null ? $("#secondtext").text("") : $("#secondtext").text(guess[2]);
-                    }
-                </div>
-                <div class="example">an integer, like <code>6</code></div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>X</var></span>
+                subscriptions
             </div>
 
             <div class="hints">
@@ -166,40 +132,9 @@
                 her goal?
             </p>
 
-            <div class="solution" data-type="custom">
-                <div class="instruction">
-                    <input type="text" id="guessans"> levels
-                </div>
-                <div class="guess">[
-                    $("#guessans").val(),
-                    $("#firsttext").val(),
-                    $("#secondtext").val()
-                ]</div>
-                <div class="validator-function">
-                    var correct = X;
-                    var solutionDiv = $("&lt;div&gt;").text(correct);
-                    var validator = Khan.answerTypes.number.createValidator(solutionDiv);
-                    return validator(guess[0]);
-                </div>
-                <div class="show-guess-solutionarea">
-                    if (guess != null) {
-                        $("#guessans").val(guess[0]);
-                    }
-                    else {
-                        $("#guessans").val("");
-                        if ($("#firsttext").length &gt; 0) {
-                            $("#firsttext").text("");
-                            $("#secondtext").text("");
-                        }
-                    }
-                </div>
-                <div class="show-guess">
-                    if (guess != null &amp;&amp; $("#firsttext").length &gt; 0) {
-                        guess[1] === null ? $("#firsttext").text("") : $("#firsttext").text(guess[1]);
-                        guess[2] === null ? $("#secondtext").text("") : $("#secondtext").text(guess[2]);
-                    }
-                </div>
-                <div class="example">an integer, like <code>6</code></div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>X</var></span>
+                levels
             </div>
 
             <div class="hints">
@@ -288,40 +223,9 @@
                 maestro level?
             </p>
 
-            <div class="solution" data-type="custom">
-                <div class="instruction">
-                    <input type="text" id="guessans"> months
-                </div>
-                <div class="guess">[
-                    $("#guessans").val(),
-                    $("#firsttext").val(),
-                    $("#secondtext").val()
-                ]</div>
-                <div class="validator-function">
-                    var correct = X;
-                    var solutionDiv = $("&lt;div&gt;").text(correct);
-                    var validator = Khan.answerTypes.number.createValidator(solutionDiv);
-                    return validator(guess[0]);
-                </div>
-                <div class="show-guess-solutionarea">
-                    if (guess != null) {
-                        $("#guessans").val(guess[0]);
-                    }
-                    else {
-                        $("#guessans").val("");
-                        if ($("#firsttext").length &gt; 0) {
-                            $("#firsttext").text("");
-                            $("#secondtext").text("");
-                        }
-                    }
-                </div>
-                <div class="show-guess">
-                    if (guess != null &amp;&amp; $("#firsttext").length &gt; 0) {
-                        guess[1] === null ? $("#firsttext").text("") : $("#firsttext").text(guess[1]);
-                        guess[2] === null ? $("#secondtext").text("") : $("#secondtext").text(guess[2]);
-                    }
-                </div>
-                <div class="example">an integer, like <code>6</code></div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>X</var></span>
+                months
             </div>
 
             <div class="hints">
