@@ -199,6 +199,7 @@
                     <var id="MILE_PER_SWIMMER">$._("mile per swimmer")</var>
                     <var id="NUMBER_OF_SWIMMERS">$._("number of swimmers")</var>
                     <var id="SWIMMERS_PER_MILE">$._("swimmers per mile")</var>
+                    <var id="SWIMMERS">$._("swimmers")</var>
                 </div>
 
                 <div class="problem">
@@ -234,7 +235,7 @@
                     </code></p>
                     <p><code>
                         \phantom{<var>MILES</var>\text{ <var>plural_form(MILE, MILES)</var>} \times
-                        <var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}} = \green{<var>D * MILES</var> \text{ <var>$._("swimmers")</var>}}
+                        <var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}} = \green{<var>D * MILES</var> \text{ <var>SWIMMERS</var>}}
                     </code></p>
 
                     <p data-if="isMale(1)"><var>person(1)</var> needs <var>SOLUTION</var> swimmers on his team.</p>
@@ -254,6 +255,7 @@
                         })
                     </var>
                     <var id="BAGS_PER_POUND">$._("bags per pound")</var>
+                    <var id="GIFT_BAGS">$._("gift bags")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -280,7 +282,7 @@
                     </p>
                     <p><code>
                         \dfrac{\red{<var>CHOCOLATE</var> \text{ <var>plural_form(POUNDS, CHOCOLATE)</var>}}}
-                        {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>POUND_PER_BAG</var>}}} = \green{\text{ <var>$._("gift bags")</var>}}
+                        {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>POUND_PER_BAG</var>}}} = \green{\text{ <var>GIFT_BAGS</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
@@ -290,11 +292,11 @@
                     <p><code>
                         \red{<var>CHOCOLATE</var>\text{ <var>POUND_PER_BAG</var>}} \times
                         \green{<var>D</var> \text{ <var>BAGS_PER_POUND</var>}}
-                        = \green{\text{ <var>$._("gift bags")</var>}}
+                        = \green{\text{ <var>GIFT_BAGS</var>}}
                     </code></p>
                     <p><code>
                         \phantom{<var>CHOCOLATE</var>\text{ <var>POUND_PER_BAG</var>} \times <var>D</var> \text{ <var>BAGS_PER_POUND</var>}}
-                        = \green{<var>D * CHOCOLATE</var> \text{ <var>$._("gift bags")</var>}}
+                        = \green{<var>D * CHOCOLATE</var> \text{ <var>GIFT_BAGS</var>}}
                     </code></p>
                     <p><var>person(1)</var> could create <var>SOLUTION</var> gift bags.</p>
                 </div>
@@ -312,6 +314,7 @@
                     <var id="HOUR_PER_EXERCISE">$._("hour per exercise")</var>
                     <var id="NUMBER_OF_EXERCISES">$._("number of exercises")</var>
                     <var id="EXERCISES_PER_HOUR">$._("exercises per hour")</var>
+                    <var id="EXERCISES">$._("exercises")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -352,7 +355,7 @@
                     </code></p>
                     <p><code>
                         \phantom{<var>HOURS</var>\text{ <var>plural_form(HOUR, HOURS)</var>} \times <var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}
-                        = \green{<var>D * HOURS</var> \text{ <var>$._("exercises")</var>}}
+                        = \green{<var>D * HOURS</var> \text{ <var>EXERCISES</var>}}
                     </code></p>
                     <p><var>person(1)</var> can do <var>SOLUTION</var> different types of exercise per workout.</p>
                 </div>

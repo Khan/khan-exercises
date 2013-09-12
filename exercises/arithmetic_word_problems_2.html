@@ -19,6 +19,7 @@
             ])</var>
         <var id="DISTANCE_PER_DAY">$._("%(distance_unit)s per day", {distance_unit: plural_form(distance( 1, NUM1 ))})</var>
         <var id="DAYS">$._("days")</var>
+        <var id="ROWS">$._("rows")</var>
         <var id="DAYS_BIKING">$._("number of days %(BIKING)s", {BIKING: BIKING})</var>
         <var id="ROWS_OF_CROPS">$._("rows of %(crop)s", {crop: plural_form(crop( 1 ))})</var>
         <var id="CROPS_PER_ROW">$._("%(crop)s per row", {crop: plural_form(crop( 1 ))})</var>
@@ -317,7 +318,7 @@
                     The result, called the quotient, is <code><var>TOTAL</var>\text{ <var>plural_form(crop( 1 ), TOTAL)</var>} \div <var>NUM1</var>\text{ <var>CROPS_PER_ROW</var>}</code>.
                     </p>
                     <p>
-                    <code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ <var>CROPS_PER_ROW</var>} = <var>NUM2</var>\text{ <var>$._("rows")</var>}</code>
+                    <code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ <var>CROPS_PER_ROW</var>} = <var>NUM2</var>\text{ <var>ROWS</var>}</code>
                     </p>
                 </div>
             </div>
