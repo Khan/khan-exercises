@@ -786,7 +786,7 @@ var randomQuadAngles = {
         rhombus: function() {
             var angA, angB;
             do {
-                angA = KhanUtil.randRange(30, 160);
+                angA = KhanUtil.randRange(30, 150);
                 angB = 180 - angA;
             }while (Math.abs(angA - angB) < 5);
             return [angA, angB, angA, angB];
@@ -795,7 +795,7 @@ var randomQuadAngles = {
         parallelogram: function() {
             var angA, angB;
             do {
-                angA = KhanUtil.randRange(30, 160);
+                angA = KhanUtil.randRange(30, 150);
                 angB = 180 - angA;
             } while (angA === angB);
             return [angA, angB, angA, angB];
@@ -804,9 +804,9 @@ var randomQuadAngles = {
         trapezoid: function() {
             var angA, angB, angC, angD;
             do {
-                angA = KhanUtil.randRange(30, 160);
+                angA = KhanUtil.randRange(30, 150);
                 angB = 180 - angA;
-                angC = KhanUtil.randRange(30, 160);
+                angC = KhanUtil.randRange(30, 150);
                 angD = 180 - angC;
             } while (Math.abs(angA - angC) < 6 || angA + angC === 180);
             return [angA, angC, angD, angB];
@@ -815,7 +815,7 @@ var randomQuadAngles = {
         isoscelesTrapezoid: function() {
             var angC, angD;
             do {
-                angC = KhanUtil.randRange(30, 160);
+                angC = KhanUtil.randRange(30, 150);
                 angD = 180 - angC;
             } while (angC === angD);
             return [angC, angC, angD, angD];
