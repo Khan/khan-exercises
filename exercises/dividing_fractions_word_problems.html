@@ -248,8 +248,11 @@
                     <var id="CHOCOLATE">randRange(1, 3)</var>
                     <var id="SOLUTION">D * CHOCOLATE</var>
                     <var id="POUND_PER_BAG">$._("pound per bag")</var>
-                    <var id="NUMBER_OF_BAGS">$._("number of bags")</var>
-                    <var id="POUND">$._(plural("pound",CHOCOLATE))</var>
+                    <var id="POUNDS">
+                        new Plural(function(n) {
+                            return $.ngettext("pound", "pounds", n)
+                        })
+                    </var>
                     <var id="BAGS_PER_POUND">$._("bags per pound")</var>
                 </div>
 
@@ -261,22 +264,22 @@
                     of the holiday gift bags she made for her friends and family.
                 </p>
 
-                <p class="question">How many holiday gift bags could <var>person(1)</var> make with <code><var>CHOCOLATE</var></code> <var>POUND</var> of chocolate?</p>
+                <p class="question">How many holiday gift bags could <var>person(1)</var> make with <code><var>CHOCOLATE</var></code> <var>plural_form(POUNDS, CHOCOLATE)</var> of chocolate?</p>
 
                 <div class="solution"><var>SOLUTION</var></div>
 
                 <div class="hints">
                     <p data-if="isMale(1)">
                         To find out how many gift bags <var>person(1)</var> could create, divide the total chocolate
-                        (<code><var>CHOCOLATE</var></code> <var>POUND</var>) by the amount he wanted to include in each gift bag
+                        (<code><var>CHOCOLATE</var></code> <var>plural_form(POUNDS, CHOCOLATE)</var>) by the amount he wanted to include in each gift bag
                         (<code>\frac{1}{<var>D</var>}</code> of a pound).
                     </p><p data-else="">
                         To find out how many gift bags <var>person(1)</var> could create, divide the total chocolate
-                        (<code><var>CHOCOLATE</var></code> <var>POUND</var>) by the amount she wanted to include in each gift bag
+                        (<code><var>CHOCOLATE</var></code> <var>plural_form(POUNDS, CHOCOLATE)</var>) by the amount she wanted to include in each gift bag
                         (<code>\frac{1}{<var>D</var>}</code> of a pound).
                     </p>
                     <p><code>
-                        \dfrac{\red{<var>CHOCOLATE</var> \text{ <var>POUND</var>}}}
+                        \dfrac{\red{<var>CHOCOLATE</var> \text{ <var>plural_form(POUNDS, CHOCOLATE)</var>}}}
                         {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>POUND_PER_BAG</var>}}} = \green{\text{ <var>$._("gift bags")</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
