@@ -1987,6 +1987,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     $._("For <code>3y</code>, enter <strong>3y</strong> or <strong>3*y</strong>"),
                     $._("For <code>\\dfrac{1}{x}</code>, enter <strong>1/x</strong>"),
                     $._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
+                    $._("For <code>\\sqrt{x}</code>, enter <strong>sqrt(x)</strong>"),
                     $._("For <code>\\pi</code>, enter <strong>pi</strong>"),
                     $._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
                     $._("For <code>\\neq</code>, enter <strong>=/=</strong>")
