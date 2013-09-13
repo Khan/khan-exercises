@@ -1241,11 +1241,11 @@ class MathJaxTextFilter(BaseFilter):
 
     def get_match(self, fix_node):
         """Return a match of a string that matches \\text{...}"""
-        # This isn't a really return value because a node could have
-        # multiple \\text nodes that need to be fixed up.  So we don't
-        # even bother to do the _nonalpha_re check here, doing it
-        # instead in _do_*_text_replace, which are the routines that
-        # examine each \\text node individually.
+        # This isn't a really useful return value because a node could
+        # have multiple \\text nodes that need to be fixed up.  So we
+        # don't even bother to do the _nonalpha_re check here, doing
+        # it instead in _do_*_text_replace, which are the routines
+        # that examine each \\text node individually.
         return self._regex.search(_get_innerhtml(fix_node))
 
     def filter_var(self, match, var_node):
@@ -1459,8 +1459,9 @@ class MathJaxTextFilter(BaseFilter):
         (text_start, text_content, text_end) = match.groups()
 
         # If the match doesn't have any natural-language text in it,
-        # make no changes.
-        if MathJaxTextFilter._nonalpha_re.match(text_content):
+        # make no changes.  (Ignoring variables in <var> tags...)
+        text_content_no_var = re.sub(r'<var>.*?</var>', '', text_content)
+        if MathJaxTextFilter._nonalpha_re.match(text_content_no_var):
             return match.group(0)
 
         # The main regex

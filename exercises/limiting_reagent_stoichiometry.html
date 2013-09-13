@@ -14,6 +14,10 @@
         <var id="GRAM">new Plural(function(num) {
             return $.ngettext("gram", "grams", num);
         })</var>
+        <var id="GRAMS_OF">$._("grams of")</var>
+        <var id="MOLAR_MASS_OF">$._("molar mass of")</var>
+        <var id="MOLES_OF">$._("moles of")</var>
+        <var id="OF">$._("of")</var>
     </div>
     <div class="problems">
         <div id="ch4-o2---co2-h2o" data-calculator="" data-type="template">
@@ -188,7 +192,7 @@
                 <div>
                     <p><code>
                         \dfrac{<var>R1_MASS</var> \cancel{\text{g}}}{<var>R1_MOLAR_MASS</var> \cancel{\text{g}} / \text{mol}} =
-                        \blue{\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}} \text{ of }<var>R1</var>
+                        \blue{\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}} \text{ <var>OF</var> }<var>R1</var>
                     </code>
                     <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-ch4-mol">Explain</a>]</span></p>
                     <div class="subhint" id="expl-ch4-mol">
@@ -196,19 +200,15 @@
                             First we want to convert the given amount of <code><var>R1</var></code> from grams to moles. To do this, we divide
                             the given amount of <code><var>R1</var></code> by the molar mass of <code><var>R1</var></code>.
                         </p><p>
-                             <code>\dfrac{\text{grams of }<var>R1</var>}{\text{molar mass of }<var>R1</var>} = \text{moles of }<var>R1</var></code>
+                             <code>\dfrac{\text{<var>GRAMS_OF</var> }<var>R1</var>}{\text{<var>MOLAR_MASS_OF</var> }<var>R1</var>} = \text{<var>MOLES_OF</var> }<var>R1</var></code>
                         </p><p>
                             To find the molar mass of <code><var>R1</var></code>, we look up the atomic weight of each atom in a molecule of
                             <code><var>R1</var></code> in the periodic table and add them together.
                             In this case, it's <code><var>R1_MOLAR_MASS</var> \text{g/mol}</code>.
-                        </p><p data-if="isSingular(R1_MOL)">
+                        </p><p>
                             Dividing the given <code><var>R1_MASS</var> \text{g}</code> of <code><var>R1</var></code> by the molar mass of
                             <code><var>R1_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
-                            <code>\text{ <var>R1_MOL</var> mole} \text{ of }<var>R1</var></code>.
-                        </p><p data-else="">
-                            Dividing the given <code><var>R1_MASS</var> \text{g}</code> of <code><var>R1</var></code> by the molar mass of
-                            <code><var>R1_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
-                            <code>\text{ <var>R1_MOL</var> moles} \text{ of }<var>R1</var></code>.
+                            <code><var>R1_MOL</var>\text{ <var>plural_form(MOLE, R1_MOL)</var> <var>OF</var> }<var>R1</var></code>.
                         </p>
                     </div>
                 </div>
@@ -216,7 +216,7 @@
                 <div>
                     <p><code>
                         \dfrac{<var>R2_MASS</var> \cancel{\text{g}}}{<var>R2_MOLAR_MASS</var> \cancel{\text{g}} / \text{mol}} =
-                        \green{\text{ <var>plural(R2_MOL, "mole")</var>}} \text{ of }<var>R2</var>
+                        \green{\text{ <var>plural(R2_MOL, "mole")</var>}} \text{ <var>OF</var> }<var>R2</var>
                     </code>
                     <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-o2-mol">Explain</a>]</span></p>
                     <div class="subhint" id="expl-o2-mol">
@@ -224,19 +224,15 @@
                             We want to convert the given amount of <code><var>R2</var></code> from grams to moles. To do this, we divide
                             the given amount of <code><var>R2</var></code> by the molar mass of <code><var>R2</var></code>.
                         </p><p>
-                             <code>\dfrac{\text{grams of }<var>R2</var>}{\text{molar mass of }<var>R2</var>} = \text{moles of }<var>R2</var></code>
+                             <code>\dfrac{\text{<var>GRAMS_OF</var> }<var>R2</var>}{\text{<var>MOLAR_MASS_OF</var> }<var>R2</var>} = \text{<var>MOLES_OF</var> }<var>R2</var></code>
                         </p><p>
                             To find the molar mass of <code><var>R2</var></code>, we look up the atomic weight of each atom in a molecule of
                             <code><var>R2</var></code> in the periodic table and add them together.
                             In this case, it's <code><var>R2_MOLAR_MASS</var> \text{g/mol}</code>.
-                        </p><p data-if="isSingular(R2_MOL)">
+                        </p><p>
                             Dividing the given <code><var>R2_MASS</var> \text{g}</code> of <code><var>R2</var></code> by the molar mass of
                             <code><var>R2_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
-                            <code>\text{ <var>R2_MOL</var> mole} \text{ of }<var>R2</var></code>.
-                        </p><p data-else="">
-                            Dividing the given <code><var>R2_MASS</var> \text{g}</code> of <code><var>R2</var></code> by the molar mass of
-                            <code><var>R2_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
-                            <code>\text{ <var>R2_MOL</var> moles} \text{ of }<var>R2</var></code>.
+                            <code>\text{ <var>R2_MOL</var> <var>plural_form(MOLE, R2_MOL)</var>} \text{ <var>OF</var> }<var>R2</var></code>.
                         </p>
                     </div>
                 </div>
@@ -280,28 +276,19 @@
                                 \dfrac{x}{\green{\text{ <var>plural(R2_MOL, "mole")</var>}}}
                                 </code>
                             </p>
-                            <p data-if="isSingular(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO))">
+                            <p>
                                 Instead of finding out how much <code><var>R2</var></code> we need to react with all of our <code><var>R1</var></code>, we could
                                 figure out how much <code><var>R1</var></code> we need to react with all of our <code><var>R2</var></code>. In this case,
-                                <code>x = \text{ <var>roundTo(3, R2_MOL * R1_RATIO / R2_RATIO)</var> mole}</code> of
-                                <code><var>R1</var></code> needed, which
-                                is more than we have. Therefore <code><var>R1</var></code> is the limiting reagent.
-                            </p><p data-else="">
-                                Instead of finding out how much <code><var>R2</var></code> we need to react with all of our <code><var>R1</var></code>, we could
-                                figure out how much <code><var>R1</var></code> we need to react with all of our <code><var>R2</var></code>. In this case,
-                                <code>x = \text{ <var>roundTo(3, R2_MOL * R1_RATIO / R2_RATIO)</var> moles}</code> of
+                                <code>x = \text{ <var>roundTo(3, R2_MOL * R1_RATIO / R2_RATIO)</var> <var>plural_form(MOLE, roundTo(3, R2_MOL * R1_RATIO / R2_RATIO))</var>}</code> of
                                 <code><var>R1</var></code> needed, which
                                 is more than we have. Therefore <code><var>R1</var></code> is the limiting reagent.
                             </p>
                         </div>
                         <p>
-                            <span data-if="isSingular(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO))"><code>x = \text{ <var>roundTo(3, R1_MOL * R2_RATIO / R1_RATIO)</var> mole}</code> of
-                            <code><var>R2</var></code> needed.</span><span data-else=""><code>x = \text{ <var>roundTo(3, R1_MOL * R2_RATIO / R1_RATIO)</var> moles}</code> of
+                            <span><code>x = \text{ <var>roundTo(3, R1_MOL * R2_RATIO / R1_RATIO)</var> <var>plural_form(MOLE, roundTo(3, R1_MOL * R2_RATIO / R1_RATIO))</var>}</code> of
                             <code><var>R2</var></code> needed.</span>
-                            <span data-if="isSingular(R2_MOL)">We have <code>\text{ <var>R2_MOL</var> mole}</code> of <code><var>R2</var></code>, which is more
-                            than we need. Therefore <code><var>R1</var></code> is the limiting reagent.</span><span data-else="">We have <code>\text{ <var>R2_MOL</var> moles}</code> of <code><var>R2</var></code>, which is more
+                            <span>We have <code>\text{ <var>R2_MOL</var> <var>plural_form(MOLE, R2_MOL)</var>}</code> of <code><var>R2</var></code>, which is more
                             than we need. Therefore <code><var>R1</var></code> is the limiting reagent.</span>
-                        </p>
                     </div>
 
                     <div>
@@ -333,10 +320,8 @@
                             \dfrac{<var>R1</var>}{<var>P1</var>} = \dfrac{<var>R1_RATIO</var>}{<var>P1_RATIO</var>} =
                             \dfrac{\blue{\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}}}{x}
                         </code></p>
-                        <p data-if="isSingular(P1_MOL)">
-                            <code>x = \text{ <var>P1_MOL</var> mole}</code> of <code><var>P1</var></code> produced.
-                        </p><p data-else="">
-                            <code>x = \text{ <var>P1_MOL</var> moles}</code> of <code><var>P1</var></code> produced.
+                        <p>
+                            <code>x = \text{ <var>P1_MOL</var> <var>plural_form(MOLE, P1_MOL)</var>}</code> of <code><var>P1</var></code> produced.
                         </p>
                     </div>
                 </div>
@@ -379,26 +364,18 @@
                                 \dfrac{\blue{\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}}}{x}
                                 </code>
                             </p>
-                            <p data-if="isSingular(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO))">
+                            <p>
                                 Instead of finding out how much <code><var>R1</var></code> we need to react with all of our <code><var>R2</var></code>, we could
                                 figure out how much <code><var>R2</var></code> we need to react with all of our <code><var>R1</var></code>. In this case,
-                                <code>x = \text{ <var>roundTo(3, R1_MOL * R2_RATIO / R1_RATIO)</var> mole}</code> of
-                                <code><var>R2</var></code> needed, which
-                                is more than we have. Therefore <code><var>R2</var></code> is the limiting reagent.
-                            </p><p data-else="">
-                                Instead of finding out how much <code><var>R1</var></code> we need to react with all of our <code><var>R2</var></code>, we could
-                                figure out how much <code><var>R2</var></code> we need to react with all of our <code><var>R1</var></code>. In this case,
-                                <code>x = \text{ <var>roundTo(3, R1_MOL * R2_RATIO / R1_RATIO)</var> moles}</code> of
+                                <code>x = \text{ <var>roundTo(3, R1_MOL * R2_RATIO / R1_RATIO)</var> <var>plural_form(MOLE, roundTo(3, R1_MOL * R2_RATIO / R1_RATIO))</var>}</code> of
                                 <code><var>R2</var></code> needed, which
                                 is more than we have. Therefore <code><var>R2</var></code> is the limiting reagent.
                             </p>
                         </div>
                         <p>
-                            <span data-if="isSingular(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO))"><code>x = \text{ <var>roundTo(3, R2_MOL * R1_RATIO / R2_RATIO)</var> mole}</code> of
-                            <code><var>R1</var></code> needed.</span><span data-else=""><code>x = \text{ <var>roundTo(3, R2_MOL * R1_RATIO / R2_RATIO)</var> moles}</code> of
+                            <span><code>x = \text{ <var>roundTo(3, R2_MOL * R1_RATIO / R2_RATIO)</var> <var>plural_form(MOLE, roundTo(3, R2_MOL * R1_RATIO / R2_RATIO))</var>}</code> of
                             <code><var>R1</var></code> needed.</span>
-                            <span data-if="isSingular(R1_MOL)">We have <code>\text{ <var>R1_MOL</var> mole}</code> of <code><var>R1</var></code>, which is more
-                            than we need. Therefore <code><var>R2</var></code> is the limiting reagent.</span><span data-else="">We have <code>\text{ <var>R1_MOL</var> moles}</code> of <code><var>R1</var></code>, which is more
+                            <span>We have <code>\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}</code> of <code><var>R1</var></code>, which is more
                             than we need. Therefore <code><var>R2</var></code> is the limiting reagent.</span>
                         </p>
                     </div>
@@ -432,18 +409,16 @@
                             \dfrac{<var>R2</var>}{<var>P1</var>} = \dfrac{<var>R2_RATIO</var>}{<var>P1_RATIO</var>} =
                             \dfrac{\green{\text{ <var>R2_MOL</var> <var>plural_form(MOLE, R2_MOL)</var>}}}{x}
                         </code></p>
-                        <p data-if="isSingular(P1_MOL)">
-                            <code>x = \text{ <var>P1_MOL</var> mole}</code> of <code><var>P1</var></code> produced.
-                        </p><p data-else="">
-                            <code>x = \text{ <var>P1_MOL</var> moles}</code> of <code><var>P1</var></code> produced.
+                        <p>
+                            <code>x = \text{ <var>P1_MOL</var> <var>plural_form(MOLE, P1_MOL)</var>}</code> of <code><var>P1</var></code> produced.
                         </p>
                     </div>
                 </div>
 
                 <p><code>
                     \cancel{\text{<var>P1_MOL</var> <var>plural_form(MOLE, P1_MOL)</var>}}
-                    <var>P1</var> \times \dfrac{<var>P1_MOLAR_MASS</var> \text{g}}{\cancel{\text{mole}}} =
-                    \text{ <var>P1_MASS</var> <var>plural_form(GRAM, P1_MASS)</var>} \text{ of }<var>P1</var>
+                    <var>P1</var> \times \dfrac{<var>P1_MOLAR_MASS</var> \text{g}}{\cancel{\text{<var>plural_form(MOLE, 1)</var>}}} =
+                    \text{ <var>P1_MASS</var> <var>plural_form(GRAM, P1_MASS)</var>} \text{ <var>OF</var> }<var>P1</var>
                 </code></p>
             </div>
         </div>
