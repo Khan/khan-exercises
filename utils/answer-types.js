@@ -243,16 +243,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 log: $._("an expression, like <code>\\log(100)</code>"),
 
-                percent: $._("a percent, like <code>12.34\\%</code>"),
+                percent: $._("a percent, like <code>" + KhanUtil.localeToFixed(12.34, 2) + "\\%</code>"),
 
                 mixed: $._("a mixed number, like <code>1\\ 3/4</code>"),
 
                 decimal: (function() {
                         if (options.inexact === undefined) {
                             return $._("an <em>exact</em> decimal, like " +
-                                "<code>0.75</code>");
+                                "<code>" + KhanUtil.localeToFixed(0.75, 2) + "</code>");
                         } else {
-                            return $._("a decimal, like <code>0.75</code>");
+                            return $._("a decimal, like <code>" + KhanUtil.localeToFixed(0.75, 2) + "</code>");
                         }
                     })()
             };
