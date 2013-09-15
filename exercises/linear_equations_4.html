@@ -71,7 +71,7 @@
             </div>
 
             <div id="fraction">
-                <div class="vars">
+                <div class="vars" data-ensure="!NUMERATOR.divide(DENOMINATOR)">
                     <var id="NUMERCOEFF">NUMERCONST &lt; 1 ? randRange(1, 5) : randRange(0, 5)</var>
                     <div data-ensure="DENOMCOEFF !== SIGN * NUMERCOEFF * CONSTANT">
                         <var id="CONSTANT">randRange(2, 10)</var>
