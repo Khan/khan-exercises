@@ -744,27 +744,25 @@ $.fn["word-problemsLoad"] = function() {
 
     // NOTE(jeresig): I18N: These strings are expected to work prefixed with
     // just the letter "A", as in "A gorilla"
-// *d* an jede Farbe ein 'e' gehängt, da im englische keine Anpassung aufgrund
-// *d* des Geschlechts vorgenommen werden würde und nur 'e' als Endung die meisten
-// *d* Fälle abdekcen sollte
 // *d* ##################################WICHTIG###########################################
 // *d* Bei Übersetzung der Übungen sollte auf diesen Umstand geachtet werden
+// *d* NOTE(andy) Wo kommen dei Farben ins Spiel?
     var colors = new IncrementalShuffler([
-        $._("rote"),
+        $._("rot"),
         // NOTE(jeresig): I18N: Removed because it begins with a vowel and is
         // used with an()
 // *d* reaktiviert für die deutsche Sprache, da keine Probleme mit Artikel
         $._("orange"),
-        $._("gelbe"),
-        $._("grüne"),
-        $._("blaue"),
-        $._("violette"),
-        $._("weiße"),
-        $._("schwarze"),
-        $._("braune"),
-        $._("silberne"),
-        $._("goldene"),
-        $._("rosa-farbene")
+        $._("gelb"),
+        $._("grün"),
+        $._("blau"),
+        $._("violett"),
+        $._("weiß"),
+        $._("schwarz"),
+        $._("braun"),
+        $._("silbern"),
+        $._("golden"),
+        $._("rosa-farben")
     ]);
 
 // *d* keine Idee, was wir hiermit anstellen wollen...
@@ -1014,16 +1012,14 @@ $.fn["word-problemsLoad"] = function() {
     // TODO(jeresig): I18N: Kill this.
 // *d* soll scheinbar gelöscht werden
 // *d* ##################################WICHTIG###########################################
-// *d* muss für deutsche Version vermutlich angepasst werden,
+// *d* muss für deutsche Version vermutlich angepasst werden, da
 // *d* sonst immer 'A ...' oder eben 'AN ...' zurückgegeben wird
-// *d* hier müsste UNterscheidung zwischen 'ein' und 'eine' vorgenommen
+// *d* hier müsste Unterscheidung zwischen 'ein' und 'eine' vorgenommen
 // *d* werden
+// *d* Übergangslösung: keinen Artikel davor setzen
     var indefiniteArticle = function(word) {
-        var vowels = ["a", "e", "i", "o", "u"];
-        if (_(vowels).indexOf(word[0].toLowerCase()) > -1) {
-            return "An " + word;
-        }
-        return "A " + word;
+        
+        return word;
     };
 
     $.extend(KhanUtil, {
