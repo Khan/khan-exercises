@@ -205,10 +205,14 @@
         </div>
         <div id="find-height" >
             <div class="vars">
-                <var id="DIMENSIONS">randRangeUnique(2,8,3)</var>
-                <var id="LENGTH">DIMENSIONS[0]</var>
-                <var id="WIDTH">DIMENSIONS[1]</var>
-                <var id="HEIGHT">DIMENSIONS[2]</var>
+                <var id="DENOMINATORS">[randRange(2, 5), randRange(2, 5), randRange(2, 5)]</var>
+                <var id="NUMERATORS">[randRange(1, 6), randRange(1, 6), randRange(1, 6)]</var>
+                <var id="DENOMPRODUCT">DENOMINATORS[0] * DENOMINATORS[1] * DENOMINATORS[2]</var>
+                <var id="NUMERPRODUCT">NUMERATORS[0] * NUMERATORS[1] * NUMERATORS[2]</var>
+                <var id="WIDTH, HEIGHT, LENGTH">_.map(NUMERATORS, function(n, i) {return n / DENOMINATORS[i]; })</var>
+                <var id="FRACTIONS">_.map(NUMERATORS, function(n, i) {return fractionReduce(n, DENOMINATORS[i]); })</var>
+                <var id="GCD">getGCD(DENOMINATORS[0] * DENOMINATORS[2], DENOMINATORS[1] * NUMERATORS[0])</var>
+                <var id="VOL">fractionReduce(NUMERPRODUCT, DENOMPRODUCT)</var>
                 <var id="MAX">max(max(LENGTH, WIDTH), HEIGHT)</var>
                 <var id="XBORD">LENGTH/MAX</var>
                 <var id="YBORD">WIDTH/MAX</var>
@@ -233,27 +237,27 @@
                     {
                         verts: [3, 2, 1, 0],
                         color: COLOR1,
-                        labels: [[[XBORD, 0, ZBORD], WIDTH + UNIT_TEXT]]
+                        labels: [[[XBORD, 0, ZBORD], FRACTIONS[0] + UNIT_TEXT]]
                     }, {
                         verts: [4, 5, 6, 7],
                         color: COLOR1,
-                        labels: [[[-XBORD, 0, -ZBORD],WIDTH + UNIT_TEXT]]
+                        labels: [[[-XBORD, 0, -ZBORD], FRACTIONS[0] + UNIT_TEXT]]
                     }, {
                         verts: [0, 1, 5, 4],
                         color: COLOR3,
-                        labels: [[[-XBORD, YBORD, 0], "\\Box" + UNIT_TEXT]]
+                        labels: [[[-XBORD, YBORD, 0], "x" + UNIT_TEXT]]
                     }, {
                         verts: [2, 3, 7, 6],
                         color: COLOR3,
-                        labels: [[[-XBORD, -YBORD, 0], "\\Box" + UNIT_TEXT]]
+                        labels: [[[-XBORD, -YBORD, 0], "x" + UNIT_TEXT]]
                     }, {
                         verts: [1, 2, 6, 5],
                         color: COLOR2,
-                        labels: [[[0, -YBORD, -ZBORD], LENGTH + UNIT_TEXT]]
+                        labels: [[[0, -YBORD, -ZBORD], FRACTIONS[2] + UNIT_TEXT]]
                     }, {
                         verts: [3, 0, 4, 7],
                         color: COLOR2,
-                        labels: [[[0, YBORD, ZBORD], LENGTH + UNIT_TEXT]]
+                        labels: [[[0, YBORD, ZBORD], FRACTIONS[2] + UNIT_TEXT]]
                     }
                 ]</var>
                 <var id = "FACEDIVIDERS">[
@@ -273,8 +277,8 @@
             </div>
 
             <p class="question">
-                The volume of this box is <code><var>LENGTH*WIDTH*HEIGHT</var> <var>UNIT_TEXT</var>^3</code>.
-                What is the number labeled <code>\Box</code> below?
+                The volume of this box is <code><var>VOL</var> <var>UNIT_TEXT</var>^3</code>.
+                What is the number labeled <code>x</code> below?
             </p>
 
             <div class="graphie" id = "box">
@@ -374,90 +378,26 @@
 
             </div>
 
-            <div class="solution" data-forms="integer">
-                <var>HEIGHT</var>
-            </div>
+            <div class="solution" data-type="number"><var>HEIGHT</var></div>
 
             <div class="hints">
-                <div>
-                    <p>
-                        The volume of the <code>
-                            <var>LENGTH</var> <var>UNIT_TEXT</var> \times
-                            <var>WIDTH</var> <var>UNIT_TEXT</var> \times
-                            1 <var>UNIT_TEXT</var>
-                        </code> slab pictured above is <code>
-                            <var>LENGTH*WIDTH</var> <var>UNIT_TEXT</var>^3
-                        </code> since there are
-                        <code><var>LENGTH</var></code> rows of
-                        <code><var>WIDTH</var></code> cubic
-                        <var>plural_form(UNIT)</var>.
-                    </p>
-                    <div class="graphie" data-update = "box">
-                         var start = 8+4*(HEIGHT-1)-1
-
-                         // bottom length
-                         for (var i = 1; i&lt;LENGTH;i++){
-                               graph.obj.addSketch({ verts: [start+i, start+LENGTH+i-1], opacityValue: 0.5});
-                             };
-                                 // bottom width
-                             start = start+2*(LENGTH-1);
-                             for (var i = 1; i&lt;WIDTH;i++){
-                               graph.obj.addSketch({ verts: [start+i, start+WIDTH+i-1], opacityValue: 0.5});
-                             };
-                                 // top length
-                             start = start+2*(WIDTH-1);
-                             for (var i = 1; i&lt;LENGTH;i++){
-                               graph.obj.addSketch({ verts: [start+i, start+LENGTH+i-1]});
-                             };
-                                 // top length
-                             start = start+2*(LENGTH-1);
-                             for (var i = 1; i&lt;WIDTH;i++){
-                               graph.obj.addSketch({ verts: [start+i, start+WIDTH+i-1]});
-                             };
-                                 // sides
-                             start = 8+4*(HEIGHT-1)-1
-                             for (var i = 1; i&lt;2*LENGTH+2*WIDTH-3;i++){
-                               graph.obj.addSketch({ verts: [start+i, start+2*LENGTH-2+2*WIDTH-2+i], opacityValue: 0.5});
-                             };
-                                 // corners and top edges
-                                 graph.obj.addSketch({ verts: [1, 2,6,5,1], opacityValue: 0.5});
-
-                                 graph.obj.addSketch({ verts: [1, 8], opacityValue: 0.5});
-                                 graph.obj.addSketch({ verts: [2, 11], opacityValue: 0.5});
-                                 graph.obj.addSketch({ verts: [5, 9], opacityValue: 0.5});
-                                 graph.obj.addSketch({ verts: [6, 10], opacityValue: 0.5});
-
-                                 graph.obj.addSketch({ verts: [8, 9,10,11,8], opacityValue: 0.5});
-
-                        graph.obj.doDraw();
-                    </div>
-
-                </div>
+                <p>The volume of a box equals width <code>\times</code> height <code>\times</code> length.</p>
+                <p>Therefore <code><var>VOL</var> = <var>FRACTIONS[0]</var> \times <var>FRACTIONS[2]</var> \times x</code>.</p>
 
                 <p>
-                    Since the slabs have a height of <code>1</code> <var>UNIT</var>, <code>\Box</code> is the number of these slabs which fill up the whole box.
+                    <code>\qquad<var>fractionReduce(NUMERATORS[0] * NUMERATORS[2], DENOMINATORS[0] * DENOMINATORS[2])</var>x = <var>VOL</var></code>
                 </p>
-                <p>
-                    We can figure out the number of slabs needed by seeing how many times <code><var>LENGTH*WIDTH</var></code>
-                     goes into <code><var>LENGTH*WIDTH*HEIGHT</var></code>
+                <p data-if="NUMERATORS[0] * NUMERATORS[2] !== DENOMINATORS[0] * DENOMINATORS[2]">
+                    <code>\qquad x = <var>VOL</var> \div
+                    <var>fractionReduce(NUMERATORS[0] * NUMERATORS[2], DENOMINATORS[0] * DENOMINATORS[2])</var></code>
                 </p>
-                <p>
-                    So <code>\Box = <var>LENGTH*WIDTH*HEIGHT</var> \div <var>LENGTH*WIDTH</var></code>
+                <p data-if="(NUMERATORS[0] * NUMERATORS[2]) % (DENOMINATORS[0] * DENOMINATORS[2])">
+                    <code>\qquad x = <var>VOL</var> \times
+                    <var>fractionReduce(DENOMINATORS[0] * DENOMINATORS[2], NUMERATORS[0] * NUMERATORS[2])</var>
+                    = <var>FRACTIONS[1]</var></code>
                 </p>
-                <div>
-                    <p>
-                        Thus <code>\Box = <var>HEIGHT</var></code>
-                    </p>
-                     <div class="graphie" data-update = "box">
-                         for (var i = 0; i&lt;HEIGHT-1;i++){
-                               graph.obj.addSketch({ verts: [8+4*i,9+4*i,10+4*i,11+4*i,8+4*i]});
-                             };
-
-                        graph.obj.doDraw();
-                    </div>
-                </div>
-
-
+                <p data-else=""><code>\qquad x = <var>FRACTIONS[1]</var></code>
+                </p>
             </div>
         </div>
 
