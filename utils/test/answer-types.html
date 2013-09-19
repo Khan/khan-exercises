@@ -7,6 +7,7 @@
     <script src="../../local-only/jquery.js"></script>
     <script src="../../local-only/jed.js"></script>
     <script src="../../local-only/i18n.js"></script>
+    <script src="../../local-only/localeplanet/icu.en-US.js"></script>
     <script>
         // TODO(alpert): Ugh, should probably load khan-exercise.js for real...
         var Khan = {
@@ -29,6 +30,10 @@
                 seed = ((seed + 0xfd7046c5) + (seed << 3)) & 0xffffffff;
                 seed = ((seed ^ 0xb55a4f09) ^ (seed >>> 16)) & 0xffffffff;
                 return (Khan.randomSeed = (seed & 0xfffffff)) / 0x10000000;
+            },
+            localeToFixed: function(num, places) {
+                var decimal = icu.getDecimalFormatSymbols().decimal_separator;
+                return num.toFixed(places).replace(".", decimal);
             }
         };
         $.fn.runModules = function() {
@@ -101,14 +106,17 @@
         var validator = answerData.validator;
         var getAnswer = answerData.answer;
 
+        var answer = validator(getAnswer());
         if (result === "string") {  // literally, the string "string"
-            strictEqual(typeof validator(getAnswer()), "string", description);
+            notStrictEqual(answer.message, "", description);
+        } else if (result === "") {
+            strictEqual(answer.empty, true, description);
         } else {
-            strictEqual(validator(getAnswer()), result, description);
+            strictEqual(answer.correct, result, description);
         }
     }
 
-    asyncTest("number integer", 7, function() {
+    asyncTest("number integer", 8, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='integer'>-42<\/p>"
         );
@@ -116,6 +124,7 @@
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
                 $problem.children(".solution"));
 
+        testAnswer(answerData, "", "", "empty answer is empty");
         testAnswer(answerData, "123", false, "wrong answer is wrong");
         testAnswer(answerData, "-42", true, "right answer is right");
         testAnswer(answerData, "-84/2", false, "non-integer right answer is wrong");
@@ -451,7 +460,7 @@
         start();
     });
 
-    asyncTest("decimal", 9, function() {
+    asyncTest("decimal", 10, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='decimal'>12345.6789<\/p>"
         );
@@ -459,6 +468,7 @@
         var answerData = Khan.answerTypes.decimal.setup($("#solutionarea"),
                 $problem.children(".solution"));
 
+        testAnswer(answerData, "", "", "empty answer is empty");
         testAnswer(answerData, "12345.6788", false, "wrong answer is wrong");
         testAnswer(answerData, "12345.6789", true, "right answer is right");
         testAnswer(answerData, "12345,6789", true, "right answer with decimal comma is right");
@@ -472,7 +482,7 @@
         start();
     });
 
-    asyncTest("number generic 0", 3, function() {
+    asyncTest("number generic 0", 4, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>0<\/p>"
         );
@@ -480,6 +490,7 @@
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
                 $problem.children(".solution"));
 
+        testAnswer(answerData, "", "", "empty answer is empty");
         testAnswer(answerData, "42", false, "wrong answer is wrong");
         testAnswer(answerData, "0", true, "right answer is right");
         testAnswer(answerData, "0.0", true, "right answer is right");
@@ -852,7 +863,7 @@
             var getAnswer = answerData.answer;
 
             // By default, nothing is checked so the validator gives ""
-            strictEqual(validator(getAnswer()), "", "initial validation is empty");
+            strictEqual(validator(getAnswer()).empty, true, "initial validation is empty");
 
             // Each answer should have a non-empty MathJax script tag
             $("#solutionarea script").each(function() {
@@ -865,14 +876,14 @@
                 .closest("label").children("input");
             $correctRadio.prop("checked", true);
 
-            strictEqual(validator(getAnswer()), true);
+            strictEqual(validator(getAnswer()).correct, true);
 
             // If we check a wrong answer, then it'll return false
             var $incorrectRadio = $("#solutionarea script")
                 .filter(function() { return !(/6/).test($(this).html()); })
                 .closest("label").children("input");
             $incorrectRadio.prop("checked", true);
-            strictEqual(validator(getAnswer()), false);
+            strictEqual(validator(getAnswer()).correct, false);
 
             // Tell QUnit we're done.
             start();
@@ -901,7 +912,7 @@
         var getAnswer = answerData.answer;
 
         // By default, nothing is checked so the validator gives ""
-        strictEqual(validator(getAnswer()), "", "initial validation is empty");
+        strictEqual(validator(getAnswer()).empty, true, "initial validation is empty");
 
         var texts = _.map($("#solutionarea span.value"), function(e) {
             return $(e).text();
@@ -914,14 +925,14 @@
             .closest("label").children("input");
         $correctRadio.prop("checked", true);
 
-        strictEqual(validator(getAnswer()), true);
+        strictEqual(validator(getAnswer()).correct, true);
 
         // If we check a wrong answer, then it'll return false
         var $incorrectRadio = $("#solutionarea span.value")
             .filter(function() { return (/A/).test($(this).html()); })
             .closest("label").children("input");
         $incorrectRadio.prop("checked", true);
-        strictEqual(validator(getAnswer()), false);
+        strictEqual(validator(getAnswer()).correct, false);
 
         start();
     });
@@ -1059,7 +1070,7 @@
             "The only choice should be none of the above");
 
         // By default, nothing is checked so the validator gives ""
-        strictEqual(validator(getAnswer()), "", "initial validation is empty");
+        strictEqual(validator(getAnswer()).empty, true, "initial validation is empty");
 
         // If we check the right answer (C), then it'll return true
         var $correctRadio = $("#solutionarea span.value").first()
@@ -1067,7 +1078,7 @@
         $correctRadio.prop("checked", true);
 
         // Make sure the answer gets marked as correct
-        strictEqual(validator(getAnswer()), true);
+        strictEqual(validator(getAnswer()).correct, true);
 
         // Now, wait for the animation to wear off...
         setTimeout(function() {

@@ -588,17 +588,7 @@ var Khan = (function() {
         },
 
         scoreInput: function() {
-            var guess = getAnswer();
-            var pass = validator(guess);
-            var empty = checkIfAnswerEmpty(guess) || checkIfAnswerEmpty(pass);
-
-            // Really disentangling the true/false/""/"..." mess? Incroyable!
-            return {
-                empty: empty,
-                correct: pass === true,
-                message: typeof pass === "string" ? pass : null,
-                guess: guess
-            };
+            return validator(getAnswer());
         },
 
         /**
