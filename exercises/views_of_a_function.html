@@ -183,7 +183,6 @@
 
                     var validator = Khan.answerTypes.predicate.createValidatorFunctional(function(guess, maxError) {
                         if (abs(FUNC(guess[0]) - guess[1]) &lt; maxError) {
-                            console.log(guess[0] + " " + guess[1]);
                             correct += 1;
                             xs.push(guess[0]);
                             return true;
