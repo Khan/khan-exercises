@@ -543,6 +543,24 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return [];
                 },
 
+                // 2-d graph coordinate (point) in array format [x, y]
+                point: function(value, precision) {
+                    if ($.isArray(value) && value.length === 2) {
+                        var x = forms.decimal(value[0]);
+                        var y = forms.decimal(value[1]);
+                        return [
+                            {
+                                value: [x[0].value, y[0].value],
+                                exact: [x[0].exact, y[0].exact]
+                            },
+                            {
+                                value: [x[1].value, y[1].value],
+                                exact: [x[1].exact, y[1].exact]
+                            },
+                        ]
+                    }
+                    return [];
+                },
                 // Decimal numbers -- compare entered text rounded to
                 // 'precision' Reciprical of the precision against the correct
                 // answer. We round to 1/1e10 by default, which is healthily
@@ -603,7 +621,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 var fallback =
                     options.fallback != null ? "" + options.fallback : "";
 
-                guess = $.trim(guess) || fallback;
+                if ($.isArray(guess)) {
+                    guess = $.map(guess, function(n, i) {
+                        return $.trim(n) || fallback;
+                    });
+                } else {
+                    guess = $.trim(guess) || fallback;
+                }
                 var ret = false;
 
                 // iterate over all the acceptable forms, and if one of the
@@ -1787,7 +1811,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      *
      *     no functions specified: f(x+y) == fx + fy
      *     with "f" as a function: f(x+y) != fx + fy
-     * 
+     *
      * Comparison options:
      * same-form (e.g. data-same-form)
      *     If present, the answer must match the solution's structure in
@@ -1795,32 +1819,32 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      *     are ignored, but all other changes will trigger a rejection. Useful
      *     for requiring a particular form of an equation, or if the answer
      *     must be factored.
-     *     
+     *
      *     example question:    Factor x^2 + x - 2
      *     example solution:    (x-1)(x+2)
      *     accepted answers:    (x-1)(x+2), (x+2)(x-1), ---(-x-2)(-1+x), etc.
      *     rejected answers:    x^2+x-2, x*x+x-2, x(x+1)-2, (x-1)(x+2)^1, etc.
      *     rejection message:   Your answer is not in the correct form
-     *     
+     *
      * simplify (e.g. data-simplify)
      *     If present, the answer must be fully expanded and simplified. Use
      *     carefully - simplification is hard and there may be bugs, or you
      *     might not agree on the definition of "simplified" used. You will
      *     get an error if the provided solution is not itself fully expanded
      *     and simplified.
-     *     
+     *
      *     example question:    Simplify ((n*x^5)^5) / (n^(-2)*x^2)^-3
      *     example solution:    x^31 / n
      *     accepted answers:    x^31 / n, x^31 / n^1, x^31 * n^(-1), etc.
      *     rejected answers:    (x^25 * n^5) / (x^(-6) * n^6), etc.
      *     rejection message:   Your answer is not fully expanded and simplified
-     *     
+     *
      * Rendering options:
      * times (e.g. data-times)
      *     If present, explicit multiplication (such as between numbers) will
      *     be rendered with a cross/x symbol (TeX: \times) instead of the usual
      *     center dot (TeX: \cdot).
-     *     
+     *
      *     normal rendering:    2 * 3^x -> 2 \cdot 3^{x}
      *     but with "times":    2 * 3^x -> 2 \times 3^{x}
      */
