@@ -1,5 +1,6 @@
+.git/**
+
 local-only/**
-exercises/**
 test/**
 
 # Third-party code in utils/
@@ -11,11 +12,11 @@ utils/raphael.js
 utils/test/**
 
 # Stuff that the main webapp repo sometimes sticks into khan-exercises/
+# TODO(csilvers): remove after 1 Oct 2013
 **/_hashed-*.js
 
 # TODO(csilvers): fix these
 build/kathjax-config.js
-utils/answer-types.js
 utils/calculator.js
 utils/chemistry.js
 utils/congruency.js

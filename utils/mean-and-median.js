@@ -257,7 +257,7 @@ $.extend(KhanUtil, {
         // Keep moving outlier points further away from the median until
         // we get to the right mean
         var mean = calculateMean(newValues);
-        while (mean != graph.graph.targetMean) {
+        while (mean !== graph.graph.targetMean) {
             if (mean < graph.graph.targetMean) {
                 // Start by moving the right-most point further to the right, then the next, etc.
                 var pointToMove = newValues.length - 1;

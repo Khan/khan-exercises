@@ -52,7 +52,7 @@
         if (typeof expr1 !== "object") {
             return (expr1 === expr2);
         }
-        if (exprHash(expr1) != exprHash(expr2)) {
+        if (exprHash(expr1) !== exprHash(expr2)) {
             return false;
         }
         if ((expr1.op !== expr2.op) || (expr1.args.length !== expr2.args.length)) {
@@ -196,7 +196,7 @@
        }
        str += ")";
        return str;
-    }
+    };
     var exprToStrExpr = function(expr) {
        if (typeof expr === "string") {
           return "\"" + expr + "\"";
@@ -262,7 +262,7 @@
           expr.opsStyles = [];
        }
        for (var iArg = 0; iArg < expr.args.length; iArg++) {
-           if (iArg != 0) {
+           if (iArg !== 0) {
                expr.opsStyles[iArg - 1] = copyMissingStyleAttrs(expr.style, expr.opsStyles[iArg - 1]);
            }
            expr.args[iArg] = exprSetStyle(expr.args[iArg], expr.style);

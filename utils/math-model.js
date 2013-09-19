@@ -74,7 +74,7 @@
             var env = {x: x};
             var val = evalExpr(n, env);
             return val;
-        }
+        };
 
         if (!range) {
             range = 10;
@@ -118,7 +118,7 @@
 
     var isValidAST = function(n) {
         return n.kind() !== void 0;
-    }
+    };
 
     var isEqualAST = function(n1, n2) {
         var ast = KhanUtil.ast;
@@ -142,7 +142,7 @@
             }
         }
         return false;
-    }
+    };
 
     var polynomial = function(coeffs, ident, lhs) {
         // construct a polynomial expression
@@ -158,13 +158,14 @@
             ident = "x";
         }
 
+        var rhs;
         if (coeffs.length === 1) {
             // degree zero
-            var rhs = coeffs[0];
+            rhs = coeffs[0];
         }
         else {
             // construct a term of degree given by the size of coeffs
-            var rhs = {op: "*", args: [coeffs[0], {op: "^", args: [{op: "var", args: [ident]}, coeffs.length - 1]}]};
+            rhs = {op: "*", args: [coeffs[0], {op: "^", args: [{op: "var", args: [ident]}, coeffs.length - 1]}]};
         }
 
         if (coeffs[0] === 0) {
@@ -172,7 +173,7 @@
         }
         else if (lhs === void 0) {
             // first term, no lhs to contribute, so rhs is lhs
-            var lhs = rhs;
+            lhs = rhs;
         }
         else {
             lhs = {op: "+", args: [lhs, rhs]};
@@ -210,7 +211,7 @@
             str += "\\; ";
         }
         return str;
-    }
+    };
 
     var getOpSymbol = function(expr, iOp) {
         return getOpStyleAttr(expr, iOp, "symbol", expr.op);
@@ -254,12 +255,12 @@
             }
         }
         return text;
-    }
+    };
 
     var addStyle = function(text, expr) {
         if ((expr.parent !== undefined) &&
             (expr.parent.style !== undefined) &&
-            (expr.style != undefined) &&
+            (expr.style !== undefined) &&
             (expr.style.idStyle !== undefined) &&
             (expr.parent.style.idStyle === expr.style.idStyle)) {
             return text;
@@ -304,20 +305,20 @@
         }
         for (var iSel = 0; iSel < selection.length; iSel++) {
             str += format(group[selection[iSel]], simplifyOptions) + " \\\\";
-            if (iSel != selection.length - 1) {
+            if (iSel !== selection.length - 1) {
                 str += "\\\\";
             }
         }
         str += "\\end{alignat}";
         return str;
-    }
+    };
 
     var exprIsNumber = function(expr) {
         if (expr === undefined) {
             return false;
         }
         return ((typeof expr === "number") || (expr.op === OpStr.NUM));
-    }
+    };
 
     // format an AST
     var format = function(expr, simplifyOptions, textSize, hphantom) {
@@ -331,7 +332,7 @@
             expr = KhanUtil.simplify(expr, simplifyOptions);
         }
         return formatRec(expr, textSize, hphantom);
-    }
+    };
 
     // format an AST
     var formatRec = function(n, textSize, hphantom, parent) {
@@ -348,8 +349,9 @@
         }
         else if ($.type(n) === "object") {
             // format sub-expressions
+            var args;
             if ((n.op !== "var") && (n.op !== "cst")) {
-                var args = [];
+                args = [];
                 for (var i = 0; i < n.args.length; i++) {
                     n.args[i].parent = n;
                     args[i] = formatRec(n.args[i], textSize, hphantom);
@@ -602,6 +604,7 @@
             case OpStr.PAREN:
                 var val = args[0];
                 break;
+            default:
             case OpStr.SEC:
             case OpStr.COT:
             case OpStr.CSC:
@@ -614,7 +617,6 @@
             case OpStr.LEQ:
             case OpStr.GEQ:
             case OpStr.COMMA:
-            default:
                 KhanUtil.assert(false, "unimplemented eval operator");
                 break;
             }
@@ -629,28 +631,28 @@
     var parse = function(src, styles) {
         var start = function() {
             T0 = scan.start();
-        }
+        };
 
         var hd = function() {
             //KhanUtil.assert(T0!==0, "hd() T0===0");
             return T0;
-        }
+        };
 
         var alignment = function() {
             return scan.alignment();
-        }
+        };
 
         var lexeme = function() {
             return scan.lexeme();
-        }
+        };
 
         var matchToken = function(t) {
-            if (T0 == t) {
+            if (T0 === t) {
                 next();
                 return true;
             }
             return false;
-        }
+        };
 
         var next = function() {
             T0 = T1;
@@ -658,11 +660,11 @@
             if (T0 === TK_NONE) {
                 T0 = scan.start();
             }
-        }
+        };
 
         var replace = function(t) {
             T0 = t;
-        }
+        };
 
         var eat = function(tc) {
             var tk = hd();
@@ -672,15 +674,16 @@
                 }
             }
             next();
-        }
+        };
 
         var match = function(tc) {
             var tk = hd();
-            if (tk !== tc)
+            if (tk !== tc) {
                 return false;
+            }
             next();
             return true;
-        }
+        };
 
         var setStyle = function(e, style) {
             if (typeof e === "number") {
@@ -688,7 +691,7 @@
             }
             e.style = style;
             return e;
-        }
+        };
 
         var primaryExpr = function() {
             var e;
@@ -770,14 +773,14 @@
                 break;
             }
             return e;
-        }
+        };
 
         var braceExpr = function() {
             eat(TK_LEFTBRACE);
             var e = commaExpr();
             eat(TK_RIGHTBRACE);
             return e;
-        }
+        };
 
         var braceOptionalExpr = function() {
             if (hd() === TK_LEFTBRACE) {
@@ -787,22 +790,22 @@
                 return e;
             }
             return unaryExpr();
-        }
+        };
 
         var bracketExpr = function() {
             eat(TK_LEFTBRACKET);
             var e = commaExpr();
             eat(TK_RIGHTBRACKET);
             return e;
-        }
+        };
 
         var parenExpr = function() {
             return surroundedExpr(TK_LEFTPAREN, TK_RIGHTPAREN, OpStr.PAREN);
-        }
+        };
 
         var absExpr = function() {
             return surroundedExpr(TK_ABS, TK_ABS, OpStr.ABS);
-        }
+        };
 
         var surroundedExpr = function(leftTk, rightTk, op) {
             var leftAlign = alignment();
@@ -822,12 +825,12 @@
             setOpStyle(expr, 0, "align", leftAlign);
             setOpStyle(expr, 1, "align", rightAlign);
             return expr;
-        }
+        };
 
         var unaryExpr = function() {
             var t;
             var expr;
-            switch (t = hd()) {
+            switch ((t = hd())) {
             case TK_COLOR:
                 next();
                 var color = "";
@@ -859,7 +862,7 @@
                 break;
             }
             return expr;
-        }
+        };
 
         var exponentialExpr = function() {
             var expr = unaryExpr();
@@ -874,7 +877,7 @@
                 addStyles(expr, startIdStyle, endIdStyle);
             }
             return expr;
-        }
+        };
 
         var setOpStyle = function(expr, index, styleName, value) {
             if (expr.opsStyles === undefined) {
@@ -884,7 +887,7 @@
                 expr.opsStyles[index] = {};
             }
             expr.opsStyles[index][styleName] = value;
-        }
+        };
 
         var addStyles = function(expr, startIdStyle, endIdStyle, opIdStyle) {
             if (expr.opsStyles === undefined) {
@@ -896,7 +899,7 @@
             } else if (opIdStyle !== undefined) {
                 expr.opsStyles[0] = styles[opIdStyle];
             }
-        }
+        };
 
         var multiplicativeExpr = function() {
             var startIdStyle = scan.idStyle();
@@ -905,7 +908,7 @@
             t = hd();
             while (isMultiplicative(t) || (t === TK_VAR) || (t === TK_LEFTPAREN)) {
                 var opIdStyle = scan.idStyle();
-                var align = undefined;
+                var align;
                 if (isMultiplicative(t)) {
                     align = alignment();
                     next();
@@ -928,7 +931,7 @@
             function isMultiplicative(t) {
                 return t === TK_MUL || t === TK_DIV || t === TK_TIMES || t === TK_CDOT;
             }
-        }
+        };
 
         var additiveExpr = function() {
             var startIdStyle = scan.idStyle();
@@ -949,7 +952,7 @@
             function isAdditive(t) {
                 return t === TK_ADD || t === TK_SUB || t === TK_PM;
             }
-        }
+        };
 
         var compareExpr = function() {
             var startIdStyle = scan.idStyle();
@@ -980,23 +983,23 @@
             }
             return expr;
 
-        }
+        };
 
         var commaExpr = function() {
             var n = compareExpr();
             return n;
-        }
+        };
 
         var expr = function() {
             start();
             var n = commaExpr();
             return n;
-        }
+        };
 
         var scanner = function(src) {
             var idStyle = function() {
                 return openedStyles[openedStyles.length - 1];
-            }
+            };
 
             var start = function() {
                 var c;
@@ -1100,7 +1103,7 @@
                     }
                 }
                 return 0;
-            }
+            };
 
             var number = function(c) {
                 while (c >= "0".charCodeAt(0) && c <= "9".charCodeAt(0)) {
@@ -1110,7 +1113,7 @@
                 curIndex--;
 
                 return TK_NUM;
-            }
+            };
 
             var latex = function() {
                 var c = src.charCodeAt(curIndex++);
@@ -1125,18 +1128,18 @@
                     tk = TK_VAR;   // e.g. \\theta
                 }
                 return tk;
-            }
+            };
 
             var readChar = function() {
                 return src.charAt(curIndex++);
-            }
+            };
 
             var curIndex = 0;
             var curIdStyle = 0;
             var lexeme = "";
             var alignment = [0, 0];
             var popStyles = 0;
-            var lastIdStyle = undefined;
+            var lastIdStyle;
 
             var lexemeToToken = [];
             var braceIsForStyle = [];
@@ -1163,13 +1166,13 @@
 
             return {
                 start: start,
-                lexeme: function() { return lexeme },
+                lexeme: function() { return lexeme; },
                 readChar: readChar,
-                alignment: function() { return alignment },
+                alignment: function() { return alignment; },
                 idStyle: idStyle,
-                lastIdStyle: function() { return lastIdStyle }
+                lastIdStyle: function() { return lastIdStyle; }
             };
-        }
+        };
 
         src = src.replace(/\u2212/g, "-");
         if (styles === undefined) {

@@ -302,6 +302,9 @@ $.extend(KhanUtil.Graphie.prototype, {
     //          - or -
     //        movablePoint.lineEnds.push(movableLineSegment);
     //
+    //  - Connect a movablePolygon to a movablePoint in exacty the same way:
+    //        movablePoint.polygonVertices.push(movablePolygon);
+    //
     addMovablePoint: function(options) {
         // The state object that gets returned
         var movablePoint = $.extend(true, {
@@ -322,6 +325,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             },
             lineStarts: [],
             lineEnds: [],
+            polygonVertices: [],
             normalStyle: {
                 fill: KhanUtil.ORANGE,
                 stroke: KhanUtil.ORANGE
@@ -626,6 +630,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                 this.coordZ = movablePoint.coord;
                 this.transform();
             });
+            $(this.polygonVertices).each(function() {
+                this.transform();
+            });
         };
 
         // Put the point at a new position without any checks, animation, or callbacks
@@ -867,6 +874,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             dragging: false,
             tick: [],
             extendLine: false,
+            extendRay: false,
             constraints: {
                 fixed: false,
                 constrainX: false,
@@ -938,6 +946,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                     element.translate(-0.5, 0);
                     lineLength = graph.dimensions[0] + graph.dimensions[1];
                     lineLength = 2 * lineLength;
+                } else if (this.extendRay) {
+                    lineLength = graph.dimensions[0] + graph.dimensions[1];
                 }
                 element.scale(lineLength, 1, scaledA[0], scaledA[1]);
             }, this);
@@ -1068,6 +1078,259 @@ $.extend(KhanUtil.Graphie.prototype, {
         return lineSegment;
     },
 
+    // MovablePolygon is a polygon that can be dragged around the screen.
+    // By attaching a smartPoint to each vertex, the points can be
+    // manipulated individually.
+    //
+    // To use with smartPoints, add the smartPoints first, then:
+    //   addMovablePolygon({points: [...]});
+    //
+    // Include "fixed: true" in the options if you don't want the entire
+    // polygon to be draggable (you can still use points to make the
+    // vertices draggable)
+    //
+    // The returned object includes the following properties/methods:
+    //
+    //   - polygon.points
+    //         The polygon's dynamic smartPoints and static coordinates, mixed.
+    //
+    //   - polygon.coords
+    //         The polygon's current coordinates (generated, don't edit).
+    //
+    //   - polygon.transform()
+    //         Repositions the polygon. Call after changing any points.
+    //
+    addMovablePolygon: function(options) {
+        var graphie = this;
+
+        var polygon = $.extend({
+            points: [],
+            snapX: 0,
+            snapY: 0,
+            fixed: false,
+            normalStyle: {
+                "stroke": KhanUtil.BLUE,
+                "stroke-width": 2,
+                "fill": KhanUtil.ORANGE,
+                "fill-opacity": 0
+            },
+            highlightStyle: {
+                "stroke": KhanUtil.ORANGE,
+                "stroke-width": 2,
+                "fill": KhanUtil.ORANGE,
+                "fill-opacity": 0.05
+            },
+            pointHighlightStyle: {
+                "fill": KhanUtil.ORANGE,
+                "stroke": KhanUtil.ORANGE
+            }
+        }, options);
+
+        var isPoint = function(coordOrPoint) {
+            return !_.isArray(coordOrPoint);
+        };
+
+        polygon.update = function() {
+            // Update coords
+            _.each(polygon.points, function(coordOrPoint, i) {
+                if (isPoint(coordOrPoint)) {
+                    polygon.coords[i] = coordOrPoint.coord;
+                } else {
+                    polygon.coords[i] = coordOrPoint;
+                }
+            });
+
+            // Calculate bounding box
+            polygon.left = _.min(_.pluck(polygon.coords, 0));
+            polygon.right = _.max(_.pluck(polygon.coords, 0));
+            polygon.top = _.max(_.pluck(polygon.coords, 1));
+            polygon.bottom = _.min(_.pluck(polygon.coords, 1));
+
+            // Calculate scaled coords
+            var scaledCoords = _.map(polygon.coords, function(coord) {
+                return graphie.scalePoint(coord);
+            });
+
+            // Create path
+            polygon.path = KhanUtil.unscaledSvgPath(scaledCoords.concat(true));
+        };
+
+        polygon.transform = function() {
+            polygon.update();
+
+            polygon.visibleShape.attr({path: polygon.path});
+
+            if (!polygon.fixed) {
+                polygon.mouseTarget.attr({path: polygon.path});
+            }
+        };
+
+        polygon.remove = function() {
+            polygon.visibleShape.remove();
+
+            if (!polygon.fixed) {
+                polygon.mouseTarget.remove();
+            }
+        };
+
+        polygon.toBack = function() {
+            if (!polygon.fixed) {
+                polygon.mouseTarget.toBack();
+            }
+
+            polygon.visibleShape.toBack();
+        };
+
+        polygon.toFront = function() {
+            if (!polygon.fixed) {
+                polygon.mouseTarget.toFront();
+            }
+
+            polygon.visibleShape.toFront();
+        };
+
+        // Setup
+
+        _.each(_.filter(polygon.points, isPoint), function(coordOrPoint) {
+            coordOrPoint.polygonVertices.push(polygon);
+        });
+
+        polygon.coords = new Array(polygon.points.length);
+        polygon.update();
+
+        polygon.visibleShape = graphie.raphael.path(polygon.path);
+        polygon.visibleShape.attr(polygon.normalStyle);
+
+        if (!polygon.fixed) {
+            polygon.mouseTarget = graphie.mouselayer.path(polygon.path);
+            polygon.mouseTarget.attr({fill: "#000", opacity: 0, cursor: "move"});
+
+            $(polygon.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
+                if (event.type === "vmouseover") {
+                    if (!KhanUtil.dragging || polygon.dragging) {
+                        polygon.highlight = true;
+                        polygon.visibleShape.animate(polygon.highlightStyle, 50);
+                        _.each(_.filter(polygon.points, isPoint), function(point) {
+                            point.visibleShape.animate(polygon.pointHighlightStyle, 50);
+                        });
+                    }
+
+                } else if (event.type === "vmouseout") {
+                    polygon.highlight = false;
+                    if (!polygon.dragging) {
+                        polygon.visibleShape.animate(polygon.normalStyle, 50);
+                        var points = _.filter(polygon.points, isPoint);
+                        if (!_.any(_.pluck(points, "dragging"))) {
+                            _.each(points, function(point) {
+                                point.visibleShape.animate(point.normalStyle, 50);
+                            });                            
+                        }
+                    }
+
+                } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
+                    event.preventDefault();
+
+                    _.each(_.filter(polygon.points, isPoint), function(point) {
+                        point.dragging = true;
+                    });
+
+                    // start{X|Y} are the scaled coordinate values of the starting mouse position
+                    var startX = (event.pageX - $(graphie.raphael.canvas.parentNode).offset().left) / graphie.scale[0] + graphie.range[0][0];
+                    var startY = graphie.range[1][1] - (event.pageY - $(graphie.raphael.canvas.parentNode).offset().top) / graphie.scale[1];
+                    if (polygon.snapX > 0) {
+                        startX = Math.round(startX / polygon.snapX) * polygon.snapX;
+                    }
+                    if (polygon.snapY > 0) {
+                        startY = Math.round(startY / polygon.snapY) * polygon.snapY;
+                    }
+
+                    var polygonCoords = polygon.coords.slice();
+
+                    // Figure out how many pixels of the bounding box of the polygon lie to each direction of the mouse
+                    var offsetLeft = (startX - polygon.left) * graphie.scale[0];
+                    var offsetRight = (polygon.right - startX) * graphie.scale[0];
+                    var offsetTop = (polygon.top - startY) * graphie.scale[1];
+                    var offsetBottom = (startY - polygon.bottom) * graphie.scale[1];
+
+                    $(document).bind("vmousemove vmouseup", function(event) {
+                        event.preventDefault();
+
+                        polygon.dragging = true;
+                        KhanUtil.dragging = true;
+
+                        // mouse{X|Y} are in pixels relative to the SVG
+                        var mouseX = event.pageX - $(graphie.raphael.canvas.parentNode).offset().left;
+                        var mouseY = event.pageY - $(graphie.raphael.canvas.parentNode).offset().top;
+
+                        // no part of the polygon can go beyond 10 pixels from the edge
+                        mouseX = Math.max(offsetLeft + 10, Math.min(graphie.xpixels - 10 - offsetRight, mouseX));
+                        mouseY = Math.max(offsetTop + 10, Math.min(graphie.ypixels - 10 - offsetBottom, mouseY));
+
+                        // current{X|Y} are the scaled coordinate values of the current mouse position
+                        var currentX = mouseX / graphie.scale[0] + graphie.range[0][0];
+                        var currentY = graphie.range[1][1] - mouseY / graphie.scale[1];
+                        if (polygon.snapX > 0) {
+                            currentX = Math.round(currentX / polygon.snapX) * polygon.snapX;
+                        }
+                        if (polygon.snapY > 0) {
+                            currentY = Math.round(currentY / polygon.snapY) * polygon.snapY;
+                        }
+
+                        if (event.type === "vmousemove") {
+                            var dX = currentX - startX;
+                            var dY = currentY - startY;
+
+                            var increment = function(i) {
+                                return [polygonCoords[i][0] + dX, polygonCoords[i][1] + dY];
+                            };
+
+                            _.each(polygon.points, function(coordOrPoint, i) {
+                                if (isPoint(coordOrPoint)) {
+                                    coordOrPoint.setCoord(increment(i));
+                                } else {
+                                    polygon.points[i] = increment(i);
+                                }
+                            });
+
+                            polygon.transform();
+
+                            if ($.isFunction(polygon.onMove)) {
+                                polygon.onMove(dX, dY);
+                            }
+
+                            $(polygon).trigger("move");
+
+                        } else if (event.type === "vmouseup") {
+                            $(document).unbind("vmousemove vmouseup");
+
+                            var points = _.filter(polygon.points, isPoint);
+                            _.each(points, function(point) {
+                                point.dragging = false;
+                            });
+
+                            polygon.dragging = false;
+                            KhanUtil.dragging = false;
+                            if (!polygon.highlight) {
+                                polygon.visibleShape.animate(polygon.normalStyle, 50);
+                                
+                                _.each(points, function(point) {
+                                    point.visibleShape.animate(point.normalStyle, 50);
+                                });                            
+                            }
+                            if ($.isFunction(polygon.onMoveEnd)) {
+                                polygon.onMoveEnd();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // Bring any movable points to the front
+        _.invoke(_.filter(polygon.points, isPoint), "toFront");
+
+        return polygon;
+    },
 
     addArrowWidget: function(options) {
         var arrowWidget = $.extend({

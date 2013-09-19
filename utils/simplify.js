@@ -36,7 +36,7 @@
     };
 
     var lastAdditiveTerm = function(expr) {
-       var iLastAdditiveTerm = undefined;
+       var iLastAdditiveTerm;
        $.each(expr.args, function(iArg, curArg) {
           if ((typeof curArg === "object") && (curArg.op === "+") && (curArg.args.length > 1)) {
              iLastAdditiveTerm = iArg;
@@ -252,7 +252,7 @@
         } else {
             factorsExp[iFactor] = simplify({op: "+", args: [factorsExp[iFactor], curExponent]}, simplifyOptions.basic);
         }
-    }
+    };
 
     var addToFactorsExps = function(expr, options, factors, factorsExp, curExponent) {
        for (var iFactor = 0; iFactor < factors.length; iFactor++) {
@@ -297,14 +297,14 @@
     var factorSumFull = function(expr) {
        var exprFactors = KhanUtil.factorSum(expr);
        return KhanUtil.genFullExpr(exprFactors.factors, exprFactors.sharedOccFactors, exprFactors.termsOccFactors);
-    }
+    };
 
     var simplifyByFactoring = function(expr, options, steps) {
         var factors = [];
         var factorsExp = [];
         findExprFactorsExps(expr, options, factors, factorsExp, 1);
         return KhanUtil.genExprFromExpFactors(factors, factorsExp, options);
-    }
+    };
 
     var simplifyTimesOp = function(expr, options, steps) {
         var sExpr = KhanUtil.moveSameOpsUp(expr);
@@ -346,7 +346,7 @@
                 }
                 newArgs.push(arg);
             }
-            if (options.evalBasicNumOps && (numValue != 1)) {
+            if (options.evalBasicNumOps && (numValue !== 1)) {
                 numValue *= sign;
                 sign = 1;
                 newArgs.unshift(numValue);
@@ -389,7 +389,7 @@
         if (KhanUtil.opIsMultiplication(expr.op) || (expr.op === "+")) {
             return isNegative(expr.args[0]);
         }
-    }
+    };
 
     var hidePlusBeforeNeg = function(expr) {
        if (expr.opsStyles === undefined) {
@@ -404,7 +404,7 @@
                expr.opsStyles[iArg - 1].hidden = true;
            }
        }
-    }
+    };
 
     var simplificationOps = {
         "+": function(expr, options, steps) {

@@ -119,7 +119,7 @@ var Khan = (function() {
 
     /* Number */
     crc32 = function(str, crc) {
-        if (crc == window.undefined) {
+        if (crc == null) {
             crc = 0;
         }
         var n = 0; //a number between 0 and 255
@@ -704,7 +704,9 @@ var Khan = (function() {
                 e.preventDefault();
 
                 // don't do anything if the user clicked a second time quickly
-                if ($("#issue .issue-form").css("display") === "none") return;
+                if ($("#issue .issue-form").css("display") === "none") {
+                    return;
+                }
 
                 var framework = Exercises.getCurrentFramework(),
                     issueInfo = framework === "khan-exercises" ?
@@ -772,7 +774,9 @@ var Khan = (function() {
                     },
                     labels = [];
                 $.each(flags, function(k, v) {
-                    if (v) labels.push(k);
+                    if (v) {
+                        labels.push(k);
+                    }
                 });
 
                 if (!type) {
@@ -1495,8 +1499,8 @@ var Khan = (function() {
                 },
                 style: {classes: "qtip-light leaf-tooltip"},
                 position: {
-                    my: "bottom center",
-                    at: "top center"
+                    my: "center right",
+                    at: "center left"
                 },
                 show: {
                     delay: 200,
@@ -1876,7 +1880,7 @@ var Khan = (function() {
                 input.val("");
                 history.children().not(inputRow).remove();
             });
-        };
+        }
 
         initializeCalculator();
         Khan.initReportIssueLink("#report, #extras .report-issue-link");
@@ -2051,7 +2055,7 @@ var Khan = (function() {
         var fileName = exerciseElem.data("fileName");
         // TODO(eater): remove this once all of the exercises in the datastore
         // have filename properties
-        if (fileName == null || fileName == "") {
+        if (fileName == null || fileName === "") {
             fileName = id + ".html";
         }
 

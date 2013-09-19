@@ -412,7 +412,7 @@ function Chart(data, pos) {
 
     this.highlightDataPoint = function(index, color) {
         this.drawDataPoint(index, color);
-    }
+    };
 
     this.labelDataPoint = function(index, color) {
         color = color || KhanUtil.BLUE;
@@ -422,7 +422,7 @@ function Chart(data, pos) {
         graph.label([x, y], "\\text{" + val + "}", "above", { color: color });
         graph.style({ "stroke-dasharray": "-", "stroke-width": 1 });
         graph.line([pos.lx, y], [x, y]);
-    }
+    };
 }
 
 function LineChart(data, pos) {
@@ -444,12 +444,12 @@ function LineChart(data, pos) {
         }
         prevPoint = coord;
         graph.label([x, this.transformY(data.min)], "\\text{" + ord + "}", "below");
-    }
+    };
 
     this.highlightDataPoint = function(index, color) {
         prevPoint = null;
         this.drawDataPoint(index, color);
-    }
+    };
 }
 
 function BarChart(data, pos) {
@@ -489,7 +489,7 @@ function drawComplexChart(radius, denominator) {
 
     for (var i = 0; i < denominator; i++) {
         var angle = i * 2 * Math.PI / denominator;
-        if (denominator % 4 === 0 && i % (denominator / 4) != 0) { // Don't draw over axes.
+        if (denominator % 4 === 0 && i % (denominator / 4) !== 0) { // Don't draw over axes.
             graph.line([0, 0], [Math.sin(angle) * safeRadius, Math.cos(angle) * safeRadius], {
                 stroke: color
             });
@@ -509,45 +509,47 @@ function ComplexPolarForm(angleDenominator, maxRadius, euler) {
 
     this.update = function(newAngle, newRadius) {
         angle = newAngle;
-        while (angle < 0) angle += denominator;
+        while (angle < 0) {
+            angle += denominator;
+        }
         angle %= denominator;
 
         radius = Math.max(1, Math.min(newRadius, maximumRadius)); // keep between 0 and maximumRadius...
 
         this.redraw();
-    }
+    };
 
     this.delta = function(deltaAngle, deltaRadius) {
         this.update(angle + deltaAngle, radius + deltaRadius);
-    }
+    };
 
     this.getAngleNumerator = function() {
         return angle;
-    }
+    };
 
     this.getAngleDenominator = function() {
         return denominator;
-    }
+    };
 
     this.getAngle = function() {
         return angle * 2 * Math.PI / denominator;
-    }
+    };
 
     this.getRadius = function() {
         return radius;
-    }
+    };
 
     this.getRealPart = function() {
         return Math.cos(this.getAngle()) * radius;
-    }
+    };
 
     this.getImaginaryPart = function() {
         return Math.sin(this.getAngle()) * radius;
-    }
+    };
 
     this.getUseEulerForm = function() {
         return useEulerForm;
-    }
+    };
 
     this.plot = function() {
         circle = KhanUtil.currentGraph.circle([this.getRealPart(), this.getImaginaryPart()], 1 / 4, {
@@ -561,7 +563,7 @@ function ComplexPolarForm(angleDenominator, maxRadius, euler) {
             circle.remove();
         }
         this.plot();
-    }
+    };
 }
 
 function updateComplexPolarForm(deltaAngle, deltaRadius) {
@@ -593,19 +595,19 @@ function redrawComplexPolarForm(angle, radius) {
 
 function labelDirection(angle) {
     angle = angle % 360;
-    if (angle == 0) {
+    if (angle === 0) {
         return "right";
     } else if (angle > 0 && angle < 90) {
         return "above right";
-    } else if (angle == 90) {
+    } else if (angle === 90) {
         return "above";
     } else if (angle > 90 && angle < 180) {
         return "above left";
-    } else if (angle == 180) {
+    } else if (angle === 180) {
         return "left";
     } else if (angle > 180 && angle < 270) {
         return "below left";
-    } else if (angle == 270) {
+    } else if (angle === 270) {
         return "below";
     } else if (angle > 270 && angle < 360) {
         return "below right";

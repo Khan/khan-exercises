@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems khanscript graphie subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Linear equation word problems</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <script type="text/khanscript">
+        Khan.scratchpad.disable();
+    </script>
+    <div class="problems">
+        <div id="magazine_subscription_selling">
+            <div class="vars" data-ensure="Q &lt; R">
+                <var id="Q">randRange(20, 40)</var>
+                <var id="P">randRange(2, 10)</var>
+                <var id="R">randRange(30, 100)</var>
+                <var id="X">ceil((R - Q) / P)</var>
+                <var id="HINTRAND">randRange(1,3)</var>
+            </div>
+
+            <div class="problem" data-if="isMale(1)">
+                <div id="strategy">
+                    <p>
+                        <a href="#" class="show-subhint"
+                           data-subhint="learn-more"
+                           data-hidden-text="Hide Information">
+                            [Click to learn about the
+                        “<span class="hint_purple" style="font-weight: bold">
+                            What? Why? How?</span>"
+                            strategy]</a>
+                    </p>
+                    <div class="subhint" id="learn-more">
+                        <p>
+                            To use this strategy, ask yourself these
+                            “<span class="hint_purple" style="font-weight: bold">
+                                What? Why? How?</span>"
+                            questions while solving a problem.
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                What are you doing or thinking right now?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                Why is what you are currently doing helpful?
+                                Why is it useful for achieving your goal?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                How well is your current approach to this problem
+                                working?</span>
+                            <br>
+                            As a reminder to ask yourself these questions,
+                            they will sometimes appear in
+                            <span class="hint_purple" style="font-weight: bold">
+                                purple</span>.
+                            <br>
+                            <br>
+                            <a href="#" class="show-subhint"
+                                data-subhint="encouragement"
+                                data-hidden-text="Hide Information">
+                                What if I can’t do it?</a>
+                        </p>
+                        <div class="subhint" id="encouragement">
+                            Many students are not sure what to say, or think
+                            their answer isn’t good. That is fine, as long as you
+                            <span style="font-weight: bold; font-style:italic">
+                                try</span>
+                            to think about the question, by typing or saying the
+                            answer to yourself.
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    <var>person(1)</var> sells magazine subscriptions and earns
+                    <code>$<var>P</var></code> for every new subscriber
+                    he signs up. <var>person(1)</var> also earns a
+                    <code>$<var>Q</var></code> weekly bonus regardless of how many
+                    magazine subscriptions he sells.
+                </p>
+            </div><div class="problem" data-else="">
+                <div id="strategy">
+                    <p>
+                        <a href="#" class="show-subhint"
+                           data-subhint="learn-more"
+                           data-hidden-text="Hide Information">
+                            [Click to learn about the
+                        “<span class="hint_purple" style="font-weight: bold">
+                            What? Why? How?</span>"
+                            strategy]</a>
+                    </p>
+                    <div class="subhint" id="learn-more">
+                        <p>
+                            To use this strategy, ask yourself these
+                            “<span class="hint_purple" style="font-weight: bold">
+                                What? Why? How?</span>"
+                            questions while solving a problem.
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                What are you doing or thinking right now?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                Why is what you are currently doing helpful?
+                                Why is it useful for achieving your goal?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                How well is your current approach to this problem
+                                working?</span>
+                            <br>
+                            As a reminder to ask yourself these questions,
+                            they will sometimes appear in
+                            <span class="hint_purple" style="font-weight: bold">
+                                purple</span>.
+                            <br>
+                            <br>
+                            <a href="#" class="show-subhint"
+                                data-subhint="encouragement"
+                                data-hidden-text="Hide Information">
+                                What if I can’t do it?</a>
+                        </p>
+                        <div class="subhint" id="encouragement">
+                            Many students are not sure what to say, or think
+                            their answer isn’t good. That is fine, as long as you
+                            <span style="font-weight: bold; font-style:italic">
+                                try</span>
+                            to think about the question, by typing or saying the
+                            answer to yourself.
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    <var>person(1)</var> sells magazine subscriptions and earns
+                    <code>$<var>P</var></code> for every new subscriber
+                    she signs up. <var>person(1)</var> also earns a
+                    <code>$<var>Q</var></code> weekly bonus regardless of how many
+                    magazine subscriptions she sells.
+                </p>
+            </div>
+            <p class="question" data-if="isMale(1)">
+                If <var>person(1)</var> wants to earn at least
+                <code>$<var>R</var></code> this week, what is the minimum
+                number of subscriptions he needs to sell?
+            </p><p class="question" data-else="">
+                If <var>person(1)</var> wants to earn at least
+                <code>$<var>R</var></code> this week, what is the minimum
+                number of subscriptions she needs to sell?
+            </p>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <input type="text" id="guessans"> subscriptions
+                </div>
+                <div class="guess">[
+                    $("#guessans").val(),
+                    $("#firsttext").val(),
+                    $("#secondtext").val()
+                ]</div>
+                <div class="validator-function">
+                    var correct = X;
+                    var solutionDiv = $("&lt;div&gt;").text(correct);
+                    var validator = Khan.answerTypes.number.createValidator(solutionDiv);
+                    return validator(guess[0]);
+                </div>
+                <div class="show-guess-solutionarea">
+                    if (guess != null) {
+                        $("#guessans").val(guess[0]);
+                    }
+                    else {
+                        $("#guessans").val("");
+                        if ($("#firsttext").length &gt; 0) {
+                            $("#firsttext").text("");
+                            $("#secondtext").text("");
+                        }
+                    }
+                </div>
+                <div class="show-guess">
+                    if (guess != null &amp;&amp; $("#firsttext").length &gt; 0) {
+                        guess[1] === null ? $("#firsttext").text("") : $("#firsttext").text(guess[1]);
+                        guess[2] === null ? $("#secondtext").text("") : $("#secondtext").text(guess[2]);
+                    }
+                </div>
+                <div class="example">an integer, like <code>6</code></div>
+            </div>
+
+            <div class="hints">
+                <p>To solve this, let's set up an expression to show how much
+                    money <var>person(1)</var> will make.</p>
+                <div>
+                    <div data-if="HINTRAND === 1">
+                        <span class="hint_purple" style="font-weight: bold">What
+                            are you doing or thinking right now?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 2">
+                        <span class="hint_purple" style="font-weight: bold">Why
+                            is what you are currently doing helpful?
+                            Why is it useful for achieving your goal?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 3">
+                        <span class="hint_purple" style="font-weight: bold">How
+                            well is your current approach to this problem
+                            working?</span>
+                    </div>
+                </div>
+                <p>
+                    <span>Amount earned this week <code>=</code></span><br>
+                    <span><code>\qquad</code>Subscriptions sold
+                        <code>\times</code> Price per subscription
+                        <code>+</code> Weekly bonus</span>
+                </p>
+                <p>Since <var>person(1)</var> wants to make
+                    <strong>at least</strong> <code>$<var>R</var></code> this
+                    week, we can turn this into an inequality.</p>
+                <div>
+                    <div data-if="HINTRAND === 1">
+                        <span class="hint_purple" style="font-weight: bold">What
+                            are you doing or thinking right now?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 2">
+                        <span class="hint_purple" style="font-weight: bold">Why
+                            is what you are currently doing helpful?
+                            Why is it useful for achieving your goal?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 3">
+                        <span class="hint_purple" style="font-weight: bold">How
+                            well is your current approach to this problem
+                            working?</span>
+                    </div>
+                </div>
+                <div>
+                    <p>Amount earned this week
+                        <code>\geq $<var>R</var></code></p>
+                    <p>Subscriptions sold <code>\times</code> Price per
+                        subscription <code>+</code> Weekly bonus
+                        <code>\geq $<var>R</var></code></p>
+                </div>
+                <p>We are solving for the number of subscriptions sold, so let
+                    subscriptions sold be represented by the variable
+                    <code>x</code>.</p>
+                <div>
+                    <p>We can now plug in:</p>
+                    <p><code>x \cdot $<var>P</var> + $<var>Q</var> \geq
+                        $<var>R</var></code></p>
+                </div>
+                <div>
+                    <p><code>
+                        x \cdot $<var>P</var> \geq
+                        $<var>R</var> - $<var>Q</var>
+                    </code></p>
+                    <p><code>
+                        x \cdot $<var>P</var> \geq $<var>R - Q</var>
+                    </code></p>
+                </div>
+                <div data-if="(R - Q) % P !== 0" data-unwrap="">
+                    <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
+                        \approx <var>localeToFixed((R - Q) / P, 2)</var></code></p>
+                    <p data-if="(R - Q) % P !== 0">
+                        Since <var>person(1)</var> cannot sell parts of
+                        subscriptions, we round
+                        <code><var>localeToFixed((R - Q) / P, 2)</var></code> up to
+                        <code><var>X</var></code>.
+                    </p>
+                </div>
+                <div data-else="">
+                    <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>} =
+                        <var>(R - Q) / P</var></code></p>
+                </div>
+                <p><var>person(1)</var> must sell at least <var>X</var>
+                    subscriptions this week.</p>
+            </div>
+        </div>
+
+        <div id="video_game_levels">
+            <div class="vars" data-ensure="Q &lt; R">
+                <var id="Q">10 * randRange(100 / 10, 500 / 10)</var>
+                <var id="P">10 * randRange(300 / 10, 1000 / 10)</var>
+                <var id="R">10 * randRange(2000 / 10, 4000 / 10)</var>
+                <var id="X">ceil((R - Q) / P)</var>
+                <var id="HINTRAND">randRange(1,3)</var>
+            </div>
+
+            <div class="problem" data-if="isMale(1)">
+                <div id="strategy">
+                    <p>
+                        <a href="#" class="show-subhint"
+                           data-subhint="learn-more"
+                           data-hidden-text="Hide Information">
+                            [Click to learn about the
+                        “<span class="hint_purple" style="font-weight: bold">
+                            What? Why? How?</span>"
+                            strategy]</a>
+                    </p>
+                    <div class="subhint" id="learn-more">
+                        <p>
+                            To use this strategy, ask yourself these
+                            “<span class="hint_purple" style="font-weight: bold">
+                                What? Why? How?</span>"
+                            questions while solving a problem.
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                What are you doing or thinking right now?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                Why is what you are currently doing helpful?
+                                Why is it useful for achieving your goal?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                How well is your current approach to this problem
+                                working?</span>
+                            <br>
+                            As a reminder to ask yourself these questions,
+                            they will sometimes appear in
+                            <span class="hint_purple" style="font-weight: bold">
+                                purple</span>.
+                            <br>
+                            <br>
+                            <a href="#" class="show-subhint"
+                                data-subhint="encouragement"
+                                data-hidden-text="Hide Information">
+                                What if I can’t do it?</a>
+                        </p>
+                        <div class="subhint" id="encouragement">
+                            Many students are not sure what to say, or think
+                            their answer isn’t good. That is fine, as long as you
+                            <span style="font-weight: bold; font-style:italic">
+                                try</span>
+                            to think about the question, by typing or saying the
+                            answer to yourself.
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    For every level <var>person(1)</var> completes in
+                    his favorite game, he earns
+                    <code><var>P</var></code> points. <var>person(1)</var> already
+                    has <code><var>Q</var></code> points in the game and wants to
+                    end up with at least <code><var>R</var></code> points before
+                    he goes to bed.
+                </p>
+            </div><div class="problem" data-else="">
+                <div id="strategy">
+                    <p>
+                        <a href="#" class="show-subhint"
+                           data-subhint="learn-more"
+                           data-hidden-text="Hide Information">
+                            [Click to learn about the
+                        “<span class="hint_purple" style="font-weight: bold">
+                            What? Why? How?</span>"
+                            strategy]</a>
+                    </p>
+                    <div class="subhint" id="learn-more">
+                        <p>
+                            To use this strategy, ask yourself these
+                            “<span class="hint_purple" style="font-weight: bold">
+                                What? Why? How?</span>"
+                            questions while solving a problem.
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                What are you doing or thinking right now?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                Why is what you are currently doing helpful?
+                                Why is it useful for achieving your goal?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                How well is your current approach to this problem
+                                working?</span>
+                            <br>
+                            As a reminder to ask yourself these questions,
+                            they will sometimes appear in
+                            <span class="hint_purple" style="font-weight: bold">
+                                purple</span>.
+                            <br>
+                            <br>
+                            <a href="#" class="show-subhint"
+                                data-subhint="encouragement"
+                                data-hidden-text="Hide Information">
+                                What if I can’t do it?</a>
+                        </p>
+                        <div class="subhint" id="encouragement">
+                            Many students are not sure what to say, or think
+                            their answer isn’t good. That is fine, as long as you
+                            <span style="font-weight: bold; font-style:italic">
+                                try</span>
+                            to think about the question, by typing or saying the
+                            answer to yourself.
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    For every level <var>person(1)</var> completes in
+                    her favorite game, she earns
+                    <code><var>P</var></code> points. <var>person(1)</var> already
+                    has <code><var>Q</var></code> points in the game and wants to
+                    end up with at least <code><var>R</var></code> points before
+                    she goes to bed.
+                </p>
+            </div>
+            <p class="question" data-if="isMale(1)">
+                What is the minimum number of complete levels that
+                <var>person(1)</var> needs to complete to reach
+                his goal?
+            </p><p class="question" data-else="">
+                What is the minimum number of complete levels that
+                <var>person(1)</var> needs to complete to reach
+                her goal?
+            </p>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <input type="text" id="guessans"> levels
+                </div>
+                <div class="guess">[
+                    $("#guessans").val(),
+                    $("#firsttext").val(),
+                    $("#secondtext").val()
+                ]</div>
+                <div class="validator-function">
+                    var correct = X;
+                    var solutionDiv = $("&lt;div&gt;").text(correct);
+                    var validator = Khan.answerTypes.number.createValidator(solutionDiv);
+                    return validator(guess[0]);
+                </div>
+                <div class="show-guess-solutionarea">
+                    if (guess != null) {
+                        $("#guessans").val(guess[0]);
+                    }
+                    else {
+                        $("#guessans").val("");
+                        if ($("#firsttext").length &gt; 0) {
+                            $("#firsttext").text("");
+                            $("#secondtext").text("");
+                        }
+                    }
+                </div>
+                <div class="show-guess">
+                    if (guess != null &amp;&amp; $("#firsttext").length &gt; 0) {
+                        guess[1] === null ? $("#firsttext").text("") : $("#firsttext").text(guess[1]);
+                        guess[2] === null ? $("#secondtext").text("") : $("#secondtext").text(guess[2]);
+                    }
+                </div>
+                <div class="example">an integer, like <code>6</code></div>
+            </div>
+
+            <div class="hints">
+                <p>To solve this, let's set up an expression to show how many
+                    points <var>person(1)</var> will have after each level.</p>
+                <div>
+                    <div data-if="HINTRAND === 1">
+                        <span class="hint_purple" style="font-weight: bold">What
+                            are you doing or thinking right now?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 2">
+                        <span class="hint_purple" style="font-weight: bold">Why
+                            is what you are currently doing helpful?
+                            Why is it useful for achieving your goal?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 3">
+                        <span class="hint_purple" style="font-weight: bold">How
+                            well is your current approach to this problem
+                            working?</span>
+                    </div>
+                </div>
+                <p>
+                    <span>Number of points <code>=</code></span><br>
+                    <span><code>\qquad</code>Levels completed
+                        <code>\times</code> Points per level <code>+</code>
+                        Starting points</span>
+                </p>
+                <p>
+                    Since <var>person(1)</var> wants to have
+                    <strong>at least</strong> <code><var>R</var></code> points
+                    before going to bed, we can set up an inequality.
+                </p>
+                <div>
+                    <div data-if="HINTRAND === 1">
+                        <span class="hint_purple" style="font-weight: bold">What
+                            are you doing or thinking right now?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 2">
+                        <span class="hint_purple" style="font-weight: bold">Why
+                            is what you are currently doing helpful?
+                            Why is it useful for achieving your goal?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 3">
+                        <span class="hint_purple" style="font-weight: bold">How
+                            well is your current approach to this problem
+                            working?</span>
+                    </div>
+                </div>
+                <div>
+                    <p>Number of points <code>\geq <var>R</var></code></p>
+                    <p>Levels completed <code>\times</code> Points per level
+                        <code>+</code> Starting points <code>\geq
+                        <var>R</var></code></p>
+                </div>
+                <p>We are solving for the number of levels to be completed, so
+                    let the number of levels be represented by the variable
+                    <code>x</code>.</p>
+                <div>
+                    <p>We can now plug in:</p>
+                    <p><code>x \cdot <var>P</var> + <var>Q</var> \geq
+                        <var>R</var></code></p>
+                </div>
+                <div>
+                    <p><code>
+                        x \cdot <var>P</var> \geq <var>R</var> - <var>Q</var>
+                    </code></p>
+                    <p><code>
+                        x \cdot <var>P</var> \geq <var>R - Q</var>
+                    </code></p>
+                </div>
+                <div data-if="(R - Q) % P !== 0" data-unwrap="">
+                    <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
+                        \approx <var>localeToFixed((R - Q) / P, 2)</var></code></p>
+                    <p data-if="(R - Q) % P !== 0"><span data-if="isMale(1)" data-unwrap="">
+                        Since <var>person(1)</var> won't get points unless
+                        he completes the entire level, we round
+                        <code><var>localeToFixed((R - Q) / P, 2)</var></code> up to
+                        <code><var>X</var></code>.
+                    </span><span data-else="" data-unwrap="">
+                        Since <var>person(1)</var> won't get points unless
+                        she completes the entire level, we round
+                        <code><var>localeToFixed((R - Q) / P, 2)</var></code> up to
+                        <code><var>X</var></code>.
+                    </span></p>
+                </div>
+                <div data-else="">
+                    <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>} =
+                        <var>(R - Q) / P</var></code></p>
+                </div>
+                <p><var>person(1)</var> must complete at least <var>X</var>
+                    levels.</p>
+            </div>
+        </div>
+
+        <div id="piano_months">
+            <div class="vars" data-ensure="Q &lt; R">
+                <var id="Q">randRange(5, 50)</var>
+                <var id="R">randRange(50, 200)</var>
+                <var id="P">randRange(1, 10)</var>
+                <var id="X">ceil(( R - Q ) / P)</var>
+                <var id="HINTRAND">randRange(1,3)</var>
+            </div>
+
+            <div class="problem" data-if="isMale(1)">
+                <div id="strategy">
+                    <p>
+                        <a href="#" class="show-subhint"
+                           data-subhint="learn-more"
+                           data-hidden-text="Hide Information">
+                            [Click to learn about the
+                        “<span class="hint_purple" style="font-weight: bold">
+                            What? Why? How?</span>"
+                            strategy]</a>
+                    </p>
+                    <div class="subhint" id="learn-more">
+                        <p>
+                            To use this strategy, ask yourself these
+                            “<span class="hint_purple" style="font-weight: bold">
+                                What? Why? How?</span>"
+                            questions while solving a problem.
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                What are you doing or thinking right now?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                Why is what you are currently doing helpful?
+                                Why is it useful for achieving your goal?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                How well is your current approach to this problem
+                                working?</span>
+                            <br>
+                            As a reminder to ask yourself these questions,
+                            they will sometimes appear in
+                            <span class="hint_purple" style="font-weight: bold">
+                                purple</span>.
+                            <br>
+                            <br>
+                            <a href="#" class="show-subhint"
+                                data-subhint="encouragement"
+                                data-hidden-text="Hide Information">
+                                What if I can’t do it?</a>
+                        </p>
+                        <div class="subhint" id="encouragement">
+                            Many students are not sure what to say, or think
+                            their answer isn’t good. That is fine, as long as you
+                            <span style="font-weight: bold; font-style:italic">
+                                try</span>
+                            to think about the question, by typing or saying the
+                            answer to yourself.
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    To move up to the maestro level in his piano
+                    school, <var>person(1)</var> needs to master at least
+                    <code><var>R</var></code> songs. <var>person(1)</var> has
+                    already mastered <code><var>Q</var></code> songs.
+                </p>
+            </div><div class="problem" data-else="">
+                <div id="strategy">
+                    <p>
+                        <a href="#" class="show-subhint"
+                           data-subhint="learn-more"
+                           data-hidden-text="Hide Information">
+                            [Click to learn about the
+                        “<span class="hint_purple" style="font-weight: bold">
+                            What? Why? How?</span>"
+                            strategy]</a>
+                    </p>
+                    <div class="subhint" id="learn-more">
+                        <p>
+                            To use this strategy, ask yourself these
+                            “<span class="hint_purple" style="font-weight: bold">
+                                What? Why? How?</span>"
+                            questions while solving a problem.
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                What are you doing or thinking right now?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                Why is what you are currently doing helpful?
+                                Why is it useful for achieving your goal?</span>
+                            <br>
+                            <span class="hint_purple" style="font-weight: bold">
+                                How well is your current approach to this problem
+                                working?</span>
+                            <br>
+                            As a reminder to ask yourself these questions,
+                            they will sometimes appear in
+                            <span class="hint_purple" style="font-weight: bold">
+                                purple</span>.
+                            <br>
+                            <br>
+                            <a href="#" class="show-subhint"
+                                data-subhint="encouragement"
+                                data-hidden-text="Hide Information">
+                                What if I can’t do it?</a>
+                        </p>
+                        <div class="subhint" id="encouragement">
+                            Many students are not sure what to say, or think
+                            their answer isn’t good. That is fine, as long as you
+                            <span style="font-weight: bold; font-style:italic">
+                                try</span>
+                            to think about the question, by typing or saying the
+                            answer to yourself.
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    To move up to the maestro level in her piano
+                    school, <var>person(1)</var> needs to master at least
+                    <code><var>R</var></code> songs. <var>person(1)</var> has
+                    already mastered <code><var>Q</var></code> songs.
+                </p>
+            </div>
+            <p class="question">
+                If <var>person(1)</var> can typically master
+                <code><var>P</var></code> songs per month, what is the minimum
+                number of months it will take <var>him(1)</var> to move to the
+                maestro level?
+            </p>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <input type="text" id="guessans"> months
+                </div>
+                <div class="guess">[
+                    $("#guessans").val(),
+                    $("#firsttext").val(),
+                    $("#secondtext").val()
+                ]</div>
+                <div class="validator-function">
+                    var correct = X;
+                    var solutionDiv = $("&lt;div&gt;").text(correct);
+                    var validator = Khan.answerTypes.number.createValidator(solutionDiv);
+                    return validator(guess[0]);
+                </div>
+                <div class="show-guess-solutionarea">
+                    if (guess != null) {
+                        $("#guessans").val(guess[0]);
+                    }
+                    else {
+                        $("#guessans").val("");
+                        if ($("#firsttext").length &gt; 0) {
+                            $("#firsttext").text("");
+                            $("#secondtext").text("");
+                        }
+                    }
+                </div>
+                <div class="show-guess">
+                    if (guess != null &amp;&amp; $("#firsttext").length &gt; 0) {
+                        guess[1] === null ? $("#firsttext").text("") : $("#firsttext").text(guess[1]);
+                        guess[2] === null ? $("#secondtext").text("") : $("#secondtext").text(guess[2]);
+                    }
+                </div>
+                <div class="example">an integer, like <code>6</code></div>
+            </div>
+
+            <div class="hints">
+                <p>To solve this, let's set up an expression to show how many
+                    songs <var>person(1)</var> will have mastered after each
+                    month.</p>
+                <div>
+                    <div data-if="HINTRAND === 1">
+                        <span class="hint_purple" style="font-weight: bold">What
+                            are you doing or thinking right now?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 2">
+                        <span class="hint_purple" style="font-weight: bold">Why
+                            is what you are currently doing helpful?
+                            Why is it useful for achieving your goal?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 3">
+                        <span class="hint_purple" style="font-weight: bold">How
+                            well is your current approach to this problem
+                            working?</span>
+                    </div>
+                </div>
+                <p>
+                    <span>Number of songs mastered <code>=</code></span><br>
+                    <span><code>\quad</code>Months at school
+                        <code>\times</code> Songs mastered per month
+                        <code>+</code> Songs already mastered</span>
+                </p>
+                <p>
+                    Since <var>person(1)</var> Needs to have
+                    <strong>at least</strong> <code><var>R</var></code> songs
+                    mastered to move to maestro level, we can set up an
+                    inequality to find the number of months needed.
+                </p>
+                <div>
+                    <div data-if="HINTRAND === 1">
+                        <span class="hint_purple" style="font-weight: bold">What
+                            are you doing or thinking right now?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 2">
+                        <span class="hint_purple" style="font-weight: bold">Why
+                            is what you are currently doing helpful?
+                            Why is it useful for achieving your goal?</span>
+                    </div>
+                    <div data-else-if="HINTRAND === 3">
+                        <span class="hint_purple" style="font-weight: bold">How
+                            well is your current approach to this problem
+                            working?</span>
+                    </div>
+                </div>
+                <div>
+                    <p>Number of songs mastered <code>\geq
+                        <var>R</var></code><br>
+                    </p><p>
+                    <span>Months at school <code>\times</code> Songs mastered
+                        per month</span><br>
+                    <span><code>\qquad+</code> Songs already mastered
+                        <code>\geq <var>R</var></code></span>
+                    </p>
+                </div>
+                <p>We are solving for the months spent at school, so let the
+                    number of months be represented by the variable
+                    <code>x</code>.</p>
+                <div>
+                    <p>We can now plug in:</p>
+                    <p><code>x \cdot <var>P</var> + <var>Q</var> \geq
+                        <var>R</var></code></p>
+                </div>
+                <div>
+                    <p><code>
+                        x \cdot <var>P</var> \geq <var>R</var> - <var>Q</var>
+                    </code></p>
+                    <p><code>
+                        x \cdot <var>P</var> \geq <var>R - Q</var>
+                    </code></p>
+                </div>
+                <div data-if="(R - Q) % P !== 0" data-unwrap="">
+                    <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
+                        \approx <var>localeToFixed((R - Q) / P, 2)</var></code></p>
+                    <p data-if="(R - Q) % P !== 0">
+                        Since we only care about whole months that
+                        <var>person(1)</var> has spent working, we round
+                        <code><var>localeToFixed((R - Q) / P, 2)</var></code> up to
+                        <code><var>X</var></code>.
+                    </p>
+                </div>
+                <div data-else="">
+                    <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>} =
+                        <var>(R - Q) / P</var></code></p>
+                </div>
+                <p><var>person(1)</var> must work for at least <var>X</var>
+                    months.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

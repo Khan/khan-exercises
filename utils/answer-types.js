@@ -191,6 +191,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 options.maxError = Math.pow(2, -42);
             }
 
+            var input;
             if (window.Modernizr && Modernizr.touch) {
                 // Use special HTML5 input element for touch devices, so we can
                 // take advantage of special numeric keyboards...
@@ -205,11 +206,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                       ' autocapitalize="off">';
                     }
                 });
-                var input = $(inputMarkup);
+                input = $(inputMarkup);
             } else {
                 // people don't always set their locale right, so use a text
                 // box to allow for alternative radix points
-                var input = $('<input type="text">');
+                input = $('<input type="text">');
             }
             $(solutionarea).append(input);
 
@@ -242,16 +243,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 log: $._("an expression, like <code>\\log(100)</code>"),
 
-                percent: $._("a percent, like <code>12.34\\%</code>"),
+                percent: $._("a percent, like <code>%(NUM)s\\%</code>", {NUM: KhanUtil.localeToFixed(12.34, 2)}),
 
                 mixed: $._("a mixed number, like <code>1\\ 3/4</code>"),
 
                 decimal: (function() {
                         if (options.inexact === undefined) {
                             return $._("an <em>exact</em> decimal, like " +
-                                "<code>0.75</code>");
+                                "<code>%(NUM)s</code>", {NUM: KhanUtil.localeToFixed(0.75, 2)});
                         } else {
-                            return $._("a decimal, like <code>0.75</code>");
+                            return $._("a decimal, like <code>%(NUM)s</code>", {NUM: KhanUtil.localeToFixed(0.75, 2)});
                         }
                     })()
             };
@@ -399,17 +400,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     text = text.replace(/\u2212/, "-");
 
                     // - pi
-                    if (match = text.match(
+                    if ((match = text.match(
                                     /^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
-                                )) {
+                                ))) {
                         possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?\s*\d+\s*(?:\/\s*[+-]?\s*\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    } else if ((match = text.match(/^([+-]?\s*\d+\s*(?:\/\s*[+-]?\s*\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i))) {
                         possibilities = fractionTransformer(match[1]);
 
                     // 4 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?)\s*(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    } else if ((match = text.match(/^([+-]?)\s*(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i))) {
                         var sign = parseFloat(match[1] + "1"),
                             integ = parseFloat(match[2]),
                             num = parseFloat(match[3]),
@@ -423,12 +424,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         }];
 
                     // 5 pi / 6
-                    } else if (match = text.match(/^([+-]?\s*\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\s*\d+))?$/i)) {
+                    } else if ((match = text.match(/^([+-]?\s*\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\s*\d+))?$/i))) {
                         possibilities = fractionTransformer(match[1] +
                                                             "/" + match[3]);
 
                     // - pi / 4
-                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                    } else if ((match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i))) {
                         possibilities = fractionTransformer(match[1] +
                                                             "1/" + match[3]);
 
@@ -437,9 +438,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         possibilities = [{ value: 0, exact: true }];
 
                     // 0.5 pi (fallback)
-                    } else if (match = text.match(
+                    } else if ((match = text.match(
                                 /^(.+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
-                                        )) {
+                                        ))) {
                         possibilities = forms.decimal(match[1]);
                     } else {
                         possibilities = _.reduce(Khan.answerTypes.predicate.defaultForms.split(/\s*,\s*/), function(memo, form) {
@@ -486,7 +487,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     text = text.replace(/\u2212/, "-");
                     text = text.replace(/[ \(\)]/g, "");
 
-                    if (match = text.match(/^log\s*(\S+)\s*$/i)) {
+                    if ((match = text.match(/^log\s*(\S+)\s*$/i))) {
                         possibilities = forms.decimal(match[1]);
                     } else if (text === "0") {
                         possibilities = [{ value: 0, exact: true }];
@@ -1301,12 +1302,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // answers up.
             var isCategory = !!$choices.data("category");
 
+            var possibleChoices;
             if (isCategory) {
                 // If it's a category question, insert the solution into the
                 // list of choices at the correct place, by comparing by the
                 // text value of the elements.
                 var correctText = getTextSquish($solutionClone);
-                var possibleChoices = _.map(
+                possibleChoices = _.map(
                     $choicesClone.children().get(),
                     function(elem) {
                         if (getTextSquish(elem) === correctText) {
@@ -1320,7 +1322,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // and the other choices. We shuffle the choices here so that
                 // when we slice off some of the choices later, we don't always
                 // slice off the same ones.
-                var possibleChoices = $solutionClone.get().concat(
+                possibleChoices = $solutionClone.get().concat(
                     KhanUtil.shuffle($choicesClone.children().get())
                 );
             }
@@ -1452,7 +1454,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         // the database)
                         value: extractRawCode($choiceVal),
                         // The index of the value that was chosen
-                        index: $choice.val()
+                        index: +$choice.val()
                     };
                 },
                 solution: solutionText,
@@ -1502,11 +1504,18 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // New solutions include information about the correct
                     // answer like the correct index, etc. We can use that to
                     // make checking a lot simpler.
+
+                    // TODO(alpert): Casting to a number here is necessary
+                    // since guesses before 9 Sep 2013 had the index stored as
+                    // a string -- I'm adding in the cast here for timeline
+                    // compatibility but this can be removed after 1 Nov 2013
+                    var index = +guess.index;
+
                     if (guess.isNone && solution.noneIsCorrect) {
                         showReal();
                         return true;
                     } else {
-                        return guess.index == solution.index;
+                        return guess.index === solution.index;
                     }
                 } else {
                     // Old solutions just included the solution element, so we
@@ -1518,8 +1527,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // Check to see if the "none of the above" answer is
                     // checked
                     if (guess.isNone &&
-                            $("#solutionarea").find("ul").data("real-answer")
-                            != null) {
+                            $("#solutionarea").find("ul").data("real-answer") != null) {
                         showReal();
                         return true;
                     // Otherwise, just compare the text
@@ -1550,8 +1558,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var choices = $.tmpl.getVAR(solutionData.choices);
             $.each(choices, function(index, value) {
                 // Add each one to the selection
-                input.append('<option value="' + value + '">'
-                    + value + "</option>");
+                input.append('<option value="' + value + '">' +
+                    value + "</option>");
             });
 
             return {
@@ -1748,7 +1756,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             return function(guess) {
                 // If checkbox is unchecked, guess will be ""; cast to bool
+                /* jshint -W018 */
                 if (!!correct === !!guess) {
+                /* jshint +W018 */
                     return true;
                 } else if (!guess) {
                     // If unchecked, we'll say that the answer is empty, which
@@ -1870,7 +1880,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 var result = KAS.parse($input.val(), options);
                 if (result.parsed) {
                     hideError();
-                    $tex.css({opacity: 1.0})
+                    $tex.css({opacity: 1.0});
                     var tex = result.expr.asTex(options);
                     if (tex !== lastParsedTex) {
                         $tex.empty().append($("<code>").text(tex)).tex();
@@ -1977,6 +1987,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     $._("For <code>3y</code>, enter <strong>3y</strong> or <strong>3*y</strong>"),
                     $._("For <code>\\dfrac{1}{x}</code>, enter <strong>1/x</strong>"),
                     $._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
+                    $._("For <code>\\sqrt{x}</code>, enter <strong>sqrt(x)</strong>"),
                     $._("For <code>\\pi</code>, enter <strong>pi</strong>"),
                     $._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
                     $._("For <code>\\neq</code>, enter <strong>=/=</strong>")
@@ -1989,12 +2000,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         createValidatorFunctional: function(solution, options) {
             return function(guess) {
                 // Don't bother parsing an empty input
-                if (!guess) return "";
+                if (!guess) {
+                    return "";
+                }
 
                 var answer = KAS.parse(guess, options);
 
                 // An unsuccessful parse doesn't count as wrong
-                if (!answer.parsed) return "";
+                if (!answer.parsed) {
+                    return "";
+                }
 
                 var result = KAS.compare(answer.expr, solution, options);
 

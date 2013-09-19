@@ -16,6 +16,7 @@
                     <var id="C">X1 * X2</var>
                     <var id="POLY">new Polynomial( 0, 2, [C, B, 1], "x" )</var>
                     <var id="POLY_TEXT">POLY.text()</var>
+                    <var id="OR">$._("or")</var>
                 </div>
                 <p class="question">Complete the square to solve for <code>x</code>.</p>
                 <p><code><var>POLY_TEXT</var> = 0</code></p>
@@ -35,10 +36,10 @@
                     </div>
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
-                            <b>Completed Square:</b> <br />
-                            <code>(x + {}</code><span class="sol short32"></span> <code>)^2 = {}</code> <span class="sol short32"></span> <br /><br />
-                            <b>Solution:</b> <br />
-                            <code>x = {}</code><span class="sol short32"></span><code>\quad\text{or}\quad x = {}</code><span class="sol short32"></span>
+                            <b>Completed Square:</b> <br>
+                            <code>(x + {}</code><span class="sol short32"></span> <code>)^2 = {}</code> <span class="sol short32"></span> <br><br>
+                            <b>Solution:</b> <br>
+                            <code>x = {}</code><span class="sol short32"></span><code>\quad\text{<var>OR</var>}\quad x = {}</code><span class="sol short32"></span>
                         </div>
                     </div>
                 </div>
@@ -49,9 +50,9 @@
                 </div>
                 <div class="solution" data-type="multiple">
                     <p>
-                        <b>Completed Square:</b> <br />
-                        <code>(x + {}</code><span class="sol short32"><var>-X1</var></span> <code>)^2 = {}</code> <span class="sol short32">0</span> <br /><br />
-                        <b>Solution:</b> <br />
+                        <b>Completed Square:</b> <br>
+                        <code>(x + {}</code><span class="sol short32"><var>-X1</var></span> <code>)^2 = {}</code> <span class="sol short32">0</span> <br><br>
+                        <b>Solution:</b> <br>
                         <code>x = \quad</code><span class="sol short32"><var>X1</var></span>
                     </p>
                 </div>
@@ -89,7 +90,7 @@
             </div>
             <div>
                 <div data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0">
-                    <p>So the solutions are: <code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var> \text{ or } x = <var>-B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) )</var></code></p>
+                    <p>So the solutions are: <code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var> \text{ <var>OR</var> } x = <var>-B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) )</var></code></p>
                 </div>
                 <div data-else="">
                     <p>The solution is: <code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var></code></p>

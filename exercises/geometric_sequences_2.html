@@ -32,7 +32,7 @@
             <div class="question">
                 <p>The geometric sequence <code>(a_i)</code> is defined by the formula:</p>
                 <p id="given-formula"><code>a_i = <var>TERMS_TEX[0]</var> \left(<var>R_TEX</var>\right)^{i - 1}</code></p>
-                <p class="question">What is <code>a_{<var>N</var>}</code>, the <var>ordinal(N)</var> term in the sequence?</p>
+                <p class="question">What is <code>a_{<var>N</var>}</code>, the <var>ordinalThrough20(N)</var> term in the sequence?</p>
             </div>
             <div class="solution"><var>A * pow(RN / RD, N - 1 + OFFSET)</var></div>
 
@@ -44,7 +44,7 @@
                 </div>
                 <div data-else="" data-unwrap="">
                     <p>To find <code>a_{<var>N</var>}</code>, we can simply substitute <code>i = <var>N</var></code> into the given formula.</p>
-                    <p>Therefore, the <var>ordinal(N)</var> term is equal to <code>a_{<var>N</var>} = <var>TERMS_TEX[0]</var> \left(<var>R_TEX</var>\right)^{<var>N</var> - 1} = <var>TERMS_TEX[N-1]</var></code>.</p>
+                    <p>Therefore, the <var>ordinalThrough20(N)</var> term is equal to <code>a_{<var>N</var>} = <var>TERMS_TEX[0]</var> \left(<var>R_TEX</var>\right)^{<var>N</var> - 1} = <var>TERMS_TEX[N-1]</var></code>.</p>
                 </div>
             </div>
         </div>
@@ -63,10 +63,10 @@
                     <p>Therefore, the second term is equal to <code>a_2 = <var>TERMS_TEX[0]</var> \cdot <var>R_TEX</var> = <var>TERMS_TEX[1]</var></code>.</p>
                 </div>
                 <div data-else="" data-unwrap="">
-                    <p>To find the <var>ordinal(N)</var> term, we can rewrite the given recurrence as an explicit formula.</p>
+                    <p>To find the <var>ordinalThrough20(N)</var> term, we can rewrite the given recurrence as an explicit formula.</p>
                     <p>The general form for a geometric sequence is <code>a_i = a_1 r^{i - 1}</code>. In this case, we have <code>a_i = <var>TERMS_TEX[0]</var> \left(<var>R_TEX</var>\right)^{i - 1}</code>.</p>
                     <p>To find <code>a_{<var>N</var>}</code>, we can simply substitute <code>i = <var>N</var></code> into the formula.</p>
-                    <p>Therefore, the <var>ordinal(N)</var> term is equal to <code>a_{<var>N</var>} = <var>TERMS_TEX[0]</var> \left(<var>R_TEX</var>\right)^{<var>N</var> - 1} = <var>TERMS_TEX[N-1]</var></code>.</p>
+                    <p>Therefore, the <var>ordinalThrough20(N)</var> term is equal to <code>a_{<var>N</var>} = <var>TERMS_TEX[0]</var> \left(<var>R_TEX</var>\right)^{<var>N</var> - 1} = <var>TERMS_TEX[N-1]</var></code>.</p>
                 </div>
             </div>
         </div>

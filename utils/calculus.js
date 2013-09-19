@@ -129,7 +129,7 @@ $.extend(KhanUtil, {
                 return "a=" + term + " \\implies \\frac{da}{d" + variable + "}";
             }]
         ];
-        var n_idx = (typeof index == "number" && index >= 0 && index < notations.length) ? index : KhanUtil.rand(notations.length);
+        var n_idx = (typeof index === "number" && index >= 0 && index < notations.length) ? index : KhanUtil.rand(notations.length);
         return {
             f: notations[n_idx][0],
             ddxF: notations[n_idx][1],
@@ -141,25 +141,25 @@ $.extend(KhanUtil, {
     PowerRule: function(minDegree, maxDegree, coefs, variable, funcNotation) {
         if (this instanceof KhanUtil.PowerRule) { //avoid mistakenly calling without a new
             // power rule, polynomials
-            var minDegree = (typeof minDegree == "number") ? minDegree : KhanUtil.randRange(-2, 2);
-            var maxDegree = (typeof maxDegree == "number") ? maxDegree : KhanUtil.randRange(2, 4);
-            var coefs = (typeof coefs == "object") ? coefs : KhanUtil.randCoefs(minDegree, maxDegree);
+            var minDegree = (typeof minDegree === "number") ? minDegree : KhanUtil.randRange(-2, 2);
+            var maxDegree = (typeof maxDegree === "number") ? maxDegree : KhanUtil.randRange(2, 4);
+            var coefs = (typeof coefs === "object") ? coefs : KhanUtil.randCoefs(minDegree, maxDegree);
             var poly = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
 
             this.f = poly.expr();
             this.ddxF = KhanUtil.ddxPolynomial(poly).expr();
             this.fText = KhanUtil.expr(this.f);
             this.ddxFText = KhanUtil.expr(this.ddxF);
-            this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
+            this.notation = (typeof funcNotation === "object") ? funcNotation : KhanUtil.funcNotation(variable);
 
             this.hints = [];
 
             for (var i = 0; i < poly.getNumberOfTerms(); i = i + 1) {
                 var term = poly.getCoefAndDegreeForTerm(i);
                 var ddxCoef = term.degree * term.coef;
-                var ddxDegree = (term.degree != 0) ? term.degree - 1 : 0;
-                var ddxCoefText = (ddxCoef == 1) ? "" : ddxCoef + "";
-                var ddxText = (ddxDegree == 0) ? ddxCoef : ddxCoefText + poly.variable + ((ddxDegree == 1) ? "" : "^{" + ddxDegree + "}");
+                var ddxDegree = (term.degree !== 0) ? term.degree - 1 : 0;
+                var ddxCoefText = (ddxCoef === 1) ? "" : ddxCoef + "";
+                var ddxText = (ddxDegree === 0) ? ddxCoef : ddxCoefText + poly.variable + ((ddxDegree === 1) ? "" : "^{" + ddxDegree + "}");
 
                 this.hints[i] = "\\dfrac{d (" + KhanUtil.expr(this.f[i + 1]) + ")}{dx} \\implies " + term.degree + " \\cdot " + term.coef + poly.variable + "^{" + term.degree + "-1} = " + ddxText;
             }

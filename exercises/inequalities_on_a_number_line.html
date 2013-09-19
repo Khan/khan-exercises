@@ -86,7 +86,7 @@
 
             // Label number line choice if necessary
             if ( label ) {
-                graph.label( [start - 0.2, 0], "\\text{" + label + ":}", "left" );
+                graph.label( [start - 0.2, 0], "\\text{" + $.i18nDoNotTranslate("%(label)s:", {label: label}) + "}", "left" );
             }
 
             var arrowStartX = ( i + frac ) * multiplier;

@@ -28,7 +28,7 @@
                     }, false)
                 </var>
                 <var id="EXPONENT_HINT">_.map(EXPONENTS, function(num, prime) {
-                        return cardinal(num) + " &lt;code&gt;" + prime + "&lt;/code&gt;" + (num === 1 ? "" : "s");
+                        return cardinalThrough20(num) + " &lt;code&gt;" + prime + "&lt;/code&gt;" + (num === 1 ? "" : "s");
                     })
                 </var>
                 <var id="SOLUTION">_.reduce(PRIMES, function(factors, prime) {

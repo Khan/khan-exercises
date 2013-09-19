@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="vars">
             <var id="X">randRange(1, 10)</var>
-            <var id="COEFF">randRangeNonZero(-1, 1)* randRange(3, 10)</var>
+            <var id="COEFF">randRange(3, 10)</var>
             <var id="CONSTANT">randRangeNonZero(-1, 1) * randRange(3, 10)</var>
 
             <var id="SOLUTION">(X * COEFF) + CONSTANT</var>
@@ -17,11 +17,11 @@
 
         <div class="problems">
             <div>
-                <p class="problem">
+                <p class="question">
                     Evaluate the following expression when
                     <span id="foo"><code>x = <var>X</var></code></span>:
                 </p>
-                <p class="question">
+                <p>
                     <code><var>COEFF</var></code><span id="var"><code>x</code></span><code>{} + <var>CONSTANT</var></code>
                 </p>
                 <p class="solution"><var>SOLUTION</var></p>
@@ -35,7 +35,7 @@
                     $("#var").addClass("hint_pink");
                 </div>
                 <p>
-                    Plug in <code>\pink{<var>X</var>}</code> for
+                    Substitute <code>\pink{<var>X</var>}</code> for
                     <code>x</code>.
                 </p>
                 <p>
