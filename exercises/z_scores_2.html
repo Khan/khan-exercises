@@ -27,7 +27,7 @@
                 <var id="ZSCORE">roundTo(2, randRange(0, 2) + ROW_INDEX / 10 + COL_INDEX / 100)</var>
                 <var id="GRADE">randRange(70, 90)</var>
                 <var id="STDDEV">randRange(2, 6)</var>
-                <var id="MEAN">roundTo(2, GRADE - ZSCORE * STDDEV)</var>
+                <var id="MEAN">localeToFixed(GRADE - ZSCORE * STDDEV, 2)</var>
                 <var id="ROWS">
                 (function() {
                     var rowNames = [];
@@ -37,15 +37,15 @@
                     return rowNames;
                 })()
                 </var>
-                <var id="COLUMNS">[".00", ".01", ".02", ".03", ".04", ".05", ".06", ".07", ".08", ".09"]</var>
+                <var id="COLUMNS">[.00, .01, .02, .03, .04, .05, .06, .07, .08, .09]</var>
                 <var id="ZGRID">
                     (function() {
                         var zGrid = [];
                         for (var i = 0; i &lt; ROWS.length; i++) {
                             var zRow = [];
                             for (var j = 0; j &lt; COLUMNS.length; j++) {
-                                zRow.push(localeToFixed(zScores(roundTo(2,
-                                    (floorTo(0, ZSCORE) + i / 10 + j / 100) * 100)), 4));
+                                zRow.push(zScores(roundTo(2,
+                                    (floorTo(0, ZSCORE) + i / 10 + j / 100) * 100)));
                             }
                             zGrid.push(zRow);
                         }
@@ -64,10 +64,10 @@
             <p class="question"><var>person(1)</var>'s exam grade was higher than what fraction
             of test-takers? Use the cumulative z-table provided below.</p>
             <div class="fake_header reading">
-                <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
+                <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>localeToFixed(column, 2).substr(1)</var></span>
             </div>
             <div class="fake_row reading" data-each="ROWS as i, row">
-                <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
+                <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>localeToFixed(zgrid, 4)</var></span>
             </div>
             <div class="solution" data-forms="integer, proper, improper, mixed, decimal, percent"><var>roundTo(4, ANSWER)</var></div>
 
@@ -97,14 +97,14 @@
                             \large{\quad z \quad = \quad
                             \dfrac{x - \pink{\mu}}{\green{\sigma}}
                             \quad = \quad \dfrac{<var>GRADE</var> - \pink{<var>MEAN</var>}}{\green{<var>STDDEV</var>}}
-                            \quad = \quad <var>ZSCORE</var>}
+                            \quad = \quad <var>localeToFixed(ZSCORE, 2)</var>}
                         </code>
                     </p>
                 </div>
                 <div>
                     <p>
-                        Look up <code><var>ZSCORE</var></code> on the z-table. This value,
-                        <code class="hint_blue"><var>ANSWER</var></code>, represents
+                        Look up <code><var>localeToFixed(ZSCORE, 2)</var></code> on the z-table. This value,
+                        <code class="hint_blue"><var>localeToFixed(ANSWER, 4)</var></code>, represents
                         the portion of the population that scored lower than
                         <code><var>GRADE</var></code> on the exam.
                     </p>
@@ -118,7 +118,7 @@
                 </div>
                 <p>
                     <var>person( 1 )</var> scored higher than
-                    <code class="hint_blue"><var>roundTo(2, ANSWER * 100)</var>\%</code> of the
+                    <code class="hint_blue"><var>localeToFixed(ANSWER * 100, 2)</var>\%</code> of the
                     test-takers on the <var>course( 1 )</var> exam.
                 </p>
             </div>
