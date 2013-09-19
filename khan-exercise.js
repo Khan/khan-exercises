@@ -390,7 +390,14 @@ var Khan = (function() {
                 return (randomSeed = (seed & 0xfffffff)) / 0x10000000;
             },
 
-            crc32: crc32
+            crc32: crc32,
+
+            // Rounds num to X places, and uses the proper decimal point.
+            // But does *not* insert thousands separators.
+            localeToFixed: function(num, places) {
+                var decimal = icu.getDecimalFormatSymbols().decimal_separator;
+                return num.toFixed(places).replace(".", decimal);
+            }
         },
 
         // Load in a collection of scripts, execute callback upon completion

@@ -429,13 +429,6 @@ $.extend(KhanUtil, {
         return str.join(decimal);
     },
 
-    // Rounds num to X places, and uses the proper decimal point.
-    // But does *not* insert thousands separators.
-    localeToFixed: function(num, places) {
-        var decimal = icu.getDecimalFormatSymbols().decimal_separator;
-        return num.toFixed(places).replace(".", decimal);
-    },
-
     // Formats strings like "Axy + By + Cz + D" where A, B, and C are variables
     // initialized to unknown values. Formats things so that TeX takes care of
     // negatives, and also handles cases where the strings beind added are wrapped
