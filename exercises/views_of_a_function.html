@@ -181,18 +181,24 @@
                     var correct = 0;
                     var xs = [];
 
-                    for (var i = 0; i &lt; 8; ++i) {
+                    var i = 0;
+                    var validatePoint = Khan.answerTypes.predicate.createValidatorFunctional(function(x, maxError) {
+                        var validateY = Khan.answerTypes.predicate.createValidatorFunctional(function(y, maxError) {
+                            if (abs(FUNC(x) - y) &lt; maxError) {
+                                correct += 1;
+                                xs.push(x);
+                                return true;
+                            }
+                        }, {forms: 'decimal', maxError: maxError});
+                        return validateY(guess[i][1]);
+                    }, {forms: 'decimal', maxError: CORRECTOFFSET});
+
+                    for (i = 0; i &lt; 8; ++i) {
                         if ($.trim(guess[i][0]) !== "" &amp;&amp;
                             $.trim(guess[i][1]) !== "") {
                             attempted += 1;
+                            validatePoint(guess[i][0]);
 
-                            var x = parseFloat(guess[i][0]),
-                                y = parseFloat(guess[i][1]);
-
-                            if (abs(FUNC(x) - y) &lt; CORRECTOFFSET) {
-                                correct += 1;
-                                xs.push(x);
-                            }
                         }
                     }
 
