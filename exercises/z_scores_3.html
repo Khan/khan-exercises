@@ -57,15 +57,15 @@
                     return rowNames;
                 })()
                 </var>
-                <var id="COLUMNS">[".00", ".01", ".02", ".03", ".04", ".05", ".06", ".07", ".08", ".09"]</var>
+                <var id="COLUMNS">[.00, .01, .02, .03, .04, .05, .06, .07, .08, .09]</var>
                 <var id="ZGRID">
                     (function() {
                         var zGrid = [];
                         for (var i = 0; i &lt; ROWS.length; i++) {
                             var zRow = [];
                             for (var j = 0; j &lt; COLUMNS.length; j++) {
-                                zRow.push(localeToFixed(zScores(roundTo(2,
-                                    (floorTo(0, abs(ZSCORES[0])) + i / 10 + j / 100) * 100)), 4));
+                                zRow.push(zScores(roundTo(2,
+                                    (floorTo(0, abs(ZSCORES[0])) + i / 10 + j / 100) * 100)));
                             }
                             zGrid.push(zRow);
                         }
@@ -101,10 +101,10 @@
                 Use the cumulative z-table provided below.
             </p>
             <div class="fake_header reading">
-                <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
+                <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>localeToFixed(column, 2).substr(1)</var></span>
             </div>
             <div class="fake_row reading" data-each="ROWS as i, row">
-                <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
+                <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>localeToFixed(zgrid, 4)</var></span>
             </div>
             <div class="solution" data-forms="integer, proper, improper, mixed, decimal, percent"><var>roundTo(4, ANSWER)</var></div>
 
@@ -129,7 +129,7 @@
                             \large{\quad z \quad = \quad
                             \dfrac{x - \pink{\mu}}{\green{\sigma}}
                             \quad = \quad \dfrac{<var>grade</var> - \pink{<var>MEAN</var>}}{\green{<var>STDDEV</var>}}
-                            \quad = \quad <var>ZSCORES[index]</var>}
+                            \quad = \quad <var>localeToFixed(ZSCORES[index], 2)</var>}
                         </code>
                     </p>
                 </div>
@@ -137,8 +137,8 @@
                     <p>
                         We can find the percentage of test-takers that earned between
                         <code><var>GRADES[0]</var></code> and <code><var>GRADES[1]</var></code>
-                        by finding the area between <code><var>ZSCORES[0]</var></code> and
-                        <code><var>ZSCORES[1]</var></code> under the standard normal curve. After
+                        by finding the area between <code><var>localeToFixed(ZSCORES[0], 2)</var></code> and
+                        <code><var>localeToFixed(ZSCORES[1], 2)</var></code> under the standard normal curve. After
                         looking up these two z-scores in our z-table, subtracting the two table
                         values will provide us with the total area.
                     </p>
@@ -165,23 +165,23 @@
                 <div>
                     <div data-if="ZSCORES[1] < 0"><p>
                         Since the normal curve is symmetrical, the area <b>less than</b>
-                        <code><var>ZSCORES[1]</var></code> is equal to the area
-                        <b>greater than</b> <code><var>abs( ZSCORES[1] )</var></code>, which can
-                        be found by looking up <code><var>abs( ZSCORES[1] )</var></code>
+                        <code><var>localeToFixed(ZSCORES[1], 2)</var></code> is equal to the area
+                        <b>greater than</b> <code><var>localeToFixed(abs( ZSCORES[1] ), 2)</var></code>, which can
+                        be found by looking up <code><var>localeToFixed(abs( ZSCORES[1] ), 2)</var></code>
                         on the z-table and subtracting the table value from <code>1</code>, the
                         total area under the curve.
                     </p></div>
                     <p data-if="ZSCORES[1] < 0">
-                        <code>1 - <var>ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ]</var> =
-                        <var>roundTo( 4, 1 - ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ] )</var></code>.
+                        <code>1 - <var>localeToFixed(ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ], 4)</var> =
+                        <var>localeToFixed(1 - ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ], 4)</var></code>.
                         This value, <code class="hint_blue">
-                        <var>roundTo( 4, 1 - ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ] )</var></code>,
+                        <var>localeToFixed(1 - ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ], 4)</var></code>,
                         represents the portion of the population that scored lower than
                         <code><var>GRADES[1]</var></code> on the exam.
                     </p>
                     <p data-else="">
-                        Look up <code><var>ZSCORES[1]</var></code> on the z-table. This value,
-                        <code class="hint_blue"> <var>ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ]</var></code>,
+                        Look up <code><var>localeToFixed(ZSCORES[1], 2)</var></code> on the z-table. This value,
+                        <code class="hint_blue"> <var>localeToFixed(ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ], 4)</var></code>,
                         represents the portion of the population that scored lower than
                         <code><var>GRADES[1]</var></code> on the exam.
                     </p>
@@ -194,7 +194,7 @@
                         style({ stroke: "#bbb" }, function() {
                             graph.zLine1 = line([ZSCORES[1], 0], [ZSCORES[1], graph.pdf(ZSCORES[1])]).toBack();
                         });
-                        graph.zLabel = label([ZSCORES[1], 0], roundTo(2, ZSCORES[1]), "below", { color: "#bbb" });
+                        graph.zLabel = label([ZSCORES[1], 0], localeToFixed(ZSCORES[1], 2), "below", { color: "#bbb" });
 
                         var step = 1 / 50;
                         blueShape = [];
@@ -217,22 +217,22 @@
                 <div>
                     <div data-if="ZSCORES[0] < 0"><p>
                         Since the normal curve is symmetrical, the area <b>less than</b>
-                        <code><var>ZSCORES[0]</var></code> is equal to the area
-                        <b>greater than</b> <code><var>abs(ZSCORES[0])</var></code>, which can
-                        be found by looking up <code><var>abs(ZSCORES[0])</var></code>
+                        <code><var>localeToFixed(ZSCORES[0], 2)</var></code> is equal to the area
+                        <b>greater than</b> <code><var>localeToFixed(abs(ZSCORES[0]), 2)</var></code>, which can
+                        be found by looking up <code><var>localeToFixed(abs(ZSCORES[0]), 2)</var></code>
                         on the z-table and subtracting the table value from <code>1</code>, the
                         total area under the curve.
                     </p></div>
                     <p data-if="ZSCORES[0] < 0">
-                        <code>1 - <var>ZGRID[ROW_INDEX_1][COL_INDEX_1]</var> =
-                        <var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var></code>. This value,
-                        <code class="hint_orange"><var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var></code>,
+                        <code>1 - <var>localeToFixed(ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var> =
+                        <var>localeToFixed(1 - ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var></code>. This value,
+                        <code class="hint_orange"><var>localeToFixed(1 - ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var></code>,
                         represents the portion of the population that scored lower than
                         <code><var>GRADES[0]</var></code> on the exam.
                     </p>
                     <p data-else="">
-                        Look up <code><var>ZSCORES[0]</var></code> on the z-table. This value,
-                        <code class="hint_orange"><var>ZGRID[ ROW_INDEX_1 ][ COL_INDEX_1 ]</var></code>,
+                        Look up <code><var>localeToFixed(ZSCORES[0], 2)</var></code> on the z-table. This value,
+                        <code class="hint_orange"><var>localeToFixed(ZGRID[ ROW_INDEX_1 ][ COL_INDEX_1 ], 4)</var></code>,
                         represents the portion of the population that scored lower than
                         <code><var>GRADES[0]</var></code> on the exam.
                     </p>
@@ -245,7 +245,7 @@
                             graph.zLine2 = line([ZSCORES[0], 0], [ZSCORES[0], graph.pdf(ZSCORES[0])]).toBack();
                         });
                         graph.zLabel.remove();
-                        graph.zLabel = label([ZSCORES[0], 0], roundTo(2, ZSCORES[0]), "below", { color: "#bbb" });
+                        graph.zLabel = label([ZSCORES[0], 0], localeToFixed(ZSCORES[0], 2), "below", { color: "#bbb" });
                         var step = 1 / 50;
                         graph.blueShape.remove();
                         orangeShape = [];
@@ -285,16 +285,16 @@
                     <p>
                         Finally, subtract the two cumulative areas to arrive at our final answer:
                         <code>\blue{<span data-if="ZSCORES[1] < 0">
-                            <var>roundTo(4, 1 - ZGRID[ROW_INDEX_2][COL_INDEX_2])</var>
+                            <var>localeToFixed(1 - ZGRID[ROW_INDEX_2][COL_INDEX_2], 4)</var>
                         </span><span data-else="">
-                            <var>roundTo(4, ZGRID[ROW_INDEX_2][COL_INDEX_2])</var>
+                            <var>localeToFixed(ZGRID[ROW_INDEX_2][COL_INDEX_2], 4)</var>
                         </span>} - \orange{<span data-if="ZSCORES[0] < 0">
-                            <var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var>
+                            <var>localeToFixed(1 - ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var>
                         </span><span data-else="">
-                            <var>roundTo(4, ZGRID[ROW_INDEX_1][COL_INDEX_1])</var>
-                        </span>} = <var>ANSWER</var></code><br>
+                            <var>localeToFixed(ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var>
+                        </span>} = <var>localeToFixed(ANSWER, 4)</var></code><br>
 
-                        Thus, <code class="hint_pink"><var>roundTo( 2, ANSWER * 100 )</var>\%</code>
+                        Thus, <code class="hint_pink"><var>localeToFixed(ANSWER * 100, 2)</var>\%</code>
                         of the test-takers scored between <code><var>GRADES[0]</var></code> and
                         <code><var>GRADES[1]</var></code> on the <var>course( 1 )</var> exam.
                     </p>
