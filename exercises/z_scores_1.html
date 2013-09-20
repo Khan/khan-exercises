@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="problem">
-                    The grades on a <var>course( 1 )</var> midterm at <var>school( 1 )</var> are normally distributed with <code>\mu = <var>MEAN</var></code> and <code>\sigma = <var>STDDEV</var></code>.
+                    The grades on a <var>course( 1 )</var> midterm at <var>school( 1 )</var> are normally distributed with <code>\mu = <var>MEAN</var></code> and <code>\sigma = <var>localeToFixed(STDDEV, 1)</var></code>.
                     <br><var>person( 1 )</var> earned a<span data-if="floorTo( 0, GRADE / 10 ) === 8">n</span> <code><var>GRADE</var></code> on the exam.
                 </div>
 
@@ -42,14 +42,14 @@
                         <p>
                             <code>
                                 \large{\quad z \quad = \quad
-                                \dfrac{<var>GRADE</var> - \color{<var>PINK</var>}{<var>MEAN</var>}}{\color{<var>GREEN</var>}{<var>STDDEV</var>}}}
+                                \dfrac{<var>GRADE</var> - \color{<var>PINK</var>}{<var>MEAN</var>}}{\color{<var>GREEN</var>}{<var>localeToFixed(STDDEV, 1)</var>}}}
                             </code>
                         </p>
                     </div>
                     <div>
-                        <p><code>\large{\quad z \quad = \quad <var>ZSCORE</var>}</code></p>
-                        <p class="final_answer" data-if="isSingular(abs( ZSCORE ))">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
-                        standard deviation <span data-if="ZSCORE > 0">above</span><span data-else="">below</span> the mean.</p><p class="final_answer" data-else="">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
+                        <p><code>\large{\quad z \quad \approx \quad <var>localeToFixed(ZSCORE, 2)</var>}</code></p>
+                        <p class="final_answer" data-if="isSingular(abs( ZSCORE ))">The z-score is <code><var>localeToFixed(ZSCORE, 2)</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>localeToFixed(abs( ZSCORE ), 2)</var></code>
+                        standard deviation <span data-if="ZSCORE > 0">above</span><span data-else="">below</span> the mean.</p><p class="final_answer" data-else="">The z-score is <code><var>localeToFixed(ZSCORE, 2)</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>localeToFixed(abs( ZSCORE ), 2)</var></code>
                         standard deviations <span data-if="ZSCORE > 0">above</span><span data-else="">below</span> the mean.</p>
                     </div>
                 </div>
