@@ -1,5 +1,51 @@
 (function() {
 
+function sum(array) {
+    return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
+}
+
+function clockwise(points) {
+    var segments = _.zip(points, points.slice(1).concat(points.slice(0, 1)));
+    var areas = _.map(segments, function(segment) {
+        var p1 = segment[0], p2 = segment[1];
+        return (p2[0] - p1[0]) * (p2[1] + p1[1]);
+    });
+    return sum(areas) > 0;
+}
+
+function addPoints() {
+    var points = _.toArray(arguments);
+    var zipped = _.zip.apply(_, points);
+    return _.map(zipped, sum);
+}
+
+function reverseVector(vector) {
+    return _.map(vector, function(coord) {
+        return coord * -1;
+    });
+}
+
+function scaledDistanceFromAngle(angle) {
+    // constants based on the magic numbers from graphie.addTriangle()
+    var a = 3.51470560176242 * 20;
+    var b = 0.5687298702748785 * 20;
+    var c = -0.037587715462826674;
+    return (a - b) * Math.exp(c * angle) + b;
+}
+
+function scaledPolarRad(radius, radians) {
+    return [
+        radius * Math.cos(radians),
+        radius * Math.sin(radians) * -1 // SVG flips y axis
+    ];
+}
+
+function scaledPolarDeg(radius, degrees) {
+    var radians = degrees * Math.PI / 180;
+    return scaledPolarRad(radius, radians);
+}
+
+
 $.extend(KhanUtil, {
     // Fill opacity for inequality shading
     FILL_OPACITY: 0.3,
@@ -249,6 +295,302 @@ $.extend(KhanUtil.Graphie.prototype, {
         return arcset;
     },
 
+    /**
+     * Unlike all other Graphie-related code, the following three functions use
+     * a lot of scaled coordinates (so that labels appear the same size
+     * regardless of current shape/figure scale). These are prefixed with 's'.
+     */
+    labelAngle: function(options) {
+        var graphie = this;
+
+        _.defaults(options, {
+            point1: [0, 0],
+            vertex: [0, 0],
+            point3: [0, 0],
+            label: null,
+            text: "",
+            numArcs: 1,
+            pushOut: 0,
+            clockwise: false,
+            style: {}
+        });
+
+        var vertex = options.vertex;
+        var sVertex = graphie.scalePoint(vertex);
+
+        var p1, p3;
+        if (options.clockwise) {
+            p1 = options.point1;
+            p3 = options.point3;
+        } else {
+            p1 = options.point3;
+            p3 = options.point1;
+        }
+
+        // TODO(alex): more spacing if >= 100 degrees (due to +1 character)
+        // also take into account angle vs. text orientation, if possible
+
+        // Calculate angles
+        var startAngle = KhanUtil.findAngle(p1, vertex);
+        var endAngle = KhanUtil.findAngle(p3, vertex);
+        var angle = (endAngle + 360 - startAngle) % 360;
+        var halfAngle = (startAngle + angle / 2) % 360;
+
+        // Calculate distance from angle
+        var sPadding = 5 * options.pushOut;
+        var sRadius = sPadding + scaledDistanceFromAngle(angle);
+
+        var temp = [];
+
+        if (Math.abs(angle - 90) < 1e-9) {
+            // Draw right angle box
+            var v1 = addPoints(sVertex, scaledPolarDeg(sRadius, startAngle));
+            var v2 = addPoints(sVertex, scaledPolarDeg(sRadius, endAngle));
+
+            sRadius *= Math.SQRT2;
+            var v3 = addPoints(sVertex, scaledPolarDeg(sRadius, halfAngle));
+
+            _.each([v1, v2], function(v) {
+                temp.push(graphie.scaledPath([v, v3], options.style));
+            });
+        } else {
+            // Draw arcs
+            _.times(options.numArcs, function(i) {
+                temp.push(graphie.arc(
+                    vertex,
+                    graphie.unscaleVector(sRadius),
+                    startAngle,
+                    endAngle,
+                    options.style
+                ));
+                sRadius += 3;
+            });
+        }
+
+        var text = options.text;
+        if (text) {
+            // Update label text
+
+            // Substitute actual angle measure for "$deg"
+            var match = text.match(/\$deg(\d)?/);
+            if (match) {
+                var precision = match[1] || 1;
+                text = text.replace(match[0],
+                                    angle.toFixed(precision) + "^{\\circ}");
+            }
+
+            // Calculate label position
+            var sOffset = scaledPolarDeg(sRadius + 15, halfAngle);
+            var sPosition = addPoints(sVertex, sOffset);
+            var position = graphie.unscalePoint(sPosition);
+
+            // Reuse label if possible
+            if (options.label) {
+                options.label.setPosition(position);
+                options.label.processMath(text, /* force */ true);
+            } else {
+                graphie.label(position, text, "center", options.style);
+            }
+        }
+
+        return temp;
+    },
+
+    labelSide: function(options) {
+        var graphie = this;
+
+        _.defaults(options, {
+            point1: [0, 0],
+            point2: [0, 0],
+            label: null,
+            text: "",
+            numTicks: 0,
+            numArrows: 0,
+            clockwise: false,
+            style: {}
+        });
+
+        var p1, p2;
+        if (options.clockwise) {
+            p1 = options.point1;
+            p2 = options.point2;
+        } else {
+            p1 = options.point2;
+            p2 = options.point1;
+        }
+
+        var midpoint = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
+        var sMidpoint = graphie.scalePoint(midpoint);
+
+        var parallelAngle = Math.atan2(p2[1] - p1[1], p2[0] - p1[0]);
+        var perpendicularAngle = parallelAngle + Math.PI / 2;
+
+        var temp = [];
+        var sCumulativeOffset = 0;
+
+        if (options.numTicks) {
+            // Draw ticks
+            var n = options.numTicks;
+
+            var sSpacing = 5;
+            var sHeight = 5;
+
+            var style = _.extend({}, options.style, {
+                strokeWidth: 2
+            });
+
+            _.times(n, function(i) {
+                var sOffset = sSpacing * (i - (n - 1) / 2);
+
+                var sOffsetVector = scaledPolarRad(sOffset, parallelAngle);
+                var sHeightVector = scaledPolarRad(sHeight, perpendicularAngle);
+
+                var sPath = [
+                    addPoints(sMidpoint, sOffsetVector, sHeightVector),
+                    addPoints(sMidpoint, sOffsetVector, 
+                              reverseVector(sHeightVector))
+                ];
+
+                temp.push(graphie.scaledPath(sPath, style));
+            });
+
+            sCumulativeOffset += sSpacing * (n - 1) + 15;
+        }
+
+        if (options.numArrows) {
+            // Draw arrows
+            var n = options.numArrows;
+
+            // Arrows always point up, unless horizontal (if so, point right)
+            var start = [p1, p2].sort(function(a, b) {
+                if (a[1] === b[1]) {
+                    return a[0] - b[0];
+                } else {
+                    return a[1] - b[1];
+                }
+            })[0];
+            var sStart = graphie.scalePoint(start);
+
+            var style = _.extend({}, options.style, {
+                arrows: "->",
+                strokeWidth: 2
+            });
+
+            var sSpacing = 5;
+
+            _.times(n, function(i) {
+                var sOffset = sCumulativeOffset + sSpacing * i;
+                var sOffsetVector = scaledPolarRad(sOffset, parallelAngle);
+
+                if (start !== p1) {
+                    sOffsetVector = reverseVector(sOffsetVector);
+                }
+
+                var sEnd = addPoints(sMidpoint, sOffsetVector);
+
+                temp.push(graphie.scaledPath([sStart, sEnd], style));
+            });
+        }
+
+        var text = options.text;
+        if (text) {
+            // Update label text
+
+            // Substitute actual side length for "$len"
+            var match = text.match(/\$len(\d)?/);
+            if (match) {
+                var distance = KhanUtil.getDistance(p1, p2);
+                var precision = match[1] || 1;
+                text = text.replace(match[0], distance.toFixed(precision));
+            }
+
+            // Calculate label position
+
+            // distance needs to take into account length of label
+            // and perhaps orientation, to be smart about it
+            var sOffset = 20;
+            var sOffsetVector = scaledPolarRad(sOffset, perpendicularAngle);
+            var sPosition = addPoints(sMidpoint, sOffsetVector);
+            var position = graphie.unscalePoint(sPosition);
+
+            // Reuse label if possible
+            if (options.label) {
+                options.label.setPosition(position);
+                options.label.processMath(text, /* force */ true);
+            } else {
+                graphie.label(position, text, "center", options.style);
+            }
+        }
+
+        return temp;
+    },
+
+    /* Can also be used to label points that aren't vertices */
+    labelVertex: function(options) {
+        var graphie = this;
+
+        _.defaults(options, {
+            point1: null,
+            vertex: [0, 0],
+            point3: null,
+            label: null,
+            text: "",
+            clockwise: false,
+            style: {}
+        });
+
+        if (!options.text) {
+            return;
+        }
+
+        var vertex = options.vertex;
+        var sVertex = graphie.scalePoint(vertex);
+
+        var p1, p3;
+        if (options.clockwise) {
+            p1 = options.point1;
+            p3 = options.point3;
+        } else {
+            p1 = options.point3;
+            p3 = options.point1;
+        }
+
+        // Calculate label angle relative to vertex
+        var angle = 135;
+        var halfAngle;
+        if (p1 && p3) {
+            // Point within a polygon
+            var startAngle = KhanUtil.findAngle(p1, vertex);
+            var endAngle = KhanUtil.findAngle(p3, vertex);
+            angle = (endAngle + 360 - startAngle) % 360;
+            halfAngle = (startAngle + angle / 2 + 180) % 360;
+        } else if (p1) {
+            // Point on a line/segment
+            var parallelAngle = KhanUtil.findAngle(vertex, p1);
+            halfAngle = parallelAngle + 90;
+        } else if (p3) {
+            var parallelAngle = KhanUtil.findAngle(p3, vertex);
+            halfAngle = parallelAngle + 90;
+        } else {
+            // Standalone point
+            halfAngle = 135;
+        }
+
+        // Calculate label position
+        var sRadius = 10 + scaledDistanceFromAngle(360 - angle);
+        var sOffsetVector = scaledPolarDeg(sRadius, halfAngle);
+        var sPosition = addPoints(sVertex, sOffsetVector);
+        var position = graphie.unscalePoint(sPosition);
+
+        // Reuse label if possible
+        if (options.label) {
+            options.label.setPosition(position);
+            options.label.processMath(options.text, /* force */ true);
+        } else {
+            graphie.label(position, options.text, "center", options.style);
+        }
+    },
+
 
     // Add a point to the graph that can be dragged around.
     // It allows automatic constraints on its movement as well as automatically
@@ -333,7 +675,11 @@ $.extend(KhanUtil.Graphie.prototype, {
             highlightStyle: {
                 fill: KhanUtil.ORANGE,
                 stroke: KhanUtil.ORANGE
-            }
+            },
+            labelStyle: {
+                color: KhanUtil.BLUE
+            },
+            vertexLabel: ""
         }, options);
 
         // deprecated: don't use coordX/coordY; use coord[]
@@ -353,6 +699,23 @@ $.extend(KhanUtil.Graphie.prototype, {
         }
         movablePoint.normalStyle.scale = 1;
         movablePoint.highlightStyle.scale = 2;
+
+        if (movablePoint.vertexLabel) {
+            movablePoint.labeledVertex = this.label([0, 0], "", "center", movablePoint.labelStyle);
+        }
+
+        movablePoint.drawLabel = function() {
+            if (movablePoint.vertexLabel) {
+                movablePoint.graph.labelVertex({
+                    vertex: movablePoint.coord,
+                    label: movablePoint.labeledVertex,
+                    text: movablePoint.vertexLabel,
+                    style: movablePoint.labelStyle
+                });
+            }
+        };
+
+        movablePoint.drawLabel();
 
         // Using the passed coordinates, apply any constraints and return the closest coordinates
         // that match the constraints.
@@ -546,6 +909,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 $(movablePoint).trigger("move");
                             }
 
+                            movablePoint.drawLabel();
 
                         } else if (event.type === "vmouseup") {
                             $(document).unbind("vmousemove vmouseup");
@@ -675,6 +1039,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             }
             if (this.mouseTarget) {
                 this.mouseTarget.remove();
+            }
+            if (this.labeledVertex) {
+                this.labeledVertex.remove();
             }
         };
 
@@ -870,6 +1237,10 @@ $.extend(KhanUtil.Graphie.prototype, {
                 "stroke": KhanUtil.ORANGE,
                 "stroke-width": 6
             },
+            labelStyle: {
+                "stroke": KhanUtil.BLUE,
+                "color": KhanUtil.BLUE
+            },
             highlight: false,
             dragging: false,
             tick: [],
@@ -879,7 +1250,11 @@ $.extend(KhanUtil.Graphie.prototype, {
                 fixed: false,
                 constrainX: false,
                 constrainY: false
-            }
+            },
+            sideLabel: "",
+            vertexLabels: [],
+            numArrows: 0,
+            numTicks: 0
         }, options);
 
         // If the line segment is defined by movablePoints, coordA/coordZ are
@@ -951,6 +1326,53 @@ $.extend(KhanUtil.Graphie.prototype, {
                 }
                 element.scale(lineLength, 1, scaledA[0], scaledA[1]);
             }, this);
+
+            // Temporary objects: array of SVG nodes that get recreated on drag
+            _.invoke(this.temp, "remove");
+            this.temp = [];
+
+            // Labels are always above line, unless vertical (if so, on right)
+            // probably want to add an option to flip this at will!
+            var isClockwise = (this.coordA[0] < this.coordZ[0]) ||
+                (this.coordA[0] === this.coordZ[0] &&
+                this.coordA[1] > this.coordZ[1]);
+
+            // Update side label
+            if (this.sideLabel) {
+                this.temp.push(this.graph.labelSide({
+                    point1: this.coordA,
+                    point2: this.coordZ,
+                    label: this.labeledSide,
+                    text: this.sideLabel,
+                    numArrows: this.numArrows,
+                    numTicks: this.numTicks,
+                    clockwise: isClockwise,
+                    style: this.labelStyle
+                }));
+            }
+
+            // Update vertex labels
+            if (this.vertexLabels.length) {
+                this.graph.labelVertex({
+                    vertex: this.coordA,
+                    point3: this.coordZ,
+                    label: this.labeledVertices[0],
+                    text: this.vertexLabels[0],
+                    clockwise: isClockwise,
+                    style: this.labelStyle
+                });
+
+                this.graph.labelVertex({
+                    point1: this.coordA,
+                    vertex: this.coordZ,
+                    label: this.labeledVertices[1],
+                    text: this.vertexLabels[1],
+                    clockwise: isClockwise,
+                    style: this.labelStyle
+                });
+            }
+
+            this.temp = _.flatten(this.temp);
         };
 
         // Change z-order to back;
@@ -974,7 +1396,26 @@ $.extend(KhanUtil.Graphie.prototype, {
                 lineSegment.mouseTarget.remove();
             }
             lineSegment.visibleLine.remove();
+            if (lineSegment.labeledSide) {
+                lineSegment.labeledSide.remove();
+            }
+            if (lineSegment.labeledVertices) {
+                _.invoke(lineSegment.labeledVertices, "remove");
+            }
+            if (lineSegment.temp.length) {
+                _.invoke(lineSegment.temp, "remove");
+            }
         };
+
+        if (lineSegment.sideLabel) {
+            lineSegment.labeledSide = this.label([0, 0], "", "center", lineSegment.labelStyle);
+        }
+
+        if (lineSegment.vertexLabels.length) {
+            lineSegment.labeledVertices = _.map(lineSegment.vertexLabels, function(label) {
+                return this.label([0, 0], "", "center", lineSegment.labelStyle);
+            }, this);
+        }
 
         if (!lineSegment.fixed && !lineSegment.constraints.fixed) {
             $(lineSegment.mouseTarget[0]).css("cursor", "move");
@@ -1123,7 +1564,18 @@ $.extend(KhanUtil.Graphie.prototype, {
             pointHighlightStyle: {
                 "fill": KhanUtil.ORANGE,
                 "stroke": KhanUtil.ORANGE
-            }
+            },
+            labelStyle: {
+                "stroke": KhanUtil.BLUE,
+                "stroke-width": 1,
+                "color": KhanUtil.BLUE
+            },
+            angleLabels: [],
+            sideLabels: [],
+            vertexLabels: [],
+            numArcs: [],
+            numArrows: [],
+            numTicks: []
         }, options);
 
         var isPoint = function(coordOrPoint) {
@@ -1131,6 +1583,8 @@ $.extend(KhanUtil.Graphie.prototype, {
         };
 
         polygon.update = function() {
+            var n = polygon.points.length;
+
             // Update coords
             _.each(polygon.points, function(coordOrPoint, i) {
                 if (isPoint(coordOrPoint)) {
@@ -1153,6 +1607,62 @@ $.extend(KhanUtil.Graphie.prototype, {
 
             // Create path
             polygon.path = KhanUtil.unscaledSvgPath(scaledCoords.concat(true));
+
+            // Temporary objects
+            _.invoke(polygon.temp, "remove");
+            polygon.temp = [];
+
+            // Check which direction coordinates wind
+            var isClockwise = clockwise(polygon.coords);
+
+            // Update angle labels
+            if (polygon.angleLabels.length) {
+                _.each(polygon.labeledAngles, function(label, i) {
+                    polygon.temp.push(graphie.labelAngle({
+                        point1: polygon.coords[(i - 1 + n) % n],
+                        vertex: polygon.coords[i],
+                        point3: polygon.coords[(i + 1) % n],
+                        label: label,
+                        text: polygon.angleLabels[i],
+                        numArcs: polygon.numArcs[i],
+                        clockwise: isClockwise,
+                        style: polygon.labelStyle
+                    }));
+                });
+            }
+
+            // Update side labels
+            if (polygon.sideLabels.length) {
+                _.each(polygon.labeledSides, function(label, i) {
+                    polygon.temp.push(graphie.labelSide({
+                        point1: polygon.coords[i],
+                        point2: polygon.coords[(i + 1) % n],
+                        label: label,
+                        text: polygon.sideLabels[i],
+                        numArrows: polygon.numArrows[i],
+                        numTicks: polygon.numTicks[i],
+                        clockwise: isClockwise,
+                        style: polygon.labelStyle
+                    }));
+                });
+            }
+
+            // Update vertex labels
+            if (polygon.vertexLabels.length) {
+                _.each(polygon.labeledVertices, function(label, i) {
+                    graphie.labelVertex({
+                        point1: polygon.coords[(i - 1 + n) % n],
+                        vertex: polygon.coords[i],
+                        point3: polygon.coords[(i + 1) % n],
+                        label: label,
+                        text: polygon.vertexLabels[i],
+                        clockwise: isClockwise,
+                        style: polygon.labelStyle
+                    });
+                });
+            }
+
+            polygon.temp = _.flatten(polygon.temp);
         };
 
         polygon.transform = function() {
@@ -1170,6 +1680,22 @@ $.extend(KhanUtil.Graphie.prototype, {
 
             if (!polygon.fixed) {
                 polygon.mouseTarget.remove();
+            }
+
+            if (polygon.labeledAngles) {
+                _.invoke(polygon.labeledAngles, "remove");
+            }
+
+            if (polygon.labeledSides) {
+                _.invoke(polygon.labeledSides, "remove");
+            }
+
+            if (polygon.labeledVertices) {
+                _.invoke(polygon.labeledVertices, "remove");
+            }
+
+            if (polygon.temp.length) {
+                _.invoke(polygon.temp, "remove");
             }
         };
 
@@ -1196,6 +1722,25 @@ $.extend(KhanUtil.Graphie.prototype, {
         });
 
         polygon.coords = new Array(polygon.points.length);
+
+        if (polygon.angleLabels.length) {
+            polygon.labeledAngles = _.map(polygon.angleLabels, function(label) {
+                return this.label([0, 0], "", "center", polygon.labelStyle);
+            }, this);
+        }
+
+        if (polygon.sideLabels.length) {
+            polygon.labeledSides = _.map(polygon.sideLabels, function(label) {
+                return this.label([0, 0], "", "center", polygon.labelStyle);
+            }, this);
+        }
+
+        if (polygon.vertexLabels.length) {
+            polygon.labeledVertices = _.map(polygon.vertexLabels, function(label) {
+                return this.label([0, 0], "", "center", polygon.labelStyle);
+            }, this);
+        }
+
         polygon.update();
 
         polygon.visibleShape = graphie.raphael.path(polygon.path);
@@ -1315,7 +1860,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 
                                 _.each(points, function(point) {
                                     point.visibleShape.animate(point.normalStyle, 50);
-                                });                            
+                                });
                             }
                             if ($.isFunction(polygon.onMoveEnd)) {
                                 polygon.onMoveEnd();
@@ -2038,7 +2583,9 @@ $.extend(KhanUtil.Graphie.prototype, {
 
     protractor: function(center) {
         return new Protractor(this, center);
-    }
+    },
+
+    addPoints: addPoints
 });
 
 
