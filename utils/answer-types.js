@@ -1744,14 +1744,19 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             return function(guess) {
                 var pass = validator(guess);
-                // TODO(eater): For now custom answers use the "old"
-                //              true/false/""/"..." return type.
-                return {
-                    empty: pass === "",
-                    correct: pass === true,
-                    message: typeof pass === "string" ? pass : null,
-                    guess: guess
-                };
+                // If `pass` is an object, it's a new-style return type
+                if (typeof pass === "object") {
+                    return pass;
+                } else {
+                    // TODO(eater): For now most custom answers use the "old"
+                    // true/false/""/"..." return type.
+                    return {
+                        empty: pass === "",
+                        correct: pass === true,
+                        message: typeof pass === "string" ? pass : null,
+                        guess: guess
+                    };
+                }
             };
         }
     },
