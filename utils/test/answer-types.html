@@ -182,6 +182,24 @@
 
         testAnswer(answerData, "1/2", "wrong", "wrong answer is wrong");
         testAnswer(answerData, "-1/2", "right", "right answer is right");
+        testAnswer(answerData, "-2/4", "empty-message", "unsimplified right answer provides a message");
+        testAnswer(answerData, " \u2212 1 / 2 ", "right", "weirdly formatted right answer is right");
+        testAnswer(answerData, "-0.5", "wrong", "decimal is wrong");
+
+        start();
+    });
+
+    asyncTest("number proper (enforced simplification)", 15, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number' data-forms='proper' " +
+            "data-simplify='enforced'>-0.5<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "1/2", "wrong", "wrong answer is wrong");
+        testAnswer(answerData, "-1/2", "right", "right answer is right");
         testAnswer(answerData, "-2/4", "wrong-message", "unsimplified right answer provides a message");
         testAnswer(answerData, " \u2212 1 / 2 ", "right", "weirdly formatted right answer is right");
         testAnswer(answerData, "-0.5", "wrong", "decimal is wrong");
@@ -217,8 +235,27 @@
 
         testAnswer(answerData, "3/2", "wrong", "wrong answer is wrong");
         testAnswer(answerData, "-3/2", "right", "right answer is right");
-        testAnswer(answerData, "-6/4", "wrong-message", "unsimplified right answer provides a message");
+        testAnswer(answerData, "-6/4", "empty-message", "unsimplified right answer provides a message");
         testAnswer(answerData, " \u2212 3 / 2 ", "right", "weirdly formatted right answer is right");
+        testAnswer(answerData, "-1.5", "wrong", "decimal is wrong");
+        testAnswer(answerData, "-1 1/2", "wrong", "mixed number is wrong");
+
+        start();
+    });
+
+    asyncTest("number improper (enforced simplification)", 18, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number' data-forms='improper' " +
+            "data-simplify='enforced'>-1.5<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "3/2", "wrong", "wrong answer is wrong");
+        testAnswer(answerData, "-3/2", "right",  "right answer is right");
+        testAnswer(answerData, "-6/4", "wrong-message", "unsimplified right answer provides a message");
+        testAnswer(answerData, " \u2212 3 / 2 ", "right",  "weirdly formatted right answer is right");
         testAnswer(answerData, "-1.5", "wrong", "decimal is wrong");
         testAnswer(answerData, "-1 1/2", "wrong", "mixed number is wrong");
 
@@ -257,10 +294,10 @@
         testAnswer(answerData, "-tau", "right", "right answer is right");
         testAnswer(answerData, "-2tau", "wrong", "tau is not pi");
         testAnswer(answerData, "-2", "wrong", "pi is not 1");
-        testAnswer(answerData, "-6.28", "wrong-message", "approximately right answer provides a message");
-        testAnswer(answerData, "-44/7", "wrong-message", "approximately right answer provides a message");
-        testAnswer(answerData, "" + (-2 * Math.PI), "wrong-message", "approximately right answer provides a message");
-        testAnswer(answerData, "-2/1 pi", "wrong-message", "unsimplified answer provides a message");
+        testAnswer(answerData, "-6.28", "empty-message", "approximately right answer provides a message");
+        testAnswer(answerData, "-44/7", "empty-message", "approximately right answer provides a message");
+        testAnswer(answerData, "" + (-2 * Math.PI), "empty-message", "approximately right answer provides a message");
+        testAnswer(answerData, "-2/1 pi", "empty-message", "unsimplified answer provides a message");
         testAnswer(answerData, "-9.42", "wrong", "totally wrong answer gives no message");
 
         start();
@@ -279,15 +316,15 @@
         testAnswer(answerData, "-5/12tau", "right", "right answer is right");
         testAnswer(answerData, "-5pi/6", "right", "right answer is right");
         testAnswer(answerData, "-5tau/12", "right", "right answer is right");
-        testAnswer(answerData, "-2.62", "wrong-message", "approximately right answer provides a message");
+        testAnswer(answerData, "-2.62", "empty-message", "approximately right answer provides a message");
         testAnswer(answerData, " \u2212 5 \u03c0 / 6 ", "right", "weirdly formatted right answer is right");
         testAnswer(answerData, " \u2212 5 \u03c4 / 12 ", "right", "weirdly formatted right answer is right");
-        testAnswer(answerData, " 5 \u03c0 / \u2212 6 ", "wrong-message", "negative in denominator provides a message");
-        testAnswer(answerData, " 5 \u03c4 / \u2212 12 ", "wrong-message", "negative in denominator provides a message");
+        testAnswer(answerData, " 5 \u03c0 / \u2212 6 ", "empty-message", "negative in denominator provides a message");
+        testAnswer(answerData, " 5 \u03c4 / \u2212 12 ", "empty-message", "negative in denominator provides a message");
         testAnswer(answerData, " \u2212 5 / 6 \u03c0 ", "right", "weirdly formatted right answer is right");
         testAnswer(answerData, " \u2212 5 / 12 \u03c4 ", "right", "weirdly formatted right answer is right");
-        testAnswer(answerData, " 5 / \u2212 6 \u03c0 ", "wrong-message", "negative in denominator provides a message");
-        testAnswer(answerData, " 5 / \u2212 12 \u03c4 ", "wrong-message", "negative in denominator provides a message");
+        testAnswer(answerData, " 5 / \u2212 6 \u03c0 ", "empty-message", "negative in denominator provides a message");
+        testAnswer(answerData, " 5 / \u2212 12 \u03c4 ", "empty-message", "negative in denominator provides a message");
 
         start();
     });
@@ -304,7 +341,7 @@
         testAnswer(answerData, "-4 5/6pi", "right", "right answer is right");
         testAnswer(answerData, "-29/6pi", "right", "right answer is right");
         testAnswer(answerData, "-2 5/12tau", "right", "right answer is right");
-        testAnswer(answerData, "-15.18", "wrong-message", "approximately right answer provides a message");
+        testAnswer(answerData, "-15.18", "empty-message", "approximately right answer provides a message");
         testAnswer(answerData, " \u2212 4 5 / 6 \u03c0 ", "right", "weirdly formatted right answer is right");
         testAnswer(answerData, " \u2212 2 5 / 12 \u03c4 ", "right", "weirdly formatted right answer is right");
 
@@ -322,7 +359,7 @@
         testAnswer(answerData, "0.5 pi", "wrong", "wrong answer is wrong");
         testAnswer(answerData, "-0.5pi", "right", "right answer is right");
         testAnswer(answerData, "-0.25tau", "right", "right answer is right");
-        testAnswer(answerData, "-1.57", "wrong-message", "approximately right answer provides a message");
+        testAnswer(answerData, "-1.57", "empty-message", "approximately right answer provides a message");
         testAnswer(answerData, " \u2212 0.5 \u03c0 ", "right", "weirdly formatted right answer is right");
         testAnswer(answerData, " \u2212 0.25 \u03c4 ", "right", "weirdly formatted right answer is right");
 
@@ -369,8 +406,27 @@
 
         testAnswer(answerData, "1 1/2", "wrong", "wrong answer is wrong");
         testAnswer(answerData, "-1 1/2", "right", "right answer is right");
-        testAnswer(answerData, "-1 2/4", "wrong-message", "unsimplified right answer provides a message");
+        testAnswer(answerData, "-1 2/4", "empty-message", "unsimplified right answer provides a message");
         testAnswer(answerData, " \u2212 1 1 / 2 ", "right", "weirdly formatted right answer is right");
+        testAnswer(answerData, "-1.5", "wrong", "decimal is wrong");
+        testAnswer(answerData, "-3/2", "wrong", "improper fraction is wrong");
+
+        start();
+    });
+
+    asyncTest("number mixed (simplification enforced)", 18, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number' data-forms='mixed' " +
+            "data-simplify='enforced'>-1.5<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "1 1/2", "wrong", "wrong answer is wrong");
+        testAnswer(answerData, "-1 1/2", "right",  "right answer is right");
+        testAnswer(answerData, "-1 2/4", "wrong-message", "unsimplified right answer provides a message");
+        testAnswer(answerData, " \u2212 1 1 / 2 ", "right",  "weirdly formatted right answer is right");
         testAnswer(answerData, "-1.5", "wrong", "decimal is wrong");
         testAnswer(answerData, "-3/2", "wrong", "improper fraction is wrong");
 
@@ -526,7 +582,7 @@
 
         testAnswer(answerData, "-1/3", "wrong", "wrong answer is wrong");
         testAnswer(answerData, "1/3", "right", "right answer is right");
-        testAnswer(answerData, "2/6", "wrong-message", "unsimplified right answer provides a message");
+        testAnswer(answerData, "2/6", "empty-message", "unsimplified right answer provides a message");
         testAnswer(answerData, "0.3333333333333333", "wrong", "decimal from calculator is wrong");
 
         start();
@@ -544,7 +600,7 @@
         testAnswer(answerData, "-1.5", "right", "right answer is right");
         testAnswer(answerData, "-1,5000", "right", "right answer is right");
         testAnswer(answerData, "-3/2", "right", "right answer is right");
-        testAnswer(answerData, "-6/4", "wrong-message", "unsimplified right answer provides a message");
+        testAnswer(answerData, "-6/4", "empty-message", "unsimplified right answer provides a message");
 
         start();
     });
@@ -582,7 +638,7 @@
         testMultipleAnswer(answerData, ["7", ""], "wrong", "incomplete answer is wrong");
         testMultipleAnswer(answerData, ["", "3/2"], "wrong", "incomplete answer is wrong");
         testMultipleAnswer(answerData, ["", ""], "empty", "empty answer is empty");
-        testMultipleAnswer(answerData, ["7", "6/4"], "wrong-message", "unsimplified right answer provides a message");
+        testMultipleAnswer(answerData, ["7", "6/4"], "empty-message", "unsimplified right answer provides a message");
 
         start();
     });

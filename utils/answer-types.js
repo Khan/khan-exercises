@@ -643,6 +643,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                           "but it is missing a " +
                                           "<code>\\%</code> at the end.");
                             } else {
+                                if (options.simplify !== "enforced") {
+                                    score.empty = true;
+                                }
                                 score.message = $._("Your answer is almost correct, " +
                                           "but it needs to be simplified.");
                             }
@@ -650,6 +653,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             return false; // break;
                         } else if (piApprox &&
                                    predicate(val, Math.abs(val * 0.001))) {
+                            score.empty = true;
                             score.message = $._("Your answer is close, but you may " +
                                       "have approximated pi. Enter your " +
                                       "answer as a multiple of pi, like " +
@@ -1104,9 +1108,21 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                     score.empty = score.empty && pass.empty;
                     score.correct = score.correct && pass.correct;
-                    // TODO(eater): This just records the last message
+                    // TODO(eater): This just forwards one message
                     if (pass.message) {
                         score.message = pass.message;
+                        // Special case where a validator returns a message
+                        // for an "empty" response. This probably means it's
+                        // not really empty, but a correct-but-not-simplified
+                        // answer. Rather that treating this as actually empty,
+                        // possibly leading to the entire multiple being marked
+                        // wrong for being incomplete, bail here and forward on
+                        // the message.
+                        if (pass.empty) {
+                            score.empty = true;
+                            score.correct = false;
+                            return score;
+                        }
                     }
                 });
 
