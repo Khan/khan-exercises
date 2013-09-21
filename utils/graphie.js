@@ -130,11 +130,19 @@
         };
 
         var unscalePoint = function(point) {
+            if (typeof point === "number") {
+                return unscalePoint([point, point]);
+            }
+
             var x = point[0], y = point[1];
             return [x / xScale + xRange[0], yRange[1] - y / yScale];
         };
 
         var unscaleVector = function(point) {
+            if (typeof point === "number") {
+                return unscaleVector([point, point]);
+            }
+
             return [point[0] / xScale, point[1] / yScale];
         };
 
@@ -164,7 +172,7 @@
             }
         };
 
-        var svgPath = function(points) {
+        var svgPath = function(points, alreadyScaled) {
             // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
             function boundNumber(num) {
                 if (num === 0) {
@@ -180,7 +188,7 @@
                 if (point === true) {
                     return "z";
                 } else {
-                    var scaled = scalePoint(point);
+                    var scaled = alreadyScaled ? point : scalePoint(point);
                     return (i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
                 }
             }).join("");
@@ -333,6 +341,12 @@
                 return p;
             },
 
+            scaledPath: function(points) {
+                var p = raphael.path(svgPath(points, /* alreadyScaled */ true));
+                p.graphiePath = points;
+                return p;
+            },
+
             line: function(start, end) {
                 return this.path([start, end]);
             },
@@ -384,12 +398,17 @@
                 $span.setPosition(point);
 
                 var span = $span[0];
-                if (latex) {
-                    KhanUtil.processMath(span, text, false, function() {
+
+                $span.processMath = function(math, force) {
+                    KhanUtil.processMath(span, math, force, function() {
                         var width = span.scrollWidth;
                         var height = span.scrollHeight;
                         setLabelMargins(span, [width, height]);
                     });
+                };
+
+                if (latex) {
+                    $span.processMath(text, /* force */ false);
                 } else {
                     var width = span.scrollWidth;
                     var height = span.scrollHeight;
@@ -551,6 +570,11 @@
                     "width": w,
                     "height": h
                 });
+
+                // TODO(alex): delete the other places where this gets set
+                if (!this.scale) {
+                    this.scale = scale;
+                }
 
                 return this;
             },
