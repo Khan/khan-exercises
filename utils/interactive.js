@@ -320,11 +320,11 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         var p1, p3;
         if (options.clockwise) {
-            p1 = options.point1,
-            p3 = options.point3
+            p1 = options.point1;
+            p3 = options.point3;
         } else {
-            p1 = options.point3,
-            p3 = options.point1
+            p1 = options.point3;
+            p3 = options.point1;
         }
 
         // TODO(alex): more spacing if >= 100 degrees (due to +1 character)
@@ -548,11 +548,11 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         var p1, p3;
         if (options.clockwise) {
-            p1 = options.point1,
-            p3 = options.point3
+            p1 = options.point1;
+            p3 = options.point3;
         } else {
-            p1 = options.point3,
-            p3 = options.point1
+            p1 = options.point3;
+            p3 = options.point1;
         }
 
         // Calculate label angle relative to vertex
