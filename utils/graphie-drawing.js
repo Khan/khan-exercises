@@ -17,6 +17,53 @@ function expandKeys(obj, keys, n) {
     });
 }
 
+var normalStyle = {
+    stroke: KhanUtil.BLACK,
+    strokeWidth: 2,
+    strokeOpacity: 1,
+    strokeDasharray: "",
+    fill: KhanUtil.BLACK,
+    fillOpacity: 0,
+    color: KhanUtil.BLACK
+};
+
+var labelStyle = _.extend({}, normalStyle, {
+    strokeWidth: 1
+});
+
+// Return a copy of the object with all camelCase keys converted to dashed-case
+function toDashed(obj) {
+    var keys = _.map(_.keys(obj), function(key) {
+        return key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+    });
+    return _.object(keys, _.values(obj));
+}
+
+// Return the normal and label styles for a given options object
+function getStyles(options) {
+    // Color overrides stroke and fill if not present
+    if (_.has(options, "color")) {
+        _.defaults(options, {
+            stroke: options.color,
+            fill: options.color
+        });
+    }
+
+    // Dasharray can combine dashes and dots
+    if (options.dashed && options.dotted) {
+        options.strokeDasharray = "- .";
+    } else if (options.dashed) {
+        options.strokeDasharray = "- ";
+    } else if (options.dotted) {
+        options.strokeDasharray = ". ";
+    }
+
+    return {
+        normalStyle: toDashed(_.extend({}, normalStyle, options)),
+        labelStyle: toDashed(_.extend({}, labelStyle, options))
+    };
+}
+
 $.extend(KhanUtil.Graphie.prototype, {
 
     drawPoint: function(options) {
@@ -24,23 +71,17 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         _.defaults(options, {
             point: [0, 0],
-            color: KhanUtil.BLACK,
             label: ""
         });
 
+        var styles = getStyles(options);
+
         return graphie.addMovablePoint({
             coord: options.point,
-            constraints: {
-                fixed: true
-            },
-            normalStyle: {
-                "stroke": options.color,
-                "fill": options.color
-            },
-            labelStyle: {
-                "color": options.color
-            },
-            vertexLabel: options.label
+            constraints: {fixed: true},
+            vertexLabel: options.label,
+            normalStyle: _.extend(styles.normalStyle, {"fill-opacity": 1}),
+            labelStyle: styles.labelStyle
         });
     },
 
@@ -48,51 +89,36 @@ $.extend(KhanUtil.Graphie.prototype, {
         var graphie = this;
 
         // Instead of two points, can specify a point and an angle/radius
-        if ("point" in options && "angle" in options) {
+        if (_.has(options, "point")) {
             var radius = options.radius || 5;
-            var offset = graphie.polar(options.radius, options.angle);
+            var angle = options.angle || 0;
+            var offset = graphie.polar(radius, angle);
             options.points = [
                 options.point,
-                [
-                    options.point[0] + offset[0],
-                    options.point[1] + offset[1]
-                ]
+                graphie.addPoints(options.point, offset)
             ];
         }
 
         _.defaults(options, {
             points: [[-5, 0], [5, 0]],
-            color: KhanUtil.BLACK,
             sideLabel: "",
             vertexLabels: "",
             showPoints: false,
             line: false,
-            ray: false,
-            dashed: false,
-            dotted: false
+            ray: false
         });
 
         expandKeys(options, ["vertexLabels", "showPoints"], 2);
 
+        var styles = getStyles(options);
+
         _.each(options.showPoints, function(showPoint, i) {
             if (showPoint) {
-                graphie.drawPoint({
-                    point: options.points[i],
-                    color: options.color
-                });
+                graphie.drawPoint(_.extend(options, {
+                    point: options.points[i]
+                }));
             }
         });
-
-        var dasharray;
-        if (options.dashed && options.dotted) {
-            dasharray = "- .";
-        } else if (options.dashed) {
-            dasharray = "- ";
-        } else if (options.dotted) {
-            dasharray = ". ";
-        } else /* solid line */ {
-            dasharray = "";
-        }
 
         return graphie.addMovableLineSegment({
             coordA: options.points[0],
@@ -100,17 +126,10 @@ $.extend(KhanUtil.Graphie.prototype, {
             fixed: true,
             extendLine: options.line,
             extendRay: options.ray,
-            normalStyle: {
-                "stroke": options.color,
-                "stroke-width": 2,
-                "stroke-dasharray": dasharray
-            },
-            labelStyle: {
-                "stroke": options.color,
-                "color": options.color
-            },
             sideLabel: options.sideLabel,
-            vertexLabels: options.vertexLabels
+            vertexLabels: options.vertexLabels,
+            normalStyle: styles.normalStyle,
+            labelStyle: styles.labelStyle
         });
     },
 
@@ -144,41 +163,28 @@ $.extend(KhanUtil.Graphie.prototype, {
         };
 
         _.defaults(options, defaults, {
-            points: [[3, -2], [0, 4], [-3, -2]],
-            color: KhanUtil.BLACK,
-            strokeOpacity: 1,
-            fillOpacity: 0
+            points: [[3, -2], [0, 4], [-3, -2]]
         });
         
         expandKeys(options, _.keys(defaults), options.points.length);
 
+        var styles = getStyles(_.omit(options, "arrows"));
+
         _.each(options.showPoints, function(showPoint, i) {
             if (showPoint) {
-                graphie.drawPoint({
-                    point: options.points[i],
-                    color: options.color
-                });
+                graphie.drawPoint(_.extend(options, {
+                    point: options.points[i]
+                }));
             }
         });
 
         return graphie.addMovablePolygon(_.extend(options, {
             fixed: true,
-            normalStyle: {
-                "stroke": options.color,
-                "stroke-width": 2,
-                "stroke-opacity": options.strokeOpacity,
-                "fill": options.color,
-                "fill-opacity": options.fillOpacity
-            },
-            labelStyle: {
-                "stroke": options.color,
-                "stroke-width": 1,
-                "stroke-opacity": options.strokeOpacity,
-                "color": options.color
-            },
             numArcs: options.arcs,
             numArrows: options.arrows,
-            numTicks: options.ticks
+            numTicks: options.ticks,
+            normalStyle: styles.normalStyle,
+            labelStyle: styles.labelStyle
         }));
     },
 
@@ -189,19 +195,17 @@ $.extend(KhanUtil.Graphie.prototype, {
             center: [0, 0],
             radius: 5,
             start: 45,
-            end: 135,
-            color: KhanUtil.BLACK
+            end: 135
         });
+
+        var styles = getStyles(options);
 
         return graphie.arc(
             options.center,
             options.radius,
             options.start,
             options.end,
-            {
-                "stroke": options.color,
-                "stroke-width": 2
-            }
+            styles.normalStyle
         );
     },
 
@@ -210,22 +214,15 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         _.defaults(options, {
             center: [0, 0],
-            radii: [2, 5],
-            color: KhanUtil.BLACK,
-            strokeOpacity: 1,
-            fillOpacity: 0
+            radii: [2, 5]
         });
+
+        var styles = getStyles(options);
 
         return graphie.ellipse(
             options.center,
             options.radii,
-            {
-                "stroke": options.color,
-                "stroke-width": 2,
-                "stroke-opacity": options.strokeOpacity,
-                "fill": options.color,
-                "fill-opacity": options.fillOpacity
-            }
+            styles.normalStyle
         );
     },
 
@@ -242,23 +239,20 @@ $.extend(KhanUtil.Graphie.prototype, {
             points: [],
             label: "",
             distance: 0,
-            color: KhanUtil.BLACK,
             arcs: 1
         });
 
+        var styles = getStyles(options);
+
         return graphie.labelAngle({
             point1: options.points[0],
-            vetex: options.points[1],
+            vertex: options.points[1],
             point3: options.points[2],
             clockwise: true,
             text: options.label,
             numArcs: options.arcs,
             pushOut: options.distance,
-            style: {
-                "stroke": options.color,
-                "stroke-width": 1,
-                "color": options.color
-            }
+            style: styles.labelStyle
         });
     }
 
