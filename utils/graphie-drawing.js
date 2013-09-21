@@ -191,9 +191,15 @@ $.extend(KhanUtil.Graphie.prototype, {
     drawArc: function(options) {
         var graphie = this;
 
+        if (_.has(options, "radius")) {
+            _.defaults(options, {
+                radii: options.radius
+            });
+        }
+
         _.defaults(options, {
             center: [0, 0],
-            radius: 5,
+            radii: 5,
             start: 45,
             end: 135
         });
@@ -202,7 +208,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         return graphie.arc(
             options.center,
-            options.radius,
+            options.radii,
             options.start,
             options.end,
             styles.normalStyle
@@ -211,6 +217,12 @@ $.extend(KhanUtil.Graphie.prototype, {
 
     drawEllipse: function(options) {
         var graphie = this;
+
+        if (_.has(options, "radius")) {
+            _.defaults(options, {
+                radii: options.radius
+            });
+        }
 
         _.defaults(options, {
             center: [0, 0],
@@ -227,9 +239,11 @@ $.extend(KhanUtil.Graphie.prototype, {
     },
 
     drawCircle: function(options) {
-        return this.drawEllipse(_.extend(options, {
-            radii: options.radius || 5
-        }));
+        _.defaults(options, {
+            radius: 5
+        });
+
+        return this.drawEllipse(options);
     },
 
     drawAngleLabel: function(options) {
