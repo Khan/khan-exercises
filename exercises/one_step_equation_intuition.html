@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="graphie" id="scale">
-                    scale.onChange = function(leftCoef, a, rightCoef, b) {
+                    KhanUtil.scale.onChange = function(leftCoef, a, rightCoef, b) {
                         $("#sub-left").prop("disabled", a === 0);
                         $("#add-left").prop("disabled", a === 10);
                         $("#sub-right").prop("disabled", b === 0);
@@ -158,7 +158,7 @@
                     };
 
                     // TODO(emily): make this faster (don't re-init every time)
-                    scale.init({
+                    KhanUtil.scale.init({
                         unknown: X,
                         leftConst: A,
                         rightConst: B,
@@ -265,8 +265,8 @@
                     </div>
                     <div class="guess">[
                         $("input#answer").val(),
-                        scale.leftConst,
-                        scale.rightConst
+                        KhanUtil.scale.leftConst,
+                        KhanUtil.scale.rightConst
                     ]</div>
                     <div class="validator-function">
                         if (guess[0] === "") {
@@ -282,8 +282,8 @@
                         return +guess[0] === X;
                     </div>
                     <div class="show-guess">
-                        scale.setLeftWeight(guess[1]);
-                        scale.setRightWeight(guess[2]);
+                        KhanUtil.scale.setLeftWeight(guess[1]);
+                        KhanUtil.scale.setRightWeight(guess[2]);
                     </div>
                     <div class="show-guess-solutionarea">
                         $("input#answer").val(guess[0]);
