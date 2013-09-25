@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+  <html data-require="math math-format">
+      <head>
+          <title>2011 Calculus AB Free Response #1a</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="A">5 + rand(8)</var>
+                  <var id="T" data-ensure="T < A">1 + (rand(23)/2)</var>
+                  <var id="C">2 + rand(3)</var>
+                  <var id="D" data-ensure=  "D != 0">-4 + rand(12)</var>
+                  <var id="F">D/4</var>
+                  <var id="G">toFraction(F)</var>
+                  <var id="H">1 + rand(4)</var>
+                  <var id="VELO">(D * (Math.sin(Math.pow(Math.E,(T/4))))) + H</var>
+                  <var id="ACCEL">F * Math.pow(Math.E,T/4) * Math.cos(Math.pow(Math.E,T/4))</var>
+                  <var id="DETERMINE">VELO * ACCEL</var>
+                  <var id="ANS">
+                    <div data-if="DETERMINE > 0">
+                      Increasing
+                    </div>
+                    <div data-else>
+                      Decreasing
+                    </div>
+                  </var>
+              </div>
+
+              <div class="problems">
+                  <div id="problem-type-or-description">
+                      <p class="problem"><!-- An overview of the problem including all needed info. -->
+                        For <code>0 \le t \le <var>A</var></code>, a particle is moving along the x-axis. The particle's position, 
+                      </br><code>x(t)</code>, is not explicitly given. The velocity of the particle is given by <code>v(t) = <var>D</var>\sin(e^{t/4}) + <var>H</var></code>. The acceleration of the particle is given by <code>a(t) = <var>fraction(G[0],G[1])</var>e^{t/4}\cos(e^{t/4})</code> and <code>x(0) = <var>C</var></code>.
+                      </p>
+                      <p class="question"><!-- The question to ask the student. -->
+                        Is the speed of the particle increasing or decreasing at time <code>t = <var>T</var></code>?
+                      </p>
+                      <p class="solution"><!-- The correct answer expected of the student. --> 
+                        <var>ANS</var>
+                      </p>
+                      <ul class="choices" data-category="true">
+                        <li>Decreasing</li>
+                        <li>Increasing</li>
+                      </ul>   
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p>Remember that if the velocity is negative and the acceleration is negative, then the object's velocity is becoming "more negative", meaning the magnitude is getting larger.</p>
+                  <p>However, if the velocity is negative and the acceleration is positive, then the object's velocity is becomign "less negative", meaning the magnitude is getting smaller.</p>
+                  <p>Similarly, when the velocity is positive and the acceleration is positive, then the object's velocity is becoming "more positive", meaning the magnitude is getting larger.</p>
+                  <p>As well, if the velocity is positive and the acceleration is negative, then the object's velocity is becoming "less positive", meaning the magnitude is getting smaller.</p>
+                  <p>At t = <var>T</var>, v(t) = <var>VELO</var>.</p>
+                  <p>At t = <var>T</var>, a(t) = <var>ACCEL</var>.</p>
+                  <p><var>DETERMINE</var></p>
+                  <p>Hence, the speed is: <var>ANS</var></p>
+              </div>
+          </div>
+      </body>
+  </html>
