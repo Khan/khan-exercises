@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Estimating the line of best fit</title>
+    <title>Estimating a line of fit</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
         .graphie.float {
@@ -14,9 +14,9 @@
 <body>
 <div class="exercise">
     <div class="problems">
-        <div id="linear">
+        <div id="linear" data-weight="3">
             <div class="vars" data-ensure="VALIDATOR(REALSLOPE, REALINTERCEPT)">
-                <var id="SLOPE">randRange(-80, 80) / 20</var>
+                <var id="SLOPE">randFromArray([-1, 1]) * randRange(10, 80) / 20</var>
                 <var id="INTERCEPT">randRange(-5, 5)</var>
                 <var id="FUNC">function(x) { return SLOPE * x + INTERCEPT }</var>
                 <var id="TOP">((SLOPE &lt; 0 ? -1 : 1) * 11 - INTERCEPT) / SLOPE</var>
@@ -168,8 +168,7 @@
                 }</var>
             </div>
 
-            <p class="question">Find the line of best fit,
-                or mark that there is no linear correlation.</p>
+            <p class="question">Fit a line to the data or mark that no line fits the data well.</p>
             <div class="problem">
                 <div class="graphie">
                     graphInit({
@@ -282,19 +281,18 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    Move the line on the graph to show a best fit line,
-                    if it exists.<br>
+                    Move the line on the graph to fit the data if appropriate.
                     <ul>
                         <li>
                             <label>
                                 <input id="exists" checked name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
-                                <span>A good best fit line exists</span>
+                                <span>A line fits the data well</span>
                             </label>
                         </li>
                         <li>
                             <label>
                                 <input id="notexists" name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
-                                <span>No good best fit line exists</span>
+                                <span>No line fits the data well</span>
                             </label>
                         </li>
                     </ul>
@@ -323,7 +321,6 @@
                 <div class="show-guess">
                     GRAPH.pointA.setCoord(guess[0]);
                     GRAPH.pointB.setCoord(guess[1]);
-
                     GRAPH.line1.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
@@ -332,11 +329,9 @@
             </div>
 
             <div class="hints">
-                <p>The line of best fit is the line that best approximates
-                    the data points.</p>
+                <p>A line of fit is a line that approximates the data points.</p>
                 <div>
-                    <p>There are three main criteria to use when finding a good
-                        best fit line.</p>
+                    <p>There are three main criteria to use when finding a line of fit.</p>
                     <p>First, make sure that your line passes through the points,
                         and does not lie completely above or below the points.</p>
                     <div class="clearfix">
@@ -410,9 +405,8 @@
                     </div>
                 </div>
                 <div>
-                    <p>Last, make sure that the line goes through the middle
-                        of all the points, so that it is close to all of
-                        the points.</p>
+                    <p>Finally, make sure that the line goes through the middle
+                        of all the points, so that it is close to all of the points.</p>
                     <div class="clearfix">
                         <div class="graphie float">
                             init({ range: [[-5, 5], [-5, 5]], scale: [20, 20] });
@@ -449,15 +443,15 @@
                 <p>
                     There are several lines that satisfy this.
                     <a class="simple-button" href="javascript:void(0)"
-                        onclick="javascript:KhanUtil.tmpl
-                            .getVAR('GRAPH').showSolution()">
+                        onclick="javascript:KhanUtil.tmpl.getVAR('GRAPH').showSolution()">
                             Click here
                     </a>
                     to show one of them.
                 </p>
             </div>
         </div>
-        <div id="nonlinear" data-type="linear">
+
+        <div id="nonlinear" data-type="linear" data-weight="1">
             <div class="vars">
                 <var id="SLOPE">0</var>
                 <var id="INTERCEPT">0</var>
@@ -467,19 +461,18 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    Move the line on the graph to show a best fit line,
-                    if it exists.<br>
+                    Move the line on the graph to fit the data if appropriate.
                     <ul>
                         <li>
                             <label>
                                 <input id="exists" checked name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
-                                <span>A good best fit line exists</span>
+                                <span>A line fits the data well</span>
                             </label>
                         </li>
                         <li>
                             <label>
                                 <input id="notexists" name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
-                                <span>No good best fit line exists</span>
+                                <span>No line fits the data well</span>
                             </label>
                         </li>
                     </ul>
@@ -498,7 +491,6 @@
                 <div class="show-guess">
                     GRAPH.pointA.setCoord(guess[0]);
                     GRAPH.pointB.setCoord(guess[1]);
-
                     GRAPH.line1.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
@@ -507,12 +499,12 @@
             </div>
 
             <div class="hints">
-                <p>Look at the data, and try to figure out if there is
-                    a linear relationship.</p>
-                <p>Because these data are mostly random, there is no
-                    correlation, so no good best fit line exists.</p>
+                <p>Does the data look like it follows a linear relationship?</p>
+                <p>These data are mostly random, so there is no line that fits the data well.</p>
             </div>
         </div>
+
+       
     </div>
 </div>
 </body>
