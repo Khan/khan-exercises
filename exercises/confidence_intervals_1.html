@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+  <html data-require="math stat">
+      <head>
+          <title>Confidence Intervals 1</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="SAMPLE_SIZE_SQRT">randRange(4,10)</var>
+                  <var id="SAMPLE_SIZE">Math.pow(SAMPLE_SIZE_SQRT,2)</var>
+                  <var id="SAMPLE_MEAN">randRange(60,120)</var>
+                  <var id="SAMPLE_STD_DEV">randRange(10,30)</var>
+                  <var id="STD_DEV_DISTANCE">randRange(6,16)/10</var>
+                  <var id="MEAN_RANGE">STD_DEV_DISTANCE*SAMPLE_STD_DEV/SAMPLE_SIZE_SQRT</var>
+                  <var id="ANSWER">(zScores(Math.floor(STD_DEV_DISTANCE*100))-0.5)*2</var>
+                  <var id="UPPER_BOUND">(SAMPLE_MEAN+MEAN_RANGE).toFixed(2)</var>
+                  <var id="LOWER_BOUND">(SAMPLE_MEAN-MEAN_RANGE).toFixed(2)</var>
+              </div>
+
+              <div class="problems">
+                  <div id="find_the_true_mean">
+                      <p class="problem">From a giant bin of a million apples, you draw <var>SAMPLE_SIZE</var> apples and weigh them; your sample's mean weight (<code>\Large{\bar{x}}</code>) is <var>SAMPLE_MEAN</var> grams, with a standard deviation (<code>\Large{\sigma{}}</code>) of <var>SAMPLE_STD_DEV</var> grams.</p>
+                      <p class="question">What is the chance that the mean weight of all the apples is between <var>LOWER_BOUND</var> and <var>UPPER_BOUND</var>?
+                      Round your answer to three decimal places.</p>
+                      <!-- Quick Access z table -->
+                      <table class="dataTable">
+                          <tr><td>z-score</td><td>Probability</td></tr>
+                          <tr><td>0.6</td><td><var>zScores(60)</var></td></tr>
+                          <tr><td>0.7</td><td><var>zScores(70)</var></td></tr>
+                          <tr><td>0.8</td><td><var>zScores(80)</var></td></tr>
+                          <tr><td>0.9</td><td><var>zScores(90)</var></td></tr>
+                          <tr><td>1.0</td><td><var>zScores(100)</var></td></tr>
+                          <tr><td>1.1</td><td><var>zScores(110)</var></td></tr>
+                          <tr><td>1.2</td><td><var>zScores(120)</var></td></tr>
+                          <tr><td>1.3</td><td><var>zScores(130)</var></td></tr>
+                          <tr><td>1.4</td><td><var>zScores(140)</var></td></tr>
+                          <tr><td>1.5</td><td><var>zScores(150)</var></td></tr>
+                          <tr><td>1.6</td><td><var>zScores(160)</var></td></tr>
+                      </table>
+                      <p class="solution" data-type="decimal"><var>ANSWER.toFixed(3)</var></p>
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p>If you can figure out the standard deviation of the sampling distribution of the mean (<code>{\Large{\sigma{}_{\bar{x}}}}</code>), you can figure out how many standard deviations away your bounds are from your sample mean, and look up the value in the z-scores table.</p>
+                  <p>Since we have such a large population of apples, the standard deviation of the sampling distribution of the mean (<code>{\Large{\sigma{}_{\bar{x}}}}</code>) can be approximated as <code>{\LARGE{\frac{\sigma{}}{\sqrt{n}}}}</code>, or <code>{\LARGE{\frac{<var>SAMPLE_STD_DEV</var>}{\sqrt{<var>SAMPLE_SIZE</var>}}}}</code></p>
+                  <p>If <code>{\Large{\sigma{}_{\bar{x}}}}</code> is <var>SAMPLE_STD_DEV/SAMPLE_SIZE_SQRT</var>, then our sample's mean of <var>SAMPLE_MEAN</var> and our upper bound of <var>UPPER_BOUND</var> are <var>STD_DEV_DISTANCE</var> standard deviations apart.</p>
+                  <p>Don't forget that the z-scores show the probability that a value will be less than the mean plus the listed number of standard deviations, which doesn't account for the lower bound given in the problem.
+          </div>
+      </body>
+  </html>
