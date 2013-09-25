@@ -231,7 +231,7 @@ $.extend(KhanUtil, {
 
         // Return a string showing how the term should be evaluated with a given value
         // e.g. 5x^2 evalated with 3 returns 5(3)^2
-        // If color is defined, the the value representing the variable is colored
+        // If color is defined, the value representing the variable is colored
         this.getEvaluateString = function(values, includeSign, color) {
             var s = '';
 

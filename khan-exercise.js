@@ -1537,7 +1537,7 @@ var Khan = (function() {
         }
 
         // TODO(james): figure out a way to trigger hintUsed to ensure that the
-        // cards are updated properly, but make sure the the ajax calls to
+        // cards are updated properly, but make sure the ajax calls to
         // submit the hints are not resubmited for the case where we are
         // calling this function because last_count_hints was not 0
     }
