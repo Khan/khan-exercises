@@ -438,7 +438,7 @@ function LineChart(data, pos) {
         var x = this.transformX(ord);
         var y = this.transformY(data.values[index]);
         var coord = [x, y];
-        graph.circle([x, y], 0.1);
+        graph.ellipse([x, y], [4 / graph.scale[0], 4 / graph.scale[1]]);
         if (prevPoint) {
             graph.line(prevPoint, coord);
         }

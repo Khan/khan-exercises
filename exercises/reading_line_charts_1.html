@@ -18,7 +18,7 @@
             $._("Sunday")
         ]</var>
         <var id="INDEX">randRange( 0, DAYS.length - 1 )</var>
-        <var id="VALUES">shuffle( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ], DAYS.length )</var>
+        <var id="VALUES">shuffle( [ 1, 2, 3, 4, 5, 6, 7, 8 ], DAYS.length )</var>
         <var id="DATA">
             (function() {
                 var ordinals = $.map( DAYS, function( day, i ) {
@@ -27,7 +27,7 @@
 
                 return {
                     min: 0,
-                    max: 10,
+                    max: 8,
                     tickCount: 10,
                     values: VALUES,
                     ordinals: ordinals
@@ -41,10 +41,11 @@
             <p class="question" data-if="isMale(1)">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did he see on <var>DAYS[ INDEX ]</var>?</p><p class="question" data-else="">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did she see on <var>DAYS[ INDEX ]</var>?</p>
             <div class="graphie" id="scatter">
                 var width = 10;
-                var height = 10;
+                var height = 8;
 
                 init({
-                    range: [ [ -1, width + 1 ], [ -1, height + 0.5 ] ]
+                    range: [ [ -1, width + 1 ], [ -1, height + 0.5 ] ],
+                    scale: [40, 30]
                 });
 
                 var pos = { lx: 0, ly: 0, width: width, height: height};
