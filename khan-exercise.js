@@ -577,6 +577,12 @@ var Khan = (function() {
             };
         },
 
+        getPreviewUrl: function() {
+            return window.location.protocol + "//" + window.location.host +
+                "/preview/content/e/" + exerciseId + "?seed=" +
+                problemSeed + "&problem=" + problemID;
+        },
+
         getIssueInfo: function() {
             var path = exerciseFile + "?seed=" + problemSeed + "&problem=" +
                         problemID,
