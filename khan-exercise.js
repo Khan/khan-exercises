@@ -582,10 +582,11 @@ var Khan = (function() {
                         problemID,
                 pathlink = "[" + path + (exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
                 historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
+                locale = "Locale: " + icu.getLocale(),
                 userHash = "User hash: " + crc32(user),
 
                 parts = [pathlink, historyLink,
-                        "    " + JSON.stringify(Exercises.guessLog), userHash],
+                        "    " + JSON.stringify(Exercises.guessLog), locale, userHash],
                 body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             return {
