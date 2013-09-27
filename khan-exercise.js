@@ -580,12 +580,14 @@ var Khan = (function() {
         getIssueInfo: function() {
             var path = exerciseFile + "?seed=" + problemSeed + "&problem=" +
                         problemID,
-                pathlink = "[" + path + (exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
-                historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
+                locale = icu.getLocale(),
+                pathlink = "[" + path + (exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + ")",
+                historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + "&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
+                localeMsg = "Locale: " + locale,
                 userHash = "User hash: " + crc32(user),
 
                 parts = [pathlink, historyLink,
-                        "    " + JSON.stringify(Exercises.guessLog), userHash],
+                        "    " + JSON.stringify(Exercises.guessLog), localeMsg, userHash],
                 body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             return {
