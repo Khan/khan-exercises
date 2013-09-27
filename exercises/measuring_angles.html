@@ -48,14 +48,14 @@
                     Next, rotate the protractor so that the <code>0^{\circ}</code> mark lines up with one side of the angle.
                     <button onclick="javascript:
                         KhanUtil.currentGraph.graph.protractor.moveTo( 0, 0 );
-                        KhanUtil.currentGraph.graph.protractor.rotateTo( 360 - KhanUtil.tmpl.getVAR('ANGLE_ONE') );
+                        KhanUtil.currentGraph.graph.protractor.rotateTo(KhanUtil.tmpl.getVAR('540 - ANGLE_ONE - DIFF'));
                     ">Show me</button>
                 </p>
                 <div>
                     <div class="graphie" data-update="angle">
                         graph.protractor.moveTo( 0, 0 );
-                        graph.protractor.rotateTo( 360 - ANGLE_ONE );
-                        label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                        graph.protractor.rotateTo( 540 - ANGLE_ONE - DIFF );
+                        label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                     </div>
                     <p>The angle is <code><var>DIFF</var></code> degrees.</p>
                 </div>

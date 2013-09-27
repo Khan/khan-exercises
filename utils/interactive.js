@@ -2597,9 +2597,11 @@ function Protractor(graph, center) {
     var lineColor = "#789";
     var pro = this;
 
-    var r = 8.05;
-    var imgPos = graph.scalePoint([this.cx - r, this.cy + r - 0.225]);
-    this.set.push(graph.mouselayer.image(Khan.imageBase + "protractor.png", imgPos[0], imgPos[1], 322, 161));
+    var r = graph.unscaleVector(180.5)[0];
+    var imgPos = graph.scalePoint([this.cx - r, this.cy + r - graph.unscaleVector(10.5)[1]]);
+    this.set.push(graph.mouselayer.image(
+            "https://ka-perseus-graphie.s3.amazonaws.com/e9d032f2ab8b95979f674fbfa67056442ba1ff6a.png",
+            imgPos[0], imgPos[1], 360, 180));
 
 
     // Customized polar coordinate thingie to make it easier to draw the double-headed arrow thing.
@@ -2607,6 +2609,8 @@ function Protractor(graph, center) {
     // pixels from edge is relative to the edge of the protractor; it's not the full radius
     var arrowHelper = function(angle, pixelsFromEdge) {
         var scaledRadius = graph.scaleVector(r);
+        scaledRadius[0] -= 16;
+        scaledRadius[1] -= 16;
         var scaledCenter = graph.scalePoint(center);
         var x = Math.sin((angle + 90) * Math.PI / 180) * (scaledRadius[0] + pixelsFromEdge) + scaledCenter[0];
         var y = Math.cos((angle + 90) * Math.PI / 180) * (scaledRadius[1] + pixelsFromEdge) + scaledCenter[1];
@@ -2762,7 +2766,6 @@ function Protractor(graph, center) {
         });
     };
 
-    this.set.attr({ opacity: 0.5 });
     this.makeTranslatable();
     return this;
 }
