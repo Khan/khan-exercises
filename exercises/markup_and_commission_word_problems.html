@@ -11,12 +11,12 @@
 
         <div id="markup">
             <div class="vars">
-                <var id="WHOLESALE">localeToFixed(randRange(85, 160), 2)</var>
+                <var id="WHOLESALE">randRange(85, 160)</var>
                 <var id="MARKUP_RATE">randRange(1,11)*5+30</var>
-                <var id="TOTAL_MARKUP">localeToFixed(roundTo(2,(MARKUP_RATE/100)*WHOLESALE), 2)</var>
+                <var id="TOTAL_MARKUP">roundTo(2, (MARKUP_RATE/100) * WHOLESALE)</var>
             </div>
             <div class="question spin">
-                <p><var>person(1)</var>'s Furniture Store buys a <var>furniture(1)</var> at a wholesale price of $<var>WHOLESALE</var>.  If the markup rate at <var>person(1)</var>'s Furniture Store is <var>MARKUP_RATE</var>%, what is the total markup for the <var>furniture(1)</var> in dollars?
+                <p><var>person(1)</var>'s Furniture Store buys a <var>furniture(1)</var> at a wholesale price of $<var>localeToFixed(WHOLESALE, 2)</var>.  If the markup rate at <var>person(1)</var>'s Furniture Store is <var>MARKUP_RATE</var>%, what is the total markup for the <var>furniture(1)</var> in dollars?
             </p></div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL_MARKUP</var></span></div>
             <div class="hints">
@@ -32,8 +32,8 @@
                     <p>Now you have all the information you need to use the formula above!</p>
                 </div>
                 <div>
-                    <p><code class="hint_blue"><var>localeToFixed(MARKUP_RATE/100, 2)</var></code> <code>\times</code> <code class="hint_green">$<var>WHOLESALE</var></code> <code>=</code> <code class="hint_pink">$<var>TOTAL_MARKUP</var></code></p>
-                    <p class="final_answer">The amount of markup on the <var>furniture(1)</var> is <code class="hint_pink">$<var>TOTAL_MARKUP</var></code>.</p>
+                    <p><code class="hint_blue"><var>localeToFixed(MARKUP_RATE/100, 2)</var></code> <code>\times</code> <code class="hint_green">$<var>localeToFixed(WHOLESALE, 2)</var></code> <code>=</code> <code class="hint_pink">$<var>localeToFixed(TOTAL_MARKUP, 2)</var></code></p>
+                    <p class="final_answer">The amount of markup on the <var>furniture(1)</var> is <code class="hint_pink">$<var>localeToFixed(TOTAL_MARKUP, 2)</var></code>.</p>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 <var id="RETAIL_PRICE">roundTo(2,((MARKUP_RATE/100)*WHOLESALE)+WHOLESALE)</var>
             </div>
             <div class="question spin">
-                <p>The manager at <var>person(1)</var>'s Furniture Store is trying to figure out how much to charge for a <var>furniture(1)</var> that just arrived. If the <var>furniture(1)</var> was bought at a wholesale price of $<var>WHOLESALE</var> and <var>person(1)</var>'s Furniture Store marks up all furniture by <var>MARKUP_RATE</var>%, at what price should the manager sell the <var>furniture(1)</var>?
+                <p>The manager at <var>person(1)</var>'s Furniture Store is trying to figure out how much to charge for a <var>furniture(1)</var> that just arrived. If the <var>furniture(1)</var> was bought at a wholesale price of $<var>localeToFixed(WHOLESALE, 2)</var> and <var>person(1)</var>'s Furniture Store marks up all furniture by <var>MARKUP_RATE</var>%, at what price should the manager sell the <var>furniture(1)</var>?
             </p></div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>RETAIL_PRICE</var></span></div>
             <div class="hints">
@@ -76,11 +76,11 @@
         <div id="commission">
             <div class="vars">
                 <var id="COMMISSION_RATE">randRange(5,15)</var>
-                <var id="PRICE">localeToFixed(randRange(250,880), 2)</var>
-                <var id="TOTAL_COMMISSION">localeToFixed(roundTo(2,(COMMISSION_RATE/100)*PRICE), 2)</var>
+                <var id="PRICE">randRange(250,880)</var>
+                <var id="TOTAL_COMMISSION">roundTo(2,(COMMISSION_RATE/100)*PRICE)</var>
             </div>
             <div class="question spin">
-                <p data-if="isMale(1)"><var>person(1)</var> works at a nearby electronics store.  He makes a commission of <var>COMMISSION_RATE</var>% on everything he sells.  If he sells a <var>electronic(1)</var> for $<var>PRICE</var>, how much money does <var>person(1)</var> make in commission?</p><p data-else=""><var>person(1)</var> works at a nearby electronics store.  She makes a commission of <var>COMMISSION_RATE</var>% on everything she sells.  If she sells a <var>electronic(1)</var> for $<var>PRICE</var>, how much money does <var>person(1)</var> make in commission?</p>
+                <p data-if="isMale(1)"><var>person(1)</var> works at a nearby electronics store.  He makes a commission of <var>COMMISSION_RATE</var>% on everything he sells.  If he sells a <var>electronic(1)</var> for $<var>localeToFixed(PRICE, 2)</var>, how much money does <var>person(1)</var> make in commission?</p><p data-else=""><var>person(1)</var> works at a nearby electronics store.  She makes a commission of <var>COMMISSION_RATE</var>% on everything she sells.  If she sells a <var>electronic(1)</var> for $<var>localeToFixed(PRICE, 2)</var>, how much money does <var>person(1)</var> make in commission?</p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL_COMMISSION</var></span></div>
                 <div class="hints">
@@ -96,8 +96,8 @@
                     <p>Now you have all the information you need to use the formula above!</p>
                 </div>
                 <div>
-                    <p><code class="hint_blue"><var>localeToFixed(COMMISSION_RATE/100, 2)</var></code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code> <code>=</code> <code class="hint_pink">$<var>TOTAL_COMMISSION</var></code></p>
-                    <p class="final_answer">The amount of commission <var>person(1)</var> makes by selling a <var>electronic(1)</var> is <code class="hint_pink">$<var>TOTAL_COMMISSION</var></code>.</p>
+                    <p><code class="hint_blue"><var>localeToFixed(COMMISSION_RATE/100, 2)</var></code> <code>\times</code> <code class="hint_green">$<var>localeToFixed(PRICE, 2)</var></code> <code>=</code> <code class="hint_pink">$<var>localeToFixed(TOTAL_COMMISSION, 2)</var></code></p>
+                    <p class="final_answer">The amount of commission <var>person(1)</var> makes by selling a <var>electronic(1)</var> is <code class="hint_pink">$<var>localeToFixed(TOTAL_COMMISSION, 2)</var></code>.</p>
                 </div>
                 </div>
         </div>
@@ -112,7 +112,7 @@
 
             </div>
             <div class="question spin">
-                <p data-if="isMale(1)"><var>person(1)</var> earns a base salary of $<var>BASE_SALARY</var> every week with an additional <var>COMMISSION_RATE</var>% commission on everything he sells. If <var>person(1)</var> sold $<var>SALES</var> worth of items last week, what was his total salary?</p><p data-else=""><var>person(1)</var> earns a base salary of $<var>BASE_SALARY</var> every week with an additional <var>COMMISSION_RATE</var>% commission on everything she sells. If <var>person(1)</var> sold $<var>SALES</var> worth of items last week, what was her total salary?</p>
+                <p data-if="isMale(1)"><var>person(1)</var> earns a base salary of $<var>localeToFixed(BASE_SALARY, 2)</var> every week with an additional <var>COMMISSION_RATE</var>% commission on everything he sells. If <var>person(1)</var> sold $<var>localeToFixed(SALES, 2)</var> worth of items last week, what was his total salary?</p><p data-else=""><var>person(1)</var> earns a base salary of $<var>localeToFixed(BASE_SALARY, 2)</var> every week with an additional <var>COMMISSION_RATE</var>% commission on everything she sells. If <var>person(1)</var> sold $<var>localeToFixed(SALES, 2)</var> worth of items last week, what was her total salary?</p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL_SALARY</var></span></div>
                 <div class="hints">
