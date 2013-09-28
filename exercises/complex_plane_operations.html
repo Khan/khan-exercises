@@ -104,14 +104,14 @@
                             <p>Subtract the real and imaginary components separately.</p>
                         </div>
                         <div>
-                            <p><code>a + b = (<var>REAL1</var> - <var>REAL2</var>) + (<var>COMPLEX1</var> - <var>COMPLEX2</var>)i</code></p>
+                            <p><code>a - b = (<var>REAL1</var> - <var>REAL2</var>) + (<var>COMPLEX1</var> - <var>COMPLEX2</var>)i</code></p>
                             <div class="graphie" data-update="graph">
                                 line([REAL1, COMPLEX1], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#28ae7b", arrows: "-&gt;" });
                                 graph.guessPoint.toFront();
                             </div>
                         </div>
                         <div>
-                            <p><code>\hphantom{a + b} = <var>REAL1 - REAL2</var> + <var>COMPLEX1 - COMPLEX2</var>i</code></p>
+                            <p><code>\hphantom{a - b} = <var>REAL1 - REAL2</var> + <var>COMPLEX1 - COMPLEX2</var>i</code></p>
                             <div class="graphie" data-update="graph">
                                 line([0, 0], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#ffa500", arrows: "-&gt;" });
                                 graph.guessPoint.toFront();
