@@ -1877,6 +1877,50 @@ $.extend(KhanUtil.Graphie.prototype, {
         return polygon;
     },
 
+    /**
+     * Constrain a point to be within the graph (including padding).
+     * If outside graph, point is moved along the ray specified by angle
+     * until inside graph.
+     */
+    constrainToBounds: function(point, angle, padding) {
+        var lower = this.unscalePoint([padding, this.ypixels - padding]);
+        var upper = this.unscalePoint([this.xpixels - padding, padding]);
+
+        if (point[0] < lower[0]) {
+            return [lower[0], point[1] + (lower[0] - point[0]) * Math.tan(angle)];
+        } else if (point[0] > upper[0]) {
+            return [upper[0], point[1] - (point[0] - upper[0]) * Math.tan(angle)];
+        } else if (point[1] < lower[1]) {
+            return [point[0] + (lower[1] - point[1]) / Math.tan(angle), lower[1]];
+        } else if (point[1] > upper[1]) {
+            return [point[0] - (point[1] - upper[1]) / Math.tan(angle), upper[1]];
+        } else {
+            return point;
+        }
+    },
+
+    // MovableAngle is an angle that can be dragged around the screen.
+    // By attaching a smartPoint to the vertex and ray control points, the 
+    // rays can be manipulated individually.
+    //
+    // Use only with smartPoints; add the smartPoints first, then:
+    //   addMovableAngle({points: [...]});
+    //
+    // The rays can be controlled to snap on degrees (more useful than snapping
+    // on coordinates) by setting snapDegrees to a positive integer.
+    //
+    // The returned object includes the following properties/methods:
+    //
+    //   - movableAngle.points
+    //         The movableAngle's dynamic smartPoints.
+    //
+    //   - movableAngle.coords
+    //         The movableAngle's current coordinates (generated, don't edit).
+    //
+    addMovableAngle: function(options) {
+        return new MovableAngle(this, options);
+    },
+
     addArrowWidget: function(options) {
         var arrowWidget = $.extend({
             graph: this,
@@ -2769,5 +2813,178 @@ function Protractor(graph, center) {
     this.makeTranslatable();
     return this;
 }
+
+function MovableAngle(graphie, options) {
+    this.graphie = graphie;
+    _.extend(this, options);
+
+    if (!this.points || this.points.length !== 3) {
+        throw new Error("MovableAngle requires 3 points");
+    } else if (_.any(this.points, _.isArray)) {
+        throw new Error("MovableAngle takes only MovablePoints");
+    }
+
+    this.rays = _.map([0, 2], function(i) {
+        return graphie.addMovableLineSegment({
+            pointA: this.points[1],
+            pointZ: this.points[i],
+            fixed: true,
+            extendRay: true
+        });
+    }, this);
+
+    this.temp = [];
+    this.labeledAngle = graphie.label([0, 0], "", "center", this.labelStyle);
+
+    this.addMoveHandlers();
+    this.addHighlightHandlers();
+    this.update();
+}
+
+_.extend(MovableAngle.prototype, {
+    points: [],
+    snapDegrees: 0,
+    normalStyle: {
+        "stroke": KhanUtil.BLUE,
+        "stroke-width": 2,
+        "fill": KhanUtil.BLUE
+    },
+    highlightStyle: {
+        "stroke": KhanUtil.ORANGE,
+        "stroke-width": 2,
+        "fill": KhanUtil.ORANGE
+    },
+    labelStyle: {
+        "stroke": KhanUtil.BLUE,
+        "stroke-width": 1,
+        "color": KhanUtil.BLUE
+    },
+    angleLabel: "",
+    numArcs: 1,
+    pushOut: 0,
+
+    addMoveHandlers: function() {
+        var graphie = this.graphie;
+
+        function tooClose(point1, point2) {
+            // Vertex and ray points can't be closer than this many pixels
+            var safeDistance = 30;
+            var distance = KhanUtil.getDistance(
+                graphie.scalePoint(point1),
+                graphie.scalePoint(point2)
+            );
+            return distance < safeDistance;
+        }
+
+        var points = this.points;
+
+        // Drag the vertex to move the entire angle
+        points[1].onMove = function(x, y) {
+            var oldVertex = points[1].coord;
+            var newVertex = [x, y];
+            var delta = addPoints(newVertex, reverseVector(oldVertex));
+
+            var valid = true;
+            var newPoints = {};
+            _.each([0, 2], function(i) {
+                var oldPoint = points[i].coord;
+                var newPoint = addPoints(oldPoint, delta);
+
+                // Constrain ray points to stay the same angle from vertex
+                var angle = KhanUtil.findAngle(newVertex, newPoint);
+                angle *= Math.PI / 180;
+                newPoint = graphie.constrainToBounds(newPoint, angle, 10);
+                newPoints[i] = newPoint;
+
+                if (tooClose(newVertex, newPoint)) {
+                    valid = false;
+                }
+            });
+
+            // Only move points if all new positions are valid
+            if (valid) {
+                _.each(newPoints, function(newPoint, i) {
+                    points[i].setCoord(newPoint);
+                    points[i].updateLineEnds();
+                });
+            }
+            return valid;
+        };
+
+        var snap = this.snapDegrees;
+
+        // Drag ray control points to move each ray individually
+        _.each([0, 2], function(i) {
+            points[i].onMove = function(x, y) {
+                var newPoint = [x, y];
+                var vertex = points[1].coord;
+
+                if (tooClose(vertex, newPoint)) {
+                    return false;
+                } else if (snap) {
+                    var angle = KhanUtil.findAngle(newPoint, vertex);
+                    angle = Math.round(angle / snap) * snap;
+                    var distance = KhanUtil.getDistance(newPoint, vertex);
+                    return addPoints(vertex, graphie.polar(distance, angle));
+                } else {
+                    return true;
+                }
+            };
+        });
+
+        // Expose only a single move event
+        $(points).on("move", function() {
+            this.update();
+            $(this).trigger("move");
+        }.bind(this));
+    },
+
+    addHighlightHandlers: function() {
+        var vertex = this.points[1];
+
+        vertex.onHighlight = function() {
+            _.each(this.points, function(point) {
+                point.visibleShape.animate(this.highlightStyle, 50);
+            }, this);
+            _.each(this.rays, function(ray) {
+                ray.visibleLine.animate(this.highlightStyle, 50);
+            }, this);
+        }.bind(this);
+
+        vertex.onUnhighlight = function() {
+            _.each(this.points, function(point) {
+                point.visibleShape.animate(this.normalStyle, 50);
+            }, this);
+            _.each(this.rays, function(ray) {
+                ray.visibleLine.animate(this.normalStyle, 50);
+            }, this);
+        }.bind(this);
+    },
+
+    update: function() {
+        // Update coords
+        this.coords = _.pluck(this.points, "coord");
+
+        // Update angle label
+        _.invoke(this.temp, "remove");
+        this.temp = this.graphie.labelAngle({
+            point1: this.coords[0],
+            vertex: this.coords[1],
+            point3: this.coords[2],
+            label: this.labeledAngle,
+            text: this.angleLabel,
+            numArcs: this.numArcs,
+            pushOut: this.pushOut,
+            clockwise: true,
+            style: this.labelStyle
+        });
+    },
+
+    remove: function() {
+        _.invoke(this.rays, "remove");
+        _.invoke(this.temp, "remove");
+        this.labeledAngle.remove();
+    }
+});
 
 })();
