@@ -1,19 +1,17 @@
 .git/**
 
 local-only/**
+third_party/**
 test/**
 
-# Third-party code in utils/
+# Third-party code in utils/.
+# TODO(csilvers): move to a new third-party/ directory.
 build/jshint.js
 utils/MathJax/**
 utils/d3.js
 utils/jquery.*.js
 utils/raphael.js
 utils/test/**
-
-# Stuff that the main webapp repo sometimes sticks into khan-exercises/
-# TODO(csilvers): remove after 1 Oct 2013
-**/_hashed-*.js
 
 # TODO(csilvers): fix these
 build/kathjax-config.js
