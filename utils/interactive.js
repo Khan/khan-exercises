@@ -2816,7 +2816,26 @@ function Protractor(graph, center) {
 
 function MovableAngle(graphie, options) {
     this.graphie = graphie;
-    _.extend(this, options);
+
+    // TODO(alex): Move standard colors from math.js to somewhere else
+    // so that they are available when this file is first parsed
+    _.extend(this, {
+        normalStyle: {
+            "stroke": KhanUtil.BLUE,
+            "stroke-width": 2,
+            "fill": KhanUtil.BLUE
+        },
+        highlightStyle: {
+            "stroke": KhanUtil.ORANGE,
+            "stroke-width": 2,
+            "fill": KhanUtil.ORANGE
+        },
+        labelStyle: {
+            "stroke": KhanUtil.BLUE,
+            "stroke-width": 1,
+            "color": KhanUtil.BLUE
+        }
+    }, options);
 
     if (!this.points || this.points.length !== 3) {
         throw new Error("MovableAngle requires 3 points");
@@ -2844,21 +2863,6 @@ function MovableAngle(graphie, options) {
 _.extend(MovableAngle.prototype, {
     points: [],
     snapDegrees: 0,
-    normalStyle: {
-        "stroke": KhanUtil.BLUE,
-        "stroke-width": 2,
-        "fill": KhanUtil.BLUE
-    },
-    highlightStyle: {
-        "stroke": KhanUtil.ORANGE,
-        "stroke-width": 2,
-        "fill": KhanUtil.ORANGE
-    },
-    labelStyle: {
-        "stroke": KhanUtil.BLUE,
-        "stroke-width": 1,
-        "color": KhanUtil.BLUE
-    },
     angleLabel: "",
     numArcs: 1,
     pushOut: 0,
