@@ -4,14 +4,8 @@ local-only/**
 third_party/**
 test/**
 
-# Third-party code in utils/.
-# TODO(csilvers): move to a new third-party/ directory.
+# Third-party code in build/.  TODO(csilvers): move to third_party/?
 build/jshint.js
-utils/MathJax/**
-utils/d3.js
-utils/jquery.*.js
-utils/raphael.js
-utils/test/**
 
 # TODO(csilvers): fix these
 build/kathjax-config.js
@@ -27,3 +21,4 @@ utils/matrix.js
 utils/proofs.js
 utils/rational-expressions.js
 utils/steps-helpers.js
+utils/test/**
