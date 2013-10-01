@@ -272,7 +272,7 @@ var Khan = (function() {
         startLoadingExercise: startLoadingExercise,
 
         moduleDependencies: {
-            "math": ["../third-party/raphael"],
+            "math": ["../third_party/raphael"],
 
             // Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
             // http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
@@ -285,9 +285,9 @@ var Khan = (function() {
             "polynomials": ["math", "expressions"],
             "stat": ["math"],
             "word-problems": ["math"],
-            "derivative-intuition": ["../third-party/jquery.mobile.vmouse"],
-            "unit-circle": ["../third-party/jquery.mobile.vmouse"],
-            "interactive": ["graphie", "../third-party/jquery.mobile.vmouse"],
+            "derivative-intuition": ["../third_party/jquery.mobile.vmouse"],
+            "unit-circle": ["../third_party/jquery.mobile.vmouse"],
+            "interactive": ["graphie", "../third_party/jquery.mobile.vmouse"],
             "mean-and-median": ["stat"],
             "math-model": ["ast"],
             "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"],
@@ -296,7 +296,7 @@ var Khan = (function() {
             "graphie-geometry": ["graphie", "matrix"],
             "graphie-helpers": ["math-format"],
             "matrix": ["expressions"],
-            "matrix-input": ["../third-party/jquery.cursor-position"],
+            "matrix-input": ["../third_party/jquery.cursor-position"],
             "chemistry": ["math-format"],
             "d3": ["math-format"]
         },
@@ -341,7 +341,7 @@ var Khan = (function() {
                 "answer-types", "tmpl", "tex", "jquery.adhesion",
                 "calculator",
                 {
-                    src: urlBase + "third-party/MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"
+                    src: urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"
                 });
 
             return mods;
