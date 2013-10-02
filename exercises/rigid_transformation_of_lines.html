@@ -11,10 +11,16 @@
         <div id="line-segment">
             <div class="vars">
                 <var id="SHAPE">$._("line segment")</var>
+                <var id="MATCH">random() &lt; 0.7</var>
+                <var id="ANGLE">randRange(1, 12) * PI / 12</var>
+
+                <var id="LENGTH">randRange(3, 8)</var>
+                <var id="LENGTH2" data-ensure="MATCH || abs(LENGTH - LENGTH2) &gt; 1">MATCH ? LENGTH : randRange(2, 8)</var>
                 <var id="THETA">0</var>
                 <var id="THETA2">0</var>
-                <var id="LENGTH">randRange(3, 8)</var>
-                <var id="ANGLE">randRange(1, 12) * PI / 12</var>
+                <var id="GAP">0</var>
+                <var id="GAP2">0</var>
+
                 <var id="MIDX">randRange(LENGTH / 2 - 10, 10 - LENGTH / 2)</var>
                 <var id="MIDY">randRange(LENGTH / 2 - 10, 10 - LENGTH / 2)</var>
                 <var id="ROTATION_POINT">[MIDX, MIDY]</var>
@@ -24,7 +30,6 @@
                 ]</var>
                 <var id="LINES">[[1, 2]]</var>
 
-                <var id="LENGTH2" data-ensure="abs(LENGTH - LENGTH2) !== 1">random() &lt; 0.7 ? LENGTH : randRange(2, 8)</var>
                 <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
                     <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
                     <var id="MIDX2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
@@ -186,7 +191,7 @@
                 </div>
                 <div class="validator-function">
                     if (guess[1] === "notexists") {
-                        return LENGTH !== LENGTH2;
+                        return !MATCH;
                     } else {
 
                         var match = _.all(guess[0], function(point, i) {
@@ -238,7 +243,7 @@
             <div class="vars">
                 <var id="SHAPE">$._("angle")</var>
                 <var id="THETA">randRange(1, 6) * PI / 12</var>
-                <var id="THETA2">random() &lt; 0.7 ? THETA : randRange(1, 6) * PI / 12</var>
+                <var id="THETA2" data-ensure="MATCH || abs(THETA - THETA2) !== 0">MATCH ? THETA : randRange(1, 6) * PI / 12</var>
                 
                 <var id="MIDX">randRange(LENGTH - 10, 10 - LENGTH)</var>
                 <var id="MIDY">randRange(LENGTH - 10, 10 - LENGTH)</var>
@@ -254,6 +259,43 @@
                     [MIDX2, MIDY2],
                     [MIDX2 + LENGTH * cos(ANGLE2), MIDY2 + LENGTH * sin(ANGLE2)],
                     [MIDX2 + LENGTH * cos(ANGLE2 + THETA2), MIDY2 + LENGTH * sin(ANGLE2 + THETA2)]
+                ]</var>
+                <var id="GRAPH">{}</var>
+            </div>
+        </div>
+
+        <div id="parallel" data-type="line-segment">
+            <div class="vars">
+                <var id="SHAPE">$._("set of parallel lines")</var>
+                <var id="GAP">randRange(2, 6) / 2</var>
+                <var id="GAP2" data-ensure="MATCH || abs(GAP - GAP2) !== 0">MATCH ? GAP : randRange(2, 6) / 2</var>
+                
+                <var id="MIDX">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDY">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDX2">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDY2">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                
+                <var id="HANDLE_POINTS">[
+                    [MIDX + LENGTH * cos(ANGLE) / 2 + GAP * cos(ANGLE + PI/2),
+                     MIDY + LENGTH * sin(ANGLE) / 2 + GAP * sin(ANGLE + PI/2)],
+                    [MIDX - LENGTH * cos(ANGLE) / 2 + GAP * cos(ANGLE + PI/2),
+                     MIDY - LENGTH * sin(ANGLE) / 2 + GAP * sin(ANGLE + PI/2)],
+                    [MIDX + LENGTH * cos(ANGLE) / 2 - GAP * cos(ANGLE + PI/2),
+                     MIDY + LENGTH * sin(ANGLE) / 2 - GAP * sin(ANGLE + PI/2)],
+                    [MIDX - LENGTH * cos(ANGLE) / 2 - GAP * cos(ANGLE + PI/2),
+                     MIDY - LENGTH * sin(ANGLE) / 2 - GAP * sin(ANGLE + PI/2)]
+                ]</var>
+                <var id="LINES">[[1, 2], [3, 4]]</var>
+                <var id="TARGET">[
+                    [MIDX2, MIDY2],
+                    [MIDX2 + LENGTH * cos(ANGLE) / 2 + GAP2 * cos(ANGLE + PI/2),
+                     MIDY2 + LENGTH * sin(ANGLE) / 2 + GAP2 * sin(ANGLE + PI/2)],
+                    [MIDX2 - LENGTH * cos(ANGLE) / 2 + GAP2 * cos(ANGLE + PI/2),
+                     MIDY2 - LENGTH * sin(ANGLE) / 2 + GAP2 * sin(ANGLE + PI/2)],
+                    [MIDX2 + LENGTH * cos(ANGLE) / 2 - GAP2 * cos(ANGLE + PI/2),
+                     MIDY2 + LENGTH * sin(ANGLE) / 2 - GAP2 * sin(ANGLE + PI/2)],
+                    [MIDX2 - LENGTH * cos(ANGLE) / 2 - GAP2 * cos(ANGLE + PI/2),
+                     MIDY2 - LENGTH * sin(ANGLE) / 2 - GAP2 * sin(ANGLE + PI/2)]
                 ]</var>
                 <var id="GRAPH">{}</var>
             </div>
