@@ -10,25 +10,28 @@
     <div class="problems">
         <div id="line-segment">
             <div class="vars">
-                <var id="THETA"></var>
-                <var id="RADIUS">randRange(2, 8) / 2</var>
+                <var id="THETA">0</var>
+                <var id="THETA2">0</var>
+                <var id="LENGTH">randRange(2, 8)</var>
                 <var id="ANGLE">randRange(1, 12) * PI / 12</var>
-                <var id="MIDX">randRange(RADIUS - 10, 10 - RADIUS)</var>
-                <var id="MIDY">randRange(RADIUS - 10, 10 - RADIUS)</var>
-                <var id="LINES">[[
-                    [MIDX + RADIUS * cos(ANGLE), MIDY + RADIUS * sin(ANGLE)],
-                    [MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)]
-                ]]</var>
+                <var id="MIDX">randRange(LENGTH / 2 - 10, 10 - LENGTH / 2)</var>
+                <var id="MIDY">randRange(LENGTH / 2 - 10, 10 - LENGTH / 2)</var>
+                <var id="ROTATION_POINT">[MIDX, MIDY]</var>
+                <var id="HANDLE_POINTS">[
+                    [MIDX + LENGTH * cos(ANGLE) / 2, MIDY + LENGTH * sin(ANGLE) / 2],
+                    [MIDX - LENGTH * cos(ANGLE) / 2, MIDY - LENGTH * sin(ANGLE) / 2]
+                ]</var>
+                <var id="LINES">[[0, 1]]</var>
 
-                <var id="RADIUS2" data-ensure="abs(RADIUS - RADIUS2) !== 0.5">random() &lt; 0.7 ? RADIUS : randRange(2, 8) / 2</var>
+                <var id="LENGTH2" data-ensure="abs(LENGTH - LENGTH2) !== 1">random() &lt; 0.7 ? LENGTH : randRange(2, 8)</var>
                 <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
                     <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
-                    <var id="MIDX2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
-                    <var id="MIDY2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
-                    <var id="TARGET">[
-                        [MIDX2 + RADIUS2 * cos(ANGLE2), MIDY2 + RADIUS2 * sin(ANGLE2)],
-                        [MIDX2 - RADIUS2 * cos(ANGLE2), MIDY2 - RADIUS2 * sin(ANGLE2)]
-                    ]</var>
+                    <var id="MIDX2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
+                    <var id="MIDY2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
+                    <var id="TARGET">[[
+                        [MIDX2 + LENGTH2 * cos(ANGLE2) / 2, MIDY2 + LENGTH2 * sin(ANGLE2) / 2],
+                        [MIDX2 - LENGTH2 * cos(ANGLE2) / 2, MIDY2 - LENGTH2 * sin(ANGLE2) / 2]
+                    ]]</var>
                 </div>
                 <var id="GRAPH">{}</var>
             </div>
@@ -52,14 +55,18 @@
                     });
                     addMouseLayer();
 
+                    graph.rotationPoint = ROTATION_POINT;
                     graph.points = [];
+
+                    _.map(HANDLE_POINTS, function(point) {
+                        graph.points.push(addMovablePoint({ coord: point }));
+                    });
+
                     graph.lines = [];
 
                     _.map(LINES, function(line) {
-                        var point1 = addMovablePoint({ coord: line[0] })
-                        var point2 = addMovablePoint({ coord: line[1] })
-                        graph.points.push(point1);
-                        graph.points.push(point2);
+                        var point1 = graph.points[line[0]]
+                        var point2 = graph.points[line[1]]
 
                         graph.lines.push(addMovableLineSegment({
                             pointA: point1,
@@ -69,10 +76,12 @@
                             }
                         }));
 
-                        path(line, { stroke: GRAY, strokeDasharray: "- " });
-                    })
+                        path([point1.coord, point2.coord], { stroke: GRAY, strokeDasharray: "- " });
+                    });
 
-                    path(TARGET, { stroke: GREEN, "stroke-width": 3 });
+                    _.map(TARGET, function(line) {
+                        path(line, { stroke: GREEN, "stroke-width": 3 });
+                    });
 
                     graph.showLine = function() {
                         graph.points[0].visibleShape.show();
@@ -90,38 +99,24 @@
                         graph.lines[0].visibleLine.hide();
                     };
 
-                    graph.origOffsets = _.map(graph.points, function(point) {
-                        var angle = atan2(point.coord[1], point.coord[0]);
-                        return angle - roundToNearest(PI / 6, angle);
-                    });
-
-                    graph.findMidPoint = function() {
-                        var midX = _.reduce(graph.points, function(sum, point) {
-                            return sum + point.coord[0];
-                        }, 0) / graph.points.length;
-                        var midY = _.reduce(graph.points, function(sum, point) {
-                            return sum + point.coord[1];
-                        }, 0) / graph.points.length;
-
-                        graph.midPoint = [midX, midY];
-                    };
-                    graph.findMidPoint();
-
                     graph.matchMidPoint = function() {
-                        var dX = MIDX2 - graph.midPoint[0];
-                        var dY = MIDY2 - graph.midPoint[1];
+                        var dX = MIDX2 - graph.rotationPoint[0];
+                        var dY = MIDY2 - graph.rotationPoint[1];
                         graph.updatePolygon(dX, dY);
                     }
 
                     graph.matchRotation = function() {
-                        var currentAngle = atan2(graph.points[0].coord[1] - graph.midPoint[1], graph.points[0].coord[0] - graph.midPoint[0]);
+                        var currentAngle = atan2(graph.points[0].coord[1] - graph.rotationPoint[1], graph.points[0].coord[0] - graph.rotationPoint[0]);
                         graph.rotatePolygon(ANGLE2 - currentAngle);
                     }
 
                     _.each(graph.points, function(point) {
                         point.onMove = function(x, y) {
-                            var oldAngle = atan2(this.coord[1] - graph.midPoint[1], this.coord[0] - graph.midPoint[0]);
-                            var newAngle = atan2(y - graph.midPoint[1], x - graph.midPoint[0]);
+                            var cx = graph.rotationPoint[0];
+                            var cy = graph.rotationPoint[1];
+                            var oldAngle = atan2(this.coord[1] - cy, this.coord[0] - cx);
+                            var newAngle = atan2(y - cy, x - cx);
+
                             graph.rotatePolygon(newAngle - oldAngle);
                             return false;
                         }
@@ -132,20 +127,24 @@
                         rad = degrees * PI / 180;
                         var c = cos(rad);
                         var s = sin(rad);
+                        var cx = graph.rotationPoint[0];
+                        var cy = graph.rotationPoint[1];
 
                         _.each(graph.points, function(point) {
                             point.setCoord([
-                                graph.midPoint[0] + (point.coord[0] - graph.midPoint[0]) * c + (graph.midPoint[1] - point.coord[1]) * s,
-                                graph.midPoint[1] + (point.coord[0] - graph.midPoint[0]) * s + (point.coord[1] - graph.midPoint[1]) * c
+                                cx + (point.coord[0] - cx) * c + (cy - point.coord[1]) * s,
+                                cy + (point.coord[0] - cx) * s + (point.coord[1] - cy) * c
                             ]);
                             point.updateLineEnds();
                         });
                     };
 
                     graph.updatePolygon = function(dX, dY) {
-                        graph.findMidPoint();
                         dX = round(dX);
                         dY = round(dY);
+
+                        graph.rotationPoint[0] += dX;
+                        graph.rotationPoint[1] += dY;
 
                         _.each(graph.points, function(point) {
                             point.setCoord([
@@ -154,7 +153,6 @@
                             ]);
                             point.updateLineEnds();
                         });
-                        graph.findMidPoint();
                     };
 
                     GRAPH = graph;
@@ -185,7 +183,7 @@
                 </div>
                 <div class="validator-function">
                     if (guess[1] === "notexists") {
-                        return RADIUS !== RADIUS2;
+                        return LENGTH !== LENGTH2;
                     } else {
 
                         var match = _.all(guess[0], function(point, i) {
@@ -225,7 +223,7 @@
                         <button onclick="javascript: KhanUtil.currentGraph.graph.matchRotation(); ">Show me</button>
                     </div>
                 </div>
-                <p data-if="RADIUS === RADIUS2">
+                <p data-if="LENGTH === LENGTH2">
                     The blue line segment completely overlaps the green line segement, so it can be transformed into it.
                 </p>
                 <p data-else="">
@@ -237,13 +235,22 @@
         <div id="angle" data-type="line-segment">
             <div class="vars">
                 <var id="THETA">randRange(1, 6) * PI / 24</var>
+                <var id="THETA2">random() &lt; 0.7 ? THETA : randRange(1, 6) * PI / 24</var>
                 <var id="LINES">[
-                    [[MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)],
-                     [MIDX + RADIUS * (2 * cos(ANGLE + THETA) - cos(THETA)),
-                      MIDY + RADIUS * (2 * sin(ANGLE + THETA) - sin(ANGLE))]],
-                    [[MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)],
-                     [MIDX + RADIUS * (2 * cos(ANGLE - THETA) - cos(ANGLE)),
-                      MIDY + RADIUS * (2 * sin(ANGLE - THETA) - sin(ANGLE))]]
+                    [[MIDX - LENGTH * cos(ANGLE), MIDY - LENGTH * sin(ANGLE)],
+                     [MIDX + LENGTH * (2 * cos(ANGLE + THETA) - cos(ANGLE)),
+                      MIDY + LENGTH * (2 * sin(ANGLE + THETA) - sin(ANGLE))]],
+                    [[MIDX - LENGTH * cos(ANGLE), MIDY - LENGTH * sin(ANGLE)],
+                     [MIDX + LENGTH * (2 * cos(ANGLE - THETA) - cos(ANGLE)),
+                      MIDY + LENGTH * (2 * sin(ANGLE - THETA) - sin(ANGLE))]]
+                ]</var>
+                <var id="TARGET">[
+                    [[MIDX2 - LENGTH * cos(ANGLE2), MIDY2 - LENGTH * sin(ANGLE2)],
+                     [MIDX2 + LENGTH * (2 * cos(ANGLE2 + THETA2) - cos(ANGLE2)),
+                      MIDY2 + LENGTH * (2 * sin(ANGLE2 + THETA2) - sin(ANGLE2))]],
+                    [[MIDX2 - LENGTH * cos(ANGLE2), MIDY2 - LENGTH * sin(ANGLE2)],
+                     [MIDX2 + LENGTH * (2 * cos(ANGLE2 - THETA2) - cos(ANGLE2)),
+                      MIDY2 + LENGTH * (2 * sin(ANGLE2 - THETA2) - sin(ANGLE2))]]
                 ]</var>
                 <var id="GRAPH">{}</var>
             </div>
