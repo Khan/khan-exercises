@@ -7,33 +7,34 @@
 </head>
 <body>
 <div class="exercise">
-    <div class="vars">
-        <var id="RADIUS">randRange(2, 8) / 2</var>
-        <var id="ANGLE">randRange(1, 12) * PI / 12</var>
-        <var id="MIDX">randRange(RADIUS - 10, 10 - RADIUS)</var>
-        <var id="MIDY">randRange(RADIUS - 10, 10 - RADIUS)</var>
-        <var id="START_LINE">[
-            [MIDX + RADIUS * cos(ANGLE), MIDY + RADIUS * sin(ANGLE)],
-            [MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)]
-        ]</var>
-
-        <var id="RADIUS2" data-ensure="abs(RADIUS - RADIUS2) !== 0.5">random() &lt; 0.7 ? RADIUS : randRange(2, 8) / 2</var>
-        <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
-            <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
-            <var id="MIDX2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
-            <var id="MIDY2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
-            <var id="TARGET">[
-                [MIDX2 + RADIUS2 * cos(ANGLE2), MIDY2 + RADIUS2 * sin(ANGLE2)],
-                [MIDX2 - RADIUS2 * cos(ANGLE2), MIDY2 - RADIUS2 * sin(ANGLE2)]
-            ]</var>
-        </div>
-        <var id="GRAPH">{}</var>
-    </div>
-
     <div class="problems">
         <div id="line-segment">
+            <div class="vars">
+                <var id="THETA"></var>
+                <var id="RADIUS">randRange(2, 8) / 2</var>
+                <var id="ANGLE">randRange(1, 12) * PI / 12</var>
+                <var id="MIDX">randRange(RADIUS - 10, 10 - RADIUS)</var>
+                <var id="MIDY">randRange(RADIUS - 10, 10 - RADIUS)</var>
+                <var id="LINES">[[
+                    [MIDX + RADIUS * cos(ANGLE), MIDY + RADIUS * sin(ANGLE)],
+                    [MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)]
+                ]]</var>
+
+                <var id="RADIUS2" data-ensure="abs(RADIUS - RADIUS2) !== 0.5">random() &lt; 0.7 ? RADIUS : randRange(2, 8) / 2</var>
+                <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
+                    <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
+                    <var id="MIDX2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
+                    <var id="MIDY2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
+                    <var id="TARGET">[
+                        [MIDX2 + RADIUS2 * cos(ANGLE2), MIDY2 + RADIUS2 * sin(ANGLE2)],
+                        [MIDX2 - RADIUS2 * cos(ANGLE2), MIDY2 - RADIUS2 * sin(ANGLE2)]
+                    ]</var>
+                </div>
+                <var id="GRAPH">{}</var>
+            </div>
+
             <p class="question">
-                Can transform the blue line segment into the green line using translations and rotations?
+                Can transform the blue line segment into the green line segment using translations and rotations?
             </p>
 
             <div class="problem">
@@ -51,23 +52,27 @@
                     });
                     addMouseLayer();
 
-                    path(START_LINE, { stroke: GRAY, strokeDasharray: "- " });
-                    path(TARGET, { stroke: GREEN, "stroke-width": 3 });
-                    GRAPH = graph;
-
-                    graph.points = [
-                        addMovablePoint({ coord: START_LINE[0] }),
-                        addMovablePoint({ coord: START_LINE[1] })
-                    ];
-
+                    graph.points = [];
                     graph.lines = [];
-                    graph.lines.push(addMovableLineSegment({
-                        pointA: graph.points[0],
-                        pointZ: graph.points[1],
-                        onMove: function(dX, dY) {
-                            graph.updatePolygon(dX, dY);
-                        }
-                    }));
+
+                    _.map(LINES, function(line) {
+                        var point1 = addMovablePoint({ coord: line[0] })
+                        var point2 = addMovablePoint({ coord: line[1] })
+                        graph.points.push(point1);
+                        graph.points.push(point2);
+
+                        graph.lines.push(addMovableLineSegment({
+                            pointA: point1,
+                            pointZ: point2,
+                            onMove: function(dX, dY) {
+                                graph.updatePolygon(dX, dY);
+                            }
+                        }));
+
+                        path(line, { stroke: GRAY, strokeDasharray: "- " });
+                    })
+
+                    path(TARGET, { stroke: GREEN, "stroke-width": 3 });
 
                     graph.showLine = function() {
                         graph.points[0].visibleShape.show();
@@ -151,6 +156,8 @@
                         });
                         graph.findMidPoint();
                     };
+
+                    GRAPH = graph;
                 </div>
             </div>
 
@@ -225,6 +232,25 @@
                     The two line segements have different lengths so you cannot transform one into the other using just translation and rotation transformations.
                 </p>
             </div>
+        </div>
+
+        <div id="angle" data-type="line-segment">
+            <div class="vars">
+                <var id="THETA">randRange(1, 6) * PI / 24</var>
+                <var id="LINES">[
+                    [[MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)],
+                     [MIDX + RADIUS * (2 * cos(ANGLE + THETA) - cos(THETA)),
+                      MIDY + RADIUS * (2 * sin(ANGLE + THETA) - sin(ANGLE))]],
+                    [[MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)],
+                     [MIDX + RADIUS * (2 * cos(ANGLE - THETA) - cos(ANGLE)),
+                      MIDY + RADIUS * (2 * sin(ANGLE - THETA) - sin(ANGLE))]]
+                ]</var>
+                <var id="GRAPH">{}</var>
+            </div>
+
+            <p class="question">
+                Can transform the blue angle into the green angle using translations and rotations?
+            </p>
         </div>
     </div>
 </div>
