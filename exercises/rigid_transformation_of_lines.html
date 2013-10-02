@@ -8,23 +8,22 @@
 <body>
 <div class="exercise">
     <div class="vars">
-        <var id="X1">randRange(-8, 8)</var>
-        <var id="Y1">randRange(-8, 8)</var>
-        <div data-ensure="DX * DX + DY * DY > 4">
-            <var id="DX">randRange(max(-6, -9 - X1), min(6, 9 - X1))</var>
-            <var id="DY">randRange(max(-6, -9 - Y1), min(6, 9 - Y1))</var>
-        </div>
-        <var id="START_LINE">[[X1, Y1], [X1 + DX, Y1 + DY]]</var>
-        <div data-ensure="TARGET[1][0] < 8 && TARGET[1][0] > -8 && TARGET[1][1] < 8 && TARGET[1][1] > -8">
-            <var id="X2">randRange(-8, 8)</var>
-            <var id="Y2">randRange(-8, 8)</var>
-            <var id="TARGET">randFromArray([
-                [[X2, Y2], [X2 + DX, Y2 + DY]],
-                [[X2, Y2], [X2 + DY, Y2 + DX]],
-                [[X2, Y2], [X2 - DX, Y2 + DY]],
-                [[X2, Y2], [X2 + DX, Y2 - DY]],
-                [[X2, Y2], [X2 - DY, Y2 + DX]]
-            ])</var>
+        <var id="RADIUS">randRange(5, 16) / 4</var>
+        <var id="ANGLE">randRange(1, 12) * PI / 12</var>
+        <var id="MIDX">randRange(RADIUS - 10, 10 - RADIUS)</var>
+        <var id="MIDY">randRange(RADIUS - 10, 10 - RADIUS)</var>
+        <var id="START_LINE">[
+            [MIDX + RADIUS * cos(ANGLE), MIDY + RADIUS * sin(ANGLE)],
+            [MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)]
+        ]</var>
+        <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
+            <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
+            <var id="MIDX2">randRange(RADIUS - 10, 10 - RADIUS)</var>
+            <var id="MIDY2">randRange(RADIUS - 10, 10 - RADIUS)</var>
+            <var id="TARGET">[
+                [MIDX2 + RADIUS * cos(ANGLE2), MIDY2 + RADIUS * sin(ANGLE2)],
+                [MIDX2 - RADIUS * cos(ANGLE2), MIDY2 - RADIUS * sin(ANGLE2)]
+            ]</var>
         </div>
         <var id="GRAPH">{}</var>
     </div>
@@ -63,8 +62,6 @@
                     graph.lines.push(addMovableLineSegment({
                         pointA: graph.points[0],
                         pointZ: graph.points[1],
-                        snapX: 1,
-                        snapY: 1,
                         onMove: function(dX, dY) {
                             graph.updatePolygon(dX, dY);
                         }
@@ -142,7 +139,22 @@
                         });
                     };
 
+                    graph.snapToHalf = function(x) {
+                        var d = x - floor(x);
+                        if (d &lt; 0.25) {
+                            return -d;
+                        } else if (d &lt; 0.75) {
+                            return 0.5 - d;
+                        } else {
+                            return 1 - d;
+                        }
+                    };
+
                     graph.updatePolygon = function(dX, dY) {
+                        graph.findMidPoint();
+                        dX += graph.snapToHalf(graph.midPoint[0]);
+                        dY += graph.snapToHalf(graph.midPoint[1]);
+
                         _.each(graph.points, function(point) {
                             point.setCoord([
                                 point.coord[0] += dX,
