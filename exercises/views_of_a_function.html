@@ -189,10 +189,10 @@
                                 xs.push(x);
                                 return true;
                             }
-                        }, {forms: 'decimal', maxError: maxError});
+                        }, {forms: 'decimal', inexact: true, maxError: maxError});
                         var result = validateY(guess[i][1]);
                         return result.correct;
-                    }, {forms: 'decimal', maxError: CORRECTOFFSET});
+                    }, {forms: 'decimal', inexact: true, maxError: CORRECTOFFSET});
 
                     for (i = 0; i &lt; 8; ++i) {
                         if ($.trim(guess[i][0]) !== "" &amp;&amp;
