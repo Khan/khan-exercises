@@ -10,9 +10,10 @@
     <div class="problems">
         <div id="line-segment">
             <div class="vars">
+                <var id="SHAPE">$._("line segment")</var>
                 <var id="THETA">0</var>
                 <var id="THETA2">0</var>
-                <var id="LENGTH">randRange(2, 8)</var>
+                <var id="LENGTH">randRange(3, 8)</var>
                 <var id="ANGLE">randRange(1, 12) * PI / 12</var>
                 <var id="MIDX">randRange(LENGTH / 2 - 10, 10 - LENGTH / 2)</var>
                 <var id="MIDY">randRange(LENGTH / 2 - 10, 10 - LENGTH / 2)</var>
@@ -21,23 +22,24 @@
                     [MIDX + LENGTH * cos(ANGLE) / 2, MIDY + LENGTH * sin(ANGLE) / 2],
                     [MIDX - LENGTH * cos(ANGLE) / 2, MIDY - LENGTH * sin(ANGLE) / 2]
                 ]</var>
-                <var id="LINES">[[0, 1]]</var>
+                <var id="LINES">[[1, 2]]</var>
 
                 <var id="LENGTH2" data-ensure="abs(LENGTH - LENGTH2) !== 1">random() &lt; 0.7 ? LENGTH : randRange(2, 8)</var>
                 <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
                     <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
                     <var id="MIDX2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
                     <var id="MIDY2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
-                    <var id="TARGET">[[
+                    <var id="TARGET">[
+                        [MIDX2, MIDY2],
                         [MIDX2 + LENGTH2 * cos(ANGLE2) / 2, MIDY2 + LENGTH2 * sin(ANGLE2) / 2],
                         [MIDX2 - LENGTH2 * cos(ANGLE2) / 2, MIDY2 - LENGTH2 * sin(ANGLE2) / 2]
-                    ]]</var>
+                    ]</var>
                 </div>
                 <var id="GRAPH">{}</var>
             </div>
 
             <p class="question">
-                Can transform the blue line segment into the green line segment using translations and rotations?
+                Can transform the blue <var>SHAPE</var> into the green <var>SHAPE</var> using translations and rotations?
             </p>
 
             <div class="problem">
@@ -55,8 +57,16 @@
                     });
                     addMouseLayer();
 
-                    graph.rotationPoint = ROTATION_POINT;
-                    graph.points = [];
+                    _.map(LINES, function(line) {
+                        var point1 = TARGET[line[0]]
+                        var point2 = TARGET[line[1]]
+                        path([point1, point2], { stroke: GREEN, "stroke-width": 3 });
+                    })
+
+                    graph.points = [addMovablePoint({
+                        coord: ROTATION_POINT,
+                        visible: false
+                    })];
 
                     _.map(HANDLE_POINTS, function(point) {
                         graph.points.push(addMovablePoint({ coord: point }));
@@ -79,23 +89,19 @@
                         path([point1.coord, point2.coord], { stroke: GRAY, strokeDasharray: "- " });
                     });
 
-                    _.map(TARGET, function(line) {
-                        path(line, { stroke: GREEN, "stroke-width": 3 });
-                    });
-
                     graph.showLine = function() {
-                        graph.points[0].visibleShape.show();
-                        graph.points[0].mouseTarget.show();
-                        graph.points[1].visibleShape.show();
-                        graph.points[1].mouseTarget.show();
+                        _.map(graph.points.slice(1), function(point) {
+                            point.visibleShape.show();
+                            point.mouseTarget.show();
+                        });
                         graph.lines[0].visibleLine.show();
                     };
 
                     graph.hideLine = function() {
-                        graph.points[0].visibleShape.hide();
-                        graph.points[0].mouseTarget.hide();
-                        graph.points[1].visibleShape.hide();
-                        graph.points[1].mouseTarget.hide();
+                        _.map(graph.points.slice(1), function(point) {
+                            point.visibleShape.hide();
+                            point.mouseTarget.hide();
+                        });
                         graph.lines[0].visibleLine.hide();
                     };
 
@@ -112,8 +118,8 @@
 
                     _.each(graph.points, function(point) {
                         point.onMove = function(x, y) {
-                            var cx = graph.rotationPoint[0];
-                            var cy = graph.rotationPoint[1];
+                            var cx = graph.points[0].coord[0];
+                            var cy = graph.points[0].coord[1];
                             var oldAngle = atan2(this.coord[1] - cy, this.coord[0] - cx);
                             var newAngle = atan2(y - cy, x - cx);
 
@@ -127,8 +133,8 @@
                         rad = degrees * PI / 180;
                         var c = cos(rad);
                         var s = sin(rad);
-                        var cx = graph.rotationPoint[0];
-                        var cy = graph.rotationPoint[1];
+                        var cx = graph.points[0].coord[0];
+                        var cy = graph.points[0].coord[1];
 
                         _.each(graph.points, function(point) {
                             point.setCoord([
@@ -142,9 +148,6 @@
                     graph.updatePolygon = function(dX, dY) {
                         dX = round(dX);
                         dY = round(dY);
-
-                        graph.rotationPoint[0] += dX;
-                        graph.rotationPoint[1] += dY;
 
                         _.each(graph.points, function(point) {
                             point.setCoord([
@@ -161,18 +164,18 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    Can you drag and rotate the blue line segment onto the green line?<br>
+                    Can you drag and rotate the blue <var>SHAPE</var> onto the green <var>SHAPE</var>?<br>
                     <ul>
                         <li>
                             <label>
                                 <input id="exists" checked name="transform" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
-                                <span>Yes, the blue line segment can be transformed into the green line</span>
+                                <span>Yes, the blue <var>SHAPE</var> can be transformed into the green <var>SHAPE</var></span>
                             </label>
                         </li>
                         <li>
                             <label>
                                 <input id="notexists" name="transform" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
-                                <span>No, the blue line segment cannot be transformed into the green line</span>
+                                <span>No, the blue <var>SHAPE</var> cannot be transformed into the green <var>SHAPE</var></span>
                             </label>
                         </li>
                     </ul>
@@ -187,8 +190,7 @@
                     } else {
 
                         var match = _.all(guess[0], function(point, i) {
-                            var d = abs(point[0] - TARGET[i][0]) +  abs(point[1] - TARGET[i][1]);
-                            return abs(point[0] - TARGET[i][0]) &lt; 0.4 &amp;&amp; abs(point[1] - TARGET[i][1]) &lt; 0.4;
+                            return abs(point[0] - TARGET[i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - TARGET[i][1]) &lt; 0.1;
                         });
 
                         if (match) {
@@ -197,7 +199,7 @@
                             // Check opposite order
                             var n = guess.length - 1;
                             return _.all(guess[0], function(point, i) {
-                                return abs(point[0] - TARGET[n - i][0]) &lt; 0.4 &amp;&amp; abs(point[1] - TARGET[n - i][1]) &lt; 0.4;
+                                return abs(point[0] - TARGET[n - i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - TARGET[n - i][1]) &lt; 0.1;
                             });
                         }
                     }
@@ -212,52 +214,49 @@
 
             <div class="hints">
                 <div>
-                    <p>First try translating the blue line segment so its middle is in the same place as the middle of the green line segement.</p>
+                    <p>First try translating the blue <var>SHAPE</var> so its middle is in the same place as the middle of the green <var>SHAPE</var>.</p>
                     <div>
                         <button onclick="javascript: KhanUtil.currentGraph.graph.matchMidPoint(); ">Show me</button>
                     </div>
                 </div>
                 <div>
-                    <p>Now try rotating the blue line segment so has the same orientation as the green line segement.</p>
+                    <p>Now try rotating the blue <var>SHAPE</var> so has the same orientation as the green <var>SHAPE</var>.</p>
                     <div>
                         <button onclick="javascript: KhanUtil.currentGraph.graph.matchRotation(); ">Show me</button>
                     </div>
                 </div>
                 <p data-if="LENGTH === LENGTH2">
-                    The blue line segment completely overlaps the green line segement, so it can be transformed into it.
+                    The blue <var>SHAPE</var> completely overlaps the green <var>SHAPE</var>, so it can be transformed into it.
                 </p>
                 <p data-else="">
-                    The two line segements have different lengths so you cannot transform one into the other using just translation and rotation transformations.
+                    The blue <var>SHAPE</var> has a different length from the green <var>SHAPE</var> so you cannot transform one into the other using just translation and rotation transformations.
                 </p>
             </div>
         </div>
 
         <div id="angle" data-type="line-segment">
             <div class="vars">
-                <var id="THETA">randRange(1, 6) * PI / 24</var>
-                <var id="THETA2">random() &lt; 0.7 ? THETA : randRange(1, 6) * PI / 24</var>
-                <var id="LINES">[
-                    [[MIDX - LENGTH * cos(ANGLE), MIDY - LENGTH * sin(ANGLE)],
-                     [MIDX + LENGTH * (2 * cos(ANGLE + THETA) - cos(ANGLE)),
-                      MIDY + LENGTH * (2 * sin(ANGLE + THETA) - sin(ANGLE))]],
-                    [[MIDX - LENGTH * cos(ANGLE), MIDY - LENGTH * sin(ANGLE)],
-                     [MIDX + LENGTH * (2 * cos(ANGLE - THETA) - cos(ANGLE)),
-                      MIDY + LENGTH * (2 * sin(ANGLE - THETA) - sin(ANGLE))]]
+                <var id="SHAPE">$._("angle")</var>
+                <var id="THETA">randRange(1, 6) * PI / 12</var>
+                <var id="THETA2">random() &lt; 0.7 ? THETA : randRange(1, 6) * PI / 12</var>
+                
+                <var id="MIDX">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDY">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDX2">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDY2">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                
+                <var id="HANDLE_POINTS">[
+                    [MIDX + LENGTH * cos(ANGLE), MIDY + LENGTH * sin(ANGLE)],
+                    [MIDX + LENGTH * cos(ANGLE + THETA), MIDY + LENGTH * sin(ANGLE + THETA)]
                 ]</var>
+                <var id="LINES">[[0, 1], [0, 2]]</var>
                 <var id="TARGET">[
-                    [[MIDX2 - LENGTH * cos(ANGLE2), MIDY2 - LENGTH * sin(ANGLE2)],
-                     [MIDX2 + LENGTH * (2 * cos(ANGLE2 + THETA2) - cos(ANGLE2)),
-                      MIDY2 + LENGTH * (2 * sin(ANGLE2 + THETA2) - sin(ANGLE2))]],
-                    [[MIDX2 - LENGTH * cos(ANGLE2), MIDY2 - LENGTH * sin(ANGLE2)],
-                     [MIDX2 + LENGTH * (2 * cos(ANGLE2 - THETA2) - cos(ANGLE2)),
-                      MIDY2 + LENGTH * (2 * sin(ANGLE2 - THETA2) - sin(ANGLE2))]]
+                    [MIDX2, MIDY2],
+                    [MIDX2 + LENGTH * cos(ANGLE2), MIDY2 + LENGTH * sin(ANGLE2)],
+                    [MIDX2 + LENGTH * cos(ANGLE2 + THETA2), MIDY2 + LENGTH * sin(ANGLE2 + THETA2)]
                 ]</var>
                 <var id="GRAPH">{}</var>
             </div>
-
-            <p class="question">
-                Can transform the blue angle into the green angle using translations and rotations?
-            </p>
         </div>
     </div>
 </div>
