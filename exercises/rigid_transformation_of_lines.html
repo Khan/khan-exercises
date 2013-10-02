@@ -8,7 +8,7 @@
 <body>
 <div class="exercise">
     <div class="vars">
-        <var id="RADIUS">randRange(5, 16) / 4</var>
+        <var id="RADIUS">randRange(2, 8) / 2</var>
         <var id="ANGLE">randRange(1, 12) * PI / 12</var>
         <var id="MIDX">randRange(RADIUS - 10, 10 - RADIUS)</var>
         <var id="MIDY">randRange(RADIUS - 10, 10 - RADIUS)</var>
@@ -17,7 +17,7 @@
             [MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)]
         ]</var>
 
-        <var id="RADIUS2" data-ensure="abs(RADIUS - RADIUS2) !== 0.25">random() &lt; 0.7 ? RADIUS : randRange(5, 16) / 4</var>
+        <var id="RADIUS2" data-ensure="abs(RADIUS - RADIUS2) !== 0.5">random() &lt; 0.7 ? RADIUS : randRange(2, 8) / 2</var>
         <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
             <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
             <var id="MIDX2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="problems">
-        <div id="drag">
+        <div id="line-segment">
             <p class="question">
                 Can transform the blue line segment into the green line using translations and rotations?
             </p>
@@ -102,36 +102,29 @@
                     };
                     graph.findMidPoint();
 
+                    graph.matchMidPoint = function() {
+                        var dX = MIDX2 - graph.midPoint[0];
+                        var dY = MIDY2 - graph.midPoint[1];
+                        graph.updatePolygon(dX, dY);
+                    }
+
+                    graph.matchRotation = function() {
+                        var currentAngle = atan2(graph.points[0].coord[1] - graph.midPoint[1], graph.points[0].coord[0] - graph.midPoint[0]);
+                        graph.rotatePolygon(ANGLE2 - currentAngle);
+                    }
+
                     _.each(graph.points, function(point) {
                         point.onMove = function(x, y) {
                             var oldAngle = atan2(this.coord[1] - graph.midPoint[1], this.coord[0] - graph.midPoint[0]);
                             var newAngle = atan2(y - graph.midPoint[1], x - graph.midPoint[0]);
-
-                            var changeDegrees = (newAngle - oldAngle) * 180 / PI;
-                            changeDegrees = floor(changeDegrees / 15) * 15;
-                            graph.rotatePolygon(changeDegrees * PI / 180);
-
+                            graph.rotatePolygon(newAngle - oldAngle);
                             return false;
-                        }
-
-                        point.onMoveEnd = function(x, y) {
-                            var oldAngle = atan2(this.coord[1], this.coord[0]);
-                            var newAngle = roundToNearest(PI/6, atan2(y, x));
-                            var possibleSnaps = [
-                                graph.origOffsets[_.indexOf(graph.points, this)] + newAngle - oldAngle,
-                                graph.origOffsets[_.indexOf(graph.points, this)] + newAngle - oldAngle + PI / 6,
-                                graph.origOffsets[_.indexOf(graph.points, this)] + newAngle - oldAngle - PI / 6
-                            ];
-
-                            var absSnaps = _.map(possibleSnaps, function(rad) { return abs(rad); });
-                            var absMoveTo = min(absSnaps[0], absSnaps[1], absSnaps[2]);
-                            var moveTo = _.find(possibleSnaps, function(rad) { return abs(rad) === absMoveTo; });
-
-                            //graph.rotatePolygon(moveTo);
                         }
                     });
 
                     graph.rotatePolygon = function(rad) {
+                        var degrees = roundToNearest(15, rad * 180 / PI);
+                        rad = degrees * PI / 180;
                         var c = cos(rad);
                         var s = sin(rad);
 
@@ -144,21 +137,10 @@
                         });
                     };
 
-                    graph.snapToHalf = function(x) {
-                        var d = x - floor(x);
-                        if (d &lt; 0.25) {
-                            return -d;
-                        } else if (d &lt; 0.75) {
-                            return 0.5 - d;
-                        } else {
-                            return 1 - d;
-                        }
-                    };
-
                     graph.updatePolygon = function(dX, dY) {
                         graph.findMidPoint();
-                        dX += graph.snapToHalf(graph.midPoint[0]);
-                        dY += graph.snapToHalf(graph.midPoint[1]);
+                        dX = round(dX);
+                        dY = round(dY);
 
                         _.each(graph.points, function(point) {
                             point.setCoord([
@@ -225,27 +207,23 @@
 
             <div class="hints">
                 <div>
-                    <p>
-                        To see where a rotation moved this polygon, pick one
-                        point and rotate it. For example, what happens to
-                        <code>(<var> START_LINE[0].x </var>,<var> START_LINE[0].y </var>)</code>
-                        under this rotation?
-                    </p>
-                    <div class="graphie" data-update="grid">
-                        circle([START_LINE[0].x, START_LINE[0].y], { r: 0.2, fill: "black", stroke: "none" });
+                    <p>First try translating the blue line segment so its middle is in the same place as the middle of the green line segement.</p>
+                    <div>
+                        <button onclick="javascript: KhanUtil.currentGraph.graph.matchMidPoint(); ">Show me</button>
                     </div>
                 </div>
                 <div>
-                    <p>
-                        The orange outline shows where the polygon ends up after
-                        the translation.
-                    </p>
-                    <div class="graphie" data-update="grid">
-                        for (var i=0; i &lt; TARGET.length; i++) {
-                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
-                        }
+                    <p>Now try rotating the blue line segment so has the same orientation as the green line segement.</p>
+                    <div>
+                        <button onclick="javascript: KhanUtil.currentGraph.graph.matchRotation(); ">Show me</button>
                     </div>
                 </div>
+                <p data-if="RADIUS === RADIUS2">
+                    The blue line segment completely overlaps the green line segement, so it can be transformed into it.
+                </p>
+                <p data-else="">
+                    The two line segements have different lengths so you cannot transform one into the other using just translation and rotation transformations.
+                </p>
             </div>
         </div>
     </div>
