@@ -105,7 +105,10 @@
                             var oldAngle = atan2(this.coord[1] - graph.midPoint[1], this.coord[0] - graph.midPoint[0]);
                             var newAngle = atan2(y - graph.midPoint[1], x - graph.midPoint[0]);
 
-                            graph.rotatePolygon(newAngle - oldAngle);
+                            var changeDegrees = (newAngle - oldAngle) * 180 / PI;
+                            changeDegrees = floor(changeDegrees / 15) * 15;
+                            graph.rotatePolygon(changeDegrees * PI / 180);
+
                             return false;
                         }
 
@@ -195,7 +198,8 @@
                     } else {
 
                         var match = _.all(guess[0], function(point, i) {
-                            return abs(point[0] - TARGET[i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - TARGET[i][1]) &lt; 0.1;
+                            var d = abs(point[0] - TARGET[i][0]) +  abs(point[1] - TARGET[i][1]);
+                            return abs(point[0] - TARGET[i][0]) &lt; 0.4 &amp;&amp; abs(point[1] - TARGET[i][1]) &lt; 0.4;
                         });
 
                         if (match) {
@@ -204,7 +208,7 @@
                             // Check opposite order
                             var n = guess.length - 1;
                             return _.all(guess[0], function(point, i) {
-                                return abs(point[0] - TARGET[n - i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - TARGET[n - i][1]) &lt; 0.1;
+                                return abs(point[0] - TARGET[n - i][0]) &lt; 0.4 &amp;&amp; abs(point[1] - TARGET[n - i][1]) &lt; 0.4;
                             });
                         }
                     }
