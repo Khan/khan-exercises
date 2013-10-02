@@ -16,13 +16,15 @@
             [MIDX + RADIUS * cos(ANGLE), MIDY + RADIUS * sin(ANGLE)],
             [MIDX - RADIUS * cos(ANGLE), MIDY - RADIUS * sin(ANGLE)]
         ]</var>
+
+        <var id="RADIUS2" data-ensure="abs(RADIUS - RADIUS2) !== 0.25">random() &lt; 0.7 ? RADIUS : randRange(5, 16) / 4</var>
         <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
             <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
-            <var id="MIDX2">randRange(RADIUS - 10, 10 - RADIUS)</var>
-            <var id="MIDY2">randRange(RADIUS - 10, 10 - RADIUS)</var>
+            <var id="MIDX2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
+            <var id="MIDY2">randRange(RADIUS2 - 10, 10 - RADIUS2)</var>
             <var id="TARGET">[
-                [MIDX2 + RADIUS * cos(ANGLE2), MIDY2 + RADIUS * sin(ANGLE2)],
-                [MIDX2 - RADIUS * cos(ANGLE2), MIDY2 - RADIUS * sin(ANGLE2)]
+                [MIDX2 + RADIUS2 * cos(ANGLE2), MIDY2 + RADIUS2 * sin(ANGLE2)],
+                [MIDX2 - RADIUS2 * cos(ANGLE2), MIDY2 - RADIUS2 * sin(ANGLE2)]
             ]</var>
         </div>
         <var id="GRAPH">{}</var>
@@ -31,7 +33,7 @@
     <div class="problems">
         <div id="drag">
             <p class="question">
-                Can transform the blue line into the green line using translations and rotations?
+                Can transform the blue line segment into the green line using translations and rotations?
             </p>
 
             <div class="problem">
@@ -172,18 +174,18 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    Can you drag and rotate the blue line onto the green line?<br>
+                    Can you drag and rotate the blue line segment onto the green line?<br>
                     <ul>
                         <li>
                             <label>
                                 <input id="exists" checked name="transform" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
-                                <span>Yes, the blue line can be transformed into the green line</span>
+                                <span>Yes, the blue line segment can be transformed into the green line</span>
                             </label>
                         </li>
                         <li>
                             <label>
                                 <input id="notexists" name="transform" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
-                                <span>No, the blue line can be transformed into the green line</span>
+                                <span>No, the blue line segment cannot be transformed into the green line</span>
                             </label>
                         </li>
                     </ul>
@@ -193,8 +195,8 @@
                     }), $("input[name='transform']:checked").attr("id")]
                 </div>
                 <div class="validator-function">
-                    if (guess[1] !== "exists") {
-                        return false;
+                    if (guess[1] === "notexists") {
+                        return RADIUS !== RADIUS2;
                     } else {
 
                         var match = _.all(guess[0], function(point, i) {
