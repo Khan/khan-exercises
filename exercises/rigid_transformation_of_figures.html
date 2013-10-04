@@ -30,11 +30,20 @@
                 <div data-ensure="INSIDE">
                     <var id="TARGETX" data-ensure="abs(TARGETX - MIDX) > 1">MIDX + randRange(-6, 6)</var>
                     <var id="TARGETY" data-ensure="abs(TARGETY - MIDY) > 1">MIDY + randRange(-6, 6)</var>
-                    <var id="TARGET">_.map(HULL_POINTS, function(p) {
+                    <var id="ERROR">randRange(0, HULL_POINTS.length - 1)</var>
+                    <var id="TARGET">_.map(HULL_POINTS, function(p, i) {
                         var x = p[0] - MIDX + TARGETX;
                         var y = p[1] - MIDY + TARGETY;
                         var newX = TARGETX + (x - TARGETX) * cos(ANGLE) + (TARGETY - y) * sin(ANGLE)
                         var newY = TARGETY + (x - TARGETX) * sin(ANGLE) + (y - TARGETY) * cos(ANGLE)
+
+                        if (!MATCH &amp;&amp; i === ERROR) {
+                            var d = randRange(1, 3);
+                            var a = randRange(1, 12) * PI / 12;
+                            newX += d * cos(a);
+                            newY += d * sin(a);
+                        }
+
                         return [newX, newY];
                     })</var>
                     <var id="INSIDE">_.all(TARGET, function(point) {
@@ -93,7 +102,9 @@
                             point.visibleShape.show();
                             point.mouseTarget.show();
                         });
-                        graph.lines[0].visibleLine.show();
+                        _.map(graph.lines, function(line) {
+                            line.visibleLine.show();
+                        });
                     };
 
                     graph.hideLine = function() {
@@ -101,7 +112,9 @@
                             point.visibleShape.hide();
                             point.mouseTarget.hide();
                         });
-                        graph.lines[0].visibleLine.hide();
+                        _.map(graph.lines, function(line) {
+                            line.visibleLine.hide();
+                        });
                     };
 
                     _.each(graph.points, function(point) {
