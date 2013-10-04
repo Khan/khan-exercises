@@ -100,7 +100,9 @@
                             point.visibleShape.show();
                             point.mouseTarget.show();
                         });
-                        graph.lines[0].visibleLine.show();
+                        _.map(graph.lines, function(line) {
+                            line.visibleLine.show();
+                        });
                     };
 
                     graph.hideLine = function() {
@@ -108,7 +110,9 @@
                             point.visibleShape.hide();
                             point.mouseTarget.hide();
                         });
-                        graph.lines[0].visibleLine.hide();
+                        _.map(graph.lines, function(line) {
+                            line.visibleLine.hide();
+                        });
                     };
 
                     graph.matchMidPoint = function() {
