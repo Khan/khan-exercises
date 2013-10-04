@@ -85,13 +85,13 @@
 
 
                 <div class="graphie" id="boxplot">
-                    init({ range: [[ -0.5, 16.5 ], [ -6, 2 ]], scale: [ 30, 30 ] });
+                    init({ range: [[ -0.5, 15.5 ], [ -3.5, 1.5 ]], scale: [ 30, 30 ] });
 
                     addMouseLayer();
                     line( [ 0, -2 ], [ 15, -2 ] );
                     for ( tick = 0; tick &lt;= 15; tick += 1 ) {
                         line( [ tick, -1.75 ], [ tick, -2.25 ] );
-                        label( [ tick, -2 ], tick, "below" );
+                        label( [ tick, -2.25 ], tick, "below" );
                     }
 
                     graph.q0 = addMovablePoint({ coord: [ 3.5, 0 ], snapX: 0.5, constraints: { constrainY: true }, normalStyle: { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE } });
