@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive geom">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Rigid transformation of figures</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="line-segment">
+            <div class="vars">
+                <var id="MATCH">random() &lt; 0.7</var>
+                <var id="ANGLE">randRange(1, 12) * PI / 12</var>
+
+                <var id="HULL">Geom.convexhull(_.map(randRange(-6, 6, 6, 2), function(p) {
+                    return { x: p[0], y: p[1] };
+                }))</var>
+                <var id="HULL_POINTS">_.map(HULL, function(p) { return [p.x, p.y]; })</var>
+
+                <var id="MIDX">_.reduce(HULL_POINTS, function(sum, point) {
+                        return sum + point[0];
+                    }, 0) / HULL_POINTS.length
+                </var>
+                <var id="MIDY">_.reduce(HULL_POINTS, function(sum, point) {
+                        return sum + point[1];
+                    }, 0) / HULL_POINTS.length
+                </var>
+
+                <div data-ensure="INSIDE">
+                    <var id="TARGETX" data-ensure="abs(TARGETX - MIDX) > 1">MIDX + randRange(-6, 6)</var>
+                    <var id="TARGETY" data-ensure="abs(TARGETY - MIDY) > 1">MIDY + randRange(-6, 6)</var>
+                    <var id="TARGET">_.map(HULL_POINTS, function(p) {
+                        var x = p[0] - MIDX + TARGETX;
+                        var y = p[1] - MIDY + TARGETY;
+                        var newX = TARGETX + (x - TARGETX) * cos(ANGLE) + (TARGETY - y) * sin(ANGLE)
+                        var newY = TARGETY + (x - TARGETX) * sin(ANGLE) + (y - TARGETY) * cos(ANGLE)
+                        return [newX, newY];
+                    })</var>
+                    <var id="INSIDE">_.all(TARGET, function(point) {
+                        return abs(point[0]) &lt; 10 &amp;&amp; abs(point[1]) &lt; 10;
+                    })</var>
+                </div>
+                <var id="TARGET_ANGLE">atan2(TARGETY - TARGET[0][1], TARGETX - TARGET[0][0])</var>
+
+                <var id="GRAPH">{}</var>
+            </div>
+
+            <p class="question">
+                Can you transform the blue shape into the green shape using translations and rotations?
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+                    addMouseLayer();
+
+                    graph.points = [addMovablePoint({
+                        coord: [MIDX, MIDY],
+                        visible: false
+                    })];
+
+                    _.map(HULL_POINTS, function(point) {
+                        graph.points.push(addMovablePoint({ coord: point }));
+                    });
+
+                    path(TARGET.concat([TARGET[0]]), { stroke: GREEN, "stroke-width": 3 });
+                    path(HULL_POINTS.concat([HULL_POINTS[0]]), { stroke: GRAY, strokeDasharray: "- " });
+
+                    graph.lines = [];
+                    _(graph.points.length - 1).times(function(i) {
+                        graph.lines.push(addMovableLineSegment({
+                            pointA: graph.points[i + 1],
+                            pointZ: graph.points[(i + 1) % (graph.points.length - 1) + 1],
+                            onMove: function(dX, dY) {
+                                graph.updatePolygon(dX, dY);
+                            }
+                        }));
+                    });
+
+                    graph.showLine = function() {
+                        _.map(graph.points.slice(1), function(point) {
+                            point.visibleShape.show();
+                            point.mouseTarget.show();
+                        });
+                        graph.lines[0].visibleLine.show();
+                    };
+
+                    graph.hideLine = function() {
+                        _.map(graph.points.slice(1), function(point) {
+                            point.visibleShape.hide();
+                            point.mouseTarget.hide();
+                        });
+                        graph.lines[0].visibleLine.hide();
+                    };
+
+                    _.each(graph.points, function(point) {
+                        point.onMove = function(x, y) {
+                            var cx = graph.points[0].coord[0];
+                            var cy = graph.points[0].coord[1];
+                            var oldAngle = atan2(this.coord[1] - cy, this.coord[0] - cx);
+                            var newAngle = atan2(y - cy, x - cx);
+
+                            graph.rotatePolygon(newAngle - oldAngle);
+                            return false;
+                        }
+                    });
+
+                    graph.rotatePolygon = function(rad) {
+                        var degrees = roundToNearest(15, rad * 180 / PI);
+                        rad = degrees * PI / 180;
+                        var c = cos(rad);
+                        var s = sin(rad);
+                        var cx = graph.points[0].coord[0];
+                        var cy = graph.points[0].coord[1];
+
+                        _.each(graph.points, function(point) {
+                            point.setCoord([
+                                cx + (point.coord[0] - cx) * c + (cy - point.coord[1]) * s,
+                                cy + (point.coord[0] - cx) * s + (point.coord[1] - cy) * c
+                            ]);
+                            point.updateLineEnds();
+                        });
+                    };
+
+                    graph.updatePolygon = function(dX, dY) {
+                        dX = round(dX);
+                        dY = round(dY);
+
+                        _.each(graph.points, function(point) {
+                            point.setCoord([
+                                point.coord[0] += dX,
+                                point.coord[1] += dY
+                            ]);
+                            point.updateLineEnds();
+                        });
+                    };
+
+                    graph.matchMidPoint = function() {
+                        var dX = TARGETX - graph.points[0].coord[0];
+                        var dY = TARGETY - graph.points[0].coord[1];
+                        graph.updatePolygon(dX, dY);
+                    }
+
+                    graph.matchRotation = function() {
+                        var cx = graph.points[0].coord[0];
+                        var cy = graph.points[0].coord[1];
+                        var currentAngle = atan2(cy - graph.points[1].coord[1], cx - graph.points[1].coord[0]);
+                        graph.rotatePolygon(TARGET_ANGLE - currentAngle);
+                    }
+
+                    GRAPH = graph;
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <ul>
+                        <li>
+                            <label>
+                                <input id="exists" checked name="transform" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
+                                <span>Yes, the blue shape can be transformed into the green shape</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input id="notexists" name="transform" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
+                                <span>No, the blue shape cannot be transformed into the green shape</span>
+                            </label>
+                        </li>
+                    </ul>
+                    Your graph is also part of your answer.
+                </div>
+                <div class="guess">[_.map(graph.points, function(point) {
+                        return point.coord;
+                    }), $("input[name='transform']:checked").attr("id")]
+                </div>
+                <div class="validator-function">
+                    if (guess[1] === "notexists") {
+                        return !MATCH;
+                    } else {
+
+                        // Ignore mid point when matching
+                        var guessPoints = guess[0].slice(1);
+
+                        var match = _.all(guessPoints, function(point, i) {
+                            return abs(point[0] - TARGET[i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - TARGET[i][1]) &lt; 0.1;
+                        });
+
+                        if (match) {
+                            return true;
+                        } else {
+                            // Check opposite order
+                            var n = guessPoints.length - 1;
+                            return _.all(guessPoints, function(point, i) {
+                                return abs(point[0] - TARGET[n - i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - TARGET[n - i][1]) &lt; 0.1;
+                            });
+                        }
+                    }
+                </div>
+                <div class="show-guess">
+                    _.each(graph.points, function(point, n) {
+                        point.setCoord(guess[n]);
+                        point.updateLineEnds();
+                    });
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>First try translating the blue shape so its middle is in the same place as the middle of the green shape.</p>
+                    <div>
+                        <button onclick="javascript: KhanUtil.currentGraph.graph.matchMidPoint(); ">Show me</button>
+                    </div>
+                </div>
+                <div>
+                    <p>Now try rotating the blue shape so has the same orientation as the green shape.</p>
+                    <div>
+                        <button onclick="javascript: KhanUtil.currentGraph.graph.matchRotation(); ">Show me</button>
+                    </div>
+                </div>
+                <p data-if="MATCH">
+                    The blue shape completely overlaps the green shape, so it is possible to transform one into the other.
+                </p>
+                <p data-else="">
+                    The blue shape does not completely overlap the green shape so you cannot transform one into the other using just translation and rotation transformations.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
