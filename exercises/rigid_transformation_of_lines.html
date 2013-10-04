@@ -34,17 +34,18 @@
                     <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
                     <var id="MIDX2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
                     <var id="MIDY2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
-                    <var id="TARGET">[
-                        [MIDX2, MIDY2],
-                        [MIDX2 + LENGTH2 * cos(ANGLE2) / 2, MIDY2 + LENGTH2 * sin(ANGLE2) / 2],
-                        [MIDX2 - LENGTH2 * cos(ANGLE2) / 2, MIDY2 - LENGTH2 * sin(ANGLE2) / 2]
-                    ]</var>
                 </div>
+                <var id="TARGET">[
+                    [MIDX2, MIDY2],
+                    [MIDX2 + LENGTH2 * cos(ANGLE2) / 2, MIDY2 + LENGTH2 * sin(ANGLE2) / 2],
+                    [MIDX2 - LENGTH2 * cos(ANGLE2) / 2, MIDY2 - LENGTH2 * sin(ANGLE2) / 2]
+                ]</var>
+                <var id="TARGET_ANGLE">atan2(TARGET[0][1] - TARGET[1][1], TARGET[0][0] - TARGET[1][0])</var>
                 <var id="GRAPH">{}</var>
             </div>
 
             <p class="question">
-                Can transform the blue <var>SHAPE</var> into the green <var>SHAPE</var> using translations and rotations?
+                Can you transform the blue <var>SHAPE</var> into the green <var>SHAPE</var> using translations and rotations?
             </p>
 
             <div class="problem">
@@ -111,14 +112,16 @@
                     };
 
                     graph.matchMidPoint = function() {
-                        var dX = MIDX2 - graph.rotationPoint[0];
-                        var dY = MIDY2 - graph.rotationPoint[1];
+                        var dX = MIDX2 - graph.points[0].coord[0];
+                        var dY = MIDY2 - graph.points[0].coord[1];
                         graph.updatePolygon(dX, dY);
                     }
 
                     graph.matchRotation = function() {
-                        var currentAngle = atan2(graph.points[0].coord[1] - graph.rotationPoint[1], graph.points[0].coord[0] - graph.rotationPoint[0]);
-                        graph.rotatePolygon(ANGLE2 - currentAngle);
+                        var cx = graph.points[0].coord[0];
+                        var cy = graph.points[0].coord[1];
+                        var currentAngle = atan2(cy - graph.points[1].coord[1], cx - graph.points[1].coord[0]);
+                        graph.rotatePolygon(TARGET_ANGLE - currentAngle);
                     }
 
                     _.each(graph.points, function(point) {
@@ -169,7 +172,6 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    Can you drag and rotate the blue <var>SHAPE</var> onto the green <var>SHAPE</var>?<br>
                     <ul>
                         <li>
                             <label>
@@ -184,6 +186,7 @@
                             </label>
                         </li>
                     </ul>
+                    Your graph is also part of your answer.
                 </div>
                 <div class="guess">[_.map(graph.points, function(point) {
                         return point.coord;
@@ -194,17 +197,21 @@
                         return !MATCH;
                     } else {
 
-                        var match = _.all(guess[0], function(point, i) {
-                            return abs(point[0] - TARGET[i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - TARGET[i][1]) &lt; 0.1;
+                        // Ignore mid point when matching
+                        var guessPoints = guess[0].slice(1);
+                        var targetPoints = TARGET.slice(1);
+
+                        var match = _.all(guessPoints, function(point, i) {
+                            return abs(point[0] - targetPoints[i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - targetPoints[i][1]) &lt; 0.1;
                         });
 
                         if (match) {
                             return true;
                         } else {
                             // Check opposite order
-                            var n = guess.length - 1;
-                            return _.all(guess[0], function(point, i) {
-                                return abs(point[0] - TARGET[n - i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - TARGET[n - i][1]) &lt; 0.1;
+                            var n = guessPoints.length - 1;
+                            return _.all(guessPoints, function(point, i) {
+                                return abs(point[0] - targetPoints[n - i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - targetPoints[n - i][1]) &lt; 0.1;
                             });
                         }
                     }
@@ -231,10 +238,10 @@
                     </div>
                 </div>
                 <p data-if="LENGTH === LENGTH2">
-                    The blue <var>SHAPE</var> completely overlaps the green <var>SHAPE</var>, so it can be transformed into it.
+                    The blue <var>SHAPE</var> completely overlaps the green <var>SHAPE</var>, so it is possible to transform one into the other.
                 </p>
                 <p data-else="">
-                    The blue <var>SHAPE</var> has a different length from the green <var>SHAPE</var> so you cannot transform one into the other using just translation and rotation transformations.
+                    The blue <var>SHAPE</var> does not completely overlap the green <var>SHAPE</var> so you cannot transform one into the other using just translation and rotation transformations.
                 </p>
             </div>
         </div>
@@ -288,14 +295,14 @@
                 <var id="LINES">[[1, 2], [3, 4]]</var>
                 <var id="TARGET">[
                     [MIDX2, MIDY2],
-                    [MIDX2 + LENGTH * cos(ANGLE) / 2 + GAP2 * cos(ANGLE + PI/2),
-                     MIDY2 + LENGTH * sin(ANGLE) / 2 + GAP2 * sin(ANGLE + PI/2)],
-                    [MIDX2 - LENGTH * cos(ANGLE) / 2 + GAP2 * cos(ANGLE + PI/2),
-                     MIDY2 - LENGTH * sin(ANGLE) / 2 + GAP2 * sin(ANGLE + PI/2)],
-                    [MIDX2 + LENGTH * cos(ANGLE) / 2 - GAP2 * cos(ANGLE + PI/2),
-                     MIDY2 + LENGTH * sin(ANGLE) / 2 - GAP2 * sin(ANGLE + PI/2)],
-                    [MIDX2 - LENGTH * cos(ANGLE) / 2 - GAP2 * cos(ANGLE + PI/2),
-                     MIDY2 - LENGTH * sin(ANGLE) / 2 - GAP2 * sin(ANGLE + PI/2)]
+                    [MIDX2 + LENGTH * cos(ANGLE2) / 2 + GAP2 * cos(ANGLE2 + PI/2),
+                     MIDY2 + LENGTH * sin(ANGLE2) / 2 + GAP2 * sin(ANGLE2 + PI/2)],
+                    [MIDX2 - LENGTH * cos(ANGLE2) / 2 + GAP2 * cos(ANGLE2 + PI/2),
+                     MIDY2 - LENGTH * sin(ANGLE2) / 2 + GAP2 * sin(ANGLE2 + PI/2)],
+                    [MIDX2 + LENGTH * cos(ANGLE2) / 2 - GAP2 * cos(ANGLE2 + PI/2),
+                     MIDY2 + LENGTH * sin(ANGLE2) / 2 - GAP2 * sin(ANGLE2 + PI/2)],
+                    [MIDX2 - LENGTH * cos(ANGLE2) / 2 - GAP2 * cos(ANGLE2 + PI/2),
+                     MIDY2 - LENGTH * sin(ANGLE2) / 2 - GAP2 * sin(ANGLE2 + PI/2)]
                 ]</var>
                 <var id="GRAPH">{}</var>
             </div>
