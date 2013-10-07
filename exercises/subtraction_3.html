@@ -9,17 +9,17 @@
     <div class="exercise">
         <div class="vars">
 
-            <var id="A_1000">randRange( 1, 9 )</var>
-            <var id="A_100">randRange( 1, 9 )</var>
-            <var id="A_10">randRange( 1, 9 )</var>
-            <var id="A_1">randRange( 0, 8 )</var>
-            <var id="A">1000 * A_1000 + 100 * A_100 + 10 * A_10 + A_1</var>
+            <var id="A_1">randRange(0, 8)</var>
+            <var id="B_1">randRange(A_1 + 1, 9)</var>
 
-            <var id="B_1000">randRange( 0, A_1000 - 1 )</var>
-            <var id="B_100">randRange( 0, A_100 - 1 )</var>
-            <var id="B_10">randRange( 0, A_10 - 1 )</var>
-            <var id="B_1">randRange( A_1 + 1, 9 )</var>
-            <var id="B">1000 * B_1000 + 100 * B_100 + 10 * B_10 + B_1</var>
+            <var id="B_10">randRange(0, 9)</var>
+            <var id="B_100">randRange(1, 9)</var>
+
+            <var id="A_10">randRange(B_10, 9)</var>
+            <var id="A_100">randRange(B_100, 9)</var>
+            
+            <var id="A">100 * A_100 + 10 * A_10 + A_1</var>
+            <var id="B">100 * B_100 + 10 * B_10 + B_1</var>
 
             <var id="DUMMY">[]</var>
         </div>
