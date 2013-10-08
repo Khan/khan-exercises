@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive ast math-model">
+<html data-require="math graphie interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing parabolas in vertex form</title>
@@ -188,14 +188,6 @@
                 <var id="Y1">A * ( X1 - H ) * ( X1 - H ) + K</var>
                 <var id="X2">H - 1</var>
                 <var id="Y2">A * ( X2 - H ) * ( X2 - H ) + K</var>
-                <var id="GROUP1">[
-                    parse( "y &amp;= a( x - #{h})^2 + #{k}", [ GREEN, GREEN ] ),
-                    parse( "y &amp;= " + A_DISP + "( x - #{" + H + "})^2 + #{" + K + "}", [ GREEN, GREEN ] )
-                ]</var>
-                <var id="GROUP2">[
-                    parse( A_DISP + "( #{x} - " + H + ")^2 + " + K + " &amp;= y", [ PINK ] ),
-                    parse( A_DISP + "( #{" + X1 + "} - " + H + ")^2 + " + K + " &amp;= #{" + Y1 + "}", [ PINK, PINK ] )
-                ]</var>
             </div>
             <div class="problem" data-apply="prependContents">
                 <p class="hint_blue">
@@ -207,11 +199,11 @@
 
                 <div>
                     <p>When the equation is written in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:
-                    </p><p><code>\qquad <var>formatGroup( GROUP1, [ 0 ] )</var></code></p>
+                    <p><code>\qquad y = a(x-\green{h})^2+\green{k}</code></p>
                 </div>
 
                 <div>
-                    <p><code>\qquad <var>formatGroup( GROUP1, [ 1 ] )</var></code></p>
+                    <p><code>\qquad y = <var>A_DISP</var>(x-\green{<var>H</var>})^2+\green{<var>K</var>}</code></p>
                     <p>Examining our equation, we can see the vertex of the parabola is at <code class="hint_green">(<var>H</var>, <var>K</var>)</code>.</p>
                     <div class="graphie" data-update="grid">
                         style({
@@ -231,7 +223,12 @@
                         Since the vertex is at <code class="hint_green">x = <var>H</var></code>, let's try one unit to the right and evaluate
                         the equation at <code class="hint_pink">x = <var>X1</var></code>.
                     </p>
-                    <p><code>\qquad <var>formatGroup( GROUP2, [ 0, 1 ] )</var></code></p>
+                    <p><code>\qquad
+                        \begin{eqnarray}
+                        <var>A_DISP</var>(\pink{x} - <var>H</var>)^2 + <var>K</var> &amp;=&amp; y \\ \\
+                        <var>A_DISP</var>(\pink{<var>X1</var>} - <var>H</var>)^2 + <var>K</var> &amp;=&amp; \pink{<var>Y1</var>}
+                        \end{eqnarray}
+                    </code></p>
                     <p>Another point on the parabola is <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
                     </p><div class="graphie" data-update="grid">
                         style({

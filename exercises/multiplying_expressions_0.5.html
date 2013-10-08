@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions ast math-model">
+<html data-require="math math-format expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying expressions 0.5</title>
@@ -30,24 +30,24 @@
         <div class="problems">
             <div>
 
-                <p class="question"><code><var>LEFT + ( SQUARE ? "^2" : RIGHT )</var> = \ ?</code></p>
+                <p class="question"><code><var>LEFT + (SQUARE ? "^2" : RIGHT)</var> = \ ?</code></p>
 
-                <p class="solution"><code><var>plus( (A*C)+XX, (A*D+B*C)+X, B*D )</var></code></p>
+                <p class="solution"><code><var>plus((A * C) + XX, (A * D + B * C) + X, B * D)</var></code></p>
                 <ul class="choices" data-none="true" data-show="4">
-                    <li><code><var>plus( XX, B*D )</var></code></li>
-                    <li><code><var>plus( XX, B*D )</var></code></li>
-                    <li><code><var>plus( (A+C)+XX, (A*D+B*C)+X, B*D )</var></code></li>
-                    <li><code><var>plus( (A*C)+XX, (A*D+B*C)+X, B+D )</var></code></li>
-                    <li><code><var>plus( (A+C)+XX, (A*D+B*C)+X, B+D )</var></code></li>
-                    <li><code><var>plus( (A+C)+XX, (A*D-B*C)+X, B*D )</var></code></li>
-                    <li><code><var>plus( (A*C)+XX, (A*D-B*C)+X, B+D )</var></code></li>
-                    <li><code><var>plus( (A+C)+XX, (A*D-B*C)+X, B+D )</var></code></li>
-                    <li><code><var>plus( (A+C)+XX, (A*B+C*D)+X, B*D )</var></code></li>
-                    <li><code><var>plus( (A*C)+XX, (A*B+C*D)+X, B+D )</var></code></li>
-                    <li><code><var>plus( (A+C)+XX, (A*B+C*D)+X, B+D )</var></code></li>
-                    <li><code><var>plus( (A+C)+XX, (A*B-C*D)+X, B*D )</var></code></li>
-                    <li><code><var>plus( (A*C)+XX, (A*B-C*D)+X, B+D )</var></code></li>
-                    <li><code><var>plus( (A+C)+XX, (A*B-C*D)+X, B+D )</var></code></li>
+                    <li><code><var>plus(XX, B * D)</var></code></li>
+                    <li><code><var>plus(XX, B * D)</var></code></li>
+                    <li><code><var>plus((A + C) + XX, (A * D + B * C) + X, B * D)</var></code></li>
+                    <li><code><var>plus((A * C) + XX, (A * D + B * C) + X, B + D)</var></code></li>
+                    <li><code><var>plus((A + C) + XX, (A * D + B * C) + X, B + D)</var></code></li>
+                    <li><code><var>plus((A + C) + XX, (A * D - B * C) + X, B * D)</var></code></li>
+                    <li><code><var>plus((A * C) + XX, (A * D - B * C) + X, B + D)</var></code></li>
+                    <li><code><var>plus((A + C) + XX, (A * D - B * C) + X, B + D)</var></code></li>
+                    <li><code><var>plus((A + C) + XX, (A * B + C * D) + X, B * D)</var></code></li>
+                    <li><code><var>plus((A * C) + XX, (A * B + C * D) + X, B + D)</var></code></li>
+                    <li><code><var>plus((A + C) + XX, (A * B + C * D) + X, B + D)</var></code></li>
+                    <li><code><var>plus((A + C) + XX, (A * B - C * D) + X, B * D)</var></code></li>
+                    <li><code><var>plus((A * C) + XX, (A * B - C * D) + X, B + D)</var></code></li>
+                    <li><code><var>plus((A + C) + XX, (A * B - C * D) + X, B + D)</var></code></li>
                 </ul>
 
             </div>
@@ -58,25 +58,25 @@
             <p data-if="SQUARE"><code>= <var>LEFT + RIGHT</var></code></p>
 
             <div>
-                <p>Start by distributing the <code><var>parseFormat( "( #{x} " + signOp( B ) + "#{" + B + "})", [ BLUE, BLUE ] )</var></code>:</p>
-                <p><code>\qquad = \quad <var>parseFormat( "( #{x} " + signOp( B ) + "#{" + B + "})( #{x} " + signOp( D ) + "#{" + D + "})", [ BLUE, BLUE, PINK, PINK ] )</var></code></p>
-                <p><code>\qquad = \quad <var>parseFormat( "#{x} ( #{x} " + signOp( D ) + "#{" + D + "})" + signOp( B ) + "#{" + B + "}( #{x} " + signOp( D ) + "#{" + D + "})", [ BLUE, PINK, PINK, BLUE, PINK, PINK ] )</var></code></p>
+                <p>Start by distributing the <code>(\blue{<var>X</var> + <var>B</var>})</code>:</p>
+                <p><code>\qquad = \quad (\blue{<var>X</var> + <var>B</var>})(<var>X</var> + <var>D</var>)</code></p>
+                <p><code>\qquad = \quad \blue{<var>X</var>}(<var>X</var> + <var>D</var>) \blue{+<var>B</var>}(<var>X</var> + <var>D</var>)</code></p>
             </div>
 
             <div>
-                <p>Next, distribute the <code class="hint_blue">x</code> and the <code class="hint_blue"><var>B</var></code>:</p>
-                <p><code>\qquad = \quad <var>parseFormat( "(#{x} \\cdot  #{x}) + (#{x} \\cdot #{" + D + "}) + (#{" + B + "} \\cdot #{x}) + (#{" + B + "} \\cdot #{" + D + "})", [ BLUE, PINK, BLUE, PINK, BLUE, PINK, BLUE, PINK ] )</var></code></p>
+                <p>Next, distribute the <code>\blue{<var>X</var>}</code> and the <code>\blue{<var>B</var>}</code>:</p>
+                <p><code>\qquad = \quad (\blue{<var>X</var>} \cdot <var>X</var>) + (\blue{<var>X</var>} \cdot <var>D</var>) + (\blue{<var>B</var>} \cdot <var>X</var>) + (\blue{<var>B</var>} \cdot <var>D</var>)</code></p>
                 <p>Notice that by distributing you're really just multiplying each term in the first expression by each term in the second expression.</p>
             </div>
 
             <div>
                 <p>Simplify:</p>
-                <p><code>\qquad = \quad <var>parseFormat( plus( "x^2", D + "x", B + "x", ( B * D ) ) )</var></code></p>
+                <p><code>\qquad = \quad <var>XX</var> + <var>D</var><var>X</var> + <var>B</var><var>X</var> + <var>B * D</var></code></p>
             </div>
 
             <div>
                 <p class="final_answer">Keep simplifying to get the final answer:</p>
-                <p><code>\qquad = \quad <var>parseFormat( plus( "x^2", ( D + B ) + "x", ( B * D ) ) )</var></code></p>
+                <p><code>\qquad = \quad <var>plus(XX, (D + B) + X, (B * D))</var></code></p>
             </div>
 
         </div>
