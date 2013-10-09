@@ -192,20 +192,31 @@ def pack_file(file_contents)
 end
 
 current_file_contents = []
-ARGF.lines do |line|
-  if (ARGF.to_io.lineno == 1 or              # starting a new file: argv mode
-      (ARGF.filename == '-' and line.match(/^<!DOCTYPE/)))    # or stdin mode
-    unless current_file_contents.empty?
-      puts pack_file(current_file_contents.join(''))
-      current_file_contents = []
-    end
-    $stderr.puts "... packing exercise #{File.basename(ARGF.filename)}"
-  end
-  current_file_contents << line
-end
 
-# Put the last file as well.
-puts pack_file(current_file_contents.join('')) unless current_file_contents.empty?
+if ARGV[0]
+  # argv mode: a series of filenames, or infile::outfile pairs, in argv.
+  ARGV.each do |f|
+    (infile_name, outfile_name) = f.split(/::/)
+    File.open(outfile_name || 1, 'w') do |outfile|   # 1 == stdout
+      outfile.puts pack_file(File.open(infile_name).read)
+    end
+  end
+
+else
+  # stdin mode: a series of exercises on stdin, separated by <!DOCTYPE
+  ARGF.lines do |line|
+    if line.match(/^<!DOCTYPE/)
+      unless current_file_contents.empty?
+        puts pack_file(current_file_contents.join(''))
+        current_file_contents = []
+      end
+    end      
+    current_file_contents << line
+  end
+  # Put the last file as well.
+  puts pack_file(current_file_contents.join('')) unless current_file_contents.empty?
+
+end
 
 # ruby wants to do some expensive cleanup we don't care about.  Short-circuit.
 $stdout.flush
