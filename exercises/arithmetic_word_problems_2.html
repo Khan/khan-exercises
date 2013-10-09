@@ -57,8 +57,8 @@
 
             <div id="compare-groupsize">
                 <p class="problem">
-                A <var>color(1)</var> <var>clothing(1)</var> costs $<var>TOTAL</var>,
-                which is <var>NUM2</var> times as much as a <var>color(2)</var> <var>clothing(2)</var> costs.
+                A <var>color(1)</var> <var>clothing(1)</var> costs <code>$<var>TOTAL</var></code>,
+                which is <code><var>NUM2</var></code> times as much as a <var>color(2)</var> <var>clothing(2)</var> costs.
                 </p>
                 <p class="question">
                 How much does the <var>color(2)</var> <var>clothing(2)</var> cost?
@@ -82,8 +82,8 @@
 
             <div id="compare-number">
                 <p class="problem">
-                A <var>color(1)</var> <var>clothing(1)</var> costs $<var>TOTAL</var>,
-                and a <var>color(2)</var> <var>clothing(2)</var> costs $<var>NUM2</var>.
+                A <var>color(1)</var> <var>clothing(1)</var> costs <code>$<var>TOTAL</var></code>,
+                and a <var>color(2)</var> <var>clothing(2)</var> costs <code>$<var>NUM2</var></code>.
                 </p>
                 <p class="question">
                 The <var>color( 1 )</var> <var>clothing( 1 )</var> costs how many times as much as
@@ -113,13 +113,13 @@
 
             <div id="groups-product">
                 <p class="problem" data-if="isMale(1)"><span data-if="isSingular(NUM1)" data-unwrap="">
-                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for <var>NUM1</var> <var>distance(1)</var> on each of the past <var>NUM2</var> days.
+                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for <code><var>NUM1</var></code> <var>distance(1)</var> on each of the past <code><var>NUM2</var></code> days.
                 </span><span data-else="" data-unwrap="">
-                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> on each of the past <var>NUM2</var> days.
+                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for <code><var>NUM1</var></code> <var>plural_form(distance(1), NUM1)</var> on each of the past <code><var>NUM2</var></code> days.
                 </span></p><p class="problem" data-else=""><span data-if="isSingular(NUM1)" data-unwrap="">
-                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for <var>NUM1</var> <var>distance(1)</var> on each of the past <var>NUM2</var> days.
+                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for <code><var>NUM1</var></code> <var>distance(1)</var> on each of the past <code><var>NUM2</var></code> days.
                 </span><span data-else="" data-unwrap="">
-                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> on each of the past <var>NUM2</var> days.
+                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for <code><var>NUM1</var></code> <var>plural_form(distance(1), NUM1)</var> on each of the past <code><var>NUM2</var></code> days.
                 </span></p>
                 <p class="question" data-if="isMale(1)">
                 How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>RIDE</var> his <var>BIKE</var> altogether?
@@ -142,22 +142,22 @@
                     <code><var>NUM1</var>\text{ <var>DISTANCE_PER_DAY</var>} \times <var>NUM2</var>\text{ <var>DAYS</var>}= <var>TOTAL</var>\text{ <var>plural( distance(1) )</var>}</code>
                     </p>
                     <p data-if="isSingular(TOTAL)">
-                    <var>person( 1 )</var> <var>BIKED</var> a total of <var>TOTAL</var> <var>distance( 1 )</var>.
+                    <var>person( 1 )</var> <var>BIKED</var> a total of <code><var>TOTAL</var></code> <var>distance( 1 )</var>.
                     </p><p data-else="">
-                    <var>person( 1 )</var> <var>BIKED</var> a total of <var>TOTAL</var> <var>plural_form(distance( 1 ), TOTAL)</var>.
+                    <var>person( 1 )</var> <var>BIKED</var> a total of <code><var>TOTAL</var></code> <var>plural_form(distance( 1 ), TOTAL)</var>.
                     </p>
                 </div>
             </div>
 
             <div id="groups-groupsize">
                 <p class="problem" data-if="isMale(1)"><span data-if="isSingular(TOTAL)" data-unwrap="">
-                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for a total of <var>TOTAL</var> <var>distance(1)</var> over the past <var>NUM2</var> days, and he <var>RODE</var> the same amount each day.
+                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for a total of <code><var>TOTAL</var></code> <var>distance(1)</var> over the past <code><var>NUM2</var></code> days, and he <var>RODE</var> the same amount each day.
                 </span><span data-else="" data-unwrap="">
-                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var> over the past <var>NUM2</var> days, and he <var>RODE</var> the same amount each day.
+                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for a total of <code><var>TOTAL</var></code> <var>plural_form(distance(1), TOTAL)</var> over the past <code><var>NUM2</var></code> days, and he <var>RODE</var> the same amount each day.
                 </span></p><p class="problem" data-else=""><span data-if="isSingular(TOTAL)" data-unwrap="">
-                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for a total of <var>TOTAL</var> <var>distance(1)</var> over the past <var>NUM2</var> days, and she <var>RODE</var> the same amount each day.
+                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for a total of <code><var>TOTAL</var></code> <var>distance(1)</var> over the past <code><var>NUM2</var></code> days, and she <var>RODE</var> the same amount each day.
                 </span><span data-else="" data-unwrap="">
-                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var> over the past <var>NUM2</var> days, and she <var>RODE</var> the same amount each day.
+                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for a total of <code><var>TOTAL</var></code> <var>plural_form(distance(1), TOTAL)</var> over the past <code><var>NUM2</var></code> days, and she <var>RODE</var> the same amount each day.
                 </span></p>
                 <p class="question" data-if="isMale(1)">
                 How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>RIDE</var> his <var>BIKE</var> each day?
@@ -179,21 +179,21 @@
                     <p>
                     <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>DAYS</var>} = <var>NUM1</var> \text{ <var>DISTANCE_PER_DAY</var>}</code>
                     </p>
-                    <p><var>person( 1 )</var> <var>BIKED</var> <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> each day.</p>
+                    <p><var>person( 1 )</var> <var>BIKED</var> <code><var>NUM1</var></code> <var>plural_form(distance(1), NUM1)</var> each day.</p>
                 </div>
             </div>
 
             <div id="groups-number">
                 <p class="problem" data-if="isMale(1)">
-                    <span data-if="isSingular(TOTAL)"><var>person(1)</var> has <var>BIKED</var> his <var>BIKE</var> for a total of <var>TOTAL</var> <var>distance(1)</var>
-                    since he started <var>BIKING</var> daily.</span><span data-else=""><var>person(1)</var> has <var>BIKED</var> his <var>BIKE</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var>
+                    <span data-if="isSingular(TOTAL)"><var>person(1)</var> has <var>BIKED</var> his <var>BIKE</var> for a total of <code><var>TOTAL</var></code> <var>distance(1)</var>
+                    since he started <var>BIKING</var> daily.</span><span data-else=""><var>person(1)</var> has <var>BIKED</var> his <var>BIKE</var> for a total of <code><var>TOTAL</var></code> <var>plural_form(distance(1), TOTAL)</var>
                     since he started <var>BIKING</var> daily.</span>
-                    <span data-if="isSingular(NUM2)">He has been <var>BIKING</var> <var>NUM2</var> <var>distance(1)</var> each day.</span><span data-else="">He has been <var>BIKING</var> <var>NUM2</var> <var>plural_form(distance(1), NUM2)</var> each day.</span>
+                    <span data-if="isSingular(NUM2)">He has been <var>BIKING</var> <code><var>NUM2</var></code> <var>distance(1)</var> each day.</span><span data-else="">He has been <var>BIKING</var> <code><var>NUM2</var></code> <var>plural_form(distance(1), NUM2)</var> each day.</span>
                 </p><p class="problem" data-else="">
-                    <span data-if="isSingular(TOTAL)"><var>person(1)</var> has <var>BIKED</var> her <var>BIKE</var> for a total of <var>TOTAL</var> <var>distance(1)</var>
-                    since she started <var>BIKING</var> daily.</span><span data-else=""><var>person(1)</var> has <var>BIKED</var> her <var>BIKE</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var>
+                    <span data-if="isSingular(TOTAL)"><var>person(1)</var> has <var>BIKED</var> her <var>BIKE</var> for a total of <code><var>TOTAL</var></code> <var>distance(1)</var>
+                    since she started <var>BIKING</var> daily.</span><span data-else=""><var>person(1)</var> has <var>BIKED</var> her <var>BIKE</var> for a total of <code><var>TOTAL</var></code> <var>plural_form(distance(1), TOTAL)</var>
                     since she started <var>BIKING</var> daily.</span>
-                    <span data-if="isSingular(NUM2)">She has been <var>BIKING</var> <var>NUM2</var> <var>distance(1)</var> each day.</span><span data-else="">She has been <var>BIKING</var> <var>NUM2</var> <var>plural_form(distance(1), NUM2)</var> each day.</span>
+                    <span data-if="isSingular(NUM2)">She has been <var>BIKING</var> <code><var>NUM2</var></code> <var>distance(1)</var> each day.</span><span data-else="">She has been <var>BIKING</var> <code><var>NUM2</var></code> <var>plural_form(distance(1), NUM2)</var> each day.</span>
                 </p>
                 <p class="question">
                 For how many days has <var>person(1)</var> been <var>BIKING</var>?
@@ -219,12 +219,12 @@
             <div id="array-product">
                 <p class="problem" data-if="isMale(1)">
                     <span><var>person(1)</var> is a <var>farmer(1)</var>.</span>
-                    <span data-if="isSingular(NUM1)">He plants <var>NUM1</var> row of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span><span data-else="">He plants <var>NUM1</var> rows of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span>
-                    <span data-if="isSingular(NUM2)">Each row has <var>NUM2</var> <var>crop(1)</var>.</span><span data-else="">Each row has <var>NUM2</var> <var>plural_form(crop(1), NUM2)</var>.</span>
+                    <span data-if="isSingular(NUM1)">He plants <code><var>NUM1</var></code> row of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span><span data-else="">He plants <code><var>NUM1</var></code> rows of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span>
+                    <span data-if="isSingular(NUM2)">Each row has <code><var>NUM2</var></code> <var>crop(1)</var>.</span><span data-else="">Each row has <code><var>NUM2</var></code> <var>plural_form(crop(1), NUM2)</var>.</span>
                 </p><p class="problem" data-else="">
                     <span><var>person(1)</var> is a <var>farmer(1)</var>.</span>
-                    <span data-if="isSingular(NUM1)">She plants <var>NUM1</var> row of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span><span data-else="">She plants <var>NUM1</var> rows of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span>
-                    <span data-if="isSingular(NUM2)">Each row has <var>NUM2</var> <var>crop(1)</var>.</span><span data-else="">Each row has <var>NUM2</var> <var>plural_form(crop(1), NUM2)</var>.</span>
+                    <span data-if="isSingular(NUM1)">She plants <code><var>NUM1</var></code> row of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span><span data-else="">She plants <code><var>NUM1</var></code> rows of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span>
+                    <span data-if="isSingular(NUM2)">Each row has <code><var>NUM2</var></code> <var>crop(1)</var>.</span><span data-else="">Each row has <code><var>NUM2</var></code> <var>plural_form(crop(1), NUM2)</var>.</span>
                 </p>
                 <p class="question">
                 How many <var>plural_form(crop(1))</var> did <var>person(1)</var> plant in the <var>field(1)</var>?
@@ -254,14 +254,14 @@
             <div id="array-groupsize">
                 <p class="problem" data-if="isMale(1)">
                     <span><var>person(1)</var> is a <var>farmer(1)</var>.</span>
-                    <span data-if="isSingular(NUM1)">He plants <var>NUM1</var> row of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span><span data-else="">He plants <var>NUM1</var> rows of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span>
+                    <span data-if="isSingular(NUM1)">He plants <code><var>NUM1</var></code> row of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span><span data-else="">He plants <code><var>NUM1</var></code> rows of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span>
                     <span>Each row has the same number of <var>plural_form(crop(1))</var>.</span>
-                    <span data-if="isSingular(TOTAL)">He plants a total of <var>TOTAL</var> <var>crop(1)</var> in the <var>field(1)</var>.</span><span data-else="">He plants a total of <var>TOTAL</var> <var>plural_form(crop(1), TOTAL)</var> in the <var>field(1)</var>.</span>
+                    <span data-if="isSingular(TOTAL)">He plants a total of <code><var>TOTAL</var></code> <var>crop(1)</var> in the <var>field(1)</var>.</span><span data-else="">He plants a total of <code><var>TOTAL</var></code> <var>plural_form(crop(1), TOTAL)</var> in the <var>field(1)</var>.</span>
                 </p><p class="problem" data-else="">
                     <span><var>person(1)</var> is a <var>farmer(1)</var>.</span>
-                    <span data-if="isSingular(NUM1)">She plants <var>NUM1</var> row of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span><span data-else="">She plants <var>NUM1</var> rows of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span>
+                    <span data-if="isSingular(NUM1)">She plants <code><var>NUM1</var></code> row of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span><span data-else="">She plants <code><var>NUM1</var></code> rows of <var>plural_form(crop(1))</var> in a <var>field(1)</var>.</span>
                     <span>Each row has the same number of <var>plural_form(crop(1))</var>.</span>
-                    <span data-if="isSingular(TOTAL)">She plants a total of <var>TOTAL</var> <var>crop(1)</var> in the <var>field(1)</var>.</span><span data-else="">She plants a total of <var>TOTAL</var> <var>plural_form(crop(1), TOTAL)</var> in the <var>field(1)</var>.</span>
+                    <span data-if="isSingular(TOTAL)">She plants a total of <code><var>TOTAL</var></code> <var>crop(1)</var> in the <var>field(1)</var>.</span><span data-else="">She plants a total of <code><var>TOTAL</var></code> <var>plural_form(crop(1), TOTAL)</var> in the <var>field(1)</var>.</span>
                 </p>
                 <p class="question">
                 How many <var>plural_form(crop(1))</var> did <var>person(1)</var> plant in each row?
@@ -291,12 +291,12 @@
             <div id="array-number">
                 <p class="problem" data-if="isMale(1)">
                     <span><var>person(1)</var> is a <var>farmer(1)</var>.</span>
-                    <span data-if="isSingular(TOTAL)">He plants <var>TOTAL</var> <var>crop(1)</var> in a <var>field(1)</var>.</span><span data-else="">He plants <var>TOTAL</var> <var>plural_form(crop(1), TOTAL)</var> in a <var>field(1)</var>.</span>
-                    <span data-if="isSingular(NUM1)">Each row has <var>NUM1</var> <var>crop(1)</var>.</span><span data-else="">Each row has <var>NUM1</var> <var>plural_form(crop(1), NUM1)</var>.</span>
+                    <span data-if="isSingular(TOTAL)">He plants <code><var>TOTAL</var></code> <var>crop(1)</var> in a <var>field(1)</var>.</span><span data-else="">He plants <code><var>TOTAL</var></code> <var>plural_form(crop(1), TOTAL)</var> in a <var>field(1)</var>.</span>
+                    <span data-if="isSingular(NUM1)">Each row has <code><var>NUM1</var></code> <var>crop(1)</var>.</span><span data-else="">Each row has <code><var>NUM1</var></code> <var>plural_form(crop(1), NUM1)</var>.</span>
                 </p><p class="problem" data-else="">
                     <span><var>person(1)</var> is a <var>farmer(1)</var>.</span>
-                    <span data-if="isSingular(TOTAL)">She plants <var>TOTAL</var> <var>crop(1)</var> in a <var>field(1)</var>.</span><span data-else="">She plants <var>TOTAL</var> <var>plural_form(crop(1), TOTAL)</var> in a <var>field(1)</var>.</span>
-                    <span data-if="isSingular(NUM1)">Each row has <var>NUM1</var> <var>crop(1)</var>.</span><span data-else="">Each row has <var>NUM1</var> <var>plural_form(crop(1), NUM1)</var>.</span>
+                    <span data-if="isSingular(TOTAL)">She plants <code><var>TOTAL</var></code> <var>crop(1)</var> in a <var>field(1)</var>.</span><span data-else="">She plants <code><var>TOTAL</var></code> <var>plural_form(crop(1), TOTAL)</var> in a <var>field(1)</var>.</span>
+                    <span data-if="isSingular(NUM1)">Each row has <code><var>NUM1</var></code> <var>crop(1)</var>.</span><span data-else="">Each row has <code><var>NUM1</var></code> <var>plural_form(crop(1), NUM1)</var>.</span>
                 </p>
                 <p class="question">
                 How many rows of <var>plural_form(crop(1))</var> did <var>person(1)</var> plant in the <var>field(1)</var>?
