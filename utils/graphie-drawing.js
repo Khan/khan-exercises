@@ -205,14 +205,15 @@ $.extend(KhanUtil.Graphie.prototype, {
             sector: false
         });
 
-        var styles = getStyles(options);
-
         // Fill arcs by drawing an unstroked sector
         if (!options.sector && options.fillOpacity !== 0) {
             graphie.drawSector(_.extend({}, options, {
                 strokeOpacity: 0
             }));
+            options.fillOpacity = 0;
         }
+
+        var styles = getStyles(options);
 
         return graphie.arc(
             options.center,
