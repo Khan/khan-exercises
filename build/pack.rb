@@ -197,8 +197,13 @@ if ARGV[0]
   # argv mode: a series of filenames, or infile::outfile pairs, in argv.
   ARGV.each do |f|
     (infile_name, outfile_name) = f.split(/::/)
-    File.open(outfile_name || 1, 'w') do |outfile|   # 1 == stdout
-      outfile.puts pack_file(File.open(infile_name).read)
+    output = pack_file(File.open(infile_name).read)
+    if outfile_name
+      File.open(outfile_name, 'w') do |outfile|
+        outfile.puts output
+      end
+    else
+      puts output
     end
   end
 
