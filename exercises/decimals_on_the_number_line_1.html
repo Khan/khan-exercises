@@ -15,7 +15,6 @@
         <var id="TENTHS"> randRange(1, 9) </var>
         <var id="SOLUTION"> TENTHS * MARK_INCREMENT </var>
         <var id="SOLN_TXT"> localeToFixed(SOLUTION, 1) </var>
-        <var id="PIECE_OF_LINE">$._("piece of line")</var>
     </div>
 
     <div class="problems">
@@ -74,10 +73,10 @@
 
                 <div>
                     <p>The line is divided into <code>10</code> pieces, which means:</p>
-                    <p>Piece of line <code> = \purple{<var>MARK_INCREMENT</var>}</code>
+                    <p>Piece of line <code> = \purple{<var>commafy(MARK_INCREMENT)</var>}</code>
                 </p></div>
 
-                <p><code>\pink{<var>SOLN_TXT</var>} = \purple{<var>MARK_INCREMENT</var>} \times \green{<var>TENTHS</var>}</code></p>
+                <p><code>\pink{<var>SOLN_TXT</var>} = \purple{<var>commafy(MARK_INCREMENT)</var>} \times \green{<var>TENTHS</var>}</code></p>
 
                 <p data-if="isSingular(TENTHS)">
                     Therefore, moving the orange dot <code>\green{<var>TENTHS</var>}</code>
