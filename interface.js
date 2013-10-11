@@ -144,10 +144,18 @@ function newProblem(e, data) {
     $("#hint").attr("disabled", hintsUsed >= numHints);
     enableCheckAnswer();
 
-    // Update related videos
+    // Render related videos, unless we're on the final stage of mastery.
     if (data.userExercise) {
-        Exercises.RelatedVideos.render(
-                data.userExercise.exerciseModel.relatedVideos);
+        var userExercise = data.userExercise;
+        var nearMastery = userExercise.exerciseProgress.level === "mastery2" ||
+                userExercise.exerciseProgress.level === "mastery3";
+        var task = Exercises.learningTask;
+        var hideRelatedVideos = task && task.isMasteryTask() && nearMastery;
+
+        if (!hideRelatedVideos) {
+            Exercises.RelatedVideos.render(
+                    data.userExercise.exerciseModel.relatedVideos);
+        }
     }
 }
 
