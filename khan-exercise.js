@@ -1417,7 +1417,8 @@ var Khan = (function() {
         Khan.scratchpad.resize();
 
         // Enable the all answer input elements except the check answer button.
-        $("#answercontent input").not("#check-answer-button")
+        $("#answercontent input")
+            .not("#check-answer-button, #show-prereqs-button")
             .prop("disabled", false);
 
         // Show acceptable formats

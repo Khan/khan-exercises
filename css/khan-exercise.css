@@ -262,6 +262,11 @@ body.debug .graphie { outline: 1px dashed #fdd; }
   border-top: 1px solid #fff;
   position: relative;
 }
+
+#show-prereqs-button {
+  margin-top: 15px;
+}
+
 #positive-reinforcement img {
   width: 28px;
   position: absolute;
