@@ -94,7 +94,8 @@
                     <code>(x <var>A &lt; 0 ? "+" : ""</var> \pink{<var>-A</var>})(x <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>})</code>
                     </p><p><b>
                         The fully factored expression is:
-                        <code><var>COMMON</var>x(x + <var>-A</var>)(x + <var>-B</var>)</code>
+                        <span data-if="COMMON_VAR"><code><var>COMMON</var>x(x + <var>-A</var>)(x + <var>-B</var>)</code></span>
+                        <span data-else=""><code><var>COMMON</var>(x + <var>-A</var>)(x + <var>-B</var>)</code></span>
                     </b></p>
                 <p></p>
             </div>
