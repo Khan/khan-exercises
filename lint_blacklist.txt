@@ -20,5 +20,4 @@ utils/graphie-helpers-arithmetic.js
 utils/matrix.js
 utils/proofs.js
 utils/rational-expressions.js
-utils/steps-helpers.js
 utils/test/**
