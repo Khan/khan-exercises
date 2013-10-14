@@ -214,8 +214,9 @@ $.extend(KhanUtil.Graphie.prototype, {
     // in the way of mouse events. This adds another SVG element on top
     // of everything else where we can add invisible shapes with mouse
     // handlers wherever we want.
-    addMouseLayer: function() {
+    addMouseLayer: function(options) {
         var graph = this;
+        options = _.extend({}, options);
 
         // Attach various metrics that are used by the interactive functions.
         // TODO: Add appropriate helper functions in graphie and replace a lot of
@@ -247,6 +248,13 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
         $(graph.mouselayer.canvas).css("z-index", 1);
+        if (options.onClick) {
+            $(graph.mouselayer.canvas).on("vmouseup", function(e) {
+                if (e.target === graph.mouselayer.canvas) {
+                    options.onClick(graph.getMouseCoord(e));
+                }
+            });
+        }
         Khan.scratchpad.disable();
     },
 
@@ -692,30 +700,69 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         var graph = movablePoint.graph;
 
-        if (movablePoint.visible) {
-            graph.style(movablePoint.normalStyle, function() {
-                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [movablePoint.pointSize / graph.scale[0], movablePoint.pointSize / graph.scale[1]]);
-            });
-        }
-        movablePoint.normalStyle.scale = 1;
-        movablePoint.highlightStyle.scale = 2;
+        var applySnapAndConstraints = function(coord) {
+            // coord should be the scaled coordinate
 
-        if (movablePoint.vertexLabel) {
-            movablePoint.labeledVertex = this.label([0, 0], "", "center", movablePoint.labelStyle);
-        }
-
-        movablePoint.drawLabel = function() {
-            if (movablePoint.vertexLabel) {
-                movablePoint.graph.labelVertex({
-                    vertex: movablePoint.coord,
-                    label: movablePoint.labeledVertex,
-                    text: movablePoint.vertexLabel,
-                    style: movablePoint.labelStyle
-                });
+            // move point away from edge of graph unless it's invisible or fixed
+            if (movablePoint.visible &&
+                    !movablePoint.fixed && 
+                    !movablePoint.constraints.fixed) {
+                // can't go beyond 10 pixels from the edge
+                coord = graph.constrainToBounds(coord, 10);
             }
-        };
 
-        movablePoint.drawLabel();
+            var coordX = coord[0];
+            var coordY = coord[1];
+
+            // snap coordinates to grid
+            if (movablePoint.snapX !== 0) {
+                coordX = Math.round(coordX / movablePoint.snapX) * movablePoint.snapX;
+            }
+            if (movablePoint.snapY !== 0) {
+                coordY = Math.round(coordY / movablePoint.snapY) * movablePoint.snapY;
+            }
+
+            // snap to points around circle
+            if (movablePoint.constraints.fixedDistance.snapPoints) {
+                var mouse = graph.scalePoint(coord);
+                var mouseX = mouse[0];
+                var mouseY = mouse[1];
+
+                var snapRadians = 2 * Math.PI / movablePoint.constraints.fixedDistance.snapPoints;
+                var radius = movablePoint.constraints.fixedDistance.dist;
+
+                // get coordinates relative to the fixedDistance center
+                var centerCoord = movablePoint.constraints.fixedDistance.point;
+                var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
+                var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
+
+                var mouseXrel = mouseX - centerX;
+                var mouseYrel = -mouseY + centerY;
+                var radians = Math.atan(mouseYrel / mouseXrel);
+                var outsideArcTanRange = mouseXrel < 0;
+
+                // adjust so that angles increase from 0 to 2 pi as you go around the circle
+                if (outsideArcTanRange) {
+                    radians += Math.PI;
+                }
+
+                // perform the snap
+                radians = Math.round(radians / snapRadians) * snapRadians;
+
+                // convert from radians back to pixels
+                mouseXrel = radius * Math.cos(radians);
+                mouseYrel = radius * Math.sin(radians);
+                // convert back to coordinates relative to graphie canvas
+                mouseX = mouseXrel + centerX;
+                mouseY = - mouseYrel + centerY;
+                coordX = KhanUtil.roundTo(5, mouseX / graph.scale[0] + graph.range[0][0]);
+                coordY = KhanUtil.roundTo(5, graph.range[1][1] - mouseY / graph.scale[1]);
+            }
+
+            // apply any constraints on movement
+            var result = movablePoint.applyConstraint([coordX, coordY]);
+            return result;
+        };
 
         // Using the passed coordinates, apply any constraints and return the closest coordinates
         // that match the constraints.
@@ -786,6 +833,33 @@ $.extend(KhanUtil.Graphie.prototype, {
             return newCoord;
         };
 
+        movablePoint.coord = applySnapAndConstraints(movablePoint.coord);
+
+        if (movablePoint.visible) {
+            graph.style(movablePoint.normalStyle, function() {
+                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [movablePoint.pointSize / graph.scale[0], movablePoint.pointSize / graph.scale[1]]);
+            });
+        }
+        movablePoint.normalStyle.scale = 1;
+        movablePoint.highlightStyle.scale = 2;
+
+        if (movablePoint.vertexLabel) {
+            movablePoint.labeledVertex = this.label([0, 0], "", "center", movablePoint.labelStyle);
+        }
+
+        movablePoint.drawLabel = function() {
+            if (movablePoint.vertexLabel) {
+                movablePoint.graph.labelVertex({
+                    vertex: movablePoint.coord,
+                    label: movablePoint.labeledVertex,
+                    text: movablePoint.vertexLabel,
+                    style: movablePoint.labelStyle
+                });
+            }
+        };
+
+        movablePoint.drawLabel();
+
 
         if (movablePoint.visible && !movablePoint.constraints.fixed) {
             // the invisible shape in front of the point that gets mouse events
@@ -820,61 +894,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                         movablePoint.dragging = true;
                         KhanUtil.dragging = true;
 
-                        // mouse{X|Y} are in pixels relative to the SVG
-                        var mouseX = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
-                        var mouseY = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
-                        // can't go beyond 10 pixels from the edge
-                        mouseX = Math.max(10, Math.min(graph.xpixels - 10, mouseX));
-                        mouseY = Math.max(10, Math.min(graph.ypixels - 10, mouseY));
+                        var coord = graph.getMouseCoord(event);
 
-                        // coord{X|Y} are the scaled coordinate values
-                        var coordX = mouseX / graph.scale[0] + graph.range[0][0];
-                        var coordY = graph.range[1][1] - mouseY / graph.scale[1];
-
-                        // snap coordinates to grid
-                        if (movablePoint.snapX !== 0) {
-                            coordX = Math.round(coordX / movablePoint.snapX) * movablePoint.snapX;
-                        }
-                        if (movablePoint.snapY !== 0) {
-                            coordY = Math.round(coordY / movablePoint.snapY) * movablePoint.snapY;
-                        }
-
-                        // snap to points around circle
-                        if (movablePoint.constraints.fixedDistance.snapPoints) {
-
-                            var snapRadians = 2 * Math.PI / movablePoint.constraints.fixedDistance.snapPoints;
-                            var radius = movablePoint.constraints.fixedDistance.dist;
-
-                            // get coordinates relative to the fixedDistance center
-                            var centerCoord = movablePoint.constraints.fixedDistance.point;
-                            var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
-                            var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
-
-                            var mouseXrel = mouseX - centerX;
-                            var mouseYrel = -mouseY + centerY;
-                            var radians = Math.atan(mouseYrel / mouseXrel);
-                            var outsideArcTanRange = mouseXrel < 0;
-
-                            // adjust so that angles increase from 0 to 2 pi as you go around the circle
-                            if (outsideArcTanRange) {
-                                radians += Math.PI;
-                            }
-
-                            // perform the snap
-                            radians = Math.round(radians / snapRadians) * snapRadians;
-
-                            // convert from radians back to pixels
-                            mouseXrel = radius * Math.cos(radians);
-                            mouseYrel = radius * Math.sin(radians);
-                            // convert back to coordinates relative to graphie canvas
-                            mouseX = mouseXrel + centerX;
-                            mouseY = - mouseYrel + centerY;
-                            coordX = KhanUtil.roundTo(5, mouseX / graph.scale[0] + graph.range[0][0]);
-                            coordY = KhanUtil.roundTo(5, graph.range[1][1] - mouseY / graph.scale[1]);
-                        }
-
-                        // apply any constraints on movement
-                        var coord = movablePoint.applyConstraint([coordX, coordY]);
+                        coord = applySnapAndConstraints(coord);
                         coordX = coord[0];
                         coordY = coord[1];
 
@@ -1857,7 +1879,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             KhanUtil.dragging = false;
                             if (!polygon.highlight) {
                                 polygon.visibleShape.animate(polygon.normalStyle, 50);
-                                
+
                                 _.each(points, function(point) {
                                     point.visibleShape.animate(point.normalStyle, 50);
                                 });
@@ -1879,10 +1901,23 @@ $.extend(KhanUtil.Graphie.prototype, {
 
     /**
      * Constrain a point to be within the graph (including padding).
+     * If outside graph, point's x and y coordinates are clamped within
+     * the graph.
+     */
+    constrainToBounds: function(point, padding) {
+        var lower = this.unscalePoint([padding, this.ypixels - padding]);
+        var upper = this.unscalePoint([this.xpixels - padding, padding]);
+        var coordX = Math.max(lower[0], Math.min(upper[0], point[0]));
+        var coordY = Math.max(lower[1], Math.min(upper[1], point[1]));
+        return [coordX, coordY];
+    },
+
+    /**
+     * Constrain a point to be within the graph (including padding).
      * If outside graph, point is moved along the ray specified by angle
      * until inside graph.
      */
-    constrainToBounds: function(point, angle, padding) {
+    constrainToBoundsOnAngle: function(point, padding, angle) {
         var lower = this.unscalePoint([padding, this.ypixels - padding]);
         var upper = this.unscalePoint([this.xpixels - padding, padding]);
 
@@ -2590,25 +2625,13 @@ $.extend(KhanUtil.Graphie.prototype, {
                         KhanUtil.dragging = true;
 
                         if (event.type === "vmousemove") {
-                            // mouse{X|Y} are in pixels relative to the SVG
-                            var mouseX = event.pageX - $(graphie.raphael.
-                                canvas.parentNode).offset().left;
-                            var mouseY = event.pageY - $(graphie.raphael.
-                                canvas.parentNode).offset().top;
                             // can't go beyond 10 pixels from the edge
-                            mouseX = Math.max(10, Math.min(graphie.xpixels - 10,
-                                mouseX));
-                            mouseY = Math.max(10, Math.min(graphie.ypixels - 10,
-                                mouseY));
-
-                            // coord{X|Y} are the scaled coordinate values
-                            var coordX = mouseX / graphie.scale[0] +
-                                graphie.range[0][0];
-                            var coordY = graphie.range[1][1] - mouseY /
-                                graphie.scale[1];
+                            // coord is the scaled coordinate
+                            var coord = graphie.constrainToBounds(
+                                graphie.getMouseCoord(event), 10);
 
                             var radius = KhanUtil.getDistance(
-                                circle.centerPoint.coord, [coordX, coordY]);
+                                circle.centerPoint.coord, coord);
                             radius = Math.max(1,
                                 Math.round(radius / 0.5) * 0.5);
                             circle.setRadius(radius);
@@ -2901,7 +2924,7 @@ _.extend(MovableAngle.prototype, {
                 // Constrain ray points to stay the same angle from vertex
                 var angle = KhanUtil.findAngle(newVertex, newPoint);
                 angle *= Math.PI / 180;
-                newPoint = graphie.constrainToBounds(newPoint, angle, 10);
+                newPoint = graphie.constrainToBoundsOnAngle(newPoint, 10, angle);
                 newPoints[i] = newPoint;
 
                 if (tooClose(newVertex, newPoint)) {
