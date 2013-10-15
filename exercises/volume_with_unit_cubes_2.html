@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-3d math-format interactive word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Volume with unit cubes 2</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        var makeSquare = function(left, width, bottom, height, color) {
+            KhanUtil.currentGraph.path([
+                    [left, bottom],
+                    [left, bottom + height],
+                    [left + width, bottom + height],
+                    [left + width, bottom],
+                    true
+                ],
+                { stroke: "black", strokeWidth: 1, fill: color }
+            );
+        };
+
+        var normalize = function(vect) {
+            var length = Math.sqrt(vect[0] * vect[0] +
+                                   vect[1] * vect[1] +
+                                   vect[2] * vect[2]);
+            return _.map(vect, function(e) { return e / length; });
+        };
+    </script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="UNIT_TEXT,UNIT">randFromArray([
+            ["\\text{ " + $._("cm") + "}", new Plural(function(num) {
+            return $.ngettext("centimeter", "centimeters", num);
+            })],
+            ["\\text{ " + $._("m") + "}", new Plural(function(num) {
+            return $.ngettext("meter", "meters", num);
+            })],
+            ["\\text{ " + $._("in") + "}", new Plural(function(num) {
+            return $.ngettext("inch", "inches", num);
+            })],
+            ["\\text{ " + $._("ft") + "}", new Plural(function(num) {
+            return $.ngettext("foot", "feet", num);
+            })]
+        ])</var>
+    </div>
+    <div class="problems">
+        <div id="find-volume-count">
+            <div class="vars" data-ensure="DIMENSIONS[0] * DIMENSIONS[1] * DIMENSIONS[2] < 33  && DIMENSIONS[0] * DIMENSIONS[1] * DIMENSIONS[2] > 1">
+                <var id="DENOMINATOR">randRange(2, 5)</var>
+                <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
+                <var id="FRACTION">NUMERATOR / DENOMINATOR</var>
+                <var id="DIMENSIONS" >randRange(1,4,3)</var>
+                <var id="LENGTH">DIMENSIONS[0]</var>
+                <var id="WIDTH">DIMENSIONS[1]</var>
+                <var id="HEIGHT">DIMENSIONS[2]</var>
+                <var id="N">LENGTH * WIDTH * HEIGHT</var>
+                <var id="MAX">max(max(LENGTH, WIDTH), HEIGHT)</var>
+                <var id="XBORD">LENGTH/MAX</var>
+                <var id="YBORD">WIDTH/MAX</var>
+                <var id="ZBORD">HEIGHT/MAX</var>
+                <var id="COLOR1">"#D7ED3A"</var>
+                <var id="COLOR2">"#38C77F"</var>
+                <var id="COLOR3">"#78D0EF"</var>
+                <var id="COLOR4">"#F0B63A"</var>
+                <var id="VERTICES">[
+                    [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
+                    [LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
+                    [LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
+                    [LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX],
+                    [-LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
+                    [-LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
+                    [-LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
+                    [-LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX]
+                ]</var>
+                <var id="SCALE">4.0</var>
+                <var id="FACES">[
+                    {
+                        verts: [3, 2, 1, 0],
+                        color: COLOR1
+                    },  {
+                        verts: [0, 1, 5, 4],
+                        color: COLOR3
+                    }, {
+                        verts: [3, 0, 4, 7],
+                        color: COLOR2
+                    }
+                ]</var>
+            </div>
+
+            <p class="question">What is the volume of this box?</p>
+            <p>Each cube has sides of lengths <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var>.</p>
+            <div class="graphie" id = "box">
+                init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
+                addMouseLayer();
+
+                var start1 = 7;
+
+                for (var i = 1; i &lt; LENGTH;i++){
+                    VERTICES.push([(-LENGTH+2*i)/MAX,-WIDTH/MAX,HEIGHT/MAX]);
+                };
+
+                for (var i = 1; i &lt; LENGTH;i++){
+                    VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,HEIGHT/MAX]);
+                };
+
+                for (var i = 1; i &lt; LENGTH;i++){
+                    VERTICES.push([(-LENGTH+2*i)/MAX,WIDTH/MAX,-HEIGHT/MAX]);
+                };
+
+                var start2=VERTICES.length-1;
+
+                for (var i = 1; i &lt; WIDTH;i++){
+                    VERTICES.push([-LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
+                };
+
+                for (var i = 1; i &lt; WIDTH;i++){
+                    VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,HEIGHT/MAX]);
+                };
+
+                for (var i = 1; i &lt; WIDTH;i++){
+                    VERTICES.push([LENGTH/MAX,(-WIDTH+2*i)/MAX,-HEIGHT/MAX]);
+                };
+
+                var start3 = VERTICES.length-1;
+
+                for (var i = 1; i &lt; HEIGHT;i++){
+                    VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                };
+
+                for (var i = 1; i &lt; HEIGHT;i++){
+                    VERTICES.push([LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                };
+
+                for (var i = 1; i &lt; HEIGHT;i++){
+                    VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                };
+
+
+
+                //graphing the initial object
+                graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                _.each(FACES, function(face) {
+                    graph.obj.addFace(face);
+                });
+
+                for (var i = 1;i&lt;LENGTH;i++){
+                    graph.obj.addSketch({ verts: [start1+i,start1+i+LENGTH-1,start1+i+2*LENGTH-2], opacityValue:0.5});
+                };
+
+                for (var i = 1;i&lt;WIDTH;i++){
+                    graph.obj.addSketch({ verts: [start2+i,start2+i+WIDTH-1,start2+i+2*WIDTH-2], opacityValue:0.5});
+                };
+
+                for (var i = 1;i&lt;HEIGHT;i++){
+                    graph.obj.addSketch({ verts: [start3+i,start3+i+HEIGHT-1,start3+i+2*HEIGHT-2], opacityValue:0.5});
+                };
+
+                graph.obj.setPos([0, 0, 5]);
+
+                graph.obj.rotate(1,0 , 0, PI/3);
+                graph.obj.rotate(0, 1, 0, 0);
+                graph.obj.rotate(0, 0, 1, PI/6);
+
+                graph.obj.doDraw();
+
+                GRAPH = graph;
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="number"><var>N * FRACTION</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+            </div>
+
+            <div class="hints">
+                <p>The volume is measured by counting the number of cubic <var>plural_form(UNIT)</var>.</p>
+                <p>Carefully count the cubes.  Some of the cubes might be hidden behind other cubes.  Try to visualize all of the cubes.</p>
+                <p>There are a total of <code><var>LENGTH * WIDTH * HEIGHT</var></code> cubes.</p>
+                <p>
+                    The volume is <code><var>N</var> \times <var>fraction(NUMERATOR, DENOMINATOR)</var> = 
+                    <var>fractionReduce(N * NUMERATOR, DENOMINATOR)</var> <var>UNIT_TEXT</var>^3</code>.
+                </p>
+            </div>
+        </div>
+        <div id="weirdShape" >
+            <div class="vars">
+                <var id="DENOMINATOR">randRange(2, 5)</var>
+                <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
+                <var id="FRACTION">NUMERATOR / DENOMINATOR</var>
+                <var id="N">randRange(3,8)</var>
+                <var id="COLOR1">"#D7ED3A"</var>
+                <var id="COLOR2">"#38C77F"</var>
+                <var id="COLOR3">"#78D0EF"</var>
+                <var id="COLOR4">"#F0B63A"</var>
+                <var id="VERTICES">[]</var>
+                <var id="SCALE">2.0</var>
+                <var id="FACES">[]</var>
+                <var id="surfaceArea">0</var>
+            </div>
+
+            <p class="question">What is the volume of this shape?</p>
+            <p>
+                Each cube has sides of lengths <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var>.
+                You can click and drag to rotate the shape.
+            </p>
+            <div class="graphie" id = "box">
+                init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
+                addMouseLayer();
+
+                //cubes stores the positions of the cubes
+                var cubes = [[0,0,0]];
+
+                // inArray checks whether a point is in the array already.
+                // For example inArray([0,0,0],[[0,0,0,],[0,0,1]]) = true,
+                // but inArray([0,0,2],[[0,0,0],[0,0,1]]) = false. This is
+                // only used for an ordered triple and an array of ordered
+                // triples.
+
+                var inArray = function(point,array) {
+                    for (var i=0; i&lt; array.length;i++) {
+                        if (point[0] == array[i][0] &amp;&amp; point[1] == array[i][1] &amp;&amp; point[2] == array[i][2]){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                //This will store the boundary of the current set of cubes
+
+
+                //Add cubes to cubes from the current boundary until we have N cubes
+                for (var i = 0; i &lt; N-1; i++){
+                    var boundary =  [];
+                    // Figuring out the current boundary
+                    for (var j = 0; j&lt;cubes.length;j++){
+                        var cube0 = [cubes[j][0]+1,cubes[j][1],cubes[j][2]];
+                        var cube1 = [cubes[j][0],cubes[j][1]+1,cubes[j][2]];
+                        var cube2 = [cubes[j][0],cubes[j][1],cubes[j][2]+1];
+                        var cube3 = [cubes[j][0]-1,cubes[j][1],cubes[j][2]];
+                        var cube4 = [cubes[j][0],cubes[j][1]-1,cubes[j][2]];
+                        var cube5 = [cubes[j][0],cubes[j][1],cubes[j][2]-1];
+
+                        if (!inArray(cube0,cubes) &amp;&amp; ! inArray(cube0,boundary)){
+                            boundary.push(cube0);
+                        }
+
+                        if (!inArray(cube1,cubes) &amp;&amp; ! inArray(cube1,boundary)){
+                            boundary.push(cube1);
+                        }
+
+                        if (!inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
+                            boundary.push(cube2);
+                        }
+
+                        if (!inArray(cube2,cubes) &amp;&amp; ! inArray(cube2,boundary)){
+                            boundary.push(cube2);
+                        }
+
+                        if (!inArray(cube3,cubes) &amp;&amp; ! inArray(cube3,boundary)){
+                            boundary.push(cube3);
+                        }
+
+                        if (!inArray(cube4,cubes) &amp;&amp; ! inArray(cube4,boundary)){
+                            boundary.push(cube4);
+                        }
+                    }
+
+                    cubes.push(boundary[randRange(0,boundary.length-1)]);
+                }
+
+                // Addind vertices and faces
+                for (var i = 0; i &lt; N; i++) {
+                    var index = VERTICES.length;
+
+                    VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
+                    VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
+                    VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]-0.5]);
+                    VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]-0.5]);
+                    VERTICES.push([cubes[i][0]+0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
+                    VERTICES.push([cubes[i][0]+0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
+                    VERTICES.push([cubes[i][0]-0.5,cubes[i][1]-0.5,cubes[i][2]+0.5]);
+                    VERTICES.push([cubes[i][0]-0.5,cubes[i][1]+0.5,cubes[i][2]+0.5]);
+
+                    //only add a face if there is not another cube next to it
+                    if (!inArray([cubes[i][0]+1,cubes[i][1],cubes[i][2]],cubes)) {
+                        FACES.push({
+                            verts: [index,index+4,index+5,index+1],
+                            color: COLOR1
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0]-1,cubes[i][1],cubes[i][2]],cubes)) {
+                        FACES.push({
+                            verts: [index+7,index+3,index+2,index+6],
+                            color: COLOR1
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0],cubes[i][1]+1,cubes[i][2]],cubes)) {
+                        FACES.push({
+                            verts: [index,index+3,index+7,index+4],
+                            color: COLOR2
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0],cubes[i][1]-1,cubes[i][2]],cubes)) {
+                        FACES.push({
+                            verts: [index+5,index+6,index+2,index+1],
+                            color: COLOR2
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0],cubes[i][1],cubes[i][2]+1],cubes)) {
+                        FACES.push({
+                            verts: [index+4,index+7,index+6,index+5],
+                            color: COLOR3
+                        });
+                        surfaceArea++;
+                    }
+
+                    if (!inArray([cubes[i][0],cubes[i][1],cubes[i][2]-1],cubes)) {
+                        FACES.push({
+                            verts: [index+3,index,index+1,index+2],
+                            color: COLOR3
+                        });
+                        surfaceArea++;
+                    }
+                }
+
+                //  graphing the initial object
+                graph.obj = make3dObject(VERTICES, { scale: SCALE, facesTransparent: false, faceBorder:true });
+
+                _.each(FACES, function(face) {
+                    graph.obj.addFace(face);
+                });
+
+                graph.obj.setPos([0, 0, 5]);
+
+                graph.obj.rotate(1,0 , 0, PI/3);
+                graph.obj.rotate(0, 1, 0, 0);
+                graph.obj.rotate(0, 0, 1, PI/8);
+
+                graph.obj.doDraw();
+
+                GRAPH = graph;
+
+                var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
+                    fill: "#000", opacity: 0.0
+                });
+
+                $(mouseTarget[0]).bind("vmousedown", function(event) {
+                    event.preventDefault();
+
+                    GRAPH.lastX = event.pageX;
+                    GRAPH.lastY = event.pageY;
+
+                    $(document).bind("vmousemove vmouseup", function(event) {
+                        event.preventDefault();
+
+                        var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
+                        var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+
+                        GRAPH.lastX = event.pageX;
+                        GRAPH.lastY = event.pageY;
+
+                        var xAxis = normalize(GRAPH.obj.perspective[1]);
+                        var yAxis = normalize(GRAPH.obj.perspective[0]);
+
+                        GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                        GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+
+                        GRAPH.obj.doDraw();
+
+                        if (event.type === "vmouseup") {
+                            $(document).unbind("vmousemove vmouseup");
+                        }
+                    })
+                });
+            </div>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="number"><var>N * FRACTION</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+            </div>
+            <div class="hints">
+                <p>The volume of a shape can measured by the number of cubic <var>plural_form(UNIT)</var> which make up the shape.</p>
+                <p>There are <code><var>N</var></code> cubes.</p>
+                <p>
+                    The volume is <code><var>N</var> \times <var>fraction(NUMERATOR, DENOMINATOR)</var> = 
+                    <var>fractionReduce(N * NUMERATOR, DENOMINATOR)</var> <var>UNIT_TEXT</var>^3</code>.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

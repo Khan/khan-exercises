@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-3d math-format interactive word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Volume 2</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        var makeSquare = function(left, width, bottom, height, color) {
+            KhanUtil.currentGraph.path([
+                    [left, bottom],
+                    [left, bottom + height],
+                    [left + width, bottom + height],
+                    [left + width, bottom],
+                    true
+                ],
+                { stroke: "black", strokeWidth: 1, fill: color }
+            );
+        };
+
+        var normalize = function(vect) {
+            var length = Math.sqrt(vect[0] * vect[0] +
+                                   vect[1] * vect[1] +
+                                   vect[2] * vect[2]);
+            return _.map(vect, function(e) { return e / length; });
+        };
+    </script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="UNIT_TEXT,UNIT">randFromArray([
+            ["\\text{ " + $._("cm") + "}", new Plural(function(num) {
+            return $.ngettext("centimeter", "centimeters", num);
+            })],
+            ["\\text{ " + $._("m") + "}", new Plural(function(num) {
+            return $.ngettext("meter", "meters", num);
+            })],
+            ["\\text{ " + $._("in") + "}", new Plural(function(num) {
+            return $.ngettext("inch", "inches", num);
+            })],
+            ["\\text{ " + $._("ft") + "}", new Plural(function(num) {
+            return $.ngettext("foot", "feet", num);
+            })]
+        ])</var>
+    </div>
+    <div class="problems">
+
+        <div id="find-volume" >
+            <div class="vars">
+                <var id="DENOMINATORS">[randRange(2, 5), randRange(2, 5), randRange(2, 5)]</var>
+                <var id="NUMERATORS">[randRange(1, 6), randRange(1, 6), randRange(1, 6)]</var>
+                <var id="DENOMPRODUCT">DENOMINATORS[0] * DENOMINATORS[1] * DENOMINATORS[2]</var>
+                <var id="NUMERPRODUCT">NUMERATORS[0] * NUMERATORS[1] * NUMERATORS[2]</var>
+                <var id="WIDTH, HEIGHT, LENGTH">_.map(NUMERATORS, function(n, i) {return n / DENOMINATORS[i]; })</var>
+                <var id="FRACTIONS">_.map(NUMERATORS, function(n, i) {return fractionReduce(n, DENOMINATORS[i]); })</var>
+                <var id="GCD">getGCD(NUMERATORS[0], DENOMINATORS[0]) * getGCD(NUMERATORS[1], DENOMINATORS[1]) * getGCD(NUMERATORS[2], DENOMINATORS[2])</var>
+                <var id="MAX">max(max(LENGTH, WIDTH), HEIGHT)</var>
+                <var id="XBORD">LENGTH / MAX</var>
+                <var id="YBORD">WIDTH / MAX</var>
+                <var id="ZBORD">HEIGHT / MAX</var>
+                <var id="COLOR1">"#D7ED3A"</var>
+                <var id="COLOR2">"#38C77F"</var>
+                <var id="COLOR3">"#78D0EF"</var>
+                <var id="COLOR4">"#F0B63A"</var>
+                <var id="BASE">HEIGHT * 2</var>
+                <var id="VERTICES">[
+                    [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
+                    [LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
+                    [LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
+                    [LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX],
+                    [-LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
+                    [-LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
+                    [-LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
+                    [-LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX]
+                ]</var>
+                <var id="SCALE">4.0</var>
+                <var id="FACES">[
+                    {
+                        verts: [3, 2, 1, 0],
+                        color: COLOR1,
+                        labels: [[[XBORD, 0, ZBORD], FRACTIONS[0] + UNIT_TEXT]]
+                    }, {
+                        verts: [4, 5, 6, 7],
+                        color: COLOR1,
+                        labels: [[[-XBORD, 0, -ZBORD], FRACTIONS[0] + UNIT_TEXT]]
+                    }, {
+                        verts: [0, 1, 5, 4],
+                        color: COLOR3,
+                        labels: [[[-XBORD, YBORD, 0], FRACTIONS[1] + UNIT_TEXT]]
+                    }, {
+                        verts: [2, 3, 7, 6],
+                        color: COLOR3,
+                        labels: [[[-XBORD, -YBORD, 0], FRACTIONS[1] + UNIT_TEXT]]
+                    }, {
+                        verts: [1, 2, 6, 5],
+                        color: COLOR2,
+                        labels: [[[0, -YBORD, -ZBORD], FRACTIONS[2] + UNIT_TEXT]]
+                    }, {
+                        verts: [3, 0, 4, 7],
+                        color: COLOR2,
+                        labels: [[[0, YBORD, ZBORD], FRACTIONS[2] + UNIT_TEXT]]
+                    }
+                ]</var>
+                <var id = "FACEDIVIDERS">[
+                    {
+                        verts: [8,9,10,11],
+                        color: "#A9A9A9"
+                    }, {
+                        verts: [12,13,14,15],
+                        color: "#A9A9A9"
+                    }
+                ]</var>
+                <var id="GRAPH">{}</var>
+                <var id="UNWRAPGRAPH">{}</var>
+
+                <var id="VOLUME_TEXT">$._("volume")</var>
+                <var id="BASE_TEXT">$._("base")</var>
+                <var id="HEIGHT_TEXT">$._("height")</var>
+
+            </div>
+
+            <p class="question">What is the volume of this box? Drag on the box to rotate it.</p>
+
+            <div class="graphie" id = "box">
+                init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
+                addMouseLayer();
+
+                // graphing the initial object
+                graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                _.each(FACES, function(face) {
+                    graph.obj.addFace(face);
+                });
+
+                graph.obj.setPos([0, 0, 5]);
+
+                graph.obj.rotate(1,0 , 0, PI/3);
+                graph.obj.rotate(0, 1, 0, 0);
+                graph.obj.rotate(0, 0, 1, PI/8);
+
+                graph.obj.doDraw();
+
+                GRAPH = graph;
+
+                var spinner;
+                setTimeout(function() {
+                    spinner = setInterval(function() {
+                        GRAPH.obj.rotate(0, 0, 1, 0.01);
+                        GRAPH.obj.doDraw();
+                    }, 50);
+                }, 300);
+
+                var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
+                    fill: "#000", opacity: 0.0
+                });
+                $(mouseTarget[0]).bind("vmousedown", function(event) {
+                    event.preventDefault();
+
+                    GRAPH.lastX = event.pageX;
+                    GRAPH.lastY = event.pageY;
+
+                    clearInterval(spinner);
+
+                    $(document).bind("vmousemove vmouseup", function(event) {
+                        event.preventDefault();
+
+                        var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
+                        var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+
+                        GRAPH.lastX = event.pageX;
+                        GRAPH.lastY = event.pageY;
+
+                        var xAxis = normalize(GRAPH.obj.perspective[1]);
+                        var yAxis = normalize(GRAPH.obj.perspective[0]);
+
+                        GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                        GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+
+                        GRAPH.obj.doDraw();
+
+                        if (event.type === "vmouseup") {
+                            $(document).unbind("vmousemove vmouseup");
+                        }
+                    })
+                });
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="number" data-simplify="optional">
+                    <var>NUMERPRODUCT / DENOMPRODUCT</var></span> <code><var>UNIT_TEXT</var>^3</code>
+                </p>
+            </div>
+
+            <div class="hints">
+                <p>The volume of a shape is measured by the number of one <var>UNIT</var> cubes which make up the shape.</p>
+                <p>The volume of a box equals width <code>\times</code> height <code>\times</code> length.</p>
+                <p>
+                    Therefore, <code><var>VOLUME_TEXT</var> = <var>FRACTIONS[0]</var> \times <var>FRACTIONS[1]</var> \times <var>FRACTIONS[2]</var></code>
+                </p>
+                <p>
+                    <code>\qquad = <span data-if="getGCD(NUMERPRODUCT / GCD, DENOMPRODUCT / GCD) !== 1">
+                    \dfrac{<var>NUMERPRODUCT / GCD</var>}{<var>DENOMPRODUCT / GCD</var>} = </span>
+                    <var>fractionReduce(NUMERPRODUCT, DENOMPRODUCT)</var> <var>UNIT_TEXT</var>^3</code>
+                </p>
+            </div>
+        </div>
+        <div id="find-height" >
+            <div class="vars">
+                <var id="DENOMINATORS">[randRange(2, 5), randRange(2, 5), randRange(2, 5)]</var>
+                <var id="NUMERATORS">[randRange(1, 6), randRange(1, 6), randRange(1, 6)]</var>
+                <var id="DENOMPRODUCT">DENOMINATORS[0] * DENOMINATORS[1] * DENOMINATORS[2]</var>
+                <var id="NUMERPRODUCT">NUMERATORS[0] * NUMERATORS[1] * NUMERATORS[2]</var>
+                <var id="WIDTH, HEIGHT, LENGTH">_.map(NUMERATORS, function(n, i) {return n / DENOMINATORS[i]; })</var>
+                <var id="FRACTIONS">_.map(NUMERATORS, function(n, i) {return fractionReduce(n, DENOMINATORS[i]); })</var>
+                <var id="GCD">getGCD(DENOMINATORS[0] * DENOMINATORS[2], DENOMINATORS[1] * NUMERATORS[0])</var>
+                <var id="VOL">fractionReduce(NUMERPRODUCT, DENOMPRODUCT)</var>
+                <var id="MAX">max(max(LENGTH, WIDTH), HEIGHT)</var>
+                <var id="XBORD">LENGTH/MAX</var>
+                <var id="YBORD">WIDTH/MAX</var>
+                <var id="ZBORD">HEIGHT/MAX</var>
+                <var id="COLOR1">"#D7ED3A"</var>
+                <var id="COLOR2">"#38C77F"</var>
+                <var id="COLOR3">"#78D0EF"</var>
+                <var id="COLOR4">"#F0B63A"</var>
+                <var id="BASE">HEIGHT * 2</var>
+                <var id="VERTICES">[
+                    [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
+                    [LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
+                    [LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
+                    [LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX],
+                    [-LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
+                    [-LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
+                    [-LENGTH/MAX, -WIDTH/MAX, -HEIGHT/MAX],
+                    [-LENGTH/MAX, -WIDTH/MAX, HEIGHT/MAX]
+                ]</var>
+                <var id="SCALE">4.0</var>
+                <var id="FACES">[
+                    {
+                        verts: [3, 2, 1, 0],
+                        color: COLOR1,
+                        labels: [[[XBORD, 0, ZBORD], FRACTIONS[0] + UNIT_TEXT]]
+                    }, {
+                        verts: [4, 5, 6, 7],
+                        color: COLOR1,
+                        labels: [[[-XBORD, 0, -ZBORD], FRACTIONS[0] + UNIT_TEXT]]
+                    }, {
+                        verts: [0, 1, 5, 4],
+                        color: COLOR3,
+                        labels: [[[-XBORD, YBORD, 0], "x" + UNIT_TEXT]]
+                    }, {
+                        verts: [2, 3, 7, 6],
+                        color: COLOR3,
+                        labels: [[[-XBORD, -YBORD, 0], "x" + UNIT_TEXT]]
+                    }, {
+                        verts: [1, 2, 6, 5],
+                        color: COLOR2,
+                        labels: [[[0, -YBORD, -ZBORD], FRACTIONS[2] + UNIT_TEXT]]
+                    }, {
+                        verts: [3, 0, 4, 7],
+                        color: COLOR2,
+                        labels: [[[0, YBORD, ZBORD], FRACTIONS[2] + UNIT_TEXT]]
+                    }
+                ]</var>
+                <var id = "FACEDIVIDERS">[
+                {verts: [8,9,10,11],
+                color: "#A9A9A9"},
+                 {verts: [12,13,14,15],
+                color: "#A9A9A9"}
+                ]
+                </var>
+                <var id="GRAPH">{}</var>
+                <var id="UNWRAPGRAPH">{}</var>
+
+                <var id="BASE_TEXT">$._("base")</var>
+                <var id="HEIGHT_TEXT">$._("height")</var>
+
+
+            </div>
+
+            <p class="question">
+                The volume of this box is <code><var>VOL</var> <var>UNIT_TEXT</var>^3</code>.
+                What is the number labeled <code>x</code> below?
+            </p>
+
+            <div class="graphie" id = "box">
+                init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
+                addMouseLayer();
+
+                //Adding verticies for the slabs
+                for (var i = 1; i &lt; HEIGHT;i++ ){
+                    VERTICES.push( [LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                    VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                    VERTICES.push([-LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                    VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                    };
+
+
+                //Adding verticies for the cubes in one slab
+                for (var i = 1; i &lt; LENGTH; i++ ){
+                    VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
+                    };
+                for (var i = 1; i &lt; LENGTH; i++ ){
+                    VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT)/MAX]);
+                    };
+                for (var i = 1; i &lt; WIDTH; i++ ){
+                    VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
+                    };
+                for (var i = 1; i &lt; WIDTH; i++ ){
+                    VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
+                    };
+                for (var i = 1; i &lt; LENGTH; i++ ){
+                    VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT+2)/MAX]);
+                    };
+                for (var i = 1; i &lt; LENGTH; i++ ){
+                    VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT+2)/MAX]);
+                    };
+                for (var i = 1; i &lt; WIDTH; i++ ){
+                    VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
+                    };
+                for (var i = 1; i &lt; WIDTH; i++ ){
+                    VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
+                    };
+
+                 //  graphing the initial object
+                  graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                _.each(FACES, function(face) {
+                    graph.obj.addFace(face);
+                });
+
+                graph.obj.setPos([0, 0, 5]);
+
+                graph.obj.rotate(1,0 , 0, PI/3);
+                graph.obj.rotate(0, 1, 0, 0);
+                graph.obj.rotate(0, 0, 1, PI/8);
+
+                graph.obj.doDraw();
+
+                GRAPH = graph;
+
+                var spinner;
+                setTimeout(function() {
+                    spinner = setInterval(function() {
+                        GRAPH.obj.rotate(0, 0, 1, 0);
+                        GRAPH.obj.doDraw();
+                    }, 50);
+                }, 300);
+
+                var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
+                    fill: "#000", opacity: 0.0
+                });
+                $(mouseTarget[0]).bind("vmousedown", function(event) {
+                    GRAPH.lastX = event.pageX;
+                    GRAPH.lastY = event.pageY;
+
+                    clearInterval(spinner);
+
+                    $(document).bind("vmousemove vmouseup", function(event) {
+                        event.preventDefault();
+
+                        var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
+                        var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+
+                        GRAPH.lastX = event.pageX;
+                        GRAPH.lastY = event.pageY;
+
+                        var xAxis = normalize(GRAPH.obj.perspective[1]);
+                        var yAxis = normalize(GRAPH.obj.perspective[0]);
+
+                        GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                        GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+
+                        GRAPH.obj.doDraw();
+
+                        if (event.type === "vmouseup") {
+                            $(document).unbind("vmousemove vmouseup");
+                        }
+                    })
+                });
+
+            </div>
+
+            <div class="solution" data-type="number"><var>HEIGHT</var></div>
+
+            <div class="hints">
+                <p>The volume of a box equals width <code>\times</code> height <code>\times</code> length.</p>
+                <p>Therefore <code><var>VOL</var> = <var>FRACTIONS[0]</var> \times <var>FRACTIONS[2]</var> \times x</code>.</p>
+
+                <p>
+                    <code>\qquad<var>fractionReduce(NUMERATORS[0] * NUMERATORS[2], DENOMINATORS[0] * DENOMINATORS[2])</var>x = <var>VOL</var></code>
+                </p>
+                <p data-if="NUMERATORS[0] * NUMERATORS[2] !== DENOMINATORS[0] * DENOMINATORS[2]">
+                    <code>\qquad x = <var>VOL</var> \div
+                    <var>fractionReduce(NUMERATORS[0] * NUMERATORS[2], DENOMINATORS[0] * DENOMINATORS[2])</var></code>
+                </p>
+                <p data-if="(NUMERATORS[0] * NUMERATORS[2]) % (DENOMINATORS[0] * DENOMINATORS[2])">
+                    <code>\qquad x = <var>VOL</var> \times
+                    <var>fractionReduce(DENOMINATORS[0] * DENOMINATORS[2], NUMERATORS[0] * NUMERATORS[2])</var>
+                    = <var>FRACTIONS[1]</var></code>
+                </p>
+                <p data-else=""><code>\qquad x = <var>FRACTIONS[1]</var></code>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
