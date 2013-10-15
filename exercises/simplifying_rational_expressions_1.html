@@ -1,55 +1,30 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Simplifying rational expression with exponent properties</title>
+    <title>Simplifying rational expressions 1</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
-        function getExpression( coefficient, degree, vari ) {
-            var expr = "";
-            if (coefficient !== 1 || degree === 0) {
-                expr += coefficient;
+        function getExpression(coefficient1, coefficient2, degree1, degree2, vari) {
+            var numerator = new KhanUtil.Term(coefficient1, vari, degree1);
+            var denominator = new KhanUtil.Term(coefficient2, vari, degree2);
+
+            if (denominator.toString() !== "1") {
+                return "\\dfrac{" + numerator.toString() + "}{" + denominator.toString() + "}";
+            } else {
+                return numerator.toString();
             }
-            if (degree > 0) {
-                expr += vari;
-            }
-            if (degree > 1) {
-                expr += " ^ " + degree;
-            }
-            return expr
         }
 
         function getSolution(coefficient1, coefficient2, degree1, degree2, vari) {
-            var numerator, denominator;
+            var numerator = new KhanUtil.Term(coefficient1, vari, degree1);
+            var denominator = new KhanUtil.Term(coefficient2, vari, degree2);
 
-            if (degree1 === degree2) {
-                numerator = "" + coefficient1;
-                denominator = "" + coefficient2;
+            if (denominator.toString() !== "1") {
+                return "(" + numerator.toString() + ")/(" + denominator.toString() + ")";
             } else {
-                numerator = getExpression(coefficient1, degree1, vari);
-                denominator = getExpression(coefficient2, degree2, vari);
+                return numerator.toString();
             }
-
-            if (denominator !== "1") {
-                return "\\dfrac{" + numerator + "}{" + denominator + "}";
-            } else {
-                return numerator;
-            }
-        }
-
-        function getVariableRegex(coefficient, degree, vari) {
-            var regex = "^";
-
-            if (coefficient !== 1 || degree <= 0) {
-                regex += '\\s*' + coefficient;
-            }
-
-            if (degree > 0) {
-                regex += '\\s*' + "[" + vari + vari.toUpperCase() + "]";
-            }
-            regex += "\\s*$"
-
-            return regex;
         }
     </script>
 </head>
@@ -58,102 +33,76 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <div data-ensure="X !== Y">
-                    <var id="X">randVar()</var>
-                    <var id="Y">randVar()</var>
+                <var id="X">randVar()</var>
+                <var id="FACTOR">randRange(1, 12)</var>
+                <div data-ensure="COEFFICIENT1 !== COEFFICIENT2">
+                    <var id="COEFFICIENT1">randRange(1, 12) * FACTOR</var>
+                    <var id="COEFFICIENT2">randRange(1, 12) * FACTOR</var>
                 </div>
-                <var id="GCD">randRange( 2, 12 )</var>
-                <var id="MULTIPLEDEGREE">randRange( 1, 4 )</var>
-                <div data-ensure="getGCD(COEFFICIENT1, COEFFICIENT2) === 1">
-                    <var id="COEFFICIENT1">randRange( 1, 12 )</var>
-                    <var id="COEFFICIENT2">randRange( 1, 12 )</var>
-                </div>
-                <var id="COEFFICIENTFRACTION">fraction(COEFFICIENT1, COEFFICIENT2, true, true)</var>
-                <var id="NUMERATORCOEFFICIENT">GCD * COEFFICIENT1</var>
-                <var id="DENOMINATORCOEFFICIENT">GCD * COEFFICIENT2</var>
-                <var id="DEGREE1">randFromArray( [0, 1] )</var>
-                <var id="DEGREE2">randFromArray( [0, 1] )</var>
-                <var id="POWER1">X + "^" + (DEGREE1 + MULTIPLEDEGREE)</var>
-                <var id="POWER2">X + "^" + (DEGREE2 + MULTIPLEDEGREE)</var>
-                <var id="POWERFRACTION">getSolution(1, 1, DEGREE1, DEGREE2, X)</var>
-                <var id="NUMERATORREGEX">getVariableRegex(COEFFICIENT1, DEGREE1 - DEGREE2, X)</var>
-                <var id="DENOMINATORREGEX">getVariableRegex(COEFFICIENT2, DEGREE2 - DEGREE1, X)</var>
-                <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
+                <var id="GCD">getGCD(COEFFICIENT1, COEFFICIENT2)</var>
+                <var id="DEGREE1">randRange(1, 5)</var>
+                <var id="DEGREE2">randRange(1, 5)</var>
+                <var id="VARIABLE1">[X, X, X, X, X].slice(0, DEGREE1)</var>
+                <var id="VARIABLE2">[X, X, X, X, X].slice(0, DEGREE2)</var>
+                <var id="SOL_DEGREES">DEGREE1 &gt; DEGREE2 ? [DEGREE1 - DEGREE2, 0] : [0, DEGREE2 - DEGREE1]</var>
+                <var id="NUMERATOR">new Term(COEFFICIENT1, X, DEGREE1)</var>
+                <var id="DENOMINATOR">new Term(COEFFICIENT2, X, DEGREE2)</var>
+                <var id="POWERFRACTION">getExpression(1, 1, SOL_DEGREES[0], SOL_DEGREES[1], X)</var>
+                <var id="SOLUTIONFRACTION">getExpression(COEFFICIENT1 / GCD, COEFFICIENT2 / GCD, SOL_DEGREES[0], SOL_DEGREES[1], X)</var>
+                <var id="SOLUTION">getSolution(COEFFICIENT1 / GCD, COEFFICIENT2 / GCD, SOL_DEGREES[0], SOL_DEGREES[1], X)</var>
             </div>
 
             <p class="question">Simplify the following expression:</p>
-            <p>
-                <code><var>Y</var> = \dfrac{<var>NUMERATORCOEFFICIENT</var><var>POWER1</var>}
-                     {<var>DENOMINATORCOEFFICIENT</var><var>POWER2</var>}</code>
-            </p>
+            <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
             <p>You can assume <code><var>X</var> \neq 0</code>.</p>
 
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="multiple">
-                    <span class="sol" data-type="regex"><var>NUMERATORREGEX</var></span>
-                    <span class="sol" data-type="regex"><var>DENOMINATORREGEX</var></span>
-                </div>
-
-                <div class="input-format">
-                    <div class="entry" data-type="multiple">
-                        <table class="rational-exp">
-                            <tbody><tr>
-                                <td class="soln-name" rowspan="2">
-                                    <code><var>Y</var> = </code>
-                                </td>
-                                <td class="soln-top">
-                                    <span class="sol short35"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="soln-bot">
-                                    <span class="sol short35" data-fallback="1"></span>
-                                </td>
-                            </tr>
-                        </tbody></table>
-                    </div>
-                </div>
-
-                <div class="example">a simplified fraction, like <b>3x/4</b></div>
-            </div>
+            <p class="solution" data-type="expression" data-simplify><var>SOLUTION</var></p>
 
             <div class="hints">
-                <p>
-                    <code>\dfrac{<var>NUMERATORCOEFFICIENT</var><var>POWER1</var>}
-                                {<var>DENOMINATORCOEFFICIENT</var><var>POWER2</var>}
-                        = \dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}
-                    </code>
-                </p>
+                <p><code>
+                    \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = 
+                    \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot
+                    \dfrac{<var>X</var>^<var>DEGREE1</var>}{<var>X</var>^<var>DEGREE2</var>}
+                </code></p>
 
-                <p>To simplify <code>\frac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>}</code>, find the greatest common factor (GCD) of <var>NUMERATORCOEFFICIENT</var> and <var>DENOMINATORCOEFFICIENT</var>.</p>
+                <p>
+                    To simplify <code>\frac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>}</code>, find the greatest common factor (GCD) of 
+                    <code><var>COEFFICIENT1</var></code> and <code><var>COEFFICIENT2</var></code>.
+                </p>
 
                 <div>
                     <p>
-                        <code><var>NUMERATORCOEFFICIENT</var>   = <var>getPrimeFactorization( NUMERATORCOEFFICIENT ).join( "\\cdot" )</var></code><br>
-                        <code><var>DENOMINATORCOEFFICIENT</var> = <var>getPrimeFactorization( DENOMINATORCOEFFICIENT ).join( "\\cdot" )</var></code>
+                        <code><var>COEFFICIENT1</var> = <var>getPrimeFactorization(COEFFICIENT1).join(" \\cdot ")</var></code><br>
+                        <code><var>COEFFICIENT2</var> = <var>getPrimeFactorization(COEFFICIENT2).join(" \\cdot ")</var></code>
                     </p>
-                    <p>
-                        <code>\mbox{GCD}(<var>NUMERATORCOEFFICIENT</var>, <var>DENOMINATORCOEFFICIENT</var>) <span data-if="!isPrime(GCD)">
-                        = <var>getPrimeFactorization( GCD ).join( "\\cdot" )</var></span> = <var>GCD</var></code>
-                    </p>
+                    <p><code>
+                        \mbox{GCD}(<var>COEFFICIENT1</var>, <var>COEFFICIENT2</var>)
+                        <span data-if="!isPrime(GCD)"> = <var>getPrimeFactorization(GCD).join(" \\cdot ")</var></span> = <var>GCD</var>
+                    </code></p>
                 </div>
 
-                <p>
-                    <code>\dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}
-                    = \dfrac{<var>GCD</var> \cdot <var>COEFFICIENT1</var>}{<var>GCD</var> \cdot <var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
-                </p>
+                <p><code>
+                    \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot
+                    \dfrac{<var>X</var>^<var>DEGREE1</var>}{<var>X</var>^<var>DEGREE2</var>} = 
+                    \dfrac{<var>GCD</var> \cdot <var>COEFFICIENT1 / GCD</var>}{<var>GCD</var> \cdot <var>COEFFICIENT2 / GCD</var>}
+                    \cdot \dfrac{<var>X</var>^<var>DEGREE1</var>}{<var>X</var>^<var>DEGREE2</var>}
+                </code></p>
 
-                <p>
-                    <code>\hphantom{\dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}}
-                    = <var>COEFFICIENTFRACTION</var> \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
-                </p>
+                <p><code>\phantom{
+                    \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot \dfrac{<var>DEGREE1</var>}{<var>DEGREE2</var>}} = 
+                    <var>fractionReduce(COEFFICIENT1 / GCD, COEFFICIENT2 / GCD)</var>
+                    \cdot \dfrac{<var>X</var>^<var>DEGREE1</var>}{<var>X</var>^<var>DEGREE2</var>}
+                </code></p>
 
-                <p><code>\dfrac{<var>POWER1</var>}{<var>POWER2</var>} = <var>POWERFRACTION</var></code></p>
+                <p><code>
+                    \dfrac{<var>X</var>^<var>DEGREE1</var>}{<var>X</var>^<var>DEGREE2</var>} = 
+                    <span data-if="DEGREE1 * DEGREE2 !== 1">\dfrac{<var>VARIABLE1.join(" \\cdot ")</var>}{<var>VARIABLE2.join(" \\cdot ")</var>} =</span>
+                    <var>POWERFRACTION</var>
+                </code></p>
 
-                <p><code><var>COEFFICIENTFRACTION</var> \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>} = <var>COEFFICIENTFRACTION</var> \cdot <var>POWERFRACTION</var></code></p>
-
-                <p><code>\phantom{<var>COEFFICIENTFRACTION</var> \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}} = <var>SOLUTION</var></code></p>
-
+                <p><code>
+                    <var>fractionReduce(COEFFICIENT1 / GCD, COEFFICIENT2 / GCD)</var> \cdot <var>POWERFRACTION</var> = <var>SOLUTIONFRACTION</var>
+                </code></p>
             </div>
         </div>
     </div>
