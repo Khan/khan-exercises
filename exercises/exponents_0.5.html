@@ -44,10 +44,10 @@
 
         <div id="select-exponent">
             <div class="vars">
-                <var id="SOLUTION"><var>BASE</var>^{<var>EXPONENT</var>}</var>
-                <var id="FAKE_SOLUTION1"><var>EXPONENT</var>^{<var>BASE</var>}</var>
-                <var id="FAKE_SOLUTION2"><var>EXPONENT</var>^{<var>EXPONENT</var>}</var>
-                <var id="FAKE_SOLUTION3"><var>BASE</var>^{<var>BASE</var>}</var>
+                <var id="SOLUTION">BASE + "^{" + EXPONENT + "}"</var>
+                <var id="FAKE_SOLUTION1">EXPONENT + "^{" + BASE + "}"</var>
+                <var id="FAKE_SOLUTION2">EXPONENT + "^{" + EXPONENT + "}"</var>
+                <var id="FAKE_SOLUTION3">BASE + "^{" + BASE + "}"</var>
             </div>
 
             <p class="question"><code>\Large <var>EXPANSION[0]</var> = ?</code></p>
@@ -68,7 +68,7 @@
 
         <div id="write-solution">
             <div class="vars">
-                <var id="SOLUTION"><var>round(pow(BASE, EXPONENT))</var>
+                <var id="SOLUTION">round(pow(BASE, EXPONENT))</var>
             </div>
 
             <p class="question"><code>\Large <var>BASE</var>^{<var>EXPONENT</var>} = ?</code></p>
