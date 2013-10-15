@@ -16,15 +16,14 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
         <div id="into-fraction">
             <div class="vars">
                 <var id="NUMERATOR">randRange(0, 1) ? randRange(100, 999) : randRange(1000, 9999)</var>
-                <var id="D">localeToFixed((NUMERATOR / 10000), 4)</var>
-                <var id="GCD">getGCD(round(D * 10000) , 10000)</var>
+                <var id="D">NUMERATOR / 10000</var>
             </div>
-            <p class="question">Express <code><var>D</var></code> as a fraction.</p>
+            <p class="question">Express <code><var>localeToFixed(D, 4)</var></code> as a fraction.</p>
             <p class="solution" data-type="rational" data-simplify="optional"><var>D</var></p>
             <div class="hints">
                 <div>
-                    <p><code><var>D</var></code> can be represented as follows.</p>
-                    <p><code>= 0 + <var>fraction(D.substr(2, 1) , 10)</var> + <var>fraction(D.substr(3, 1) , 100)</var> + <var>fraction(D.substr(4, 1), 1000)</var> + <var>fraction(D.substr(5, 1), 10000)</var></code></p>
+                    <p><code><var>localeToFixed(D, 4)</var></code> can be represented as follows.</p>
+                    <p><code>= 0 + <var>fraction(Math.floor(D*10%10), 10)</var> + <var>fraction(Math.floor(D*100%10), 100)</var> + <var>fraction(Math.floor(D*1000%10), 1000)</var> + <var>fraction(Math.floor(D*10000%10), 10000)</var></code></p>
                     <p><code>= <var>fraction(NUMERATOR, 10000)</var></code></p>
                 </div>
                 <div>
