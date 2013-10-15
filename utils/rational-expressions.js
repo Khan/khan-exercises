@@ -509,8 +509,8 @@ $.extend(KhanUtil, {
         // Assumes this expression can be factored to remove the one passed in
         this.divide = function(expression) {
             if (expression instanceof KhanUtil.RationalExpression) {
-                if (this.terms.length === 1) {
-                    return this.divideByTerm(expression.terms[0]);
+                if (expression.terms.length === 1) {
+                    return this.divide(expression.terms[0]);
                 }
 
                 var factors1 = this.factor();
