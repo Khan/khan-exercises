@@ -9,10 +9,10 @@
     <div class="exercise">
     <div class="vars">
         <div data-ensure="BASE !== EXPONENT">
-            <var id="BASE">random() &lt; 0.5 ? randRange(1, 5) : randRange(6, 10)</var>
+            <var id="BASE">random() &lt; 0.75 ? randRange(1, 5) : randRange(6, 10)</var>
             <var id="EXP_RANGE">{1: 6, 2: 6, 3: 4, 4: 3, 5: 3, 6: 2, 7: 2, 8: 2, 9: 2, 10: 2}[BASE]</var>
             <var id="EXPONENT">randRange(2, EXP_RANGE)</var>
-            <var id="EXPANSION">expandExponent(BASE, EXPONENT)[0]</var>
+            <var id="EXPANSION">expandExponent(BASE, EXPONENT)</var>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
             </div>
 
             <p class="question"><code>\Large <var>BASE</var>^{<var>EXPONENT</var>} = ?</code></p>
-            <div class="solution" data-forms="integer"><code><var>EXPANSION</var></code></div>
+            <div class="solution" data-forms="integer"><code><var>EXPANSION[0]</var></code></div>
             <ul class="choices" data-none="true" data-show="4">
                 <li><code><var>FAKE_SOLUTION1</var></code></li>
                 <li><code><var>FAKE_SOLUTION2</var></code></li>
@@ -35,7 +35,10 @@
             </ul>
 
             <div class="hints">
-                <div>Hint</div>
+                <p>The base in this expression is <code><var>BASE</var></code>.</p>
+                <p>The exponent in this expression is <code><var>EXPONENT</var></code>.</p>
+                <p>This expression means <code><var>BASE</var></code> multiplied by itself <code><var>EXPONENT</var></code> times.</p>
+                <p><code><var>BASE</var>^{<var>EXPONENT</var>} = <var>EXPANSION[0]</var></code></p>
             </div>
         </div>
 
@@ -47,7 +50,7 @@
                 <var id="FAKE_SOLUTION3"><var>BASE</var>^{<var>BASE</var>}</var>
             </div>
 
-            <p class="question"><code>\Large <var>EXPANSION</var> = ?</code></p>
+            <p class="question"><code>\Large <var>EXPANSION[0]</var> = ?</code></p>
             <div class="solution" data-forms="integer"><code><var>SOLUTION</var></code></div>
             <ul class="choices" data-none="true" data-show="4">
                 <li><code><var>FAKE_SOLUTION1</var></code></li>
@@ -56,7 +59,24 @@
             </ul>
 
             <div class="hints">
-                <div>Hint</div>
+                <p>This is <code><var>BASE</var></code> multiplied by itself <code><var>EXPONENT</var></code> times.</p>
+                <p>The base is <code><var>BASE</var></code>.</p>
+                <p>The exponent is <code><var>EXPONENT</var></code>.</p>
+                <p><code><var>EXPANSION[0]</var> = <var>BASE</var>^{<var>EXPONENT</var>}</code></p>
+            </div>
+        </div>
+
+        <div id="write-solution">
+            <div class="vars">
+                <var id="SOLUTION"><var>round(pow(BASE, EXPONENT))</var>
+            </div>
+
+            <p class="question"><code>\Large <var>BASE</var>^{<var>EXPONENT</var>} = ?</code></p>
+            <div class="solution" data-forms="integer"><code><var>SOLUTION</var></code></div>
+            <div class="hints">
+                <div data-each="EXPANSION as v" data-unwrap="">
+                    <p><code>= <var>v</var></code></p>
+                </div>
             </div>
         </div>
     </div>
