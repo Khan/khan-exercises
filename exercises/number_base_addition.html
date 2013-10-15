@@ -2,33 +2,34 @@
 <html data-require="math graphie graphie-helpers-arithmetic graphie-helpers-numberbases">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Binary Addition</title>
+    <title>Addition In Other Bases</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
     <div class="vars">
-        <var id="A">randRange( 17, 31 )</var>
-        <var id="B">randRange( 7, 31 )</var>
+        <var id="BASE">randRange(2, 9)</var>
+        <var id="A">randRangeBase( 4, 5,  BASE)</var>
+        <var id="B">randRangeBase( 4, 5, BASE )</var>
         <var id="NUM_HINTS">0</var>
     </div>
 
     <div class="problems">
         <div id="binary-addition">
-            <p class="question">Add these two binary numbers:</p>
+            <p class="question">Add these two base <code><var>BASE</var></code> numbers:</p>
             <div class="graphie" id="numbers">
                 // make sure that the larger number is first
                 if (B > A) {
-                var temp = A;
-                A = B;
-                B = temp;
+                    var temp = A;
+                    A = B;
+                    B = temp;
                 }
 
-                graph.baseAdder = new KhanUtil.BaseAdder(A, B, 2);
+                graph.baseAdder = new KhanUtil.BaseAdder(A, B, BASE);
                 graph.baseAdder.show();
                 NUM_HINTS = graph.baseAdder.getNumHints();
             </div>
-            <div class="solution" data-forms="integer"><var>KhanUtil.convertToBase(A + B, 2)</var></div>
+            <div class="solution" data-forms="integer"><var>KhanUtil.convertToBase(A + B, BASE)</var></div>
         </div>
     </div>
 

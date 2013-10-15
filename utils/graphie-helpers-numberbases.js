@@ -5,7 +5,8 @@
 
     /**
      * Similar to KhanUtil.Adder, this is for adding nonnegative numbers in any base.  Currently it
-     * only works for bases that are <= ten.
+     * only works for bases that are <= ten, and there's a bug with the hints if b has more digits
+     * in the number base than a does.
      *
      * @param a     First number, in decimal
      * @param b     Second number, in decimal
@@ -46,11 +47,13 @@ function BaseAdder(a, b, base, digitsA, digitsB) {
 
     this.showHint = function() {
         this.removeHighlights();
-        if ((index === numHints - 2) && (numHints - 1 > digitsA.length)) {
+        var digitIndex = index - 1;
+        if ((digitIndex >= digitsA.length) && carry > 0) {
             this.showFinalCarry();
             index++;
+            carry = 0;
             return;
-        } else if (index === numHints - 1) {
+        } else if (digitIndex >= digitsA.length) {
             return;
         } else if (index === 0) {
             this.showSideLabel("\\text{Only use digits that are less than the base.}");
@@ -62,7 +65,6 @@ function BaseAdder(a, b, base, digitsA, digitsB) {
         var carryStr = "";
         var addendStr = "";
         var sum;
-        var digitIndex = index - 1;
 
         var x = pos.max - digitIndex;
 
@@ -104,6 +106,11 @@ function BaseAdder(a, b, base, digitsA, digitsB) {
 
     this.showFinalCarry = function() {
         var digitIndex = index - 1;
+        if (carry === 0 && digitIndex >= digitsA.length && digitIndex >= digitsB.length) {
+            // nothing to show
+            return;
+        }
+
         highlights.push(graph.label([pos.max - digitIndex, pos.carry],
             "\\color{#6495ED}{" + carry + "}", "below"));
         graph.label([pos.max - digitIndex, pos.sum], "\\LARGE{" + carry + "}");
@@ -179,9 +186,37 @@ BaseAdder.numHintsFor = function(a, b, base) {
         return KhanUtil.digitsToInteger(digitsInBase(nInDecimal, base).reverse());
     }
 
+    /**
+     * Generates a random decimal integer that when converted to the specified base
+     * will have number of digits between minDigits and maxDigits.  We assume that
+     * minDigits is at least 1 and maxDigits >= minDigits.
+     * @param minDigits
+     * @param maxDigits
+     * @param base
+     */
+    function randRangeBase(minDigits, maxDigits, base) {
+        var randNumberDigits = Math.floor(KhanUtil.rand(maxDigits - minDigits + 1)) + minDigits;
+
+        var result = randomDigit(base);
+        for (var ii = 1; ii < randNumberDigits; ii++) {
+            result = result * base + randomDigit(base);
+        }
+        return result;
+    }
+
+    /**
+     * For the given base, this generates a random digit in that base.
+     * @param base
+     */
+    function randomDigit(base) {
+        return KhanUtil.randRange(0, base - 1);
+    }
+
     KhanUtil.BaseAdder = BaseAdder;
     KhanUtil.digitsInBase = digitsInBase;
     KhanUtil.convertToBase = convertToBase;
+    KhanUtil.randRangeBase = randRangeBase;
+    KhanUtil.randomDigit = randomDigit;
 
 
 })();
