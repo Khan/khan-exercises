@@ -289,7 +289,6 @@ var Khan = (function() {
             "unit-circle": ["../third_party/jquery.mobile.vmouse"],
             "interactive": ["graphie", "../third_party/jquery.mobile.vmouse"],
             "mean-and-median": ["stat"],
-            "math-model": ["ast"],
             "congruency": ["angles", "interactive"],
             "graphie-3d": ["graphie", "matrix"],
             "graphie-geometry": ["graphie", "matrix"],
