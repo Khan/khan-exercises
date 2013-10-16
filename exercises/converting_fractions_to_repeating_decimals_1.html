@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+    <title>Converting fractions to repeating decimals</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars" data-ensure="DENOMINATOR > NUMERATOR">
+                <var id="N1">randRange( 0, 3 )</var>
+                <var id="N2">randRange( 1, 8 )</var>
+                <var id="GCD">getGCD(N1 + N2, 9)</var>
+                <var id="NUMERATOR">(N1 + N2)/GCD</var>
+                <var id="DENOMINATOR">9/GCD</var>
+                <var id="DECIMAL_10">Math.floor( NUMERATOR / DENOMINATOR * 10000000000 ) / 10000000000</var>
+            </div>
+            <p>Express the fraction as a decimal, giving the first ten digits.</p>
+            <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+            <p class="solution" data-type="decimal"><var>DECIMAL_10</var></p>
+            <div class="hints">
+                <p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+
+                <div class="graphie" id="nmbrs">
+                    graph.divider = new Divider( DENOMINATOR, NUMERATOR * 1000, 0, 3 );
+                    graph.divider.show();
+                    DUMMY = Array( graph.divider.getNumHints() );
+                </div>
+
+                <div class="graphie" data-update="nmbrs">
+                    graph.divider.shiftDecimals();
+                </div>
+
+                <div class="graphie" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 1000, 0, 3 ) times" data-update="nmbrs">
+                    graph.divider.showHint();
+                </div>
+
+                <p>The pattern is obvious: this is a repeating decimal.  The answer to ten decimal places is <code><var>localeToFixed(DECIMAL_10, 10)</var></code>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
