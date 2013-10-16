@@ -17,13 +17,6 @@
         <div id="binary-addition">
             <p class="question">Add these two binary numbers:</p>
             <div class="graphie" id="numbers">
-                // make sure that the larger number is first
-                if (B > A) {
-                var temp = A;
-                A = B;
-                B = temp;
-                }
-
                 graph.baseAdder = new KhanUtil.BaseAdder(A, B, 2);
                 graph.baseAdder.show();
                 NUM_HINTS = graph.baseAdder.getNumHints();
