@@ -23,7 +23,7 @@
             </var>
 
             <var id="VALUES">[ randRangeNonZero( -10, 10 ), randRangeNonZero( -10, 10 ) ]</var>
-            <var id="FACTORS">[ randRangeNonZero( -10, 10 ), randRangeNonZero( -10, 10 ) ]</var>
+            <var id="FACTORS" data-ensure="FACTORS[0] !== 1 && FACTORS[1] !== 1">[ randRangeNonZero( -10, 10 ), randRangeNonZero( -10, 10 ) ]</var>
             <var id="ORIGINAL_EXPRESSIONS">
                 (function() {
                     var originals = [];
