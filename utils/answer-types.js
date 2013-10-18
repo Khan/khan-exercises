@@ -2132,12 +2132,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         var resultX = KAS.compare(answerX.expr, solution, options);
                         if (resultX.equal) {
                             score.empty = true;
-                            score.message = "I'm a computer, I only " +
+                            score.message = "I'm a computer. I only " +
                                     "understand multiplication if you use an " +
                                     "asterisk (*) as the multiplication sign.";
                         } else if (resultX.message) {
                             score.message = resultX.message + " Also, " +
-                                    "I'm a computer, I only " +
+                                    "I'm a computer. I only " +
                                     "understand multiplication if you use an " +
                                     "asterisk (*) as the multiplication sign.";
                         }
