@@ -2125,6 +2125,23 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 } else if (result.message) {
                     // Nearly correct answer
                     score.message = result.message;
+                } else {
+                    // Replace x with * and see if it would have been correct
+                    var answerX = KAS.parse(guess.replace(/[xX]/g, "*"), options);
+                    if (answerX.parsed) {
+                        var resultX = KAS.compare(answerX.expr, solution, options);
+                        if (resultX.equal) {
+                            score.empty = true;
+                            score.message = "I'm a computer, I only " +
+                                    "understand multiplication if you use an " +
+                                    "asterisk (*) as the multiplication sign.";
+                        } else if (resultX.message) {
+                            score.message = resultX.message + " Also, " +
+                                    "I'm a computer, I only " +
+                                    "understand multiplication if you use an " +
+                                    "asterisk (*) as the multiplication sign.";
+                        }
+                    }
                 }
                 return score;
             };
