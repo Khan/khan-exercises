@@ -13,6 +13,7 @@ function clockwise(points) {
     return sum(areas) > 0;
 }
 
+/* vector-add multiple [x, y] coords/vectors */
 function addPoints() {
     var points = _.toArray(arguments);
     var zipped = _.zip.apply(_, points);
