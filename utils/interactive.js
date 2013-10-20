@@ -623,7 +623,7 @@ $.extend(KhanUtil.Graphie.prototype, {
     // Constraints can be set on the on the returned object:
     //
     //  - Set point to be immovable:
-    //        movablePoint.fixed = true
+    //        movablePoint.constraints.fixed = true
     //
     //  - Constrain point to a fixed distance from another point. The resulting
     //    point will move in a circle:
@@ -667,6 +667,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             highlight: false,
             dragging: false,
             visible: true,
+            bounded: true,
             constraints: {
                 fixed: false,
                 constrainX: false,
@@ -706,7 +707,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
             // move point away from edge of graph unless it's invisible or fixed
             if (movablePoint.visible &&
-                    !movablePoint.fixed && 
+                    movablePoint.bounded &&
                     !movablePoint.constraints.fixed) {
                 // can't go beyond 10 pixels from the edge
                 coord = graph.constrainToBounds(coord, 10);
