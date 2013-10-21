@@ -1278,7 +1278,8 @@ $.extend(KhanUtil.Graphie.prototype, {
             sideLabel: "",
             vertexLabels: [],
             numArrows: 0,
-            numTicks: 0
+            numTicks: 0,
+            movePointsWithLine: false
         }, options);
 
         // If the line segment is defined by movablePoints, coordA/coordZ are
@@ -1511,6 +1512,25 @@ $.extend(KhanUtil.Graphie.prototype, {
                             lineSegment.coordA = [coordX + mouseOffsetA[0], coordY + mouseOffsetA[1]];
                             lineSegment.coordZ = [coordX + mouseOffsetZ[0], coordY + mouseOffsetZ[1]];
                             lineSegment.transform();
+
+                            if (lineSegment.movePointsWithLine) {
+                                // If the points are movablePoints, adjust
+                                // their coordinates when the line itself is
+                                // dragged
+                                if (typeof lineSegment.pointA === "object") {
+                                    lineSegment.pointA.setCoord([
+                                            lineSegment.pointA.coord[0] + dX,
+                                            lineSegment.pointA.coord[1] + dY
+                                    ]);
+                                }
+                                if (typeof lineSegment.pointZ === "object") {
+                                    lineSegment.pointZ.setCoord([
+                                            lineSegment.pointZ.coord[0] + dX,
+                                            lineSegment.pointZ.coord[1] + dY
+                                    ]);
+                                }
+                            }
+
                             if ($.isFunction(lineSegment.onMove)) {
                                 lineSegment.onMove(dX, dY);
                             }
