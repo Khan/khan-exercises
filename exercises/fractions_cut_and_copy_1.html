@@ -22,7 +22,9 @@
             <var id="ANSWER">OFFSPRING / PARENT</var>
             <var id="D">D_PARENT === 1 ? D_OFFSPRING : D_PARENT</var>
             <var id="N_PARENT_EXPANDED">N_PARENT * (D_PARENT === 1 ? D : 1)</var>
+            <var id="PARENT_EXPANSION">_(floor(N_PARENT / D_PARENT)).times(function() { return fraction(D, D);}).join("+")</var>
             <var id="N_OFFSPRING_EXPANDED">N_OFFSPRING * (D_OFFSPRING === 1 ? D : 1)</var>
+            <var id="OFFSPRING_EXPANSION">_(floor(N_OFFSPRING / D_OFFSPRING)).times(function() { return fraction(D, D);}).join("+")</var>
             <var id="UNIT">new Plural(function(n) {
                 return $.ngettext("unit", "units", n);
             })</var>
@@ -89,25 +91,44 @@
                 </div>
 
                 <div class="hints">
-                    <p data-if="CODE_PARENT !== fraction(N_PARENT, D)">The starting block of length <code><var>CODE_PARENT</var></code> units
-                    can be rewritten as <code><var>fraction(N_PARENT_EXPANDED, D)</var></code>.</p>
-                    <p data-if="CODE_OFFSPRING !== fraction(N_OFFSPRING, D)">The goal block of length <code><var>CODE_OFFSPRING</var></code> units
-                    can be rewritten as <code><var>fraction(N_OFFSPRING_EXPANDED, D)</var></code>.</p>
-                    <p>Cutting the starting block into <code>x</code> pieces is the same as dividing it by <code>x</code>.</p>
-                    <div>
-                        <p>Therefore cutting the starting block into <code><var>N_PARENT_EXPANDED</var></code> pieces is the same as:</p>
-                        <p><code>\dfrac{<var>N_PARENT_EXPANDED</var>}{<var>D</var>} ÷ <var>N_PARENT_EXPANDED</var> =
-                            \dfrac{<var>N_PARENT_EXPANDED</var>}{<var>D</var>} \cdot \dfrac{1}{<var>N_PARENT_EXPANDED</var>} = \dfrac{1}{<var>D</var>}</code></p>
+                    <div data-if="CODE_PARENT !== fraction(N_PARENT, D)">
+                        <p>The starting block has a length of <code><var>CODE_PARENT</var></code>, which can be rewritten as:</p>
+                        <p><code>\qquad<var>PARENT_EXPANSION</var>
+                            <span data-if="N_PARENT > D"> + <var>fraction(N_PARENT - D, D_PARENT)</var></span> = 
+                            <var>fraction(N_PARENT_EXPANDED, D)</var></code>
+                        </p>
                     </div>
-                    <p>Copying the resulting block <code>y</code> times is the same as multiplying it by <code>y</code>.</p>
-                    <div>
-                        <p>Therefore copying the resulting block <code><var>N_OFFSPRING_EXPANDED</var></code> times is the same as:</p>
-                        <p><code>\dfrac{1}{<var>D</var>} \cdot <var>N_OFFSPRING_EXPANDED</var> = \dfrac{<var>N_OFFSPRING_EXPANDED</var>}{<var>D</var>}</code></p>
+
+                    <div data-if="CODE_OFFSPRING !== fraction(N_OFFSPRING, D)">
+                        <p>The goal block has a length of <code><var>CODE_OFFSPRING</var></code>, which can be rewritten as:</p>
+                        <p><code>\qquad
+                            <span data-if="N_OFFSPRING !== D_OFFSPRING">
+                                <var>OFFSPRING_EXPANSION</var>
+                                <span data-if="N_OFFSPRING > D"> + <var>fraction(N_OFFSPRING - D, D_OFFSPRING)</var></span> = 
+                            </span>
+                            <var>fraction(N_OFFSPRING_EXPANDED, D)</var></code>
+                        </p>
                     </div>
-                    <div>
-                        <p>Notice that we end up with a block the same size as the goal block.</p>
-                        <p><strong>Therefore the solution is to cut the starting block into <code><var>N_PARENT_EXPANDED</var></code> pieces and copy the resulting block <code><var>N_OFFSPRING_EXPANDED</var></code> times.</strong></p>
-                    </div>
+
+                    <p>
+                        <code><var>fraction(N_PARENT_EXPANDED, D)</var></code> is the same thing as
+                        <code><var>N_PARENT_EXPANDED</var> \times <var>fraction(1, D)</var></code>.
+                    </p>
+
+                    <p>
+                        Therefore, if we cut the starting block into <code><var>N_PARENT_EXPANDED</var></code> equal pieces,
+                        each piece will have a length of <code><var>fraction(1, D)</var></code> units.
+                    </p>
+
+                    <p>
+                        If we copy a piece <code><var>N_OFFSPRING_EXPANDED</var></code> times, we will get a length of
+                        <code><var>N_OFFSPRING_EXPANDED</var> \times <var>fraction(1, D)</var> = <var>fraction(N_OFFSPRING_EXPANDED, D)</var></code> units.
+                    </p>
+
+                    <p>
+                        Therefore the solution is to cut the starting block into <code><var>N_PARENT_EXPANDED</var></code> pieces
+                        and copy the resulting block <code><var>N_OFFSPRING_EXPANDED</var></code> times.
+                    </p>
                 </div>
             </div>
         </div>
