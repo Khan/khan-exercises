@@ -328,7 +328,8 @@ $.extend(KhanUtil, {
                         stroke: KhanUtil.ORANGE,
                         "stroke-width": 3
                     },
-                    extendLine: true
+                    extendLine: true,
+                    movePointsWithLine: true
                 });
 
             $(construction.tool.first.mouseTarget[0]).bind(
@@ -407,13 +408,6 @@ $.extend(KhanUtil, {
             var t = construction.tool;
 
             //t.edge.toBack();
-
-            t.edge.onMove = function(dX, dY) {
-                t.first.setCoord([t.first.coord[0] + dX,
-                    t.first.coord[1] + dY]);
-                t.second.setCoord([t.second.coord[0] + dX,
-                    t.second.coord[1] + dY]);
-            };
 
             t.edge.onMoveEnd = function(dX, dY) {
                 t.edge.visibleLine.toFront();
