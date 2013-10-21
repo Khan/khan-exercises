@@ -1,5 +1,7 @@
 (function() {
 
+var MAXERROR_EPSILON = Math.pow(2, -42);
+
 // Function used to get the text of the choices, which is then used
 // to check against the correct answer
 var extractRawCode = function(elem) {
@@ -192,9 +194,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, solutionData);
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
+            // TODO(jack): remove options.inexact in favor of options.maxError
             if (options.inexact === undefined) {
-                options.maxError = Math.pow(2, -42);
+                // If we aren't allowing inexact, ensure that we don't have a
+                // large maxError as well.
+                options.maxError = 0;
             }
+            // Allow a small tolerance on maxError, to avoid numerical
+            // representation issues (2.3 should be correct for a solution of
+            // 2.45 with maxError=0.15).
+            options.maxError = +options.maxError + MAXERROR_EPSILON;
 
             var input;
             if (window.Modernizr && Modernizr.touch) {
@@ -292,11 +301,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, options);
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
+            // TODO(jack): remove options.inexact in favor of options.maxError
             if (options.inexact === undefined) {
                 // If we aren't allowing inexact, ensure that we don't have a
                 // large maxError as well.
-                options.maxError = Math.pow(2, -42);
+                options.maxError = 0;
             }
+            // Allow a small tolerance on maxError, to avoid numerical
+            // representation issues (2.3 should be correct for a solution of
+            // 2.45 with maxError=0.15).
+            options.maxError = +options.maxError + MAXERROR_EPSILON;
 
             // If percent is an acceptable form, make sure it's the last one
             // in the list so we don't prematurely complain about not having
