@@ -37,54 +37,44 @@
     <div class="exercise">
         <div class="vars">
             <var id="X">randVar()</var>
-            <var id="COLORS">[ BLUE, ORANGE, GREEN ]</var>
+            <var id="COLORS">[BLUE, ORANGE, GREEN]</var>
             <var id="MAX_DEGREE">7</var>
-            <var id="NON_ZERO_INDICES">randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(2, 3) ).sort().reverse()</var>
-            <var id="POL_1, POL_2" data-ensure="POL_1.add( POL_2 ).getNumberOfTerms() &gt;= 1 &amp;&amp; POL_1.subtract( POL_2 ).getNumberOfTerms() &gt;= 1">tabulate( function() {
+            <var id="NON_ZERO_INDICES">randRangeUniqueNonZero(0, MAX_DEGREE, randRange(2, 3)).sort().reverse()</var>
+            <var id="POL_1, POL_2" data-ensure="POL_1.add(POL_2).getNumberOfTerms() &gt;= 1 &amp;&amp; POL_1.subtract(POL_2).getNumberOfTerms() &gt;= 1">
+                tabulate(function() {
                 var coefs = [];
-                for ( var i = 0; i &lt;= MAX_DEGREE; i++ ) {
+                for (var i = 0; i &lt;= MAX_DEGREE; i++) {
                     var value = 0;
-                    for ( var j = 0; j &lt; NON_ZERO_INDICES.length; j++ ) {
-                        if ( i === NON_ZERO_INDICES[ j ] ) {
-                            value = randRangeNonZero( -7, 7 );
+                    for (var j = 0; j &lt; NON_ZERO_INDICES.length; j++) {
+                        if (i === NON_ZERO_INDICES[j]) {
+                            value = randRangeNonZero(-7, 7);
                             break;
                         }
                     }
-                    coefs[ i ] = value;
+                    coefs[i] = value;
                 }
 
-                return new Polynomial( 0, MAX_DEGREE, coefs, X );
-            }, 2 )</var>
+                return new Polynomial(0, MAX_DEGREE, coefs, X);
+            }, 2)</var>
         </div>
 
         <div class="problems">
             <div id="add">
                 <div class="vars">
                     <var id="SIGN">"+"</var>
-                    <var id="SOLUTION">POL_1.add( POL_2 )</var>
-                    <var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
+                    <var id="SOLUTION">POL_1.add(POL_2).parsableText()</var>
                 </div>
 
                 <p class="question">Simplify the expression.</p>
                 <p class="problem"><code>(<var>POL_1</var>) <var>SIGN</var> (<var>POL_2</var>)</code></p>
-                <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-none="true">
-                    <li><code><var>POL_1.subtract( POL_2 )</var></code></li>
-                    <li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
-                </ul>
+                <p class="solution" data-type="expression" data-simplify><var>SOLUTION</var></p>
             </div>
 
             <div id="subtract" data-type="add">
                 <div class="vars">
                     <var id="SIGN">"-"</var>
-                    <var id="SOLUTION">POL_1.subtract( POL_2 )</var>
-                    <var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
+                    <var id="SOLUTION">POL_1.subtract(POL_2).parsableText()</var>
                 </div>
-
-                <ul class="choices" data-none="true">
-                    <li><code><var>POL_1.add( POL_2 )</var></code></li>
-                    <li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
-                </ul>
 
                 <div class="hints" data-apply="appendContents">
                     <div id="paren">
