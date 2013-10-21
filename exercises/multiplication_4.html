@@ -10,8 +10,9 @@
         <div class="vars" data-ensure="SMALL_FACTOR < BIG_FACTOR">
             <var id="SMALL_FACTOR">randFromArray([
                 randRange(10, 99),
-                randRange(100, 999),
-                randRange(1000, 9999)
+                randRange(10, 99),
+                randRange(10, 99),
+                randRange(100, 999)
             ])</var>
             <var id="BIG_FACTOR">randFromArray([
                 randRange(100, 999),
@@ -24,9 +25,9 @@
             <div>
                 <br>
                 <div class="graphie" id="numbers">
-                    graph.multiplier = new Multiplier( BIG_FACTOR, SMALL_FACTOR );
+                    graph.multiplier = new Multiplier(BIG_FACTOR, SMALL_FACTOR);
                     graph.multiplier.show();
-                    DUMMY = Array( graph.multiplier.getNumHints() );
+                    DUMMY = Array(graph.multiplier.getNumHints());
                 </div>
                 <div class="solution" data-forms="integer"><var>SMALL_FACTOR * BIG_FACTOR</var></div>
             </div>
