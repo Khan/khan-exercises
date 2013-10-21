@@ -8,14 +8,20 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <div data-ensure="SLICES &lt; 20 &amp;&amp; isInt( SLICES )">
+            <div data-ensure="SLICES &lt; 20 &amp;&amp; isInt(SLICES)">
                 <var id="D_PARENT">randRangeWeighted(3, 8, 1, 1 / 6)</var>
-                <var id="N_PARENT" data-ensure="getGCD( D_PARENT, N_PARENT ) === 1">D_PARENT === 1 ? randRange(1, 2) : randRange(D_PARENT + 1,  2 * D_PARENT - 1)</var>
+                <var id="N_PARENT" data-ensure="getGCD(D_PARENT, N_PARENT) === 1">
+                    D_PARENT === 1 ? randRange(1, 2) : randRange(D_PARENT + 1,  2 * D_PARENT - 1)
+                </var>
                 <var id="PARENT">N_PARENT / D_PARENT</var>
                 <var id="D_OFFSPRING_1">randRange(3, 8)</var>
                 <var id="D_OFFSPRING_2" data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2">randRange(3, 8)</var>
-                <var id="N_OFFSPRING_1" data-ensure="getGCD( D_OFFSPRING_1, N_OFFSPRING_1 ) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_1 / D_OFFSPRING_1">randRangeExclude(2, 2 * D_OFFSPRING_1 - 1, [D_OFFSPRING_1])</var>
-                <var id="N_OFFSPRING_2" data-ensure="getGCD( D_OFFSPRING_2, N_OFFSPRING_2 ) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_2 / D_OFFSPRING_2">randRangeExclude(2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2])</var>
+                <var id="N_OFFSPRING_1" data-ensure="getGCD(D_OFFSPRING_1, N_OFFSPRING_1) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_1 / D_OFFSPRING_1">
+                    randRangeExclude(2, 2 * D_OFFSPRING_1 - 1, [D_OFFSPRING_1])
+                </var>
+                <var id="N_OFFSPRING_2" data-ensure="getGCD(D_OFFSPRING_2, N_OFFSPRING_2) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_2 / D_OFFSPRING_2">
+                    randRangeExclude(2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2])
+                </var>
                 <var id="SLICES">N_PARENT * getLCM(D_OFFSPRING_1, D_OFFSPRING_2) / D_PARENT</var>
             </div>
             <var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper(N_PARENT, D_PARENT)</var>
@@ -26,6 +32,9 @@
             <var id="ANSWER_1">OFFSPRING_1 / PARENT</var>
             <var id="ANSWER_2">OFFSPRING_2 / PARENT</var>
             <var id="LCM">getLCM(D_OFFSPRING_1, D_OFFSPRING_2)</var>
+            <var id="PARENT_MULTI">LCM / D_PARENT</var>
+            <var id="OFFSPRING_1_MULTI">LCM / D_OFFSPRING_1</var>
+            <var id="OFFSPRING_2_MULTI">LCM / D_OFFSPRING_2</var>
             <var id="UNIT">new Plural(function(n) {
                 return $.ngettext("unit", "units", n);
             })</var>
@@ -120,25 +129,65 @@
                 </div>
 
                 <div class="hints">
-                    <p data-if="CODE_OFFSPRING_1 !== fraction( N_OFFSPRING_1, D_OFFSPRING_1)">The goal block 1 of length <code><var>CODE_OFFSPRING_1</var></code> units
-                    can be rewritten as <code><var>fraction(N_OFFSPRING_1, D_OFFSPRING_1)</var></code>.</p>
-                    <p data-if="CODE_OFFSPRING_2 !== fraction( N_OFFSPRING_2, D_OFFSPRING_2)">The goal block 1 of length <code><var>CODE_OFFSPRING_2</var></code> units
-                    can be rewritten as <code><var>fraction(N_OFFSPRING_2, D_OFFSPRING_2)</var></code>.</p>
-                    <p>Cutting the starting block into <code>x</code> pieces is the same as dividing it by <code>x</code>.</p>
                     <p>We want to cut the starting block into a piece that can be copied into both goal block 1 and goal block 2.</p>
-                    <p>The least common denominator of <code><var>D_OFFSPRING_1</var></code> and <code><var>D_OFFSPRING_2</var></code> (the denominators of the goal blocks) is
-                    <code><var>LCM</var></code>. Therefore you can copy a block <code>\dfrac{1}{<var>LCM</var>}</code> units long to make both goal blocks.</p>
-                    <p>To find the number of slices to cut the starting block into we solve for <code>s</code> in the following equation:</p>
-                    <p><code><var>CODE_PARENT</var> ÷ s = \dfrac{1}{<var>LCM</var>}</code></p>
-                    <p><code><var>CODE_PARENT</var> = \dfrac{1}{<var>LCM</var>}s</code></p>
-                    <p><code><var>CODE_PARENT</var> \cdot <var>LCM</var> = s</code></p>
-                    <p><code>s = <var>SLICES</var></code></p>
-                    <p>We now have a resulting block that is <code>\dfrac{1}{<var>LCM</var>}</code> units long. Now we simply divide our goal blocks by this value to see how many times we need to copy the resulting block.</p>
-                    <p><code>\color{<var>BLUE</var>}{c1 = \dfrac{<var>N_OFFSPRING_1</var>}{<var>D_OFFSPRING_1</var>} ÷ \dfrac{1}{<var>LCM</var>} =
-                        \dfrac{<var>N_OFFSPRING_1</var>}{<var>D_OFFSPRING_1</var>} \cdot <var>LCM</var> = <var>N_OFFSPRING_1 * LCM / D_OFFSPRING_1</var>}</code></p>
-                    <p><code>\color{<var>ORANGE</var>}{c2 = \dfrac{<var>N_OFFSPRING_2</var>}{<var>D_OFFSPRING_2</var>} ÷ \dfrac{1}{<var>LCM</var>} =
-                        \dfrac{<var>N_OFFSPRING_2</var>}{<var>D_OFFSPRING_2</var>} \cdot <var>LCM</var> = <var>N_OFFSPRING_2 * LCM / D_OFFSPRING_2</var>}</code></p>
-                    <p><strong>Therefore the solution is to cut the starting block into <code><var>SLICES</var></code> pieces, copy current block 1 <code><var>N_OFFSPRING_1 * LCM / D_OFFSPRING_1</var></code> times and current block 2 <code><var>N_OFFSPRING_2 * LCM / D_OFFSPRING_2</var></code> times.</strong></p>
+
+                    <p>
+                        The least common denominator of <code><var>D_OFFSPRING_1</var></code> and <code><var>D_OFFSPRING_2</var></code>
+                        (the denominators of the goal blocks) is <code><var>LCM</var></code>. Therefore you can copy a block
+                        <code>\dfrac{1}{<var>LCM</var>}</code> units long to make both goal blocks.
+                    </p>
+
+                    <div data-if="CODE_PARENT !== fraction(N_PARENT, D_PARENT) && D_PARENT !== 1">
+                        <p>The starting block has a length of <code><var>CODE_PARENT</var></code>, which can be rewritten as:</p>
+                        <p><code>\qquad<var>fraction(D_PARENT, D_PARENT)</var> + <var>fraction(N_PARENT - D_PARENT, D_PARENT)</var> = 
+                            <var>fraction(N_PARENT, D_PARENT)</var></code>
+                        </p>
+                    </div>
+
+                    <div data-if="PARENT_MULTI !== 1">
+                        <p>We can rewrite the starting block length in terms of <code>\dfrac{1}{<var>LCM</var>}</code> units:</p>
+                        <p><code>\qquad <var>fraction(N_PARENT, D_PARENT)</var> \times <var>fraction(PARENT_MULTI, PARENT_MULTI)</var> = 
+                           <var>fraction(SLICES, LCM)</var></code></p>
+                    </div>
+
+                    <p>
+                        If we cut the starting block into <code><var>SLICES</var></code> equal pieces,
+                        each piece will have a length of <code><var>fraction(1, LCM)</var></code> units.
+                    </p>
+
+                    <div data-if="CODE_OFFSPRING_1 !== fraction(N_OFFSPRING_1, D_OFFSPRING_1)">
+                        <p>Goal block 1 has a length of <code><var>CODE_OFFSPRING_1</var></code> units, which can be rewritten as:</p>
+                        <p><code>\qquad<var>fraction(D_OFFSPRING_1, D_OFFSPRING_1)</var> + <var>fraction(N_OFFSPRING_1 - D_OFFSPRING_1, D_OFFSPRING_1)</var> = 
+                            <var>fraction(N_OFFSPRING_1, D_OFFSPRING_1)</var></code></p>
+                    </div>
+
+                    <div data-if="OFFSPRING_1_MULTI !== 1">
+                        <p>We can rewrite the goal block 1 length in terms of <code>\dfrac{1}{<var>LCM</var>}</code> units:</p>
+                        <p><code>\qquad <var>fraction(N_OFFSPRING_1, D_OFFSPRING_1)</var> \times <var>fraction(OFFSPRING_1_MULTI, OFFSPRING_1_MULTI)</var> = 
+                           <var>fraction(OFFSPRING_1_MULTI * N_OFFSPRING_1, LCM)</var></code></p>
+                    </div>
+
+                    <p>
+                        If we copy a piece of length <code>\dfrac{1}{<var>LCM</var>}</code> units <code><var>OFFSPRING_1_MULTI * N_OFFSPRING_1</var></code> times
+                        we get <code><var>fraction(OFFSPRING_1_MULTI * N_OFFSPRING_1, LCM)</var></code> units, which is the length of goal block 1.
+                    </p>
+
+                    <div data-if="OFFSPRING_2_MULTI !== 1">
+                        <p>We can rewrite the goal block 2 length in terms of <code>\dfrac{1}{<var>LCM</var>}</code> units:</p>
+                        <p><code>\qquad <var>fraction(N_OFFSPRING_2, D_OFFSPRING_2)</var> \times <var>fraction(OFFSPRING_2_MULTI, OFFSPRING_2_MULTI)</var> = 
+                           <var>fraction(OFFSPRING_2_MULTI * N_OFFSPRING_2, LCM)</var></code></p>
+                    </div>
+
+                    <p>
+                        If we copy a piece of length <code>\dfrac{1}{<var>LCM</var>}</code> units <code><var>OFFSPRING_2_MULTI * N_OFFSPRING_2</var></code> times
+                        we get <code><var>fraction(OFFSPRING_2_MULTI * N_OFFSPRING_2, LCM)</var></code> units, which is the length of goal block 2.
+                    </p>
+
+                    <p>
+                        Therefore the solution is to cut the starting block into <code><var>SLICES</var></code> pieces, copy current block 1
+                        <code><var>OFFSPRING_1_MULTI * N_OFFSPRING_1</var></code> times and current block 2
+                        <code><var>OFFSPRING_2_MULTI * N_OFFSPRING_2</var></code> times.
+                    </p>
                 </div>
             </div>
         </div>
