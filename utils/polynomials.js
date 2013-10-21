@@ -128,6 +128,15 @@ $.extend(KhanUtil, {
             return KhanUtil.expr(this.expr(this.variable));
         };
 
+
+        // Return a string that the expression editor can understand
+        // Probably a better way to do this than string replacements
+        this.parsableText = function() {
+            var s = this.text();
+            s = s.replace(/{/g, "(").replace(/}/g, ")");
+            return s;
+        };
+
         this.toString = this.text;
 
         this.hintEvalOf = function(val) {
