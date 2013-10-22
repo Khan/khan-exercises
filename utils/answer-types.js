@@ -1821,7 +1821,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 .join("x");
                 // perform simple string comparison
                 return {
-                    empty: false,
+                    empty: guess === "",
                     correct: guess === correct,
                     message: null,
                     guess: guess
