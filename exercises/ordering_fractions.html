@@ -112,7 +112,11 @@
                     </div>
                     <div class="guess">SORTER.getContent()</div>
                     <div class="validator-function">
-                        return guess.join( "," ) === NUMS_SORT_TEX;
+                        if (SORTER.hasAttempted) {
+                            return guess.join(",") === NUMS_SORT_TEX;
+                        } else {
+                            return "";
+                        }
                     </div>
                     <div class="show-guess">
                         SORTER.setContent( guess );

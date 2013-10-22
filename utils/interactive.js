@@ -58,6 +58,8 @@ $.extend(KhanUtil, {
         var sorter = {};
         var list;
 
+        sorter.hasAttempted = false;
+
         sorter.init = function(element) {
             list = $("[id=" + element + "]").last();
             var container = list.wrap("<div>").parent();
@@ -90,6 +92,7 @@ $.extend(KhanUtil, {
                         $(document).bind("vmousemove vmouseup", function(event) {
                             event.preventDefault();
                             if (event.type === "vmousemove") {
+                                sorter.hasAttempted = true;
                                 $(tile).offset({
                                     left: event.pageX - click.left,
                                     top: event.pageY - click.top
@@ -456,7 +459,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
                 var sPath = [
                     addPoints(sMidpoint, sOffsetVector, sHeightVector),
-                    addPoints(sMidpoint, sOffsetVector, 
+                    addPoints(sMidpoint, sOffsetVector,
                               reverseVector(sHeightVector))
                 ];
 
@@ -1812,7 +1815,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                         if (!_.any(_.pluck(points, "dragging"))) {
                             _.each(points, function(point) {
                                 point.visibleShape.animate(point.normalStyle, 50);
-                            });                            
+                            });
                         }
                     }
 
