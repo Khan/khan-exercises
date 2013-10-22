@@ -141,6 +141,7 @@
                         range: 10,
                         scale: 20,
                         tickStep: 1,
+                        labelStep: 1,
                         axisArrows: "&lt;-&gt;"
                     });
                     addMouseLayer();
@@ -211,16 +212,19 @@
                         graph.vertex.moveTo(X1, graph.currParabola.getFocusY());
                     };
 
-                    graph.setYCoordinate = function() {
-                        var k = (Y1 - 1) - graph.currParabola.getDirectrixK();
-                        graph.directrix.coordA = [0, Y1 - 1];
-                        graph.directrix.coordZ = [0, Y1 - 1];
+                    graph.setSolution = function() {
+                        graph.setXCoordinate();
+
+                        graph.vertex.moveTo(X1, graph.currParabola.getFocusY());
+                        var k = DIR_Y - graph.currParabola.getDirectrixK();
+
+                        graph.directrix.coordA = [0, DIR_Y];
+                        graph.directrix.coordZ = [0, DIR_Y];
                         graph.directrix.transform();
                         graph.currParabola.deltaFocusDirectrix(0, 0, k);
 
-                        graph.vertex.moveTo(graph.currParabola.getFocusX(), Y1 + 1);
-
-                    };
+                        graph.vertex.moveTo(graph.currParabola.getFocusX(), VERTEX_Y);
+                    }
                 </div>
 
                 <div class="solution" data-type="custom">
@@ -247,22 +251,49 @@
                 </div>
 
                 <div class="hints">
+                    <p>In the equation, <code>x_1</code> is equal to <code><var>PRETTY_X1</var></code>.</p>
                     <div>
-                        <p>In the equation, <code>x_1</code> is <code><var>PRETTY_X1</var></code>.
-                            This is the x-coordinate of the parabola vertex and the focus.
+                        <p>
+                            <code>x_1</code> is the x-coordinate of the parabola vertex and the focus.
                             Move the focus, so its x-coordinate is <code><var>PRETTY_X1</var></code>.
                         </p>
                         <button onclick="javascript:
                             graph = KhanUtil.currentGraph.graph;
                             graph.setXCoordinate();">Show me</button>
                     </div>
+
+                    <p>
+                        In the equation, <code>y_1</code> is equal to <code><var>PRETTY_Y1</var></code>,
+                        so the vertex of the parabola will have y-coordinate of <code><var>PRETTY_Y1</var></code>.
+                    </p>
+
+                    <p>In the equation, the leading coefficient, <code>a</code>, is equal to <code><var>PRETTY_A</var></code>.</p>
+
+                    <p data-if="A > 0">
+                        <code>a</code> is the reciprocal of 2 times the distance between the directrix to the focus.
+                        Therefore, the focus is <code><var>1 / (2 * A)</var></code> units above the directrix.
+                    </p>
+                    <p data-else="">
+                        <code>a</code> is the reciprocal of 2 times the distance between the directrix to the focus.
+                        Therefore, the focus is <code><var>1 / (2 * -A)</var></code> units below the directrix.
+                    </p>
+
+                    <p data-if="A > 0">
+                        The focus is therefore <code><var>1 / (4 * A)</var></code> units above the vertex. 
+                        The directrix is <code><var>1 / (4 * A)</var></code> units below the vertex.
+                    </p>
+                    <p data-else="">
+                        The focus is therefore <code><var>1 / (4 * -A)</var></code> units below the vertex,
+                        while the directrix is <code><var>1 / (4 * -A)</var></code> units above the vertex.
+                    </p>
                     <div>
-                        <p>In the equation, <code>y_1</code> is <code><var>PRETTY_Y1</var></code>.
-                            This is the y-coordinate of the parabola vertex.
-                            Move the focus and directrix, so the y-coordinate of the vertex is <code><var>PRETTY_Y1</var></code>.</p>
+                        <p>
+                            The focus is therefore at <code>(<var>PRETTY_X1</var>, <var>PRETTY_FOCUS_Y</var>)</code>
+                            and the directrix is at <code>y = <var>PRETTY_DIR_Y</var></code>.
+                        </p>
                         <button onclick="javascript:
                             graph = KhanUtil.currentGraph.graph;
-                            graph.setYCoordinate();">Show me</button>
+                            graph.setSolution();">Show me</button>
                     </div>
                 </div>
             </div>
