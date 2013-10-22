@@ -9,8 +9,8 @@
     <div class="exercise">
     <div class="vars">
         <div data-ensure="BASE !== EXPONENT">
-            <var id="BASE">random() &lt; 0.75 ? randRange(1, 5) : randRange(6, 10)</var>
-            <var id="EXP_RANGE">{1: 6, 2: 6, 3: 4, 4: 3, 5: 3, 6: 2, 7: 2, 8: 2, 9: 2, 10: 2}[BASE]</var>
+            <var id="BASE">random() &lt; 0.75 ? randRange(0, 5) : randRange(6, 10)</var>
+            <var id="EXP_RANGE">{0: 6, 1: 6, 2: 6, 3: 4, 4: 3, 5: 3, 6: 2, 7: 2, 8: 2, 9: 2, 10: 2}[BASE]</var>
             <var id="EXPONENT">randRange(2, EXP_RANGE)</var>
             <var id="EXPANSION">expandExponent(BASE, EXPONENT)</var>
         </div>
@@ -19,9 +19,9 @@
     <div class="problems">
         <div id="select-expanded">
             <div class="vars">
-               <var id="FAKE_SOLUTION1">BASE + " \\cdot " + EXPONENT</var>
+               <var id="FAKE_SOLUTION1">BASE ? BASE + " \\cdot " + EXPONENT : 1</var>
                 <var id="FAKE_SOLUTION2">BASE + "+" + EXPONENT</var>
-                <var id="FAKE_SOLUTION3">_(EXPONENT).times(function() { return BASE; }).join("+")</var>
+                <var id="FAKE_SOLUTION3">BASE ? _(EXPONENT).times(function() { return BASE; }).join("+") : EXPONENT</var>
                 <var id="FAKE_SOLUTION4">_(BASE).times(function() { return EXPONENT; }).join(" \\cdot ")</var>
             </div>
 
@@ -31,7 +31,7 @@
                 <li><code><var>FAKE_SOLUTION1</var></code></li>
                 <li><code><var>FAKE_SOLUTION2</var></code></li>
                 <li><code><var>FAKE_SOLUTION3</var></code></li>
-                <li data-if="BASE < 7"><code><var>FAKE_SOLUTION4</var></code></li>
+                <li data-if="BASE > 0 && BASE < 7"><code><var>FAKE_SOLUTION4</var></code></li>
             </ul>
 
             <div class="hints">

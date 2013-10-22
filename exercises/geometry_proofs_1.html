@@ -399,7 +399,24 @@
                 </div>
                 <div class="guess">1</div>
                 <div class="validator-function">
-                    return FILL_BLANKS_NUM==0;
+                    var isAttempted = false;
+                    var $missingEl = $(".missingReason, .missingStatement");
+                    if (FILL_BLANKS_NUM == FILL_BLANKS_STUFF[1] &amp;&amp; $missingEl.size() &gt; 0) {
+                        $(".missingReason, .missingStatement").each(function() {
+                            if (this.value) {
+                                isAttempted = true;
+                                return false;
+                            }
+                        });
+                    } else {
+                        isAttempted = true;
+                    }
+
+                    if (isAttempted) {
+                        return FILL_BLANKS_NUM == 0;
+                    } else {
+                        return "";
+                    }
                 </div>
                 <div class="show-guess">
                     outputKnownProof();

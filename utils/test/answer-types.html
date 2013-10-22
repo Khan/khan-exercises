@@ -906,6 +906,25 @@
         start();
     });
 
+
+    asyncTest("prime factorization", 18, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='primeFactorization'>2x3x5<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.primeFactorization.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "", "empty", "empty answer is empty");
+        testAnswer(answerData, "5x6", "wrong", "wrong answer is wrong");
+        testAnswer(answerData, "2x3x5", "right", "right answer is right");
+        testAnswer(answerData, "2*3*5", "right", "right answer is right");
+        testAnswer(answerData, "2 * 3 * 5", "right", "right answer is right");
+        testAnswer(answerData, "3 * 5 * 2", "right", "right answer is right");
+
+        start();
+    });
+
     asyncTest("radio answerability", 8, function() {
         // TODO(alpert): Get rid of MathJax
         Exercises.useKatex = false;

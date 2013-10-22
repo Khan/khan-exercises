@@ -59,10 +59,11 @@
                     </div>
                     <div class="guess">SORTER.getContent()</div>
                     <div class="validator-function">
-                        if (guess.join(',') === NUMS.join(',')) {
+                        if (SORTER.hasAttempted) {
+                            return guess.join(",") === NUMS_SORT.join(",");
+                        } else {
                             return "";
                         }
-                        return guess.join(',') === NUMS_SORT.join(',');
                     </div>
                     <div class="show-guess">
                         SORTER.setContent(guess);
