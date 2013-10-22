@@ -21,7 +21,7 @@
         <div class="vars">
             <div data-ensure="NUMS_SORT[0] < 0 && !_.isEqual(NUMS, NUMS_SORT)">
                 <var id="NUMS">randRangeUnique(-100, 100, randRange(4, 6))</var>
-                <var id="NUMS_SORT">NUMS.slice().sort(function(a, b) { return a &gt; b; })</var>
+                <var id="NUMS_SORT">(NUMS.slice()).sort(function(a, b) { return a - b; })</var>
             </div>
             <var id="COLORS">KhanUtil.shuffle(["blue", "green", "red", "purple", "orange", "brown", "gray", "teal", "olive"])</var>
             <var id="NUM_COLORS">(function() {
