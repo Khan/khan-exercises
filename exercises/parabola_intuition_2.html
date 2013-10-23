@@ -114,11 +114,15 @@
 
             <div id="drag">
                 <div class="vars">
-                    <var id="X1">randRangeNonZero(-10, 10) / 2</var>
-                    <var id="VERTEX_Y">randRangeNonZero(-10, 10) / 2</var>
-                    <var id="DIR_Y" data-ensure="Y1 !== DIR_Y">randRangeNonZero(-16, 16) / 2</var>
-                    <var id="Y1">0.5 * (VERTEX_Y + DIR_Y)</var>
-                    <var id="A">0.25 / (Y1 - DIR_Y)</var>
+                    <div data-ensure="X1 !== 0 || Y1 !== 0 || A !== 0.25">
+                        <var id="X1">randRangeNonZero(-10, 10) / 2</var>
+                        <var id="VERTEX_Y">randRangeNonZero(-10, 10) / 2</var>
+                        <div data-ensure="Y1 !== DIR_Y">
+                            <var id="DIR_Y">randRangeNonZero(-16, 16) / 2</var>
+                            <var id="Y1">0.5 * (VERTEX_Y + DIR_Y)</var>
+                        </div>
+                        <var id="A">0.25 / (Y1 - DIR_Y)</var>
+                    </div>
                     <var id="PRETTY_A">fractionReduce.apply(KhanUtil, toFraction(A, 0.001))</var>
                     <var id="PRETTY_X1">fractionReduce.apply(KhanUtil, toFraction(X1, 0.001))</var>
                     <var id="PRETTY_Y1">fractionReduce.apply(KhanUtil, toFraction(Y1, 0.001))</var>
@@ -229,6 +233,7 @@
 
                 <div class="solution" data-type="custom">
                     <div class="instruction">
+                        Drag the focus and directrix on the graph to match the equation.
                         <p>
                             Equation of the parabola:<br>
                             <span style="font-size: 12px;">
@@ -246,6 +251,9 @@
                     ]</div>
 
                     <div class="validator-function">
+                        if (guess[0] === 0 &amp;&amp; guess[1] === 0 &amp;&amp; guess[2] === 0.25) {
+                            return "";
+                        }
                         return guess[0] === X1 &amp;&amp; guess[1] === Y1 &amp;&amp; guess[2] === A;
                     </div>
                 </div>
@@ -254,8 +262,8 @@
                     <p>In the equation, <code>x_1</code> is equal to <code><var>PRETTY_X1</var></code>.</p>
                     <div>
                         <p>
-                            <code>x_1</code> is the x-coordinate of the parabola vertex and the focus.
-                            Move the focus, so its x-coordinate is <code><var>PRETTY_X1</var></code>.
+                            <code>x_1</code> is the <code>x</code>-coordinate of the parabola vertex and the focus.
+                            Move the focus, so its <code>x</code>-coordinate is <code><var>PRETTY_X1</var></code>.
                         </p>
                         <button onclick="javascript:
                             graph = KhanUtil.currentGraph.graph;
@@ -264,7 +272,7 @@
 
                     <p>
                         In the equation, <code>y_1</code> is equal to <code><var>PRETTY_Y1</var></code>,
-                        so the vertex of the parabola will have y-coordinate of <code><var>PRETTY_Y1</var></code>.
+                        so the vertex of the parabola will have <code>y</code>-coordinate of <code><var>PRETTY_Y1</var></code>.
                     </p>
 
                     <p>In the equation, the leading coefficient, <code>a</code>, is equal to <code><var>PRETTY_A</var></code>.</p>
