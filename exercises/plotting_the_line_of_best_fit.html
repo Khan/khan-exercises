@@ -469,7 +469,7 @@
         </div>
 
         <div id="nonlinear" data-type="linear" data-weight="1">
-            <div class="vars">
+            <div class="vars" data-ensure="abs(R2) < 0.5">
                 <var id="SLOPE">0</var>
                 <var id="INTERCEPT">0</var>
                 <var id="OFFSET">11</var>
@@ -522,7 +522,7 @@
         </div>
 
         <div id="two-slopes" data-type="linear" data-weight="1">
-            <div class="vars">
+            <div class="vars" data-ensure="abs(R2) < 0.5">
                 <var id="BREAK">randRange(-3, 3)</var>
                 <var id="SLOPE1">randRange(-25, 25) / 10</var>
                 <var id="SLOPE2" data-ensure="abs(SLOPE1 - SLOPE2) > 1.5">randRange(-30, 30) / 10</var>
@@ -603,7 +603,7 @@
         </div>
 
         <div id="parabola" data-type="linear" data-weight="1">
-            <div class="vars">
+            <div class="vars" data-ensure="abs(R2) < 0.5">
                 <var id="GETPOINTS">function() {
                     var xs = shuffle([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
                     var n = randRange(9, 12);
