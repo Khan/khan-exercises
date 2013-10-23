@@ -199,7 +199,7 @@
     /**
      *  Mark text as not needing translation.
      *
-     * This function is used to let tools/i18nize_templates.py know that
+     * This function is used to let i18nize_templates.py know that
      * everything within it does not need to be translate.
      * Should be used as: {{#i18nDoNotTranslate}}...{{/i18nDoNotTranslate}}
      * It does not need to actually do anything and hence returns the contents
