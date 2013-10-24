@@ -913,7 +913,7 @@
                         return c;
                     })()
                 </var>
-                <var id="P">[-CENTER[0] - 1, 2]</var>
+                <var id="P">[-CENTER[0] - 1, 2.5]</var>
             </div>
             <div class="problem">
                 <form>
@@ -988,15 +988,12 @@
             <div class="hints">
                 <div>
                     <div class="graphie" data-update="construction">
-
-                        graph.hintLines = raphael.set();
-
-                        graph.hintLines.push(line(
+                        line(
                             applyRefFrame([-5, P[1]], 0),
                             applyRefFrame([5, P[1]], 0), {
                                 strokeWidth: 1,
                                 stroke: BLUE
-                        })).toBack();
+                        }).toBack();
 
                     </div>
                     <p>First we need to draw a line through <code>P</code>.</p>
@@ -1004,6 +1001,7 @@
 
                 <div>
                     <div class="graphie" data-update="construction">
+                        graph.hintLines = raphael.set();
                         var dx = 10 * cos(ROT);
                         var dy = 10 * sin(ROT);
 
@@ -1024,49 +1022,46 @@
 
                 <div>
                     <div class="graphie" data-update="construction">
-                        graph.hintLines = raphael.set();
 
-                        graph.intersect1 = [CENTER[0] + 2, CENTER[1]];
-                        graph.intersect2 = [
-                            applyRefFrame([2, 0], ROT)[0] + CENTER[0],
-                            applyRefFrame([2, 0], ROT)[1] + CENTER[1]];
+                        graph.p1 = [A[0] + 2, A[1]];
+                        graph.p2 = [applyRefFrame([2, 0], ROT)[0] + A[0], applyRefFrame([2, 0], ROT)[1] + A[1]];
+                        graph.p3 = [P[0] + 2, P[1]];
+                        graph.p4 = [applyRefFrame([2, 0], ROT)[0] + P[0], applyRefFrame([2, 0], ROT)[1] + P[1]];
 
-                        circle(graph.intersect1, 0.08, { stroke: null, fill: BLUE });
-                        circle(graph.intersect2, 0.08, { stroke: null, fill: BLUE });
+                        circle(graph.p1, 0.08, { stroke: null, fill: BLUE });
+                        circle(graph.p2, 0.08, { stroke: null, fill: BLUE });
+                        graph.hintPoint1 = circle(graph.p3, 0.08, { stroke: null, fill: BLUE });
+                        graph.hintPoint2 = circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
 
-                        graph.hintLines.push(drawHintLine(CENTER, graph.intersect1, 1));
-                        graph.hintLines.push(drawHintLine(CENTER, graph.intersect2, 1));
+                        drawHintLine(A, graph.p1, 2).toBack();
+                        drawHintLine(A, graph.p2, 2).toBack();
 
-                        graph.hintLines.push(drawHintLine(graph.intersect1, [
-                            applyRefFrame([2.5, 0], ROT / 2)[0] + CENTER[0],
-                            applyRefFrame([2.5, 0], ROT / 2)[1] + CENTER[1]], 2));
-                        graph.hintLines.push(drawHintLine(graph.intersect2, [
-                            applyRefFrame([2.5, 0], ROT / 2)[0] + CENTER[0],
-                            applyRefFrame([2.5, 0], ROT / 2)[1] + CENTER[1]], 2));
-
-                        graph.hintLines.push(drawHintLine(graph.intersect1, [
-                            applyRefFrame([4, 0], ROT / 2)[0] + CENTER[0],
-                            applyRefFrame([4, 0], ROT / 2)[1] + CENTER[1]], 3));
-                        graph.hintLines.push(drawHintLine(graph.intersect2, [
-                            applyRefFrame([4, 0], ROT / 2)[0] + CENTER[0],
-                            applyRefFrame([4, 0], ROT / 2)[1] + CENTER[1]], 3));
-
+                        graph.hintLines.push(drawHintLine(graph.p1, graph.p2, 1));
+                        graph.hintLines.push(drawHintLine(graph.p3, graph.p4, 1));
+                        
+                        graph.hintLines.push(drawHintLine(P, graph.p3, 2));
+                        graph.hintLines.push(drawHintLine(P, graph.p4, 2));
                         graph.hintLines.toBack();
                     </div>
                     <p>
-                        If we pick <span class="hint_blue">any two points on
-                        the given lines</span> that are the same distance from
-                        the vertex of the angle, every point on the bisector
-                        line will be equidistant from those points.
+                        If we construct <span class="hint_blue">a triangle</span> with a vertex at 
+                        point <code>A</code>, then construct a triangle with the same side lengths
+                        at and a vertex at point <code>P</code>, then the angles at <code>A</code>
+                        and <code>P</code> will be the same.
                     </p>
                 </div>
+
                 <div>
                     <div class="graphie" data-update="construction">
-                        circle(CENTER, 0.08, {
+                        graph.hintLines.remove();
+                        graph.hintPoint1.remove();
+                        graph.hintPoint2.remove();
+
+                        circle(A, 0.08, {
                             stroke: null,
                             fill: GRAY
                         });
-                        circle(CENTER, 2, {
+                        circle(A, 2, {
                             fill: null,
                             stroke: GRAY,
                             strokeWidth: 1,
@@ -1074,84 +1069,105 @@
                         });
                     </div>
                     <p>
-                        We can use a compass centered at the vertex to find
-                        <span class="hint_blue">two points equidistant from
-                        the vertex</span>.
+                        We can use a compass centered at <code>A</code> to find
+                        <span class="hint_blue">two points equidistant from <code>A</code></span>.
                     </p>
                 </div>
+                
                 <div>
                     <div class="graphie" data-update="construction">
-                        graph.bisect.remove();
-                        circle(graph.intersect1, 0.08, {
+                         var compassVertex = circle(A, 0.08, {
                             stroke: null,
                             fill: GRAY
                         });
-                        graph.compass1 = circle(graph.intersect1, 1.5, {
+
+                        var compassCircumference = circle(A, 2, {
+                            fill: null,
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            strokeDasharray: "- "
+                        });
+                        
+                        compassVertex.animate({
+                            cx: scalePoint(P)[0],
+                            cy: scalePoint(P)[1]
+                        }, 1000);
+
+                        compassCircumference.animate({
+                            cx: scalePoint(P)[0],
+                            cy: scalePoint(P)[1]
+                        }, 1000);
+
+                        // This should appear later
+                        circle(graph.p3, 0.08, { stroke: null, fill: BLUE });
+                        drawHintLine(P, graph.p3, 2);
+                    </div>
+                    <p>
+                        We can use a compass <strong>with same radius</strong> centered at <code>P</code>
+                        to find all the points the same distance from <code>P</code>. We can ensure we have
+                        get the same radius by putting the compass at point <code>A</code> first, getting
+                        the radii equal, then moving the compass to point <code>P</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var r = eDist(graph.p1, graph.p2);
+
+                        graph.compassVertex = circle(graph.p1, 0.08, {
+                            stroke: null,
+                            fill: GRAY
+                        });
+                        graph.compassCircumference = circle(graph.p1, r, {
                             fill: null,
                             stroke: GRAY,
                             strokeWidth: 1,
                             strokeDasharray: "- "
                         });
 
-                        circle(graph.intersect2, 0.08, {
-                            stroke: null,
-                            fill: GRAY
-                        });
-                        graph.compass2 = circle(graph.intersect2, 1.8, {
-                            fill: null,
-                            stroke: GRAY,
-                            strokeWidth: 1,
-                            strokeDasharray: "- "
-                        });
-                        graph.hintLines.remove();
                     </div>
                     <p>
-                        If we use two more compasses centered at each of the
-                        <span class="hint_blue">two points</span>, we can see
-                        that they intersect, <strong>but not on the angle
-                        bisector!</strong> That's because the two circles are
-                        not the same size.
+                        To find the distance between the <span class="hint_blue">two points equidistant from <code>A</code></span>
+                        we can add center a compass on one point and change the radius to go through the other point.
                     </p>
                 </div>
+
                 <div>
                     <div class="graphie" data-update="construction">
-                        graph.compass1.animate({
-                                rx: scaleVector(2)[0],
-                                ry: scaleVector(2)[1]
-                            }, 250);
-                        graph.compass2.animate({
-                                rx: scaleVector(2)[0],
-                                ry: scaleVector(2)[1]
-                            }, 250);
+                        graph.compassVertex.animate({
+                            cx: scalePoint(graph.p3)[0],
+                            cy: scalePoint(graph.p3)[1]
+                        }, 1000);
+
+                        graph.compassCircumference.animate({
+                            cx: scalePoint(graph.p3)[0],
+                            cy: scalePoint(graph.p3)[1]
+                        }, 1000);
                     </div>
                     <p>
-                        A nice way to make the circles the same size is to
-                        set the edges of both circles so they pass through the
-                        vertex.
+                        Now move the compass to the point where the first compass intersected with the line through <code>P</code>.
                     </p>
                 </div>
+
                 <div>
                     <div class="graphie" data-update="construction">
-                        circle([CENTER[0] + 2 + 2 * cos(ROT), CENTER[1] + 2 * sin(ROT)], 0.08, {
-                                stroke: null,
-                                fill: GRAY
-                            });
-                        line([
-                                applyRefFrame([-10, 0], ROT / 2)[0] + CENTER[0],
-                                applyRefFrame([-10 , 0], ROT / 2)[1] + CENTER[1]
-                            ], [
-                                applyRefFrame([10, 0], ROT / 2)[0] + CENTER[0],
-                                applyRefFrame([10 , 0], ROT / 2)[1] + CENTER[1]
-                            ], {
-                            stroke: GRAY,
-                            strokeWidth: 1,
-                            strokeDasharray: "- "
-                        });
+                        var dx = 10 * cos(ROT);
+                        var dy = 10 * sin(ROT);
+
+                        drawHintLine(P, graph.p4, 2);
+                        drawHintLine(graph.p3, graph.p4, 1);
+
+                        line(
+                            applyRefFrame(P, 0),
+                            applyRefFrame(graph.p4, 0), {
+                                strokeWidth: 1,
+                                stroke: BLUE
+                        }).toBack();
+                        
+                        circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
                     </div>
                     <p>
-                        Use a straightedge to connect the vertex to the point
-                        where the last two circles intersect. This line is the
-                        angle bisector.
+                        Finally draw a line from point <code>P</code> to where the two compasses intersect.
                     </p>
                 </div>
             </div>
