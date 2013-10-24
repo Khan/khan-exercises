@@ -1,4 +1,14 @@
-$.extend(KhanUtil, {
+(function(KhanUtil) {
+
+function arraySum(array) {
+    return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
+}
+
+function arrayProduct(array) {
+    return _.reduce(array, function(memo, arg) { return memo * arg; }, 1);
+}
+
+_.extend(KhanUtil, {
     // To add two 2-dimensional matrices, use
     //     deepZipWith(2, function(a, b) { return a + b; }, matrixA, matrixB);
     deepZipWith: function(depth, fn) {
@@ -519,16 +529,40 @@ $.extend(KhanUtil, {
         return arr;
     },
 
-    // find the length of a 3d vector
+    // find the length of a vector
     vectorLength: function(v) {
-        return Math.sqrt(v[0] * v[0] +
-                         v[1] * v[1] +
-                         v[2] * v[2]);
+        return Math.sqrt(KhanUtil.vectorDot(v, v));
     },
 
-    // find the dot-product of two 3d vectors
+    // find the dot-product of two vectors
     vectorDot: function(a, b) {
-        return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-    }
+        var vecs = _.toArray(arguments);
+        var zipped = _.zip.apply(_, vecs);
+        var multiplied = _.map(zipped, arrayProduct);
+        return arraySum(multiplied);
+    },
 
+    /* vector-add multiple [x, y] coords/vectors
+     *
+     * vectorAdd([1, 2], [3, 4]) -> [4, 6]
+     */
+    vectorAdd: function() {
+        var points = _.toArray(arguments);
+        var zipped = _.zip.apply(_, points);
+        return _.map(zipped, arraySum);
+    },
+
+    vectorSubtract: function(v1, v2) {
+        return _.map(_.zip(v1, v2), function(dim) {
+            return dim[0] - dim[1];
+        });
+    },
+
+    vectorScale: function(v1, scalar) {
+        return _.map(v1, function(x) {
+            return x * scalar;
+        });
+    }
 });
+
+})(KhanUtil);
