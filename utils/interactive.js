@@ -2516,7 +2516,11 @@ $.extend(KhanUtil.Graphie.prototype, {
         var graphie = this;
         var circle = $.extend({
             center: [0, 0],
-            radius: 2
+            radius: 2,
+            snapX: 0.5,
+            snapY: 0.5,
+            snapRadius: 0.5,
+            minRadius: 1
         }, options);
 
         circle.centerPoint = graphie.addMovablePoint({
@@ -2526,8 +2530,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                 stroke: KhanUtil.BLUE,
                 fill: KhanUtil.BLUE
             },
-            snapX: 0.5,
-            snapY: 0.5
+            snapX: circle.snapX,
+            snapY: circle.snapY
         });
         circle.circ = graphie.circle(circle.center, circle.radius, {
             stroke: KhanUtil.BLUE,
@@ -2575,6 +2579,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                 cx: graphie.scalePoint(x)[0],
                 cy: graphie.scalePoint(y)[1]
             });
+            if (circle.onMove) {
+                circle.onMove(x, y);
+            }
         };
 
         $(circle.centerPoint).on("move", function() {
@@ -2657,9 +2664,14 @@ $.extend(KhanUtil.Graphie.prototype, {
 
                             var radius = KhanUtil.getDistance(
                                 circle.centerPoint.coord, coord);
-                            radius = Math.max(1,
-                                Math.round(radius / 0.5) * 0.5);
+                            radius = Math.max(circle.minRadius,
+                                Math.round(radius / circle.snapRadius) *
+                                circle.snapRadius);
+                            var oldRadius = circle.radius;
                             circle.setRadius(radius);
+                            if (circle.onResize) {
+                                circle.onResize(radius, oldRadius);
+                            }
                             $(circle).trigger("move");
                         } else if (event.type === "vmouseup") {
                             $(document).off("vmousemove vmouseup");
