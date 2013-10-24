@@ -782,5 +782,42 @@ $.extend(KhanUtil, {
                                      [line.coordA, line.coordZ]);
 
         return [KhanUtil.eDist(intersect, coord), intersect];
+    },
+
+    // Given an array of construction tools, return an array
+    // with either coordinates of a line and the center and 
+    // radius of a circle.
+    // Submitted as the guess for a construction problem
+    getToolProperties: function (construction) {
+        return _.map(_.filter(construction.tools, function(tool) {
+            return tool.dummy !== true;
+        }), function(tool) {
+            if (tool.first != null) {
+                return {
+                    first: {
+                        coord: [
+                            tool.first.coord[0],
+                            tool.first.coord[1]
+                        ]
+                    },
+                    second: {
+                        coord: [
+                            tool.second.coord[0],
+                            tool.second.coord[1]
+                        ]
+                    }
+                };
+            } else if (tool.center != null) {
+                return {
+                    center: {
+                        coord: [
+                            tool.center.coord[0],
+                            tool.center.coord[1]
+                        ]
+                    },
+                    radius: tool.radius
+                };
+            }
+        });
     }
 });
