@@ -1888,7 +1888,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             var dY = currentY - startY;
 
                             // The caller has the option of adding an onMove()
-                            // method to the movablePoint object we return as
+                            // method to the movablePolygon object we return as
                             // a sort of event handler. By returning false from
                             // onMove(), the move can be vetoed, providing
                             // custom constraints on where the point can be
