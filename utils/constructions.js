@@ -291,7 +291,9 @@ $.extend(KhanUtil, {
         // the straightedge object has the following fields
         // first, second: movable endpoints
         // edge: movable line segment
-        construction.addStraightedge = function() {
+        construction.addStraightedge = function(extend) {
+            extend = extend == null ? true : extend;
+            
             construction.tool = {
                 interType: "line",
                 first: graphie.addMovablePoint({
@@ -328,7 +330,7 @@ $.extend(KhanUtil, {
                         stroke: KhanUtil.ORANGE,
                         "stroke-width": 3
                     },
-                    extendLine: true,
+                    extendLine: extend,
                     movePointsWithLine: true
                 });
 
