@@ -164,9 +164,8 @@
                             })).toBack();
                     </div>
                     <p>
-                        We could just draw a line and <em>try</em> to make it
-                        perpendicular, but then <strong>we have no guarantee
-                        </strong> that it's actually perfectly perpendicular.
+                        We could just draw a line and <em>try</em> to make it perpendicular,
+                        but then <strong>we have no guarantee </strong> that it's perfectly perpendicular.
                     </p>
                     <p>
                         How can you guarantee that a line is perpendicular?
@@ -223,8 +222,7 @@
                         graph.perp.remove();
                     </div>
                     <p>
-                        If we don't already have the perpendicular line, is there
-                        another way to find the blue points?
+                        If we don't already have the perpendicular line, is there another way to find the blue points?
                     </p>
                 </div>
                 <div>
@@ -1054,12 +1052,11 @@
                     })()
                 </var>
                 <var id="P">[-CENTER[0] - 1, 2.5]</var>
-                <var id="DIST">eDist(A, C)</var>
             </div>
             <div class="problem">
                 <form>
                     <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
-                    <input onclick="javascript: KhanUtil.construction.addStraightedge();" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
                     <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
                 </form>
                 <p class="question">
@@ -1159,12 +1156,15 @@
             <div class="hints">
                 <div>
                     <div class="graphie" data-update="construction">
-                        line(
-                            applyRefFrame([-5, P[1]], 0),
-                            applyRefFrame([5, P[1]], 0), {
-                                strokeWidth: 1,
-                                stroke: BLUE
+                        line(P, [P[0] + 2.5, P[1]], {
+                            strokeWidth: 1,
+                            stroke: BLUE
                         }).toBack();
+
+                        circle([P[0] + 2.5, P[1]], 0.08, {
+                            stroke: null,
+                            fill: BLUE
+                        });
 
                     </div>
                     <p>First we need to draw a line through <code>P</code>.</p>
@@ -1172,17 +1172,15 @@
 
                 <div>
                     <div class="graphie" data-update="construction">
+                        graph.p4 = [applyRefFrame([2, 0], ROT)[0] + P[0], applyRefFrame([2, 0], ROT)[1] + P[1]];
                         graph.hintLines = raphael.set();
-                        var dx = 10 * cos(ROT);
-                        var dy = 10 * sin(ROT);
 
-                        graph.hintLines.push(line(
-                            applyRefFrame([P[0] + dx, P[1] + dy], 0),
-                            applyRefFrame([P[0] - dx, P[1] - dy], 0), {
-                                strokeWidth: 1,
-                                stroke: BLUE
+                        graph.hintLines.push(line(P, graph.p4, {
+                            strokeWidth: 1,
+                            stroke: BLUE
                         })).toBack();
 
+                        graph.hintPoint = circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
                     </div>
                     <p>
                         We could just draw a second line through <code>P</code> and <em>try</em> to
@@ -1196,12 +1194,9 @@
                         graph.p1 = [A[0] + 2, A[1]];
                         graph.p2 = [applyRefFrame([2, 0], ROT)[0] + A[0], applyRefFrame([2, 0], ROT)[1] + A[1]];
                         graph.p3 = [P[0] + 2, P[1]];
-                        graph.p4 = [applyRefFrame([2, 0], ROT)[0] + P[0], applyRefFrame([2, 0], ROT)[1] + P[1]];
 
                         circle(graph.p1, 0.08, { stroke: null, fill: BLUE });
                         circle(graph.p2, 0.08, { stroke: null, fill: BLUE });
-                        graph.hintPoint1 = circle(graph.p3, 0.08, { stroke: null, fill: BLUE });
-                        graph.hintPoint2 = circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
 
                         drawHintLine(A, graph.p1, 2).toBack();
                         drawHintLine(A, graph.p2, 2).toBack();
@@ -1224,8 +1219,7 @@
                 <div>
                     <div class="graphie" data-update="construction">
                         graph.hintLines.remove();
-                        graph.hintPoint1.remove();
-                        graph.hintPoint2.remove();
+                        graph.hintPoint.remove();
 
                         circle(A, 0.08, {
                             stroke: null,
@@ -1286,7 +1280,7 @@
                             stroke: null,
                             fill: GRAY
                         });
-                        graph.compassCircumference = circle(graph.p1, DIST, {
+                        graph.compassCircumference = circle(graph.p1, eDist(graph.p1, graph.p2), {
                             fill: null,
                             stroke: GRAY,
                             strokeWidth: 1,
@@ -1325,18 +1319,14 @@
                         drawHintLine(P, graph.p4, 2);
                         drawHintLine(graph.p3, graph.p4, 1);
 
-                        line(
-                            applyRefFrame([P[0] + dx, P[1] + dy], 0),
-                            applyRefFrame([P[0] - dx, P[1] - dy], 0), {
-                                strokeWidth: 1,
-                                stroke: BLUE
+                        line(P, graph.p4, {
+                            strokeWidth: 1,
+                            stroke: BLUE
                         }).toBack();
 
-                        line(
-                            applyRefFrame(P, 0),
-                            applyRefFrame(graph.p4, 0), {
-                                strokeWidth: 1,
-                                stroke: BLUE
+                        line(P, graph.p4, {
+                            strokeWidth: 1,
+                            stroke: BLUE
                         }).toBack();
 
                         circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
