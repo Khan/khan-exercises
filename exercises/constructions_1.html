@@ -990,9 +990,6 @@
                     angle2 += (angle2 &lt; 0) ? 180 : 0;
 
                     var deltaAngle = min(180 - abs(angle1 - angle2), abs(angle1 - angle2));
-                    console.log(angle1);
-                    console.log(angle2);
-                    console.log(deltaAngle);
 
                     if (abs(deltaAngle - ROT * 180 / PI) &gt; 3) {
                         return false;
@@ -1014,19 +1011,6 @@
                     // Radius, r2, will be base of an isosceles with one angle of ROT and two sides of r
                     var angle = (PI - ROT) / 2
                     var r2 = 2 * r * cos(angle);
-
-                    //console.log(r);
-                    console.log("Expected radius: " + r2);
-                    console.log("Possible points")
-                    console.log(p1[0] + " " + p1[1]);
-                    console.log(p2[0] + " " + p2[1]);
-                    //console.log(angles);
-
-                    for (var i in guess) {
-                        if (guess[i].center != null) {
-                            console.log("r: " + guess[i].radius + "; center: " + guess[i].center);
-                        }
-                    }
 
                     var c2 = _.any(guess, function(tool) {
                         return tool.center != null &amp;&amp;
@@ -1208,16 +1192,24 @@
                         drawHintLine(graph.p3, graph.p4, 1);
 
                         line(
+                            applyRefFrame([P[0] + dx, P[1] + dy], 0),
+                            applyRefFrame([P[0] - dx, P[1] - dy], 0), {
+                                strokeWidth: 1,
+                                stroke: BLUE
+                        }).toBack();
+
+                        line(
                             applyRefFrame(P, 0),
                             applyRefFrame(graph.p4, 0), {
                                 strokeWidth: 1,
                                 stroke: BLUE
                         }).toBack();
-                        
+
                         circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
                     </div>
                     <p>
-                        Finally draw a line from point <code>P</code> to where the two compasses intersect.
+                        Finally a straightedge to connect point <code>P</code> to where the two compasses intersect.
+                        The angle formed at point <code>P</code> will be the same as <code>\angle ABC</code>.
                     </p>
                 </div>
             </div>
