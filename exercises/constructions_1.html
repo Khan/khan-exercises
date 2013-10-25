@@ -295,6 +295,301 @@
             </div>
         </div>
 
+        <div id="parallel">
+            <div class="vars">
+                <var id="DEG">ROT * 180/PI - 180</var>
+                <var id="DY">randRange(3, 5) / 2</var>
+                <var id="A">applyRefFrame([2, -DY], ROT)</var>
+                <var id="B">applyRefFrame([-2, -DY], ROT)</var>
+                <var id="P">applyRefFrame([0, DY], ROT)</var>
+                <var id="R">1.2</var>
+            </div>
+
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge();" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a line perpendicular to the given line, going through <code>P</code>.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-5, 5]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyStraightedge(A, B);
+                    addDummyPoint(P);
+
+                    label(P, "P", SLOPE &lt; 0 ? "left" : "below");
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Use the compass and straightedge tools to construct
+                    a line the same length as <code>\overline{AB}</code>.
+                </div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    // Ensure there is a line going through P at the correct angle
+                    var line = _.any(guess, function(tool) {
+                        if (tool.first != null) {
+                            var ang = atan2(
+                                tool.second.coord[1] - tool.first.coord[1],
+                                tool.second.coord[0] - tool.first.coord[0]);
+
+                            // Check angle of line
+                            var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);
+                            if (abs(deltaAngle - 90) &gt; 5) {
+                                return false;
+                            }
+
+                            // Is P on the line
+                            return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.1);
+                        }
+                    });
+
+                    if (!line) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+
+                    // Ensure there is a compass at P of the correct length
+                    var compass = _.any(guess, function(tool) {
+                        return tool.center != null &amp;&amp;
+                                eDist(tool.center.coord, P) &amp;&amp;
+                                abs(tool.radius - LENGTH) &lt; 0.5;
+                    });
+
+                    return compass;
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var dx = 10 * cos(ROT);
+                        var dy = 10 * sin(ROT);
+
+                        graph.parallel = raphael.set();
+                        graph.parallel.push(line([P[0] - dx, P[1] - dy], [P[0] + dx, P[1] + dy], {
+                            strokeWidth: 1,
+                            stroke: BLUE
+                        })).toBack();
+                    </div>
+                    <p>
+                        We could just draw a line at <code>P</code> and <em>try</em> to make it parallel,
+                        but then <strong>we have no guarantee </strong> that it's perfectly parallel.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var d = applyRefFrame([-1, DY], ROT);
+
+                        line([A[0] + d[0] * 10, A[1] + d[1] * 10],
+                             [A[0] - d[0] * 10, A[1] - d[1] * 10], {
+                                strokeWidth: 1,
+                                stroke: BLUE
+                        }).toBack();
+
+                        graph.angleAP = atan2(P[1] - A[1], P[0] - A[0]);
+
+                        arc(A, 0.5, graph.angleAP * 180 / PI, DEG, false, {
+                            strokeWidth: 1,
+                            stroke: BLUE
+                        }).toBack();
+
+                        graph.parallel.push(arc(P, 0.5, graph.angleAP * 180 / PI, DEG, false, {
+                            strokeWidth: 1,
+                            stroke: BLUE
+                        }));
+
+                        addDummyPoint(A);
+                        label(A, "A", SLOPE &lt; 0 ? "above" : "below");
+                    </div>
+                    <p>
+                       If we did have parallel line and drew a line from a point <code>A</code> on the given line,
+                       through <code>P</code>, then the angle at <code>A</code> must be the same as the angle at <code>P</code>.
+                    </p>
+                    <p>
+                        Therefore, if we copy the angle at <code>A</code> to point <code>P</code>,
+                        we will be able to construct parallel lines.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var d1 = applyRefFrame([-R, 0], ROT);
+                        var d2 = applyRefFrame([R, 0], graph.angleAP);
+
+                        graph.p1 = [A[0] + d1[0], A[1] + d1[1]];
+                        graph.p2 = [A[0] + d2[0], A[1] + d2[1]];
+                        graph.p3 = [P[0] + d1[0], P[1] + d1[1]];
+                        graph.p4 = [P[0] + d2[0], P[1] + d2[1]];
+
+                        circle(graph.p1, 0.08, { stroke: null, fill: BLUE });
+                        circle(graph.p2, 0.08, { stroke: null, fill: BLUE });
+                        graph.hintPoint1 = circle(graph.p3, 0.08, { stroke: null, fill: BLUE });
+                        graph.hintPoint2 = circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
+
+                        drawHintLine(A, graph.p1, 2).toBack();
+                        drawHintLine(A, graph.p2, 2).toBack();
+
+                        graph.parallel.push(drawHintLine(graph.p1, graph.p2, 1));
+                        graph.parallel.push(drawHintLine(graph.p3, graph.p4, 1));
+                        
+                        graph.parallel.push(drawHintLine(P, graph.p3, 2));
+                        graph.parallel.push(drawHintLine(P, graph.p4, 2));
+                        graph.parallel.toBack();
+                    </div>
+                    <p>
+                        If we construct <span class="hint_blue">a triangle</span> with a vertex at 
+                        point <code>A</code>, then construct a triangle with the same side lengths
+                        at and a vertex at point <code>P</code>, the angles at <code>A</code> and
+                        <code>P</code> will be the same.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.parallel.remove();
+                        graph.hintPoint1.remove();
+                        graph.hintPoint2.remove();
+
+                        circle(A, 0.08, {
+                            stroke: null,
+                            fill: GRAY
+                        });
+                        circle(A, R, {
+                            fill: null,
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            strokeDasharray: "- "
+                        });
+                    </div>
+                    <p>
+                        We can use a compass centered at <code>A</code> to find all the point a
+                        given distance from <code>A</code>.
+                    </p>
+                </div>
+                
+                <div>
+                    <div class="graphie" data-update="construction">
+                         var compassVertex = circle(A, 0.08, {
+                            stroke: null,
+                            fill: GRAY
+                        });
+
+                        var compassCircumference = circle(A, R, {
+                            fill: null,
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            strokeDasharray: "- "
+                        });
+                        
+                        compassVertex.animate({
+                            cx: scalePoint(P)[0],
+                            cy: scalePoint(P)[1]
+                        }, 1000);
+
+                        compassCircumference.animate({
+                            cx: scalePoint(P)[0],
+                            cy: scalePoint(P)[1]
+                        }, 1000);
+                    </div>
+                    <p>
+                        We can use a compass <strong>with same radius</strong> centered at <code>P</code>
+                        to find all the points the same distance from <code>P</code>. We can ensure we have
+                        get the same radius by putting the compass at point <code>A</code> first, getting
+                        the radii equal, then moving the compass to point <code>P</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.compassVertex = circle(graph.p2, 0.08, {
+                            stroke: null,
+                            fill: GRAY
+                        }).toBack();
+                        graph.compassCircumference = circle(graph.p2, eDist(graph.p1, graph.p2), {
+                            fill: null,
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            strokeDasharray: "- "
+                        });
+
+                    </div>
+                    <p>
+                        To find the distance between the <span class="hint_blue">two points equidistant from <code>A</code></span>
+                        we can add center a compass on one point and change the radius to go through the other point.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.compassVertex.animate({
+                            cx: scalePoint(graph.p4)[0],
+                            cy: scalePoint(graph.p4)[1]
+                        }, 1000);
+
+                        graph.compassCircumference.animate({
+                            cx: scalePoint(graph.p4)[0],
+                            cy: scalePoint(graph.p4)[1]
+                        }, 1000);
+                    </div>
+                    <p>
+                        Now move the compass to the point where the first compass intersected with the line through <code>P</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        drawHintLine(graph.p1, graph.p2, 1);
+                        drawHintLine(graph.p3, graph.p4, 1);
+                        drawHintLine(P, graph.p3, 2);
+                        drawHintLine(P, graph.p4, 2);
+                        circle(graph.p3, 0.08, { stroke: null, fill: BLUE });
+                        circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
+                    </div>
+                    <p>
+                        Now we can use the point where the two compasses intersect to construct a triangle
+                        with the same side lengths as the triange at point <code>A</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var dx = 10 * cos(ROT);
+                        var dy = 10 * sin(ROT);
+
+                        line([P[0] + dx, P[1] + dy], [P[0] - dx, P[1] - dy], {
+                            strokeWidth: 1,
+                            stroke: BLUE
+                        }).toBack();
+
+                    </div>
+                    <p>
+                        Finally use a straightedge to connect point <code>P</code> to where the two compasses intersect.
+                        This line will be parallel to the original line.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div id="bisector">
             <div class="problem">
                 <form>
@@ -1211,8 +1506,8 @@
                     <p>
                         If we construct <span class="hint_blue">a triangle</span> with a vertex at 
                         point <code>A</code>, then construct a triangle with the same side lengths
-                        at and a vertex at point <code>P</code>, then the angles at <code>A</code>
-                        and <code>P</code> will be the same.
+                        at and a vertex at point <code>P</code>, the angles at <code>A</code> and
+                        <code>P</code> will be the same.
                     </p>
                 </div>
 
