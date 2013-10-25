@@ -1596,6 +1596,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             snapX: 0,
             snapY: 0,
             fixed: false,
+            constrainToGraph: true,
             normalStyle: {
                 "stroke": KhanUtil.BLUE,
                 "stroke-width": 2,
@@ -1855,8 +1856,22 @@ $.extend(KhanUtil.Graphie.prototype, {
                         var mouseY = event.pageY - $(graphie.raphael.canvas.parentNode).offset().top;
 
                         // no part of the polygon can go beyond 10 pixels from the edge
-                        mouseX = Math.max(offsetLeft + 10, Math.min(graphie.xpixels - 10 - offsetRight, mouseX));
-                        mouseY = Math.max(offsetTop + 10, Math.min(graphie.ypixels - 10 - offsetBottom, mouseY));
+                        if (polygon.constrainToGraph) {
+                            mouseX = Math.max(
+                                offsetLeft + 10,
+                                Math.min(
+                                    graphie.xpixels - 10 - offsetRight,
+                                    mouseX
+                                )
+                            );
+                            mouseY = Math.max(
+                                offsetTop + 10,
+                                Math.min(
+                                    graphie.ypixels - 10 - offsetBottom,
+                                    mouseY
+                                )
+                            );
+                        }
 
                         // current{X|Y} are the scaled coordinate values of the current mouse position
                         var currentX = mouseX / graphie.scale[0] + graphie.range[0][0];
@@ -1872,25 +1887,44 @@ $.extend(KhanUtil.Graphie.prototype, {
                             var dX = currentX - startX;
                             var dY = currentY - startY;
 
-                            var increment = function(i) {
-                                return [polygonCoords[i][0] + dX, polygonCoords[i][1] + dY];
-                            };
-
-                            _.each(polygon.points, function(coordOrPoint, i) {
-                                if (isPoint(coordOrPoint)) {
-                                    coordOrPoint.setCoord(increment(i));
-                                } else {
-                                    polygon.points[i] = increment(i);
-                                }
-                            });
-
-                            polygon.transform();
-
+                            // The caller has the option of adding an onMove()
+                            // method to the movablePoint object we return as
+                            // a sort of event handler. By returning false from
+                            // onMove(), the move can be vetoed, providing
+                            // custom constraints on where the point can be
+                            // moved. By returning array [dX, dY], the move can
+                            // be overridden.
+                            var doMove = true;
                             if ($.isFunction(polygon.onMove)) {
-                                polygon.onMove(dX, dY);
+                                var onMoveResult = polygon.onMove(dX, dY);
+                                if (onMoveResult === false) {
+                                    doMove = false;
+                                } else if ($.isArray(onMoveResult)) {
+                                    dX = onMoveResult[0];
+                                    dY = onMoveResult[1];
+                                }
                             }
 
-                            $(polygon).trigger("move");
+                            var increment = function(i) {
+                                return [
+                                    polygonCoords[i][0] + dX,
+                                    polygonCoords[i][1] + dY
+                                ];
+                            };
+
+                            if (doMove) {
+                                _.each(polygon.points, function(coordOrPoint, i) {
+                                    if (isPoint(coordOrPoint)) {
+                                        coordOrPoint.setCoord(increment(i));
+                                    } else {
+                                        polygon.points[i] = increment(i);
+                                    }
+                                });
+
+                                polygon.transform();
+
+                                $(polygon).trigger("move");
+                            }
 
                         } else if (event.type === "vmouseup") {
                             $(document).unbind("vmousemove vmouseup");
