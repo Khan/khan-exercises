@@ -2,6 +2,31 @@
     var Graphie = KhanUtil.Graphie = function() {
     };
 
+    /* Convert cartesian coordinates [x, y] to polar coordinates [r,
+     * theta], with theta in degrees, or in radians if angleInRadians is
+     * specified.
+     */
+    function cartToPolar(coord, angleInRadians) {
+        var r = Math.sqrt(Math.pow(coord[0], 2) + Math.pow(coord[1], 2));
+        var theta = Math.atan2(coord[1], coord[0]);
+        // convert angle range from [-pi, pi] to [0, 2pi]
+        if (theta < 0) {
+            theta += 2 * Math.PI;
+        }
+        if (!angleInRadians) {
+            theta = theta * 180 / Math.PI;
+        }
+        return [r, theta];
+    }
+
+    function polar(r, th) {
+        if (typeof r === "number") {
+            r = [r, r];
+        }
+        th = th * Math.PI / 180;
+        return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
+    }
+
     $.extend(KhanUtil, {
         unscaledSvgPath: function(points) {
             return $.map(points, function(point, i) {
@@ -37,7 +62,7 @@
             });
         },
 
-        // Find the angle between two or three points
+        // Find the angle in degrees between two or three points
         findAngle: function(point1, point2, vertex) {
             if (vertex === undefined) {
                 var x = point1[0] - point2[0];
@@ -49,6 +74,27 @@
             } else {
                 return KhanUtil.findAngle(point1, vertex) - KhanUtil.findAngle(point2, vertex);
             }
+        },
+
+        /* Returns the rotation of a point by an angle
+         *
+         * Inverse of findAngle. Returns point rotated by
+         * angle degrees about vertex or the origin, if no
+         * vertex is specified.
+         */
+        findPointFromAngle: function(point, angle, vertex) {
+            if (vertex === undefined) {
+                var polarCoord = cartToPolar(point);
+                var newAngle = polarCoord[1] + angle;
+                return polar(polarCoord[0], newAngle);
+            } else {
+                return KhanUtil.vectorAdd(vertex,
+                    KhanUtil.findPointFromAngle(
+                        KhanUtil.vectorSubtract(point, vertex),
+                        angle
+                    )
+                );
+            }
         }
     });
 
@@ -57,31 +103,6 @@
         cartToPolar: cartToPolar,
         polar: polar
     });
-
-    /* Convert cartesian coordinates [x, y] to polar coordinates [r,
-     * theta], with theta in degrees, or in radians if angleInRadians is
-     * specified.
-     */
-    function cartToPolar(coord, angleInRadians) {
-        var r = Math.sqrt(Math.pow(coord[0], 2) + Math.pow(coord[1], 2));
-        var theta = Math.atan2(coord[1], coord[0]);
-        // convert angle range from [-pi, pi] to [0, 2pi]
-        if (theta < 0) {
-            theta += 2 * Math.PI;
-        }
-        if (!angleInRadians) {
-            theta = theta * 180 / Math.PI;
-        }
-        return [r, theta];
-    }
-
-    function polar(r, th) {
-        if (typeof r === "number") {
-            r = [r, r];
-        }
-        th = th * Math.PI / 180;
-        return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
-    }
 
     var labelDirections = {
         "center": [-0.5, -0.5],
