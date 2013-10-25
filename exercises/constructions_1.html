@@ -17,11 +17,7 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <var id="ROT">
-            random() &lt; 0.5 ?
-                randRange(10, 80) * PI / 180 :
-                randRange(100, 170) * PI / 180
-        </var>
+        <var id="ROT">(random() &lt; 0.5 ? randRange(10, 80): randRange(100, 170)) * PI / 180</var>
         <var id="SLOPE">tan(ROT)</var>
         <var id="HGRAPH">0</var>
     </div>
@@ -304,15 +300,9 @@
         <div id="bisector">
             <div class="problem">
                 <form>
-                    <input onclick="javascript:
-                        KhanUtil.construction.addCompass();
-                    " type="button" value="Add Compass">
-                    <input onclick="javascript:
-                        KhanUtil.construction.addStraightedge();
-                    " type="button" value="Add Straightedge">
-                    <input onclick="javascript:
-                        KhanUtil.construction.removeAllTools();
-                    " type="button" value="Clear">
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge();" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
                 </form>
                 <p class="question">
                     Construct a perpendicular bisector of the line segment
@@ -636,15 +626,9 @@
             </div>
             <div class="problem">
                 <form>
-                    <input onclick="javascript:
-                        KhanUtil.construction.addCompass();
-                    " type="button" value="Add Compass">
-                    <input onclick="javascript:
-                        KhanUtil.construction.addStraightedge();
-                    " type="button" value="Add Straightedge">
-                    <input onclick="javascript:
-                        KhanUtil.construction.removeAllTools();
-                    " type="button" value="Clear">
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge();" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
                 </form>
                 <p class="question">
                     Construct an angle bisector for the given angle.
@@ -896,6 +880,162 @@
             </div>
         </div>
 
+        <div id="copy-segment">
+            <div class="vars">
+                <var id="LENGTH">randRange(3, 6) / 2</var>
+                <var id="DY">randRange(2, 4) / 2</var>
+                <var id="A">applyRefFrame([LENGTH / 2, -DY], ROT)</var>
+                <var id="B">applyRefFrame([-LENGTH / 2, -DY], ROT)</var>
+                <var id="P">applyRefFrame([0, DY], ROT)</var>
+            </div>
+
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a line the same length as <code>\overline{AB}</code>, with one end at <code>P</code>.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-5, 5]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyStraightedge(A, B, false);
+                    addDummyPoint(A);
+                    addDummyPoint(B);
+                    addDummyPoint(P);
+
+                    var label_position = abs(SLOPE) &gt; 1.5 ? "left" : "below"
+                    label(A, "A", label_position);
+                    label(B, "B", label_position);
+                    label(P, "P", "below");
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Use the compass and straightedge tools to construct
+                    a line the same length as <code>\overline{AB}</code>.
+                </div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    // Ensure there is a line at P of the correct length
+                    var line = _.any(guess, function(tool) {
+                        return tool.first != null &amp;&amp;
+                                (eDist(tool.first.coord, P) &lt; 0.5 || eDist(tool.second.coord, P) &lt; 0.5) &amp;&amp;
+                                abs(eDist(tool.first.coord, tool.second.coord) - LENGTH) &lt; 0.5;
+                    });
+
+                    if (!line) {
+                        return false;
+                    }
+
+                    // Ensure there is a compass at P of the correct length
+                    var compass = _.any(guess, function(tool) {
+                        return tool.center != null &amp;&amp;
+                                eDist(tool.center.coord, P) &amp;&amp;
+                                abs(tool.radius - LENGTH) &lt; 0.5;
+                    });
+
+                    return compass;
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.p1 = [P[0] + LENGTH * cos(ROT), P[1] + LENGTH * sin(ROT)];
+
+                        graph.segment = line(P, graph.p1, {
+                            strokeWidth: 1,
+                            stroke: BLUE,
+                            extend: false
+                        }).toBack();
+
+                        graph.lineEnd = circle(graph.p1, 0.08, {
+                            stroke: null,
+                            fill: BLUE
+                        });
+                    </div>
+                    <p>
+                        We could just draw a line at <code>P</code> and <em>try</em> to
+                        make it the same length as <code>\overline{AB}</code>, but then
+                        <strong>we have no guarantee </strong> that it's actually the same length.
+                    </p>
+                    <p>How could we find all the points the correct length from <code>P</code>?</p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.segment.remove();
+                        graph.lineEnd.remove();
+
+                        graph.compassVertex = circle(A, 0.08, {
+                            stroke: null,
+                            fill: GRAY
+                        });
+
+                        graph.compassCircumference = circle(A, LENGTH, {
+                            fill: null,
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            strokeDasharray: "- "
+                        });
+                    </div>
+                    <p>
+                        If we center a compass on <code>A</code> and set its radius such that it
+                        intersects <code>A</code>, then we will have a compass with a radius of 
+                        the correct length.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.compassVertex.animate({
+                            cx: scalePoint(P)[0],
+                            cy: scalePoint(P)[1]
+                        }, 1000);
+
+                        graph.compassCircumference.animate({
+                            cx: scalePoint(P)[0],
+                            cy: scalePoint(P)[1]
+                        }, 1000);
+                    </div>
+                    <p>Now we can move the compass to <code>P</code>.</p>
+                </div>
+
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.segment = line(P, graph.p1, {
+                            strokeWidth: 1,
+                            stroke: BLUE,
+                            extend: false
+                        }).toBack();
+
+                        graph.lineEnd = circle(graph.p1, 0.08, {
+                            stroke: null,
+                            fill: BLUE
+                        });
+                    </div>
+                    <p>Finally use a straightedge to connect point <code>P</code> to any point on the compass circumference.</p>
+                </div>
+            </div>
+        </div>
+
         <div id="copy-angle">
             <div class="vars" data-apply="replace">
                 <var id="ROT">randRange(30, 80) * PI / 180</var>
@@ -918,15 +1058,9 @@
             </div>
             <div class="problem">
                 <form>
-                    <input onclick="javascript:
-                        KhanUtil.construction.addCompass();
-                    " type="button" value="Add Compass">
-                    <input onclick="javascript:
-                        KhanUtil.construction.addStraightedge();
-                    " type="button" value="Add Straightedge">
-                    <input onclick="javascript:
-                        KhanUtil.construction.removeAllTools();
-                    " type="button" value="Clear">
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge();" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
                 </form>
                 <p class="question">
                     Construct an copy of angle <code>\angle ABC</code> with the vertex at point <code>P</code>.
@@ -1208,7 +1342,7 @@
                         circle(graph.p4, 0.08, { stroke: null, fill: BLUE });
                     </div>
                     <p>
-                        Finally a straightedge to connect point <code>P</code> to where the two compasses intersect.
+                        Finally use a straightedge to connect point <code>P</code> to where the two compasses intersect.
                         The angle formed at point <code>P</code> will be the same as <code>\angle ABC</code>.
                     </p>
                 </div>
