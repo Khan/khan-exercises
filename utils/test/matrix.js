@@ -2,34 +2,50 @@ module("matrix");
 
 (function() {
 
-    test("matrixTranspose", function() {
+    test("matrix transpose", function() {
+        function checkMatrixTranspose(fromMatrix, toMatrix) {
+            var message = 'from ' + fromMatrix.length + 'x' + fromMatrix[0].length + 
+                ' to ' + toMatrix.length + 'x' + toMatrix[0].length;
 
-        function matrixToString(m) {
-            return m.join("; ");
+            deepEqual(KhanUtil.matrixTranspose(fromMatrix), toMatrix, message);
         }
 
-        function testMatrixTranspose(m, text) {
+        checkMatrixTranspose([[1, 2, 3, 4]], [[1], [2], [3], [4]]);
+        checkMatrixTranspose([[1, 2],[3, 4]], [[1, 3], [2, 4]]);
+        checkMatrixTranspose([[1], [2], [3], [4]], [[1, 2, 3, 4]]);
+        checkMatrixTranspose([[1, 2], [3, 4], [5, 6]], [[1, 3, 5], [2, 4, 6]]);
+        checkMatrixTranspose([[1, 2, 3], [4, 5, 6]], [[1, 4], [2, 5], [3, 6]]);
+        checkMatrixTranspose([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[1, 4, 7], [2, 5, 8], [3, 6, 9]]);
+    });
 
-            m = KhanUtil.makeMatrix(m);
-            var n = KhanUtil.matrixTranspose(m);
-            var d = KhanUtil.matrixTranspose(n);
+    test('matrix multiplication', function() {
+        var result = KhanUtil.matrixMult([[3, 2, 1], [1, 0, 2]], [[1, 2], [0, 1], [4, 0]]);
+        deepEqual(result, [[7, 8], [9, 2]]);
+    });
 
-            var ms = matrixToString(m);
-            if (text) {
-                ms = ms + ": " + text;
-            }
+    test('matrix 2x2 determinant', function() {
+        var result = KhanUtil.matrixDet([[2, 3], [4, 5]]);
+        strictEqual(result, -2);
+    });
 
-            deepEqual(m, d, ms);
-        }
+    test('matrix 3x3 determinant', function() {
+        var result = KhanUtil.matrixDet([[0, 1, 2], [3, 2, 1], [1, 1, 0]]);
+        strictEqual(result, 3);
+    });
 
-        testMatrixTranspose([[1, 2, 3, 4]]);
-        testMatrixTranspose([[1,2],[3,4]]);
+    test('adjugate matrix 2x2', function() {
+        var result = KhanUtil.matrixAdj([[1, 2], [3, 4]]);
+        deepEqual(result, [[4, -2], [-3, 1]]);
+    });
 
-        testMatrixTranspose([[1], [2], [3], [4]]);
+    test('adjugate matrix 3x3', function() {
+        var result = KhanUtil.matrixAdj([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+        deepEqual(result, [[-3, 6, -3], [6, -12, 6], [-3, 6, -3]]);
+    });
 
-        testMatrixTranspose([[1, 2], [3, 4], [5, 6]]);
-        testMatrixTranspose([[1, 2, 3], [4, 5, 6]]);
-        testMatrixTranspose([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+    test('inverse matrix 3x3', function() {
+        var result = KhanUtil.matrixInverse([[1, 2, 0], [2, 3, 0], [3, 4, 1]]);
+        deepEqual(result, [[-3, 2, 0], [2, -1, 0], [1, -2, 1]]);
     });
 
     test('vectorAdd should add two 2D vectors', function() {
@@ -59,12 +75,12 @@ module("matrix");
 
     test('vectorDot should take the dot product of 2 2D vectors', function() {
         var result = KhanUtil.vectorDot([1, 2], [3, 4]);
-        equal(result, 3 + 8);
+        strictEqual(result, 3 + 8);
     });
 
     test('vectorDot should take the dot product of 2 3D vectors', function() {
         var result = KhanUtil.vectorDot([1, 2, 3], [4, 5, 6]);
-        equal(result, 4 + 10 + 18);
+        strictEqual(result, 4 + 10 + 18);
     });
 
     test('vectorScale should scale a 2D vector', function() {
@@ -79,12 +95,12 @@ module("matrix");
 
     test('vectorLength should take the length of a 2D vector', function() {
         var result = KhanUtil.vectorLength([3, 4]);
-        equal(result, 5);
+        strictEqual(result, 5);
     });
 
     test('vectorLength should take the length of a 3D vector', function() {
         var result = KhanUtil.vectorLength([4, 0, 3]);
-        equal(result, 5);
+        strictEqual(result, 5);
     });
 
 })();
