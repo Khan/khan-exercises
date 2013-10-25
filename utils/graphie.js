@@ -628,7 +628,7 @@
                 var result;
 
                 // The last argument is probably trying to change the style
-                if (typeof last === "object" && !$.isArray(last)) {
+                if (typeof last === "object" && !_.isArray(last)) {
                     currentStyle = $.extend({}, currentStyle, processAttributes(last));
 
                     var rest = [].slice.call(arguments, 0, arguments.length - 1);
@@ -729,7 +729,7 @@
                      range[1][1] + (range[1][1] < 0 ? 1 : 0)]
                 ];
 
-            if (!$.isArray(unityLabels)) {
+            if (!_.isArray(unityLabels)) {
                 unityLabels = [unityLabels, unityLabels];
             }
 

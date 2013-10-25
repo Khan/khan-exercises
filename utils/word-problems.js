@@ -32,7 +32,7 @@ $.extend(KhanUtil, {
 
     toSentenceTex: function(array, highlight, highlightClass) {
         var wrapped = $.map(array, function(elem) {
-            if (($.isFunction(highlight) && highlight(elem)) || (highlight !== undefined && elem === highlight)) {
+            if ((_.isFunction(highlight) && highlight(elem)) || (highlight !== undefined && elem === highlight)) {
                 return "<code class='" + highlightClass + "'>" + elem + "</code>";
             }
             return "<code>" + elem + "</code>";

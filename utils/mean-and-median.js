@@ -129,14 +129,14 @@ $.extend(KhanUtil, {
             $.each(points, function() {
                 if (this !== point) {
                     var pos = Math.round(this.coord[0] * 2) / 2;
-                    if (!$.isArray(positions[pos])) {
+                    if (!_.isArray(positions[pos])) {
                         positions[pos] = [];
                     }
                     positions[pos].push(this);
                 }
             });
 
-            if ($.isFunction(updateFunction)) {
+            if (_.isFunction(updateFunction)) {
                 updateFunction();
             }
 

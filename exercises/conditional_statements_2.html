@@ -15,7 +15,7 @@
 
         var makeDisplay = function(str) {
             var color = 0;
-            if ($.isArray(str)) {
+            if (_.isArray(str)) {
                 color = str[1];
                 str = str[0];
             }
@@ -39,7 +39,7 @@
         }
 
         var makeStatement = function(str) {
-            if ($.isArray(str)) {
+            if (_.isArray(str)) {
                 var color = str[1];
                 str = str[0];
 

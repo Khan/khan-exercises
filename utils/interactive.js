@@ -912,12 +912,12 @@ $.extend(KhanUtil.Graphie.prototype, {
                             // By returning false from onMove(), the move can be vetoed,
                             // providing custom constraints on where the point can be moved.
                             // By returning array [x, y], the move can be overridden
-                            if ($.isFunction(movablePoint.onMove)) {
+                            if (_.isFunction(movablePoint.onMove)) {
                                 var result = movablePoint.onMove(coordX, coordY);
                                 if (result === false) {
                                     doMove = false;
                                 }
-                                if ($.isArray(result)) {
+                                if (_.isArray(result)) {
                                     coordX = result[0];
                                     coordY = result[1];
                                 }
@@ -942,9 +942,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                             $(document).unbind("vmousemove vmouseup");
                             movablePoint.dragging = false;
                             KhanUtil.dragging = false;
-                            if ($.isFunction(movablePoint.onMoveEnd)) {
+                            if (_.isFunction(movablePoint.onMoveEnd)) {
                                 var result = movablePoint.onMoveEnd(coordX, coordY);
-                                if ($.isArray(result)) {
+                                if (_.isArray(result)) {
                                     coordX = result[0];
                                     coordY = result[1];
                                     mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
@@ -1005,7 +1005,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                 this.mouseTarget.animate(end, time);
             }
             this.coord = [coordX, coordY];
-            if ($.isFunction(this.onMove)) {
+            if (_.isFunction(this.onMove)) {
                 this.onMove(coordX, coordY);
             }
         };
@@ -1200,7 +1200,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             coordY = fn(closestX);
 
             // If the caller wants to be notified when the user points to the function
-            if ($.isFunction(interactiveFn.onMove)) {
+            if (_.isFunction(interactiveFn.onMove)) {
                 interactiveFn.onMove(coordX, coordY);
             }
 
@@ -1212,7 +1212,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                 interactiveFn.highlight = false;
                 interactiveFn.cursorPoint.animate({ opacity: 0.0 }, 50);
                 // If the caller wants to be notified when the user stops pointing to the function
-                if ($.isFunction(interactiveFn.onLeave)) {
+                if (_.isFunction(interactiveFn.onLeave)) {
                     interactiveFn.onLeave(coordX, coordY);
                 }
             }
@@ -1534,7 +1534,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 }
                             }
 
-                            if ($.isFunction(lineSegment.onMove)) {
+                            if (_.isFunction(lineSegment.onMove)) {
                                 lineSegment.onMove(dX, dY);
                             }
 
@@ -1545,7 +1545,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             if (!lineSegment.highlight) {
                                 lineSegment.visibleLine.animate(lineSegment.normalStyle, 50);
                             }
-                            if ($.isFunction(lineSegment.onMoveEnd)) {
+                            if (_.isFunction(lineSegment.onMoveEnd)) {
                                 lineSegment.onMoveEnd();
                             }
 
@@ -1895,11 +1895,11 @@ $.extend(KhanUtil.Graphie.prototype, {
                             // moved. By returning array [dX, dY], the move can
                             // be overridden.
                             var doMove = true;
-                            if ($.isFunction(polygon.onMove)) {
+                            if (_.isFunction(polygon.onMove)) {
                                 var onMoveResult = polygon.onMove(dX, dY);
                                 if (onMoveResult === false) {
                                     doMove = false;
-                                } else if ($.isArray(onMoveResult)) {
+                                } else if (_.isArray(onMoveResult)) {
                                     dX = onMoveResult[0];
                                     dY = onMoveResult[1];
                                 }
@@ -1943,7 +1943,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                                     point.visibleShape.animate(point.normalStyle, 50);
                                 });
                             }
-                            if ($.isFunction(polygon.onMoveEnd)) {
+                            if (_.isFunction(polygon.onMoveEnd)) {
                                 polygon.onMoveEnd();
                             }
                         }

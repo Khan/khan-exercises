@@ -24,10 +24,10 @@ $.extend(KhanUtil, {
             if (typeof expr === "number") {
                 coef = expr;
                 degree = 0;
-            } else if ($.isArray(expr) && !$.isArray(expr[2])) {
+            } else if (_.isArray(expr) && !_.isArray(expr[2])) {
                 coef = expr[1];
                 degree = 1;
-            } else if ($.isArray(expr) && $.isArray(expr[2])) {
+            } else if (_.isArray(expr) && _.isArray(expr[2])) {
                 coef = expr[1];
                 degree = expr[2][2];
             }

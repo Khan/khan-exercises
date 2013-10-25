@@ -1072,7 +1072,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // Iterate through each of the answerDatas, and show the
                     // cooresponding custom guess for each if it exists
                     $.each(answerDataArray, function(i, answerData) {
-                        if (!$.isFunction(answerData.showCustomGuess)) {
+                        if (!_.isFunction(answerData.showCustomGuess)) {
                             return;
                         }
                         if (guess !== undefined) {
