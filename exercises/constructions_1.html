@@ -914,6 +914,7 @@
                     })()
                 </var>
                 <var id="P">[-CENTER[0] - 1, 2.5]</var>
+                <var id="DIST">eDist(A, C)</var>
             </div>
             <div class="problem">
                 <form>
@@ -970,18 +971,70 @@
 
                     // Find angles in degrees for the two lines
                     var angles = _.map(lines, function(tool) {
-                        var p1 = tool.first.coord;
-                        var p2 = tool.second.coord;
-                        var deg = atan2(p1[1] - p2[1], p1[0] - p2[0]) * 180 / PI;
-                        return deg &lt; 0 ? deg + 180 : deg;
+                        var p1, p2;
+                        if (eDist(tool.first.coord, P) &lt; 0.5) {
+                            p1 = tool.first.coord;
+                            p2 = tool.second.coord;
+                        } else {
+                            p1 = tool.second.coord;
+                            p2 = tool.first.coord;
+                        }
+                        
+                        return atan2(p1[1] - p2[1], p1[0] - p2[0]);
                     });
 
                     // Find smallest angle between lines
-                    var deltaAngle = min(180 - abs(angles[0] - angles[1]), abs(angles[0] - angles[1]));
+                    var angle1 = angles[0] * 180 / PI;
+                    var angle2 = angles[1] * 180 / PI;
+                    angle1 += (angle1 &lt; 0) ? 180 : 0;
+                    angle2 += (angle2 &lt; 0) ? 180 : 0;
+
+                    var deltaAngle = min(180 - abs(angle1 - angle2), abs(angle1 - angle2));
+                    console.log(angle1);
+                    console.log(angle2);
+                    console.log(deltaAngle);
+
                     if (abs(deltaAngle - ROT * 180 / PI) &gt; 3) {
                         return false;
                     }
 
+                    // Ensure there is a compass centered on P with find its radius
+                    var r = 0;
+                    var c1 = _.any(guess, function(tool) {
+                        if (tool.center != null &amp;&amp; eDist(tool.center.coord, P) &lt; 0.5) {
+                            r = tool.radius;
+                            return true;
+                        }
+                    });
+
+                    // Ensure there is a compass centered on p1 or p2 with correct radius
+                    var p1 = [P[0] - r * cos(angles[0]), P[1] - r * sin(angles[0])];
+                    var p2 = [P[0] - r * cos(angles[1]), P[1] - r * sin(angles[1])];
+
+                    // Radius, r2, will be base of an isosceles with one angle of ROT and two sides of r
+                    var angle = (PI - ROT) / 2
+                    var r2 = 2 * r * cos(angle);
+
+                    //console.log(r);
+                    console.log("Expected radius: " + r2);
+                    console.log("Possible points")
+                    console.log(p1[0] + " " + p1[1]);
+                    console.log(p2[0] + " " + p2[1]);
+                    //console.log(angles);
+
+                    for (var i in guess) {
+                        if (guess[i].center != null) {
+                            console.log("r: " + guess[i].radius + "; center: " + guess[i].center);
+                        }
+                    }
+
+                    var c2 = _.any(guess, function(tool) {
+                        return tool.center != null &amp;&amp;
+                                abs(tool.radius - r2) &lt; 0.5  &amp;&amp;
+                                (eDist(tool.center.coord, p1) &lt; 0.5 || eDist(tool.center.coord, p2) &lt; 0.5);
+                    });
+
+                    return c1 &amp;&amp; c2;
                 </div>
                 <div class="show-guess">showConstructionGuess(guess);</div>
             </div>
@@ -1022,7 +1075,6 @@
 
                 <div>
                     <div class="graphie" data-update="construction">
-
                         graph.p1 = [A[0] + 2, A[1]];
                         graph.p2 = [applyRefFrame([2, 0], ROT)[0] + A[0], applyRefFrame([2, 0], ROT)[1] + A[1]];
                         graph.p3 = [P[0] + 2, P[1]];
@@ -1112,13 +1164,11 @@
 
                 <div>
                     <div class="graphie" data-update="construction">
-                        var r = eDist(graph.p1, graph.p2);
-
                         graph.compassVertex = circle(graph.p1, 0.08, {
                             stroke: null,
                             fill: GRAY
                         });
-                        graph.compassCircumference = circle(graph.p1, r, {
+                        graph.compassCircumference = circle(graph.p1, DIST, {
                             fill: null,
                             stroke: GRAY,
                             strokeWidth: 1,
