@@ -293,7 +293,7 @@ $.extend(KhanUtil, {
         // edge: movable line segment
         construction.addStraightedge = function(extend) {
             extend = extend == null ? true : extend;
-            
+
             construction.tool = {
                 interType: "line",
                 first: graphie.addMovablePoint({
@@ -820,6 +820,37 @@ $.extend(KhanUtil, {
                     radius: tool.radius
                 };
             }
+        });
+    },
+
+    findCompass: function (guess, properties) {
+        var radiusFunction = function (r) { return true; };
+        var xFunction = function (cx) { return true; };
+        var yFunction = function (cy) { return true; };
+
+        if (properties.radius) {
+            radiusFunction = function (r) {
+                return Math.abs(r - properties.radius) < 0.5;
+            }
+        }
+
+        if (properties.cx) {
+            xFunction = function (p) {
+                return Math.abs(p[0] - properties.cx) < 0.5;
+            }
+        }
+
+        if (properties.cy) {
+            yFunction = function (p) {
+                return Math.abs(p[1] - properties.cy) < 0.5;
+            }
+        }
+
+        return _.filter(guess, function(tool) {
+            return tool.center != null &&
+                    radiusFunction(tool.radius) &&
+                    xFunction(tool.center.coord) &&
+                    yFunction(tool.center.coord)
         });
     }
 });
