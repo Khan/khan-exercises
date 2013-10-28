@@ -69,8 +69,7 @@
                             deg = ang * 180 / PI;
                             origDeg = ROT * 180 / PI;
 
-                            if (abs(deg-origDeg+90) &lt; 7 ||
-                                    abs(deg-origDeg-90) &lt; 7) {
+                            if (abs(deg-origDeg+90) &lt; 7 || abs(deg-origDeg-90) &lt; 7) {
                                 perp = tool;
                             }
                         }
@@ -347,7 +346,8 @@
 
                     // Ensure one of the lines is at the correct angle
                     var angle = null;
-                    var line1 = _.filter(lines, function(tool) {
+                    var rotated_angle = null;
+                    var parallel = _.filter(lines, function(tool) {
                         var ang = atan2(
                             tool.second.coord[1] - tool.first.coord[1],
                             tool.second.coord[0] - tool.first.coord[0]);
@@ -356,13 +356,16 @@
                         var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);
                         if (abs(deltaAngle - 90) &gt; 5) {
                             angle = ang;
+                            rotated_angle = (90 - deltaAngle) * PI / 180;
                             return false;
                         } else {
                             return true;
                         }
                     });
 
-                    console.log(angle);
+                    if (parallel.length === 0) {
+                        return false;
+                    }
 
                     // Ensure there is a compass centered on P and find its radius
                     var compass1 = findCompass(guess, { cx: P[0], cy: P[1] });
@@ -375,14 +378,15 @@
                     // between compass 1 and the line AP, with correct radius
                     var r = compass1[0].radius;
                     var p1 = [P[0] - r * cos(angle), P[1] - r * sin(angle)];
+                    var p2 = [P[0] + r * cos(angle), P[1] + r * sin(angle)];
 
                     // Radius, r2, will be base of an isosceles with one angle of ROT and two sides of r
-                    var angle = (PI - ROT) / 2;
-                    var r2 = 2 * r * cos(angle);
+                    var r2 = 2 * r * sin(rotated_angle / 2);
 
                     var compass2 = findCompass(guess, { cx: p1[0], cy: p1[1], radius: r2 });
+                    var compass3 = findCompass(guess, { cx: p2[0], cy: p2[1], radius: r2 });
 
-                    return compass2.length === 1;
+                    return compass2.length === 1 || compass3.length === 1;
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
