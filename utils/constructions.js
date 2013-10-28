@@ -850,7 +850,7 @@ $.extend(KhanUtil, {
             return tool.center != null &&
                     radiusFunction(tool.radius) &&
                     xFunction(tool.center.coord) &&
-                    yFunction(tool.center.coord)
+                    yFunction(tool.center.coord);
         });
     }
 });
