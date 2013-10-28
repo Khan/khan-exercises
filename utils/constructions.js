@@ -291,7 +291,9 @@ $.extend(KhanUtil, {
         // the straightedge object has the following fields
         // first, second: movable endpoints
         // edge: movable line segment
-        construction.addStraightedge = function() {
+        construction.addStraightedge = function(extend) {
+            extend = extend == null ? true : extend;
+
             construction.tool = {
                 interType: "line",
                 first: graphie.addMovablePoint({
@@ -328,7 +330,7 @@ $.extend(KhanUtil, {
                         stroke: KhanUtil.ORANGE,
                         "stroke-width": 3
                     },
-                    extendLine: true,
+                    extendLine: extend,
                     movePointsWithLine: true
                 });
 
@@ -782,5 +784,73 @@ $.extend(KhanUtil, {
                                      [line.coordA, line.coordZ]);
 
         return [KhanUtil.eDist(intersect, coord), intersect];
+    },
+
+    // Given an array of construction tools, return an array
+    // with either coordinates of a line and the center and 
+    // radius of a circle.
+    // Submitted as the guess for a construction problem
+    getToolProperties: function (construction) {
+        return _.map(_.filter(construction.tools, function(tool) {
+            return tool.dummy !== true;
+        }), function(tool) {
+            if (tool.first != null) {
+                return {
+                    first: {
+                        coord: [
+                            tool.first.coord[0],
+                            tool.first.coord[1]
+                        ]
+                    },
+                    second: {
+                        coord: [
+                            tool.second.coord[0],
+                            tool.second.coord[1]
+                        ]
+                    }
+                };
+            } else if (tool.center != null) {
+                return {
+                    center: {
+                        coord: [
+                            tool.center.coord[0],
+                            tool.center.coord[1]
+                        ]
+                    },
+                    radius: tool.radius
+                };
+            }
+        });
+    },
+
+    findCompass: function (guess, properties) {
+        var radiusFunction = function (r) { return true; };
+        var xFunction = function (cx) { return true; };
+        var yFunction = function (cy) { return true; };
+
+        if (properties.radius) {
+            radiusFunction = function (r) {
+                return Math.abs(r - properties.radius) < 0.5;
+            }
+        }
+
+        if (properties.cx) {
+            xFunction = function (p) {
+                return Math.abs(p[0] - properties.cx) < 0.5;
+            }
+        }
+
+        if (properties.cy) {
+            yFunction = function (p) {
+                return Math.abs(p[1] - properties.cy) < 0.5;
+            }
+        }
+
+        return _.filter(guess, function(tool) {
+            return tool.center != null &&
+                    radiusFunction(tool.radius) &&
+                    xFunction(tool.center.coord) &&
+                    yFunction(tool.center.coord);
+        });
     }
 });
