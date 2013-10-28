@@ -26,15 +26,9 @@
         <div id="perpendicular">
             <div class="problem">
                 <form>
-                    <input onclick="javascript:
-                        KhanUtil.construction.addCompass();
-                    " type="button" value="Add Compass">
-                    <input onclick="javascript:
-                        KhanUtil.construction.addStraightedge();
-                    " type="button" value="Add Straightedge">
-                    <input onclick="javascript:
-                        KhanUtil.construction.removeAllTools();
-                    " type="button" value="Clear">
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge();" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
                 </form>
                 <p class="question">
                     Construct a line perpendicular to the given line.
@@ -340,38 +334,55 @@
                         return "";
                     }
 
-                    // Ensure there is a line going through P at the correct angle
-                    var line = _.any(guess, function(tool) {
+                    // Ensure there are two lines going through P
+                    var lines = _.filter(guess, function(tool) {
                         if (tool.first != null) {
-                            var ang = atan2(
-                                tool.second.coord[1] - tool.first.coord[1],
-                                tool.second.coord[0] - tool.first.coord[0]);
-
-                            // Check angle of line
-                            var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);
-                            if (abs(deltaAngle - 90) &gt; 5) {
-                                return false;
-                            }
-
-                            // Is P on the line
                             return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.1);
                         }
                     });
 
-                    if (!line) {
+                    if (lines.length &lt; 2) {
                         return false;
-                    } else {
-                        return true;
                     }
 
-                    // Ensure there is a compass at P of the correct length
-                    var compass = _.any(guess, function(tool) {
-                        return tool.center != null &amp;&amp;
-                                eDist(tool.center.coord, P) &amp;&amp;
-                                abs(tool.radius - LENGTH) &lt; 0.5;
+                    // Ensure one of the lines is at the correct angle
+                    var angle = null;
+                    var line1 = _.filter(lines, function(tool) {
+                        var ang = atan2(
+                            tool.second.coord[1] - tool.first.coord[1],
+                            tool.second.coord[0] - tool.first.coord[0]);
+
+                        // Check angle of line
+                        var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);
+                        if (abs(deltaAngle - 90) &gt; 5) {
+                            angle = ang;
+                            return false;
+                        } else {
+                            return true;
+                        }
                     });
 
-                    return compass;
+                    console.log(angle);
+
+                    // Ensure there is a compass centered on P and find its radius
+                    var compass1 = findCompass(guess, { cx: P[0], cy: P[1] });
+
+                    if (compass1.length !== 1) {
+                        return false;
+                    }
+
+                    // Ensure there is a compass centered on the intersection
+                    // between compass 1 and the line AP, with correct radius
+                    var r = compass1[0].radius;
+                    var p1 = [P[0] - r * cos(angle), P[1] - r * sin(angle)];
+
+                    // Radius, r2, will be base of an isosceles with one angle of ROT and two sides of r
+                    var angle = (PI - ROT) / 2;
+                    var r2 = 2 * r * cos(angle);
+
+                    var compass2 = findCompass(guess, { cx: p1[0], cy: p1[1], radius: r2 });
+
+                    return compass2.length === 1;
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
@@ -658,7 +669,7 @@
                             origDeg = ROT * 180 / PI;
 
                             if ((abs(deg - origDeg + 90) % 360) &lt; 7 ||
-                                    (abs(deg - origDeg - 90) % 360) &lt; 7) {
+                                (abs(deg - origDeg - 90) % 360) &lt; 7) {
                                 perp = tool;
                             }
                         }
@@ -682,17 +693,14 @@
                     onLine = [];
                     _.each(comps, function(comp1) {
                         _.each(comps, function(comp2) {
-                            thisSlope = (comp1.center.coord[1]
-                                - comp2.center.coord[1])
-                                / (comp1.center.coord[0]
-                                - comp2.center.coord[0]);
-                            thisYInt = comp1.center.coord[1]
-                                - thisSlope*comp1.center.coord[0];
+                            thisSlope = (comp1.center.coord[1] - comp2.center.coord[1]) /
+                                        (comp1.center.coord[0] - comp2.center.coord[0]);
+                            thisYInt = comp1.center.coord[1] - thisSlope * comp1.center.coord[0];
 
                             if (abs(thisSlope - SLOPE) &lt; 0.5 &amp;&amp;
                                     abs(thisYInt) &lt; 0.1 &amp;&amp;
                                     abs(comp1.radius - comp2.radius) &lt; 0.1) {
-                                onLine = [comp1,comp2];
+                                onLine = [comp1, comp2];
                             }
                         });
                     });
@@ -708,8 +716,7 @@
                     // as the y-intercept of the line going between
                     // the two points of intersection of the two compasses
                     interYInt = 0;
-                    perpYInt = perp.first.coord[1]
-                        + perp.first.coord[0]*(1/SLOPE);
+                    perpYInt = perp.first.coord[1] + perp.first.coord[0] * (1/SLOPE);
 
                     return abs(interYInt - perpYInt) &lt; 0.5;
                 </div>
@@ -1234,13 +1241,8 @@
                     }
 
                     // Ensure there is a compass at P of the correct length
-                    var compass = _.any(guess, function(tool) {
-                        return tool.center != null &amp;&amp;
-                                eDist(tool.center.coord, P) &amp;&amp;
-                                abs(tool.radius - LENGTH) &lt; 0.5;
-                    });
-
-                    return compass;
+                    var compass = findCompass(guess, { cx: P[0], cy: P[1], radius: LENGTH });
+                    return compass.length === 1;
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
@@ -1421,30 +1423,26 @@
                         return false;
                     }
 
-                    // Ensure there is a compass centered on P with find its radius
-                    var r = 0;
-                    var c1 = _.any(guess, function(tool) {
-                        if (tool.center != null &amp;&amp; eDist(tool.center.coord, P) &lt; 0.5) {
-                            r = tool.radius;
-                            return true;
-                        }
-                    });
+                    // Ensure there is a compass centered on P and find its radius
+                    var compass1 = findCompass(guess, { cx: P[0], cy: P[1] });
+
+                    if (compass1.length !== 1) {
+                        return false;
+                    }
 
                     // Ensure there is a compass centered on p1 or p2 with correct radius
+                    var r = compass1[0].radius;
                     var p1 = [P[0] - r * cos(angles[0]), P[1] - r * sin(angles[0])];
                     var p2 = [P[0] - r * cos(angles[1]), P[1] - r * sin(angles[1])];
 
                     // Radius, r2, will be base of an isosceles with one angle of ROT and two sides of r
-                    var angle = (PI - ROT) / 2
+                    var angle = (PI - ROT) / 2;
                     var r2 = 2 * r * cos(angle);
 
-                    var c2 = _.any(guess, function(tool) {
-                        return tool.center != null &amp;&amp;
-                                abs(tool.radius - r2) &lt; 0.5  &amp;&amp;
-                                (eDist(tool.center.coord, p1) &lt; 0.5 || eDist(tool.center.coord, p2) &lt; 0.5);
-                    });
+                    var compass2 = findCompass(guess, { cx: p1[0], cy: p1[1], radius: r2 });
+                    var compass3 = findCompass(guess, { cx: p2[0], cy: p2[1], radius: r2 });
 
-                    return c1 &amp;&amp; c2;
+                    return (compass2.length === 1 || compass3.length === 1);
                 </div>
                 <div class="show-guess">showConstructionGuess(guess);</div>
             </div>
