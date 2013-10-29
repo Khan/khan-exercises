@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-geometry interactive constructions matrix">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Compass Constructions 2</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        var applyRefFrame = function(coord, rot) {
+            var rotCoord = [];
+            rotCoord[0] = Math.cos(rot) * coord[0] - Math.sin(rot) * coord[1];
+            rotCoord[1] = Math.sin(rot) * coord[0] + Math.cos(rot) * coord[1];
+
+            return rotCoord;
+        };
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="square">
+            <div class="problem">
+                <div class="vars">
+                    <var id="SIZE">2.5</var>
+                </div>
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a square inscribed inside the circle.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-4, 4]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyCircle([0, 0], SIZE);
+                    addDummyPoint([0, 0]);
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">Use the compass and straightedge tools to construct a square.</div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    var lines = findInscribedPolygon(guess, [0, 0], SIZE, 4);
+                    if (lines === false) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine([0, SIZE], [SIZE, 0], 1));
+                        graph.hintLines.push(drawHintLine([0, SIZE], [-SIZE, 0], 1));
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [SIZE, 0], 1));
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [-SIZE, 0], 1));
+                    </div>
+                    <p>
+                        We could just <em>try</em> to draw a square inside the circle, but then
+                        <strong>we have no guarantee </strong> that all the sides would be the
+                        same length and all the angles would be right angles.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        //graph.hintLines.remove();
+                        
+                        line([0, SIZE], [0, -SIZE], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+                        graph.hintLines.push(line([SIZE, 0], [-SIZE, 0], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        })).toBack();
+
+                        style({
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        }, function() {
+                            graph.hintLines.push(line([-0.25, 0.25], [0.25, 0.25]));
+                            graph.hintLines.push(line([0.25, 0.25], [0.25, -0.25]));
+                            graph.hintLines.push(line([0.25, -0.25], [-0.25, -0.25]));
+                            graph.hintLines.push(line([-0.25, -0.25], [-0.25, 0.25]));
+                        });
+
+                    </div>
+                    <p>
+                        The diagonals of an inscribed square will have a length equal to
+                        the diameter of the circle and will intersect one another at right angles.
+                    </p>
+                    <p>The diagonals must therefore be perpendicular bisectors of one another.</p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+                        graph.r2 = SIZE + 1.5;
+
+                        circle([0, SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle([0, SIZE], graph.r2, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        var compassPoint2 = circle([0, SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        var compass2 = circle([0, SIZE], graph.r2, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        compassPoint2.animate({
+                            cx: scalePoint([0, -SIZE])[0],
+                            cy: scalePoint([0, -SIZE])[1]
+                        }, 1000);
+
+                        compass2.animate({
+                            cx: scalePoint([0, -SIZE])[0],
+                            cy: scalePoint([0, -SIZE])[1]
+                        }, 1000);
+                    </div>
+                    <p>
+                        If we use a compass to draw a circle of the same radius at each end of the diagonal,
+                        the points where the circles intersect will be equidistant from each end.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var x = pow(graph.r2 * graph.r2 - SIZE * SIZE, 0.5);
+
+                        line([-x, 0], [x, 0], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        circle([-x, 0], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle([x, 0], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        style({
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        }, function() {
+                            line([-0.25, 0.25], [0.25, 0.25]);
+                            line([0.25, 0.25], [0.25, -0.25]);
+                            line([0.25, -0.25], [-0.25, -0.25]);
+                            line([-0.25, -0.25], [-0.25, 0.25]);
+                        });
+                    </div>
+                    <p>
+                        Connecting the points where the circles intersect creates a perpendicular bisector
+                        of the first line.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        style({
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }, function() {
+                            line([0, SIZE], [SIZE, 0]);
+                            line([SIZE, 0], [0, -SIZE]);
+                            line([0, -SIZE], [-SIZE, 0]);
+                            line([-SIZE, 0], [0, SIZE]);
+                        });
+
+                        style({
+                            fill: GRAY,
+                            stroke: null,
+                        }, function() {
+                            circle([0, SIZE], 0.08);
+                            circle([0, -SIZE], 0.08);
+                            circle([SIZE, 0], 0.08);
+                            circle([-SIZE, 0], 0.08);
+                        });
+                    </div>
+                    <p>
+                        We now have two perpendicular lines centered on the center of the circle.
+                        Connecting the points where the diagonals meet the circle creates a square.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+</html>
