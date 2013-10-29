@@ -259,30 +259,28 @@
                 </div>
 
                 <div class="hints">
-                    <div data-if="A > 0" data-unwrap>
-                        <p>
-                            The leading coefficient in the equation is <code><var>PRETTY_A</var></code>, which is positive.
-                            Therefore the parabola is upward opening.
-                        </p>
+                    <p>The equation is in the form <code>y - y_1 = a(x - x_1)</code>.</p>
 
-                        <div>
-                            <p>The minimum value of <code><var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code> occurs when
-                            <code>(x - <var>PRETTY_X1</var>)^2 = 0</code>.</p>
-                            <p>Therefore the vertex of the parabola is at <code>x = <var>PRETTY_X1</var></code>.</p>
-                        </div>
+                    <p data-if="A > 0">
+                        The leading coefficient, <code>a</code>, in the equation is <code><var>PRETTY_A</var></code>, which is positive.
+                        Therefore the parabola is upward opening.
+                    </p>
+                    <p data-else="">
+                        The leading coefficient, <code>a</code>, in the equation is <code><var>PRETTY_A</var></code>, which is negative.
+                        Therefore the parabola is downward opening.
+                    </p>
+
+                    <p>The value of <code>x_1</code> is <code><var>PRETTY_X1</var></code>, what does this number mean for the parabola?</p>
+
+                    <div data-if="A > 0">
+                        <p>The minimum value of <code><var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code> occurs when
+                        <code>(x - <var>PRETTY_X1</var>)^2 = 0</code>.</p>
+                        <p>Therefore the vertex of the parabola is at <code>x = <var>PRETTY_X1</var></code>.</p>
                     </div>
-
-                    <div data-else="" data-unwrap>
-                        <p>
-                            The leading coefficient in the equation is <code><var>PRETTY_A</var></code>, which is negative.
-                            Therefore the parabola is downward opening.
-                        </p>
-
-                        <div>
-                            <p>The maximum value of <code><var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code> occurs when
-                            <code>(x - <var>PRETTY_X1</var>)^2 = 0</code>.</p>
-                            <p>Therefore the vertex of the parabola is at <code>x = <var>PRETTY_X1</var></code>.</p>
-                        </div>
+                    <div data-else="">
+                        <p>The maximum value of <code><var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code> occurs when
+                        <code>(x - <var>PRETTY_X1</var>)^2 = 0</code>.</p>
+                        <p>Therefore the vertex of the parabola is at <code>x = <var>PRETTY_X1</var></code>.</p>
                     </div>
 
                     <div>
@@ -297,16 +295,16 @@
                     </div>
 
                     <div>
+                        <p>At <code>x = <var>PRETTY_X1</var></code>, then <code>y - <var>PRETTY_Y1</var> = 0</code>.</p>
                         <p>
-                            At <code>x = <var>PRETTY_X1</var></code>, <code>y - <var>PRETTY_Y1</var> = 0</code>.
                             Therefore, the vertex of the parabola is at <code>y = <var>PRETTY_Y1</var></code>.
+                            The focus and directrix should be an equal distance above and below this value.
                         </p>
-                        <p>The focus and directrix will be equidistant from the vertex.</p>
                     </div>
 
                     <p>
-                        The leading coefficient, <code>a</code>, is the reciprocal of <code>2</code> times the distance between the directrix to the focus.
-                        Therefore, the focus and directrix are <code><var>1 / (2 * A)</var></code> units apart.
+                        The number in the denominator of <code>a</code> is the reciprocal of twice the distance between the directrix to the focus.
+                        Therefore, the focus and directrix are separated by <code><var>1 / (2 * abs(A))</var></code> units.
                     </p>
 
                     <p data-if="A > 0">
