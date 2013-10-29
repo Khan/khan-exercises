@@ -92,8 +92,8 @@
                 </div>
             </div>
 
-            <div id="side-b" data-ensure="ANGLE > 20 && ANGLE < 50">
-                <div class="vars">
+            <div id="side-b">
+                <div class="vars" data-ensure="ANGLE > 20 && ANGLE < 50">
                     <var id="SIDE_A">randRange(1, 10)</var>
                     <var id="HEIGHT_A">randRange(1, SIDE_A)</var>
                     <var id="HEIGHT_B">HEIGHT_A + randRange(1, 10)</var>
@@ -110,7 +110,7 @@
                     </var>
                 </div>
 
-                <div class="solution" data-type="rational"><var>SIDE_B</var></div>
+                <div class="solution"><var>SIDE_B</var></div>
 
                 <div class="hints" data-apply="appendContents">
                     <div>
@@ -138,8 +138,8 @@
                 </div>
             </div>
 
-            <div id="height-b" data-ensure="ANGLE < 45">
-                <div class="vars">
+            <div id="height-b">
+                <div class="vars" data-ensure="ANGLE < 45">
                     <var id="SIDE_A">randRange(1, 10)</var>
                     <var id="SIDE_B">randRange(1, 10)</var>
                     <var id="HEIGHT_A">randRange(1, SIDE_A)</var>
@@ -156,7 +156,7 @@
                     </var>
                 </div>
 
-                <div class="solution" data-type="rational"><var>HEIGHT_B</var></div>
+                <div class="solution"><var>HEIGHT_B</var></div>
 
                 <div class="hints" data-apply="appendContents">
                     <div>
