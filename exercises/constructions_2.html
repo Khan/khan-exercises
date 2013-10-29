@@ -16,12 +16,179 @@
 </head>
 <body>
     <div class="exercise">
+        <div class="vars">
+            <var id="SIZE">2.5</var>
+        </div>
+
     <div class="problems">
+        <div id="triangle">
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a square inscribed inside the circle.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-4, 4]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyCircle([0, 0], SIZE);
+                    addDummyPoint([0, 0]);
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">Use the compass and straightedge tools to construct a square.</div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    var lines = findInscribedPolygon(guess, [0, 0], SIZE, 3);
+                    if (lines === false) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.dx = SIZE * cos(PI / 6);
+                        graph.dy = SIZE * sin(PI / 6);
+
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine([0, SIZE], [graph.dx, -graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([0, SIZE], [-graph.dx, -graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([-graph.dx, -graph.dy], [graph.dx, -graph.dy], 1));
+                    </div>
+                    <p>
+                        We could just <em>try</em> to draw a triangle inside the circle, but then
+                        <strong>we have no guarantee </strong> that all the sides would be the
+                        same length and all the angles would be the same size.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.push(drawHintLine([0, 0], [0, SIZE], 2));
+                        graph.hintLines.push(drawHintLine([0, 0], [-graph.dx, -graph.dy], 2));
+                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, -graph.dy], 2));
+
+                        graph.hintLines.push(arc([0, 0], 0.3, 210, 330, 0, {
+                            stroke: BLUE,
+                            strokeWidth: 1
+                        }));
+                    </div>
+                    <p>
+                        The points of an equilateral triangle are equally spaced around the center.
+                        Therefore, each point is <code>120^{\circ}</code> from each other point.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        line([0, SIZE], [0, -SIZE], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        circle([0, SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                        circle([0, -SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+
+                        circle([0, -SIZE], SIZE, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                    </div>
+                    <p>
+                        Draw a diameter and center a compass with the same
+                        radius as the original circle at one point.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine([0, 0], [0, -SIZE], 3));
+                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, -graph.dy], 3));
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [graph.dx, -graph.dy], 3));
+
+                        graph.hintLines.push(arc([0, 0], 0.3, -90, -30, 0, {
+                            stroke: BLUE,
+                            strokeWidth: 1
+                        }));
+                    </div>
+                    <p>
+                        Joining one point where the the compasses intersect with the centers of
+                        the two compasses forms an equilateral triangle. The interior angles of
+                        an equilateral triangle are <code>60^{\circ}</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        line([0, SIZE], [graph.dx, -graph.dy], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        line([0, SIZE], [-graph.dx, -graph.dy], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        line([graph.dx, -graph.dy], [-graph.dx, -graph.dy], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        circle([graph.dx, -graph.dy], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                        circle([-graph.dx, -graph.dy], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                    </div>
+                    <p>
+                        Therefore, the two points where the compasses intersect are <code>120^{\circ}</code>
+                        apart, and <code>120^{\circ}</code> from the opposite end of the diameter.
+                        Joining these points therefore forms an equilateral triangle.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div id="square">
             <div class="problem">
-                <div class="vars">
-                    <var id="SIZE">2.5</var>
-                </div>
                 <form>
                     <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
                     <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
@@ -81,8 +248,6 @@
 
                 <div>
                     <div class="graphie" data-update="construction">
-                        //graph.hintLines.remove();
-                        
                         line([0, SIZE], [0, -SIZE], {
                             strokeWidth: 2,
                             stroke: GRAY
