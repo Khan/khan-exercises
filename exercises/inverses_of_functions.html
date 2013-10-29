@@ -88,7 +88,7 @@
 
                     // draw the function
                     style({
-                        stroke: "#a3a3ff",
+                        stroke: BLUE,
                         strokeWidth: 2
                     }, function() {
                         plot( F, [ -10, 10 ] );
@@ -138,7 +138,7 @@
 
                 // plot function inverse
                 style({
-                    stroke: "#ffa500",
+                    stroke: ORANGE,
                     strokeWidth: 2
                 }, function() {
                     plot( F_INV, [ -10, 10 ] );
@@ -147,7 +147,7 @@
                 if ( M !== -1 &amp;&amp; ( M !== 1 || B !== 0 ) ) {
                     // label f
                     style({
-                        color: "#a3a3ff",
+                        color: BLUE,
                         strokeWidth: 1
                     }, function() {
                         label( labelPos( F ), "f(x)", fPos );
@@ -155,7 +155,7 @@
 
                     // label f_inv
                     style({
-                        color: "#ffa500",
+                        color: ORANGE,
                         strokeWidth: 1
                     }, function() {
                         label( labelPos( F_INV ), "f^{-1}(x)", fInvPos );
