@@ -584,7 +584,8 @@ var Khan = (function() {
             var path = exerciseFile + "?seed=" + problemSeed + "&problem=" +
                         problemID,
                 locale = icu.getLocale(),
-                pathlink = "[" + path + (exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + ")",
+                pathlink = "[" + path + (exercise && exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + ")",
+
                 historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + "&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
                 localeMsg = "Locale: " + locale,
                 userHash = "User hash: " + crc32(user),
@@ -2005,14 +2006,7 @@ var Khan = (function() {
 
         debugLog("loadExercise start " + fileName);
         // Packing occurs on the server but at the same "exercises/" URL
-        $.get(urlBase + "exercises/" + fileName, function(data, status, xhr) {
-            if (!(/success|notmodified/).test(status)) {
-                // Maybe loading from a file:// URL?
-                debugLog("loadExercise err " + xhr.status + " " + fileName);
-                Khan.error("Error loading exercise from file " + fileName +
-                        xhr.status + " " + xhr.statusText);
-                return;
-            }
+        $.get(urlBase + "exercises/" + fileName).done(function(data) {
             debugLog("loadExercise got " + fileName);
 
             // Get rid of any external scripts in data before we shove data
@@ -2098,6 +2092,10 @@ var Khan = (function() {
                 debugLog("loadExercise subfail " + fileName);
                 promise.reject();
             });
+        }).fail(function(xhr, status) {
+            debugLog("loadExercise err " + xhr.status + " " + fileName);
+            Khan.error("Error loading exercise from file " + fileName +
+                    " " + xhr.status + " " + xhr.statusText);
         });
 
         return promise;
