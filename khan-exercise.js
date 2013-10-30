@@ -615,11 +615,17 @@ var Khan = (function() {
         initReportIssueLink: function(selector) {
             selector = selector || "#report";
             $(selector).click(function(e) {
+                e.preventDefault();
+
+                // If a custom reportIssue handler already exists, just call it
+                if (Exercises.reportIssue) {
+                    Exercises.reportIssue();
+                    return;
+                }
+
                 var issueIntro = $._("Remember to check the hints and " +
                         "double check your math. All provided information will " +
                         "be public. Thanks for your help!");
-
-                e.preventDefault();
 
                 var report = $("#issue").css("display") !== "none",
                     form = $("#issue .issue-form").css("display") !== "none";
