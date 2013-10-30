@@ -1,4 +1,7 @@
 (function() {
+
+    var kvector = KhanUtil.kvector;
+
     var Graphie = KhanUtil.Graphie = function() {
     };
 
@@ -88,9 +91,9 @@
                 var newAngle = polarCoord[1] + angle;
                 return polar(polarCoord[0], newAngle);
             } else {
-                return KhanUtil.vectorAdd(vertex,
+                return kvector.add(vertex,
                     KhanUtil.findPointFromAngle(
-                        KhanUtil.vectorSubtract(point, vertex),
+                        kvector.subtract(point, vertex),
                         angle
                     )
                 );

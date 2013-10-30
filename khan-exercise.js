@@ -290,14 +290,16 @@ var Khan = (function() {
             "interactive": ["graphie", "../third_party/jquery.mobile.vmouse"],
             "mean-and-median": ["stat"],
             "congruency": ["angles", "interactive"],
-            "graphie-3d": ["graphie", "matrix"],
-            "graphie-geometry": ["graphie", "matrix", "kline"],
+            "graphie": ["kvector"],
+            "graphie-3d": ["graphie", "kmatrix", "kvector"],
+            "graphie-geometry": ["graphie", "kmatrix", "kvector", "kline"],
             "graphie-helpers": ["math-format"],
-            "matrix": ["expressions"],
+            "kmatrix": ["expressions"],
             "matrix-input": ["../third_party/jquery.cursor-position"],
             "chemistry": ["math-format"],
             "kpoint": ["kvector"],
-            "kline": ["kpoint"]
+            "kline": ["kpoint"],
+            "constructions": ["kmatrix"]
         },
 
         warnTimeout: function() {

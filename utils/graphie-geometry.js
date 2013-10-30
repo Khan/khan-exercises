@@ -1129,13 +1129,13 @@ KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
     };
 
     var rotatePoint = function(point, angle) {
-        var matrix = KhanUtil.makeMatrix([
+        var matrix = KhanUtil.kmatrix.makeMatrix([
             [Math.cos(angle), -Math.sin(angle), 0],
             [Math.sin(angle), Math.cos(angle), 0],
             [0, 0, 1]
         ]);
-        var vector = KhanUtil.makeMatrix([[point[0]], [point[1]], [1]]);
-        var prod = KhanUtil.matrixMult(matrix, vector);
+        var vector = KhanUtil.kmatrix.makeMatrix([[point[0]], [point[1]], [1]]);
+        var prod = KhanUtil.kmatrix.matrixMult(matrix, vector);
         return [prod[0][0], prod[1][0]];
     };
 

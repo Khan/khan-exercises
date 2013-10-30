@@ -1,3 +1,7 @@
+(function(KhanUtil) {
+
+var kmatrix = KhanUtil.kmatrix;
+
 $.extend(KhanUtil, {
     drawHintLine: function(pt1, pt2, ticks) {
         var graphie = KhanUtil.currentGraph;
@@ -6,13 +10,13 @@ $.extend(KhanUtil, {
         var midpoint = [(pt1[0] + pt2[0]) / 2, (pt1[1] + pt2[1]) / 2];
         var angle = Math.atan2(pt2[1] - pt1[1], pt2[0] - pt1[0]);
         var transform = function(point) {
-            var matrix = KhanUtil.makeMatrix([
+            var matrix = kmatrix.makeMatrix([
                 [Math.cos(angle), -Math.sin(angle), midpoint[0]],
                 [Math.sin(angle), Math.cos(angle), midpoint[1]],
                 [0, 0, 1]
             ]);
-            var vector = KhanUtil.makeMatrix([[point[0]], [point[1]], [1]]);
-            var prod = KhanUtil.matrixMult(matrix, vector);
+            var vector = kmatrix.makeMatrix([[point[0]], [point[1]], [1]]);
+            var prod = kmatrix.matrixMult(matrix, vector);
             return [prod[0], prod[1]];
         };
 
@@ -784,3 +788,5 @@ $.extend(KhanUtil, {
         return [KhanUtil.eDist(intersect, coord), intersect];
     }
 });
+
+})(KhanUtil);
