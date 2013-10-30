@@ -15,14 +15,14 @@ function arrayProduct(array) {
 
 var kvector = KhanUtil.kvector = {
 
-    // Length/magnitude of a vector
-    length: function(v) {
-        return Math.sqrt(kvector.dot(v, v));
-    },
-
     // Normalize to a unit vector
     normalize: function(v) {
         return kvector.scale(v, 1 / kvector.length(v));
+    },
+
+    // Length/magnitude of a vector
+    length: function(v) {
+        return Math.sqrt(kvector.dot(v, v));
     },
 
     // Dot product of two vectors
