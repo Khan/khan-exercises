@@ -6,6 +6,7 @@
 (function(KhanUtil) {
 
 var kpoint = KhanUtil.kpoint;
+
 var kline = KhanUtil.kline = {
 
     distanceToPoint: function(line, point) {

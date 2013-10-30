@@ -6,6 +6,7 @@
 (function(KhanUtil) {
 
 var kvector = KhanUtil.kvector;
+
 var kpoint = KhanUtil.kpoint = {
 
     // Add and subtract vector(s)
