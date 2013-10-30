@@ -759,6 +759,11 @@ var Khan = (function() {
                 $("#issue-cancel").hide();
                 $("#issue-throbber").show();
 
+                // GitHub complains if the body is > 65535 characters
+                if (body.length > 65530) {
+                    body = body.substring(0, 65500) + "... [truncated]";
+                }
+
                 var dataObj = {
                     title: issueInfo.pretitle + " - " + title,
                     body: body,
