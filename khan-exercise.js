@@ -588,9 +588,9 @@ var Khan = (function() {
             var path = exerciseFile + "?seed=" + problemSeed + "&problem=" +
                         problemID,
                 locale = icu.getLocale(),
-                pathlink = "[" + path + (exercise && exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + ")",
+                pathlink = "[" + path + (exercise && exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.kasandbox.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + ")",
 
-                historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + "&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
+                historyLink = "[Answer timeline](" + "http://sandcastle.kasandbox.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + "&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
                 localeMsg = "Locale: " + locale,
                 userHash = "User hash: " + crc32(user),
 
