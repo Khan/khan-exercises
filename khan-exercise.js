@@ -291,11 +291,13 @@ var Khan = (function() {
             "mean-and-median": ["stat"],
             "congruency": ["angles", "interactive"],
             "graphie-3d": ["graphie", "matrix"],
-            "graphie-geometry": ["graphie", "matrix"],
+            "graphie-geometry": ["graphie", "matrix", "kline"],
             "graphie-helpers": ["math-format"],
             "matrix": ["expressions"],
             "matrix-input": ["../third_party/jquery.cursor-position"],
-            "chemistry": ["math-format"]
+            "chemistry": ["math-format"],
+            "kpoint": ["kvector"],
+            "kline": ["kpoint"]
         },
 
         warnTimeout: function() {
