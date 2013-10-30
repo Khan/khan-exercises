@@ -56,7 +56,7 @@ var kvector = KhanUtil.kvector = {
         });
     },
 
-    // Convert from cartesian to polar and back
+    /* Converts a cartesian coordinate into a radian polar coordinate */
     polarRadFromCart: function(v) {
         var radius = kvector.length(v);
         var theta = Math.atan2(v[1], v[0]);
@@ -69,20 +69,39 @@ var kvector = KhanUtil.kvector = {
         return [radius, theta];
     },
 
+    /* Converts a cartesian coordinate into a degree polar coordinate */
     polarDegFromCart: function(v) {
         var polar = kvector.polarRadFromCart(v);
         return [polar[0], polar[1] * 180 / Math.PI];
     },
 
+    /* Converts a polar coordinate into a cartesian coordinate
+     *
+     * Examples:
+     * cartFromPolarRad(5, Math.PI)
+     * cartFromPolarRad([5, Math.PI])
+     */
     cartFromPolarRad: function(radius, theta) {
-        if (_.isNumber(radius)) {
-            radius = [radius, radius];
+        if (_.isUndefined(theta)) {
+            theta = radius[1];
+            radius = radius[0];
         }
 
-        return [radius[0] * Math.cos(theta), radius[1] * Math.sin(theta)];
+        return [radius * Math.cos(theta), radius * Math.sin(theta)];
     },
 
+    /* Converts a polar coordinate into a cartesian coordinate
+     *
+     * Examples:
+     * cartFromPolarDeg(5, 30)
+     * cartFromPolarDeg([5, 30])
+     */
     cartFromPolarDeg: function(radius, theta) {
+        if (_.isUndefined(theta)) {
+            theta = radius[1];
+            radius = radius[0];
+        }
+
         return kvector.cartFromPolarRad(radius, theta * Math.PI / 180);
     },
 
