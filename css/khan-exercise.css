@@ -144,6 +144,45 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 }
 
 #scratchpad-not-available { display: none; }
+
+#notepad {
+    background: rgba(244, 241, 156, 0.5);
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 0 3px #ccc;
+    -moz-box-shadow: 0 0 3px #ccc;
+    box-shadow: 0 0 3px #ccc;
+    cursor: move;
+    display: none;
+    line-height: 1;
+    margin-left: -250px;
+    margin-top: 50px;
+    position: absolute;
+    padding: 15px;
+    z-index: 1000;
+    left: 50%;
+    top: 0;
+    margin-top: 100px;
+    width: 350px;
+    margin-left: -190px;
+}
+
+#notepad textarea {
+    background: transparent;
+    border: none;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #444;
+    font-size: 14px;
+    outline: none;
+    resize: none;
+    width: 100%;
+    z-index: 2;
+}
+
+#notepad-not-available { display: none; }
+
 #extras .report-issue-link { float: right; font-size: 11px; }
 
 #tester-info.info-box { background: #f2e4bf; }

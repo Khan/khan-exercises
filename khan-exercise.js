@@ -489,6 +489,67 @@ var Khan = (function() {
             }
         },
 
+        notepad: (function() {
+            var disabled = false, wasVisible, pad;
+
+            var actions = {
+                disable: function() {
+                    wasVisible = actions.isVisible();
+                    actions.hide();
+
+                    $("#notepad-show").hide();
+                    $("#notepad-not-available").show();
+                    disabled = true;
+                },
+
+                enable: function() {
+                    if (wasVisible) {
+                        actions.show();
+                        wasVisible = false;
+                    }
+
+                    $("#notepad-show").show();
+                    $("#notepad-not-available").hide();
+                    $("#notepad").draggable();
+                    disabled = false;
+                },
+
+                isVisible: function() {
+                    return $("#notepad").is(":visible");
+                },
+
+                show: function() {
+                    if (actions.isVisible()) {
+                        return;
+                    }
+                    $("#notepad").show();
+                    $("#notepad-show").text($._("Hide notepad"));
+                },
+
+                hide: function() {
+                    if (!actions.isVisible()) {
+                        return;
+                    }
+
+                    $("#notepad").hide();
+                    $("#notepad-show").text($._("Show notepad"));
+                },
+
+                toggle: function() {
+                    actions.isVisible() ? actions.hide() : actions.show();
+                },
+
+                focus: function() {
+                    $("#notepad textarea").focus();
+                },
+
+                clear: function() {
+                    $("#notepad textarea").val('');
+                }
+            };
+            return actions;
+        })(),
+
         scratchpad: (function() {
             var disabled = false, wasVisible, pad;
 
@@ -1172,6 +1233,7 @@ var Khan = (function() {
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
         Khan.scratchpad.enable();
+        Khan.notepad.enable();
 
         // Allow passing in a random seed
         if (typeof seed !== "undefined") {
