@@ -1,3 +1,5 @@
+(function() {
+
 // Example usage:
 // <var>person(1)</var> traveled 5 mi by <var>vehicle(1)</var>. Let
 // <var>his(1)</var> average speed be <var>personVar(1)</var>.
@@ -1008,3 +1010,5 @@ $.fn["word-problemsLoad"] = function() {
         }
     });
 };
+
+})();

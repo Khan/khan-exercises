@@ -1,6 +1,6 @@
 // Temporary not really following convention file, see #160
 
-function numberLine(start, end, step, x, y, denominator) {
+window.numberLine = function(start, end, step, x, y, denominator) {
     step = step || 1;
     x = x || 0;
     y = y || 0;
@@ -42,9 +42,9 @@ function numberLine(start, end, step, x, y, denominator) {
         }
     }
     return set;
-}
+};
 
-function piechart(divisions, colors, radius, strokeColor) {
+window.piechart = function(divisions, colors, radius, strokeColor) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
     var arcColor = strokeColor || "none";
@@ -69,9 +69,9 @@ function piechart(divisions, colors, radius, strokeColor) {
     }
 
     return set;
-}
+};
 
-function rectchart(divisions, fills, y, strokes) {
+window.rectchart = function(divisions, fills, y, strokes) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
 
@@ -110,9 +110,9 @@ function rectchart(divisions, fills, y, strokes) {
     });
 
     return set;
-}
+};
 
-function Parabola(lc, x, y) {
+window.Parabola = function(lc, x, y) {
     var leadingCoefficient = lc;
     var x1 = x;
     var y1 = y;
@@ -194,9 +194,9 @@ function Parabola(lc, x, y) {
     this.getDirectrixK = function() {
         return y1 - (1 / (4 * leadingCoefficient));
     };
-}
+};
 
-function redrawParabola(fShowFocusDirectrix) {
+window.redrawParabola = function(fShowFocusDirectrix) {
     var graph = KhanUtil.currentGraph;
     var storage = graph.graph;
     var currParabola = storage.currParabola;
@@ -218,19 +218,19 @@ function redrawParabola(fShowFocusDirectrix) {
     $("#leading-coefficient input").val(leadingCoefficient);
     $("#vertex-x input").val(vertexX);
     $("#vertex-y input").val(vertexY);
-}
+};
 
-function updateParabola(deltaA, deltaX, deltaY, fShowFocusDirectrix) {
+window.updateParabola = function(deltaA, deltaX, deltaY, fShowFocusDirectrix) {
     KhanUtil.currentGraph.graph.currParabola.delta(deltaA, deltaX, deltaY);
     redrawParabola(fShowFocusDirectrix);
-}
+};
 
-function updateFocusDirectrix(deltaX, deltaY, deltaK) {
+window.updateFocusDirectrix = function(deltaX, deltaY, deltaK) {
     KhanUtil.currentGraph.graph.currParabola.deltaFocusDirectrix(deltaX, deltaY, deltaK);
     redrawParabola(true);
-}
+};
 
-function ParallelLines(x1, y1, x2, y2, distance) {
+window.ParallelLines = function(x1, y1, x2, y2, distance) {
     var lowerIntersection;
     var upperIntersection;
     var anchorAngle;
@@ -382,9 +382,9 @@ function ParallelLines(x1, y1, x2, y2, distance) {
         this.drawAngle(adj1, label, color);
         this.drawAngle(adj2, label, color);
     };
-}
+};
 
-function drawComplexChart(radius, denominator) {
+window.drawComplexChart = function(radius, denominator) {
     var graph = KhanUtil.currentGraph;
     var safeRadius = radius * Math.sqrt(2);
     var color = "#ddd";
@@ -414,9 +414,9 @@ function drawComplexChart(radius, denominator) {
 
     graph.label([radius, 0.5], "Re", "left");
     graph.label([0.5, radius - 1], "Im", "right");
-}
+};
 
-function ComplexPolarForm(angleDenominator, maxRadius, euler) {
+window.ComplexPolarForm = function(angleDenominator, maxRadius, euler) {
     var denominator = angleDenominator;
     var maximumRadius = maxRadius;
     var angle = 0, radius = 1;
@@ -480,14 +480,14 @@ function ComplexPolarForm(angleDenominator, maxRadius, euler) {
         }
         this.plot();
     };
-}
+};
 
-function updateComplexPolarForm(deltaAngle, deltaRadius) {
+window.updateComplexPolarForm = function(deltaAngle, deltaRadius) {
     KhanUtil.currentGraph.graph.currComplexPolar.delta(deltaAngle, deltaRadius);
     redrawComplexPolarForm();
-}
+};
 
-function redrawComplexPolarForm(angle, radius) {
+window.redrawComplexPolarForm = function(angle, radius) {
     var graph = KhanUtil.currentGraph;
     var storage = graph.graph;
     var point = storage.currComplexPolar;
@@ -507,9 +507,9 @@ function redrawComplexPolarForm(angle, radius) {
     $("#number-label").html("<code>" + equation + "</code>").runModules();
     $("#current-radius").html("<code>" + radius + "</code>").runModules();
     $("#current-angle").html("<code>" + KhanUtil.piFraction(angle, true) + "</code>").runModules();
-}
+};
 
-function labelDirection(angle) {
+window.labelDirection = function(angle) {
     angle = angle % 360;
     if (angle === 0) {
         return "right";
@@ -528,11 +528,11 @@ function labelDirection(angle) {
     } else if (angle > 270 && angle < 360) {
         return "below right";
     }
-}
+};
 
 // arc orientation is "top"|"left"|"bottom"|"right".
 // arrow direction is clockwise (true) or counter-clockwise (false)
-function curvyArrow(center, radius, arcOrientation, arrowDirection, styles) {
+window.curvyArrow = function(center, radius, arcOrientation, arrowDirection, styles) {
     styles = styles || {};
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
@@ -566,9 +566,9 @@ function curvyArrow(center, radius, arcOrientation, arrowDirection, styles) {
     }
     set.push(graph.line(from, to, _.extend({arrows: "->"}, styles)));
     return set;
-}
+};
 
-function curlyBrace(startPointGraph, endPointGraph) {
+window.curlyBrace = function(startPointGraph, endPointGraph) {
     var graph = KhanUtil.currentGraph;
 
     var startPoint = graph.scalePoint(startPointGraph);
@@ -618,4 +618,4 @@ function curlyBrace(startPointGraph, endPointGraph) {
     brace.rotate(angle);
     brace.translate(midPoint[0], midPoint[1]);
     return brace;
-}
+};
