@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div>
+        <div id="multiples_of_10">
             <div class="vars">
                 <var id="FACTOR">randRange(2, 9)</var>
                 <var id="NUMERATOR">randRange(1, 9)</var>
@@ -29,12 +29,12 @@
             </div>
         </div>
 
-        <div>
-            <div class="vars">
+        <div id="multiples_of_20">
+            <div class="vars" data-ensure="NUMERATOR < DENOMINATOR">
                 <var id="FACTOR">randRange(2, 4)</var>
                 <var id="NUMERATOR">2 * randRange(1, 4) + 1</var>
                 <var id="PLACES">randRange(1, 2)</var>
-                <var id="DENOMINATOR">2 * pow(10, PLACES)</var>
+                <var id="DENOMINATOR">2 * pow(10, PLACES - 1)</var>
                 <var id="SOLUTION">roundTo(3, NUMERATOR / DENOMINATOR)</var>
             </div>
             <p>Express the fraction as a decimal.</p>
@@ -58,6 +58,32 @@
                 </div>
 
                 <p><code>\dfrac{<var>NUMERATOR * 5</var>}{<var>DENOMINATOR * 5</var>} = <var>SOLUTION</var></code></p>
+            </div>
+        </div>
+
+        <div id="multiples_of_50">
+            <div class="vars" data-ensure="NUMERATOR < DENOMINATOR">
+                <var id="NUMERATOR" data-ensure="NUMERATOR !== 5">randRange(1, 9)</var>
+                <var id="PLACES">randRange(1, 2)</var>
+                <var id="DENOMINATOR">5 * pow(10, PLACES - 1)</var>
+                <var id="SOLUTION">roundTo(3, NUMERATOR / DENOMINATOR)</var>
+            </div>
+            <p>Express the fraction as a decimal.</p>
+            <p class="question"><code>\large{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}}</code></p>
+            <p class="solution" data-type="decimal"><var>SOLUTION</var></p>
+            <div class="hints">
+                <div>
+                    <p>
+                        We can rewrite <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> in decimal form
+                        by multiplying the numerator and denominator by <code>2</code>.
+                    </p>
+                    <p><code>
+                        \dfrac{<var>NUMERATOR</var> \times 2}{<var>DENOMINATOR</var> \times 2} = 
+                        \dfrac{<var>NUMERATOR * 2</var>}{<var>DENOMINATOR * 2</var>}
+                    </code></p>
+                </div>
+
+                <p><code>\dfrac{<var>NUMERATOR * 2</var>}{<var>DENOMINATOR * 2</var>} = <var>SOLUTION</var></code></p>
             </div>
         </div>
     </div>
