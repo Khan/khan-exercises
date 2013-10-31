@@ -558,12 +558,21 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
     this.show = function() {
         var paddedDivisor = digitsDivisor;
+        var nDigitsInAnswer = Math.floor(Math.log(dividend / divisor) / Math.log(10)) + 1;
+        var answerAsDigits = KhanUtil.integerToDigits(Math.round(dividend / divisor));
+
+        // Since we stop dividing once we get a remainder of 0
+        var i = answerAsDigits.length - 1;
+        while (answerAsDigits[i] === 0) {
+            nDigitsInAnswer--;
+            i--;
+        }
 
         if (deciDivisor !== 0) {
             paddedDivisor = (KhanUtil.padDigitsToNum(digitsDivisor.reverse(), deciDivisor + 1)).reverse();
         }
         graph.init({
-            range: [[-1 - paddedDivisor.length, 17], [(digitsDividend.length + (deciDiff > 0 ? deciDiff : 0)) * -2 - 1, 2]],
+            range: [[-1 - paddedDivisor.length, 17], [-2 * nDigitsInAnswer - 2, 2]],
             scale: [20, 40]
         });
         graph.style({
@@ -633,13 +642,15 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             highlights = highlights.concat(drawDigits([quotient], index, 1, KhanUtil.GREEN));
 
             if (quotient === 0 && fOnlyZeros) {
-                leadingZeros = leadingZeros.concat(quotientLabel);
+                if (digitsDividend.length - deciDividend + deciDivisor > index + 1) {
+                    leadingZeros = leadingZeros.concat(quotientLabel);
+                }
                 index++;
                 return;
             }
 
+            var digits = KhanUtil.integerToDigits(value);
             if (fOnlyZeros) {
-                var digits = KhanUtil.integerToDigits(value);
                 drawDigits(digits, index - digits.length + 1, dy);
                 fOnlyZeros = false;
             } else {
@@ -651,9 +662,9 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             highlights = highlights.concat(drawDigits(product, index - product.length + 1, dy - 1, KhanUtil.ORANGE));
 
             var diffDigits = KhanUtil.integerToDigits(diff);
-            drawDigits(diffDigits, index - diffDigits.length + 1, dy - 2);
-            //graph.label([index - product.length, dy] , "-\\vphantom{0}");
+            drawDigits(diffDigits, index - diffDigits.length + 1, dy - 2);;
             graph.path([[index - product.length - 0.25, dy - 0.5], [index + 0.5, dy - 0.5]]);
+            graph.label([index - digits.length, dy] , "-")
 
             graph.label([digitsDividend.length + 0.5, dy - 1],
                 "\\color{#6495ED}{" + value + "}"
@@ -744,7 +755,20 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
 Divider.numHintsFor = function(divisor, dividend, deciDivisor, deciDividend) {
     var digitsDividend = KhanUtil.integerToDigits(dividend);
-    return 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
+    var hints = 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
+    var digitsAnswer = KhanUtil.integerToDigits(Math.round(dividend / divisor));
+
+    // Stop dividing once you get a remainder of 0
+    var i = digitsAnswer.length - 1;
+    if (digitsAnswer[i] === 0) {
+        hints--;
+        while (digitsAnswer[i] === 0) {
+            hints -= 2;
+            i--;
+        }
+    }
+
+    return hints;
 };
 
 function squareFractions(nom, den, perLine, spacing, size) {
