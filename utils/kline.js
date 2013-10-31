@@ -5,7 +5,10 @@
 
 (function(KhanUtil) {
 
-var kpoint = KhanUtil.kpoint;
+var kpoint;
+$.fn["klineLoad"] = function() {
+    kpoint = KhanUtil.kpoint;
+};
 
 var kline = KhanUtil.kline = {
 

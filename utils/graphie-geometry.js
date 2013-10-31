@@ -1,6 +1,9 @@
 // TODO: shove these into KhanUtil or somewhere reasonable
 
-var kline = KhanUtil.kline;
+var kline;
+$.fn["graphie-geometryLoad"] = function() {
+    kline = KhanUtil.kline;
+};
 
 function rotatePoint(p, deg, c) {
     var rad = KhanUtil.toRadians(deg),

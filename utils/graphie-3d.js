@@ -1,7 +1,10 @@
 (function(KhanUtil) {
 
-var kmatrix = KhanUtil.kmatrix;
-var kvector = KhanUtil.kvector;
+var kmatrix, kvector;
+$.fn["graphie-3dLoad"] = function() {
+    kmatrix = KhanUtil.kmatrix;
+    kvector = KhanUtil.kvector;
+};
 
 $.extend(KhanUtil, {
     // make a 3d object, which holds the vertices,

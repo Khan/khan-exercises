@@ -1,6 +1,9 @@
 (function() {
 
-    var kvector = KhanUtil.kvector;
+    var kvector;
+    $.fn["graphieLoad"] = function() {
+        kvector = KhanUtil.kvector;
+    };
 
     var Graphie = KhanUtil.Graphie = function() {
     };

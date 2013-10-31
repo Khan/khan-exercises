@@ -1,6 +1,9 @@
 (function(KhanUtil) {
 
-var kmatrix = KhanUtil.kmatrix;
+var kmatrix;
+$.fn["constructionsLoad"] = function() {
+    kmatrix = KhanUtil.kmatrix;
+};
 
 $.extend(KhanUtil, {
     drawHintLine: function(pt1, pt2, ticks) {

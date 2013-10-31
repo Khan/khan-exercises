@@ -1,24 +1,27 @@
-/* 
+/*
  * Point Utils
  * A point is an array of two numbers e.g. [0, 0].
  */
 
 (function(KhanUtil) {
 
-var kvector = KhanUtil.kvector;
+var kvector;
+$.fn["kpointLoad"] = function() {
+    kvector = KhanUtil.kvector;
+};
 
 var kpoint = KhanUtil.kpoint = {
 
     // Add and subtract vector(s)
-    addVector: kvector.add,
-    addVectors: kvector.add,
-    subtractVector: kvector.subtract,
+    addVector: KhanUtil.kvector.add,
+    addVectors: KhanUtil.kvector.add,
+    subtractVector: KhanUtil.kvector.subtract,
 
     // Convert from cartesian to polar and back
-    polarRadFromCart: kvector.polarRadFromCart,
-    polarDegFromCart: kvector.polarDegFromCart,
-    cartFromPolarRad: kvector.cartFromPolarRad,
-    cartFromPolarDeg: kvector.cartFromPolarDeg,
+    polarRadFromCart: KhanUtil.kvector.polarRadFromCart,
+    polarDegFromCart: KhanUtil.kvector.polarDegFromCart,
+    cartFromPolarRad: KhanUtil.kvector.cartFromPolarRad,
+    cartFromPolarDeg: KhanUtil.kvector.cartFromPolarDeg,
 
     // Rotate point (around origin unless a center is specified)
     rotateRad: function(point, theta, center) {
