@@ -756,15 +756,18 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 Divider.numHintsFor = function(divisor, dividend, deciDivisor, deciDividend) {
     var digitsDividend = KhanUtil.integerToDigits(dividend);
     var hints = 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
-    var digitsAnswer = KhanUtil.integerToDigits(Math.round(dividend / divisor));
 
-    // Stop dividing once you get a remainder of 0
-    var i = digitsAnswer.length - 1;
-    if (digitsAnswer[i] === 0) {
-        hints--;
-        while (digitsAnswer[i] === 0) {
-            hints -= 2;
-            i--;
+    // If answer ends in zeros that we don't use
+    if (Math.round(dividend / divisor) === dividend / divisor) {
+        var digitsAnswer = KhanUtil.integerToDigits(dividend / divisor);
+
+        var i = digitsAnswer.length - 1;
+        if (digitsAnswer[i] === 0) {
+            hints--;
+            while (digitsAnswer[i] === 0) {
+                hints -= 2;
+                i--;
+            }
         }
     }
 
