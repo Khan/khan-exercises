@@ -1,6 +1,7 @@
 (function(KhanUtil) {
 
-var kmatrix, kvector;
+var kmatrix = KhanUtil.kmatrix;
+var kvector = KhanUtil.kvector;
 $.fn["graphie-3dLoad"] = function() {
     kmatrix = KhanUtil.kmatrix;
     kvector = KhanUtil.kvector;

@@ -1,6 +1,6 @@
 // TODO: shove these into KhanUtil or somewhere reasonable
 
-var kline;
+var kline = KhanUtil.kline;
 $.fn["graphie-geometryLoad"] = function() {
     kline = KhanUtil.kline;
 };

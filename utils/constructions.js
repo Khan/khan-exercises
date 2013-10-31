@@ -1,6 +1,6 @@
 (function(KhanUtil) {
 
-var kmatrix;
+var kmatrix = KhanUtil.kmatrix;
 $.fn["constructionsLoad"] = function() {
     kmatrix = KhanUtil.kmatrix;
 };
