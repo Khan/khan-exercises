@@ -5,7 +5,7 @@
 
 (function(KhanUtil) {
 
-var kvector;
+var kvector = KhanUtil.kvector;
 $.fn["kpointLoad"] = function() {
     kvector = KhanUtil.kvector;
 };
