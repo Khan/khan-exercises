@@ -1752,7 +1752,8 @@ var Khan = (function() {
                 input = inputRow.children("input"),
                 buttons = calculator.find("a"),
                 lastInstr = "",
-                ans;
+                ans,
+                separator = icu.getDecimalFormatSymbols().decimal_separator;
 
             var evaluate = function() {
                 var instr = input.val();
@@ -1762,9 +1763,17 @@ var Khan = (function() {
                     row = $("<div>").addClass("calc-row");
                     indiv = $("<div>").addClass("input").text(instr.replace(/pi/g, "\u03c0")).appendTo(row);
                     try {
+                        if (separator !== ".") {
+                            // i18nize the input numbers' decimal point
+                            instr = instr.split(separator).join(".");
+                        }
                         output = ans = Calculator.calculate(instr, ans);
                         if (typeof output === "number") {
                             outstr = Math.round(output * 1000000000) / 1000000000;
+                            if (separator !== ".") {
+                                // i18nize the output number's decimal point
+                                outstr = ("" + outstr).replace(".", separator);
+                            }
                         } else {
                             outstr = output;
                         }
@@ -1837,6 +1846,9 @@ var Khan = (function() {
                 input.val("");
                 history.children().not(inputRow).remove();
             });
+
+            // i18nize the decimal point button
+            $(".calculator-decimal").html(separator);
         }
 
         initializeCalculator();
