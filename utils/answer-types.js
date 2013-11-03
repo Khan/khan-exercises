@@ -1956,7 +1956,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             if (!solution.parsed) {
                 throw new Error("The provided solution (" + solutionText +
                     ") didn't parse.");
-            } else if (options.simplified && !solution.expr.isSimplified()) {
+            } else if (options.simplify && !solution.expr.isSimplified()) {
                 throw new Error("The provided solution (" + solutionText +
                     ") isn't fully expanded and simplified.");
             } else {

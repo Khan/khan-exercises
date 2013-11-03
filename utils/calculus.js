@@ -187,7 +187,7 @@ $.extend(KhanUtil, {
 
             return this;
         }else {
-            return new KhanUtil.PowerRule();
+            return new KhanUtil.PowerRule(minDegree, maxDegree, coefs, variable, funcNotation);
         }
     },
 
@@ -196,7 +196,7 @@ $.extend(KhanUtil, {
             // power rule, polynomials
             var minDegree = KhanUtil.randRange(-2, 2);
             var maxDegree = KhanUtil.randRange(2, 4);
-            return KhanUtil.PowerRule(minDegree, maxDegree, KhanUtil.randCoefs(minDegree, maxDegree), variable);
+            return new KhanUtil.PowerRule(minDegree, maxDegree, KhanUtil.randCoefs(minDegree, maxDegree), variable);
         },
         function(variable) {
             // random trig func

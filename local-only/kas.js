@@ -1468,6 +1468,10 @@ _.extend(Mul.prototype, {
         if (number.eval() === 0) {
             return Num.Zero;
         }
+        
+        if (number.eval() === -1) {
+            number = Num.negativeOne();
+        }
 
         var others = partitioned[1].flatten();
 
