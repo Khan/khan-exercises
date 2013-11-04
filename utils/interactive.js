@@ -2561,7 +2561,8 @@ $.extend(KhanUtil.Graphie.prototype, {
             snapX: 0.5,
             snapY: 0.5,
             snapRadius: 0.5,
-            minRadius: 1
+            minRadius: 1,
+            centerConstraints: {}
         }, options);
 
         circle.centerPoint = graphie.addMovablePoint({
@@ -2572,7 +2573,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                 fill: KhanUtil.BLUE
             },
             snapX: circle.snapX,
-            snapY: circle.snapY
+            snapY: circle.snapY,
+            constraints: circle.centerConstraints
         });
         circle.circ = graphie.circle(circle.center, circle.radius, {
             stroke: KhanUtil.BLUE,
@@ -2588,8 +2590,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             });
 
         // Highlight circle circumference on center point hover
-        $(circle.centerPoint.mouseTarget[0]).on(
-            "vmouseover vmouseout", function(event) {
+        if (!circle.centerConstraints.fixed) {
+            $(circle.centerPoint.mouseTarget[0]).on("vmouseover vmouseout",
+                    function(event) {
                 if (circle.centerPoint.highlight) {
                     circle.circ.animate({
                         stroke: KhanUtil.ORANGE,
@@ -2602,12 +2605,15 @@ $.extend(KhanUtil.Graphie.prototype, {
                     }, 50);
                 }
             });
+        }
 
         circle.toFront = function() {
             circle.circ.toFront();
             circle.perim.toFront();
             circle.centerPoint.visibleShape.toFront();
-            circle.centerPoint.mouseTarget.toFront();
+            if (!circle.centerConstraints.fixed) {
+                circle.centerPoint.mouseTarget.toFront();
+            }
         };
 
         circle.centerPoint.onMove = function(x, y) {
