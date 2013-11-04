@@ -2101,6 +2101,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     $._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
                     $._("For <code>\\sqrt{x}</code>, enter <strong>sqrt(x)</strong>"),
                     $._("For <code>\\pi</code>, enter <strong>pi</strong>"),
+                    $._("For <code>\\sin \\theta</code>, enter <strong>sin(theta)</strong"),
                     $._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
                     $._("For <code>\\neq</code>, enter <strong>=/=</strong>")
                 ],
