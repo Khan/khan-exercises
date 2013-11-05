@@ -40,7 +40,9 @@
             var height;
 
             var stick = function(update) {
-                if (state === "stuck" && update !== true) return;
+                if (state === "stuck" && update !== true) {
+                    return;
+                }
 
                 shim.height(height);
                 el.parent().height("auto");
@@ -57,7 +59,9 @@
             };
 
             var unstick = function() {
-                if (state === "unstuck") return;
+                if (state === "unstuck") {
+                    return;
+                }
 
                 shim.height(0);
                 el.parent().height("auto");
@@ -71,7 +75,9 @@
             };
 
             var bottom = function() {
-                if (state === "bottom") return;
+                if (state === "bottom") {
+                    return;
+                }
 
                 shim.height(0);
                 el.parent().height(container.height());

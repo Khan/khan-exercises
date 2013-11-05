@@ -1,5 +1,10 @@
 // TODO: shove these into KhanUtil or somewhere reasonable
 
+var kline = KhanUtil.kline;
+$.fn["graphie-geometryLoad"] = function() {
+    kline = KhanUtil.kline;
+};
+
 function rotatePoint(p, deg, c) {
     var rad = KhanUtil.toRadians(deg),
         cos = Math.cos(rad),
@@ -12,11 +17,6 @@ function rotatePoint(p, deg, c) {
         x = cx + (px - cx) * cos - (py - cy) * sin,
         y = cy + (px - cx) * sin + (py - cy) * cos;
     return [KhanUtil.roundTo(9, x), KhanUtil.roundTo(9, y)];
-}
-
-function getSideMidpoint(path) {
-    return [(path[0][0] + path[1][0]) / 2,
-            (path[0][1] + path[1][1]) / 2];
 }
 
 $.extend(KhanUtil, {
@@ -49,7 +49,7 @@ $.extend(KhanUtil, {
 
         var spacing = 0.5;
 
-        point = getSideMidpoint(path);
+        point = kline.midpoint(path);
 
         graph.path([path[0], point], $.extend(style, { arrows: "->" }));
     },
@@ -61,7 +61,7 @@ $.extend(KhanUtil, {
 
         for (var i = 0; i < num; i++) {
             var sPath = _.map(path, graph.scalePoint),
-            sPoint = getSideMidpoint(sPath),
+            sPoint = kline.midpoint(sPath),
             angle = Math.atan((sPath[0][1] - sPath[1][1]) / (sPath[0][0] - sPath[1][0])),
             perpangle = angle + Math.PI / 2;
 
@@ -120,7 +120,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
 
     this.drawSideLabel = function(s, color) {
         var path = this.path.graphiePath;
-        return graph.label(getSideMidpoint(path), "\\color{"+color+"}{"+s+"}", "right");
+        return graph.label(kline.midpoint(path), "\\color{"+color+"}{"+s+"}", "right");
     }
 
     this.drawRadius = function(style) {
@@ -136,11 +136,11 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
     }
 
     this.drawApothem = function(style) {
-        return graph.line(center, getSideMidpoint(this.path.graphiePath), style);
+        return graph.line(center, kline.midpoint(this.path.graphiePath), style);
     }
 
     this.drawApothemLabel = function(a, color) {
-        var midpoint = getSideMidpoint(this.path.graphiePath);
+        var midpoint = kline.midpoint(this.path.graphiePath);
 
         return graph.label([(midpoint[0] - center[0]) / 2, (midpoint[1] - center[1]) / 2], "\\color{"+color+"}{"+a+"}", "above");
     }
@@ -158,7 +158,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
     }
 
     this.drawIncircle = function(style) {
-        return graph.circle(center, KhanUtil.getDistance(center, getSideMidpoint(this.path.graphiePath)), style);
+        return graph.circle(center, KhanUtil.getDistance(center, kline.midpoint(this.path.graphiePath)), style);
     }
 
     this.drawCircumcircle = function(style) {
@@ -168,7 +168,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
     this.drawRightTriangle = function(i, fromMidpoint, style) {
         var vertex = this.path.graphiePath[i],
         vertex2 = this.path.graphiePath[i + 1],
-        midpoint = lineMidpoint([vertex, vertex2]);
+        midpoint = kline.midpoint([vertex, vertex2]);
 
         if (fromMidpoint) {
             return graph.path([center, midpoint, vertex2, center], style);
@@ -313,30 +313,6 @@ function checkDuplicate(arr, el) {
     return false;
 }
 
-
-function pointLineDistance(p, l) {
-    var y = [l[0][1], l[1][1]];
-    var x = [l[0][0], l[1][0]];
-    var num = (y[0] - y[1]) * p[0] + (x[1] - x[0]) * p[1] + (x[0] * y[1] - x[1] * y[0]);
-    var den = Math.sqrt((x[1] - x[0]) * (x[1] - x[0]) + (y[1] - y[0]) * (y[1] - y[0]));
-    return num / den;
-}
-
-// Reflects a point p over line l
-function reflectPoint(l, p) {
-    var vx = l[1][0] - l[0][0];
-    var vy = l[1][1] - l[0][1];
-    var vl = Math.sqrt(vx * vx + vy * vy);
-    vx /= vl;
-    vy /= vl;
-
-    var dot = (p[0] - l[0][0]) * vx + (p[1] - l[0][1]) * vy;
-    var rx = l[0][0] + vx * dot;
-    var ry = l[0][1] + vy * dot;
-
-    return [rx + (rx - p[0]), ry + (ry - p[1])];
-}
-
 //Returns an array of points where a path intersects a line
 function linePathIntersection(l, p) {
     var points = [];
@@ -415,11 +391,6 @@ function bisectAngle(line1, line2, scale) {
 
 }
 
-//Midpoint of a line
-function lineMidpoint(line) {
-    return [(line[0][0] + line[1][0]) / 2, (line[0][1] + line[1][1]) / 2];
-}
-
 function vectorProduct(line1, line2) {
     var x1 = line1[1][0] - line1[0][0];
     var x2 = line2[1][0] - line2[0][0];
@@ -481,13 +452,22 @@ function Triangle(center, angles, scale, labels, points) {
 
 
     this.angleScale = function(ang) {
-        if (ang > 90) {
+        if (ang > 150) {
+            return 0.8;
+        }
+        else if (ang > 140) {
+            return 0.7;
+        }
+        else if (ang > 130) {
+            return 0.6;
+        }
+        else if (ang > 90) {
             return 0.5;
         }
         else if (ang > 40) {
             return 0.6;
         }
-        else if (ang < 25) {
+        else if (ang > 25) {
             return 0.7;
         }
         return 0.8;
@@ -599,7 +579,7 @@ function Triangle(center, angles, scale, labels, points) {
         if ("sides" in this.labels) {
             for (i = 0; i < this.sides.length; i++) {
                 //http://www.mathworks.com/matlabcentral/newsreader/view_thread/142201
-                var midPoint = lineMidpoint(this.sides[i]);
+                var midPoint = kline.midpoint(this.sides[i]);
                 var t = lineLength([this.sides[i][1], midPoint]);
                 var d = 0.5;
                 var x3 = midPoint[0] + (this.sides[i][1][1] - midPoint[1]) / t * d;
@@ -648,7 +628,7 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
 
     this.generatePoints = function() {
         var once = false;
-        while ((! once) || this.isCrossed()) {
+        while ((! once) || this.isCrossed() || this.sideTooShort()) {
             var len = Math.sqrt(2 * this.scale * this.scale * this.sideRatio * this.sideRatio - 2 * this.sideRatio * this.scale * this.scale * this.sideRatio * this.cosines[3]);
             once = true;
             var tX = [0, this.scale * this.sideRatio * this.cosines[0] , len * Math.cos((this.angles[0] - (180 - this.angles[3]) / 2) * Math.PI / 180), this.scale, this.scale + Math.cos((180 - this.angles[1]) * Math.PI / 180)];
@@ -664,14 +644,31 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
             this.sideLengths = $.map(this.sides, lineLength);
             this.niceSideLengths = $.map(this.sideLengths, function(x) { return parseFloat(x.toFixed(1)); });
 
-            if (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0 || this.sideLengths[2] < 0.09) {
+            if (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0) {
                 this.sideRatio -= 0.3;
             }
 
             if (vectorProduct([this.points[0], this.points[3]], [this.points[0], this.points[2]]) < 0) {
                 this.sideRatio += 0.3;
             }
+
+            var tooShort = this.sideTooShort();
+            if (tooShort) {
+                if (tooShort.whichSide % 2 === 0) {
+                    this.sideRatio -= 0.05;
+                }
+                else {
+                    this.sideRatio += 0.05;
+                }
+            }
         }
+    }
+
+    this.sideTooShort = function() {
+        if (this.sideRatio === 1) return false;
+        var shortestSide = _.min(this.sideLengths);
+        var allSides = _.reduce(this.sideLengths, function(acc,n) { return acc+n; }, 0);
+        return shortestSide/allSides < 0.12 && {whichSide:_.indexOf(this.sideLengths,shortestSide)};
     }
 
     this.isCrossed = function() {
@@ -760,7 +757,7 @@ var randomQuadAngles = {
         rhombus: function() {
             var angA, angB;
             do {
-                angA = KhanUtil.randRange(30, 160);
+                angA = KhanUtil.randRange(30, 150);
                 angB = 180 - angA;
             }while (Math.abs(angA - angB) < 5);
             return [angA, angB, angA, angB];
@@ -769,7 +766,7 @@ var randomQuadAngles = {
         parallelogram: function() {
             var angA, angB;
             do {
-                angA = KhanUtil.randRange(30, 160);
+                angA = KhanUtil.randRange(30, 150);
                 angB = 180 - angA;
             } while (angA === angB);
             return [angA, angB, angA, angB];
@@ -778,9 +775,9 @@ var randomQuadAngles = {
         trapezoid: function() {
             var angA, angB, angC, angD;
             do {
-                angA = KhanUtil.randRange(30, 160);
+                angA = KhanUtil.randRange(30, 150);
                 angB = 180 - angA;
-                angC = KhanUtil.randRange(30, 160);
+                angC = KhanUtil.randRange(30, 150);
                 angD = 180 - angC;
             } while (Math.abs(angA - angC) < 6 || angA + angC === 180);
             return [angA, angC, angD, angB];
@@ -789,7 +786,7 @@ var randomQuadAngles = {
         isoscelesTrapezoid: function() {
             var angC, angD;
             do {
-                angC = KhanUtil.randRange(30, 160);
+                angC = KhanUtil.randRange(30, 150);
                 angD = 180 - angC;
             } while (angC === angD);
             return [angC, angC, angD, angD];
@@ -1103,13 +1100,13 @@ KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
     };
 
     var rotatePoint = function(point, angle) {
-        var matrix = KhanUtil.makeMatrix([
+        var matrix = KhanUtil.kmatrix.makeMatrix([
             [Math.cos(angle), -Math.sin(angle), 0],
             [Math.sin(angle), Math.cos(angle), 0],
             [0, 0, 1]
         ]);
-        var vector = KhanUtil.makeMatrix([[point[0]], [point[1]], [1]]);
-        var prod = KhanUtil.matrixMult(matrix, vector);
+        var vector = KhanUtil.kmatrix.makeMatrix([[point[0]], [point[1]], [1]]);
+        var prod = KhanUtil.kmatrix.matrixMult(matrix, vector);
         return [prod[0][0], prod[1][0]];
     };
 

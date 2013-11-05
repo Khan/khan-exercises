@@ -1,5 +1,5 @@
 This directory holds files that are only needed for the 'local'
-version of khan-exercises -- e.g. sandcastle.khanacademy.org.
+version of khan-exercises -- e.g. sandcastle.kasandbox.org.
 
 These files are needed to view the exercises, but in production -- at
 www.khanacademy.org -- are provided by the main khan academy website.
@@ -9,7 +9,7 @@ then that page has loaded jquery.js from
 webapp/javascript/shared-package/jquery.js.  (It needs jquery to
 display the chrome/etc around the exercise.)  We don't need an
 exercise-specific version of jquery.js as well.  However, if you're
-viewing the same exercise at http://sandcastle.khanacademy.org/
+viewing the same exercise at http://sandcastle.kasandbox.org/
 there's no chrome loading jquery.js, so the exercise has to do it
 itself.
 

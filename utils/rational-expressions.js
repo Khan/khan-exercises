@@ -48,13 +48,17 @@ $.extend(KhanUtil, {
          Term(5, {'x': 2}) = 5x^2
          Term(5, {'x': 1, 'y': 2}) = 5xy^2
     */
-    Term: function(coefficient, variables) {
+    Term: function(coefficient, variables, degree) {
         this.coefficient = coefficient;
         this.variables = {};
 
+        if (degree === undefined) {
+            degree = 1;
+        }
+
         if (typeof variables === 'string') {
             for (var i = 0; i < variables.length; i++) {
-                this.variables[variables.charAt(i)] = 1;
+                this.variables[variables.charAt(i)] = degree;
             }
         } else if (variables !== undefined){
             this.variables = variables;
@@ -231,7 +235,7 @@ $.extend(KhanUtil, {
 
         // Return a string showing how the term should be evaluated with a given value
         // e.g. 5x^2 evalated with 3 returns 5(3)^2
-        // If color is defined, the the value representing the variable is colored
+        // If color is defined, the value representing the variable is colored
         this.getEvaluateString = function(values, includeSign, color) {
             var s = '';
 
@@ -265,7 +269,13 @@ $.extend(KhanUtil, {
 
         // Return a regex that will capture this term
         // If includeSign is true, then 4x is captured by +4x
-        this.regex = function(includeSign) {
+        this.regex = function() {
+            return '^' + this.regexForExpression() + '$';
+        };
+
+        // Return a regex that will capture this term
+        // If includeSign is true, then 4x is captured by +4x
+        this.regexForExpression = function(includeSign) {
             if (this.coefficient === 0) {
                 return '';
             }
@@ -312,25 +322,8 @@ $.extend(KhanUtil, {
                 regex += degree > 1 ? vari + "\\s*\\^\\s*" + degree : vari;
             }
 
-
-
-            // Add variable of degree 1 in random order
-            // Only captures one order if there are multiple variables
-
-            /*
-            for (var vari in this.variables) {
-                var degree = this.variables[vari];
-                if (degree !== 0) {
-                    regex += vari;
-                    if (degree > 1) {
-                        regex += "\\s*\\^\\s*" + degree;
-                    }
-                }
-            }
-            */
-
             return regex + '\\s*';
-        };
+        }
 
     },
 
@@ -516,8 +509,8 @@ $.extend(KhanUtil, {
         // Assumes this expression can be factored to remove the one passed in
         this.divide = function(expression) {
             if (expression instanceof KhanUtil.RationalExpression) {
-                if (this.terms.length === 1) {
-                    return this.divideByTerm(expression.terms[0]);
+                if (expression.terms.length === 1) {
+                    return this.divide(expression.terms[0]);
                 }
 
                 var factors1 = this.factor();
@@ -642,7 +635,7 @@ $.extend(KhanUtil, {
 
                 var terms = permutations[p];
                 for (var i = 0; i < terms.length; i++) {
-                    regex += terms[i].regex(i);
+                    regex += terms[i].regexForExpression(i);
                 }
 
                 regex += stop;
@@ -673,7 +666,7 @@ $.extend(KhanUtil, {
             } else if (factors[0].toString() === '-1') {
                 regex += this.getTermsRegex(permutations, "\\s*[-\\u2212]\\s*\\(", "\\)\\s*");
             } else {
-                regex += this.getTermsRegex(permutations, factors[0].regex() + "\\*?\\s*\\(", "\\)\\s*");
+                regex += this.getTermsRegex(permutations, factors[0].regexForExpression() + "\\*?\\s*\\(", "\\)\\s*");
             }
 
             // Factor out a negative
@@ -686,7 +679,7 @@ $.extend(KhanUtil, {
             } else if (factors[0].toString === '-1') {
                 regex += this.getTermsRegex(permutations, "\\s*[-\\u2212]\\s*\\(", "\\)\\s*");
             } else {
-                regex += this.getTermsRegex(permutations, factors[0].regex() + "\\*?\\s*\\(", "\\)\\s*");
+                regex += this.getTermsRegex(permutations, factors[0].regexForExpression() + "\\*?\\s*\\(", "\\)\\s*");
             }
    
             return regex;

@@ -129,14 +129,14 @@ $.extend(KhanUtil, {
             $.each(points, function() {
                 if (this !== point) {
                     var pos = Math.round(this.coord[0] * 2) / 2;
-                    if (!$.isArray(positions[pos])) {
+                    if (!_.isArray(positions[pos])) {
                         positions[pos] = [];
                     }
                     positions[pos].push(this);
                 }
             });
 
-            if ($.isFunction(updateFunction)) {
+            if (_.isFunction(updateFunction)) {
                 updateFunction();
             }
 
@@ -257,7 +257,7 @@ $.extend(KhanUtil, {
         // Keep moving outlier points further away from the median until
         // we get to the right mean
         var mean = calculateMean(newValues);
-        while (mean != graph.graph.targetMean) {
+        while (mean !== graph.graph.targetMean) {
             if (mean < graph.graph.targetMean) {
                 // Start by moving the right-most point further to the right, then the next, etc.
                 var pointToMove = newValues.length - 1;

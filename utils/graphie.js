@@ -1,6 +1,38 @@
 (function() {
+
+    // TODO (jack): Figure out why this isn't working
+    // var kvector = KhanUtil.kvector;
+    // $.fn["graphieLoad"] = function() {
+    //     kvector = KhanUtil.kvector;
+    // };
+
     var Graphie = KhanUtil.Graphie = function() {
     };
+
+    /* Convert cartesian coordinates [x, y] to polar coordinates [r,
+     * theta], with theta in degrees, or in radians if angleInRadians is
+     * specified.
+     */
+    function cartToPolar(coord, angleInRadians) {
+        var r = Math.sqrt(Math.pow(coord[0], 2) + Math.pow(coord[1], 2));
+        var theta = Math.atan2(coord[1], coord[0]);
+        // convert angle range from [-pi, pi] to [0, 2pi]
+        if (theta < 0) {
+            theta += 2 * Math.PI;
+        }
+        if (!angleInRadians) {
+            theta = theta * 180 / Math.PI;
+        }
+        return [r, theta];
+    }
+
+    function polar(r, th) {
+        if (typeof r === "number") {
+            r = [r, r];
+        }
+        th = th * Math.PI / 180;
+        return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
+    }
 
     $.extend(KhanUtil, {
         unscaledSvgPath: function(points) {
@@ -37,7 +69,7 @@
             });
         },
 
-        // Find the angle between two or three points
+        // Find the angle in degrees between two or three points
         findAngle: function(point1, point2, vertex) {
             if (vertex === undefined) {
                 var x = point1[0] - point2[0];
@@ -49,6 +81,27 @@
             } else {
                 return KhanUtil.findAngle(point1, vertex) - KhanUtil.findAngle(point2, vertex);
             }
+        },
+
+        /* Returns the rotation of a point by an angle
+         *
+         * Inverse of findAngle. Returns point rotated by
+         * angle degrees about vertex or the origin, if no
+         * vertex is specified.
+         */
+        findPointFromAngle: function(point, angle, vertex) {
+            if (vertex === undefined) {
+                var polarCoord = cartToPolar(point);
+                var newAngle = polarCoord[1] + angle;
+                return polar(polarCoord[0], newAngle);
+            } else {
+                return KhanUtil.kvector.add(vertex,
+                    KhanUtil.findPointFromAngle(
+                        KhanUtil.kvector.subtract(point, vertex),
+                        angle
+                    )
+                );
+            }
         }
     });
 
@@ -57,31 +110,6 @@
         cartToPolar: cartToPolar,
         polar: polar
     });
-
-    /* Convert cartesian coordinates [x, y] to polar coordinates [r,
-     * theta], with theta in degrees, or in radians if angleInRadians is
-     * specified.
-     */
-    function cartToPolar(coord, angleInRadians) {
-        var r = Math.sqrt(Math.pow(coord[0], 2) + Math.pow(coord[1], 2));
-        var theta = Math.atan2(coord[1], coord[0]);
-        // convert angle range from [-pi, pi] to [0, 2pi]
-        if (theta < 0) {
-            theta += 2 * Math.PI;
-        }
-        if (!angleInRadians) {
-            theta = theta * 180 / Math.PI;
-        }
-        return [r, theta];
-    }
-
-    function polar(r, th) {
-        if (typeof r === "number") {
-            r = [r, r];
-        }
-        th = th * Math.PI / 180;
-        return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
-    }
 
     var labelDirections = {
         "center": [-0.5, -0.5],
@@ -130,11 +158,19 @@
         };
 
         var unscalePoint = function(point) {
+            if (typeof point === "number") {
+                return unscalePoint([point, point]);
+            }
+
             var x = point[0], y = point[1];
             return [x / xScale + xRange[0], yRange[1] - y / yScale];
         };
 
         var unscaleVector = function(point) {
+            if (typeof point === "number") {
+                return unscaleVector([point, point]);
+            }
+
             return [point[0] / xScale, point[1] / yScale];
         };
 
@@ -164,7 +200,7 @@
             }
         };
 
-        var svgPath = function(points) {
+        var svgPath = function(points, alreadyScaled) {
             // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
             function boundNumber(num) {
                 if (num === 0) {
@@ -180,7 +216,7 @@
                 if (point === true) {
                     return "z";
                 } else {
-                    var scaled = scalePoint(point);
+                    var scaled = alreadyScaled ? point : scalePoint(point);
                     return (i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
                 }
             }).join("");
@@ -333,6 +369,12 @@
                 return p;
             },
 
+            scaledPath: function(points) {
+                var p = raphael.path(svgPath(points, /* alreadyScaled */ true));
+                p.graphiePath = points;
+                return p;
+            },
+
             line: function(start, end) {
                 return this.path([start, end]);
             },
@@ -384,12 +426,17 @@
                 $span.setPosition(point);
 
                 var span = $span[0];
-                if (latex) {
-                    KhanUtil.processMath(span, text, false, function() {
+
+                $span.processMath = function(math, force) {
+                    KhanUtil.processMath(span, math, force, function() {
                         var width = span.scrollWidth;
                         var height = span.scrollHeight;
                         setLabelMargins(span, [width, height]);
                     });
+                };
+
+                if (latex) {
+                    $span.processMath(text, /* force */ false);
                 } else {
                     var width = span.scrollWidth;
                     var height = span.scrollHeight;
@@ -552,6 +599,11 @@
                     "height": h
                 });
 
+                // TODO(alex): delete the other places where this gets set
+                if (!this.scale) {
+                    this.scale = scale;
+                }
+
                 return this;
             },
 
@@ -583,7 +635,7 @@
                 var result;
 
                 // The last argument is probably trying to change the style
-                if (typeof last === "object" && !$.isArray(last)) {
+                if (typeof last === "object" && !_.isArray(last)) {
                     currentStyle = $.extend({}, currentStyle, processAttributes(last));
 
                     var rest = [].slice.call(arguments, 0, arguments.length - 1);
@@ -684,7 +736,7 @@
                      range[1][1] + (range[1][1] < 0 ? 1 : 0)]
                 ];
 
-            if (!$.isArray(unityLabels)) {
+            if (!_.isArray(unityLabels)) {
                 unityLabels = [unityLabels, unityLabels];
             }
 

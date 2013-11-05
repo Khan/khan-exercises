@@ -132,29 +132,32 @@
             <span data-if="TYPE === 'smallest'">What was the fewest number of <var>plural_form(ITEM)</var> at any one <var>LOCATION_DISPLAY</var>?</span>
             <span data-else-if="TYPE === 'largest'">What was the largest number of <var>plural_form(ITEM)</var> at any one <var>LOCATION_DISPLAY</var>?</span>
             <span data-else="">
-                <span data-if="isSingular(AMOUNT)" data-unwrap="">
-                    <span data-if="TYPE === 'how-many'">
+                <span data-if="TYPE === 'how-many'">
+                    <span data-if="isSingular(AMOUNT)" data-unwrap="">
                         How many <var>plural_form(LOCATION_DISPLAY)</var> have exactly
                         <var>AMOUNT</var> <var>ITEM</var>?
                     </span>
-                    <span data-if="TYPE === 'less-than'">
+                    <span data-else="" data-unwrap="">
+                        How many <var>plural_form(LOCATION_DISPLAY)</var> have exactly
+                        <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?
+                    </span>
+                </span>
+                <span data-if="TYPE === 'less-than'">
+                    <span data-if="isSingular(AMOUNT)" data-unwrap="">
                         How many <var>plural_form(LOCATION_DISPLAY)</var> have fewer than
                         <var>AMOUNT</var> <var>ITEM</var>?
                     </span>
-                    <span data-if="TYPE === 'greater-than'">
+                    <span data-else="" data-unwrap="">
+                        How many <var>plural_form(LOCATION_DISPLAY)</var> have fewer than
+                        <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?
+                    </span>
+                </span>
+                <span data-if="TYPE === 'greater-than'">
+                    <span data-if="isSingular(AMOUNT)" data-unwrap="">
                         How many <var>plural_form(LOCATION_DISPLAY)</var> have more than
                         <var>AMOUNT</var> <var>ITEM</var>?
                     </span>
-                </span><span data-else="" data-unwrap="">
-                    <span data-if="TYPE === 'how-many'">
-                        How many <var>plural_form(LOCATION_DISPLAY)</var> have exactly
-                        <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?
-                    </span>
-                    <span data-if="TYPE === 'less-than'">
-                        How many <var>plural_form(LOCATION_DISPLAY)</var> have fewer than
-                        <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?
-                    </span>
-                    <span data-if="TYPE === 'greater-than'">
+                    <span data-else="" data-unwrap="">
                         How many <var>plural_form(LOCATION_DISPLAY)</var> have more than
                         <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?
                     </span>

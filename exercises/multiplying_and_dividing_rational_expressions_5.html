@@ -125,26 +125,26 @@
 
         <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex(true) + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex(true) + '$'</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.regex(true)</var></span>
                 <span class="sol" data-type="number"><var>-A</var></span>
                 <span class="sol" data-type="number"><var>-B</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex(true) + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex(true) + '$'</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.regex(true)</var></span>
                 <span class="sol" data-type="number"><var>-B</var></span>
                 <span class="sol" data-type="number"><var>-A</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex(true) + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex(true) + '$'</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(true)</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex(true)</var></span>
                 <span class="sol" data-type="number"><var>-B</var></span>
                 <span class="sol" data-type="number"><var>-A</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex(true) + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex(true) + '$'</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(true)</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex(true)</var></span>
                 <span class="sol" data-type="number"><var>-A</var></span>
                 <span class="sol" data-type="number"><var>-B</var></span>
             </div>
@@ -173,7 +173,7 @@
         </div>
 
         <p class="problem">Simplify the following expression and state the conditions under which the simplification is valid.
-            You can assume that <code><var>X</var> \neq 0</code></p>
+            You can assume that <code><var>X</var> \neq 0</code>.</p>
 
         <p class="question">
             <p><code><var>Y</var> = 
@@ -239,7 +239,7 @@
                     {<var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], CANCEL_ORDER[1].slice(0, 1))</var>}
                 </code></p>
 
-                <div>We are dividing by <code><var>TERM_A</var></code>, so <code><var>TERM_A</var> \neq 0</code></div>
+                <div>We are dividing by <code><var>TERM_A</var></code>, so <code><var>TERM_A</var> \neq 0</code>.</div>
                 <div>Therefore, <code><var>X</var> \neq <var>-A</var></code>.</div>
             </div>
 
@@ -249,7 +249,7 @@
                     {<var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], CANCEL_ORDER[1])</var>}
                 </code></p>
 
-                <div>We are dividing by <code><var>TERM_B</var></code>, so <code><var>TERM_B</var> \neq 0</code></div>
+                <div>We are dividing by <code><var>TERM_B</var></code>, so <code><var>TERM_B</var> \neq 0</code>.</div>
                 <div>Therefore, <code><var>X</var> \neq <var>-B</var></code>.</div>
             </div>
 
@@ -260,7 +260,10 @@
                 </code></p>
             </div>
 
-            <p><code><var>Y</var> = \dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>}</code></p>
+            <p><code>
+                <var>Y</var> = \dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>};
+                <var>X</var> \neq <var>-A</var>; <var>X</var> \neq <var>-B</var>
+            </code></p>
 
         </div>
     </div>

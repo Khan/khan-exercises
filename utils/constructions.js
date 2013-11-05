@@ -1,3 +1,10 @@
+(function(KhanUtil) {
+
+var kmatrix = KhanUtil.kmatrix;
+$.fn["constructionsLoad"] = function() {
+    kmatrix = KhanUtil.kmatrix;
+};
+
 $.extend(KhanUtil, {
     drawHintLine: function(pt1, pt2, ticks) {
         var graphie = KhanUtil.currentGraph;
@@ -6,13 +13,13 @@ $.extend(KhanUtil, {
         var midpoint = [(pt1[0] + pt2[0]) / 2, (pt1[1] + pt2[1]) / 2];
         var angle = Math.atan2(pt2[1] - pt1[1], pt2[0] - pt1[0]);
         var transform = function(point) {
-            var matrix = KhanUtil.makeMatrix([
+            var matrix = kmatrix.makeMatrix([
                 [Math.cos(angle), -Math.sin(angle), midpoint[0]],
                 [Math.sin(angle), Math.cos(angle), midpoint[1]],
                 [0, 0, 1]
             ]);
-            var vector = KhanUtil.makeMatrix([[point[0]], [point[1]], [1]]);
-            var prod = KhanUtil.matrixMult(matrix, vector);
+            var vector = kmatrix.makeMatrix([[point[0]], [point[1]], [1]]);
+            var prod = kmatrix.matrixMult(matrix, vector);
             return [prod[0], prod[1]];
         };
 
@@ -328,7 +335,8 @@ $.extend(KhanUtil, {
                         stroke: KhanUtil.ORANGE,
                         "stroke-width": 3
                     },
-                    extendLine: true
+                    extendLine: true,
+                    movePointsWithLine: true
                 });
 
             $(construction.tool.first.mouseTarget[0]).bind(
@@ -407,13 +415,6 @@ $.extend(KhanUtil, {
             var t = construction.tool;
 
             //t.edge.toBack();
-
-            t.edge.onMove = function(dX, dY) {
-                t.first.setCoord([t.first.coord[0] + dX,
-                    t.first.coord[1] + dY]);
-                t.second.setCoord([t.second.coord[0] + dX,
-                    t.second.coord[1] + dY]);
-            };
 
             t.edge.onMoveEnd = function(dX, dY) {
                 t.edge.visibleLine.toFront();
@@ -790,3 +791,5 @@ $.extend(KhanUtil, {
         return [KhanUtil.eDist(intersect, coord), intersect];
     }
 });
+
+})(KhanUtil);

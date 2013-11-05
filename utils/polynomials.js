@@ -24,10 +24,10 @@ $.extend(KhanUtil, {
             if (typeof expr === "number") {
                 coef = expr;
                 degree = 0;
-            } else if ($.isArray(expr) && !$.isArray(expr[2])) {
+            } else if (_.isArray(expr) && !_.isArray(expr[2])) {
                 coef = expr[1];
                 degree = 1;
-            } else if ($.isArray(expr) && $.isArray(expr[2])) {
+            } else if (_.isArray(expr) && _.isArray(expr[2])) {
                 coef = expr[1];
                 degree = expr[2][2];
             }
@@ -126,6 +126,15 @@ $.extend(KhanUtil, {
 
         this.text = function() {
             return KhanUtil.expr(this.expr(this.variable));
+        };
+
+
+        // Return a string that the expression editor can understand
+        // Probably a better way to do this than string replacements
+        this.parsableText = function() {
+            var s = this.text();
+            s = s.replace(/{/g, "(").replace(/}/g, ")");
+            return s;
         };
 
         this.toString = this.text;

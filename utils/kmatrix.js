@@ -1,4 +1,6 @@
-$.extend(KhanUtil, {
+(function(KhanUtil) {
+
+var kmatrix = KhanUtil.kmatrix = {
     // To add two 2-dimensional matrices, use
     //     deepZipWith(2, function(a, b) { return a + b; }, matrixA, matrixB);
     deepZipWith: function(depth, fn) {
@@ -18,7 +20,7 @@ $.extend(KhanUtil, {
             return fn.apply(null, arrays);
         } else {
             return _.map(_.zip.apply(_, arrays), function(els) {
-                return KhanUtil.deepZipWith.apply(this, [depth - 1, fn].concat(els));
+                return kmatrix.deepZipWith.apply(this, [depth - 1, fn].concat(els));
             });
         }
     },
@@ -81,7 +83,7 @@ $.extend(KhanUtil, {
      */
     printMatrix: function(fn) {
         var args = Array.prototype.slice.call(arguments);
-        mat = KhanUtil.deepZipWith.apply(this, [2].concat(args));
+        mat = kmatrix.deepZipWith.apply(this, [2].concat(args));
 
         if (!mat) {
             return null;
@@ -113,7 +115,7 @@ $.extend(KhanUtil, {
      * @param color {string}
      */
     printSimpleMatrix: function(mat, color) {
-        return KhanUtil.printMatrix(function(item) {
+        return kmatrix.printMatrix(function(item) {
             if (color) {
                 return KhanUtil.colorMarkup(item, color);
             }
@@ -125,7 +127,7 @@ $.extend(KhanUtil, {
      * Prints matrix as determinant, like |matrix| rather than [matrix]
      */
     printSimpleMatrixDet: function(mat, color) {
-        return KhanUtil.printSimpleMatrix(mat,color)
+        return kmatrix.printSimpleMatrix(mat,color)
                 .replace("left[","left|")
                 .replace("right]","right|");
     },
@@ -139,11 +141,11 @@ $.extend(KhanUtil, {
      * @param isRow {bool} whether to apply the colors by row or by column
      */
     printColoredDimMatrix: function(mat, colors, isRow) {
-        var matrix = KhanUtil.matrixMap(function(item, i, j) {
+        var matrix = kmatrix.matrixMap(function(item, i, j) {
             var color = colors[isRow ? i : j];
             return KhanUtil.colorMarkup(item, color);
         }, mat);
-        return KhanUtil.printSimpleMatrix(matrix);
+        return kmatrix.printSimpleMatrix(matrix);
     },
 
     /**
@@ -182,7 +184,7 @@ $.extend(KhanUtil, {
             });
         });
 
-        return KhanUtil.makeMatrix(c);
+        return kmatrix.makeMatrix(c);
     },
 
     // add matrix properties to a 2d matrix
@@ -196,7 +198,7 @@ $.extend(KhanUtil, {
 
     // remove specified row and column from the matrix
     cropMatrix: function(mat, rowIndex, colIndex) {
-        var cropped = KhanUtil.matrixCopy(mat);
+        var cropped = kmatrix.matrixCopy(mat);
         cropped.splice(rowIndex, 1);
         _.each(cropped, function(row) {
             row.splice(colIndex, 1);
@@ -217,7 +219,7 @@ $.extend(KhanUtil, {
 
         // iterate over columns
         _.times(mat.c, function(j) {
-            var hintMat = KhanUtil.cropMatrix(mat, 0, j);
+            var hintMat = kmatrix.cropMatrix(mat, 0, j);
 
             var sign = j % 2 ? "-" : "+";
             sign = j === 0 ? "" : sign;
@@ -226,9 +228,9 @@ $.extend(KhanUtil, {
 
             var term;
             if (isIntermediate) {
-                term = KhanUtil.printSimpleMatrixDet(hintMat);
+                term = kmatrix.printSimpleMatrixDet(hintMat);
             } else {
-                term = KhanUtil.matrix2x2DetHint(hintMat);
+                term = kmatrix.matrix2x2DetHint(hintMat);
                 term = KhanUtil.exprParenthesize(term);
             }
 
@@ -240,8 +242,8 @@ $.extend(KhanUtil, {
 
     // multiply two matrices
     matrixMult: function(a, b) {
-        a = KhanUtil.makeMatrix(a);
-        b = KhanUtil.makeMatrix(b);
+        a = kmatrix.makeMatrix(a);
+        b = kmatrix.makeMatrix(b);
 
         var c = [];
         // create the new matrix
@@ -261,7 +263,7 @@ $.extend(KhanUtil, {
         });
 
         // add matrix properties to the result
-        return KhanUtil.makeMatrix(c);
+        return kmatrix.makeMatrix(c);
     },
 
     /**
@@ -270,12 +272,12 @@ $.extend(KhanUtil, {
      * @param m {result of makeMatrix} the matrix
      */
     matrixMinors: function(mat) {
-        mat = KhanUtil.makeMatrix(mat);
+        mat = kmatrix.makeMatrix(mat);
         if (!mat.r || !mat.c) {
             return null;
         }
-        var rr = KhanUtil.matrixMap(function(input, row, elem) {
-            return KhanUtil.cropMatrix(mat, row, elem);
+        var rr = kmatrix.matrixMap(function(input, row, elem) {
+            return kmatrix.cropMatrix(mat, row, elem);
         }, mat);
         return rr;
     },
@@ -286,7 +288,7 @@ $.extend(KhanUtil, {
      * @param m {result of makeMatrix} the matrix
      */
      matrixTranspose: function(mat) {
-        mat = KhanUtil.makeMatrix(mat);
+        mat = kmatrix.makeMatrix(mat);
 
         var r = mat.c;
         var c = mat.r;
@@ -305,7 +307,7 @@ $.extend(KhanUtil, {
             matT.push(row);
         });
 
-        return KhanUtil.makeMatrix(matT);
+        return kmatrix.makeMatrix(matT);
      },
 
     /**
@@ -316,7 +318,7 @@ $.extend(KhanUtil, {
      * @param m {result of makeMatrix} the matrix
      */
     matrixDet: function(mat) {
-        mat = KhanUtil.makeMatrix(mat);
+        mat = kmatrix.makeMatrix(mat);
 
         // determinant is only defined for a square matrix
         if (mat.r !== mat.c) {
@@ -364,7 +366,7 @@ $.extend(KhanUtil, {
      * @param m {result of makeMatrix} the matrix
      */
     matrixAdj: function(mat) {
-        mat = KhanUtil.makeMatrix(mat);
+        mat = kmatrix.makeMatrix(mat);
 
         var a, b, c, d, e, f, g, h, k;
         var adj;
@@ -408,7 +410,7 @@ $.extend(KhanUtil, {
         }
 
         if (adj) {
-            adj = KhanUtil.makeMatrix(adj);
+            adj = kmatrix.makeMatrix(adj);
         }
 
         return adj;
@@ -423,20 +425,20 @@ $.extend(KhanUtil, {
      * @param precision {int} number of decimal places to round to (optional)
      */
     matrixInverse: function(mat, precision) {
-        var det = KhanUtil.matrixDet(mat);
+        var det = kmatrix.matrixDet(mat);
 
         // if determinant is undefined or 0, inverse does not exist
         if (!det) {
             return null;
         }
 
-        var adj = KhanUtil.matrixAdj(mat);
+        var adj = kmatrix.matrixAdj(mat);
 
         if (!adj) {
             return null;
         }
 
-        var inv = KhanUtil.deepZipWith(2, function(val) {
+        var inv = kmatrix.deepZipWith(2, function(val) {
             val = val / det;
             if (precision) {
                 val = KhanUtil.roundTo(precision, val);
@@ -444,7 +446,7 @@ $.extend(KhanUtil, {
             return val;
         }, adj);
 
-        inv = KhanUtil.makeMatrix(inv);
+        inv = kmatrix.makeMatrix(inv);
 
         return inv;
     },
@@ -463,8 +465,8 @@ $.extend(KhanUtil, {
             return null;
         }
 
-        mat = KhanUtil.makeMatrix(mat);
-        matP = KhanUtil.matrixCopy(mat);
+        mat = kmatrix.makeMatrix(mat);
+        matP = kmatrix.matrixCopy(mat);
 
         finalCols = Math.max(cols, mat.c);
 
@@ -494,7 +496,7 @@ $.extend(KhanUtil, {
             });
         }
 
-        return KhanUtil.makeMatrix(matP);
+        return kmatrix.makeMatrix(matP);
     },
 
     // convert an array to a column matrix
@@ -505,7 +507,7 @@ $.extend(KhanUtil, {
             col.push([e]);
         });
 
-        return KhanUtil.makeMatrix(col);
+        return kmatrix.makeMatrix(col);
     },
 
     // convert a column matrix to an array
@@ -517,18 +519,13 @@ $.extend(KhanUtil, {
         });
 
         return arr;
-    },
-
-    // find the length of a 3d vector
-    vectorLength: function(v) {
-        return Math.sqrt(v[0] * v[0] +
-                         v[1] * v[1] +
-                         v[2] * v[2]);
-    },
-
-    // find the dot-product of two 3d vectors
-    vectorDot: function(a, b) {
-        return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
     }
+};
 
+// TODO(jack): This is a hack to keep these functions
+// showing up as "globals" in khan-exercises
+_.each(kmatrix, function(func, name) {
+    KhanUtil[name] = func;
 });
+
+})(KhanUtil);

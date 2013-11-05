@@ -19,43 +19,23 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown", "gray", "teal", "olive" ])</var>
-
-            <var id="NUMS">(function() {
-                var array = [];
-
-                var used = {};
-
-                var arrLength = randRange( 4, 6 );
-                for ( var i = 0; i &lt; arrLength; i++ ) {
-                    var num = randRange( -100, -1 );
-
-                    if ( !used[ num ] ) {
-                        array[i] = [ num, COLORS[i] ];
-
-                        used[ num ] = true;
-                    } else {
-                        i--;
-                    }
+            <div data-ensure="NUMS_SORT[0] < 0 && !_.isEqual(NUMS, NUMS_SORT)">
+                <var id="NUMS">randRangeUnique(-100, 100, randRange(4, 6))</var>
+                <var id="NUMS_SORT">(NUMS.slice()).sort(function(a, b) { return a - b; })</var>
+            </div>
+            <var id="COLORS">KhanUtil.shuffle(["blue", "green", "red", "purple", "orange", "brown", "gray", "teal", "olive"])</var>
+            <var id="NUM_COLORS">(function() {
+                var mapping = {};
+                for (var i = 0; i &lt; NUMS.length; i++) {
+                    mapping[NUMS[i]] = COLORS[i];
                 }
-                return array;
+                return mapping;
             })()</var>
-
-            <var id="NUMS_TEX">$.map( NUMS, function( el ) {
-                return el[0];
+            <var id="NUMS_COLOR">$.map(NUMS, function(n) {
+                return "\\color{" + NUM_COLORS[n] + "}{" + n + "}";
             } ).join( "," )</var>
-            <var id="NUMS_TEX_COLOR">$.map( NUMS, function( el ) {
-                return "\\color{" + el[1] + "}{" + el[0] + "}";
-            } ).join( "," )</var>
-
-            <var id="NUMS_SORT">$.extend( true, [], NUMS ).sort( function(a, b) {
-                return a[0] - b[0];
-            } )</var>
-            <var id="NUMS_SORT_TEX">$.map( NUMS_SORT, function( el ) {
-                return el[0];
-            } ).join( "," )</var>
-            <var id="NUMS_SORT_TEX_COLOR">$.map( NUMS_SORT, function( el ) {
-                return "\\color{" + el[1] + "}{" + el[0] + "}";
+            <var id="NUMS_SORT_COLOR">$.map(NUMS_SORT, function(n) {
+                return "\\color{" + NUM_COLORS[n] + "}{" + n + "}";
             } ).join( "," )</var>
             <var id="SORTER">createSorter()</var>
         </div>
@@ -63,14 +43,14 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p>Order the following negative numbers from least to greatest:</p>
+                    <p>Order the following integers from least to greatest:</p>
                     <ul id="sortable">
                         <li data-each="NUMS as NUM">
-                            <span class="sort-key"><var>NUM[0]</var></span>
-                            <code><var>NUM[0]</var></code>
+                            <span class="sort-key"><var>NUM</var></span>
+                            <code><var>NUM</var></code>
                         </li>
                     </ul>
-                    <p><var>SORTER.init( "sortable" )</var></p>
+                    <p><var>SORTER.init("sortable")</var></p>
                 </div>
 
                 <div class="solution" data-type="custom">
@@ -79,29 +59,33 @@
                     </div>
                     <div class="guess">SORTER.getContent()</div>
                     <div class="validator-function">
-                        return guess.join( "," ) === NUMS_SORT_TEX;
+                        if (SORTER.hasAttempted) {
+                            return guess.join(",") === NUMS_SORT.join(",");
+                        } else {
+                            return "";
+                        }
                     </div>
                     <div class="show-guess">
-                        SORTER.setContent( guess );
+                        SORTER.setContent(guess);
                     </div>
                 </div>
 
                 <div class="hints">
                     <div>
                         <p>Let's use different colors for each number.</p>
-                        <p class="number-list"><code><var>NUMS_TEX_COLOR</var></code></p>
+                        <p class="number-list"><code><var>NUMS_COLOR</var></code></p>
                     </div>
                     <p>Plot these numbers on a number line. Then we can see which ones are lower and which ones are higher.</p>
                     <div class="graphie" id="number-line">
                         init({
-                            range: [ [-1, 101], [-1, 1] ],
-                            scale: [ 4.5, 40 ]
+                            range: [[-1, 201], [-1, 1]],
+                            scale: [2.2, 40]
                         });
 
                         style({
                             stroke: "#666"
                         }, function() {
-                            graph.nl = numberLine( -100, 0, 10 );
+                            graph.nl = numberLine(-100, 100, 25);
                         });
                     </div>
                     <div class="graphie" data-update="number-line">
@@ -110,17 +94,17 @@
                         });
 
                         var position = "above";
-                        $.each( NUMS_SORT, function( i, el ) {
-                            ellipse(  [ 100 + el[0], 0 ], [ 0.89, 0.1 ], { "stroke-width": 0, fill: el[1] } );
-                            label( [ 100 + el[0], 0 ], "\\color{" + el[1] + "}{" + el[0] + "}", position, { labelDistance: 5 } );
-                            position = ( position === "above" ? "below" : "above" );
+                        $.each(NUMS_SORT, function(i, n) {
+                            ellipse([100 + n, 0], [1.88, 0.1], { "stroke-width": 0, fill: NUM_COLORS[n] });
+                            label([100 + n, 0], "\\color{" + NUM_COLORS[n] + "}{" + n + "}", position, { labelDistance: 5 });
+                            position = (position === "above" ? "below" : "above");
                         } );
                     </div>
                     <div>
                         <p>Now just read the numbers from left to right on the number line.</p>
                         <p>The leftmost numbers are least, and the rightmost numbers are greatest.</p>
                     </div>
-                    <p class="number-list"><code><var>NUMS_SORT_TEX_COLOR</var></code></p>
+                    <p class="number-list"><code><var>NUMS_SORT_COLOR</var></code></p>
                 </div>
             </div>
         </div>

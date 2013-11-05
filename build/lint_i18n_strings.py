@@ -61,8 +61,8 @@ _FUNCTION_RE = re.compile(r'^\s*(\w+)\(.*\)\s*$')
 # We're looking for all nodes that have non-whitespace text inside of them
 # as a direct child node. Additionally we make sure the node isn't inside
 # of a node that matches the same criteria.
-_HAS_TEXT = '*[./text()[normalize-space(.)!=""]]'
-_XPATH_FIND_NODES = '//%s[not(ancestor::%s)]' % (_HAS_TEXT, _HAS_TEXT)
+_HAS_TEXT = './text()[normalize-space(.)!=""]'
+_XPATH_FIND_NODES = '//*[%s][not(ancestor::*[%s])]' % (_HAS_TEXT, _HAS_TEXT)
 
 # All the tags that we want to make sure that strings don't contain
 _REJECT_NODES = [
@@ -238,7 +238,8 @@ def lint_file(filename, apply_fix, verbose):
         filters.append(AmbiguousPluralFilter)
 
     # Collect all the i18n-able nodes out of file
-    nodes = _extract_nodes(filename)
+    html_tree = lxml.html.html5parser.parse(filename, parser=PARSER)
+    nodes = _extract_nodes(html_tree, filename)
 
     # Root HTML Tree
     root_tree = nodes[0].getroottree() if nodes else None
@@ -261,6 +262,22 @@ def lint_file(filename, apply_fix, verbose):
         for lint_node in lint_nodes:
             errors.append("Contains invalid node:\n%s\nInvalid node:\n%s" % (
                 _get_outerhtml(node), _get_outerhtml(lint_node)))
+
+    # A second kind of error is when we have an <span
+    # data-if="isSingular(...)"> that doesn't have natural language
+    # (or another isSingular) inside it -- that is, it has nested
+    # <span> tags instead.  This isn't allowed: isSingular needs to be
+    # at the lowest level of nesting.
+    _IS_SINGULAR = '*[contains(@data-if,"isSingular")]'
+    # "isSingular" nodes which don't contain text directly and don't
+    # contain at least one "isSingular" child node.
+    search_expr = '//%s[not(%s)][not(./%s)]' % (_IS_SINGULAR, _HAS_TEXT,
+                                                _IS_SINGULAR)
+    non_bottom_level_issingular = html_tree.xpath(search_expr)
+    for lint_node in non_bottom_level_issingular:
+        errors.append("'isSingular' nodes must contain text directly;"
+                      " distribute this node into its children:\n%s" % (
+                          _get_outerhtml(lint_node)))
 
     # And now we run the nodes through all of our fixable filters. These
     # filters detect nodes that can be automatically fixed (and fixes them
@@ -1192,10 +1209,43 @@ class MathJaxTextFilter(BaseFilter):
         label("\\text{" + $._("Parents") + "}")
     """
     # Matches \text{...}
-    _regex = re.compile(r'\\text\{.*?\}', re.DOTALL)
+    _regex = re.compile(r'\\text\{([^}]*)\}', re.DOTALL)
+
+    # Matches non-alphabetical character (over all unicode).  Includes
+    # numbers (as being non-alphabetic).
+    # We also have several 'non-translatable words' that we consider
+    # to be non-alpha even though they're made up of letters: units
+    # such as 'mol' and math operators such as 'R' (meaning 'remainder').
+    # We also consider chemical symbols to be non-alpha, but only if
+    # the string consists entirely of chemical symbols (or spaces/etc).
+    # This could give false negatives, if a string is just "He" or "I"
+    # without any other text, but that seems a pretty low risk.
+
+    # html entities that are not alnums.  We make just a partial
+    # list, but could be do something fancy like i18nize_templates does.
+    _NON_ALNUM_ENTITIES = r'&(amp|gt|lt|ldquo|rdquo|mdash|nbsp|pi)'
+    _UNITS_AND_OPERATORS = r'g|mol|ft|R'
+    _CHEMICAL_ELEMENTS = (r'Ac|Ag|Al|Am|Ar|As|At|Au|B|Ba|Be|Bh|Bi|Bk|Br|C|Ca|'
+                          r'Cd|Ce|Cf|Cl|Cm|Co|Cn|Cr|Cs|Cu|Db|Ds|Dy|Er|Es|Eu|F|'
+                          r'Fe|Fm|Fr|Ga|Gd|Ge|H|He|Hf|Hg|Ho|Hs|I|In|Ir|K|Kr|'
+                          r'La|Li|Lr|Lu|Md|Mg|Mn|Mo|Mt|N|Na|Nb|Nd|Ne|Ni|No|Np|'
+                          r'O|Os|P|Pa|Pb|Pd|Pm|Po|Pr|Pt|Pu|Ra|Rb|Re|Rf|Rg|Rh|'
+                          r'Rn|Ru|S|Sb|Sc|Se|Sg|Si|Sm|Sn|Sr|Ta|Tb|Tc|Te|Th|Ti|'
+                          r'Tl|Tm|U|Uuh|Uun|Uuo|Uup|Uuq|Uus|Uut|Uuu|V|W|Xe|Y|'
+                          r'Yb|Zn|Zr')
+
+    _nonalpha_re = re.compile(r'^(([^\w&]|\d|%s\b|\b%s\b)*|(%s|\W)*)$'
+                              % (_NON_ALNUM_ENTITIES, _UNITS_AND_OPERATORS,
+                                 _CHEMICAL_ELEMENTS),
+                              re.UNICODE)
 
     def get_match(self, fix_node):
         """Return a match of a string that matches \\text{...}"""
+        # This isn't a really useful return value because a node could
+        # have multiple \\text nodes that need to be fixed up.  So we
+        # don't even bother to do the _nonalpha_re check here, doing
+        # it instead in _do_*_text_replace, which are the routines
+        # that examine each \\text node individually.
         return self._regex.search(_get_innerhtml(fix_node))
 
     def filter_var(self, match, var_node):
@@ -1333,6 +1383,11 @@ class MathJaxTextFilter(BaseFilter):
         # which has semi-strange quoting in the content string
         (text_start, text_content, text_end) = match.groups()
 
+        # If the match doesn't have any natural-language text in it,
+        # make no changes.
+        if MathJaxTextFilter._nonalpha_re.match(text_content):
+            return match.group(0)
+
         # The main regex
         search_re = re.compile(
             r"""["']\s*\+\s*(.*?)\s*\+\s*["']""",
@@ -1402,6 +1457,12 @@ class MathJaxTextFilter(BaseFilter):
         """
         # Pull out the parts from the match
         (text_start, text_content, text_end) = match.groups()
+
+        # If the match doesn't have any natural-language text in it,
+        # make no changes.  (Ignoring variables in <var> tags...)
+        text_content_no_var = re.sub(r'<var>.*?</var>', '', text_content)
+        if MathJaxTextFilter._nonalpha_re.match(text_content_no_var):
+            return match.group(0)
 
         # The main regex
         search_re = re.compile(r'<var>(.*?)</var>', re.DOTALL)
@@ -1669,11 +1730,8 @@ def _check_plural_is_ambiguous(plural_arg):
     return True
 
 
-def _extract_nodes(filename):
+def _extract_nodes(html_tree, filename):
     """Extract all the i18n-able nodes out of a file."""
-    # Parse the HTML tree
-    html_tree = lxml.html.html5parser.parse(filename, parser=PARSER)
-
     # Turn all the tags into a full XPath selector
     search_expr = _XPATH_FIND_NODES
 

@@ -57,13 +57,12 @@
             <div class="hints">
                 <div class="graphie" data-update="angle">
                     graph.protractor.moveTo( 0, 0 );
-                    graph.protractor.rotateTo( 360 - ANGLE_ONE );
-                    label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                    graph.protractor.rotateTo( 540 - ANGLE_ONE - DIFF );
                 </div>
                 <div>
                     <p>The shown angle measures less than <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
-                        label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                        label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                     </div>
                 </div>
                 <p>Therefore, it is an acute angle.</p>
@@ -80,12 +79,12 @@
             <div class="hints">
                 <div class="graphie" data-update="angle">
                     graph.protractor.moveTo( 0, 0 );
-                    graph.protractor.rotateTo( 360 - ANGLE_ONE );
+                    graph.protractor.rotateTo( 540 - ANGLE_ONE - DIFF );
                 </div>
                 <div>
                     <p>The shown angle measures <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
-                        label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                        label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                     </div>
                 </div>
                 <p>Therefore, it is a right angle.</p>
@@ -102,12 +101,12 @@
             <div class="hints">
                 <div class="graphie" data-update="angle">
                     graph.protractor.moveTo( 0, 0 );
-                    graph.protractor.rotateTo( 360 - ANGLE_ONE );
+                    graph.protractor.rotateTo( 540 - ANGLE_ONE - DIFF );
                 </div>
                 <div>
                     <p>The shown angle measures more than <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
-                        label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                        label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                     </div>
                 </div>
                 <p>Therefore, it is an obtuse angle.</p>

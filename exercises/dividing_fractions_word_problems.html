@@ -134,8 +134,9 @@
                     <var id="PAINT">randRange(1, 3)</var>
                     <var id="SOLUTION">PAINT * D</var>
                     <var id="ROOM">(randRange(1, 20) + SOLUTION)</var>
-                    <var id="CANS_OF_PAINT">$._("cans of paint")</var>
-                    <var id="CAN_PER_ROOM">$._("can per room")</var>
+                    <var id="CAN_OF_PAINT">new Plural(function(num) {
+                        return $.ngettext("can of paint", "cans of paint", num);
+                    })</var>
                     <var id="ROOMS">$._("rooms")</var>
                     <var id="CAN_PER_ROOM">$._("can per room")</var>
                     <var id="ROOMS_PER_CAN">$._("rooms per can")</var>
@@ -152,10 +153,10 @@
                 </p>
 
                 <p class="question" data-if="isMale(1)">
-                    If <var>person(1)</var> had <var>PAINT</var> <span data-if="PAINT > 1">cans</span><span data-else>can</span> of paint, how many rooms could he paint?
+                    If <var>person(1)</var> had <var>PAINT</var> <var>plural_form(CAN_OF_PAINT, PAINT)</var>, how many rooms could he paint?
                 </p>
                 <p class="question" data-else="">
-                    If <var>person(1)</var> had <var>PAINT</var> <span data-if="PAINT > 1">cans</span><span data-else>can</span> of paint, how many rooms could she paint?
+                    If <var>person(1)</var> had <var>PAINT</var> <var>plural_form(CAN_OF_PAINT, PAINT)</var>, how many rooms could she paint?
                 </p>
                 <div class="solution"><var>SOLUTION</var></div>
 
@@ -165,7 +166,7 @@
                         a can) to find out how many rooms <var>person(1)</var> could paint.
                     </p>
                     <p><code>
-                        \dfrac{\red{<var>PAINT</var> \text{ <var>CANS_OF_PAINT</var>}}}
+                        \dfrac{\red{<var>PAINT</var> \text{ <var>plural_form(CAN_OF_PAINT, PAINT)</var>}}}
                         {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>CAN_PER_ROOM</var>}}} = \green{\text{ <var>ROOMS</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
@@ -174,12 +175,12 @@
                         is <code>\green{<var>D</var> \text{ <var>ROOMS_PER_CAN</var>}}</code>.
                     </p>
                     <p><code>
-                        \red{<var>PAINT</var>\text{ <var>CANS_OF_PAINT</var>}} \times
+                        \red{<var>PAINT</var>\text{ <var>plural_form(CAN_OF_PAINT, PAINT)</var>}} \times
                         \green{<var>D</var> \text{ <var>ROOMS_PER_CAN</var>}}
                         = \green{\text{ <var>ROOMS</var>}}
                     </code></p>
                     <p><code>
-                        \phantom{<var>PAINT</var>\text{ <var>CANS_OF_PAINT</var>} \times <var>D</var> \text{ <var>ROOMS_PER_CAN</var>}}
+                        \phantom{<var>PAINT</var>\text{ <var>plural_form(CAN_OF_PAINT, PAINT)</var>} \times <var>D</var> \text{ <var>ROOMS_PER_CAN</var>}}
                         = \green{<var>D * PAINT</var> \text{ <var>ROOMS</var>}}
                     </code></p>
                     <p><var>person(1)</var> could paint <var>SOLUTION</var> rooms.</p>
@@ -190,18 +191,21 @@
                 <div class="vars">
                     <var id="D">randRange(4, 10)</var>
                     <var id="MILES">randRange(1, 3)</var>
+                    <var id="MILE">new Plural(function(num) {
+                        return $.ngettext("mile", "miles", num);
+                    })</var>
                     <var id="SOLUTION">MILES * D</var>
                     <var id="TIME">fraction(randRange(1,3), randRange(4,6), true, true, true)</var>
-                    <var id="MILE">$._("miles")</var>
                     <var id="MILE_PER_SWIMMER">$._("mile per swimmer")</var>
                     <var id="NUMBER_OF_SWIMMERS">$._("number of swimmers")</var>
                     <var id="SWIMMERS_PER_MILE">$._("swimmers per mile")</var>
+                    <var id="SWIMMERS">$._("swimmers")</var>
                 </div>
 
                 <div class="problem">
                     <p>As the swim coach at <var>school(1)</var>, <var>person(1)</var> selects which athletes will participate in the state-wide swim relay.</p>
                     <p>
-                        The relay team swims <code><var>MILES</var></code> <span data-if="MILES > 1">miles</span><span data-else="">mile</span>
+                        The relay team swims <code><var>MILES</var></code> <var>plural_form(MILE, MILES)</var>
                         in total, with each team member responsible for swimming <code>\frac{1}{<var>D</var>}</code> of a mile.
                         The team must complete the swim in <code><var>TIME</var></code> of an hour.
                     </p>
@@ -213,11 +217,11 @@
                 <div class="hints">
                     <p>
                         To find out how many swimmers <var>person(1)</var> needs on the team, divide the total distance
-                        (<code><var>MILES</var></code> <span data-if="MILES > 1">miles</span><span data-else="">mile</span>)
+                        (<code><var>MILES</var></code> <var>plural_form(MILE, MILES)</var>)
                         by the distance each team member will swim (<code>\frac{1}{<var>D</var>}</code> of a mile).
                     </p>
                     <p><code>
-                        \dfrac{\red{<var>MILES</var> \text{ <span data-if="MILES > 1">miles</span><span data-else="">mile</span>}}}
+                        \dfrac{\red{<var>MILES</var>\text{ <var>plural_form(MILE, MILES)</var>}}}
                         {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>MILE_PER_SWIMMER</var>}}} = \green{\text{ <var>SWIMMERS_PER_MILE</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
@@ -226,12 +230,12 @@
                         is <code>\green{<var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}}</code>.
                     </p>
                     <p><code>
-                        \red{<var>MILES</var> \text{ <span data-if="MILES > 1">miles</span><span data-else="">mile</span>}} \times
+                        \red{<var>MILES</var> \text{ <var>plural_form(MILE, MILES)</var>}} \times
                         \green{<var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}} = \green{\text{ <var>NUMBER_OF_SWIMMERS</var>}}
                     </code></p>
                     <p><code>
-                        \phantom{<var>MILES</var>\text{ <span data-if="MILES > 1">miles</span><span data-else="">mile</span>} \times
-                        <var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}} = \green{<var>D * MILES</var> \text{ swimmers}}
+                        \phantom{<var>MILES</var>\text{ <var>plural_form(MILE, MILES)</var>} \times
+                        <var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}} = \green{<var>D * MILES</var> \text{ <var>SWIMMERS</var>}}
                     </code></p>
 
                     <p data-if="isMale(1)"><var>person(1)</var> needs <var>SOLUTION</var> swimmers on his team.</p>
@@ -244,11 +248,14 @@
                     <var id="D">randRange(6, 30)</var>
                     <var id="CHOCOLATE">randRange(1, 3)</var>
                     <var id="SOLUTION">D * CHOCOLATE</var>
-                    <var id="POUND_OF_CHOCOLATE">$._("pound of chocolate")</var>
                     <var id="POUND_PER_BAG">$._("pound per bag")</var>
-                    <var id="NUMBER_OF_BAGS">$._("number of bags")</var>
-                    <var id="POUND">$._("pound")</var>
+                    <var id="POUNDS">
+                        new Plural(function(n) {
+                            return $.ngettext("pound", "pounds", n)
+                        })
+                    </var>
                     <var id="BAGS_PER_POUND">$._("bags per pound")</var>
+                    <var id="GIFT_BAGS">$._("gift bags")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -259,23 +266,23 @@
                     of the holiday gift bags she made for her friends and family.
                 </p>
 
-                <p class="question">How many holiday gift bags could <var>person(1)</var> make with <code><var>CHOCOLATE</var></code> <var>POUND</var> of chocolate?</p>
+                <p class="question">How many holiday gift bags could <var>person(1)</var> make with <code><var>CHOCOLATE</var></code> <var>plural_form(POUNDS, CHOCOLATE)</var> of chocolate?</p>
 
                 <div class="solution"><var>SOLUTION</var></div>
 
                 <div class="hints">
                     <p data-if="isMale(1)">
                         To find out how many gift bags <var>person(1)</var> could create, divide the total chocolate
-                        (<code><var>CHOCOLATE</var></code> <var>POUND</var>) by the amount he wanted to include in each gift bag
+                        (<code><var>CHOCOLATE</var></code> <var>plural_form(POUNDS, CHOCOLATE)</var>) by the amount he wanted to include in each gift bag
                         (<code>\frac{1}{<var>D</var>}</code> of a pound).
                     </p><p data-else="">
                         To find out how many gift bags <var>person(1)</var> could create, divide the total chocolate
-                        (<code><var>CHOCOLATE</var></code> <var>POUND</var>) by the amount she wanted to include in each gift bag
+                        (<code><var>CHOCOLATE</var></code> <var>plural_form(POUNDS, CHOCOLATE)</var>) by the amount she wanted to include in each gift bag
                         (<code>\frac{1}{<var>D</var>}</code> of a pound).
                     </p>
                     <p><code>
-                        \dfrac{\red{<var>CHOCOLATE</var> \text{ <var>POUND</var>}}}
-                        {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>POUND_PER_BAG</var>}}} = \green{\text{ gift bags}}
+                        \dfrac{\red{<var>CHOCOLATE</var> \text{ <var>plural_form(POUNDS, CHOCOLATE)</var>}}}
+                        {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>POUND_PER_BAG</var>}}} = \green{\text{ <var>GIFT_BAGS</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
@@ -285,11 +292,11 @@
                     <p><code>
                         \red{<var>CHOCOLATE</var>\text{ <var>POUND_PER_BAG</var>}} \times
                         \green{<var>D</var> \text{ <var>BAGS_PER_POUND</var>}}
-                        = \green{\text{ gift bags}}
+                        = \green{\text{ <var>GIFT_BAGS</var>}}
                     </code></p>
                     <p><code>
                         \phantom{<var>CHOCOLATE</var>\text{ <var>POUND_PER_BAG</var>} \times <var>D</var> \text{ <var>BAGS_PER_POUND</var>}}
-                        = \green{<var>D * CHOCOLATE</var> \text{ gift bags}}
+                        = \green{<var>D * CHOCOLATE</var> \text{ <var>GIFT_BAGS</var>}}
                     </code></p>
                     <p><var>person(1)</var> could create <var>SOLUTION</var> gift bags.</p>
                 </div>
@@ -307,6 +314,7 @@
                     <var id="HOUR_PER_EXERCISE">$._("hour per exercise")</var>
                     <var id="NUMBER_OF_EXERCISES">$._("number of exercises")</var>
                     <var id="EXERCISES_PER_HOUR">$._("exercises per hour")</var>
+                    <var id="EXERCISES">$._("exercises")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -347,7 +355,7 @@
                     </code></p>
                     <p><code>
                         \phantom{<var>HOURS</var>\text{ <var>plural_form(HOUR, HOURS)</var>} \times <var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}
-                        = \green{<var>D * HOURS</var> \text{ exercises}}
+                        = \green{<var>D * HOURS</var> \text{ <var>EXERCISES</var>}}
                     </code></p>
                     <p><var>person(1)</var> can do <var>SOLUTION</var> different types of exercise per workout.</p>
                 </div>

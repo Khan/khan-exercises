@@ -27,25 +27,25 @@
                 CLONE = graph.polygon.clone();
             </div>
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>ANSWER</var></span> degrees
+                <span class="sol" data-forms="integer"><var>ANSWER</var></span> <code>\Large{^\circ}</code>
             </div>
             <div class="hints">
                 <p>There are a couple ways to approach this problem.</p>
-                <p>Does it help to remember that there are 180 degrees in a triangle?</p>
+                <p>Does it help to remember that there are <code>180^{\circ}</code> in a triangle?</p>
                 <div>
                     <p>Since this polygon has <var>SIDES</var> sides, we can draw <var>SIDES</var> triangles that all meet in the center.</p>
                     <div class="graphie" data-update="circle">
                         graph.polygon.drawRadialDiagonals();
                     </div>
                 </div>
-                <p>We can combine all the triangles' angles, and then we must subtract 360 degrees because the circle in the middle is extra.</p>
+                <p>We can combine all the triangles' angles, and then we must subtract <code>360^{\circ}</code> because the circle in the middle is extra.</p>
                 <p><code>\begin{align*}&amp;<var>SIDES</var> \times 180^{\circ} - 360^{\circ} \\
                     &amp;= <var>SIDES * 180</var>^{\circ} - 360^{\circ} \\
                     &amp;= <var>ANSWER</var>^{\circ}\end{align*}</code></p>
 
                 <div>
                     <p>An alternative approach is shown below.</p>
-                    <p>We can use four of the <var>cardinal( SIDES )</var> sides to make 2 triangles, as shown in orange.</p>
+                    <p>We can use four of the <var>cardinalThrough20( SIDES )</var> sides to make 2 triangles, as shown in orange.</p>
                     <div class="graphie" data-id="other">
                         init({
                              range: [ [ -5, 5 ], [ -1, 5 ] ]
@@ -56,9 +56,11 @@
                     </div>
                 </div>
                 <p data-if="isSingular(SIDES - 4)">There is <var>SIDES - 4</var> side between the orange triangles, to make <var>SIDES - 4</var> additional triangle.</p><p data-else="">There are <var>SIDES - 4</var> sides between the orange triangles, to make <var>SIDES - 4</var> additional triangles.</p>
-                <p>We chopped this polygon into <var>SIDES - 2</var> triangles, and each triangle's angles sum to 180 degrees.</p>
-                <p><code><var>SIDES - 2</var> \times 180^{\circ} = <var>ANSWER</var>^{\circ}</code></p>
-                <p>The sum of the polygon's interior angles is <var>ANSWER</var> degrees.</p>
+                <p>We chopped this polygon into <var>SIDES - 2</var> triangles, and each triangle's angles sum to <code>180^{\circ}</code>.</p>
+                <div>
+                    <p><code><var>SIDES - 2</var> \times 180^{\circ} = <var>ANSWER</var>^{\circ}</code></p>
+                    <p>The sum of the polygon's interior angles is <code><var>ANSWER</var>^{\circ}</code>.</p>
+                </div>
             </div>
         </div>
         <div id="exterior">
@@ -71,7 +73,7 @@
                 graph.polygon.draw();
             </div>
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>360</var></span> degrees
+                <span class="sol" data-forms="integer"><var>360</var></span> <code>\Large{^\circ}</code>
             </div>
 
             <div class="hints">
@@ -84,8 +86,8 @@
                 <div class="graphie" data-update="polygon">
                     graph.polygon.animateExteriorAngles( randRange( 0, SIDES - 1 ) );
                 </div>
-                <p>The exterior angles fit together to form a circle</p>
-				<p>Therefore, the sum of the exterior angles is 360 degrees.</p>
+                <p>The exterior angles fit together to form a circle.</p>
+                <p>Therefore, the sum of the exterior angles is <code>360^{\circ}</code>.</p>
             </div>
         </div>
     </div>

@@ -191,21 +191,30 @@ def pack_file(file_contents)
   return doc.to_html
 end
 
-current_file_contents = []
-ARGF.lines do |line|
-  if (ARGF.to_io.lineno == 1 or              # starting a new file: argv mode
-      (ARGF.filename == '-' and line.match(/^<!DOCTYPE/)))    # or stdin mode
-    unless current_file_contents.empty?
-      puts pack_file(current_file_contents.join(''))
-      current_file_contents = []
-    end
-    $stderr.puts "... packing exercise #{File.basename(ARGF.filename)}"
-  end
-  current_file_contents << line
-end
 
-# Put the last file as well.
-puts pack_file(current_file_contents.join('')) unless current_file_contents.empty?
+# args are a series of filenames or infile::outfile strings.  If just
+# a filename is given for argv[i], it is treated as filename::<stdout>.
+# If no args are given at all, we process [<stdin>::<stdout>]; that
+# is, the script is used as a filter.
+args = ARGV || ['-']
+args.each do |f|
+  (infile_name, outfile_name) = f.split(/::/)
+  if infile_name == '-'
+    input = $stdin.read
+  else
+    input = File.open(infile_name).read
+  end
+
+  output = pack_file(input)
+
+  if outfile_name
+    File.open(outfile_name, 'w') do |outfile|
+      outfile.puts output
+    end
+  else
+    puts output
+  end
+end
 
 # ruby wants to do some expensive cleanup we don't care about.  Short-circuit.
 $stdout.flush

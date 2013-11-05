@@ -229,6 +229,7 @@ $.tmpl = {
         }
 
         function doEval() {
+            /* jshint -W085 */
             // Use the methods from JavaScript's built-in Math methods
             with (Math) {
                 // And the methods provided by the library
@@ -242,6 +243,7 @@ $.tmpl = {
                     }
                 }
             }
+            /* jshint +W085 */
         }
 
         if (Khan.query.debug != null) {
@@ -335,7 +337,6 @@ $.fn.tmpl = function() {
 
         // If undefined, do nothing
         } else if (ret === undefined) {
-;
 
         // If a (possibly-empty) array of nodes, replace this one with those
         // The type of ret is checked to ensure it is not a function
@@ -458,24 +459,26 @@ $.fn.tmpl = function() {
 
         // Look through each of the attr processors, see if our element has the matching attribute
         for (var attr in $.tmpl.attr) {
-            var value;
+            if ($.tmpl.attr.hasOwnProperty(attr)) {
+                var value;
 
-            if ((/^data-/).test(attr)) {
-                value = $elem.data(attr.replace(/^data-/, ""));
-            } else {
-                value = $elem.attr(attr);
-            }
+                if ((/^data-/).test(attr)) {
+                    value = $elem.data(attr.replace(/^data-/, ""));
+                } else {
+                    value = $elem.attr(attr);
+                }
 
-            if (value !== undefined) {
-                ret = $.tmpl.attr[attr](elem, value);
+                if (value !== undefined) {
+                    ret = $.tmpl.attr[attr](elem, value);
 
-                // If a function, run after all of the other templating
-                if (typeof ret === "function") {
-                    post.push(ret);
+                    // If a function, run after all of the other templating
+                    if (typeof ret === "function") {
+                        post.push(ret);
 
-                // Return anything else (boolean, array of nodes for replacement, object for data-each)
-                } else if (ret !== undefined) {
-                    return ret;
+                    // Return anything else (boolean, array of nodes for replacement, object for data-each)
+                    } else if (ret !== undefined) {
+                        return ret;
+                    }
                 }
             }
         }

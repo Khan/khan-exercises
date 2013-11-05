@@ -131,11 +131,12 @@
         start();
     });
 
-    asyncTest("term regex", 7, function() {
+    asyncTest("term regex", 8, function() {
         checkRegex(t1.regex(), "4", true, "right answer is right");
         checkRegex(t1.regex(), "-4", false, "wrong answer is wrong");
+        checkRegex(t1.regex(), "4x", false, "wrong answer is wrong");
         checkRegex(t1.regex(), "  4 ", true, "right answer with spaces is right");
-        checkRegex(t1.regex(true), " + 4 ", true, "right answer leading sign is right");
+        checkRegex(t1.regex(true), "4", true, "ignore passed in true");
         checkRegex(t3.regex(), "-12x", true, "right answer is right");
         checkRegex(t3.regex(), " 1 2 x ", false, "wrong answer with spaces is wrong");
         checkRegex(t4.regex(), "12x^2", true, "right answer is right");
@@ -188,10 +189,14 @@
         start();
     });
 
-    asyncTest("divide expression", 3, function() {
+    asyncTest("divide expression", 7, function() {
         strictEqual(e4.divide(2).toString(), "x^2y^3 - 6x + 2", "expr by digit");
         strictEqual(e2.divide(t1).toString(), "-3x + 1", "expr by term digit");
         strictEqual(e4.divide(t2).toString(), "2xy^3 - 12 + 4x^-1", "expr by term");
+        strictEqual(e2.divide(new KhanUtil.RationalExpression([[2]])).toString(), "-6x + 2", "expr by one-term expr");
+        strictEqual(e2.divide(new KhanUtil.RationalExpression([[3, 'x'], -1])).toString(), "-4", "expr by expr");
+        strictEqual(e2.divide(new KhanUtil.RationalExpression([[-6, 'x'], 2])).toString(), "2", "expr by expr different factor");
+        strictEqual(e2.divide(new KhanUtil.RationalExpression([[3, 'x'], 1])), false, "expr by expr doesn't go");
         start();
     });
 

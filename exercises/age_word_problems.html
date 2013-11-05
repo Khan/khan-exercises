@@ -19,7 +19,7 @@
                 <p class="spin">
                 {<var>person(1)</var> is <var>A</var> years older than <var>person(2)</var>|<var>person(2)</var> is <var>A</var> years younger than <var>person(1)</var>}.
                 {For the last {four|3|two} years, <var>person(1)</var> and <var>person(2)</var> have been going to the same school.|<var>person(1)</var> and <var>person(2)</var> first met 3 years ago.|}
-                <var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</p>
+                <var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</p>
 
                 <p>How old is <var>person(1)</var> now?</p>
             </div>
@@ -39,7 +39,7 @@
         <div id="solve-younger-1" data-type="solve-older-1">
             <div class="question">
                 <p><var>person(1)</var> is <var>A</var> years older than
-                <var>person(2)</var>. <var>Cardinal(B)</var> years ago, <var>person(1)</var>
+                <var>person(2)</var>. <var>CardinalThrough20(B)</var> years ago, <var>person(1)</var>
                 was <var>C</var> times as old as <var>person(2)</var>.</p>
 
                 <p>How old is <var>person(2)</var> now?</p>
@@ -49,7 +49,7 @@
             <div class="hints">
                 <p>Let <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
                 <p>That means that <var>person(1)</var> is currently <code><var>personVar(2)</var> + <var>A</var></code> years old and <var>B</var> years ago, <var>person(1)</var> was <code>(<var>personVar(2)</var> + <var>A</var>) - <var>B</var> = <var>personVar(2)</var> + <var>A - B</var></code> years old.</p>
-                <p><var>Cardinal(B)</var> years ago, <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
+                <p><var>CardinalThrough20(B)</var> years ago, <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
                 <p><var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>, so that means <code><var>personVar(2)</var> + <var>A - B</var> = <var>C</var> (<var>personVar(2)</var> - <var>B</var>)</code>.</p>
                 <p>Expand: <code><var>personVar(2)</var> + <var>A - B</var> = <var>C</var> <var>personVar(2)</var> - <var>C * B</var></code>.</p>
                 <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A - B + C * B</var></code>.</p>
@@ -111,7 +111,7 @@
             </div>
 
             <div class="question">
-                <p><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>. <var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</p>
+                <p><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>. <var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</p>
 
                 <p>How old is <var>person(1)</var> now?</p>
             </div>
@@ -130,7 +130,7 @@
 
         <div id="solve-younger-3" data-type="solve-older-3">
             <div class="question">
-                <p><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>. <var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</p>
+                <p><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>. <var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</p>
 
                 <p>How old is <var>person(2)</var> now?</p>
             </div>
@@ -139,7 +139,7 @@
             <div class="hints">
                 <p>Let <var>person(2)</var>'s age be <code><var>personVar(2)</var></code>.</p>
                 <p>We know <var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>, so <var>person(1)</var>'s age can be written as <code><var>A</var> <var>personVar(2)</var></code>.</p>
-                <p><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <code><var>A</var> <var>personVar(2)</var> - <var>B</var></code> years old and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
+                <p><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <code><var>A</var> <var>personVar(2)</var> - <var>B</var></code> years old and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
                 <p>At that time, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>, so we can write <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> (<var>personVar(2)</var> - <var>B</var>)</code>.</p>
                 <p>Expand: <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> <var>personVar(2)</var> - <var>B * C</var></code>.</p>
                 <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var></code>

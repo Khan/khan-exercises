@@ -12,10 +12,13 @@
                 <div class="vars">
                     <var id="X">randRange( -20, -1 )</var><!-- Afternoon temperature -->
                     <var id="Y">randRange( 5, 30 )</var><!-- Temperature change -->
+                    <var id="DEGREE">new Plural(function(num) {
+                        return $.ngettext("degree", "degrees", num);
+                    })</var>
                     <var id="Z">X - Y</var><!-- Final temperature -->
                 </div>
 
-                <p class="problem spin">{This afternoon, an outdoor temperature had a reading of|On a cold February afternoon, the temperature outside was} <var>abs( X )</var> degrees below zero. {By evening, the temperature had dropped by|In the evening, you take a quick look at the thermometer, and see that the temperature had dropped by} <var>Y</var> degrees.</p>
+                <p class="problem spin">{This afternoon, an outdoor temperature had a reading of|On a cold February afternoon, the temperature outside was} <var>abs( X )</var> <var>plural_form(DEGREE, abs( X ))</var> below zero. {By evening, the temperature had dropped by|In the evening, you take a quick look at the thermometer, and see that the temperature had dropped by} <var>Y</var> degrees.</p>
                 <p class="question">What was the temperature in the evening?</p>
 
                 <div class="solution" data-type="multiple">
@@ -23,7 +26,7 @@
                 </div>
 
                 <div class="hints">
-                    <p><code><var>abs( X )</var></code> degrees below zero is the same as <code><var>X</var>^{\circ}</code>.</p>
+                    <p><code><var>abs( X )</var></code> <var>plural_form(DEGREE, abs( X ))</var> below zero is the same as <code><var>X</var>^{\circ}</code>.</p>
                     <div>
                         <p>Since the temperature dropped by <code><var>Y</var>^{\circ}</code>, subtract this amount from the afternoon temperature.</p>
                         <p><code><var>X</var>^{\circ} - <var>Y</var>^{\circ} = <var>Z</var>^{\circ}</code></p>
@@ -36,12 +39,15 @@
                 <div class="vars">
                     <var id="X">randRange( -30, -15 )</var><!-- Initial temperature -->
                     <var id="Z">randRange( -10, 20 )</var><!-- Final temperature -->
+                    <var id="DEGREE">new Plural(function(num) {
+                        return $.ngettext("degree", "degrees", num);
+                    })</var>
                     <var id="Y">Z - X</var><!-- Temperature change -->
                     <var id="sleddingHours">randRange( 1, 8 )</var>
                 </div>
 
-                <p class="problem spin" data-if="isMale(1)">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for his daily sledding practice}, he {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>sleddingHours</var> <var>plural("hour", sleddingHours)</var>,|After a long day of sledding he saw that} the temperature was now <var>Z</var> degrees.</p>
-                <p class="problem spin" data-else="">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for her daily sledding practice}, she {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>sleddingHours</var> <var>plural("hour", sleddingHours)</var>,|After a long day of sledding she saw that} the temperature was now <var>Z</var> degrees.</p>
+                <p class="problem spin" data-if="isMale(1)"><span data-if="isSingular(sleddingHours)" data-unwrap="">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for his daily sledding practice}, he {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>sleddingHours</var> hour,|After a long day of sledding he saw that} the temperature was now <var>Z</var> <var>plural_form(DEGREE, Z)</var>.</span><span data-else="" data-unwrap="">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for his daily sledding practice}, he {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>sleddingHours</var> hours,|After a long day of sledding he saw that} the temperature was now <var>Z</var> <var>plural_form(DEGREE, Z)</var>.</span></p>
+                <p class="problem spin" data-else=""><span data-if="isSingular(sleddingHours)" data-unwrap="">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for her daily sledding practice}, she {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>sleddingHours</var> hour,|After a long day of sledding she saw that} the temperature was now <var>Z</var> <var>plural_form(DEGREE, Z)</var>.</span><span data-else="" data-unwrap="">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for her daily sledding practice}, she {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>sleddingHours</var> hours,|After a long day of sledding she saw that} the temperature was now <var>Z</var> <var>plural_form(DEGREE, Z)</var>.</span></p>
                 <p class="question">By how many degrees had the temperature increased?</p>
 
                 <div class="solution" data-type="multiple">

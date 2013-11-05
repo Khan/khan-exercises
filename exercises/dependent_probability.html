@@ -86,8 +86,8 @@
                 <p class="question">
                     If the teacher chooses <code><var>CHOSEN</var></code>
                     students, what is the probability that 
-                    <var>ALL ? ((CHOSEN === 2) ? "both" : "all " + cardinal(CHOSEN)) :
-                    ((CHOSEN === 2) ? "neither" : "none of the " + cardinal(CHOSEN))</var>
+                    <var>ALL ? ((CHOSEN === 2) ? "both" : "all " + cardinalThrough20(CHOSEN)) :
+                    ((CHOSEN === 2) ? "neither" : "none of the " + cardinalThrough20(CHOSEN))</var>
                     of them <var>EVENT_PY</var>?
                 </p>
 
@@ -235,7 +235,7 @@
                     </p>
                     <p>
                         Let's take the events one at at time. 
-                        What is the probability that the first marble chosen 
+                        What is the probability that the first <var>MARBLE</var> chosen 
                         will be <var>COLOR_ONE</var>?
                     </p>
                     <p>

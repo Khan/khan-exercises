@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math angles graphie graphie-geometry graphie-helpers">
+<html data-require="math angles graphie graphie-geometry graphie-helpers kline">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Axis of symmetry</title>
@@ -50,7 +50,7 @@
                         var temp = [];
                         var i = 0;
                         for( i = 0; i != graph.half.length; i++ ){
-                            temp.push( reflectPoint( graph.split.graphiePath, graph.half[ i ] ) );
+                            temp.push( kline.reflectPoint( graph.split.graphiePath, graph.half[ i ] ) );
                         }
                         path( temp, { "stroke-width": 5, stroke: KhanUtil.PINK } )
                     </div>

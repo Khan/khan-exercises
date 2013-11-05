@@ -173,7 +173,7 @@ KhanUtil.scale = {
                     KhanUtil.scale.graphie.scalePoint([0, 0])[1]);
             }
         });
-        if ($.isFunction(this.onChange)) {
+        if (_.isFunction(this.onChange)) {
             this.onChange(this.leftCoef, this.leftConst,
                 this.rightCoef, this.rightConst);
         }

@@ -56,16 +56,16 @@ $.extend(KhanUtil, {
             // would update the formula by updating the contents of the script
             // tag, which shouldn't happen any more, but we manage them just in
             // case.
-            var $script = $mathjaxHolder.find("script[type='math/tex']");
+            var script = $mathjaxHolder.find("script[type='math/tex']")[0];
 
             // If text wasn't provided, we look in two places
             if (text == null) {
                 if ($elem.attr("data-math-formula")) {
                     // The old typeset formula
                     text = $elem.attr("data-math-formula");
-                } else if ($script.length) {
+                } else if (script) {
                     // The contents of the <script> tag
-                    text = $script.html();
+                    text = script.text || script.textContent;
                 }
             }
 
@@ -87,7 +87,7 @@ $.extend(KhanUtil, {
                     // mathjax, do some mathjax cleanup
                     if ($elem.attr("data-math-type") === "mathjax") {
                         // Remove the old mathjax stuff
-                        var jax = MathJax.Hub.getJaxFor($script[0]);
+                        var jax = MathJax.Hub.getJaxFor(script);
                         if (jax) {
                             var e = jax.SourceElement();
                             if (e.previousSibling &&
@@ -102,12 +102,14 @@ $.extend(KhanUtil, {
                         doCallback(elem, callback);
                     }
                     return;
-                } catch (e) {
+                } catch (err) {
                     // IE doesn't do instanceof correctly, so we resort to
                     // manual checking
-                    if (e.__proto__ !== katex.ParseError.prototype) {
-                        throw e;
+                    /* jshint -W103 */
+                    if (err.__proto__ !== katex.ParseError.prototype) {
+                        throw err;
                     }
+                    /* jshint +W103 */
                 }
             }
 
@@ -117,11 +119,16 @@ $.extend(KhanUtil, {
             // KaTeX is smart and cleans itself up)
             $elem.attr("data-math-type", "mathjax");
             // Update the script tag, or add one if necessary
-            if (!$script.length) {
+            if (!script) {
                 $mathjaxHolder.append("<script type='math/tex'>" +
                         text.replace(/<\//g, "< /") + "</script>");
             } else {
-                $script.text(text);
+                if ("text" in script) {
+                    // IE8, etc
+                    script.text = text;
+                } else {
+                    script.textContent = text;
+                }
             }
             if (typeof MathJax !== "undefined") {
                 // Put the process, a debug log, and the callback into the

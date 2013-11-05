@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format math-model simplify factoring-expressions subhints">
+<html data-require="math math-format">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Factoring polynomials with two variables</title>
@@ -10,89 +10,77 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <div data-ensure="A !== B &amp;&amp; A !== -B">
+                <div data-ensure="A !== B && A !== -B">
                     <var id="A">randRangeNonZero( -10, 10 )</var>
                     <var id="B">randRangeNonZero( -10, 10 )</var>
                 </div>
-                <var id="SQUARE">1</var>
-                <var id="CONSTANT">SQUARE*A*B</var>
-                <var id="SIMPLECONSTANT">A*B</var>
-                <var id="LINEAR">SQUARE*(-A-B)</var>
-                <var id="SIMPLELINEAR">-A-B</var>
-                <var id="GROUP1">[
-                parse("(x + ay)(x + by)&amp;=&amp;xx &amp;+&amp; xby + ayx &amp;+&amp; ayby"),
-                parse("&amp;=&amp; x^2 &amp;+&amp; #{(a+b)}xy &amp;+&amp; #{ab}y^2", [GREEN, BLUE]),
-                simplify(parse("&amp;=&amp; x^2 &amp;+&amp; #{" + SIMPLELINEAR + "}xy &amp;+&amp; #{" + SIMPLECONSTANT + "}y^2", [GREEN, BLUE]), simplifyOptions.checkInput),
-                ]
-                </var>
-                <var id="QUESTION">simplify(parse(SQUARE + "x^{2}+" + LINEAR + "xy+" + CONSTANT + "y^{2}"), simplifyOptions.basic)</var>
-                <var id="SOLUTION">simplify(parse("(x + #{" + (-A) + "}y)(x + #{" + (-B) + "}y)", [PINK, PINK]), simplifyOptions.checkInput)</var>
-                <var id="SOLUTION2">simplify(parse("(-x + #{" + (A) + "}y)(-x + #{" + (B) + "}y)", [PINK, PINK]), simplifyOptions.checkInput)</var>
+                <var id="CONSTANT">A * B</var>
+                <var id="CONSTANT_DISP">CONSTANT === 1 ? "" : CONSTANT === -1 ? "-" : CONSTANT</var>
+                <var id="LINEAR">-A - B</var>
+                <var id="LINEAR_DISP">LINEAR === 1 ? "" : LINEAR === -1 ? "-" : LINEAR</var>
             </div>
 
             <p class="problem">Factor the following expression:</p>
-            <p class="question"><code><var>format(QUESTION)</var></code></p>
+            <p class="question"><code>
+                x^2 + <var>LINEAR_DISP</var>xy + <var>CONSTANT_DISP</var>y^2
+            </code></p>
 
-            <div class="solution" data-type="custom">
-                <div class="instruction">
-                    <input name="response" type="text">
-                </div>
-                <div class="guess">$( "div.instruction input" ).val()</div>
-                <div class="validator-function">
-                    return (isEqual(simplify(parse(guess), simplifyOptions.checkInput), simplify(SOLUTION, simplifyOptions.checkInput)) ||
-                            isEqual(simplify(parse(guess), simplifyOptions.checkInput), simplify(SOLUTION2, simplifyOptions.checkInput)))
-                </div>
-                <div class="show-guess">
-                </div>
-                <div class="show-guess-solutionarea">
-                    $( "div.instruction input" ).val( guess );
-                </div>
-                <div class="example">a factored expression, like <b>(x+2y)(x+3y)</b></div>
-            </div>
+            <p class="solution" data-type="expression" data-same-form>(x-<var>A</var>y)(x-<var>B</var>y)</p>
 
             <div class="hints">
                 <div>
                     <p>When we factor a polynomial of this form, we are basically reversing this process of multiplying linear expressions together:</p>
-                    <p><code>\qquad <var>formatGroup(GROUP1, [0, 1])</var></code></p>
+                    <p><code>\qquad
+                        \begin{eqnarray}
+                        (x + ay)(x + by)&amp;=&amp;xx &amp;+&amp; xby + ayx &amp;+&amp; ayby \\ \\
+                        &amp;=&amp; x^2 &amp;+&amp; \green{(a+b)}xy &amp;+&amp; \blue{ab}y^2 \\
+                        &amp;\hphantom{=}&amp; \hphantom{x^2} &amp;\hphantom{+}&amp; \hphantom{\green{<var>LINEAR</var>}xy} &amp;\hphantom{+}&amp; \hphantom{\blue{<var>CONSTANT</var>}y^2}
+                        \end{eqnarray}
+                    </code></p>
                 </div>
 
                 <div>
-                    <p><code>\qquad <var>formatGroup(GROUP1, [2])</var></code></p>
+                    <p><code>\qquad
+                        \begin{eqnarray}
+                        \hphantom{(x + ay)(x + by)}&amp;\hphantom{=}&amp;\hphantom{xx} &amp;\hphantom{+}&amp; \hphantom{xby + ayx} &amp;\hphantom{+}&amp;\hphantom{ayby} \\
+                        &amp;\hphantom{=}&amp; \hphantom{x^2} &amp;\hphantom{+}&amp;\hphantom{\green{(a+b)}xy}&amp;\hphantom{+}&amp;\hphantom{\blue{ab}y^2} \\
+                        &amp;=&amp; x^2 &amp;+&amp; \green{<var>LINEAR</var>}xy &amp;+&amp; \blue{<var>CONSTANT</var>}y^2
+                        \end{eqnarray}
+                    </code></p>
                     <p>
-                        The coefficient on the <code>xy</code> term is <code class="hint_green"><var>SIMPLELINEAR</var></code>
-                        and the coefficient on the <code>y^2</code> term is <code class="hint_blue"><var>SIMPLECONSTANT</var></code>, so to reverse the steps above, we need to find two numbers
-                        that <span class="hint_green">add up to <code><var>SIMPLELINEAR</var></code></span> and <span class="hint_blue">multiply to
-                        <code><var>SIMPLECONSTANT</var></code></span>.
+                        The coefficient on the <code>xy</code> term is <code class="hint_green"><var>LINEAR</var></code>
+                        and the coefficient on the <code>y^2</code> term is <code class="hint_blue"><var>CONSTANT</var></code>, so to reverse the steps above, we need to find two numbers
+                        that <span class="hint_green">add up to <code><var>LINEAR</var></code></span> and <span class="hint_blue">multiply to
+                        <code><var>CONSTANT</var></code></span>.
                     </p>
                 </div>
 
                 <div>
-                    <p>You can start by trying to guess which factors of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> add up to
-                    <span class="hint_green"><code><var>SIMPLELINEAR</var></code></span>. In other words, you need to find the values for <code class="hint_pink">a</code> and
+                    <p>You can start by trying to guess which factors of <code class="hint_blue"><var>CONSTANT</var></code> add up to
+                    <span class="hint_green"><code><var>LINEAR</var></code></span>. In other words, you need to find the values for <code class="hint_pink">a</code> and
                     <code class="hint_pink">b</code> that meet the following conditions:</p>
 
-                    <p><code>\qquad <var>parseFormat("#a+#b=#{"+ SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var></code></p>
+                    <p><code>\qquad \pink{a} + \pink{b} = \green{<var>LINEAR</var>}</code></p>
+                    <p><code>\qquad \pink{a} \times \pink{b} = \blue{<var>CONSTANT</var>}</code></p>
 
-                    <p><code>\qquad <var>parseFormat("#a \\times #b = #{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var></code></p>
-
-                    <p>If you're stuck, try listing out every single factor of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> and its opposite as
+                    <p>If you're stuck, try listing out every single factor of <code class="hint_blue"><var>CONSTANT</var></code> and its opposite as
                     <code class="hint_pink">a</code> in these equations, and see if it gives a value for <code class="hint_pink">b</code>
-                    that validates both conditions. For example, since <var>Math.abs(A)</var> is a factor of <code class="hint_blue"><var>SIMPLECONSTANT</var></code>,
-                    try substituting <var>Math.abs(A)</var> for <code class="hint_pink">a</code> as well as <var>-Math.abs(A)</var>.</p>
+                    that validates both conditions. For example, since <code><var>abs(A)</var></code> is a factor of <code class="hint_blue"><var>CONSTANT</var></code>,
+                    try substituting <code><var>abs(A)</var></code> for <code class="hint_pink">a</code> as well as <code><var>-abs(A)</var></code>.</p>
                 </div>
 
                 <div>
                     <p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
                     <p><code>
-                        \qquad <var>parseFormat("#{" + (-A) + "}+#{" + (-B) + "}=#{" + SIMPLELINEAR + "}", [PINK, PINK, GREEN])</var>
+                        \qquad \pink{<var>-A</var>} + \pink{<var>-B</var>} = \green{<var>LINEAR</var>}
                     </code></p>
                     <p><code>
-                        \qquad <var>parseFormat("#{" + (-A) + "}\\times #{" + (-B) + "}=#{" + SIMPLECONSTANT + "}", [PINK, PINK, BLUE])</var>
+                        \qquad \pink{<var>-A</var>} \times \pink{<var>-B</var>} = \blue{<var>CONSTANT</var>}
                     </code></p>
                 </div>
-                <div>
-                    <p><b>So we can factor the polynomial as: <code><var>format(SOLUTION)</var></code></b></p>
-                </div>
+                <p>
+                    So we can factor the polynomial as <code>(<var>plus("x", -A + "y")</var>)(<var>plus("x", -B + "y")</var>)</code>.
+                </p>
             </div>
         </div>
     </div>

@@ -6,13 +6,16 @@
     <script src="../khan-exercise.js"></script>
     <style>
         .fake_header span, .fake_row span {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             vertical-align: top;
-            line-height: 38px;
+            line-height: 40px;
         }
         .fake_row span:first-child {
-            width: 76px;
+            width: 80px;
+        }
+        .fake_row > span {
+            padding-left: 5px;
         }
         .fake_header span:first-child {
             width: 460px;
@@ -34,6 +37,7 @@
 
     <div class="problem">
         <p>Use the pictograph to answer the question below:</p>
+        <p class="question" id="stem"></p>
         <div class="fake_header">
             <span><span style="text-transform:capitalize"><var>BADGE</var></span> badges earned by each student</span>
         </div>
@@ -56,7 +60,7 @@
             <div class="vars">
                 <var id="MOST">_.indexOf( DATA, Math.max.apply( Math, DATA ) )</var>
             </div>
-            <p class="question">Who earned the most <var>BADGE</var> badges?</p>
+            <p class="question" id="stem">Who earned the most <var>BADGE</var> badges?</p>
             <div class="solution"><var>person( MOST + 1 )</var></div>
             <ul class="choices" data-category="true">
                 <li><var>person( 1 )</var></li>
@@ -77,7 +81,7 @@
             <div class="vars">
                 <var id="LEAST">_.indexOf( DATA, Math.min.apply( Math, DATA ) )</var>
             </div>
-            <p class="question">Who earned the fewest <var>BADGE</var> badges?</p>
+            <p class="question" id="stem">Who earned the fewest <var>BADGE</var> badges?</p>
             <div class="solution"><var>person( LEAST + 1 )</var></div>
             <ul class="choices" data-category="true">
                 <li><var>person( 1 )</var></li>
@@ -106,7 +110,7 @@
                 <var id="ANSWER">DATA[ PERSON ] * VALUE_PER_IMG</var>
             </div>
 
-            <p class="question">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
+            <p class="question" id="stem">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol short40" data-forms="integer" style="padding-right: 5px"><var>ANSWER</var></span> <var>BADGE</var> badge(s)</p>

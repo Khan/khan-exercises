@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html data-require="math d3 graphie graphie-helpers word-problems">
+<html data-require="math graphie word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading line charts 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
-    <div class="exercise">
+<div class="exercise">
     <div class="vars">
         <var id="DAYS">[
             $._("Monday"),
@@ -17,62 +17,96 @@
             $._("Saturday"),
             $._("Sunday")
         ]</var>
-        <var id="INDEX">randRange( 0, DAYS.length - 1 )</var>
-        <var id="VALUES">shuffle( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ], DAYS.length )</var>
-        <var id="DATA">
-            (function() {
-                var ordinals = $.map( DAYS, function( day, i ) {
-                    return day.substring( 0, 3 );
-                });
-
-                return {
-                    min: 0,
-                    max: 10,
-                    tickCount: 10,
-                    values: VALUES,
-                    ordinals: ordinals
-                };
-            })()
-        </var>
+        <var id="INDEX">randRange(0, DAYS.length - 1)</var>
+        <var id="VALUES">shuffle([1, 2, 3, 4, 5, 6, 7, 8], DAYS.length)</var>
     </div>
     <div class="problems">
         <div>
-            <p data-if="isMale(1)"><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> he saw every day this week. </p><p data-else=""><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> she saw every day this week. </p>
-            <p class="question" data-if="isMale(1)">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did he see on <var>DAYS[ INDEX ]</var>?</p><p class="question" data-else="">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did she see on <var>DAYS[ INDEX ]</var>?</p>
+            <p data-if="isMale(1)">
+                <var>person(1)</var> wrote down how many <var>color(1)</var>
+                <var>plural_form(clothing(1))</var> he saw every day this week.
+            </p><p data-else="">
+                <var>person(1)</var> wrote down how many <var>color(1)</var>
+                <var>plural_form(clothing(1))</var> she saw every day this week.
+            </p>
+            <p class="question" data-if="isMale(1)">
+                How many <var>color(1)</var> <var>plural_form(clothing(1))</var>
+                did he see on <var>DAYS[INDEX]</var>?
+            </p><p class="question" data-else="">
+                How many <var>color(1)</var> <var>plural_form(clothing(1))</var>
+                did she see on <var>DAYS[INDEX]</var>?
+            </p>
             <div class="graphie" id="scatter">
-                var width = 10;
-                var height = 10;
-
                 init({
-                    range: [ [ -1, width + 1 ], [ -1, height + 0.5 ] ]
+                    range: [[-1, 8.5], [-1, 8.5]],
+                    scale: [50, 30]
                 });
-
-                var pos = { lx: 0, ly: 0, width: width, height: height};
-                graph.lc = new LineChart( DATA, pos );
-                graph.lc.draw();
+                style({ stroke: BLACK });
+                line([0, 0], [8, 0]);
+                line([0, 0], [0, 8]);
+                style({ strokeWidth: 1 });
+                _(9).times(function(y) {
+                    line([-0.1, y], [0.1, y]);
+                    label([0, y], "\\small{" + y + "}", "left");
+                });
+                _.each(VALUES, function(y, x) {
+                    style({ stroke: BLUE, strokeWidth: 2 });
+                    if (x !== 0) {
+                        line([x, VALUES[x - 1]], [x + 1, y]);
+                    }
+                    style({ stroke: null, fill: BLUE });
+                    ellipse([x + 1, y], [4 / scale[0], 4 / scale[1]]);
+                    label([x + 1, 0],
+                        "\\text{" + DAYS[x].substring(0, 3) + "}", "below");
+                });
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer, decimal" style="padding-right: 5px"><var>VALUES[ INDEX ]</var></span> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var>
+                <span class="sol short40" data-forms="integer, decimal">
+                    <var>VALUES[INDEX]</var>
+                </span> <var>color(1)</var> <var>plural(clothing(1))</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <p>Find the dot for <var>DAYS[ INDEX ]</var> by looking at the text at the bottom of the scatter plot.</p>
+                    <p>
+                        Find the dot for <var>DAYS[INDEX]</var> by looking at
+                        the text at the bottom of the scatter plot.
+                    </p>
                     <div class="graphie" data-update="scatter">
-                        graph.lc.highlightDataPoint( INDEX );
+                        style({ stroke: PINK, fill: PINK });
+                        ellipse([INDEX + 1, VALUES[INDEX]],
+                                [4 / scale[0], 4 / scale[1]]);
                     </div>
                 </div>
                 <div>
-                    <p>Compare how high up the dot is with the numbers to the left.</p>
+                    <p>
+                        Compare how high up the dot is with the numbers to the
+                        left.
+                    </p>
                     <div class="graphie" data-update="scatter">
-                        graph.lc.labelDataPoint( INDEX );
+                        style({
+                            stroke: PINK,
+                            arrows: "-&lt;",
+                            strokeDasharray: "-"
+                        });
+                        line([INDEX + 1, VALUES[INDEX]], [0, VALUES[INDEX]]);
                     </div>
                 </div>
-                <p data-if="isMale(1)">He saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ), VALUES[INDEX])</var> on <var>DAYS[ INDEX ]</var>.</p><p data-else="">She saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ), VALUES[INDEX])</var> on <var>DAYS[ INDEX ]</var>.</p>
+                <p data-if="isMale(1)">
+                    He saw <code><var>VALUES[INDEX]</var></code>
+                    <var>color(1)</var>
+                    <var>plural_form(clothing(1), VALUES[INDEX])</var> on
+                    <var>DAYS[ INDEX ]</var>.
+                </p><p data-else="">
+                    She saw <code><var>VALUES[INDEX]</var></code>
+                    <var>color(1)</var>
+                    <var>plural_form(clothing(1), VALUES[INDEX])</var> on
+                    <var>DAYS[INDEX]</var>.
+                </p>
             </div>
         </div>
     </div>
-    </div>
+</div>
 </body>
 </html>

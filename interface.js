@@ -41,8 +41,7 @@ var PerseusBridge = Exercises.PerseusBridge,
     numHints,
     hintsUsed,
     lastAttemptOrHint,
-    lastAttemptContent,
-    firstProblem = true;
+    lastAttemptContent;
 
 $(Exercises)
     .bind("problemTemplateRendered", problemTemplateRendered)
@@ -54,7 +53,7 @@ $(Exercises)
     .bind("gotoNextProblem", gotoNextProblem)
     .bind("updateUserExercise", updateUserExercise)
     .bind("clearExistingProblem", clearExistingProblem)
-    .bind("enableOptOut", enableOptOut);
+    .bind("showOptOut", showOptOut);
 
 
 function problemTemplateRendered() {
@@ -79,6 +78,7 @@ function problemTemplateRendered() {
     $("#answerform").submit(handleCheckAnswer);
     $("#skip-question-button").click(handleSkippedQuestion);
     $("#opt-out-button").click(handleOptOut);
+    $("#show-prereqs-button").click(handleShowPrereqs);
 
     // Hint button
     $("#hint").click(onHintButtonClicked);
@@ -145,10 +145,18 @@ function newProblem(e, data) {
     $("#hint").attr("disabled", hintsUsed >= numHints);
     enableCheckAnswer();
 
-    // Update related videos
+    // Render related videos, unless we're on the final stage of mastery.
     if (data.userExercise) {
-        Exercises.RelatedVideos.render(
-                data.userExercise.exerciseModel.relatedVideos);
+        var userExercise = data.userExercise;
+        var nearMastery = userExercise.exerciseProgress.level === "mastery2" ||
+                userExercise.exerciseProgress.level === "mastery3";
+        var task = Exercises.learningTask;
+        var hideRelatedVideos = task && task.isMasteryTask() && nearMastery;
+
+        if (!hideRelatedVideos) {
+            Exercises.RelatedVideos.render(
+                    data.userExercise.exerciseModel.relatedVideos);
+        }
     }
 }
 
@@ -349,6 +357,15 @@ function handleAttempt(data) {
     return false;
 }
 
+/**
+ * When the user clicks on the "Help me learn this" button in focus mode, we
+ * trigger an event to show the prereqs to the left.
+ */
+function handleShowPrereqs() {
+    $("#show-prereqs-button").prop("disabled", true);
+    $(Exercises).trigger("showPrereqs");
+}
+
 function onHintButtonClicked() {
     var framework = Exercises.getCurrentFramework();
 
@@ -446,11 +463,8 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         // The answer the user gave
         attempt_content: attemptContent,
 
-        // Whether we're currently in review mode
-        review_mode: Exercises.reviewMode ? 1 : 0,
-
         // Whether we are currently working on a topic, as opposed to an exercise
-        topic_mode: (!Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
+        topic_mode: Exercises.practiceMode ? 0 : 1,
 
         // If working in the context of a LearningTask (on the new learning
         // dashboard), supply the task ID.
@@ -544,16 +558,6 @@ function request(method, data) {
 
 
 function readyForNextProblem(e, data) {
-    if (!firstProblem) {
-        // As both of the following variables are only used to make sure the
-        // client matches the server on pageLoad, we will set them back to 0
-        // all other times to be on the safe side and to make sure that hints
-        // are not pre-filled in topic-mode when not the first problem.
-        data.userExercise.lastCountHints = 0;
-        data.userExercise.lastAttemptNumber = 0;
-    }
-    firstProblem = false;
-
     userExercise = data.userExercise;
     problemNum = userExercise.totalDone + 1;
 
@@ -611,11 +615,8 @@ function updateUserExercise(e, data) {
     }
 }
 
-function enableOptOut() {
-    $("#opt-out-button")
-        .prop("disabled", false)
-        .removeClass("buttonDisabled")
-        .show();
+function showOptOut() {
+    $("#opt-out-button").show();
 }
 
 function enableCheckAnswer() {
@@ -627,6 +628,10 @@ function enableCheckAnswer() {
     $("#skip-question-button")
         .prop("disabled", false)
         .removeClass("buttonDisabled");
+
+    $("#opt-out-button")
+        .prop("disabled", false)
+        .removeClass("buttonDisabled");
 }
 
 function disableCheckAnswer() {
@@ -636,6 +641,10 @@ function disableCheckAnswer() {
         .val($._("Please wait..."));
 
     $("#skip-question-button")
+        .prop("disabled", true)
+        .addClass("buttonDisabled");
+
+    $("#opt-out-button")
         .prop("disabled", true)
         .addClass("buttonDisabled");
 }

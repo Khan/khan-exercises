@@ -2,7 +2,7 @@
 <html data-require="math math-format word-problems spin">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Discount tax and tip word problems</title>
+    <title>Discount, tax, and tip word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -11,18 +11,18 @@
 
         <div id="tax-total-cost">
             <div class="vars">
-                <var id="DOLLARS">localeToFixed(randRange(4,25), 2)</var>
+                <var id="DOLLARS">randRange(4, 25)</var>
                 <var id="SALES_TAX">randRange(3,19)</var>
-                <var id="TOTAL_PRICE">localeToFixed(roundTo(2, (1+(SALES_TAX/100))*DOLLARS), 2)</var>
+                <var id="TOTAL_PRICE">roundTo(2, (1+(SALES_TAX/100))*DOLLARS)</var>
             </div>
             <div class="question spin">
-                <p><var>person(1)</var> buys a basket of <var>plural_form(fruit(1))</var> on sale for $<var>DOLLARS</var> before tax.  The sales tax is <var>SALES_TAX</var>%.  What is the total price <var>person(1)</var> pays for the basket of <var>plural_form(fruit(1))</var>?  (Round to the nearest hundredth or cent.)</p>
+                <p><var>person(1)</var> buys a basket of <var>plural_form(fruit(1))</var> on sale for <code>\$<var>DOLLARS</var></code> before tax.  The sales tax is <code><var>SALES_TAX</var>\%</code>.  What is the total price <var>person(1)</var> pays for the basket of <var>plural_form(fruit(1))</var>?  (Round to the nearest hundredth or cent.)</p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL_PRICE</var></span></div>
             <div class="hints">
                 <div>
                     <p>In order to find the total price, first find the amount of sales tax paid by multiplying the sales tax by the original price of the basket of <var>plural_form(fruit(1))</var>.</p>
-                    <p><code class="hint_blue"><var>SALES_TAX</var>\%</code> <code>\times</code> <code class="hint_green">$<var>DOLLARS</var></code> =</p>
+                    <p><code>\blue{<var>SALES_TAX</var>\%} \times \green{$<var>DOLLARS</var>} =</code></p>
                 </div>
                 <div>
                     <p>Percent means "out of one hundred," so <code class="hint_blue"><var>SALES_TAX</var>\%</code> is equivalent to <code class="hint_blue">\displaystyle\frac{<var>SALES_TAX</var>}{100}</code> which is also equal to <code class="hint_blue"><var>SALES_TAX</var> \div 100</code>.</p>
@@ -30,12 +30,12 @@
                 </p></div>
                 <div>
                     <p>Multiply the sales tax you just converted into a decimal by the original price to find the amount of sales tax that must be paid.</p>
-                    <p><code class="hint_blue"><var>SALES_TAX/100</var></code> <code>\times</code> <code class="hint_green">$<var>DOLLARS</var></code> <code>=</code> <code class="hint_purple">$<var>localeToFixed((SALES_TAX/100) * DOLLARS, 2)</var></code>
+                    <p><code>\blue{<var>localeToFixed(SALES_TAX/100, 2)</var>} \times \green{$<var>DOLLARS</var>} = \purple{$<var>localeToFixed((SALES_TAX/100) * DOLLARS, 2)</var>}</code>
                 </p></div>
                 <div>
-                    <p>Add the sales tax you just found to the original price to find the final price <var>person(1)</var> paid.</p><p>
-                    </p><p><code class="hint_purple">$<var>localeToFixed((SALES_TAX/100) * DOLLARS, 2)</var></code> + <code class="hint_green">$<var>DOLLARS</var></code> <code>=</code> <code class="hint_orange">$<var>TOTAL_PRICE</var></code>
-                    </p><p class="final_answer"><var>person(1)</var> needs to pay <code class="hint_orange">$<var>TOTAL_PRICE</var>.</code></p>
+                    <p>Add the sales tax you just found to the original price to find the final price <var>person(1)</var> paid.</p>
+                    <p><code>\purple{$<var>localeToFixed((SALES_TAX/100) * DOLLARS, 2)</var>} + \green{$<var>localeToFixed(DOLLARS, 2)</var>} = $<var>localeToFixed(TOTAL_PRICE, 2)</var></code>
+                    </p><p class="final_answer"><var>person(1)</var> needs to pay <code>$<var>localeToFixed(TOTAL_PRICE, 2)</var>.</code></p>
                 </div>
                 </div>
             </div>
@@ -43,38 +43,38 @@
         <div id="simple-tax">
             <div class="vars">
                 <var id="TAX">roundTo(1, randRange(31,139) / 10 )</var>
-                <var id="PRICE">localeToFixed(randRange(3,200), 2)</var>
-                <var id="TOTAL_TAX">localeToFixed(roundTo(2, (TAX / 100) * PRICE), 2)</var>
+                <var id="PRICE">randRange(3, 200)</var>
+                <var id="TOTAL_TAX">roundTo(2, (TAX / 100) * PRICE)</var>
             </div>
             <div class="question spin">
-                    <p>If the sales tax in your city is <var>TAX</var>%, how much tax would you pay for an item that costs $<var>PRICE</var> before tax? Round to the nearest cent.</p>
+                    <p>If the sales tax in your city is <code><var>localeToFixed(TAX, 1)</var>\%</code>, how much tax would you pay for an item that costs <code>\$<var>PRICE</var></code> before tax? Round to the nearest cent.</p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL_TAX</var></span></div>
             <div class="hints">
                 <div>
                     <p>In order to find the amount of sales tax you would pay, multiply the sales tax by the original price of the item.</p>
-                    <p><code class="hint_blue"><var>TAX</var>\%</code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code><code> =</code></p>
+                    <p><code>\blue{<var>localeToFixed(TAX, 1)</var>\%} \times \green{\$<var>PRICE</var>} =</code></p>
                 </div>
                 <div>
-                    <p>Percent means "out of one hundred," so <code class="hint_blue"><var>TAX</var>\%</code> is equivalent to <code class="hint_blue"><var>TAX</var> \div 100</code>.</p>
-                    <p><code class="hint_blue"><var>TAX</var> \div 100 = <var>localeToFixed(TAX/100, 3)</var></code>
+                    <p>Percent means "out of one hundred," so <code class="hint_blue"><var>localeToFixed(TAX, 1)</var>\%</code> is equivalent to <code class="hint_blue"><var>localeToFixed(TAX, 1)</var> \div 100</code>.</p>
+                    <p><code class="hint_blue"><var>localeToFixed(TAX, 1)</var> \div 100 = <var>localeToFixed(TAX/100, 3)</var></code>
                 </p></div>
                 <div>
                     <p>Multiply the sales tax you just converted into a decimal by the original price to find the amount of sales tax that must be paid. Round to the nearest cent.</p>
-                    <p><code class="hint_blue"><var>localeToFixed(TAX/100, 3)</var></code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code> = <code class="hint_orange">$<var>TOTAL_TAX</var></code>
-                    </p><p class="final_answer">You would pay <code class="hint_orange">$<var>TOTAL_TAX</var></code> in sales tax.</p>
+                    <p><code class="hint_blue"><var>localeToFixed(TAX/100, 3)</var></code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code> = <code class="hint_orange">$<var>localeToFixed(TOTAL_TAX, 2)</var></code>
+                    </p><p class="final_answer">You would pay <code class="hint_orange">$<var>localeToFixed(TOTAL_TAX, 2)</var></code> in sales tax.</p>
                 </div>
             </div>
             </div>
 
             <div id="total-price-with-discount">
             <div class="vars">
-                <var id="PRICE">localeToFixed(randRange(8,85), 2)</var>
+                <var id="PRICE">randRange(8,85)</var>
                 <var id="DISCOUNT">randRange(1,11)*5</var>
-                <var id="DISCOUNT_PRICE">localeToFixed(roundTo(2, PRICE - ( (DISCOUNT/100) * PRICE)), 2)</var>
+                <var id="DISCOUNT_PRICE">roundTo(2, PRICE - ((DISCOUNT/100) * PRICE))</var>
             </div>
             <div class="question spin">
-                    <p><var>person(1)</var> bought a new <var>clothing( 1 )</var> at the store when they were having a <var>DISCOUNT</var>% off sale. If the regular price of the <var>clothing( 1 )</var> was $<var>PRICE</var>, how much did <var>person(1)</var> pay with the discount?</p>
+                    <p><var>person(1)</var> bought a new <var>clothing( 1 )</var> at the store when they were having a <code><var>DISCOUNT</var>\%</code> off sale. If the regular price of the <var>clothing( 1 )</var> was <code>$<var>PRICE</var></code>, how much did <var>person(1)</var> pay with the discount?</p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>DISCOUNT_PRICE</var></span></div>
             <div class="hints">
@@ -92,8 +92,8 @@
                 </p></div>
                 <div>
                     <p>Subtract the discount you just found from the original price to get the final price <var>person(1)</var> paid.</p><p>
-                    </p><p><code class="hint_blue">$<var>PRICE</var></code> <code>-</code> <code class="hint_purple">$<var>localeToFixed(DISCOUNT/100*PRICE, 2)</var></code><code> = </code><code class="hint_orange">$<var>DISCOUNT_PRICE</var></code>,</p>
-                    <p class="final_answer"><var>person(1)</var> paid <code class="hint_orange">$<var>DISCOUNT_PRICE</var></code> for the <var>clothing(1)</var>.</p>
+                    </p><p><code class="hint_blue">$<var>PRICE</var></code> <code>-</code> <code class="hint_purple">$<var>localeToFixed(DISCOUNT/100*PRICE, 2)</var></code><code> = </code><code class="hint_orange">$<var>localeToFixed(DISCOUNT_PRICE, 2)</var></code></p>
+                    <p class="final_answer"><var>person(1)</var> paid <code class="hint_orange">$<var>localeToFixed(DISCOUNT_PRICE, 2)</var></code> for the <var>clothing(1)</var>.</p>
                 </div>
             </div>
             </div>
@@ -102,10 +102,10 @@
             <div class="vars">
                 <var id="DISCOUNT">randRange(1,11)*5</var>
                 <var id="PRICE">randRange(6,20)</var>
-                <var id="TOTAL_DISCOUNT">localeToFixed(roundTo(2, (DISCOUNT / 100) * PRICE), 2)</var>
+                <var id="TOTAL_DISCOUNT">roundTo(2, (DISCOUNT / 100) * PRICE)</var>
             </div>
             <div class="question spin">
-                    <p>The <var>pizza(1)</var> store is having a <var>DISCOUNT</var>% off sale on all of its <var>plural_form(pizza(1))</var>. If the <var>pizza(1)</var> you want regularly costs $<var>PRICE</var>, how much would you save with the discount?</p>
+                    <p>The <var>pizza(1)</var> store is having a <code><var>DISCOUNT</var>\%</code> off sale on all of its <var>plural_form(pizza(1))</var>. If the <var>pizza(1)</var> you want regularly costs <code>\$<var>PRICE</var></code>, how much would you save with the discount?</p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL_DISCOUNT</var></span></div>
             <div class="hints">
@@ -119,8 +119,8 @@
                 </p></div>
                 <div>
                     <p>Multiply the discount you just converted into a decimal by the original price to find the amount of money saved.</p>
-                    <p><code class="hint_blue"><var>localeToFixed(DISCOUNT/100, 2)</var></code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code> = <code class="hint_orange">$<var>TOTAL_DISCOUNT</var></code></p>
-                    <p class="final_answer">You would save <code class="hint_orange">$<var>TOTAL_DISCOUNT</var></code> because of the discount.</p>
+                    <p><code class="hint_blue"><var>localeToFixed(DISCOUNT/100, 2)</var></code> <code>\times</code> <code class="hint_green">$<var>PRICE</var></code> = <code class="hint_orange">$<var>localeToFixed(TOTAL_DISCOUNT, 2)</var></code></p>
+                    <p class="final_answer">You would save <code class="hint_orange">$<var>localeToFixed(TOTAL_DISCOUNT, 2)</var></code> because of the discount.</p>
                 </div>
             </div>
             </div>
@@ -137,7 +137,7 @@
                 <var id="TOTAL_FORMAT">localeToFixed(roundTo(2, parseFloat(TOTAL)), 2)</var>
             </div>
             <div class="question">
-                <p class="spin" data-if="isMale(1)"><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of his meal is $<var>BILL_FORMAT</var>. He would like to leave a <var>TIP_PERCENT</var>% tip. What is his total bill including tip?</p><p class="spin" data-else=""><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of her meal is $<var>BILL_FORMAT</var>. She would like to leave a <var>TIP_PERCENT</var>% tip. What is her total bill including tip?</p>
+                <p class="spin" data-if="isMale(1)"><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of his meal is <code>\$<var>BILL_FORMAT</var></code>. He would like to leave a <code><var>TIP_PERCENT</var>\%</code> tip. What is his total bill including tip?</p><p class="spin" data-else=""><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of her meal is <code>\$<var>BILL_FORMAT</var></code>. She would like to leave a <code><var>TIP_PERCENT</var>\%</code> tip. What is her total bill including tip?</p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL</var></span></div>
             <div class="hints">

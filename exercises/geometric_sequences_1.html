@@ -32,9 +32,9 @@
             </div>
 
             <div class="question">
-                <p>The first <var>cardinal(N)</var> terms of a geometric sequence are given:</p>
+                <p>The first <var>cardinalThrough20(N)</var> terms of a geometric sequence are given:</p>
                 <p><code><var>GIVEN_TEX.join(",")</var>, \ldots</code></p>
-                <p class="question">What is the <var>ordinal(N + 1)</var> term in the sequence?</p>
+                <p class="question">What is the <var>ordinalThrough20(N + 1)</var> term in the sequence?</p>
             </div>
             <div class="solution"><var>A * pow(RN / RD, N + OFFSET)</var></div>
 
@@ -42,7 +42,7 @@
                 <p>In any geometric sequence, each term is equal to the previous term times the common ratio.</p>
                 <p>Thus, the second term is equal to the first term times the common ratio. In this sequence, the second term, <code><var>GIVEN_TEX[1]</var></code>, is <code><var>R_TEX</var></code> times the first term, <code><var>GIVEN_TEX[0]</var></code>.</p>
                 <p>Therefore, the common ratio is <code><var>R_TEX</var></code>.</p>
-                <p>The <var>ordinal(N + 1)</var> term in the sequence is equal to the <var>ordinal(N)</var> term times the common ratio, or <code><var>GIVEN_TEX[N - 1]</var> \cdot <var>R_TEX</var> = <var>fractionReduce(A * pow(RN, N + OFFSET), pow(RD, N + OFFSET))</var></code>.</p>
+                <p>The <var>ordinalThrough20(N + 1)</var> term in the sequence is equal to the <var>ordinalThrough20(N)</var> term times the common ratio, or <code><var>GIVEN_TEX[N - 1]</var> \cdot <var>R_TEX</var> = <var>fractionReduce(A * pow(RN, N + OFFSET), pow(RD, N + OFFSET))</var></code>.</p>
             </div>
         </div>
     </div>

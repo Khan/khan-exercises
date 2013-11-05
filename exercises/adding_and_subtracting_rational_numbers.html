@@ -28,7 +28,7 @@
                         if (t === "fraction") {
                             return fraction(NUMERATORS[i], DENOMINATORS[i]);
                         } else if (t === "percentage") {
-                            return round(100 * DECIMALS[i]) + "\\%";
+                            return roundTo(3, 100 * DECIMALS[i]) + "\\%";
                         } else {
                             return DECIMALS[i];
                         }
@@ -64,7 +64,7 @@
                     <div data-each="TOCHANGE as i">
                         <p data-if="TYPES[i] === 'fraction'"><code>\qquad<var>NUMS[i]</var> = <var>DECIMALS[i]</var></code></p>
                         <p data-else=""><code>\qquad
-                            <var>NUMS[i]</var> = <var>fraction(round(NUMERATORS[i] * 100 / DENOMINATORS[i]), 100)</var> = <var>DECIMALS[i]</var>
+                            <var>NUMS[i]</var> = <var>fraction(roundTo(3, NUMERATORS[i] * 100 / DENOMINATORS[i]), 100)</var> = <var>DECIMALS[i]</var>
                         </code></p>
                     </div>
 

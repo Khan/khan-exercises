@@ -18,7 +18,6 @@
                     <var id="S">[]</var>
                     <var id="ANS">[]</var>
                     <var id="AREA">randRange( 3, 7 ) + random()</var>
-                    <var id="AREA_SHOW">AREA * AREA</var>
                 </div>
                 <div class="problem">
                     What is the area of this triangle? ( Round to two decimal places )
@@ -29,15 +28,15 @@
                             range: [ [-1, 12 ], [ -7, 2.5 ] ]
                         })
                         var trA = new Triangle( [ 3, -3 ], ANGLES ,AREA, {} );
+                        SIDES = trA.niceSideLengths;
                         trA.boxOut( [ [ [ -10,  2.3 ], [ 10, 2.3 ] ] ] , [ 0, -0.7 ] );
                         trA.boxOut( [ [ [  -1,  -10 ], [ -1, 10 ] ] ] , [ 0.7, 0 ] );
                         trA.boxOut( [ [ [  11.5,  -10 ], [ 11.5, 10 ] ] ] , [ -0.7, 0 ] );
                         trA.draw();
-                        trA.labels = { "sides" : trA.niceSideLengths };
+                        trA.labels = { "sides" : [commafy(SIDES[0]), commafy(SIDES[1]), commafy(SIDES[2])] };
                         trA.drawLabels();
-                        SIDES = trA.niceSideLengths;
                         S = roundTo(2, ( ( SIDES[ 0 ] + SIDES[ 1 ] + SIDES[ 2 ] ) / 2 ));
-                        ANS = localeToFixed(sqrt(S *( S -SIDES[ 0 ] ) * ( S - SIDES[ 1 ] ) * ( S - SIDES[ 2 ] ) ), 2);
+                        ANS = roundTo(2, sqrt(S *( S -SIDES[ 0 ] ) * ( S - SIDES[ 1 ] ) * ( S - SIDES[ 2 ] ) ));
                         $( "#ans" ).html( ANS ) ;
                     </div>
                 </div>
@@ -46,12 +45,12 @@
                     <p>We know all sides of this triangle, so we can use Heron's formula to calculate the area.</p>
                     <p>Heron's formula states that the area of a triangle <code>A=\sqrt{s(s-a)(s-b)(s-c)}</code></p>
                     <p><code>s = \dfrac{ a + b + c }{ 2 }</code></p>
-                    <p><code>s = \dfrac{ <var>SIDES[ 0 ]</var> + <var>SIDES[ 1 ]</var> + <var>SIDES[ 2 ]</var> }{ 2 }</code></p>
+                    <p><code>s = \dfrac{ <var>commafy(SIDES[0])</var> + <var>commafy(SIDES[1])</var> + <var>commafy(SIDES[2])</var> }{ 2 }</code></p>
                     <p><code>s = \dfrac{ <var>localeToFixed( SIDES[ 0 ] + SIDES[ 1 ] + SIDES[ 2 ], 1)</var> }{ 2 }</code></p>
-                    <p><code>s =  <var>S</var></code></p>
-                    <p><code>A = \sqrt{ <var>S</var> \cdot ( <var>S</var> - <var>SIDES[ 0 ]</var> )  \cdot ( <var>S</var> - <var>SIDES[ 1 ]</var> ) \cdot ( <var>S</var> - <var>SIDES[ 2 ]</var> ) }</code></p>
-                    <p><code>A = \sqrt{ <var>S</var> \cdot  <var>localeToFixed(S - SIDES[ 0 ], 2)</var>   \cdot <var>localeToFixed( S - SIDES[ 1 ], 2 )</var> \cdot <var>localeToFixed( S - SIDES[ 2 ], 2 )</var>  }</code></p>
-                     <p><code>A = <var>ANS</var></code></p>
+                    <p><code>s =  <var>commafy(S)</var></code></p>
+                    <p><code>A = \sqrt{ <var>commafy(S)</var> \cdot ( <var>commafy(S)</var> - <var>commafy(SIDES[0])</var> )  \cdot ( <var>commafy(S)</var> - <var>commafy(SIDES[1])</var> ) \cdot ( <var>commafy(S)</var> - <var>commafy(SIDES[2])</var> ) }</code></p>
+                    <p><code>A = \sqrt{ <var>commafy(S)</var> \cdot  <var>commafy(roundTo(2, S - SIDES[ 0 ]))</var>   \cdot <var>commafy(roundTo(2, S - SIDES[ 1 ]))</var> \cdot <var>commafy(roundTo(2, S - SIDES[ 2 ]))</var>  }</code></p>
+                     <p><code>A = <var>commafy(ANS)</var></code></p>
                 </div>
             </div>
         </div>

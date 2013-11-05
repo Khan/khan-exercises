@@ -32,7 +32,7 @@
 
             <div id="population" data-calculator="">
                 <div class="problem" data-else="">
-                    <p data-if="isSingular(DATA_POINTS)">You have found the following ages (in years) of all <var>DATA_POINTS</var> <var>animal( 1 )</var> at your local zoo:</p><p data-else="">You have found the following ages (in years) of all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at your local zoo:</p>
+                    <p>You have found the following ages (in years) of all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at your local zoo:</p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
 
@@ -55,12 +55,7 @@
                 </div> <!-- solution -->
 
                 <div class="hints">
-                    <p data-if="isSingular(DATA_POINTS)">
-                        Because we have data for all <var>DATA_POINTS</var> <var>animal( 1 )</var> at the zoo, we are able
-                        to calculate the <span class="hint_blue">population mean</span>
-                        <code>(\color{<var>BLUE</var>}{\mu})</code> and
-                        <span class="hint_pink">population variance</span> <code>(\color{<var>PINK</var>}{\sigma^2})</code>.
-                    </p><p data-else="">
+                    <p>
                         Because we have data for all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at the zoo, we are able
                         to calculate the <span class="hint_blue">population mean</span>
                         <code>(\color{<var>BLUE</var>}{\mu})</code> and
@@ -159,8 +154,8 @@
             <div id="sample" data-calculator="">
                 <div class="problem" data-else="">
                     <p>
-                        <span data-if="isSingular(DATA_POINTS)">You have found the following ages (in years) of <var>DATA_POINTS</var> <var>animal( 1 )</var>.</span><span data-else="">You have found the following ages (in years) of <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var>.</span>
-                        <span data-if="isSingular(POPULATION)">The <var>plural_form(animal( 1 ))</var> are randomly selected from the <var>POPULATION</var> <var>animal( 1 )</var> at your local zoo:</span><span data-else="">The <var>plural_form(animal( 1 ))</var> are randomly selected from the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> at your local zoo:</span>
+                        You have found the following ages (in years) of <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var>.
+                        The <var>plural_form(animal( 1 ))</var> are randomly selected from the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> at your local zoo:
                     </p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
@@ -184,12 +179,7 @@
                 </div> <!-- solution -->
 
                 <div class="hints">
-                    <p data-if="isSingular(POPULATION)">
-                        Because we only have data for a small sample of the <var>POPULATION</var> <var>animal( 1 )</var>, we are only able
-                        to estimate the population mean and variance by finding the <span class="hint_blue">sample mean</span>
-                        <code>(\color{<var>BLUE</var>}{\overline{x}})</code> and
-                        <span class="hint_pink">sample variance</span> <code>(\color{<var>PINK</var>}{s^2})</code>.
-                    </p><p data-else="">
+                    <p>
                         Because we only have data for a small sample of the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var>, we are only able
                         to estimate the population mean and variance by finding the <span class="hint_blue">sample mean</span>
                         <code>(\color{<var>BLUE</var>}{\overline{x}})</code> and
@@ -258,14 +248,11 @@
                             population mean—we had to estimate it by using the <span class="hint_blue">sample mean</span>.
                         </p>
                         <p>
-                            <span data-if="isSingular(DATA_POINTS)">The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
-                            of the <var>DATA_POINTS</var> <var>animal( 1 )</var> we sampled.</span><span data-else="">The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
-                            of the <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> we sampled.</span>
-                            <span data-if="isSingular(POPULATION)">Compared with the average age
-                            of all <var>POPULATION</var> <var>animal( 1 )</var> in the zoo.</span><span data-else="">Compared with the average age
-                            of all <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> in the zoo.</span>
-                            <span>Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
-                            probably underestimate the actual deviations from the population mean.</span>
+                            The age of any <var>animal( 1 )</var> in our sample is likely to be closer to the average
+                            of the <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> we looked at
+                            instead of the average of all the <var>plural_form(animal( 1 ), POPULATION)</var> in the zoo.
+                            Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
+                            probably underestimate the actual deviations from the population mean.
                         </p>
                         <p>
                             To compensate for this underestimation, rather than simply averaging the <span class="hint_purple">squared deviations from the mean</span>,

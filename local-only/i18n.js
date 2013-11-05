@@ -3,38 +3,54 @@
     // then fall back to using "en" as the base language
     var defaultLang = "en";
 
-    // The plural language strings for the 30 most popular web languages.
-    // Plural forms from:
-    // http://translate.sourceforge.net/wiki/l10n/pluralforms
-    // All these languages are the same as 'en'
-    // (and are thus left out, as 'en' is the default)
-    // af, ca, da, de, el, es, fi, he, hu, it, nl, nb/nn/no, pt, sv
-
-    // Used for many of the Asian languages: ja, kr, vi, zh
-    var asianPlural = "nplurals=1; plural=0";
-
-    // Used for many Russian or near-Russian languages: ru, sr, uk
-    var russianPlural = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)";
-
-    // Some romantic languages only pluralize numbers greater than one
-    var gtOnePlural = "nplurals=2; plural=(n > 1)";
-
+    // The plural language strings for all the languages we have
+    // listed in crowdin.  The values here need to match what crowdin
+    // uses (sometimes different platforms use different plural forms,
+    // for ambiguous languages like Turkish).  I got it by running
+    //    deploy/download_i18n.py -s
+    // and looking a the .po files in all.zip.  Each .po file has a
+    // header line that say something like:
+    //    "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+    // which I copied in here verbatim, except I replaced occurrences
+    // of "or" with "||".
     var plural_forms = {
-        "ar": "nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;",
+        "af": "nplurals=2; plural=(n != 1)",
+        "ar": "nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5",
+        "az": "nplurals=2; plural=(n != 1)",
+        "bg": "nplurals=2; plural=(n != 1)",
+        "ca": "nplurals=2; plural=(n != 1)",
         "cs": "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2",
+        "da": "nplurals=2; plural=(n != 1)",
+        "de": "nplurals=2; plural=(n != 1)",
+        "el": "nplurals=2; plural=(n != 1)",
         "en": "nplurals=2; plural=(n != 1)",
-        "fr": gtOnePlural,
-        "ja": asianPlural,
-        "kr": asianPlural,
+        "es-ES": "nplurals=2; plural=(n != 1)",
+        "fi": "nplurals=2; plural=(n != 1)",
+        "fr": "nplurals=2; plural=(n > 1)",
+        "he": "nplurals=2; plural=(n != 1)",
+        "hi": "nplurals=2; plural=(n!=1)",
+        "hu": "nplurals=2; plural=(n != 1)",
+        "it": "nplurals=2; plural=(n != 1)",
+        "ja": "nplurals=1; plural=0",
+        "ko": "nplurals=1; plural=0",
+        "nl": "nplurals=2; plural=(n != 1)",
+        "no": "nplurals=2; plural=(n != 1)",
         "pl": "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
-        "pt": gtOnePlural,
-        "ro": "nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);",
-        "ru": russianPlural,
-        "sr": russianPlural,
-        "tr": gtOnePlural,
-        "uk": russianPlural,
-        "vi": asianPlural,
-        "zh": asianPlural
+        "pt-BR": "nplurals=2; plural=(n != 1)",
+        "pt-PT": "nplurals=2; plural=(n != 1)",
+        "ro": "nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2)",
+        "ru": "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+        "si-LK": "nplurals=2; plural=(n != 1)",
+        "sk": "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2",
+        "sr": "nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+        "sv-SE": "nplurals=2; plural=(n != 1) ",
+        "tr": "nplurals=1; plural=0",
+        "uk": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
+        "ur-PK": "nplurals=2; plural=(n != 1)",
+        "vi": "nplurals=1; plural=0",
+        "xh": "nplurals=2; plural=(n != 1)",
+        "zh-CN": "nplurals=1; plural=0",
+        "zh-TW": "nplurals=1; plural=0"
     };
 
     var getPluralForm = function(lang) {
@@ -51,7 +67,7 @@
      * Simple i18n method with sprintf-like %(name)s replacement
      * To be used like so:
      *   $._("Some string")
-     *   $._("Hello %(name)", {name: "John"})
+     *   $._("Hello %(name)s", {name: "John"})
      */
     jQuery._ = function(str, options) {
         options = options || {};
@@ -76,8 +92,8 @@
      * Simple ngettext method with sprintf-like %(name)s replacement
      * To be used like so:
      *   $.ngettext("Singular", "Plural", 3)
-     *   $.ngettext("1 Cat", "%(num) Cats", 3)
-     *   $.ngettext("1 %(type)", "%(num) %(type)s", 3, {type: "Cat"})
+     *   $.ngettext("1 Cat", "%(num)s Cats", 3)
+     *   $.ngettext("1 %(type)s", "%(num)s %(type)s", 3, {type: "Cat"})
      * This method is also meant to be used when injecting for other
      * non-English languages, like so (taking an array of plural messages,
      * which varies based upon the language):
@@ -159,6 +175,16 @@
         return jQuery.ngetpos(num, lang) === 0;
     };
 
+    /*
+     * A dummy identity function.  It's used as a signal to automatic
+     * translation-identification tools that they shouldn't mark this
+     * text up to be translated, even though it looks like
+     * natural-language text.  (And likewise, a signal to linters that
+     * they shouldn't complain that this text isn't translated.)
+     * Use it like so: 'tag.author = i18n.i18nDoNotTranslate("Jim");'
+     */
+    jQuery.i18nDoNotTranslate = jQuery._;
+
     /**
      * Dummy Handlebars _ function. Is a noop.
      * Should be used as: {{#_}}...{{/_}}
@@ -167,6 +193,19 @@
      * The translated text is injected at deploy-time.
      */
     i18n.handlebars_underscore = function(options) {
+        return options.fn(this);
+    };
+
+    /**
+     *  Mark text as not needing translation.
+     *
+     * This function is used to let i18nize_templates.py know that
+     * everything within it does not need to be translate.
+     * Should be used as: {{#i18nDoNotTranslate}}...{{/i18nDoNotTranslate}}
+     * It does not need to actually do anything and hence returns the contents
+     * as is.
+     */
+    i18n.handlebars_do_not_translate = function(options) {
         return options.fn(this);
     };
 

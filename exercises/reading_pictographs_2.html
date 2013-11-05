@@ -6,13 +6,16 @@
     <script src="../khan-exercise.js"></script>
     <style>
         .fake_header span, .fake_row span {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             vertical-align: top;
-            line-height: 38px;
+            line-height: 40px;
         }
         .fake_row span:first-child {
-            width: 76px;
+            width: 80px;
+        }
+        .fake_row > span {
+            padding-left: 5px;
         }
         .fake_header span:first-child {
             width: 460px;
@@ -42,6 +45,7 @@
 
     <div class="problem">
         <p>Use the pictograph to answer the question below:</p>
+        <p class="question" id="stem"></p>
         <div class="fake_header">
             <span><span style="text-transform:capitalize"><var>BADGE</var></span> badges earned by each student</span>
         </div>
@@ -61,7 +65,7 @@
                 <var id="ANSWER">DATA[ PERSON ] * VALUE_PER_IMG + HALF[ PERSON ] * VALUE_PER_IMG / 2</var>
             </div>
 
-            <p class="question">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
+            <p class="question" id="stem">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
@@ -111,7 +115,7 @@
                 <var id="POINTS_PER_BADGE">$._("%(point)s per badge", {point: plural_form(SYMBOL_PL, VALUE_PER_IMG )})</var>
             </div>
 
-            <p class="question"><span data-if="isSingular(VALUE)" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</span><span data-else="" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</span></p>
+            <p class="question" id="stem"><span data-if="isSingular(VALUE)" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</span><span data-else="" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</span></p>
 
             <div class="solution"><var>person( PERSON + 1 )</var></div>
             <ul class="choices" data-category="true">
@@ -156,7 +160,7 @@
                 <var id="PRETTY_SYM_DIFF">mixedFractionFromImproper( toFraction( SYMBOL_DIFF, 0.001 )[0], toFraction( SYMBOL_DIFF, 0.001 )[1] )</var>
             </div>
 
-            <p class="question">How many more <var>BADGE</var> badges did <var>person( PERSON1 + 1 )</var> earn than <var>person( PERSON2 + 1 )</var>?</p>
+            <p class="question" id="stem">How many more <var>BADGE</var> badges did <var>person( PERSON1 + 1 )</var> earn than <var>person( PERSON2 + 1 )</var>?</p>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
@@ -204,7 +208,7 @@
                 <var id="HALF_SYM">sum( HALF )</var>
                 <var id="TOTAL">sum( DATA ) * VALUE_PER_IMG + sum( HALF ) * ( VALUE_PER_IMG / 2 )</var>
             </div>
-            <p class="question">How many <var>BADGE</var> badges were earned by everyone all together?</p>
+            <p class="question" id="stem">How many <var>BADGE</var> badges were earned by everyone all together?</p>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>TOTAL</var></span> <var>BADGE</var> badges</p>

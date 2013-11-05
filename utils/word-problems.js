@@ -1,3 +1,5 @@
+(function() {
+
 // Example usage:
 // <var>person(1)</var> traveled 5 mi by <var>vehicle(1)</var>. Let
 // <var>his(1)</var> average speed be <var>personVar(1)</var>.
@@ -32,7 +34,7 @@ $.extend(KhanUtil, {
 
     toSentenceTex: function(array, highlight, highlightClass) {
         var wrapped = $.map(array, function(elem) {
-            if (($.isFunction(highlight) && highlight(elem)) || (highlight !== undefined && elem === highlight)) {
+            if ((_.isFunction(highlight) && highlight(elem)) || (highlight !== undefined && elem === highlight)) {
                 return "<code class='" + highlightClass + "'>" + elem + "</code>";
             }
             return "<code>" + elem + "</code>";
@@ -79,7 +81,7 @@ $.extend(KhanUtil, {
     },
 
     isSingular: function(num) {
-        return num == 1;
+        return num === 1;
     },
 
     // DEPRECATED
@@ -198,6 +200,7 @@ $.extend(KhanUtil, {
         };
     })(),
 
+    // OBSOLETE.  TODO(csilvers): remove from here and tests after I confirm.
     // Pluralize with a code tag around the number
     // - pluralTex(NUMBER, singular):
     //        - if necessary, magically pluralize <singular>
@@ -1007,3 +1010,5 @@ $.fn["word-problemsLoad"] = function() {
         }
     });
 };
+
+})();

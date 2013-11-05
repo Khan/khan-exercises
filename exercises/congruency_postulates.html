@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive triangle-congruence">
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive triangle-congruence kline">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Congruency postulates</title>
@@ -72,7 +72,7 @@
                             6 - Math.max(TRIANGLE.points[0][1], TRIANGLE.points[1][1], TRIANGLE.points[2][1])
                         ]);
 
-                        path( [ lineMidpoint( TRIANGLE.sides[ 2 ] ), TRIANGLE.points[2], TRIANGLE.points[1], TRIANGLE.points[0], lineMidpoint( TRIANGLE.sides[ 2 ] ) ] );
+                        path( [ kline.midpoint( TRIANGLE.sides[ 2 ] ), TRIANGLE.points[2], TRIANGLE.points[1], TRIANGLE.points[0], kline.midpoint( TRIANGLE.sides[ 2 ] ) ] );
                         addTriangleDecorations( TRIANGLE, TYPE );
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                             init({ range: triangle.boundingRange( 0.4 ) });
                             addMouseLayer();
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
-                            path( [ lineMidpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], lineMidpoint( triangle.sides[ 2 ] ) ] );
+                            path( [ kline.midpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], kline.midpoint( triangle.sides[ 2 ] ) ] );
                             addTriangleDecorations( triangle, TYPE );
                             KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
                         </div>
@@ -178,7 +178,7 @@
                             init({ range: triangle.boundingRange( 0.4 ) });
                             addMouseLayer();
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
-                            path( [ lineMidpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], lineMidpoint( triangle.sides[ 2 ] ) ] );
+                            path( [ kline.midpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], kline.midpoint( triangle.sides[ 2 ] ) ] );
                             addTriangleDecorations( triangle, TYPE );
                             KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
                         </div>
@@ -198,7 +198,7 @@
                             init({ range: TRIANGLE.boundingRange( 0.4 ) });
                             addMouseLayer();
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
-                            path( [ lineMidpoint( TRIANGLE.sides[ 2 ] ), TRIANGLE.points[2], TRIANGLE.points[1], TRIANGLE.points[0], lineMidpoint( TRIANGLE.sides[ 2 ] ) ] );
+                            path( [ kline.midpoint( TRIANGLE.sides[ 2 ] ), TRIANGLE.points[2], TRIANGLE.points[1], TRIANGLE.points[0], kline.midpoint( TRIANGLE.sides[ 2 ] ) ] );
                             addTriangleDecorations( TRIANGLE, TYPE );
                             KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
                         </div>
@@ -209,7 +209,7 @@
                             init({ range: triangle.boundingRange( 0.4 ) });
                             addMouseLayer();
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
-                            path( [ lineMidpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], lineMidpoint( triangle.sides[ 2 ] ) ] );
+                            path( [ kline.midpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], kline.midpoint( triangle.sides[ 2 ] ) ] );
                             addTriangleDecorations( triangle, TYPE );
                             KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
                         </div>

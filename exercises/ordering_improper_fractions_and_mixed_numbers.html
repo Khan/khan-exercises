@@ -135,7 +135,13 @@
                         Drag the fractions or mixed numbers to the left or the right so they are in order from least to greatest
                     </div>
                     <div class="guess">SORTER.getContent()</div>
-                    <div class="validator-function">return guess.join( "," ) === NUMS_SORT_TEX;</div>
+                    <div class="validator-function">
+                        if (SORTER.hasAttempted) {
+                            return guess.join(",") === NUMS_SORT_TEX;
+                        } else {
+                            return "";
+                        }
+                    </div>
                     <div class="show-guess">SORTER.setContent( guess );</div>
                 </div>
 

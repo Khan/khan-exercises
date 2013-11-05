@@ -27,7 +27,7 @@ pack = [
 origwd = os.getcwd()
 tempdir = tempfile.mkdtemp()
 mjdir = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                     "../utils/MathJax/2.1"))
+                                     "../third_party/MathJax/2.1"))
 
 if os.path.isdir(mjdir):
     print "%s exists, exiting" % mjdir
@@ -152,5 +152,5 @@ os.chdir(origwd)
 shutil.rmtree(tempdir)
 
 print "Done. You probably want to run:"
-print "  git add -A utils/MathJax"
+print "  git add -A third_party/MathJax"
 print "to remove deleted files from git."

@@ -48,7 +48,7 @@ function renderReadOnlyProblem(event, args) {
                 })
                 .data("disabled", true);
             return this;
-        }
+        };
 
         $.fn.enable = function() {
             this.removeClass("disabled")
@@ -57,7 +57,7 @@ function renderReadOnlyProblem(event, args) {
                 })
                 .data("disabled", false);
             return this;
-        }
+        };
 
         if (userExercise.totalDone === 0) {
             $("#previous-problem").disable();
@@ -314,7 +314,7 @@ function renderReadOnlyProblem(event, args) {
                 };
 
                 if (framework === "khan-exercises") {
-                    if (thisSlide.data("guess") !== undefined && $.isFunction(answerData.showCustomGuess)) {
+                    if (thisSlide.data("guess") !== undefined && _.isFunction(answerData.showCustomGuess)) {
                         KhanUtil.currentGraph = $(realWorkArea).find(".graphie").data("graphie");
                         answerData.showCustomGuess(thisSlide.data("guess"));
                         MathJax.Hub.Queue(recordState);

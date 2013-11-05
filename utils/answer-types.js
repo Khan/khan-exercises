@@ -1,5 +1,7 @@
 (function() {
 
+var MAXERROR_EPSILON = Math.pow(2, -42);
+
 // Function used to get the text of the choices, which is then used
 // to check against the correct answer
 var extractRawCode = function(elem) {
@@ -129,24 +131,29 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
+                var score = {
+                    empty: false,
+                    correct: false,
+                    message: null,
+                    guess: guess
+                };
                 if (guess.toLowerCase() === correct.toLowerCase()) {
                     if (correct === guess || options.correctCase === "optional") {
-                        return true;
+                        score.correct = true;
                     } else {
                         if (guess === guess.toLowerCase()) {
-                            return $._("Your answer is almost correct, but " +
+                            score.message = $._("Your answer is almost correct, but " +
                                        "must be in capital letters.");
                         } else if (guess === guess.toUpperCase()) {
-                            return $._("Your answer is almost correct, but " +
+                            score.message = $._("Your answer is almost correct, but " +
                                        "must not be in capital letters.");
                         } else {
-                            return $._("Your answer is almost correct, but " +
+                            score.message = $._("Your answer is almost correct, but " +
                                        "must be in the correct case.");
                         }
                     }
-                } else {
-                    return false;
                 }
+                return score;
             };
         }
     },
@@ -187,10 +194,18 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, solutionData);
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
+            // TODO(jack): remove options.inexact in favor of options.maxError
             if (options.inexact === undefined) {
-                options.maxError = Math.pow(2, -42);
+                // If we aren't allowing inexact, ensure that we don't have a
+                // large maxError as well.
+                options.maxError = 0;
             }
+            // Allow a small tolerance on maxError, to avoid numerical
+            // representation issues (2.3 should be correct for a solution of
+            // 2.45 with maxError=0.15).
+            options.maxError = +options.maxError + MAXERROR_EPSILON;
 
+            var input;
             if (window.Modernizr && Modernizr.touch) {
                 // Use special HTML5 input element for touch devices, so we can
                 // take advantage of special numeric keyboards...
@@ -205,11 +220,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                       ' autocapitalize="off">';
                     }
                 });
-                var input = $(inputMarkup);
+                input = $(inputMarkup);
             } else {
                 // people don't always set their locale right, so use a text
                 // box to allow for alternative radix points
-                var input = $('<input type="text">');
+                input = $('<input type="text">');
             }
             $(solutionarea).append(input);
 
@@ -242,16 +257,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 log: $._("an expression, like <code>\\log(100)</code>"),
 
-                percent: $._("a percent, like <code>12.34\\%</code>"),
+                percent: $._("a percent, like <code>%(NUM)s\\%</code>", {NUM: KhanUtil.localeToFixed(12.34, 2)}),
 
                 mixed: $._("a mixed number, like <code>1\\ 3/4</code>"),
 
                 decimal: (function() {
                         if (options.inexact === undefined) {
                             return $._("an <em>exact</em> decimal, like " +
-                                "<code>0.75</code>");
+                                "<code>%(NUM)s</code>", {NUM: KhanUtil.localeToFixed(0.75, 2)});
                         } else {
-                            return $._("a decimal, like <code>0.75</code>");
+                            return $._("a decimal, like <code>%(NUM)s</code>", {NUM: KhanUtil.localeToFixed(0.75, 2)});
                         }
                     })()
             };
@@ -286,11 +301,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, options);
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
+            // TODO(jack): remove options.inexact in favor of options.maxError
             if (options.inexact === undefined) {
                 // If we aren't allowing inexact, ensure that we don't have a
                 // large maxError as well.
-                options.maxError = Math.pow(2, -42);
+                options.maxError = 0;
             }
+            // Allow a small tolerance on maxError, to avoid numerical
+            // representation issues (2.3 should be correct for a solution of
+            // 2.45 with maxError=0.15).
+            options.maxError = +options.maxError + MAXERROR_EPSILON;
 
             // If percent is an acceptable form, make sure it's the last one
             // in the list so we don't prematurely complain about not having
@@ -399,17 +419,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     text = text.replace(/\u2212/, "-");
 
                     // - pi
-                    if (match = text.match(
+                    if ((match = text.match(
                                     /^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
-                                )) {
+                                ))) {
                         possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?\s*\d+\s*(?:\/\s*[+-]?\s*\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    } else if ((match = text.match(/^([+-]?\s*\d+\s*(?:\/\s*[+-]?\s*\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i))) {
                         possibilities = fractionTransformer(match[1]);
 
                     // 4 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?)\s*(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    } else if ((match = text.match(/^([+-]?)\s*(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i))) {
                         var sign = parseFloat(match[1] + "1"),
                             integ = parseFloat(match[2]),
                             num = parseFloat(match[3]),
@@ -423,12 +443,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         }];
 
                     // 5 pi / 6
-                    } else if (match = text.match(/^([+-]?\s*\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\s*\d+))?$/i)) {
+                    } else if ((match = text.match(/^([+-]?\s*\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\s*\d+))?$/i))) {
                         possibilities = fractionTransformer(match[1] +
                                                             "/" + match[3]);
 
                     // - pi / 4
-                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                    } else if ((match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i))) {
                         possibilities = fractionTransformer(match[1] +
                                                             "1/" + match[3]);
 
@@ -437,9 +457,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         possibilities = [{ value: 0, exact: true }];
 
                     // 0.5 pi (fallback)
-                    } else if (match = text.match(
+                    } else if ((match = text.match(
                                 /^(.+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
-                                        )) {
+                                        ))) {
                         possibilities = forms.decimal(match[1]);
                     } else {
                         possibilities = _.reduce(Khan.answerTypes.predicate.defaultForms.split(/\s*,\s*/), function(memo, form) {
@@ -486,7 +506,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     text = text.replace(/\u2212/, "-");
                     text = text.replace(/[ \(\)]/g, "");
 
-                    if (match = text.match(/^log\s*(\S+)\s*$/i)) {
+                    if ((match = text.match(/^log\s*(\S+)\s*$/i))) {
                         possibilities = forms.decimal(match[1]);
                     } else if (text === "0") {
                         possibilities = [{ value: 0, exact: true }];
@@ -603,7 +623,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
-                var ret = false;
+                var score = {
+                    empty: guess === "",
+                    correct: false,
+                    message: null,
+                    guess: guess
+                };
 
                 // iterate over all the acceptable forms, and if one of the
                 // answers is correct, return true
@@ -620,21 +645,30 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             // If the exact correct number was returned,
                             // return true
                             if (exact || options.simplify === "optional") {
-                                ret = true;
+                                score.correct = true;
+                                // If the answer is correct, don't say it's
+                                // empty. This happens, for example, with the
+                                // coefficient type where guess === "" but is
+                                // interpreted as "1" which is correct.
+                                score.empty = false;
                             } else if (form === "percent") {
                                 // Otherwise, an error was returned
-                                ret = $._("Your answer is almost correct, " +
+                                score.message = $._("Your answer is almost correct, " +
                                           "but it is missing a " +
                                           "<code>\\%</code> at the end.");
                             } else {
-                                ret = $._("Your answer is almost correct, " +
+                                if (options.simplify !== "enforced") {
+                                    score.empty = true;
+                                }
+                                score.message = $._("Your answer is almost correct, " +
                                           "but it needs to be simplified.");
                             }
 
                             return false; // break;
                         } else if (piApprox &&
                                    predicate(val, Math.abs(val * 0.001))) {
-                            ret = $._("Your answer is close, but you may " +
+                            score.empty = true;
+                            score.message = $._("Your answer is close, but you may " +
                                       "have approximated pi. Enter your " +
                                       "answer as a multiple of pi, like " +
                                       "<code>12\\ \\text{pi}</code> or " +
@@ -643,7 +677,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     }
                 });
 
-                return ret;
+                return score;
             };
         }
     },
@@ -738,7 +772,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     options.fallback != null ? "" + options.fallback : "";
 
                 guess = $.trim(guess) || fallback;
-                return guess.match(regex) != null;
+                return {
+                    empty: false,
+                    correct: guess.match(regex) != null,
+                    message: null,
+                    guess: guess
+                };
             };
         }
     },
@@ -800,7 +839,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // If nothing typed into either box, don't grade the answer
                 if (guess[0].length === 0 && guess[1].length === 0) {
-                    return "";
+                    return {
+                        empty: true,
+                        correct: false,
+                        message: null,
+                        guess: guess
+                    };
                 }
                 // If nothing is typed into one of the boxes, use 1
                 guess[0] = guess[0].length > 0 ? guess[0] : "1";
@@ -817,16 +861,22 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // portion are the same as what is given by splitRadical
                 var simplified = inteGuess === ans[0] && radGuess === ans[1];
 
+                var score = {
+                    empty: false,
+                    correct: false,
+                    message: null,
+                    guess: guess
+                };
+
                 if (correct) {
                     if (simplified || options.simplify === "optional") {
-                        return true;
+                        score.correct = true;
                     } else {
-                        return $._("Your answer is almost correct, but it " +
+                        score.message = $._("Your answer is almost correct, but it " +
                                    "needs to be simplified.");
                     }
-                } else {
-                    return false;
                 }
+                return score;
             };
         }
     },
@@ -888,7 +938,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // If nothing typed into either box, don't grade the answer
                 if (guess[0].length === 0 && guess[1].length === 0) {
-                    return "";
+                    return {
+                        empty: true,
+                        correct: false,
+                        message: null,
+                        guess: guess
+                    };
                 }
                 // If nothing is typed into one of the boxes, use 1
                 guess[0] = guess[0].length > 0 ? guess[0] : "1";
@@ -905,16 +960,22 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // portion are the same as what is given by splitCube
                 var simplified = inteGuess === ans[0] && radGuess === ans[1];
 
+                var score = {
+                    empty: false,
+                    correct: false,
+                    message: null,
+                    guess: guess
+                };
+
                 if (correct) {
                     if (simplified || options.simplify === "optional") {
-                        return true;
+                        score.correct = true;
                     } else {
-                        return $._("Your answer is almost correct, but it " +
+                        score.message = $._("Your answer is almost correct, but it " +
                                    "needs to be simplified.");
                     }
-                } else {
-                    return false;
                 }
+                return score;
             };
         }
     },
@@ -1011,7 +1072,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // Iterate through each of the answerDatas, and show the
                     // cooresponding custom guess for each if it exists
                     $.each(answerDataArray, function(i, answerData) {
-                        if (!$.isFunction(answerData.showCustomGuess)) {
+                        if (!_.isFunction(answerData.showCustomGuess)) {
                             return;
                         }
                         if (guess !== undefined) {
@@ -1039,9 +1100,19 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             });
 
             return function(guess) {
-                var valid = true;
-                var allEmpty = true;
-                var message = "";
+                var score = {
+                    empty: true,
+                    correct: true,
+                    message: null,
+                    guess: guess
+                };
+
+                // If the answer is completely empty, don't grade it
+                if (checkIfAnswerEmpty(guess)) {
+                    score.empty = true;
+                    score.correct = false;
+                    return score;
+                }
 
                 // Iterate over each of the elements in the guess
                 $.each(guess, function(i, g) {
@@ -1049,28 +1120,27 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // with the corresponding validator
                     var pass = validators[i](g);
 
-                    if (!checkIfAnswerEmpty(g) && !checkIfAnswerEmpty(pass)) {
-                        allEmpty = false;
-                    }
-
-                    if (pass === "") {
-                        valid = false;
-                    } else {
-                        if (typeof pass === "string") {
-                            message = pass;
-                        } else {  // pass is true or false
-                            valid = valid && pass;
+                    score.empty = score.empty && pass.empty;
+                    score.correct = score.correct && pass.correct;
+                    // TODO(eater): This just forwards one message
+                    if (pass.message) {
+                        score.message = pass.message;
+                        // Special case where a validator returns a message
+                        // for an "empty" response. This probably means it's
+                        // not really empty, but a correct-but-not-simplified
+                        // answer. Rather that treating this as actually empty,
+                        // possibly leading to the entire multiple being marked
+                        // wrong for being incomplete, bail here and forward on
+                        // the message.
+                        if (pass.empty) {
+                            score.empty = true;
+                            score.correct = false;
+                            return score;
                         }
                     }
                 });
 
-                if (allEmpty) {
-                    return "";
-                } else if (message) {
-                    return message;
-                } else {
-                    return valid;
-                }
+                return score;
             };
         }
     },
@@ -1181,12 +1251,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             });
 
             return function(guess) {
-                // Whether the entire solution is correct or not
-                var valid = true,
+                var score = {
+                    // If there are no validators, empty input is correct
+                    empty: validatorArray.length === 0 ? false : true,
+                    correct: true,
+                    message: null,
+                    guess: guess
+                };
                 // Store a copy of each of the validators. If one correctly
                 // identifies a guess, remove it from this array, so duplicate
                 // answers aren't marked correct twice
-                unusedValidators = validatorArray.slice(0);
+                var unusedValidators = validatorArray.slice(0);
 
                 // Go through each of the guesses
                 $.each(guess, function(i, g) {
@@ -1199,15 +1274,20 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                         // If this validator completely accepts this answer
                         // or returns a check answer message
-                        if (pass !== false) {
+                        if (pass.correct || pass.message) {
                             // remove the working validator
                             unusedValidators.splice(i, 1);
                             // store correct
-                            correct = pass;
+                            correct = pass.correct || pass.message;
                             // break
                             return false;
                         }
                     });
+
+                    if (!checkIfAnswerEmpty(g) &&
+                            !checkIfAnswerEmpty(correct)) {
+                        score.empty = false;
+                    }
 
                     // If we didn't get it right, and the answer isn't empty,
                     // the entire solution is false
@@ -1220,18 +1300,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     //              is correct? While this could be abused, it
                     //              would seem more friendly.
                     if (!correct && $.trim([g].join("")) !== "") {
-                        valid = false;
-                        return false;
+                        score.correct = false;
+                        return false;  // break
                     }
 
                     // If we have a check answer message
                     if (typeof correct === "string") {
-                        valid = correct;
-                    }
-
-                    // If we've run out of validators, stop
-                    if (unusedValidators.length === 0) {
-                        return false;
+                        score.message = correct;
                     }
                 });
 
@@ -1242,14 +1317,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     if (unusedValidators.length >
                         validatorArray.length - guess.length) {
                         // incorrect, more answers needed
-                        valid = false;
+                        score.correct = false;
                     }
                 // Otherwise, if not all of the answers were provided
                 } else if (unusedValidators.length > 0) {
                     // incorrect, some of the answers are missing
-                    valid = false;
+                    score.correct = false;
                 }
-                return valid;
+
+                return score;
             };
         }
     },
@@ -1299,12 +1375,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // answers up.
             var isCategory = !!$choices.data("category");
 
+            var possibleChoices;
             if (isCategory) {
                 // If it's a category question, insert the solution into the
                 // list of choices at the correct place, by comparing by the
                 // text value of the elements.
                 var correctText = getTextSquish($solutionClone);
-                var possibleChoices = _.map(
+                possibleChoices = _.map(
                     $choicesClone.children().get(),
                     function(elem) {
                         if (getTextSquish(elem) === correctText) {
@@ -1318,7 +1395,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // and the other choices. We shuffle the choices here so that
                 // when we slice off some of the choices later, we don't always
                 // slice off the same ones.
-                var possibleChoices = $solutionClone.get().concat(
+                possibleChoices = $solutionClone.get().concat(
                     KhanUtil.shuffle($choicesClone.children().get())
                 );
             }
@@ -1450,7 +1527,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         // the database)
                         value: extractRawCode($choiceVal),
                         // The index of the value that was chosen
-                        index: $choice.val()
+                        index: +$choice.val()
                     };
                 },
                 solution: solutionText,
@@ -1492,19 +1569,34 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
 
             return function(guess) {
+                var score = {
+                    empty: false,
+                    correct: false,
+                    message: null,
+                    guess: guess
+                };
+
                 if (guess == null) {
-                    return "";
+                    score.empty = true;
+                    return score;
                 }
 
                 if (guess.index) {
                     // New solutions include information about the correct
                     // answer like the correct index, etc. We can use that to
                     // make checking a lot simpler.
+
+                    // TODO(alpert): Casting to a number here is necessary
+                    // since guesses before 9 Sep 2013 had the index stored as
+                    // a string -- I'm adding in the cast here for timeline
+                    // compatibility but this can be removed after 1 Nov 2013
+                    var index = +guess.index;
+
                     if (guess.isNone && solution.noneIsCorrect) {
                         showReal();
-                        return true;
+                        score.correct = true;
                     } else {
-                        return guess.index == solution.index;
+                        score.correct = guess.index === solution.index;
                     }
                 } else {
                     // Old solutions just included the solution element, so we
@@ -1516,18 +1608,18 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // Check to see if the "none of the above" answer is
                     // checked
                     if (guess.isNone &&
-                            $("#solutionarea").find("ul").data("real-answer")
-                            != null) {
+                            $("#solutionarea").find("ul").data("real-answer") != null) {
                         showReal();
-                        return true;
+                        score.correct = true;
                     // Otherwise, just compare the text
                     } else if ($.trim(guess.value).replace(/\r\n?|\n/g, "") ===
                                $.trim(correct.replace(/\r\n?|\n/g, ""))) {
-                        return true;
+                        score.correct = true;
                     } else {
-                        return false;
+                        score.correct = false;
                     }
                 }
+                return score;
             };
         }
     },
@@ -1548,8 +1640,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var choices = $.tmpl.getVAR(solutionData.choices);
             $.each(choices, function(index, value) {
                 // Add each one to the selection
-                input.append('<option value="' + value + '">'
-                    + value + "</option>");
+                input.append('<option value="' + value + '">' +
+                    value + "</option>");
             });
 
             return {
@@ -1570,7 +1662,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             return function(guess) {
                 guess = $.trim(guess);
-                return correct === guess;
+                return {
+                    empty: false,
+                    correct: correct === guess,
+                    message: null,
+                    guess: guess
+                };
             };
         }
     },
@@ -1660,7 +1757,20 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             };
 
             return function(guess) {
-                return validator(guess);
+                var pass = validator(guess);
+                // If `pass` is an object, it's a new-style return type
+                if (typeof pass === "object") {
+                    return pass;
+                } else {
+                    // TODO(eater): For now most custom answers use the "old"
+                    // true/false/""/"..." return type.
+                    return {
+                        empty: pass === "",
+                        correct: pass === true,
+                        message: typeof pass === "string" ? pass : null,
+                        guess: guess
+                    };
+                }
             };
         }
     },
@@ -1710,7 +1820,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 guess = KhanUtil.sortNumbers(guess.split(/x|\*|\u00d7/))
                                 .join("x");
                 // perform simple string comparison
-                return guess === correct;
+                return {
+                    empty: guess === "",
+                    correct: guess === correct,
+                    message: null,
+                    guess: guess
+                };
             };
         }
     },
@@ -1745,19 +1860,28 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             correct = $.trim(correct) === "true";
 
             return function(guess) {
+                var score = {
+                    empty: false,
+                    correct: false,
+                    message: null,
+                    guess: guess
+                };
                 // If checkbox is unchecked, guess will be ""; cast to bool
+                /* jshint -W018 */
                 if (!!correct === !!guess) {
-                    return true;
+                /* jshint +W018 */
+                    score.correct = true;
                 } else if (!guess) {
                     // If unchecked, we'll say that the answer is empty, which
                     // is necessary to ensure that a new question with
                     // checkboxes counts as empty. Empty in a multiple grades
                     // as false though so this shouldn't have any adverse
                     // effects.
-                    return "";
+                    score.empty = true;
                 } else {
-                    return false;
+                    score.correct = false;
                 }
+                return score;
             };
         }
     },
@@ -1775,7 +1899,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      *
      *     no functions specified: f(x+y) == fx + fy
      *     with "f" as a function: f(x+y) != fx + fy
-     * 
+     *
      * Comparison options:
      * same-form (e.g. data-same-form)
      *     If present, the answer must match the solution's structure in
@@ -1783,32 +1907,32 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      *     are ignored, but all other changes will trigger a rejection. Useful
      *     for requiring a particular form of an equation, or if the answer
      *     must be factored.
-     *     
+     *
      *     example question:    Factor x^2 + x - 2
      *     example solution:    (x-1)(x+2)
      *     accepted answers:    (x-1)(x+2), (x+2)(x-1), ---(-x-2)(-1+x), etc.
      *     rejected answers:    x^2+x-2, x*x+x-2, x(x+1)-2, (x-1)(x+2)^1, etc.
      *     rejection message:   Your answer is not in the correct form
-     *     
+     *
      * simplify (e.g. data-simplify)
      *     If present, the answer must be fully expanded and simplified. Use
      *     carefully - simplification is hard and there may be bugs, or you
      *     might not agree on the definition of "simplified" used. You will
      *     get an error if the provided solution is not itself fully expanded
      *     and simplified.
-     *     
+     *
      *     example question:    Simplify ((n*x^5)^5) / (n^(-2)*x^2)^-3
      *     example solution:    x^31 / n
      *     accepted answers:    x^31 / n, x^31 / n^1, x^31 * n^(-1), etc.
      *     rejected answers:    (x^25 * n^5) / (x^(-6) * n^6), etc.
      *     rejection message:   Your answer is not fully expanded and simplified
-     *     
+     *
      * Rendering options:
      * times (e.g. data-times)
      *     If present, explicit multiplication (such as between numbers) will
      *     be rendered with a cross/x symbol (TeX: \times) instead of the usual
      *     center dot (TeX: \cdot).
-     *     
+     *
      *     normal rendering:    2 * 3^x -> 2 \cdot 3^{x}
      *     but with "times":    2 * 3^x -> 2 \times 3^{x}
      */
@@ -1868,7 +1992,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 var result = KAS.parse($input.val(), options);
                 if (result.parsed) {
                     hideError();
-                    $tex.css({opacity: 1.0})
+                    $tex.css({opacity: 1.0});
                     var tex = result.expr.asTex(options);
                     if (tex !== lastParsedTex) {
                         $tex.empty().append($("<code>").text(tex)).tex();
@@ -1975,7 +2099,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     $._("For <code>3y</code>, enter <strong>3y</strong> or <strong>3*y</strong>"),
                     $._("For <code>\\dfrac{1}{x}</code>, enter <strong>1/x</strong>"),
                     $._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
+                    $._("For <code>\\sqrt{x}</code>, enter <strong>sqrt(x)</strong>"),
                     $._("For <code>\\pi</code>, enter <strong>pi</strong>"),
+                    $._("For <code>\\sin \\theta</code>, enter <strong>sin(theta)</strong"),
                     $._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
                     $._("For <code>\\neq</code>, enter <strong>=/=</strong>")
                 ],
@@ -1986,26 +2112,53 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         },
         createValidatorFunctional: function(solution, options) {
             return function(guess) {
+                var score = {
+                    empty: false,
+                    correct: false,
+                    message: null,
+                    guess: guess
+                };
                 // Don't bother parsing an empty input
-                if (!guess) return "";
+                if (!guess) {
+                    score.empty = true;
+                    return score;
+                }
 
                 var answer = KAS.parse(guess, options);
 
                 // An unsuccessful parse doesn't count as wrong
-                if (!answer.parsed) return "";
+                if (!answer.parsed) {
+                    score.empty = true;
+                    return score;
+                }
 
                 var result = KAS.compare(answer.expr, solution, options);
 
                 if (result.equal) {
                     // Correct answer
-                    return true;
+                    score.correct = true;
                 } else if (result.message) {
                     // Nearly correct answer
-                    return result.message;
+                    score.message = result.message;
                 } else {
-                    // Wrong answer
-                    return false;
+                    // Replace x with * and see if it would have been correct
+                    var answerX = KAS.parse(guess.replace(/[xX]/g, "*"), options);
+                    if (answerX.parsed) {
+                        var resultX = KAS.compare(answerX.expr, solution, options);
+                        if (resultX.equal) {
+                            score.empty = true;
+                            score.message = "I'm a computer. I only " +
+                                    "understand multiplication if you use an " +
+                                    "asterisk (*) as the multiplication sign.";
+                        } else if (resultX.message) {
+                            score.message = resultX.message + " Also, " +
+                                    "I'm a computer. I only " +
+                                    "understand multiplication if you use an " +
+                                    "asterisk (*) as the multiplication sign.";
+                        }
+                    }
                 }
+                return score;
             };
         }
     }

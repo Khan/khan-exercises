@@ -37,7 +37,7 @@
                         next();
                     }
                 }, 800);
-                
+
             })();
         }
 
@@ -76,7 +76,7 @@
                         next();
                     }
                 }, 800);
-                
+
             })();
         }
 
@@ -84,6 +84,20 @@
             thing1.length === 2 ? animateSegmentPair(thing1, thing2, next) : animateAnglePair(thing1, thing2, next);
         }
 
+        var validateProof = function() {
+            if (isProofDone()) {
+                return true;
+            } else {
+                var isAttempted = false;
+                $(".e-proofs-short, #reason").each(function() {
+                    if (this.value) {
+                        isAttempted = true;
+                        return false;
+                    }
+                });
+                return (isAttempted) ? false : "";
+            }
+        };
     </script>
 </head>
 <body>
@@ -107,10 +121,10 @@
                     <var id="DC">CD</var>
                     <var id="CE">new Seg("C","E")</var>
                     <var id="EC">CE</var>
-                    
+
 
                     <var id="SEGS">[AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC]</var>
-                    
+
 
                     <var id="ang1">new Ang("D","A","C", null)</var>
                     <var id="ang2">new Ang("C","B","E", null)</var>
@@ -131,7 +145,7 @@
 
                     <var id="ADC">new Triang([AD, DC, CA], [ang5, ang3, ang1])</var>
                     <var id="BEC">new Triang([BE, EC, CB], [ang6, ang4, ang2])</var>
-                    
+
 
                     <var id="TRIANGLES">[ADC, BEC]</var>
 
@@ -139,8 +153,8 @@
                     <var id="KNOWN">STATEMENTS[0]</var>
                     <var id="FINISHED">STATEMENTS[1]</var>
 
-                    <var id="HINT">"you haven't entered anything yet"</var>   
-                    <var id="HINTS_LEFT">3</var>                 
+                    <var id="HINT">"you haven't entered anything yet"</var>
+                    <var id="HINTS_LEFT">3</var>
                 </div>
                 <p class="question">
                     </p><p>Prove <var> FINISHED </var>.</p>
@@ -154,7 +168,7 @@
                             scale: 40
                         });
                         addMouseLayer();
-                        
+
                         graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
 
                         graph.congruency.addPoint("A", [-4, 4]);
@@ -212,7 +226,7 @@
                                 "stroke-width": 3
                             });
                         }
-                        
+
                         graph.congruency.addLabel("A", "left");
                         graph.congruency.addLabel("B", "right");
                         graph.congruency.addLabel("C", "right");
@@ -294,8 +308,8 @@
                                 hintCategory = "bad format";
                             }
                         });
-                        $("#reason").change(function(){ 
-                            $(".nextStatement input").keyup(); 
+                        $("#reason").change(function(){
+                            $(".nextStatement input").keyup();
                         });
 
                         var storedHint = "";
@@ -338,7 +352,7 @@
 
                 <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <input class="e-proofs-short" id="thing1" maxlength="3" type="text"> <code> \cong </code> <input class="e-proofs-short" id="thing2" maxlength="3" type="text">  because 
+                    <input class="e-proofs-short" id="thing1" maxlength="3" type="text"> <code> \cong </code> <input class="e-proofs-short" id="thing2" maxlength="3" type="text">  because
                     <select id="reason">
                         <option value="">select a reason</option>
                         <option value="SSS">side-side-side congruence</option>
@@ -358,7 +372,7 @@
                     </div>
                     <div class="guess">1</div>
                     <div class="validator-function">
-                        return isProofDone();
+                        return validateProof();
                     </div>
                     <div class="show-guess">
                         outputKnownProof();
@@ -387,7 +401,7 @@
                     <var id="CE">new Seg("C","E")</var>
                     <var id="EC">CE</var>
                     <var id="DE">new Seg("D","E")</var>
-                    <var id="ED">DE</var>         
+                    <var id="ED">DE</var>
 
                     <var id="SEGS">[AB,BA,AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
 
@@ -410,7 +424,7 @@
 
                     <var id="ABC">new Triang([AB, BC, CA], [ang2, ang3, ang1])</var>
                     <var id="CDE">new Triang([CD, DE, EC], [ang5, ang6, ang4])</var>
-                    
+
 
                     <var id="TRIANGLES">[ABC, CDE]</var>
 
@@ -420,7 +434,7 @@
 
 
                     <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
-                    
+
                 </div>
                 <p class="question">
                     </p><p>Prove <var> FINISHED </var>.</p>
@@ -434,7 +448,7 @@
                             scale: 40
                         });
                         addMouseLayer();
-                        
+
                         graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
 
                         graph.congruency.addPoint("A", [-3, 4]);
@@ -492,7 +506,7 @@
                                 "stroke-width": 3
                             });
                         }
-                        
+
                         graph.congruency.addLabel("A", "left");
                         graph.congruency.addLabel("B", "right");
                         graph.congruency.addLabel("C", "right");
@@ -578,13 +592,13 @@
                                 hintCategory = "bad format";
                             }
                         });
-                        $("#reason").change(function(){ 
-                            $(".nextStatement input").keyup(); 
+                        $("#reason").change(function(){
+                            $(".nextStatement input").keyup();
                         });
 
                         $(".actualHints").html("");
 
-                        var storedHint = "";                        
+                        var storedHint = "";
                         var giveHint = function(){
                             if(hintsLeft &gt; 0){
                                 hintsLeft--;
@@ -620,10 +634,10 @@
                         $("#hint").click(giveHint);
                     </div>
                 </div>
-                
+
                 <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <input class="e-proofs-short" id="thing1" type="text"> <code> \cong </code> <input class="e-proofs-short" id="thing2" type="text">  because 
+                    <input class="e-proofs-short" id="thing1" type="text"> <code> \cong </code> <input class="e-proofs-short" id="thing2" type="text">  because
                     <select id="reason">
                         <option value="">select a reason</option>
                         <option value="SSS">side-side-side congruence</option>
@@ -643,7 +657,7 @@
                     </div>
                     <div class="guess">1</div>
                     <div class="validator-function">
-                        return isProofDone();
+                        return validateProof();
                     </div>
                     <div class="show-guess">
                         outputKnownProof();
@@ -674,9 +688,9 @@
                     <var id="DC">CD</var>
                     <var id="AD">new Seg("A","D")</var>
                     <var id="DA">AD</var>
-                    
+
                     <var id="SEGS">[AB,BA,AC,CA,BD,DB,CD,DC,AD,DA]</var>
-                    
+
                     <var id="ang1">new Ang("A","B","D", null)</var>
                     <var id="ang2">new Ang("B","A","D", null)</var>
                     <var id="ang3">new Ang("D","A","C", null)</var>
@@ -694,12 +708,12 @@
 
                     <var id="BAD">new Triang([BA, AD, DB], [ang2, ang5, ang1])</var>
                     <var id="CAD">new Triang([CA, AD, DC], [ang3, ang6, ang4])</var>
-                    
+
                     <var id="TRIANGLES">[BAD, CAD]</var>
 
                     <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
                     <var id="KNOWN">STATEMENTS[0]</var>
-                    <var id="FINISHED">STATEMENTS[1]</var>                    
+                    <var id="FINISHED">STATEMENTS[1]</var>
                 </div>
                 <p class="question">
                     </p><p>You are given <var> KNOWN </var>.</p>
@@ -713,7 +727,7 @@
                             scale: 40
                         });
                         addMouseLayer();
-                        
+
                         graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
 
                         graph.congruency.addPoint("A", [0, 3]);
@@ -763,7 +777,7 @@
                                 "stroke-width": 3
                             });
                         }
-                        
+
                         graph.congruency.addLabel("A", "above");
                         graph.congruency.addLabel("B", "left");
                         graph.congruency.addLabel("C", "right");
@@ -791,7 +805,7 @@
                             var verifyAngles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
                             var verifySegments = thing1.length === 2 &amp;&amp; thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
-                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){                          
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
                                 $(".statements code").tex();
                                 $("#thing1").val("");
@@ -841,8 +855,8 @@
                                 hintCategory = "bad format";
                             }
                         });
-                        $("#reason").change(function(){ 
-                            $(".nextStatement input").keyup(); 
+                        $("#reason").change(function(){
+                            $(".nextStatement input").keyup();
                         });
 
                         var storedHint = "";
@@ -869,7 +883,7 @@
                                         $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
                                         storedHint = "";
                                     }
-                                    $(".actualHints code").code();
+                                    $(".actualHints code").tex();
                                     giveAway = !giveAway;
                                 }
                                 if(hintsLeft === 0){
@@ -885,7 +899,7 @@
 
                 <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <input class="e-proofs-short" id="thing1" type="text"> <code> \cong </code> <input class="e-proofs-short" id="thing2" type="text">  because 
+                    <input class="e-proofs-short" id="thing1" type="text"> <code> \cong </code> <input class="e-proofs-short" id="thing2" type="text">  because
                     <select id="reason">
                         <option value="">select a reason</option>
                         <option value="SSS">side-side-side congruence</option>
@@ -906,7 +920,7 @@
                     </div>
                     <div class="guess">1</div>
                     <div class="validator-function">
-                        return isProofDone();
+                        return validateProof();
                     </div>
                     <div class="show-guess">
                         outputKnownProof();

@@ -19,17 +19,17 @@
             <div class="question">
                 <p>The arithmetic sequence <code>(a_i)</code> is defined by the formula:</p>
                 <p id="given-formula"><code>a_i = <var>A</var> + <var>D</var>(i - 1)</code></p>
-                <p class="question">What is the sum of the first <var>N &lt; 10 ? cardinal(N) : N</var> terms in the series?</p>
+                <p class="question">What is the sum of the first <var>N &lt; 10 ? cardinalThrough20(N) : N</var> terms in the series?</p>
             </div>
             <div class="solution" data-forms="integer"><var>SUM</var></div>
 
             <div class="hints">
                 <p>The sum of an arithmetic series is the number of terms in the series times the average of the first and last terms.</p>
                 <div id="recursive-hints" data-unwrap=""></div>
-                <p>To find the sum of the first <var>N &lt; 10 ? cardinal(N) : N</var> terms, we'll need the first and <var>ordinal(N)</var> terms of the series.</p>
-                <p>The first term is <code><var>A</var></code> and the <var>ordinal(N)</var> term is equal to <code>a_{<var>N</var>} = <var>A</var> + <var>D</var> (<var>N</var> - 1) = <var>A + D * (N - 1)</var></code>.</p>
+                <p>To find the sum of the first <var>N &lt; 10 ? cardinalThrough20(N) : N</var> terms, we'll need the first and <var>ordinalThrough20(N)</var> terms of the series.</p>
+                <p>The first term is <code><var>A</var></code> and the <var>ordinalThrough20(N)</var> term is equal to <code>a_{<var>N</var>} = <var>A</var> + <var>D</var> (<var>N</var> - 1) = <var>A + D * (N - 1)</var></code>.</p>
                 <div>
-                    <p>Therefore, the sum of the first <var>N &lt; 10 ? cardinal(N) : N</var> terms is</p>
+                    <p>Therefore, the sum of the first <var>N &lt; 10 ? cardinalThrough20(N) : N</var> terms is</p>
                     <p><code>\qquad n\left(\dfrac{a_1 + a_{<var>N</var>}}{2}\right) = <var>N</var> \left(\dfrac{<var>A</var> + <var>A + D * (N - 1)</var>}{2}\right) = <var>SUM</var></code>.
                 </p></div>
             </div>
