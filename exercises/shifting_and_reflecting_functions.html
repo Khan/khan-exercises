@@ -206,7 +206,10 @@
         </div>
 
         <div class="problem">
-            <p>Functions <code>\blue{f(x)}</code> and <code>\red{g(x)}</code> are graphed.</p>
+            <p>
+                The graph below shows <code>\blue{f(x)}</code> as a solid blue line and 
+                <code>\red{g(x)}</code> as a dotted red line.
+            </p>
             <p>What is <code>\red{g(x)}</code> in terms of <code>\blue{f(x)}</code>?</p>
         </div>
 
@@ -229,7 +232,8 @@
             }, [-10, 10]);
 
             style({
-                stroke: RED
+                stroke: RED,
+                strokeDasharray: '- '
             });
 
             plot(function(x) {
