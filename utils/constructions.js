@@ -957,6 +957,14 @@ $.extend(KhanUtil, {
         return [KhanUtil.eDist(intersect, coord), intersect];
     },
 
+    // Find whether two points are a given distance apart
+    // given a certain precision
+    distEqual: function(p1, p2, distance, precision) {
+        precision = precision || 0.5;
+        return Math.abs(KhanUtil.eDist(p1, p2) - distance) < precision;
+
+    },
+
     // Given an array of construction tools, return an array
     // with either coordinates of a line and the center and 
     // radius of a circle.
@@ -1035,9 +1043,9 @@ $.extend(KhanUtil, {
         // Get array of line of the correct length and with end points on the circle
         var lines = _.filter(guess, function(tool) {
             return tool.first != null &&
-                    Math.abs(KhanUtil.eDist(tool.first.coord, tool.second.coord) - sideLength) < 0.3 &&
-                    Math.abs(KhanUtil.eDist(center, tool.first.coord) - radius) < 0.3 &&
-                    Math.abs(KhanUtil.eDist(center, tool.second.coord) - radius) < 0.3;
+                KhanUtil.distEqual(tool.first.coord, tool.second.coord, sideLength, 0.3) &&
+                KhanUtil.distEqual(tool.first.coord, center, radius, 0.3) &&
+                KhanUtil.distEqual(tool.second.coord, center, radius, 0.3);
         });
 
         if (lines.length < n) {
