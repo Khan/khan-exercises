@@ -1052,21 +1052,45 @@ $.extend(KhanUtil, {
             return false;
         }
 
-        // Ensure the end points of the lines are at the correct number of degrees apart
-        var angles = _.map(lines, function(tool) {
-            return (180 + Math.atan2(tool.first.coord[1], tool.first.coord[0]) * 180 / Math.PI) % degrees;
+        // Find one angle so we can find the offset
+        var offsetAngle = 180 + Math.atan2(lines[0].first.coord[1], lines[0].first.coord[0]) * 180 / Math.PI;
+
+        // Find angles to line points
+        var angles = []
+        _.map(lines, function(tool) {
+            var angle1 = (Math.atan2(tool.first.coord[1], tool.first.coord[0]) * 180 / Math.PI + 540 - offsetAngle) % 360; 
+            var angle2 = (Math.atan2(tool.second.coord[1], tool.second.coord[0]) * 180 / Math.PI + 540 - offsetAngle) % 360; 
+            angles.push(angle1 + 180 / n)
+            angles.push(angle2 + 180 / n);
         });
 
-        // Subtract angle[0] so all line in a square should have angles 0, 90, 180, 270
-        // Add 135 and mod 90 to ensure angles 0.5 and 89.5 are both around 45.
-        var correctAngles = _.filter(angles, function(angle) {
-            return Math.abs((angle - angles[0] + degrees * 1.5) % degrees) - degrees / 2 < 2;
-        });
-
-        if (correctAngles.length >= n) {
-            return lines;
-        } else {
-            return false;
+        // Get an object of the correct angles, e.g. [0, 90, 180, 270] for a square
+        // So we can count them - there should be two each
+        var targetAngles = {};
+        for (var i = 0; i < n; i++) {
+            targetAngles[(i + 0.5) * 360 / n] = 0;
         }
+
+        // Go through all angles and see if they are with 2.5 degrees of the target angles
+        _.map(angles, function(angle) {
+            for (var i = 0; i < n; i++) {
+                var targetAngle = (i + 0.5) * 360 / n;
+                if (Math.abs(angle - targetAngle) < 2.5) {
+                    targetAngles[targetAngle]++;
+                    break;
+                }
+            }
+        });
+
+        //console.log(targetAngles);
+
+        // Check that each angles occurs twice
+        for (var angle in targetAngles) {
+            if (targetAngles[angle] !== 2) {
+                return false;
+            }
+        }
+
+        return true;
     }
 });
