@@ -7,41 +7,65 @@
       <body>
           <div class="exercise">
               <div class="vars">
-                  <var id="RATE">randRange(1,10)</var> <!-- Random interest rate between 1 and 10% -->
-                  <var id="TIME">randRange( 9, 25 )</var> <!-- Random number of years -->
-                  <var id="PRINCIPAL">randRange(111,3999)</var> <!-- Random starting balance -->
-                  <var id="INTEREST_ACCRUED">(PRINCIPAL * RATE / 100)* TIME</var>
+                  <var id="RATE" >randRange(1,10)</var> <!-- Random interest rate between 1 and 10% -->
+                  <var id="TIME" >randRange( 9, 25 )</var> <!-- Random number of years -->
+                  <var id="PRINCIPAL" >randRange(100,3999)</var> <!-- Random starting balance -->
+                  <var id="SIMPLE_INTEREST">roundTo(2,PRINCIPAL * RATE / 100)* TIME) </var>
               </div>
 
               <div class="problems">
-                  <div id="calculate-interest">
-                        <p class="problem">
-                            <span>If you deposit $<var>PRINCIPAL</var>.00 into an account which pays <var>RATE</var>% simple interest and you leave it in that account for <var>TIME</var> years.</span>
-                        </p>
-                        <p class="question">
-                            How much interest will have accrued if you round to the nearest penny?
-                        </p>
-                        <p>What will be the balance after <var>TIME</var> years?</p>
-                        <div class="solution" data-type="multiple">
-                            interest = $ <span class="sol" data-forms="decimal" style="padding-right: 5px"><var>roundTo(2,INTEREST_ACCRUED)</var></span>
-                            </br>balance = $ <span class="sol" data-forms="decimal" style="padding-right: 5px"><var>roundTo(2,PRINCIPAL + INTEREST_ACCRUED)</var></span>
-                        </div>
-                        <div class="hints">
-                            <p>
-                            When discussing simple interest, the amount of interest accrued is the same in each period.
-                            </p>
-                            <p>
-                            P * i = amount of interest accrued in a single period, where P = Principal, i = interest rate per period
-                            </p>
-                            <p>
-                            accrued interest = ( P * i ) * t  = ( $<var>PRINCIPAL</var> * <var>RATE/100</var> ) * <var>TIME</var> = $<var>roundTo(2,INTEREST_ACCRUED)</var>
-                            </p>
-                            <p>
-                            balance = P + accrued Interest = $<var>PRINCIPAL</var> + $<var>roundTo(2,INTEREST_ACCRUED)</var> = $<var>roundTo(2,PRINCIPAL + INTEREST_ACCRUED)</var>
-                            </p>
-                        </div>
+
+                <div id="accrued-interest">
+                    <div class="problem">
+                        <span>If you deposit $<var>PRINCIPAL</var>.00 into an account which pays <var>RATE</var>% simple interest and you leave it in that account for <var>TIME</var> years.</span>
                     </div>
-              </div>
+                    <p class="question">
+                      How much interest will have accrued? (Round to the nearest penny)
+                      </p>
+                    <div class="solution" data-type="decimal">
+                    Interest = $ <span class="solution" data-forms="decimal" style="padding-right: 5px"><var>SIMPLE_INTEREST</var></span>
+                    </div>
+                    <div class="hints">
+                        <p>
+                        When discussing simple interest,the interest accrued is the same in each time period.
+                        </p>
+                        <p>
+                        Interest for 1 time period = Principal * Rate
+                        </p>
+                        <p>
+                        Accrued Interest = Interest Per Period * Number of Periods <br>
+                        = ( $<var>PRINCIPAL</var> * <var>RATE</var>/100 ) * <var>TIME</var> = $ <var>SIMPLE_INTEREST</var>
+                        </p>
+                    </div>
+                </div>
+
+                <div id="final-balance" data-type="accrued-interest">
+                    <p class="question">What will be the balance after <var>TIME</var> years? (Round to the nearest penny)</p>
+                    <div class="solution" data-type="multiple">
+                        Balance = $ <span class="sol" data-forms="decimal" style="padding-right: 5px"><var>PRINCIPAL + SIMPLE_INTEREST</var></span>
+                    </div>
+                    <div class="hints">
+                        <p>
+                        To find the final balance, add the interest accrued to the initial balance
+                        </p>
+                        <p>
+                        Interest per period = Initial Balance * Interest Rate
+                        </br> = <var>PRINCIPAL</var> * <var>RATE/100</var>
+                        </br> = <var>Math.roundTo(2,PRINCIPAL * RATE/100)</var>
+                        </p>
+                        <p>
+                        Interest Accrued = Interest Per Period * Number of Time periods
+                        </br> = <var>roundTo(2,PRINCIPAL * RATE/100)</var> * <var>TIME</var>
+                        </br> = <var>SIMPLE_INTEREST</var>
+                        </p>
+                        <p>
+                        Final Balance = Initial Balance + Interest Accrued
+                        </br> = <var>PRINCIPAL</var> + <var>SIMPLE_INTEREST</var>
+                        </br> = <var>PRINCIPAL + SIMPLE_INTEREST</var>
+                        </p>
+                  </div>
+                </div>
+
           </div>
       </body>
   </html>
