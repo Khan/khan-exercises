@@ -24,7 +24,8 @@
                     <var id="PRODUCT2">SIGN === '+' ? D1.multiply(N2) : D1.multiply(N2).multiply(-1)</var>
                     <var id="NUMERATOR">PRODUCT1.add(PRODUCT2)</var>
                     <var id="DENOMINATOR">D1.multiply(D2)</var>
-                    <var id="ANSWER">"(" + NUMERATOR.toString() + ")/(" + DENOMINATOR.toString() + ")" </var>
+                    <var id="ANSWER1">"(" + NUMERATOR.toString() + ")/(" + DENOMINATOR.toString() + ")" </var>
+                    <var id="ANSWER2">NUMERATOR.toStringFactored() + "/(" + DENOMINATOR.toString() + ")" </var>
                 </div>
 
                 <p class="problem">Simplify and expand the following expression:</p>
@@ -32,7 +33,15 @@
                     \dfrac{<var>N1</var>}{<var>D1</var>}<var>SIGN</var>\dfrac{<var>N2</var>}{<var>D2</var>}
                 </code></p>
 
-                <div class="solution" data-type="expression" data-same-form><var>ANSWER</var></div>
+                <div class="solution" data-type="set">
+                    <div class="set-sol"><var>ANSWER1</var></div>
+                    <div class="set-sol"><var>ANSWER2</var></div>
+                    <div class="input-format">
+                        <p class="entry" data-type="expression" data-same-form></p>
+                    </div>
+                </div>
+
+                 <!-- <div class="solution" data-type="expression" data-same-form><var>ANSWER</var></div>-->
 
                 <div class="hints">
                     <p data-if="SIGN === '+'">In order to add expressions, they must have a common denominator.</p>
