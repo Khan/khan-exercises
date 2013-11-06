@@ -342,7 +342,7 @@ var Khan = (function() {
                 "answer-types", "tmpl", "tex", "jquery.adhesion",
                 "calculator",
                 {
-                    src: urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"
+                    src: urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-4056d436a301219a92f25f32d695a90e"
                 });
 
             return mods;

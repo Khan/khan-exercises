@@ -20,7 +20,11 @@ MathJax.Hub.Config({
             red: "\\color{#DF0030}",
             green: "\\color{#28AE7B}",
             gray: "\\color{gray}",
-            purple: "\\color{#9D38BD}"
+            purple: "\\color{#9D38BD}",
+            // For rational exponents, we provide \^ instead of ^ which pushes
+            // the exponent up higher so it's really clear that the fraction
+            // is an exponent.
+            "^": ["{}^{^{^{#1}}}", 1]
         },
         Augment: {
             Definitions: {
