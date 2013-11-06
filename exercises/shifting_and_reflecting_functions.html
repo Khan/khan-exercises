@@ -66,27 +66,28 @@
                     <div>
                         <p data-if="X_SHIFT > 0">
                             <span data-if="isSingular(abs(X_SHIFT))">
-                                Therefore, to find <code>\red{g(x)}</code> you can find the value of <code>\blue{f(x)}</code>
-                                <code>1</code> unit to the right.
+                                This means the value of <code>\red{g}</code> at a number <code>x</code> is the same as the value
+                                of <code>\blue{f}</code> at a number <code>1</code> more than <code>x</code>.
                             </span>
                             <span data-else="">
-                                Therefore, to find <code>\red{g(x)}</code> you can find the value of <code>\blue{f(x)}</code>
-                                <code><var>abs(X_SHIFT)</var></code> units to the right.
+                                This means the value of <code>\red{g}</code> at a number <code>x</code> is the same as the value
+                                of <code>\blue{f}</code> at a number <code><var>abs(X_SHIFT)</var></code> more than <code>x</code>.
                             </span>
                         </p>
                         <p data-else="">
                             <span data-if="isSingular(abs(X_SHIFT))">
-                                Therefore, to find <code>\red{g(x)}</code> you can find the value of <code>\blue{f(x)}</code>
-                                <code>1</code> unit to the left.
+                                This means the value of <code>\red{g}</code> at a number <code>x</code> is the same as the value
+                                of <code>\blue{f}</code> at a number <code>1</code> less than <code>x</code>.
                             </span>
                             <span data-else="">
-                                Therefore, to find <code>\red{g(x)}</code> you can find the value of <code>\blue{f(x)}</code>
-                                <code><var>abs(X_SHIFT)</var></code> units to the left.
+                                This means the value of <code>\red{g}</code> at a number <code>x</code> is the same as the value
+                                of <code>\blue{f}</code> at a number <code><var>abs(X_SHIFT)</var></code> less than <code>x</code>.
                             </span>
                         </p>
+                        <p>What would this sentence look like as an equation?</p>
                     </div>
 
-                    <p>Therefore <code>g(x) = <var>ANSWER</var></code>.</p>
+                    <p><code>g(x) = <var>ANSWER</var></code></p>
                 </div>
             </div>
 
@@ -167,7 +168,11 @@
                     <div data-if="COEFFICIENT < 0">
                         <p>
                             Function <code>\red{g(x)}</code> is flipped vertically compared to <code>\blue{f(x)}</code>,
-                            so multiply by <code>-1</code> to get <code>\color{red}{-f(x)}</code>.
+                            so we should multiply by <code>-1</code> reflect it over the <code>y</code>-axis.
+                        </p>
+                        <p>
+                            This new function, <code>\green{-f(x)}</code> is closer to <code>\red{g(x)}</code>, but they are still not equal.
+                            What else do we need to do?
                         </p>
 
                         <div class="graphie" data-update="G">
@@ -188,14 +193,14 @@
 
                     <p data-if="abs(COEFFICIENT) < 1">
                         Function <code>\red{g(x)}</code> is compressed vertically relative to
-                        <span data-if="COEFFICIENT < 0"><code>\color{red}{-f(x)}</code></span>
+                        <span data-if="COEFFICIENT < 0"><code>\green{-f(x)}</code></span>
                         <span data-else=""><code>\blue{f(x)}</code></span>,
                         so must be multiplied by a number with a magnitude less than <code>1</code>.
                     </p>
 
                     <p data-else="">
                         Function <code>\red{g(x)}</code> is stretched vertically compared to
-                        <span data-if="COEFFICIENT < 0"><code>\color{red}{-f(x)}</code></span>
+                        <span data-if="COEFFICIENT < 0"><code>\green{-f(x)}</code></span>
                         <span data-else=""><code>\blue{f(x)}</code></span>,
                         so must be multiplied by a number with a magnitude greater than <code>1</code>.
                     </p>
