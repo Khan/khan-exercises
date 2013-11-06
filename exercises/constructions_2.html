@@ -55,9 +55,18 @@
                     var lines = findInscribedPolygon(guess, [0, 0], SIZE, 3);
                     if (lines === false) {
                         return false;
-                    } else {
-                        return true;
                     }
+
+                    var compasses = findCompass(guess, {radius: SIZE});
+                    for (var i = 0; i &lt; compasses.length; i++) {
+                        var x = compasses[i].center.coord[0];
+                        var y = compasses[i].center.coord[1];
+                        if (distEqual([0, 0], [x, y], SIZE)) {
+                            return true;
+                        }
+                    }
+
+                    return "Make sure you keep the compasses you used in place."
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
