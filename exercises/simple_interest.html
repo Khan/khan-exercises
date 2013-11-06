@@ -10,31 +10,32 @@
                   <var id="RATE" >randRange(1,10)</var> <!-- Random interest rate between 1 and 10% -->
                   <var id="TIME" >randRange( 9, 25 )</var> <!-- Random number of years -->
                   <var id="PRINCIPAL" >randRange(100,3999)</var> <!-- Random starting balance -->
-                  <var id="SIMPLE_INTEREST">roundTo(2,PRINCIPAL * RATE / 100)* TIME) </var>
+                  <var id="SIMPLE_INTEREST">roundTo(2,PRINCIPAL * RATE / 100 * TIME) </var>
               </div>
 
               <div class="problems">
 
                 <div id="accrued-interest">
                     <div class="problem">
-                        <span>If you deposit $<var>PRINCIPAL</var>.00 into an account which pays <var>RATE</var>% simple interest and you leave it in that account for <var>TIME</var> years.</span>
+                        <span>If you deposit $<var>localeToFixed(PRINCIPAL,2)</var> into an account which pays <var>RATE</var>% simple interest and you leave it in that account for <var>TIME</var> years.</span>
                     </div>
                     <p class="question">
                       How much interest will have accrued? (Round to the nearest penny)
                       </p>
-                    <div class="solution" data-type="decimal">
-                    Interest = $ <span class="solution" data-forms="decimal" style="padding-right: 5px"><var>SIMPLE_INTEREST</var></span>
+                    <div class="solution" data-type="multiple">
+                    Interest = $ <span class="sol" data-forms="decimal" style="padding-right: 5px"><var>localeToFixed(SIMPLE_INTEREST,2)</var></span>
                     </div>
                     <div class="hints">
                         <p>
                         When discussing simple interest,the interest accrued is the same in each time period.
                         </p>
                         <p>
-                        Interest for 1 time period = Principal * Rate
+                        <span class="hint_purple">Interest Per Time Period</span> = <span class="hint_green">Principal</span> * <span class="hint_red">Rate</span>
                         </p>
                         <p>
-                        Accrued Interest = Interest Per Period * Number of Periods <br>
-                        = ( $<var>PRINCIPAL</var> * <var>RATE</var>/100 ) * <var>TIME</var> = $ <var>SIMPLE_INTEREST</var>
+                        Accrued Interest = <span class="hint_purple">Interest Per Time Period</span> * <span class="hint_orange">Number of Periods</span> </br>
+                        = ( <span class="hint_green"><var>localeToFixed(PRINCIPAL,2)</var></span> * <span class="hint_red"><var>RATE</var>/100</span> ) * <span class="hint_orange"><var>TIME</var></span> </br>
+                        = $ <var>localeToFixed(SIMPLE_INTEREST,2)</var>
                         </p>
                     </div>
                 </div>
@@ -46,22 +47,22 @@
                     </div>
                     <div class="hints">
                         <p>
-                        To find the final balance, add the interest accrued to the initial balance
+                        To find the final balance, add the interest accrued to the initial balance.
                         </p>
                         <p>
-                        Interest per period = Initial Balance * Interest Rate
-                        </br> = <var>PRINCIPAL</var> * <var>RATE/100</var>
-                        </br> = <var>Math.roundTo(2,PRINCIPAL * RATE/100)</var>
+                        <span class="hint_purple" >Interest per period</span> = <span class="hint_green">Initial Balance</span> * <span class="hint_red">Interest Rate</span>
+                        </br> = (<span class="hint_green"><var>localeToFixed(PRINCIPAL,2)</var></span>) * (<span class="hint_red"><var class="hint_red">RATE/100</var></span>)
+                        </br> = <span class="hint_purple"><var>roundTo(2,PRINCIPAL * RATE/100)</span></var>
                         </p>
                         <p>
-                        Interest Accrued = Interest Per Period * Number of Time periods
-                        </br> = <var>roundTo(2,PRINCIPAL * RATE/100)</var> * <var>TIME</var>
-                        </br> = <var>SIMPLE_INTEREST</var>
+                        <span class="hint_blue">Interest Accrued</span> = <span class="hint_purple">Interest Per Period</span> * <span class="hint_orange">Number of Time periods</span>
+                        </br> = (<span class="hint_purple"><var>localeToFixed(roundTo(2,PRINCIPAL * RATE/100),2)</var></span>) * (<span class="hint_orange"><var>TIME</var></span>)
+                        </br> = <span class="hint_blue"><var>localeToFixed(SIMPLE_INTEREST,2)</var></span>
                         </p>
                         <p>
-                        Final Balance = Initial Balance + Interest Accrued
-                        </br> = <var>PRINCIPAL</var> + <var>SIMPLE_INTEREST</var>
-                        </br> = <var>PRINCIPAL + SIMPLE_INTEREST</var>
+                        Final Balance = <span class="hint_green">Initial Balance</span>) + <span class="hint_blue">Interest Accrued </span>
+                        </br> = (<span class="hint_green"><var>localeToFixed(PRINCIPAL,2)</var></span>) + (<span class="hint_blue"><var>localeToFixed(SIMPLE_INTEREST,2)</var></span>)
+                        </br> = <var>localeToFixed(PRINCIPAL + SIMPLE_INTEREST,2)</var>
                         </p>
                   </div>
                 </div>
