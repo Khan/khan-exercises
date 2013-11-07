@@ -513,9 +513,9 @@ function Triangle(center, angles, scale, labels, points) {
         var Cx = this.points[2][0];
         var Cy = this.points[2][1];
         var D = 2 * (Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By));
-        var a = lineLength(this.sides[0]);
-        var b = lineLength(this.sides[1]);
-        var c = lineLength(this.sides[2]);
+        var a = lineLength(this.sides[1]);
+        var b = lineLength(this.sides[2]);
+        var c = lineLength(this.sides[0]);
         var P = a + b + c;
         var x1 = (a * Ax + b * Bx + c * Cx) / P;
         var y1 = (a * Ay + b * By + c * Cy) / P;
