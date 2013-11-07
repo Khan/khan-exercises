@@ -245,9 +245,33 @@
                     var lines = findInscribedPolygon(guess, [0, 0], SIZE, 4);
                     if (lines === false) {
                         return false;
+                    }
+
+                    // Check there is at least two compasses on the circle
+                    var compasses = _.filter(guess, function(tool) {
+                        if (tool.center) {
+                            var x = tool.center.coord[0];
+                            var y = tool.center.coord[1];
+                            return distEqual([0, 0], [x, y], SIZE);
+                        }
+                    });
+
+                    if (compasses.length &lt; 1) {
+                        return "Make sure you keep the compasses you used in place.";
+                    }
+
+                    // Check there is at least one line going through the center of the circle
+                    var constructLines = _.filter(guess, function(tool) {
+                        return tool.first &amp;&amp;
+                               isPointOnLineSegment([tool.first.coord, tool.second.coord], [0, 0], 0.1);
+                    })
+
+                    if (constructLines.length === 0) {
+                        return "Make sure you keep the straightedges you used in place."
                     } else {
                         return true;
                     }
+
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
