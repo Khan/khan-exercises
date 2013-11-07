@@ -526,6 +526,10 @@ function Triangle(center, angles, scale, labels, points) {
         this.inCenter = [x1, y1];
     }
 
+    this.findInRadius = function() {
+        return 2 * this.scale / (lineLength(this.sides[0]) + lineLength(this.sides[1]) + lineLength(this.sides[2]));
+    }
+
     this.findCenterPoints();
 
     this.rotationCenter = this.centroid;
