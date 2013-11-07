@@ -2,7 +2,7 @@
 <html data-require="math word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Greatest common divisor</title>
+    <title>Greatest common factor</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -15,16 +15,16 @@
             <var id="A">A_START * FACTOR</var>
             <var id="B">B_START * FACTOR</var>
             <var id="GCD">getGCD( A, B )</var>
-            <var id="A_FACTORS">toSentence(getFactors( A ))</var>
-            <var id="B_FACTORS">toSentence(getFactors( B ))</var>
+            <var id="A_FACTORS">toSentenceTex(getFactors( A ))</var>
+            <var id="B_FACTORS">toSentenceTex(getFactors( B ))</var>
         </div>
 
         <div class="problems">
             <div>
                 <div class="question">
-                    <p>What is the greatest common divisor of <var>A</var> and <var>B</var>?</p>
+                    <p>What is the greatest common factor of <code><var>A</var></code> and <code><var>B</var></code>?</p>
                     <p>Another way to say this is: </p>
-                    <p><code>\gcd(<var>A</var>, <var>B</var>) = {?}</code></p>
+                    <p><code>\gcf(<var>A</var>, <var>B</var>) = {?}</code></p>
                 </div>
 
                 <p class="solution" data-forms="integer"><var>GCD</var></p>
@@ -32,18 +32,18 @@
         </div>
 
         <div class="hints">
-            <p>The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>.</p>
+            <p>The greatest common factor is the largest number that is a factor of both <code><var>A</var></code> and <code><var>B</var></code>.</p>
             <div>
-                <p data-if="A === 1">The only factor (divisor) of 1 is 1.</p>
-                <p data-else="">The factors (divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
+                <p data-if="A === 1">The only factor of <code>1</code> is <code>1</code>.</p>
+                <p data-else="">The factors of <code><var>A</var></code> are <var>A_FACTORS</var>.</p>
             </div>
             <div>
-                <p data-if="B === 1">The only factor (divisor) of 1 is 1.</p>
-                <p data-else="">The factors (divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
+                <p data-if="B === 1">The only factor of <code>1</code> is <code>1</code>.</p>
+                <p data-else="">The factors of <code><var>B</var></code> are <var>B_FACTORS</var>.</p>
             </div>
             <div>
-                <p>Thus, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.</p>
-                <p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
+                <p>Thus, the greatest common factor of <code><var>A</var></code> and <code><var>B</var></code> is <code><var>GCD</var></code>.</p>
+                <p><code>\gcf(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
             </div>
         </div>
     </div>

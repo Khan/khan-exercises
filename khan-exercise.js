@@ -342,7 +342,7 @@ window.Khan = (function() {
                 "answer-types", "tmpl", "tex", "jquery.adhesion",
                 "calculator",
                 {
-                    src: urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-4056d436a301219a92f25f32d695a90e"
+                    src: urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-9e2776ffe7d2006f16f36d0d55d9464b"
                 });
 
             return mods;

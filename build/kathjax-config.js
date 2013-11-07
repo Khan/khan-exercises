@@ -31,7 +31,8 @@ MathJax.Hub.Config({
                 macros: {
                     lrsplit: "LRSplit",
                     cancel: "Cancel",
-                    lcm: ["NamedOp", 0]
+                    lcm: ["NamedOp", 0],
+                    gcf: ["NamedOp", 0]
                 }
             },
             Parse: {

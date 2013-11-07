@@ -16,7 +16,8 @@
     <div class="problems">
         <div>
             <p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
-            <p class="question">If we know that the <span class="hint_blue">blue angle is <var>MEASURE</var> degrees</span>, what is the <span class="hint_orange">measure of the orange angle</span>?</p>
+            <p class="question" data-if="KNOWN_INDEX < 4">If we know that the <span class="hint_blue">bottom marked angle is <code><var>MEASURE</var></code> degrees</span>, what is the <span class="hint_red">measure of the top marked angle</span>?</p>
+            <p class="question" data-else="">If we know that the <span class="hint_blue">top marked angle is <code><var>MEASURE</var></code> degrees</span>, what is the <span class="hint_red">measure of the bottom marked angle</span>?</p>
             <p class="solution" data-forms="integer"><var>MEASURE</var></p>
             <div class="graphie" id="parallel-lines">
                 init({
@@ -27,23 +28,24 @@
                 graph.pl.drawMarkers(ANCHOR);
                 graph.pl.drawTransverse( ANCHOR );
                 graph.pl.drawAngle( KNOWN_INDEX, true );
-                graph.pl.drawAngle( UNKNOWN_INDEX, false, "#FFA500" );
+                graph.pl.drawAngle( UNKNOWN_INDEX, false, RED );
             </div>
         </div>
     </div>
 
     <div class="hints">
         <div>
-            <p>Opposite angles are equal, so the pink angle measures <var>MEASURE</var> degrees.</p>
+            <p>Vertical angles are equal, so the pink angle measures <code><var>MEASURE</var></code> degrees.</p>
             <div class="graphie" data-update="parallel-lines">
-                graph.pl.drawVerticalAngle( KNOWN_INDEX, true, "#FF00AF" );
+                graph.pl.drawVerticalAngle( KNOWN_INDEX, true, PINK );
             </div>
         </div>
-        <p>The pink and orange angles are corresponding angles, so they are also equal.</p>
+        <p>The pink and red angles are corresponding angles, so they are also equal.</p>
         <div>
-            <p>The orange angle measures <var>MEASURE</var> degrees.</p>
+            <p data-if="KNOWN_INDEX < 4">The top angle measures <code><var>MEASURE</var></code> degrees.</p>
+            <p data-else="">The bottom angle measures <code><var>MEASURE</var></code> degrees.</p>
             <div class="graphie" data-update="parallel-lines">
-                graph.pl.drawAngle( UNKNOWN_INDEX, true, "#FFA500" );
+                graph.pl.drawAngle( UNKNOWN_INDEX, true, RED );
             </div>
         </div>
     </div>
