@@ -480,7 +480,6 @@ function Triangle(center, angles, scale, labels, points) {
 
     this.color = "black";
     this.createLabel = function(p, v) {
-
         this.set.push(KhanUtil.currentGraph.label(p, v, "center", { color: this.color }));
     }
 
@@ -512,9 +511,9 @@ function Triangle(center, angles, scale, labels, points) {
         var Cx = this.points[2][0];
         var Cy = this.points[2][1];
         var D = 2 * (Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By));
-        var a = lineLength(this.sides[0]);
-        var b = lineLength(this.sides[1]);
-        var c = lineLength(this.sides[2]);
+        var a = this.sideLengths[1];
+        var b = this.sideLengths[2];
+        var c = this.sideLengths[0];
         var P = a + b + c;
         var x1 = (a * Ax + b * Bx + c * Cx) / P;
         var y1 = (a * Ay + b * By + c * Cy) / P;
@@ -526,6 +525,12 @@ function Triangle(center, angles, scale, labels, points) {
     }
 
     this.findCenterPoints();
+
+    this.findRadii = function() {
+        this.semiperimeter = (this.sideLengths[0] + this.sideLengths[1] + this.sideLengths[2]) / 2;
+        this.inradius = this.scale / this.semiperimeter;
+        this.circumradius = this.sideLengths[0] * this.sideLengths[1] * this.sideLengths[2] / (4 * this.semiperimeter * this.inradius);
+    }
 
     this.rotationCenter = this.centroid;
 
