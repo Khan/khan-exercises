@@ -653,6 +653,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 score.empty = false;
                             } else if (form === "percent") {
                                 // Otherwise, an error was returned
+                                score.empty = true;
                                 score.message = $._("Your answer is almost correct, " +
                                           "but it is missing a " +
                                           "<code>\\%</code> at the end.");
