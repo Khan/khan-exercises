@@ -1058,24 +1058,26 @@ $.extend(KhanUtil, {
         // Find angles to line points
         var angles = []
         _.map(lines, function(tool) {
-            var angle1 = (Math.atan2(tool.first.coord[1], tool.first.coord[0]) * 180 / Math.PI + 540 - offsetAngle) % 360; 
-            var angle2 = (Math.atan2(tool.second.coord[1], tool.second.coord[0]) * 180 / Math.PI + 540 - offsetAngle) % 360; 
-            angles.push(angle1 + 180 / n)
-            angles.push(angle2 + 180 / n);
+            var angle1 = Math.atan2(tool.first.coord[1], tool.first.coord[0]) * 180 / Math.PI; 
+            var angle2 = Math.atan2(tool.second.coord[1], tool.second.coord[0]) * 180 / Math.PI; 
+            angles.push((angle1 - offsetAngle + 540 + 180 / n) % 360);
+            angles.push((angle2 - offsetAngle + 540 + 180 / n) % 360);
         });
 
-        // Get an object of the correct angles, e.g. [0, 90, 180, 270] for a square
-        // So we can count them - there should be two each
+        // Get an object of the angles we expect vertices to be at
+        // Plus half the base angle so it's easier to compare differences from angles
+        // e.g. [0 + 45, 90 + 45, 180 + 45, 270 + 45] for a square
+        // Mean we can count them - there should be two each
         var targetAngles = {};
         for (var i = 0; i < n; i++) {
             targetAngles[(i + 0.5) * 360 / n] = 0;
         }
 
-        // Go through all angles and see if they are with 2.5 degrees of the target angles
+        // Go through all angles and see if they are with 2 degrees of the target angles
         _.map(angles, function(angle) {
             for (var i = 0; i < n; i++) {
                 var targetAngle = (i + 0.5) * 360 / n;
-                if (Math.abs(angle - targetAngle) < 2.5) {
+                if (Math.abs(angle - targetAngle) < 2) {
                     targetAngles[targetAngle]++;
                     break;
                 }
@@ -1091,6 +1093,6 @@ $.extend(KhanUtil, {
             }
         }
 
-        return true;
+        return lines;
     }
 });
