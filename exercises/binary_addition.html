@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic graphie-helpers-numberbases">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Binary Addition</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="A">randRange( 17, 31 )</var>
+        <var id="B">randRange( 7, 31 )</var>
+        <var id="NUM_HINTS">0</var>
+    </div>
+
+    <div class="problems">
+        <div id="binary-addition">
+            <p class="question">Add these two binary numbers:</p>
+            <div class="graphie" id="numbers">
+                // make sure that the larger number is first
+                if (B > A) {
+                var temp = A;
+                A = B;
+                B = temp;
+                }
+
+                graph.baseAdder = new KhanUtil.BaseAdder(A, B, 2);
+                graph.baseAdder.show();
+                NUM_HINTS = graph.baseAdder.getNumHints();
+            </div>
+            <div class="solution" data-forms="integer"><var>KhanUtil.convertToBase(A + B, 2)</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div class="graphie" data-each="NUM_HINTS times" data-update="numbers">
+            graph.baseAdder.showHint();
+        </div>
+    </div>
+</div>
+</body>
+</html>
