@@ -57,11 +57,19 @@
                         return false;
                     }
 
+                    // A point on the inscribed shape
+                    var p1 = lines[0].first.coord;
+
+                    // Check there is a compass with radius equal to the circle's radius
+                    // and centered on the circle and a circle's radius or a circle's
+                    // diameter from a point on the triangle
+
                     var compasses = findCompass(guess, {radius: SIZE});
                     for (var i = 0; i &lt; compasses.length; i++) {
                         var x = compasses[i].center.coord[0];
                         var y = compasses[i].center.coord[1];
-                        if (distEqual([0, 0], [x, y], SIZE)) {
+                        if (distEqual([0, 0], [x, y], SIZE) &amp;&amp; 
+                           (distEqual(p1, [x, y], SIZE) || distEqual(p1, [x, y], 2 * SIZE))) {
                             return true;
                         }
                     }
@@ -435,9 +443,28 @@
                     var lines = findInscribedPolygon(guess, [0, 0], SIZE, 6);
                     if (lines === false) {
                         return false;
-                    } else {
-                        return true;
                     }
+
+                    // A point on the inscribed shape
+                    var p1 = lines[0].first.coord;
+
+                    // Check there is a compass with radius equal to the circle's radius, r,
+                    // and centered on the circle. It should be either r, 2r or 2*root(3) r
+                    // from each point on the hexagon
+
+                    var compasses = findCompass(guess, {radius: SIZE});
+                    for (var i = 0; i &lt; compasses.length; i++) {
+                        var x = compasses[i].center.coord[0];
+                        var y = compasses[i].center.coord[1];
+                        if (distEqual([0, 0], [x, y], SIZE) &amp;&amp; 
+                           (distEqual(p1, [x, y], SIZE) ||
+                            distEqual(p1, [x, y], 2 * SIZE) ||
+                            distEqual(p1, [x, y], 1.732 * SIZE))) {
+                            return true;
+                        }
+                    }
+
+                    return "Make sure you keep the compasses you used in place."
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
