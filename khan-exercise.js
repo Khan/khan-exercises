@@ -57,7 +57,7 @@
       history mode
 */
 
-var Khan = (function() {
+window.Khan = (function() {
     // Numbers which are coprime to the number of bins, used for jumping through
     // exercises.  To quickly test a number in python use code like:
     // import fractions
@@ -2212,4 +2212,4 @@ var Khan = (function() {
 })();
 
 // Make this publicly accessible
-var KhanUtil = Khan.Util;
+window.KhanUtil = Khan.Util;

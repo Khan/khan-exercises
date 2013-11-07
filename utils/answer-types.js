@@ -5,7 +5,7 @@ var MAXERROR_EPSILON = Math.pow(2, -42);
 // Function used to get the text of the choices, which is then used
 // to check against the correct answer
 var extractRawCode = function(elem) {
-    $elem = $(elem).clone(true);
+    var $elem = $(elem).clone(true);
     var code = $elem.find("code");
     if (code.length) {
         // If there are <code> tags in the element, remove them and replace

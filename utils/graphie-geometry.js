@@ -289,7 +289,7 @@ function areIntersecting(pol1, pol2) {
 
 
 //Returns an intersection of two lines, and whether that point is inside both line segments
-function findIntersection(a, b) {
+window.findIntersection = function(a, b) {
     var tY = [0, a[0][1], a[1][1], b[0][1], b[1][1]];
     var tX = [0, a[0][0], a[1][0], b[0][0], b[1][0]];
 
@@ -298,8 +298,7 @@ function findIntersection(a, b) {
     var ub = ((tX[2] - tX[1]) * (tY[1] - tY[3]) - (tY[2] - tY[1]) * (tX[1] - tX[3])) / denominator;
     var isContained = (ua >= -0.01) && (ua <= 1.01) && (ub >= -0.01) && (ub <= 1.01);
     return [tX[1] + ua * (tX[2] - tX[1]), tY[1] + ua * (tY[2] - tY[1]), isContained];
-
-}
+};
 
 
 //Checks whether there are duplicate points in an array
