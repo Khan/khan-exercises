@@ -72,7 +72,7 @@
         <div class="problems">
             <div id="knownAngles">
                 <div class="problem">
-                    Is this triangle equilateral, isosceles, or scalene?
+                    Is this triangle equilateral, isosceles, and/or scalene?
                 </div>
                 <div class="question">
                     <div class="graphie" id="typeTr">
@@ -89,10 +89,32 @@
                         graph.TR = tr;
                     </div>
                 </div>
-                <div class="solution"><var>DISPLAY_TYPE</var></div>
-                <ul class="choices" data-category="true">
-                    <li data-each="DISPLAY_TYPES as t"><var>t</var></li>
-                </ul>
+
+                <div class="solution" data-type="multiple">
+                    <p>
+                        <label>
+                            <span class="sol" data-type="checkbox">
+                                <var>TYPE === "Equilateral"</var>
+                            </span>
+                            Equilateral
+                        </label>
+                    </p><p>
+                        <label>
+                            <span class="sol" data-type="checkbox">
+                                <var>TYPE === "Equilateral" || TYPE === "Isosceles"</var>
+                            </span>
+                            Isosceles
+                        </label>
+                    </p><p>
+                        <label>
+                            <span class="sol" data-type="checkbox">
+                                <var>TYPE === "Scalene"</var>
+                            </span>
+                            Scalene
+                        </label>
+                    </p>
+                </div>
+
                 <div class="hints">
                     <p>We know two angles of this triangle, so we can find the third by subtracting from <code>180</code></p>
                     <div>
@@ -104,7 +126,7 @@
                     </div>
                 <p data-if="TYPE === 'Scalene'">Because all three angles are different, this triangle is scalene.</p>
                     <p data-else-if="TYPE === 'Isosceles'">Two angles are the same, therefore two corresponding sides are as well. Therefore, this triangle is isosceles. Isosceles means a triangle with same (iso) legs (sceles).</p>
-                    <p data-else="">All angles equal 60. That means that all the sides are the same and that the triangle is equilateral. (Equilateral means equal(equi) sided(lateral).</p>
+                    <p data-else="">All angles equal 60. That means that all the sides are the same and that the triangle is equilateral. (Equilateral means equal(equi) sided(lateral). The triangle is also isosceles because at least two sides are the same length. Isosceles means a triangle with same (iso) legs (sceles).</p>
                 </div>
             </div>
             <div id="knownSides" data-type="knownAngles">
@@ -124,7 +146,7 @@
                 <div class="hints">
                     <p data-if="TYPE === 'Scalene'">Because all three sides are different, this triangle is scalene.</p>
                     <p data-else-if="TYPE === 'Isosceles'">Two sides are the same, therefore, this triangle is isosceles. Isosceles means a triangle with same (iso) legs (sceles).</p>
-                    <p data-else="">All sides are the same. That means that all the angles are 60 and that the triangle is equilateral. Equilateral means equal (equi) sided (lateral).</p>
+                    <p data-else="">All sides are the same. That means that all the angles are 60 and that the triangle is equilateral. Equilateral means equal (equi) sided (lateral). The triangle is also isosceles because at least two sides are the same length. Isosceles means a triangle with same (iso) legs (sceles).</p>
                 </div>
             </div>
         </div>
