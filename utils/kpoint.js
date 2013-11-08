@@ -5,23 +5,13 @@
 
 (function(KhanUtil) {
 
-var kvector;
+var kvector = KhanUtil.kvector;
 $.fn["kpointLoad"] = function() {
     kvector = KhanUtil.kvector;
+    addKpointExtensions();
 };
 
 var kpoint = KhanUtil.kpoint = {
-
-    // Add and subtract vector(s)
-    addVector: KhanUtil.kvector.add,
-    addVectors: KhanUtil.kvector.add,
-    subtractVector: KhanUtil.kvector.subtract,
-
-    // Convert from cartesian to polar and back
-    polarRadFromCart: KhanUtil.kvector.polarRadFromCart,
-    polarDegFromCart: KhanUtil.kvector.polarDegFromCart,
-    cartFromPolarRad: KhanUtil.kvector.cartFromPolarRad,
-    cartFromPolarDeg: KhanUtil.kvector.cartFromPolarDeg,
 
     // Rotate point (around origin unless a center is specified)
     rotateRad: function(point, theta, center) {
@@ -75,5 +65,27 @@ var kpoint = KhanUtil.kpoint = {
         return kvector.add(line[0], reflectedPv);
     }
 };
+
+// raw redirect functions. these must be attached separately
+// in case kvector hasn't loaded when this file is executed
+function addKpointExtensions() {
+    _.extend(kpoint, {
+        // Add and subtract vector(s)
+        addVector: kvector.add,
+        addVectors: kvector.add,
+        subtractVector: kvector.subtract,
+
+        // Convert from cartesian to polar and back
+        polarRadFromCart: kvector.polarRadFromCart,
+        polarDegFromCart: kvector.polarDegFromCart,
+        cartFromPolarRad: kvector.cartFromPolarRad,
+        cartFromPolarDeg: kvector.cartFromPolarDeg,
+    });
+}
+
+// Extend kpoint when loaded without khan-exercises module system
+if (kvector) {
+    addKpointExtensions();
+}
 
 })(KhanUtil);

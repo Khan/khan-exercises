@@ -1836,6 +1836,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                     if (polygon.snapY > 0) {
                         startY = Math.round(startY / polygon.snapY) * polygon.snapY;
                     }
+                    var lastX = startX;
+                    var lastY = startY;
 
                     var polygonCoords = polygon.coords.slice();
 
@@ -1902,6 +1904,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 } else if (_.isArray(onMoveResult)) {
                                     dX = onMoveResult[0];
                                     dY = onMoveResult[1];
+                                    currentX = startX + dX;
+                                    currentY = startY + dY;
                                 }
                             }
 
@@ -1924,6 +1928,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 polygon.transform();
 
                                 $(polygon).trigger("move");
+
+                                lastX = currentX;
+                                lastY = currentY;
                             }
 
                         } else if (event.type === "vmouseup") {
@@ -1944,7 +1951,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 });
                             }
                             if (_.isFunction(polygon.onMoveEnd)) {
-                                polygon.onMoveEnd();
+                                polygon.onMoveEnd(lastX - startX, lastY - startY);
                             }
                         }
                     });
@@ -2554,7 +2561,8 @@ $.extend(KhanUtil.Graphie.prototype, {
             snapX: 0.5,
             snapY: 0.5,
             snapRadius: 0.5,
-            minRadius: 1
+            minRadius: 1,
+            centerConstraints: {}
         }, options);
 
         circle.centerPoint = graphie.addMovablePoint({
@@ -2565,7 +2573,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                 fill: KhanUtil.BLUE
             },
             snapX: circle.snapX,
-            snapY: circle.snapY
+            snapY: circle.snapY,
+            constraints: circle.centerConstraints
         });
         circle.circ = graphie.circle(circle.center, circle.radius, {
             stroke: KhanUtil.BLUE,
@@ -2581,8 +2590,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             });
 
         // Highlight circle circumference on center point hover
-        $(circle.centerPoint.mouseTarget[0]).on(
-            "vmouseover vmouseout", function(event) {
+        if (!circle.centerConstraints.fixed) {
+            $(circle.centerPoint.mouseTarget[0]).on("vmouseover vmouseout",
+                    function(event) {
                 if (circle.centerPoint.highlight) {
                     circle.circ.animate({
                         stroke: KhanUtil.ORANGE,
@@ -2595,12 +2605,15 @@ $.extend(KhanUtil.Graphie.prototype, {
                     }, 50);
                 }
             });
+        }
 
         circle.toFront = function() {
             circle.circ.toFront();
             circle.perim.toFront();
             circle.centerPoint.visibleShape.toFront();
-            circle.centerPoint.mouseTarget.toFront();
+            if (!circle.centerConstraints.fixed) {
+                circle.centerPoint.mouseTarget.toFront();
+            }
         };
 
         circle.centerPoint.onMove = function(x, y) {
@@ -2684,6 +2697,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                         (event.which === 1 || event.which === 0)) {
                     event.preventDefault();
                     circle.toFront();
+                    var startRadius = circle.radius;
 
                     $(document).on("vmousemove vmouseup", function(event) {
                         event.preventDefault();
@@ -2702,15 +2716,26 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 Math.round(radius / circle.snapRadius) *
                                 circle.snapRadius);
                             var oldRadius = circle.radius;
-                            circle.setRadius(radius);
+                            var doResize = true;
                             if (circle.onResize) {
-                                circle.onResize(radius, oldRadius);
+                                onResizeResult = circle.onResize(radius, oldRadius);
+                                if (_.isNumber(onResizeResult)) {
+                                    radius = onResizeResult;
+                                } else if (onResizeResult === false) {
+                                    doResize = false;
+                                }
                             }
-                            $(circle).trigger("move");
+                            if (doResize) {
+                                circle.setRadius(radius);
+                                $(circle).trigger("move");
+                            }
                         } else if (event.type === "vmouseup") {
                             $(document).off("vmousemove vmouseup");
                             circle.dragging = false;
                             KhanUtil.dragging = false;
+                            if (circle.onResizeEnd) {
+                                circle.onResizeEnd(circle.radius, startRadius);
+                            }
                         }
                     });
                 }

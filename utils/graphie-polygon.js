@@ -4,7 +4,7 @@ $.extend(KhanUtil, {
         // these are the angles between diagonals
         // to construct the polygon.
         var angles = [],
-            points = [];
+            points = [],
             gExteriorAngles = [];
 
         function getMaxDiagonalLength(p1, p2, p3) {

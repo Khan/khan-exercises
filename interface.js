@@ -470,6 +470,8 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         // dashboard), supply the task ID.
         task_id: Exercises.learningTask && Exercises.learningTask.get("id"),
 
+        user_mission_id: Exercises.userMissionId,
+
         // The current card data
         card: JSON.stringify(Exercises.currentCard),
 

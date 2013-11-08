@@ -144,7 +144,7 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 }
 
 #scratchpad-not-available { display: none; }
-#extras .report-issue-link { float: right; font-size: 11px; }
+#extras .report-issue-link { float: right; }
 
 #tester-info.info-box { background: #f2e4bf; }
 #tester-info .box { border: 1px solid black; padding: 2px 4px; margin-left: 5px; }

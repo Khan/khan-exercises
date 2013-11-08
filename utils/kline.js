@@ -5,7 +5,7 @@
 
 (function(KhanUtil) {
 
-var kpoint;
+var kpoint = KhanUtil.kpoint;
 $.fn["klineLoad"] = function() {
     kpoint = KhanUtil.kpoint;
 };

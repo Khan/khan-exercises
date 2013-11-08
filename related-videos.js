@@ -29,7 +29,7 @@ Exercises.RelatedVideos = {
                     .end();
 
                 var inlineLink = self.anchorElement(video)
-                    .addClass("related-video-inline");
+                    .addClass("related-video-inline no-underline");
 
                 $("<li>")
                     .append(inlineLink)

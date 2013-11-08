@@ -154,7 +154,7 @@ $.extend(KhanUtil, {
     },
 
     processAllMath: function(elem, force) {
-        $elem = $(elem);
+        var $elem = $(elem);
         $elem.filter("code").add($elem.find("code")).each(function() {
             var $this = $(this);
             var text = $this.attr("data-math-formula");

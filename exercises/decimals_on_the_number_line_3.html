@@ -23,7 +23,7 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p>Move the orange dot to <code>\pink{<var>SOLUTION</var>}</code> on the number line.</p>
+                <p>Move the orange dot to <code><var>SOLUTION</var></code> on the number line.</p>
                 <div class="graphie" id="number-line">
                     init({
                         range: [[LOWER_BOUND - 0.3, UPPER_BOUND + 0.3], [-1, 1]],
@@ -76,18 +76,18 @@
 
             <div class="hints">
                 <p data-if="SOLUTION > 0">
-                    Because <code>\pink{<var>SOLUTION</var>}</code> is positive the orange dot will be to the right of 0.
+                    Because <code><var>SOLUTION</var></code> is positive the orange dot will be to the right of <code>0</code>.
                 </p><p data-else="">
-                    Because <code>\pink{<var>SOLUTION</var>}</code> is negative the orange dot will be to the left of 0.
+                    Because <code><var>SOLUTION</var></code> is negative the orange dot will be to the left of <code>0</code>.
                 </p>
 
                 <div data-if="abs(SOLUTION) > 1">
                     <p>Separate the decimal from the whole number:</p>
-                    <p><code>\pink{<var>SOLUTION</var>} = \purple{<var>SOLUTION_WHOLE</var>} + \purple{<var>SOLUTION_DECIMAL</var>}</code></p>
+                    <p><code><var>SOLUTION</var> = \purple{<var>SOLUTION_WHOLE</var>} + \purple{<var>SOLUTION_DECIMAL</var>}</code></p>
                 </div>
 
                 <div>
-                    <p>Therefore, we know <code>\pink{<var>SOLUTION</var>}</code> lies between
+                    <p>Therefore, we know <code><var>SOLUTION</var></code> lies between
                     <code>\green{<var>SOLUTION_WHOLE</var>}</code> and
                     <code>\green{<var>SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>}</code> on the number line.</p>
                     <div class="graphie" data-update="number-line">
@@ -102,7 +102,7 @@
                         line([0, 0], [SOLUTION, 0]);
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>The orange dot should be shifted to the position <code>\pink{<var>SOLUTION</var>}</code> right of 0.</p>
+                    <p>The orange dot should be shifted to the position <code><var>SOLUTION</var></code> right of <code>0</code>.</p>
                 </div>
 
                 <div>

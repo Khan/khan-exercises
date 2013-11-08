@@ -80,59 +80,6 @@
                 <p>The probability is <code>\displaystyle <var>fractionSimplification(RESULT_COUNT, 6)</var></code>.</p>
             </div>
         </div>
-
-        <div id="circles">
-            <div class="vars">
-                <var id="BIG_RAD">randRange(7,12)</var>
-                <var id="SMALL_RAD">randRange(3,6)</var>
-                <var id="BIG_GIVEN">randFromArray(["radius","diameter","circumference"])</var>
-                <var id="SMALL_GIVEN">randFromArray(["radius","diameter","circumference"])</var>
-                <var id="BIG_INFO">BIG_GIVEN === "radius" ? BIG_RAD : BIG_RAD*2</var>
-                <var id="SMALL_INFO">SMALL_GIVEN === "radius" ? SMALL_RAD : SMALL_RAD*2</var>
-                <var id="GCD">getGCD(Math.pow(SMALL_RAD,2),Math.pow(BIG_RAD,2))</var>
-            </div>
-            <p>
-                <span data-if='BIG_GIVEN === "circumference"'>You throw a dart at a circular dartboard with <var>BIG_GIVEN</var> <code><var>BIG_INFO</var> 
-                \pi</code>.</span><span data-else="">You throw a dart at a circular dartboard with <var>BIG_GIVEN</var> <code><var>BIG_INFO</var></code>.</span>
-                <span data-if='SMALL_GIVEN === "circumference"'>Inside the dartboard is a circular target with
-                <var>SMALL_GIVEN</var> <code><var>SMALL_INFO</var> \pi</code>.</span><span data-else="">Inside the dartboard is a circular target with
-                <var>SMALL_GIVEN</var> <code><var>SMALL_INFO</var></code>.</span>
-                <span>Assume you're good enough to hit the dartboard every time, and you'll hit every point on the dartboard with equal probability.</span>
-            </p>
-            <p class="question">
-                What is the probability that you will hit the target?
-            </p>
-
-            <div class="solution" data-forms="proper, decimal"><var>Math.pow(SMALL_RAD,2)/Math.pow(BIG_RAD,2)</var></div>
-
-            <div class="hints">
-                <p>
-                    Since you're equally likely to hit every point on the dartboard, the probability that you hit the target is basically
-                    the size of the target divided by the size of the dartboard.
-                </p>
-                <p>
-                    To figure out these sizes, we need to figure out the areas of the target and the dartboard.
-                </p>
-                <p>
-                    The area of the dartboard is <code>\pi r^2</code>, so since <code><var>BIG_GIVEN === "radius" ? "radius =" + BIG_INFO : 
-                    (BIG_GIVEN === "diameter" ? "radius = \\frac{diameter}{2}" : "radius = \\frac{circumference}{2 \\pi}")</var></code>, 
-                    the area of the dartboard is <code><var>BIG_RAD</var>^2 \pi</code>.
-                </p>
-                <p>
-                    The area of the target is <code>\pi r^2</code>, so since <code><var>SMALL_GIVEN === "radius" ? "radius =" + SMALL_INFO : 
-                    (SMALL_GIVEN === "diameter" ? "radius = \\frac{diameter}{2}" : "radius = \\frac{circumference}{2 \\pi}")</var></code>, 
-                    the area of the target is <code><var>SMALL_RAD</var>^2 \pi</code>.
-                </p>
-                <p data-if="GCD != 1">
-                    So, the probability that you will hit the target is <code> \frac{<var>Math.pow(SMALL_RAD,2)</var>}{<var>Math.pow(BIG_RAD,2)</var>}
-                    = \frac{<var>Math.pow(SMALL_RAD,2)/GCD</var>}{<var>Math.pow(BIG_RAD,2)/GCD</var>}</code>.
-                </p>
-                <p data-else="">
-                    So, the probability that you will hit the target is <code> \frac{<var>Math.pow(SMALL_RAD,2)</var>}{<var>Math.pow(BIG_RAD,2)</var>}
-                    </code>.
-                </p>
-            </div>
-        </div>
     </div>
     </div>
 </body>

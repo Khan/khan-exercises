@@ -1,9 +1,10 @@
 (function() {
 
-    var kvector;
-    $.fn["graphieLoad"] = function() {
-        kvector = KhanUtil.kvector;
-    };
+    // TODO (jack): Figure out why this isn't working
+    // var kvector = KhanUtil.kvector;
+    // $.fn["graphieLoad"] = function() {
+    //     kvector = KhanUtil.kvector;
+    // };
 
     var Graphie = KhanUtil.Graphie = function() {
     };
@@ -94,9 +95,9 @@
                 var newAngle = polarCoord[1] + angle;
                 return polar(polarCoord[0], newAngle);
             } else {
-                return kvector.add(vertex,
+                return KhanUtil.kvector.add(vertex,
                     KhanUtil.findPointFromAngle(
-                        kvector.subtract(point, vertex),
+                        KhanUtil.kvector.subtract(point, vertex),
                         angle
                     )
                 );

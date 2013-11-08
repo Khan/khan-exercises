@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-geometry interactive constructions matrix">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Compass Constructions 2</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        var applyRefFrame = function(coord, rot) {
+            var rotCoord = [];
+            rotCoord[0] = Math.cos(rot) * coord[0] - Math.sin(rot) * coord[1];
+            rotCoord[1] = Math.sin(rot) * coord[0] + Math.cos(rot) * coord[1];
+
+            return rotCoord;
+        };
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="SIZE">2.5</var>
+        </div>
+
+    <div class="problems">
+        <div id="triangle">
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct an equilateral triangle inscribed inside the circle.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-4, 4]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyCircle([0, 0], SIZE);
+                    addDummyPoint([0, 0]);
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">Use the compass and straightedge tools to construct an equilateral triangle.</div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    var lines = findInscribedPolygon(guess, [0, 0], SIZE, 3);
+                    if (lines === false) {
+                        return false;
+                    }
+
+                    // A point on the inscribed shape
+                    var p1 = lines[0].first.coord;
+
+                    // Check there is a compass with radius equal to the circle's radius
+                    // and centered on the circle and a circle's radius or a circle's
+                    // diameter from a point on the triangle
+
+                    var compasses = findCompass(guess, {radius: SIZE});
+                    for (var i = 0; i &lt; compasses.length; i++) {
+                        var x = compasses[i].center.coord[0];
+                        var y = compasses[i].center.coord[1];
+                        if (distEqual([0, 0], [x, y], SIZE) &amp;&amp; 
+                           (distEqual(p1, [x, y], SIZE) || distEqual(p1, [x, y], 2 * SIZE))) {
+                            return true;
+                        }
+                    }
+
+                    return "Make sure you keep the compasses you used in place."
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.dx = SIZE * cos(PI / 6);
+                        graph.dy = SIZE * sin(PI / 6);
+
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine([0, SIZE], [graph.dx, -graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([0, SIZE], [-graph.dx, -graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([-graph.dx, -graph.dy], [graph.dx, -graph.dy], 1));
+                    </div>
+                    <p>
+                        We could just <em>try</em> to draw a triangle inside the circle, but then
+                        <strong>we have no guarantee </strong> that all the sides would be the
+                        same length and all the angles would be the same size.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.push(drawHintLine([0, 0], [0, SIZE], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [-graph.dx, -graph.dy], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, -graph.dy], 2)).toBack();
+
+                        graph.hintLines.push(arc([0, 0], 0.3, 210, 330, 0, {
+                            stroke: BLUE,
+                            strokeWidth: 1
+                        }));
+                    </div>
+                    <p>
+                        The points of an equilateral triangle are equally spaced around the center.
+                        Therefore, each point is <code>120^{\circ}</code> from each other point.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        line([0, SIZE], [0, -SIZE], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        circle([0, SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                        circle([0, -SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+
+                        circle([0, -SIZE], SIZE, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                    </div>
+                    <p>
+                        Draw a line through the center of the circle and center a compass with the same
+                        radius as the original circle at one point.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine([0, 0], [0, -SIZE], 3));
+                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, -graph.dy], 3));
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [graph.dx, -graph.dy], 3));
+
+                        graph.hintLines.push(arc([0, 0], 0.3, -90, -30, 0, {
+                            stroke: BLUE,
+                            strokeWidth: 1
+                        }));
+                    </div>
+                    <p>
+                        The distance between the centers of the two compasses is equal to the 
+                        radius of each compass. The distance between the center of a compass and
+                        every point on the compass circumference is also equal to the compass radius.
+                        Therefore the points where the two compasses intersect is one radius from
+                        the center of each compass.
+                    </p>
+                    <p>
+                        Joining one point where the compasses intersect with the centers of
+                        the two compasses forms an equilateral triangle. The interior angles of
+                        an equilateral triangle are <code>60^{\circ}</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        line([0, SIZE], [graph.dx, -graph.dy], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        line([0, SIZE], [-graph.dx, -graph.dy], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        line([graph.dx, -graph.dy], [-graph.dx, -graph.dy], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        circle([graph.dx, -graph.dy], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                        circle([-graph.dx, -graph.dy], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                    </div>
+                    <p>
+                        Therefore, the two points where the compasses intersect are <code>120^{\circ}</code>
+                        apart, and <code>120^{\circ}</code> from the opposite end of the diameter.
+                        Joining these points therefore forms an equilateral triangle.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="square">
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a square inscribed inside the circle.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-4, 4]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyCircle([0, 0], SIZE);
+                    addDummyPoint([0, 0]);
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">Use the compass and straightedge tools to construct a square.</div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    var lines = findInscribedPolygon(guess, [0, 0], SIZE, 4);
+                    if (lines === false) {
+                        return false;
+                    }
+
+                    // Check there is at least two compasses on the circle
+                    var compasses = _.filter(guess, function(tool) {
+                        if (tool.center) {
+                            var x = tool.center.coord[0];
+                            var y = tool.center.coord[1];
+                            return distEqual([0, 0], [x, y], SIZE);
+                        }
+                    });
+
+                    if (compasses.length &lt; 1) {
+                        return "Make sure you keep the compasses you used in place.";
+                    }
+
+                    // Check there is at least one line going through the center of the circle
+                    var constructLines = _.filter(guess, function(tool) {
+                        return tool.first &amp;&amp;
+                               isPointOnLineSegment([tool.first.coord, tool.second.coord], [0, 0], 0.1);
+                    })
+
+                    if (constructLines.length === 0) {
+                        return "Make sure you keep the straightedges you used in place."
+                    } else {
+                        return true;
+                    }
+
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine([0, SIZE], [SIZE, 0], 1));
+                        graph.hintLines.push(drawHintLine([0, SIZE], [-SIZE, 0], 1));
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [SIZE, 0], 1));
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [-SIZE, 0], 1));
+                    </div>
+                    <p>
+                        We could just <em>try</em> to draw a square inside the circle, but then
+                        <strong>we have no guarantee </strong> that all the sides would be the
+                        same length and all the angles would be right angles.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        line([0, SIZE], [0, -SIZE], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+                        graph.hintLines.push(line([SIZE, 0], [-SIZE, 0], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        })).toBack();
+
+                        style({
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        }, function() {
+                            graph.hintLines.push(line([-0.25, 0.25], [0.25, 0.25]));
+                            graph.hintLines.push(line([0.25, 0.25], [0.25, -0.25]));
+                            graph.hintLines.push(line([0.25, -0.25], [-0.25, -0.25]));
+                            graph.hintLines.push(line([-0.25, -0.25], [-0.25, 0.25]));
+                        });
+
+                    </div>
+                    <p>
+                        The diagonals of an inscribed square will have a length equal to
+                        the diameter of the circle and will intersect one another at right angles.
+                    </p>
+                    <p>The diagonals must therefore be perpendicular bisectors of one another.</p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+                        graph.r2 = SIZE + 1.5;
+
+                        circle([0, SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle([0, SIZE], graph.r2, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        var compassPoint2 = circle([0, SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        var compass2 = circle([0, SIZE], graph.r2, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        compassPoint2.animate({
+                            cx: scalePoint([0, -SIZE])[0],
+                            cy: scalePoint([0, -SIZE])[1]
+                        }, 1000);
+
+                        compass2.animate({
+                            cx: scalePoint([0, -SIZE])[0],
+                            cy: scalePoint([0, -SIZE])[1]
+                        }, 1000);
+                    </div>
+                    <p>
+                        If we use a compass to draw a circle of the same radius at each end of the diagonal,
+                        the points where the circles intersect will be equidistant from each end.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var x = pow(graph.r2 * graph.r2 - SIZE * SIZE, 0.5);
+
+                        line([-x, 0], [x, 0], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        circle([-x, 0], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle([x, 0], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        style({
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        }, function() {
+                            line([-0.25, 0.25], [0.25, 0.25]);
+                            line([0.25, 0.25], [0.25, -0.25]);
+                            line([0.25, -0.25], [-0.25, -0.25]);
+                            line([-0.25, -0.25], [-0.25, 0.25]);
+                        });
+                    </div>
+                    <p>
+                        Connecting the points where the circles intersect creates a perpendicular bisector
+                        of the first line.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        style({
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }, function() {
+                            line([0, SIZE], [SIZE, 0]);
+                            line([SIZE, 0], [0, -SIZE]);
+                            line([0, -SIZE], [-SIZE, 0]);
+                            line([-SIZE, 0], [0, SIZE]);
+                        });
+
+                        style({
+                            fill: GRAY,
+                            stroke: null,
+                        }, function() {
+                            circle([0, SIZE], 0.08);
+                            circle([0, -SIZE], 0.08);
+                            circle([SIZE, 0], 0.08);
+                            circle([-SIZE, 0], 0.08);
+                        });
+                    </div>
+                    <p>
+                        We now have two perpendicular lines centered on the center of the circle.
+                        Connecting the points where the diagonals meet the circle creates a square.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="hexagon">
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a regular hexagon inscribed inside the circle.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-4, 4]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyCircle([0, 0], SIZE);
+                    addDummyPoint([0, 0]);
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">Use the compass and straightedge tools to construct a regular hexagon.</div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    var lines = findInscribedPolygon(guess, [0, 0], SIZE, 6);
+                    if (lines === false) {
+                        return false;
+                    }
+
+                    // A point on the inscribed shape
+                    var p1 = lines[0].first.coord;
+
+                    // Check there is a compass with radius equal to the circle's radius, r,
+                    // and centered on the circle. It should be either r, 2r or 2*root(3) r
+                    // from each point on the hexagon
+
+                    var compasses = findCompass(guess, {radius: SIZE});
+                    for (var i = 0; i &lt; compasses.length; i++) {
+                        var x = compasses[i].center.coord[0];
+                        var y = compasses[i].center.coord[1];
+                        if (distEqual([0, 0], [x, y], SIZE) &amp;&amp; 
+                           (distEqual(p1, [x, y], SIZE) ||
+                            distEqual(p1, [x, y], 2 * SIZE) ||
+                            distEqual(p1, [x, y], 1.732 * SIZE))) {
+                            return true;
+                        }
+                    }
+
+                    return "Make sure you keep the compasses you used in place."
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.dx = SIZE * cos(PI / 6);
+                        graph.dy = SIZE * sin(PI / 6);
+
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine([0, SIZE], [graph.dx, graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([0, SIZE], [-graph.dx, graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([graph.dx, -graph.dy], [graph.dx, graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([-graph.dx, -graph.dy], [-graph.dx, graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [graph.dx, -graph.dy], 1));
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [-graph.dx, -graph.dy], 1));
+                    </div>
+                    <p>
+                        We could just <em>try</em> to draw a regular hexgon inside the circle,
+                        but then <strong>we have no guarantee </strong> that all the sides
+                        would be the same length and all the angles would be the same size.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, graph.dy], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, -graph.dy], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [-graph.dx, graph.dy], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [-graph.dx, -graph.dy], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [0, SIZE], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [0, -SIZE], 2)).toBack();
+
+                        graph.hintLines.push(arc([0, 0], 0.3, 270, 330, 0, {
+                            stroke: BLUE,
+                            strokeWidth: 1
+                        }));
+                    </div>
+                    <p>
+                        The points of a regular triangle are equally spaced around the center.
+                        Therefore, each point is <code>60^{\circ}</code> from each other point.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        line([0, SIZE], [0, -SIZE], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        circle([0, SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                        circle([0, -SIZE], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+
+                        circle([0, SIZE], SIZE, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        circle([0, -SIZE], SIZE, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+                    </div>
+                    <p>
+                        Draw a line through the center of the circle and center a compass with the same
+                        radius as the original circle at both end points.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine([0, 0], [0, -SIZE], 3)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, -graph.dy], 3)).toBack();
+                        graph.hintLines.push(drawHintLine([0, -SIZE], [graph.dx, -graph.dy], 3)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [0, SIZE], 3)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, graph.dy], 3)).toBack();
+                        graph.hintLines.push(drawHintLine([0, SIZE], [graph.dx, graph.dy], 3)).toBack();
+
+                        graph.hintLines.push(arc([0, 0], 0.3, -90, -30, 0, {
+                            stroke: BLUE,
+                            strokeWidth: 1
+                        }));
+
+                        graph.hintLines.push(arc([0, 0], 0.3, 30, 90, 0, {
+                            stroke: BLUE,
+                            strokeWidth: 1
+                        }));
+                    </div>
+                    <p>
+                        Joining one point where two compasses intersect with the centers of
+                        those two compasses forms an equilateral triangle. The interior angles
+                        of an equilateral triangle are <code>60^{\circ}</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        style({
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }, function() {
+                            line([0, SIZE], [graph.dx, graph.dy]);
+                            line([0, SIZE], [-graph.dx, graph.dy]);
+                            line([0, -SIZE], [graph.dx, -graph.dy]);
+                            line([0, -SIZE], [-graph.dx, -graph.dy]);
+                            line([graph.dx, graph.dy], [graph.dx, -graph.dy]);
+                            line([-graph.dx, graph.dy], [-graph.dx, -graph.dy]);
+                        });
+
+                        circle([graph.dx, -graph.dy], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                        circle([-graph.dx, -graph.dy], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                    </div>
+                    <p>
+                        Therefore, by joining the points where the compasses intersect with the
+                        original line we can construct a regular hexagon.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+</html>

@@ -5,7 +5,7 @@ var MAXERROR_EPSILON = Math.pow(2, -42);
 // Function used to get the text of the choices, which is then used
 // to check against the correct answer
 var extractRawCode = function(elem) {
-    $elem = $(elem).clone(true);
+    var $elem = $(elem).clone(true);
     var code = $elem.find("code");
     if (code.length) {
         // If there are <code> tags in the element, remove them and replace
@@ -653,6 +653,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 score.empty = false;
                             } else if (form === "percent") {
                                 // Otherwise, an error was returned
+                                score.empty = true;
                                 score.message = $._("Your answer is almost correct, " +
                                           "but it is missing a " +
                                           "<code>\\%</code> at the end.");
@@ -2101,6 +2102,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     $._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
                     $._("For <code>\\sqrt{x}</code>, enter <strong>sqrt(x)</strong>"),
                     $._("For <code>\\pi</code>, enter <strong>pi</strong>"),
+                    $._("For <code>\\sin \\theta</code>, enter <strong>sin(theta)</strong>"),
                     $._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
                     $._("For <code>\\neq</code>, enter <strong>=/=</strong>")
                 ],
