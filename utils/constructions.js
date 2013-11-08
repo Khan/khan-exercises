@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-=======
-(function(KhanUtil) {
-
-var kmatrix = KhanUtil.kmatrix;
-$.fn["constructionsLoad"] = function() {
-    kmatrix = KhanUtil.kmatrix;
-};
-
->>>>>>> upstream/master
 $.extend(KhanUtil, {
     drawHintLine: function(pt1, pt2, ticks) {
         var graphie = KhanUtil.currentGraph;
@@ -660,14 +650,18 @@ $.extend(KhanUtil, {
 
         construction.removeTool = function(tool, updateTools) {
             _.each(_.keys(tool), function(key) {
-                if (key === "center" || key === "perimeter" ||
-                        key === "first" || key === "second") {
+                if (key === "center" || key === "perimeter"
+                || key === "first" || key === "second")
+                {
                     tool[key].visibleShape.remove();
                     tool[key].visible = false;
                     $(tool[key].mouseTarget[0]).remove();
-                } else if (key === "circ") {
+                }
+                else if (key === "circ")
+                {
                     tool[key].remove();
-                } else if (key === "edge") {
+                }
+                else if (key === "edge") {
                     tool[key].visibleLine.remove();
                     tool[key].visible = false;
                     $(tool[key].mouseTarget[0]).remove();
@@ -692,9 +686,9 @@ $.extend(KhanUtil, {
             });
 
             construction.tools = staticTools;
-            construction.snapPoints = [];
-            construction.interPoints = [];
-            construction.snapLines = [];
+            construction.snapPoints = []
+            construction.interPoints = []
+            construction.snapLines = []
         };
 
         // detect intersections between existing circles,
@@ -717,12 +711,12 @@ $.extend(KhanUtil, {
                         else if (tool1.interType === "line" &&
                                 tool2.interType === "circle") {
 
-                            m = (tool1.second.coord[1] -
-                                    tool1.first.coord[1]) /
-                                    (tool1.second.coord[0] -
-                                    tool1.first.coord[0]);
-                            yint = tool1.first.coord[1] -
-                                    m * tool1.first.coord[0];
+                            m = (tool1.second.coord[1]
+                              - tool1.first.coord[1]) /
+                                (tool1.second.coord[0]
+                              - tool1.first.coord[0]);
+                            yint = tool1.first.coord[1]
+                                 - m * tool1.first.coord[0];
 
 
                             // solve for x-values of intersections
@@ -764,8 +758,8 @@ $.extend(KhanUtil, {
                             var e = c - a;
                             var f = d - b;
                             var p = Math.sqrt(Math.pow(e, 2) + Math.pow(f, 2));
-                            var k = (Math.pow(p, 2) + Math.pow(r, 2) -
-                                    Math.pow(s, 2)) / (2 * p);
+                            var k = (Math.pow(p, 2) + Math.pow(r, 2)
+                               - Math.pow(s, 2)) / (2 * p);
 
                             var x1 = a + e * k / p + (f / p) *
                                 Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
@@ -941,8 +935,8 @@ $.extend(KhanUtil, {
     // shorthand for euclidean distance
     // maybe I value brevity too much?
     eDist: function(coords1, coords2) {
-        return Math.sqrt(Math.pow(coords1[0] - coords2[0], 2) +
-                Math.pow(coords1[1] - coords2[1], 2));
+        return Math.sqrt(Math.pow(coords1[0] - coords2[0], 2)
+                       + Math.pow(coords1[1] - coords2[1], 2));
     },
 
     // distance from a point to a line, measured
@@ -951,11 +945,10 @@ $.extend(KhanUtil, {
         var slope = (line.coordZ[1] - line.coordA[1]) /
                 (line.coordZ[0] - line.coordA[0]);
         var perpSlope = slope === 0 ? "vert" : -1 / slope;
-        var coord2;
         if (perpSlope === "vert") {
-            coord2 = [coord[0], coord[1] + 1];
+            var coord2 = [coord[0], coord[1] + 1];
         } else {
-            coord2 = [coord[0] + 1, coord[1] + perpSlope];
+            var coord2 = [coord[0] + 1, coord[1] + perpSlope];
         }
 
         var intersect = findIntersection([coord, coord2],
@@ -973,11 +966,7 @@ $.extend(KhanUtil, {
     },
 
     // Given an array of construction tools, return an array
-<<<<<<< HEAD
     // with either coordinates of a line and the center and 
-=======
-    // with either coordinates of a line and the center and
->>>>>>> upstream/master
     // radius of a circle.
     // Submitted as the guess for a construction problem
     getToolProperties: function (construction) {
@@ -1021,31 +1010,19 @@ $.extend(KhanUtil, {
         if (properties.radius) {
             radiusFunction = function (r) {
                 return Math.abs(r - properties.radius) < 0.5;
-<<<<<<< HEAD
             }
-=======
-            };
->>>>>>> upstream/master
         }
 
         if (properties.cx) {
             xFunction = function (p) {
                 return Math.abs(p[0] - properties.cx) < 0.5;
-<<<<<<< HEAD
             }
-=======
-            };
->>>>>>> upstream/master
         }
 
         if (properties.cy) {
             yFunction = function (p) {
                 return Math.abs(p[1] - properties.cy) < 0.5;
-<<<<<<< HEAD
             }
-=======
-            };
->>>>>>> upstream/master
         }
 
         return _.filter(guess, function(tool) {
@@ -1059,11 +1036,7 @@ $.extend(KhanUtil, {
     // Given a set of tools (guess), a circle and a number of sides
     // return the lines that form an inscribed shape with n sides
     findInscribedPolygon: function (guess, center, radius, n) {
-<<<<<<< HEAD
         var interiorAngle = 2 * Math.PI / n
-=======
-        var interiorAngle = 2 * Math.PI / n;
->>>>>>> upstream/master
         var degrees = interiorAngle * 180 / Math.PI;
         var sideLength = 2 * radius * Math.sin(interiorAngle / 2);
 
@@ -1083,11 +1056,7 @@ $.extend(KhanUtil, {
         var offsetAngle = 180 + Math.atan2(lines[0].first.coord[1], lines[0].first.coord[0]) * 180 / Math.PI;
 
         // Find angles to line points
-<<<<<<< HEAD
         var angles = []
-=======
-        var angles = [];
->>>>>>> upstream/master
         _.map(lines, function(tool) {
             var angle1 = Math.atan2(tool.first.coord[1], tool.first.coord[0]) * 180 / Math.PI; 
             var angle2 = Math.atan2(tool.second.coord[1], tool.second.coord[0]) * 180 / Math.PI; 
