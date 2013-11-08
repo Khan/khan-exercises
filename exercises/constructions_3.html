@@ -31,7 +31,7 @@
                     <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
                 </form>
                 <p class="question">
-                    Construct a circle inscribed inside the triangle.
+                    Construct a circle inscribing the triangle.
                 </p>
                 <div class="graphie" id="construction">
                     init({
@@ -42,6 +42,8 @@
                     addConstruction("construction");
 
                     graph.triangle = new Triangle([0, 0], [ANGLE1, ANGLE2, ANGLE3], 10, {});
+                    graph.triangle.findRadii();
+
                     var circumCenter = graph.triangle.circumCenter;
                     graph.triangle.rotate(randRange(0, 360));
                     graph.triangle.translate([-circumCenter[0], -circumCenter[1]]);
@@ -49,7 +51,6 @@
 
                     graph.inCenter = graph.triangle.inCenter;
                     graph.points = graph.triangle.points;
-                    //addDummyPoint(graph.inCenter);
                 </div>
             </div>
 
@@ -63,7 +64,7 @@
 
                     // Find incircle
                     var inCircle = findCompass(guess, {
-                        radius: graph.triangle.findInRadius(),
+                        radius: graph.triangle.inradius,
                         cx: graph.inCenter[0],
                         cy: graph.inCenter[1]
                     });
@@ -102,7 +103,7 @@
             </div>
 
             <div class="hints">
-                <p>A inscribed circle is centered on the incenter of a triangle.</p>
+                <p>A inscribed circle is centered on the incenter of a triangle and touches all three sides.</p>
                 <p>The incenter of a triangle is the intersection of its angle bisectors.</p>
 
                 <div>
@@ -128,17 +129,17 @@
                         circle(graph.points[0], 0.08, {
                             fill: GRAY,
                             stroke: null
-                        })
+                        });
 
                         circle(graph.p1, 0.08, {
                             fill: GRAY,
                             stroke: null
-                        })
+                        });
 
                         circle(graph.p2, 0.08, {
                             fill: GRAY,
                             stroke: null
-                        })
+                        });
 
                         circle(graph.points[0], graph.r, {
                             stroke: GRAY,
@@ -202,7 +203,8 @@
                         var y2 = graph.points[0][1] - 10 * sin(graph.bisect1);
 
                         line([x1, y1], [x2, y2], {
-                            strokeWidth: 2,
+                            strokeWidth: 1,
+                            strokeDasharray: "- ",
                             stroke: GRAY,
                         }).toBack();
                     </div>
@@ -276,7 +278,8 @@
                         var y2 = graph.points[1][1] - 10 * sin(angle3);
 
                         line([x1, y1], [x2, y2], {
-                            strokeWidth: 2,
+                            strokeWidth: 1,
+                            strokeDasharray: "- ",
                             stroke: GRAY,
                         }).toBack();
                     </div>
@@ -291,7 +294,7 @@
                             fill: GRAY,
                             stroke: null
                         })
-                        circle(graph.inCenter, graph.triangle.findInRadius(), {
+                        circle(graph.inCenter, graph.triangle.inradius, {
                             stroke: GRAY,
                             strokeWidth: 2,
                             fill: "none"
@@ -304,6 +307,225 @@
                     <p>
                         We can draw an inscribed circle by centering a compass on the incenter and changing its radius so it
                         touches the sides of the triangle.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="circumscribed">
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge();" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a circle circumscribing the triangle.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-4, 4]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    graph.triangle = new Triangle([0, 0], [ANGLE1, ANGLE2, ANGLE3], 10, {});
+                    graph.triangle.findRadii();
+
+                    graph.triangle.rotate(randRange(0, 360));
+                    graph.center = graph.triangle.circumCenter;
+                    graph.triangle.translate([-graph.center[0], -graph.center[1]]);
+                    graph.triangle.draw();
+
+                    graph.points = graph.triangle.points;
+                    graph.midpoints = [
+                        [(graph.points[0][0] + graph.points[1][0]) / 2, (graph.points[0][1] + graph.points[1][1]) / 2],
+                        [(graph.points[1][0] + graph.points[2][0]) / 2, (graph.points[1][1] + graph.points[2][1]) / 2],
+                        [(graph.points[2][0] + graph.points[0][0]) / 2, (graph.points[2][1] + graph.points[0][1]) / 2]
+                    ];
+                    //addDummyPoint([0, 0]);
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">Use the compass and straightedge tools to construct a circle circumscribing the triangle.</div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    // Find circumcircle
+                    var circumCircle = findCompass(guess, {
+                        radius: graph.triangle.circumradius,
+                        cx: 0,
+                        cy: 0
+                    });
+
+                    if (circumCircle.length &lt; 1) {
+                        return false;
+                    }
+
+                    // Find at least two perpendicular bisectors
+                    // These are lines that go through the center and the mid-point of a side
+
+                    var lines = _.filter(guess, function(tool) {
+                        if (tool.first) {
+                            var line = [tool.first.coord, tool.second.coord];
+                            if (!isPointOnLineSegment(line, [0, 0], 0.2)) {
+                                return false;
+                            }
+
+                            return _.any(graph.midpoints, function(p) {
+                                return isPointOnLineSegment(line, p, 0.2)
+                            });
+                        }
+                    });
+
+                    if (lines.length &lt; 2) {
+                        return "Make sure you keep the straightedges you used in place."
+                    }
+
+                    // Find compasses
+
+                    return true;
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>A circle that circumscribes a triangle is centered on the circumcenter of a triangle and touches all three vertices.</p>
+                <p>The circumcenter of a triangle is at the intersection of the perdendicular bisectors of its sides.</p>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var r = graph.triangle.sideLengths[0] / sqrt(3);
+
+                        circle(graph.points[0], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle(graph.points[1], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle(graph.points[0], r, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        circle(graph.points[1], r, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        var angle = atan2(graph.points[0][1] - graph.points[1][1],
+                                          graph.points[0][0] - graph.points[1][0]);
+                        angle += PI / 2;
+
+                        graph.intersect1 = [
+                            graph.midpoints[0][0] + r / 2 * cos(angle),
+                            graph.midpoints[0][1] + r / 2 * sin(angle)
+                        ];
+
+                        graph.intersect2 = [
+                            graph.midpoints[0][0] - r / 2 * cos(angle),
+                            graph.midpoints[0][1] - r / 2 * sin(angle)
+                        ];
+
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine(graph.points[0], graph.intersect1, 1));
+                        graph.hintLines.push(drawHintLine(graph.points[1], graph.intersect1, 1));
+                        graph.hintLines.push(drawHintLine(graph.points[0], graph.intersect2, 1));
+                        graph.hintLines.push(drawHintLine(graph.points[1], graph.intersect2, 1));
+                        graph.hintLines.toBack();
+                    </div>
+                    <p>
+                        If we put two compasses of the same size on two points we can find four lines of the same length.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var angle = atan2(graph.midpoints[0][1], graph.midpoints[0][0]);
+                        var x1 = graph.midpoints[0][0] + 10 * cos(angle);
+                        var y1 = graph.midpoints[0][1] + 10 * sin(angle);
+                        var x2 = graph.midpoints[0][0] - 10 * cos(angle);
+                        var y2 = graph.midpoints[0][1] - 10 * sin(angle);
+
+                        graph.hintLines.push(circle(graph.intersect1, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        }));
+                        graph.hintLines.push(circle(graph.intersect2, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        }));
+
+                        rect()
+
+                        line([x1, y1], [x2, y2], {
+                            strokeWidth: 1,
+                            stroke: GRAY,
+                            strokeDasharray: "- "
+                        }).toBack();
+                    </div>
+                    <p>
+                        Drawing a straightedge through the two points where the compasses intersect creates two 
+                        similar triangles and so must bisector the side perpendicularly.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        var angle = atan2(graph.midpoints[1][1], graph.midpoints[1][0]);
+                        var x1 = graph.midpoints[1][0] + 10 * cos(angle);
+                        var y1 = graph.midpoints[1][1] + 10 * sin(angle);
+                        var x2 = graph.midpoints[1][0] - 10 * cos(angle);
+                        var y2 = graph.midpoints[1][1] - 10 * sin(angle);
+
+                        line([x1, y1], [x2, y2], {
+                            strokeWidth: 1,
+                            stroke: GRAY,
+                            strokeDasharray: "- "
+                        }).toBack();
+                    </div>
+                    <p>
+                        By the same logic, we can construct a perpendicular bisector of another side.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        circle([0, 0], 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                        circle([0, 0], graph.triangle.circumradius, {
+                            stroke: GRAY,
+                            strokeWidth: 2,
+                            fill: "none"
+                        }).toBack();
+                    </div>
+                    <p>
+                        The point where the bisectors intersect is the circumcenter.
+                        We could construct a perpendicular bisector the third side in the triangle,
+                        but this will intersect at the same point.
+                    </p>
+                    <p>
+                        We can circumscribe the triangle by centering a compass on the circumcenter and changing its radius so it
+                        touches the vertices of the triangle.
                     </p>
                 </div>
             </div>
