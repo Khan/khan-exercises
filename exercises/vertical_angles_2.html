@@ -37,7 +37,7 @@
                 });
                 graph.pl = new ParallelLines( 0, 0, 4, 0, 0 );
                 graph.pl.draw();
-                graph.pl.drawTransverse( ANCHOR );
+                graph.pl.drawTransverse( KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR );
                 graph.pl.drawAngle( KNOWN_INDEX, eq1 );
                 graph.pl.drawAngle( UNKNOWN_INDEX, eq2, "#FFA500" );
             </div>
