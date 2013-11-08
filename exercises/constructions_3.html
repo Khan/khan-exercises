@@ -20,6 +20,7 @@
             <var id="ANGLE1">randRange(40, 80)</var>
             <var id="ANGLE2">randRange((180 - ANGLE1) / 2 - 20, (180 - ANGLE1) / 2 + 20)</var>
             <var id="ANGLE3">180 - ANGLE1 - ANGLE2</var>
+            <var id="SIZE">10</var>
         </div>
 
     <div class="problems">
@@ -27,7 +28,7 @@
             <div class="problem">
                 <form>
                     <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
-                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge();" type="button" value="Add Straightedge">
                     <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
                 </form>
                 <p class="question">
@@ -49,7 +50,8 @@
 
                     construction.inCenter = triangle.inCenter;
                     construction.inRadius = triangle.findInRadius();
-                    addDummyPoint(construction.inCenter);
+                    construction.points = triangle.points;
+                    //addDummyPoint(construction.inCenter);
                 </div>
             </div>
 
@@ -70,11 +72,31 @@
 
                     if (inCircle.length &lt; 1) {
                         return false;
-                    } else {
-                        return true;
                     }
 
-                    return "Make sure you keep the compasses you used in place."
+                    // Find at least two angle bisectors
+                    // These are lines that go through the center and one triangle point
+
+                    var lines = _.filter(guess, function(tool) {
+                        if (tool.first) {
+                            var line = [tool.first.coord, tool.second.coord];
+                            if (!isPointOnLineSegment(line, construction.inCenter, 0.2)) {
+                                return false;
+                            }
+
+                            return _.any(construction.points, function(p) {
+                                return isPointOnLineSegment(line, p, 0.2)
+                            });
+                        }
+                    });
+
+                    if (lines.length &lt; 2) {
+                        return "Make sure you keep the straightedges you used in place."
+                    }
+
+                    // Find compasses
+
+                    return true;
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
