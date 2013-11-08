@@ -1040,7 +1040,7 @@ $.extend(KhanUtil, {
     // Given a set of tools (guess), a circle and a number of sides
     // return the lines that form an inscribed shape with n sides
     findInscribedPolygon: function (guess, center, radius, n) {
-        var interiorAngle = 2 * Math.PI / n
+        var interiorAngle = 2 * Math.PI / n;
         var degrees = interiorAngle * 180 / Math.PI;
         var sideLength = 2 * radius * Math.sin(interiorAngle / 2);
 
@@ -1060,7 +1060,7 @@ $.extend(KhanUtil, {
         var offsetAngle = 180 + Math.atan2(lines[0].first.coord[1], lines[0].first.coord[0]) * 180 / Math.PI;
 
         // Find angles to line points
-        var angles = []
+        var angles = [];
         _.map(lines, function(tool) {
             var angle1 = Math.atan2(tool.first.coord[1], tool.first.coord[0]) * 180 / Math.PI; 
             var angle2 = Math.atan2(tool.second.coord[1], tool.second.coord[0]) * 180 / Math.PI; 
