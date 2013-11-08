@@ -17,10 +17,9 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="ANGLE1">randRange(40, 80)</var>
-            <var id="ANGLE2">randRange((180 - ANGLE1) / 2 - 20, (180 - ANGLE1) / 2 + 20)</var>
+            <var id="ANGLE1">randRange(45, 75)</var>
+            <var id="ANGLE2">randRange((180 - ANGLE1) / 2 - 15, (180 - ANGLE1) / 2 + 15)</var>
             <var id="ANGLE3">180 - ANGLE1 - ANGLE2</var>
-            <var id="SIZE">10</var>
         </div>
 
     <div class="problems">
@@ -42,21 +41,20 @@
                     addMouseLayer();
                     addConstruction("construction");
 
-                    var triangle = new Triangle([0, 0], [ANGLE1, ANGLE2, ANGLE3], 12, {});
-                    var circumCenter = triangle.circumCenter;
-                    triangle.rotate(randRange(0, 360));
-                    triangle.translate([-circumCenter[0], -circumCenter[1]]);
-                    triangle.draw();
+                    graph.triangle = new Triangle([0, 0], [ANGLE1, ANGLE2, ANGLE3], 10, {});
+                    var circumCenter = graph.triangle.circumCenter;
+                    graph.triangle.rotate(randRange(0, 360));
+                    graph.triangle.translate([-circumCenter[0], -circumCenter[1]]);
+                    graph.triangle.draw();
 
-                    construction.inCenter = triangle.inCenter;
-                    construction.inRadius = triangle.findInRadius();
-                    construction.points = triangle.points;
-                    //addDummyPoint(construction.inCenter);
+                    graph.inCenter = graph.triangle.inCenter;
+                    graph.points = graph.triangle.points;
+                    //addDummyPoint(graph.inCenter);
                 </div>
             </div>
 
             <div class="solution" data-type="custom">
-                <div class="instruction">Use the compass and straightedge tools to construct an equilateral triangle.</div>
+                <div class="instruction">Use the compass and straightedge tools to construct an inscribed circle.</div>
                 <div class="guess">getToolProperties(construction)</div>
                 <div class="validator-function">
                     if (guess.length === 0) {
@@ -65,9 +63,9 @@
 
                     // Find incircle
                     var inCircle = findCompass(guess, {
-                        radius: construction.inRadius,
-                        cx: construction.inCenter[0],
-                        cy: construction.inCenter[1]
+                        radius: graph.triangle.findInRadius(),
+                        cx: graph.inCenter[0],
+                        cy: graph.inCenter[1]
                     });
 
                     if (inCircle.length &lt; 1) {
@@ -80,11 +78,11 @@
                     var lines = _.filter(guess, function(tool) {
                         if (tool.first) {
                             var line = [tool.first.coord, tool.second.coord];
-                            if (!isPointOnLineSegment(line, construction.inCenter, 0.2)) {
+                            if (!isPointOnLineSegment(line, graph.inCenter, 0.2)) {
                                 return false;
                             }
 
-                            return _.any(construction.points, function(p) {
+                            return _.any(graph.points, function(p) {
                                 return isPointOnLineSegment(line, p, 0.2)
                             });
                         }
@@ -104,98 +102,114 @@
             </div>
 
             <div class="hints">
-                <div>
-                    <p>A inscribed circle is centered on the incenter of a triangle.</p>
-                    <p>The incenter of a triangle is the intersection of its angle bisectors.</p>
-
-                    <div class="graphie" data-update="construction">
-                        graph.dx = SIZE * cos(PI / 6);
-                        graph.dy = SIZE * sin(PI / 6);
-
-                        graph.hintLines = raphael.set();
-                        graph.hintLines.push(drawHintLine([0, SIZE], [graph.dx, -graph.dy], 1));
-                        graph.hintLines.push(drawHintLine([0, SIZE], [-graph.dx, -graph.dy], 1));
-                        graph.hintLines.push(drawHintLine([-graph.dx, -graph.dy], [graph.dx, -graph.dy], 1));
-                    </div>
-                    <p>
-                        We could just <em>try</em> to draw a triangle inside the circle, but then
-                        <strong>we have no guarantee </strong> that all the sides would be the
-                        same length and all the angles would be the same size.
-                    </p>
-                </div>
+                <p>A inscribed circle is centered on the incenter of a triangle.</p>
+                <p>The incenter of a triangle is the intersection of its angle bisectors.</p>
 
                 <div>
                     <div class="graphie" data-update="construction">
-                        graph.hintLines.push(drawHintLine([0, 0], [0, SIZE], 2)).toBack();
-                        graph.hintLines.push(drawHintLine([0, 0], [-graph.dx, -graph.dy], 2)).toBack();
-                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, -graph.dy], 2)).toBack();
+                        // Radius of compasses we use for angle bisector construction
+                        graph.r = 1.2;
 
-                        graph.hintLines.push(arc([0, 0], 0.3, 210, 330, 0, {
-                            stroke: BLUE,
-                            strokeWidth: 1
-                        }));
-                    </div>
-                    <p>
-                        The points of an equilateral triangle are equally spaced around the center.
-                        Therefore, each point is <code>120^{\circ}</code> from each other point.
-                    </p>
-                </div>
+                        var angle1 = atan2(graph.points[1][1] - graph.points[0][1],
+                                           graph.points[1][0] - graph.points[0][0]);
+                        var angle2 = atan2(graph.points[2][1] - graph.points[0][1],
+                                           graph.points[2][0] - graph.points[0][0]);
 
-                <div>
-                    <div class="graphie" data-update="construction">
-                        graph.hintLines.remove();
+                        graph.p1 = [
+                            graph.points[0][0] + graph.r * cos(angle1),
+                            graph.points[0][1] + graph.r * sin(angle1)
+                        ];
 
-                        line([0, SIZE], [0, -SIZE], {
-                            strokeWidth: 2,
-                            stroke: GRAY
-                        }).toBack();
+                        graph.p2 = [
+                            graph.points[0][0] + graph.r * cos(angle2),
+                            graph.points[0][1] + graph.r * sin(angle2)
+                        ];
 
-                        circle([0, SIZE], 0.08, {
-                            fill: GRAY,
-                            stroke: null
-                        })
-                        circle([0, -SIZE], 0.08, {
+                        circle(graph.points[0], 0.08, {
                             fill: GRAY,
                             stroke: null
                         })
 
-                        circle([0, -SIZE], SIZE, {
+                        circle(graph.p1, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+
+                        circle(graph.p2, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+
+                        circle(graph.points[0], graph.r, {
                             stroke: GRAY,
                             strokeWidth: 1,
                             fill: "none",
                             strokeDasharray: "- "
                         }).toBack();
 
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(drawHintLine(graph.points[0], graph.p1, 1));
+                        graph.hintLines.push(drawHintLine(graph.points[0], graph.p2, 1));
+                        graph.hintLines.toBack();
                     </div>
                     <p>
-                        Draw a line through the center of the circle and center a compass with the same
-                        radius as the original circle at one point.
+                        If we put a compass on one point of the triangle we can find points
+                        on either side which are the same distance from that point.
                     </p>
                 </div>
 
                 <div>
                     <div class="graphie" data-update="construction">
-                        graph.hintLines = raphael.set();
-                        graph.hintLines.push(drawHintLine([0, 0], [0, -SIZE], 3));
-                        graph.hintLines.push(drawHintLine([0, 0], [graph.dx, -graph.dy], 3));
-                        graph.hintLines.push(drawHintLine([0, -SIZE], [graph.dx, -graph.dy], 3));
+                        // Find where compasses intersect
+                        graph.bisect1 = atan2(graph.inCenter[1] - graph.points[0][1],
+                                              graph.inCenter[0] - graph.points[0][0]);
 
-                        graph.hintLines.push(arc([0, 0], 0.3, -90, -30, 0, {
-                            stroke: BLUE,
-                            strokeWidth: 1
-                        }));
+                        // Length is base of two triangles with one angle half the triangle's angle
+                        var length = 2 * graph.r * cos(ANGLE1 * PI / 360);
+                        var bisector1 = [
+                            graph.points[0][0] + length * cos(graph.bisect1),
+                            graph.points[0][1] + length * sin(graph.bisect1)
+                        ];
+
+                        circle(graph.p1, graph.r, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        circle(graph.p2, graph.r, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        graph.hintLines.push(drawHintLine(graph.p1, bisector1, 1));
+                        graph.hintLines.push(drawHintLine(graph.p2, bisector1, 1));
                     </div>
                     <p>
-                        The distance between the centers of the two compasses is equal to the 
-                        radius of each compass. The distance between the center of a compass and
-                        every point on the compass circumference is also equal to the compass radius.
-                        Therefore the points where the two compasses intersect is one radius from
-                        the center of each compass.
+                        If we put compasses with the same radii on each of these new points,
+                        we can find all the points that are an equal distance from both points.
                     </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var x1 = graph.points[0][0] + 10 * cos(graph.bisect1);
+                        var y1 = graph.points[0][1] + 10 * sin(graph.bisect1);
+                        var x2 = graph.points[0][0] - 10 * cos(graph.bisect1);
+                        var y2 = graph.points[0][1] - 10 * sin(graph.bisect1);
+
+                        line([x1, y1], [x2, y2], {
+                            strokeWidth: 2,
+                            stroke: GRAY,
+                        }).toBack();
+                    </div>
                     <p>
-                        Joining one point where the compasses intersect with the centers of
-                        the two compasses forms an equilateral triangle. The interior angles of
-                        an equilateral triangle are <code>60^{\circ}</code>.
+                        Joining the triangle angle with the point where the compasses intersect creates
+                        two triangles with the same side lengths and therefore the same angles.
+                        This line therefore bisects the angle.
                     </p>
                 </div>
 
@@ -203,34 +217,93 @@
                     <div class="graphie" data-update="construction">
                         graph.hintLines.remove();
 
-                        line([0, SIZE], [graph.dx, -graph.dy], {
-                            strokeWidth: 2,
-                            stroke: GRAY
-                        }).toBack();
+                        var angle1 = atan2(graph.points[0][1] - graph.points[1][1],
+                                           graph.points[0][0] - graph.points[1][0]);
+                        var angle2 = atan2(graph.points[2][1] - graph.points[1][1],
+                                           graph.points[2][0] - graph.points[1][0]);
 
-                        line([0, SIZE], [-graph.dx, -graph.dy], {
-                            strokeWidth: 2,
-                            stroke: GRAY
-                        }).toBack();
+                        var p1 = [
+                            graph.points[1][0] + graph.r * cos(angle1),
+                            graph.points[1][1] + graph.r * sin(angle1)
+                        ];
 
-                        line([graph.dx, -graph.dy], [-graph.dx, -graph.dy], {
-                            strokeWidth: 2,
-                            stroke: GRAY
-                        }).toBack();
+                        var p2 = [
+                            graph.points[1][0] + graph.r * cos(angle2),
+                            graph.points[1][1] + graph.r * sin(angle2)
+                        ];
 
-                        circle([graph.dx, -graph.dy], 0.08, {
+                        circle(graph.points[1], 0.08, {
                             fill: GRAY,
                             stroke: null
                         })
-                        circle([-graph.dx, -graph.dy], 0.08, {
+
+                        circle(p1, 0.08, {
                             fill: GRAY,
                             stroke: null
                         })
+
+                        circle(p2, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+
+                        circle(graph.points[1], graph.r, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        circle(p1, graph.r, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        circle(p2, graph.r, {
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }).toBack();
+
+                        var angle3 = atan2(graph.inCenter[1] - graph.points[1][1],
+                                           graph.inCenter[0] - graph.points[1][0]);
+                        var x1 = graph.points[1][0] + 10 * cos(angle3);
+                        var y1 = graph.points[1][1] + 10 * sin(angle3);
+                        var x2 = graph.points[1][0] - 10 * cos(angle3);
+                        var y2 = graph.points[1][1] - 10 * sin(angle3);
+
+                        line([x1, y1], [x2, y2], {
+                            strokeWidth: 2,
+                            stroke: GRAY,
+                        }).toBack();
                     </div>
                     <p>
-                        Therefore, the two points where the compasses intersect are <code>120^{\circ}</code>
-                        apart, and <code>120^{\circ}</code> from the opposite end of the diameter.
-                        Joining these points therefore forms an equilateral triangle.
+                        Using the same method we can bisect another of the triangle's angles.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        circle(graph.inCenter, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        })
+                        circle(graph.inCenter, graph.triangle.findInRadius(), {
+                            stroke: GRAY,
+                            strokeWidth: 2,
+                            fill: "none"
+                        }).toBack();
+                    </div>
+                    <p>
+                        The point where the bisectors intersect is the incenter. We could bisect the third angle in the triangle,
+                        but this will intersect at the same point.
+                    </p>
+                    <p>
+                        We can draw an inscribed circle by centering a compass on the incenter and changing its radius so it
+                        touches the sides of the triangle.
                     </p>
                 </div>
             </div>
