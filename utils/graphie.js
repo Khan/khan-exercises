@@ -462,7 +462,9 @@
                         // if there is an asymptote here, meaning that the graph switches signs and has a large difference
                         ((funcVal[1] < 0) !== (lastVal[1] < 0)) && Math.abs(funcVal[1] - lastVal[1]) > 2 * yScale ||
                         // or the function value gets really high (which breaks raphael)
-                        Math.abs(funcVal[1]) > 1e7
+                        Math.abs(funcVal[1]) > 1e7 ||
+                        // or the function is undefined
+                        isNaN(funcVal[1])
                        ) {
                         // split the path at this point, and draw it
                         paths.push(this.path(points));
