@@ -117,15 +117,15 @@
     <div class="exercise">
 
         <div class="vars">
-            <var id="SOL">randFromArray(["Even", "Odd", "Neither"])</var>
+            <var id="SOL_KEY, SOL_TEXT">randFromArray([["Even", $._("Even")], ["Odd", $._("Odd")], ["Neither", $._("Neither")]])</var>
         </div>
 
         <div class="problems">
 
             <div id="graph">
                 <div class="vars" data-ensure="X_VALUES.length">
-                    <var id="FUNC">makeFunc(SOL)</var>
-                    <var id="X_VALUES">getUseablePoints(FUNC, SOL)</var>
+                    <var id="FUNC">makeFunc(SOL_KEY)</var>
+                    <var id="X_VALUES">getUseablePoints(FUNC, SOL_KEY)</var>
                     <var id="PT">randFromArray(X_VALUES)</var>
                 </div>
 
@@ -154,7 +154,7 @@
                 </div>
 
                 <div class="hints" data-apply="appendContents">
-                    <div data-if="SOL === 'Neither'" data-unwrap="">
+                    <div data-if="SOL_KEY === 'Neither'" data-unwrap="">
                         <div>
                             <div class="graphie" data-update="graph">
                                 style(
@@ -218,7 +218,7 @@
                             </div>
                         </div>
 
-                        <div data-if="SOL === 'Odd'">
+                        <div data-if="SOL_KEY === 'Odd'">
                             <p><code>f(x)</code> is odd because <code>f(x) = -f(-x)</code>. (For all x values, not just the ones we checked!)</p>
                         </div>
 
@@ -233,16 +233,16 @@
 
             <div id="equation">
                 <div class="vars">
-                    <var id="FUNC">makeEquation(SOL)</var>
+                    <var id="FUNC">makeEquation(SOL_KEY)</var>
                     <var id="CALLABLE_FUNC">function(x){ return FUNC.evaluate(x); }</var>
-                    <var id="X_VALUES">getUseablePoints(CALLABLE_FUNC, SOL)</var>
+                    <var id="X_VALUES">getUseablePoints(CALLABLE_FUNC, SOL_KEY)</var>
                     <var id="SHOW_EVALUATION">!(FUNC.terms.length === 1 &amp;&amp; (FUNC.terms[0].variableString === '' || FUNC.terms[0].variableString === 'x1'))</var>
                 </div>
 
                 <div class="problem"><code>f(x) = <var>FUNC</var></code></div>
 
                 <div class="hints" data-apply="appendContents">
-                    <div data-if="SOL === 'Neither'" data-unwrap="">
+                    <div data-if="SOL_KEY === 'Neither'" data-unwrap="">
                         <div>
                             <p>Let's try a value for <code>x</code> to see if <code>f(x)</code> fits the definition.</p>
                             <div data-if="SHOW_EVALUATION"><code>\qquad f(\blue{<var>X_VALUES[0]</var>}) = <var>FUNC.getEvaluateString(X_VALUES[0], 'blue')</var></code></div>
@@ -284,7 +284,7 @@
                             <div><code>\qquad f(\blue{-2}) = \red{<var>CALLABLE_FUNC(-2)</var>}</code></div>
                         </div>
 
-                        <p data-if="SOL === 'Odd'">
+                        <p data-if="SOL_KEY === 'Odd'">
                             <code>f(x)</code> is odd because <code>f(x) = -f(-x)</code>. (For all x values, not just the ones we checked!)
                         </p>
                         <p data-else="">
@@ -298,7 +298,7 @@
         </div>
         
         <p class="question">Is <code>f(x)</code> even, odd, or neither?</p>
-        <p class="solution"><var>SOL</var></p>
+        <p class="solution"><var>SOL_TEXT</var></p>
         <ul class="choices" data-category="true">
             <li>Even</li>
             <li>Odd</li>
