@@ -393,11 +393,15 @@ window.Khan = (function() {
 
             crc32: crc32,
 
-            // Rounds num to X places, and uses the proper decimal point.
+            // Rounds num to X places, and uses the proper decimal seperator.
             // But does *not* insert thousands separators.
             localeToFixed: function(num, places) {
-                var decimal = icu.getDecimalFormatSymbols().decimal_separator;
-                return num.toFixed(places).replace(".", decimal);
+                var localeDecimalSeperator = icu.getDecimalFormatSymbols().decimal_separator;
+                var localeFixed = num.toFixed(places).replace(".", localeDecimalSeperator);
+                if (localeFixed === "-0") {
+                    localeFixed = "0";
+                }
+                return localeFixed;
             }
         },
 
