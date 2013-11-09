@@ -1,4 +1,4 @@
-module("lmatrix");
+module("kmatrix");
 
 (function() {
 
