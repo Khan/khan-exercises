@@ -1513,7 +1513,11 @@ _.extend(Mul.prototype, {
         }));
 
         var pairs = _.groupBy(summed, function(pair) {
-            if (pair[0] instanceof Trig && pair[0].isBasic()) {
+        	if (pair[0] instanceof Var) {
+	        	return "vars";
+            } else if (pair[0] instanceof Symbol) {
+                return "exps";
+            } else if (pair[0] instanceof Trig && !pair[0].isInverse()) {
                 return "trig";
             } else if (pair[0] instanceof Log) {
                 return "log";
@@ -1521,10 +1525,17 @@ _.extend(Mul.prototype, {
                 return "expr";
             }
         });
+        
+        var vars = pairs.vars || [];
+        var exps = pairs.exps || [];
         var trigs = pairs.trig || [];
         var logs = pairs.log || [];
         var exprs = pairs.expr || [];
-
+        
+        if(vars.length > 0){
+			vars.sort(function(var1, var2){return var1[0].symbol > var2[0].symbol});
+        }
+        
         if (trigs.length > 1) {
             // combine sines and cosines into other trig functions
 
@@ -1538,22 +1549,30 @@ _.extend(Mul.prototype, {
                 var arg = pairs[0][0].arg;
 
                 // {Trig.type: Expr exp}
-                var funcs = {sin: Num.Zero, cos: Num.Zero};
+                var funcs = {sin: Num.Zero, cos: Num.Zero, tan: Num.Zero,
+                 			 csc: Num.Zero, sec: Num.Zero, cot: Num.Zero};
+                 			 
                 _.each(pairs, function(pair) {
                     funcs[pair[0].type] = pair[1];
                 });
-
-                if (Mul.handleNegative(funcs.sin).collect().equals(funcs.cos)) {
-                    // e.g. sin^x(y)/cos^x(y) -> tan^x(y)
-                    if (funcs.cos.isNegative()) {
-                        funcs = {tan: funcs.sin};
+                
+                funcs = {sin: new Int(funcs.sin.n - funcs.csc.n + funcs.tan.n - funcs.cot.n),
+                		 cos: new Int(funcs.cos.n - funcs.sec.n - funcs.tan.n + funcs.cot.n)}
+                		 
+                // If the sin and cos exponents have opposite signs
+                if(funcs.sin.n * funcs.cos.n < 0){
+                	// combine them into tan or cot
+                	var combos = Math.min(Math.abs(funcs.sin.n), Math.abs(funcs.cos.n));
+                	if (funcs.cos.isNegative()) {
+                        funcs.tan = new Int(combos);
+                        funcs.cos.n += combos;
+                        funcs.sin.n -= combos; 
                     } else {
-                        funcs = {cot: funcs.cos};
+                        funcs.cot = new Int(combos);
+                        funcs.cos.n -= combos;
+                        funcs.sin.n += combos;
                     }
                 }
-
-                // TODO(alex): combine even if exponents not a perfect match
-                // TODO(alex): transform 1/sin and 1/cos into csc and sec
 
                 _.each(funcs, function(exp, type) {
                     trigs.push([new Trig(type, arg), exp]);
@@ -1592,7 +1611,7 @@ _.extend(Mul.prototype, {
             // TODO(alex): combine if all inverses are the same e.g. ln(y)*ln(z)/ln(x)/ln(x)
         }
 
-        pairs = trigs.concat(logs).concat(exprs);
+        pairs = [].concat(vars, exps, logs, trigs, exprs);
 
         var collected = _.map(pairs, function(pair) {
             return new Pow(pair[0], pair[1]).collect();
@@ -1910,6 +1929,9 @@ _.extend(Pow.prototype, {
 
             // e.g sin(x) ^ 2 -> sin^2(x)
             var split = this.base.tex({split: true});
+            if(this.exp.n === 1){
+            	return split[0] + split[1];
+            }
             return split[0] + "^{" + this.exp.tex() + "}" + split[1];
 
         } else {
@@ -2048,6 +2070,13 @@ _.extend(Pow.prototype, {
 
             // e.g. 4^1.5 -> 8
             return pow.base.raiseToThe(pow.exp);
+        } else if (pow.base instanceof Trig) {
+            if(_.contains(["cos","sin","tan"], pow.base.type) && pow.exp.n < 0){
+            	recipricals = {"cos": "sec", "sin":"csc", "tan":"cot"};
+            	pow.base.type = recipricals[pow.base.type];
+				pow.exp.n = -1 * pow.exp.n;
+			}
+            return pow;
         } else {
             return pow;
         }
