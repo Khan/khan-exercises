@@ -22,8 +22,10 @@ module("calculator");
     test("addition and subtraction", function() {
         calculateStrictEqual('1+2', 3);
         calculateStrictEqual('-1-2', -3);
+        calculateStrictEqual('-1--2', 1);
         calculateStrictEqual('1+-2', -1);
         calculateStrictEqual('1--2', 3);
+        calculateStrictEqual('1-0', 1);
     });
 
     test("multiplication and division", function() {
@@ -109,6 +111,7 @@ module("calculator");
     test("answer variable", function() {
         checkError('ans', /Invalid variable ans/, 'initialy answer variable not available');
         strictEqual(Calculator.calculate('2+ans', -4), -2, 'replace ans: 2+ans(-4) = -2');
+        strictEqual(Calculator.calculate('ans-2', 0), -2, 'replace ans: ans(0)-2 = -2');
     });
 
     test("secret feature", function() {

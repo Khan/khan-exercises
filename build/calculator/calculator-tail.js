@@ -28,7 +28,7 @@ var Calculator = (function(parser) {
                 return ang;
             };
             if (tree === "ans") {
-                if (ans) {
+                if (ans !== undefined) {
                     return ans;
                 } else {
                     throw new CalculatorError("Invalid variable ans");
@@ -42,7 +42,7 @@ var Calculator = (function(parser) {
             } else if (_.isArray(tree)) {
                 var fns = {
                     "+": function(a, b) { return a + b; },
-                    "-": function(a, b) { return b ? a - b : -a; },
+                    "-": function(a, b) { return b === undefined ? -a : a - b; },
                     "*": function(a, b) { return a * b; },
                     "/": function(a, b) { return a / b; },
                     "^": function(a, b) { return Math.pow(a, b); },
