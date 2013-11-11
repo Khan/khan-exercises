@@ -708,6 +708,7 @@ window.Khan = (function() {
                 var agent_contains = function(sub) {
                         return agent.indexOf(sub) !== -1;
                     },
+                    profile = typeof KA !== "undefined" && KA.getUserProfile(),
                     flags = {
                         ie8: agent_contains("MSIE 8.0"),
                         ie9: agent_contains("Trident/5.0"),
@@ -722,6 +723,7 @@ window.Khan = (function() {
                         lion: agent_contains("OS X 10_7") || agent_contains("OS X 10.7"),
                         scratchpad: (/scratch\s*pad/i).test(body),
                         ipad: agent_contains("iPad"),
+                        "500k": profile && profile.get("points") >= 500000,
                         undef: Exercises.guessLog == null
                     },
                     labels = [];
