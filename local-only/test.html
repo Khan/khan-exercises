@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>KAS Browser Tests</title>
+
+    <!-- Include QUnit -->
+    <link rel="stylesheet" href="../../test/qunit/qunit/qunit.css" type="text/css" media="screen">
+    <script src="../../test/qunit/qunit/qunit.js"></script>
+
+    <!-- Include Underscore -->
+    <script src="underscore.js"></script>
+
+    <!-- Include KAS -->
+    <script src="kas.js"></script>
+</head>
+<body>
+
+<h1 id="qunit-header">KAS Browser Tests</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+
+<div id="qunit-fixture">
+    <div id="solutionarea">
+    </div>
+    <div class="problem">
+    </div>
+</div>
+
+<script type="text/javascript">
+(function(KAS) {
+
+    var parse = function(input, options) {
+        return KAS.parse(input, options).expr;
+    };
+
+
+    QUnit.module("parsing");
+
+    var print = function(input, expected, options) {
+        var message = input + " parses as " + expected;
+        strictEqual(parse(input, options).print(), expected, message);
+    };
+
+    test("empty", function() {
+        print("", "");
+    })
+
+    test("positive and negative primitives", function() {
+        print("0", "0");
+        print("1.", "1");
+        print("3.14", "3.14");
+        print(".14", "0.14");
+        print("pi", "pi");
+        print("e", "e");
+        print("x", "x");
+        print("theta", "theta");
+
+        print("-0", "-1*0");
+        print("-1.", "-1");
+        print("-3.14", "-3.14");
+        print("-.14", "-0.14");
+        print("-pi", "-1*pi");
+        print("-e", "-1*e");
+        print("-theta", "-1*theta");
+    });
+
+    test("positive and negative rationals", function() {
+        print("1/2", "1/2");
+        print("-1/2", "-1/2");
+        print("1/-2", "-1/2");
+        print("-1/-2", "-1*-1/2");
+        print("42/42", "42/42");
+        print("42/1", "42/1");
+        print("0/42", "0/42");
+    });
+
+    test("parens", function() {
+        print("(0)", "0");
+        print("(ab)", "a*b");
+        print("(a/b)", "a*b^(-1)");
+        print("(a^b)", "a^(b)");
+        print("(ab)c", "a*b*c");
+        print("a(bc)", "a*b*c");
+        print("a+(b+c)", "a+b+c");
+        print("(a+b)+c", "a+b+c");
+        print("a(b+c)", "a*(b+c)");
+        print("(a+b)^c", "(a+b)^(c)");
+        print("(ab)^c", "(a*b)^(c)");
+    });
+
+    test("subscripts", function() {
+        print("a", "a");
+        print("a_0", "a_(0)");
+        print("a_i", "a_(i)");
+        print("a_n", "a_(n)");
+        print("a_n+1", "a_(n)+1");
+        print("a_(n+1)", "a_(n+1)");
+    });
+
+    test("negation", function() {
+        print("-x", "-1*x");
+        print("--x", "-1*-1*x");
+        print("---x", "-1*-1*-1*x");
+        print("-1", "-1");
+        print("--1", "-1*-1");
+        print("---1", "-1*-1*-1");
+        print("-3x", "-3*x");
+        print("--3x", "-1*-3*x");
+        print("-x*3", "x*-3");
+        print("--x*3", "-1*x*-3");
+        print("\u2212x", "-1*x");
+    });
+
+    test("addition and subtraction", function() {
+        print("a+b", "a+b");
+        print("a-b", "a+-1*b");
+        print("a--b", "a+-1*-1*b");
+        print("a---b", "a+-1*-1*-1*b");
+        print("2-4", "2+-4"); 
+        print("2--4", "2+-1*-4");
+        print("2---4", "2+-1*-1*-4");
+        print("2-x*4", "2+x*-4");
+        print("1-2+a-b+pi-e", "1+-2+a+-1*b+pi+-1*e");
+        print("x+1", "x+1");
+        print("x-1", "x+-1");
+        print("(x-1)", "x+-1");
+        print("a(x-1)", "a*(x+-1)");
+        print("a\u2212b", "a+-1*b");
+    });
+
+    test("multiplication", function() {
+        print("a*b", "a*b");
+        print("-a*b", "-1*a*b");
+        print("a*-b", "a*-1*b");
+        print("-ab", "-1*a*b");
+        print("-a*b", "-1*a*b");
+        print("-(ab)", "-1*a*b");
+        print("a\u00b7b", "a*b");
+        print("a\u00d7b", "a*b");
+    })
+
+    test("division", function() {
+        print("a/b", "a*b^(-1)");
+        print("a/bc", "a*b^(-1)*c");
+        print("(ab)/c", "a*b*c^(-1)");
+        print("ab/c", "a*b*c^(-1)");
+        print("ab/cd", "a*b*c^(-1)*d");
+    });
+
+    test("exponentiation", function() {
+        print("x^y", "x^(y)");
+        print("x^y^z", "x^(y^(z))");
+        print("x^yz", "x^(y)*z");
+        print("-x^2", "-1*x^(2)");
+        print("-(x^2)", "-1*x^(2)");
+        print("0-x^2", "0+-1*x^(2)");
+        print("x^-y", "x^(-1*y)");
+        print("x^(-y)", "x^(-1*y)");
+        print("x^-(y)", "x^(-1*y)");
+        print("x^-(-y)", "x^(-1*-1*y)");
+        print("x^--y", "x^(-1*-1*y)");
+        print("x^-yz", "x^(-1*y)*z");
+        print("x^-y^z", "x^(-1*y^(z))");
+        print("x**y", "x^(y)");
+    });
+
+    test("square root", function() {
+        print("sqrt(x)", "x^(1/2)");
+        print("sqrt(x)y", "x^(1/2)*y");
+        print("1/sqrt(x)", "x^(-1/2)");
+        print("1/sqrt(x)y", "x^(-1/2)*y");
+
+        print("sqrt(2)/2", "2^(1/2)*1/2");
+        print("sqrt(2)^2", "(2^(1/2))^(2)");
+    });
+
+    test("absolute value", function() {
+        print("abs(x)", "abs(x)");
+        print("abs(abs(x))", "abs(abs(x))");
+        print("abs(x)abs(y)", "abs(x)*abs(y)");
+
+        print("|x|", "abs(x)");
+        print("||x||", "abs(abs(x))");
+        // TODO(alex): fix the below so it doesn't require an *
+        // may require own lexer/preprocessor
+        print("|x|*|y|", "abs(x)*abs(y)");
+    });
+
+    test("logarithms", function() {
+        print("lnx", "ln(x)");
+        print("ln x", "ln(x)");
+        print("ln x^y", "ln(x^(y))");
+        print("ln xy", "ln(x*y)");
+        print("ln x/y", "ln(x*y^(-1))");
+        print("ln x+y", "ln(x)+y");
+        print("ln x-y", "ln(x)+-1*y");
+
+        print("ln xyz", "ln(x*y*z)");
+        print("ln xy/z", "ln(x*y*z^(-1))");
+        print("ln xy/z+1", "ln(x*y*z^(-1))+1");
+
+        print("ln x(y)", "ln(x)*y");
+
+        print("logx", "log_(10) (x)");
+        print("log x", "log_(10) (x)");
+        print("log_2x", "log_(2) (x)");
+        print("log _ 2 x", "log_(2) (x)");
+        print("log_bx_0", "log_(b) (x_(0))");
+        print("log_x_0b", "log_(x_(0)) (b)");
+
+        print("log_2.5x", "log_(2.5) (x)");
+
+        print("ln ln x", "ln(ln(x))");
+        print("ln x ln y", "ln(x)*ln(y)");
+        print("ln x/ln y", "ln(x)*ln(y)^(-1)");
+    });
+
+    test("trig functions", function() {
+        var functions = [
+            "sin", "cos", "tan",
+            "csc", "sec", "cot"
+        ];
+
+        var inverses = _.map(functions, function(func) {
+            return "arc" + func;
+        });
+
+        _.each(functions.concat(inverses), function(func) {
+            print(func + "x", func + "(x)");
+        });
+
+        print("sin^-1 x", "arcsin(x)");
+
+        print("(sinx)^2", "sin(x)^(2)");
+        print("sin^2x", "sin(x)^(2)");
+        print("sin^2(x)", "sin(x)^(2)");
+        print("sin^2 x", "sin(x)^(2)");
+        print("(sin^2x)", "sin(x)^(2)");
+
+        print("sin xy", "sin(x*y)");
+        print("sin x(y)", "sin(x)*y");
+
+        print("sin sin x", "sin(sin(x))");
+        print("sin x sin y", "sin(x)*sin(y)");
+        print("sin x/sin y", "sin(x)*sin(y)^(-1)");
+
+        print("1/(sinx)^2", "sin(x)^(-2)");
+        print("1/sin^2x", "sin(x)^(-2)");
+        print("1/sin^2(x)", "sin(x)^(-2)");
+        print("1/(sin^2x)", "sin(x)^(-2)");
+
+        print("sin(theta)", "sin(theta)");
+    });
+
+    test("formulas", function() {
+        print("mx+b", "m*x+b");
+        print("v^2/r", "v^(2)*r^(-1)");
+        print("4/3pir^3", "4/3*pi*r^(3)");
+        print("4/3\u03C0r^3", "4/3*pi*r^(3)");
+        print("sin^2 x + cos^2 x = 1", "sin(x)^(2)+cos(x)^(2)=1");
+    });
+
+    test("factors", function() {
+        print("(6x+1)(x-1)", "(6*x+1)*(x+-1)");
+    });
+
+    test("whitespace", function() {
+        print("12/3", "12/3");
+        print("12 /3", "12/3");
+        print("12/ 3", "12/3");
+        print("xy", "x*y");
+        print("x y", "x*y");
+    });
+
+    test("equations", function() {
+        print("y=x", "y=x");
+        print("y=x^2", "y=x^(2)");
+        print("1<2", "1<2");
+        print("1<=2", "1<=2");
+        print("2>1", "2>1");
+        print("2>=1", "2>=1");
+        print("1<>2", "1<>2");
+        print("1=/=2", "1<>2");
+        print("1/=2", "1<>2");
+        print("1!=2", "1<>2");
+        print("a\u2260b", "a<>b");
+        print("a\u2264b", "a<=b");
+        print("a\u2265b", "a>=b");
+    });
+
+    test("function variables", function() {
+        print("f(x)", "f*x");
+        print("f(x)", "f(x)", {functions: ["f"]});
+        print("f(x+y)", "f(x+y)", {functions: ["f"]});
+        print("f(x)g(x)", "f(x)*g(x)", {functions: ["f", "g"]});
+        print("f(g(h(x)))", "f(g(h(x)))", {functions: ["f", "g", "h"]});
+    });
+
+    var repr = function(input, expected, options) {
+        var message = input + " parses as " + expected;
+        strictEqual(parse(input, options).repr(), expected, message);
+    };
+
+    test("structure", function() {
+        repr("", "Add()");
+        repr("1.", "1");
+        repr("1/2", "1/2");
+        repr("a+b", "Add(Var(a),Var(b))");
+        repr("a+b+c", "Add(Var(a),Var(b),Var(c))");
+        repr("a-b", "Add(Var(a),Mul(-1,Var(b)))");
+        repr("a-b+c", "Add(Var(a),Mul(-1,Var(b)),Var(c))");
+        repr("abc", "Mul(Var(a),Var(b),Var(c))");
+        repr("a/bc", "Mul(Var(a),Pow(Var(b),-1),Var(c))");
+        repr("a*(b+c)", "Mul(Var(a),Add(Var(b),Var(c)))");
+        repr("x--y", "Add(Var(x),Mul(-1,-1,Var(y)))");
+        repr("--y", "Mul(-1,-1,Var(y))");
+        repr("e", "Const(e)");
+        repr("2e", "Mul(2,Const(e))");
+        repr("2e^x", "Mul(2,Pow(Const(e),Var(x)))");
+        repr("cdef", "Mul(Var(c),Var(d),Const(e),Var(f))");
+        repr("pi", "Const(pi)");
+        repr("pi^2", "Pow(Const(pi),2)")
+        repr("pir", "Mul(Const(pi),Var(r))");
+        repr("pir^2", "Mul(Const(pi),Pow(Var(r),2))");
+        repr("y=x^2", "Eq(Var(y),=,Pow(Var(x),2))");
+        repr("log_2x", "Log(2,Var(x))");
+        repr("f(x+y)", "Mul(Var(f),Add(Var(x),Var(y)))");
+        repr("f(x+y)", "Func(f,Add(Var(x),Var(y)))", {functions: ["f"]});
+        repr("sin(theta)", "Trig(sin,Var(theta))");
+
+        // verify that negative signs get folded into numbers
+        repr("-x*3", "Mul(Var(x),-3)");
+        repr("sin -x*3", "Trig(sin,Mul(Var(x),-3))");
+    });
+
+
+    QUnit.module("rendering");
+
+    var tex = function(input, expected, options) {
+        var message = input + " renders as " + expected;
+        strictEqual(parse(input, options).tex(), expected, message);
+    };
+
+    test("positive and negative primitives", function() {
+        tex("0", "0");
+        tex("-1", "-1");
+        tex("--1", "--1");
+        tex("-2", "-2");
+        tex("--2", "--2");
+        tex("x", "x");
+        tex("theta", "\\theta");
+        tex("1/2", "\\frac{1}{2}");
+        tex("-1/2", "-\\frac{1}{2}");
+        tex("1/-2", "-\\frac{1}{2}");
+        tex("-1/-2", "--\\frac{1}{2}");
+    });
+
+    test("addition", function() {
+        tex("1-2", "1-2");
+        tex("a+b", "a+b");
+        tex("a-b", "a-b");
+        tex("a-1b", "a-1b");
+        tex("a+-b", "a+-b");
+        tex("a+-1b", "a+-1b");
+    });
+
+    test("multiplication", function() {
+        tex("ab", "ab");
+        tex("a*b", "ab");
+        tex("a/b", "\\frac{a}{b}");
+        tex("a/bc/d", "\\frac{ac}{bd}");
+
+        tex("1/(x+y)", "\\frac{1}{x+y}");
+        tex("2/(x+y)", "\\frac{2}{x+y}");
+        tex("(z+2)/(x+y)", "\\frac{z+2}{x+y}");
+    });
+
+    test("rational expressons", function() {
+        tex("x+1/2", "x+\\frac{1}{2}");
+        tex("x-1/2", "x-\\frac{1}{2}");
+
+        tex("1/2x", "\\frac{1}{2}x");
+        tex("1/2x/y", "\\frac{\\frac{1}{2}x}{y}");
+        tex("-1/2x", "-\\frac{1}{2}x");
+        tex("a-1/2x", "a-\\frac{1}{2}x");
+
+        // TODO(alex): Fix this!
+        // tex("1/(2x)", "\\frac{1}{2x}");
+
+        tex("x/2", "\\frac{x}{2}");
+        tex("1x/2", "\\frac{1x}{2}");
+        tex("-x/2", "-\\frac{x}{2}");
+        tex("a-x/2", "a-\\frac{x}{2}");
+
+        tex("1*-2", "1 \\cdot -2");
+        tex("1*-2*3", "1 \\cdot -2 \\cdot 3");
+        tex("1*-2*3/4", "1 \\cdot -2 \\cdot \\frac{3}{4}");
+        tex("1*-2*3/4/5", "\\frac{1 \\cdot -2 \\cdot \\frac{3}{4}}{5}");
+    });
+
+    test("exponentiation", function() {
+        tex("x^y", "x^{y}");
+        tex("xy^z", "xy^{z}");
+        tex("(xy)^z", "(xy)^{z}");
+        tex("(x+y)^z", "(x+y)^{z}");
+        tex("x^(yz)", "x^{yz}");
+        tex("x^-(yz)", "x^{-yz}");
+        tex("x^(y+z)", "x^{y+z}");
+        tex("x^-(y+z)", "x^{-(y+z)}");
+        tex("(x^y)^z", "(x^{y})^{z}");
+        tex("pir^2", "\\pi r^{2}");
+    });
+
+    test("square root", function() {
+        tex("sqrt(x)", "\\sqrt{x}");
+        tex("sqrt(x)y", "\\sqrt{x}y");
+        tex("1/sqrt(x)", "\\frac{1}{\\sqrt{x}}");
+        tex("1/sqrt(x)y", "\\frac{y}{\\sqrt{x}}");
+
+        tex("sqrt(2)/2", "\\frac{\\sqrt{2}}{2}");
+        tex("sqrt(2)^2", "(\\sqrt{2})^{2}");
+    });
+
+    test("absolute value", function() {
+        tex("|x|", "\\left|x\\right|");
+        tex("|x|y", "\\left|x\\right|y");
+    })
+
+    test("logarithms", function() {
+        tex("lnx", "\\ln(x)");
+        tex("logx", "\\log_{10}(x)");
+        tex("lnx^y", "\\ln(x^{y})");
+        tex("logx^y", "\\log_{10}(x^{y})");
+        tex("(lnx)^y", "[\\ln(x)]^{y}");
+        tex("(logx)^y", "[\\log_{10}(x)]^{y}");
+    });
+
+    test("trig functions", function() {
+        tex("sinx", "\\sin(x)");
+
+        tex("arcsin x", "\\arcsin(x)");
+        tex("sin^-1 x", "\\arcsin(x)");
+
+        tex("(sinx)^2", "\\sin^{2}(x)");
+        tex("sin^2 x", "\\sin^{2}(x)");
+
+        tex("1/(sinx)^2", "\\frac{1}{\\sin^{2}(x)}");
+        tex("1/sin^2x", "\\frac{1}{\\sin^{2}(x)}");
+
+        tex("sin^2 x + cos^2 x = 1", "\\sin^{2}(x)+\\cos^{2}(x) = 1");
+    });
+
+    test("multiplication with numbers", function() {
+        tex("4*10", "4 \\cdot 10");
+        tex("10^5", "10^{5}");
+        tex("4*10^5", "4 \\cdot 10^{5}");
+        tex("10^5x", "10^{5}x");
+        tex("4*10^5x", "4 \\cdot 10^{5}x");
+        tex("x*(10+4)^5", "x(10+4)^{5}");
+
+        tex("-1*2", "-1 \\cdot 2");
+        tex("1*-2", "1 \\cdot -2");
+        tex("-1*-2", "-1 \\cdot -2");
+        tex("-1*2*3", "-1 \\cdot 2 \\cdot 3");
+    });
+
+    test("inverses and division", function() {
+        tex("x^-1", "x^{-1}");
+        tex("2x^-1", "2x^{-1}");
+        tex("1/x", "\\frac{1}{x}");
+        tex("-1/x", "\\frac{-1}{x}");
+        tex("2/x", "\\frac{2}{x}");
+        tex("1/x^2", "\\frac{1}{x^{2}}");
+        tex("2/x^2", "\\frac{2}{x^{2}}");
+        tex("1/1/x", "\\frac{\\frac{1}{1}}{x}");
+        tex("1/(1/x)", "\\frac{1}{\\frac{1}{x}}");
+        tex("1/x/x", "\\frac{1}{xx}");
+        tex("1/(x/x)", "\\frac{1}{\\frac{x}{x}}");
+        tex("-1/1/x", "\\frac{-\\frac{1}{1}}{x}");
+        tex("-1/(1/x)", "\\frac{-1}{\\frac{1}{x}}");
+        tex("-1/x/x", "\\frac{-1}{xx}");
+        tex("-1/(x/x)", "\\frac{-1}{\\frac{x}{x}}");
+    });
+
+    test("distributive property", function() {
+        tex("ab+c", "ab+c");
+        tex("ab+ac", "ab+ac");
+        tex("a(b+c)", "a(b+c)");
+    });
+
+    test("numerical exponents", function() {
+        tex("9^4", "9^{4}");
+        tex("-9^4", "-9^{4}");
+        tex("1-9^4", "1-9^{4}");
+    });
+
+    test("negating a Mul", function() {
+        tex("-3x", "-3x");
+        tex("--3x", "--3x");
+        tex("-x*3", "-3x");
+        tex("--x*3", "--3x");
+    });
+
+    test("equations", function() {
+        tex("y=x", "y = x");
+        tex("y<x", "y < x");
+        tex("y>x", "y > x");
+        tex("y<>x", "y \\ne x");
+        tex("y=/=x", "y \\ne x");
+        tex("y<=x", "y \\le x");
+        tex("y>=x", "y \\ge x");
+    });
+
+    test("function variables", function() {
+        tex("f(x)", "fx");
+        tex("f(x)", "f(x)", {functions: ["f"]});
+        tex("f(sin x)", "f(\\sin(x))", {functions: ["f"]});
+        tex("sin f(x)", "\\sin(f(x))", {functions: ["f"]});
+    });
+
+    var texopt = function(input, expected) {
+        var options = {
+            display: false,
+            dynamic: false,
+            times: false
+        };
+        var optlist = _.toArray(arguments).slice(2);
+        _.each(optlist, function(opt) { options[opt] = true; });
+
+        var message = input + " renders with options as " + expected;
+        strictEqual(parse(input).asTex(options), expected, message);
+    };
+
+    test("options", function() {
+        texopt("x", "x");
+        texopt("x", "\\displaystyle x", "display");
+        texopt("a(b+c(d+e))", "a(b+c(d+e))");
+        texopt("a(b+c(d+e))", "a\\left(b+c\\left(d+e\\right)\\right)", "dynamic");
+        texopt("2*2", "2 \\cdot 2");
+        texopt("2*2", "2 \\times 2", "times");
+
+        texopt("1*2(3+4)", "\\displaystyle 1 \\times 2\\left(3+4\\right)",
+            "display", "dynamic", "times");
+    });
+
+
+    QUnit.module("evaluating");
+
+    var val = function(input, expected, vars) {
+        if (vars === undefined) vars = {};
+        var message = input + " evaluates as " + expected;
+        strictEqual(parse(input).eval(vars), expected, message);
+    };
+
+    test("empty", function() {
+        val("", 0);
+    });
+
+    test("simple expressions", function() {
+        val("1+2+3+4", 10);
+        val("1+2-3+4", 4);
+        val("1*2*3*4", 24);
+        val("1*2/3*4", 2 + 2/3);
+        val("4^3^2^1", 262144);
+        val("-1", -1);
+        val("--1", 1);
+        val("---1", -1);
+        val("2^-2", .25);
+        val("8^(1/3)", 2);
+        val("0^0", 1);
+        val(".25*4", 1);
+        val("ln e", 1);
+        val("log 10", 1);
+        val("log_2 2", 1);
+    });
+
+    test("variable expressions", function() {
+        val("x", 3, {x: 3});
+        val("x^2", 9, {x: 3});
+        val("(x^2+y^2)^.5", 5, {x: 3, y: 4});
+        val("log x_0", 1, {"x_(0)": 10});
+    });
+
+
+    QUnit.module("checking form");
+
+    var norm = function(input, reference) {
+        var actual = parse(input).normalize().print();
+        var expected = parse(reference).normalize().print();
+        var message = input + " is the same as " + reference;
+        strictEqual(actual, expected, message);
+    };
+
+    test("normalize", function() {
+        norm("ab", "ba");
+        norm("(ab)c", "(cb)a");
+
+        var forms = [
+            "(6x+1)(x-1)",
+            "(1+6x)(x-1)",
+            "(6x+1)(-1+x)",
+            "(1+6x)(-1+x)",
+            "(x-1)(6x+1)",
+            "(x-1)(1+6x)",
+            "(-1+x)(6x+1)",
+            "(-1+x)(1+6x)"
+        ];
+
+        _.each(forms, function(form) {
+            norm(forms[0], form);
+        });
+    });
+
+    var stripnorm = function(input, reference) {
+        var actual = parse(input).strip().normalize().print();
+        var expected = parse(reference).strip().normalize().print();
+        var message = input + " is the same as " + reference;
+        strictEqual(actual, expected, message);
+    };
+
+    test("strip then normalize", function() {
+        stripnorm("ab", "ba");
+        stripnorm("(ab)c", "(cb)a");
+
+        var forms = [
+            "(6x+1)(x-1)",
+            "(1+6x)(x-1)",
+            "(6x+1)(-1+x)",
+            "(1+6x)(-1+x)",
+            "(-6x-1)(-x+1)",
+            "(-1-6x)(-x+1)",
+            "(-6x-1)(1-x)",
+            "(-1-6x)(1-x)",
+            "(x-1)(6x+1)",
+            "(x-1)(1+6x)",
+            "(-1+x)(6x+1)",
+            "(-1+x)(1+6x)",
+            "(-x+1)(-6x-1)",
+            "(-x+1)(-1-6x)",
+            "(1-x)(-6x-1)",
+            "(1-x)(-1-6x)",
+            "-(6x+1)(1-x)",
+            "-(-6x-1)(x-1)"
+        ];
+
+        _.each(forms, function(form) {
+            stripnorm(forms[0], form);
+        });
+    })
+
+
+    QUnit.module("equation to expression");
+
+    var asExpr = function(input, reference) {
+        var actual = parse(input).asExpr().simplify().normalize().print();
+        var expected = parse(reference).normalize().print();
+        var message = input + " as an expression is " + reference;
+        strictEqual(actual, expected, message);
+    };
+
+    test("", function() {
+        var forms = [
+            "y=2x-5",
+            "-2x+5=-y",
+            "2x-5!=y",
+            "2x-y!=5",
+            "(y+5)/2=x",
+            "(y+5)/x=2",
+            "1/2(y+5)=x",
+            ".5(y+5)=x",
+            "y-3=2(x-4)",
+            "2y=4x-10",
+            "yz=2xz-5z"
+        ];
+
+        _.each(forms, function(form) {
+            if (form.indexOf("!=") !== -1) {
+                asExpr(form, "-y+2x-5");
+            } else {
+                asExpr(form, "y-2x+5");
+            }
+        });
+
+        var forms2 = [
+            "1/3p-3=114",
+            "1/3p=117",
+            "p=351",
+            "p-351=0",
+        ];
+
+        _.each(forms2, function(form) {
+            asExpr(form, "p-351");
+        });
+    });
+
+
+    QUnit.module("comparing");
+
+    var compare = function(options, input, reference, expectedResult) {
+        var actual = parse(input, {functions: ["f", "g", "h"]});
+        var expected = parse(reference, {functions: ["f", "g", "h"]});
+        var result = KAS.compare(actual, expected, options);
+        if (expectedResult === undefined) expectedResult = true;
+        var message = input + " is " + (expectedResult ? "" : "NOT ") + "the same as " + reference;
+        ok(result.equal === expectedResult, message);
+    };
+
+    test("evaluate only", function() {
+        var comp = _.partial(compare, {form: false});
+
+        comp("2+2", "4");
+        comp("a(b+c)", "ab+ac");
+        comp("a/b", "a*b^-1");
+        comp("(1-x)(-1-6x)", "(6x+1)(x-1)");
+        comp("y=x", "x", false);
+        comp("x", "y=x", false);
+        comp("y=x", "y=x");
+        comp("y=x", "x=y");
+        comp("y=x", "-y=-x");
+        comp("y=x", "-x=-y");
+        comp("y=x", "y=-x", false);
+        comp("y=x", "-y=x", false);
+        comp("y=x", "y=/=x", false);
+        comp("y<x", "x>y");
+        comp("y<=x", "x>=y");
+        comp("y>x", "x<y");
+        comp("y>=x", "x<=y");
+        comp("a+b<c-d", "a+b-c+d<0");
+
+        comp("y=mx+b", "-b-mx=-y");
+        comp("y=mx+b", "y-b=mx");
+
+        // all of these normalize to the same expression, set to zero
+        var forms = [
+            "y=2x-5",
+            "2x-5=y",
+            "2x-y=5",
+            "(y+5)/2=x",
+            "(y+5)/x=2",
+            "1/2(y+5)=x",
+            ".5(y+5)=x",
+            "y-3=2(x-4)",
+            "2y=4x-10",
+            "yz=2xz-5z"
+        ];
+
+        _.each(forms, function(form) {
+            comp(forms[0], form);
+        });
+
+        comp("3y=2x-15", "3/2(y+5)=x");
+
+        var forms2 = [
+            "1/3p-3=114",
+            "1/3p=117",
+            "p=351",
+            "p-351=0",
+        ];
+
+        _.each(forms2, function(form) {
+            comp(forms2[0], form);
+        });
+
+        comp("x", "xy/y");
+        comp("e^x", "e^x");
+
+        var forms3 = [
+            "x+x+x+6=12",
+            "x+2x+6=12",
+            "3x+6=12",
+            "x+2x=6",
+            "2x=6-x",
+            "3x=6",
+            "x=2"
+        ];
+
+        _.each(forms3, function(form) {
+            comp(forms3[0], form);
+        });
+
+        comp("100/55.6=t", "t=100/55.6");
+        comp("100/1.6^2=t", "t=100/1.6^2");
+        comp("7/3x+x=15", "(2+1/3)x+x=15");
+
+        // TODO(alex): make sure that I have both positive and negative
+        // test cases for all functionality
+        comp("6.12*10^-2", "6.12*10^-2");
+        comp("6.12*10^-2", "6.12*10^-6", false);
+
+        comp("5.6=x+0.4+5.2", "5.6=x+0.4+5.2");
+    });
+
+    test("simplify can't yet handle these", function() {
+        var comp = _.partial(compare, {form: false});
+
+        comp("sin(x + 2pi)", "sin(x)");
+        comp("y = sin(x + 2pi)", "y = sin(x)");
+        comp("sin^2(x)+cos^2(x)", "x/x");
+        comp("y = sin^2(x)+cos^2(x)", "y = x/x");
+    });
+
+    test("partially evaluating functions", function() {
+        var comp = _.partial(compare, {form: false});
+
+        comp("f(x)", "f(x)");
+        comp("f(x)", "g(x)", false);
+        comp("f(g(x))", "f(g(x))");
+        comp("sin(f(3x-x))/cos(f(x+x))", "tan(f(2x))");
+        comp("f(x) = sin(x + 2pi)", "f(x) = sin(x)");
+        comp("f(x) = sin^2(x)+cos^2(x)", "f(x) = 1");
+        comp("f(x) = ln|x|+c", "f(x)-ln|x|-c = 0");
+    });
+
+    test("evaluating and comparing form", function() {
+        var comp = _.partial(compare, {form: true});
+
+        comp("ab", "ba");
+        comp("(ab)c", "(cb)a");
+
+        var forms = [
+            "(6x+1)(x-1)",
+            "(1+6x)(x-1)",
+            "(6x+1)(-1+x)",
+            "(1+6x)(-1+x)",
+            "(-6x-1)(-x+1)",
+            "(-1-6x)(-x+1)",
+            "(-6x-1)(1-x)",
+            "(-1-6x)(1-x)",
+            "(x-1)(6x+1)",
+            "(x-1)(1+6x)",
+            "(-1+x)(6x+1)",
+            "(-1+x)(1+6x)",
+            "(-x+1)(-6x-1)",
+            "(-x+1)(-1-6x)",
+            "(1-x)(-6x-1)",
+            "(1-x)(-1-6x)",
+            "-(6x+1)(1-x)",
+            "-(-6x-1)(x-1)"
+        ];
+
+        _.each(forms, function(form) {
+            comp(forms[0], form);
+        });
+
+        comp("(6x+1)(x+1)", "(6x+1)(x-1)", false);
+        comp("a-b-c", "c+b+a", false);
+
+        comp("(6x+1)(x+1)", "(6x+1)(x-1)", false);
+        comp("a-b-c", "c+b+a", false);
+        comp("mx+b", "b+mx");
+
+        comp("y=mx+b", "-b-mx=-y");
+        comp("y=mx+b", "y-b=mx", false);
+
+        comp("y-3=2(x-4)", "y=2x-5", false);
+        comp("y-3=2(x-4)", "2x-y=5", false);
+        comp("y=2x-5", "2x-y=5", false);
+    });
+
+
+    QUnit.module("transforming");
+
+    var factor = function(input, reference) {
+        var actual = parse(input).factor().normalize().repr();
+        var expected = parse(reference).normalize().repr();
+        var message = input + " factors as " + reference;
+        strictEqual(actual, expected, message);
+    };
+
+    test("factoring Adds", function() {
+        factor("2+2", "2(1+1)");
+        factor("-2-2", "-2(1+1)");
+        factor("2x+2", "2(x+1)");
+        factor("x^3+x^2", "x^2(x+1)");
+        factor("2x+xy", "x(2+y)");
+        factor("2xy+xy^2", "xy(2+y)");
+    });
+
+    test("factoring Muls", function() {
+        factor("(2x+2)/(x+1)", "2 (x+1)/(x+1)");
+        factor("(x+1)/(2x+2)", "2^-1 (x+1)/(x+1)");
+    });
+
+    test("factoring Pows", function() {
+        factor("x^y+x^(2y)", "x^y(1+x^y)");
+        factor("x^y+x^z", "x^y+x^z");
+    });
+
+    var expand = function(input, reference) {
+        var actual = parse(input).expand().normalize().print();
+        var expected = parse(reference).normalize().print();
+        var message = input + " expands as " + reference;
+        strictEqual(actual, expected, message);
+    };
+
+    var expandrepr = function(input, expected) {
+        var actual = parse(input).expand().repr();
+        var message = input + " expands as " + expected;
+        strictEqual(actual, expected, message);
+    };
+
+    var expandtex = function(input, expected) {
+        var actual = parse(input).expand().tex();
+        var message = input + " expands and is rendered as " + expected;
+        strictEqual(actual, expected, message);
+    };
+
+    test("distribute over multiplication", function() {
+        expand("a(b+c)", "ab+ac");
+        expandtex("a(b+c)", "ab+ac");
+        expandrepr("a(b+c)", "Add(Mul(Var(a),Var(b)),Mul(Var(a),Var(c)))");
+
+        expand("a(b-c)", "ab-ac");
+        expandtex("a(b-c)", "ab-ac");
+        expandrepr("a(b-c)", "Add(Mul(Var(a),Var(b)),Mul(Var(a),-1,Var(c)))");
+
+        expand("a(b+c)d", "abd+acd");
+        expandrepr("a(b+c)d", "Add(Mul(Var(a),Var(d),Var(b)),Mul(Var(a),Var(d),Var(c)))");
+
+        expand("(a+b)(c+d)", "ac+ad+bc+bd");
+        expand("(a+b)(c+d)ef", "acef+adef+bcef+bdef");
+        expand("(a+b)c^d", "ac^d+bc^d");
+        expand("ab(c+d)e^f", "abce^f+abde^f");
+
+        expand("(a+b(c+d))e", "ae+bce+bde");
+        expandrepr("(a+b(c+d))e", "Add(Mul(Const(e),Var(a)),Mul(Const(e),Var(b),Var(c)),Mul(Const(e),Var(b),Var(d)))");
+    });
+
+    test("distribute over rational expressions", function() {
+        expand("(a+b)/(c+d)", "(a+b)/(c+d)");
+        expand("(a+b)/(c+d)*a", "(aa+ab)/(c+d)");
+        expand("(a+b)/(c+d)*1/e", "(a+b)/(ce+de)");
+        expand("(a+b)/(c+d)*a/e", "(aa+ab)/(ce+de)");
+    });
+
+    test("expand exponentiation", function() {
+        expand("(ab)^2", "a^2 b^2");
+        expand("2*(ab)^2", "2 a^2 b^2");
+        expand("(a+b)^2", "a^2+2ab+b^2");
+
+        expand("(ab)^-2", "a^-2 b^-2");
+        expand("2*(ab)^-2", "2 a^-2 b^-2");
+        expand("(a+b)^-2", "(a^2+2ab+b^2)^-1");
+    });
+
+    test("expand absolute value", function() {
+        expand("|a+b|", "|a+b|");
+        expand("|ab|", "|a|*|b|");
+    });
+
+    test("expand logarithms", function() {
+        expand("ln(xy)", "lnx+lny");
+        expand("log_b(x)", "lnx/lnb");
+        expand("log_b(xy)", "lnx/lnb+lny/lnb");
+        expand("ln(xy/z)", "lnx+lny-lnz");
+
+        expand("ln(x^y)", "ylnx");
+        expand("log_b(x^y)", "ylnx/lnb");
+        expand("ln(x^y^z)", "y^zlnx");
+
+        expand("ln(x^y/z)", "ylnx-lnz");
+
+        // ln((xy)^z) -> ln(x^z*y^z) -> z*ln(x)+z*ln(y)
+        expand("ln((xy)^z)", "zlnx+zlny");
+
+        expand("log_b(x)log_x(y)", "ln(x)/ln(b)*ln(y)/ln(x)");
+        expand("log_b(x)log_x(y)log_y(z)", "ln(x)/ln(b)*ln(y)/ln(x)*ln(z)/ln(y)");
+    });
+
+    test("expand trig functions", function() {
+        expand("sin(x)", "sin(x)");
+        expand("cos(x)", "cos(x)");
+        expand("tan(x)", "sin(x)/cos(x)");
+        expand("csc(x)", "1/sin(x)");
+        expand("sec(x)", "1/cos(x)");
+        expand("cot(x)", "cos(x)/sin(x)");
+    });
+
+    var collect = function(input, reference) {
+        var actual = parse(input).collect().normalize().print();
+        var expected = parse(reference).normalize().print();
+        var message = input + " collects as " + reference;
+        strictEqual(actual, expected, message);
+    };
+    
+    var collectrepr = function(input, expected) {
+        var actual = parse(input).collect().repr();
+        var message = input + " collects as " + expected;
+        strictEqual(actual, expected, message);
+    };
+
+    var collecttex = function(input, expected) {
+        var actual = parse(input).collect().tex();
+        var message = input + " collects and is rendered as " + expected;
+        strictEqual(actual, expected, message);
+    };
+
+    test("collect over addition", function() {
+        collect("", "0");
+        collect("0", "0");
+        collect("1+3", "4");
+        collect("x+3", "3+x");
+        collect("x+3x", "4x");
+        collectrepr("x+3x", "Mul(4,Var(x))");
+        collect("a+a+a", "3a");
+        collectrepr("a+a+a", "Mul(3,Var(a))");
+        collect("a+b+b+c", "a+2b+c");
+        collectrepr("a+b+b+c", "Add(Var(a),Mul(2,Var(b)),Var(c))");
+        collect("4x^2-x^2+8x+7-5x-4", "3+3x+3x^2");
+    });
+
+    test("collect over multiplication", function() {
+        collect("5*7", "35");
+        collect("5*7x+20x", "55x");
+        collect("3x*xy+2yx^2", "5x^2y");
+        collect("4/6", "2/3");
+        collect("1/1", "1");
+        collect("1/2+1/3", "5/6");
+        collect("1/2+1/3+1", "11/6");
+        collect("1.2+1/2", "1.7");
+        collect("1/2-1/2", "0");
+        collect("1/2-.5", "0");
+    });
+
+    test("collect over exponentiation", function() {
+        collect("x^0", "1");
+        collect("x^1", "x");
+        collect("x^(log_x y)", "y");
+        collect("(x^y)^z", "x^(yz)");
+        collect("0^0", "1");
+        collect("4^1.5", "8");
+        collect("(2/3)^2", "4/9");
+        collect("(2/3)^-2", "9/4");
+    });
+
+    test("collect over roots", function() {
+        collect("sqrt(2)^2", "2");
+        collect("(2^(1/3))^3", "2");
+    });
+
+    test("collect over absolute value", function() {
+        collect("|x|", "|x|");
+        collect("|2|", "2");
+        collect("|0|", "0");
+        collect("|-2|", "2");
+        collect("|pi|", "pi");
+        collect("|2^x|", "2^x");
+        collect("|x^2|", "x^2");
+        collect("|-2pix^2y^3|", "2pix^2*|y^3|");
+    });
+
+    test("collect over logarithms", function() {
+        collect("log(1)", "0");
+        collect("log_x(x)", "1");
+        collect("log_b(b^x)", "x");
+
+        collect("b^(2*y*log_b x)", "x^(2y)");
+        collect("b^(log_b a) b^(-log_b c)", "a/c");
+
+        collect("ln(x)/ln(b)", "log_b(x)");
+        collect("ln(x)/ln(b)*ln(y)/ln(x)", "log_b(y)");
+        collect("ln(x)/ln(b)*ln(y)/ln(x)*ln(z)/ln(y)", "log_b(z)");
+    });
+
+    test("collect trig functions", function() {
+        collect("sin(x)cos(x)", "sin(x)cos(x)");
+        collect("sin(x)/cos(x)", "tan(x)");
+
+        collect("sin^2(x)/cos^2(x)", "tan^2(x)");
+        collect("cos^2(x)/sin^2(x)", "cot^2(x)");
+
+        collect("sin^-2(x)/cos^-2(x)", "cot^2(x)");
+        collect("cos^-2(x)/sin^-2(x)", "tan^2(x)");
+
+        collect("sin^--2(x)/cos^--2(x)", "tan^2(x)");
+        collect("cos^--2(x)/sin^--2(x)", "cot^2(x)");
+
+        collect("sin^2(x)/cos(x)", "sin(x)tan(x)");
+        collect("sin(x)/cos^2(x)", "sec(x)tan(x)");
+
+        collect("sin(-x)", "-sin(x)");
+        collect("cos(-x)", "cos(x)");
+        collect("tan(-x)", "-tan(x)");
+        collect("csc(-x)", "-csc(x)");
+        collect("sec(-x)", "sec(x)");
+        collect("cot(-x)", "-cot(x)");
+
+        collect("sin(--x)", "sin(x)");
+        collect("arcsin(-x)", "arcsin(-x)");
+
+        collect("sin(-x)cos(-x)", "-sin(x)cos(x)");
+        collect("sin(-x)/cos(-x)", "-tan(x)");
+    });
+
+    test("collect then output tex", function() {
+        // user-friendly tex representation is not guaranteed after collect()
+        collect("-x", "-1x");
+        collecttex("-x", "-x");
+        collect("a-b", "a+-1b");
+        collecttex("a-b", "a+-b");
+        collect("a/b", "ab^-1");
+        collecttex("a/b", "ab^{-1}");
+    });
+
+    test("collect over an equation", function() {
+        // collect does not try to collect across both sides of an equation
+        collect("y+1-1=x*x", "y=x^(2)");
+        collect("1+y=1+x^2", "1+y=1+x^(2)");
+    });
+
+    var simplify = function(input, reference) {
+        var actual = parse(input).simplify().normalize().print();
+        var expected = parse(reference).normalize().print();
+        var message = input + " simplifies as " + reference;
+        strictEqual(actual, expected, message);
+    };
+
+    test("simplify", function() {
+        simplify("(a+b)^2", "a^2+2ab+b^2");
+        simplify("(a+b)(a+b)", "a^2+2ab+b^2");
+        simplify("(ab)^2", "a^2 b^2");
+        simplify("(3x)^2", "9x^2");
+        simplify("(2sqrt(2))^4", "64");
+
+        // from "Simplifying expressions with exponents"
+        simplify("((nx^5)^5)", "n^5 x^25");
+        simplify("((nx^5)^5)/2", "1/2 n^5 x^25");
+        simplify("((nx^5)^5)/(n^-2x^2)^-3", "n^-1 x^31");
+
+        simplify("1/(xya)+1/(xyb)", "(1/a+1/b) 1/x 1/y");
+    });
+
+    var isSimplified = function(input, expectedResult, options) {
+        if (expectedResult === undefined) expectedResult = true;
+        var message = input + (expectedResult ? " is " : " is NOT ") + "simplified";
+        ok(parse(input, options).isSimplified() === expectedResult, message);
+    }
+
+    test("isSimplified (addition/subtraction)", function() {
+        isSimplified("a+b+c");
+        isSimplified("a-b-c");
+        isSimplified("a+b+c+c", false);
+        isSimplified("a-b-c-d-d+d", false);
+        isSimplified("x");
+        isSimplified("x+0", false);
+    });
+
+    test("isSimplified (multiplication/division/negation)", function() {
+        isSimplified("1/2");
+        isSimplified("2/1", false);
+        isSimplified("(2x)/(5x)", false);
+        isSimplified("-x");
+        isSimplified("-1*x");
+        isSimplified("--x", false);
+        isSimplified("x/1", false);
+        isSimplified("x/y");
+        isSimplified("xy/z");
+        isSimplified("-3x");
+        isSimplified("-x*3");
+        isSimplified("-x*3*y");
+        isSimplified("(x+1)/(2(x+1))", false);
+    });
+
+    test("isSimplified (exponentiation)", function() {
+        isSimplified("x^-1");
+        isSimplified("1/x");
+        isSimplified("1/x^-1", false);
+    });
+
+    test("isSimplified (logarithms)", function() {
+        isSimplified("ln(x)");
+        isSimplified("ln(x+y)");
+        isSimplified("ln(x/y)", false);
+    });
+
+    test("isSimplified (equations)", function() {
+        isSimplified("x=10");
+        isSimplified("x=-10");
+        isSimplified("x=10y");
+        isSimplified("x=-10y");
+        isSimplified("x=10+y");
+        isSimplified("x=-10+y");
+
+        isSimplified("f(2x) = 10", true, {functions: ["f"]});
+        isSimplified("f(x+x) = 10", false, {functions: ["f"]});
+    });
+
+    test("isSimplified (equalities)", function() {
+        isSimplified("y=x");
+        isSimplified("y=x^2");
+        isSimplified("y=x*x", false);
+
+        isSimplified("y=x^2+1");
+        isSimplified("xy=x^2+1");
+        isSimplified("y+1=x^2+1", false);
+
+        isSimplified("xy=x^2", false);
+        isSimplified("x^2y=x^3", false);
+        isSimplified("alnx=blnx+clnx", false)
+
+        isSimplified("xy=0");
+        isSimplified("2xy=0", false);
+        isSimplified("xy/z=0");
+    });
+
+    test("isSimplified (inequalities)", function() {
+        isSimplified("y<x");
+        isSimplified("y<x^2");
+        isSimplified("y<x*x", false);
+
+        isSimplified("y<x^2+1");
+        isSimplified("xy<x^2+1");
+        isSimplified("y+1<x^2+1", false);
+
+        isSimplified("xy<x^2"); // x might be negative
+        isSimplified("x^2y<x^3", false);
+        isSimplified("alnx<blnx+clnx"); // lnx might be negative
+
+        isSimplified("xy<0");
+        isSimplified("2xy<0", false);
+        isSimplified("xy/z<0");
+    });
+
+    test("isSimplified (rational expressions)", function() {
+        isSimplified("3/(4x)");
+        isSimplified("3/4 1/x");
+
+        isSimplified("(x+1)/(x+2)");
+        isSimplified("(x+1)/(2x+2)", false);
+        isSimplified("(2x+2)/(x+1)", false);
+
+        // "simplify" currently means "fully expanded", hence the below
+        isSimplified("xy+2y=x+1");
+        isSimplified("y=(x+1)/(x+2)", false);
+        isSimplified("y=(x+1)/(2x+2)", false);
+        isSimplified("y=(2x+2)/(x+1)", false);
+    });
+    
+    var differentiate = function(input, expected, variable) {
+        var message = "The derivative of " + input + 
+                        " with respect to " + variable + 
+                            " is " + expected;
+        output = parse(input).differentiate(variable).simplify().tex();
+        strictEqual(output, expected, message);
+    };
+    
+    test("differentiation", function() {
+        differentiate("0", "0", "x");
+        differentiate("5", "0", "x");
+        differentiate("3x", "3", "x");
+        differentiate("x^2", "2x", "x");
+        differentiate("e^x", "e^{x}", "x");
+        differentiate("7+5+4", "0", "x");
+        differentiate("7+5+4x", "4", "x");
+        differentiate("(7)(5)", "0", "x");
+        differentiate("7+5x+x^2+e^x", "5+2x+e^{x}", "x");
+        differentiate("(x)(e^x)", "e^{x}+xe^{x}", "x");
+        differentiate("(x)/(e^x)", "e^{-x}(1+-x)", "x"); // =e^{-x}(1-x)
+        differentiate("(5^5)", "0", "x");
+        // Fails due to expansion: differentiate("(2x+3)^4", "8(2x+3)^{3}", "x");
+        differentiate("(3^x)", "\\ln(3) \\cdot 3^{x}", "x");
+        differentiate("ln(x)", "x^{-1}", "x");
+        differentiate("ln(3x)", "x^{-1}", "x");
+        differentiate("sin(x)", "\\cos(x)", "x");
+        differentiate("cos(x)", "-\\sin(x)", "x");
+        differentiate("tan(x)", "\\sec^{2}(x)", "x");
+        differentiate("sec(x)", "\\sec(x)\\tan(x)", "x");
+        differentiate("csc(x)", "-\\csc(x)\\cot(x)", "x");
+        differentiate("cot(x)", "-\\csc^{2}(x)", "x");
+        differentiate("y", "0", "x");
+        differentiate("sin(xy)", "y\\cos(xy)", "x");
+        differentiate("sin(xy)", "x\\cos(xy)", "y");
+        differentiate("4x^3y^5(e^(xy))", "20x^{3}y^{4}e^{xy}+4x^{4}y^{5}e^{xy}", "y");
+    });
+
+})(KAS);
+</script>
+
+</body>
+</html>
