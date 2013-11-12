@@ -43,7 +43,8 @@ rescue LoadError
   $stderr.puts
   $stderr.puts "-" * 78
   $stderr.puts "Oops! Some gems are missing; please run:"
-  $stderr.puts "  sudo gem install json nokogiri uglifier therubyracer"
+  $stderr.puts "  sudo gem install json nokogiri therubyracer"
+  $stderr.puts "  sudo gem install uglifier --version 1.3.0"
   $stderr.puts "-" * 78
   $stderr.puts
   exit 1
