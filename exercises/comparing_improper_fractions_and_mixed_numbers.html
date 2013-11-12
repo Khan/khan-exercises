@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
+<html data-require="math math-format graphie graphie-helpers word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Comparing improper fractions and mixed numbers</title>
@@ -11,32 +11,21 @@
         <div class="problems">
             <div id="same-whole">
                 <div class="vars" data-ensure="M_DENOM !== I_DENOM">
-                    <var id="WHOLE">randRange( 1, 5 )</var>
-                    <var id="WHOLE_2">WHOLE</var>
+                    <var id="WHOLE">randRange(1, 5)</var>
+                    <var id="M_NUM">randRange(1, 9)</var>
+                    <var id="M_DENOM">randRange(M_NUM + 1, 10)</var>
 
-                    <var id="M_NUM">randRange( 1, 9 )</var>
-                    <var id="M_DENOM">randRange( M_NUM + 1, 10 )</var>
-                    <var id="M_DENOM_REDUCED">M_DENOM/ getGCD( M_NUM, M_DENOM )</var>
-                    <var id="M_NUM_REDUCED">M_NUM/ getGCD( M_NUM, M_DENOM )</var>
-
-                    <var id="M_NUM_2">randRange( 1, 9 )</var>
-                    <var id="M_DENOM_2">randRange( M_NUM_2 + 1, 10 )</var>
-
-                    <var id="M_REDUCED_NUM">M_NUM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
-                    <var id="M_REDUCED_DENOM">M_DENOM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
-
-                    <var id="I_NUM">WHOLE_2 * M_REDUCED_DENOM + M_REDUCED_NUM</var>
-                    <var id="I_DENOM">M_REDUCED_DENOM</var>
-
-                    <var id="LCM">getLCM( M_DENOM_REDUCED, I_DENOM )</var>
-                    <var id="F1">LCM / M_DENOM_REDUCED</var>
-                    <var id="F2">LCM / I_DENOM</var>
-                    <var id="M_AS_I">M_DENOM_REDUCED*WHOLE+M_NUM_REDUCED</var>
+                    <var id="I_DENOM">randRange(M_NUM + 1, 10)</var>
+                    <var id="I_NUM2">randRange(1, 9)</var>
+                    <var id="I_NUM">WHOLE * I_DENOM + I_NUM2</var>
 
                     <var id="SOLUTION">(function() {
-                        if ( (M_AS_I*F1) &gt; (I_NUM*F2) ) {
+                        var n1 = WHOLE +  M_NUM / M_DENOM;
+                        var n2 = I_NUM / I_DENOM;
+
+                        if (n1 &gt; n2) {
                             return "&gt;";
-                        } else if ( (M_AS_I*F1) === (I_NUM*F2) ) {
+                        } else if (n1 === n2) {
                             return "=";
                         }
                         else {
@@ -49,8 +38,8 @@
                 <div class="problem">
                     <p>Fill in the blank.</p>
                     <p>
-                        <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code>
-                        ____<code><var>fraction( I_NUM, I_DENOM, false, true )</var></code>
+                        <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code>
+                        ____<code>\space \dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</code>
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
@@ -60,60 +49,66 @@
                     <li><code>=</code></li>
                 </ul>
                 <div class="hints">
-                    <p>First, let's convert the mixed number to an improper fraction with the same denominator.</p>
-                    <p>To get the numerator of the improper fraction, multiply the denominator (<strong><var>M_DENOM_REDUCED</var></strong>) by the whole number (<strong><var>WHOLE</var></strong>) and add the numerator (<strong><var>M_NUM_REDUCED</var></strong>).</p>
-                    <p class="hint_purple"><strong><code><var>M_DENOM_REDUCED</var> \cdot <var>WHOLE</var>+<var>M_NUM_REDUCED</var> = <var>M_AS_I</var></code></strong></p>
-                    <p>We can write the mixed number as an improper fraction with numerator <strong><var>M_AS_I</var></strong> and denominator <strong><var>M_DENOM_REDUCED</var></strong>.</p>
-                    <p>Now we need to compare <code><var>fraction ( M_AS_I, M_DENOM_REDUCED, false, true )</var></code> to <code><var>fraction ( I_NUM, I_DENOM, false, true )</var></code>.</p>
-                    <div data-if="M_DENOM_REDUCED !== I_DENOM" data-unwrap="">
-                        <p>It is easier to compare these two fractions when they have the same denominator.</p>
-                        <p>Their smallest common denominator is the LCM of <var>M_DENOM_REDUCED</var> and <var>I_DENOM</var>.</p>
-                        <p><code>\lcm(<var>M_DENOM_REDUCED</var>, <var>I_DENOM</var>) = <var>LCM</var></code></p>
-                        <div>
-                            <p data-if="F1 === 1">
-                                The first fraction remains as <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>}</code>.
-                            </p><p data-else>
-                                The first fraction becomes <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>}</code>.
-                            </p>
-                            <p data-if="F2 === 1">
-                                The second fraction remains as <code>\dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.
-                            </p><p data-else>
-                                The second fraction becomes <code>\dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.
-                            </p>
-                        </div>
+                    <div>
+                        <p><code>\dfrac{<var>I_DENOM * WHOLE</var>}{<var>I_DENOM</var>} = <var>WHOLE</var></code></p>
+                        <p>
+                            So <code>\dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</code> is 
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</code> more than <code><var>WHOLE</var></code>
+                        </p>
                     </div>
-                    <p>We see that <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>} <var>SOLUTION</var> \dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.</p>
+
+                    <p>
+                        <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> is 
+                        <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> more than <code><var>WHOLE</var></code>
+                    </p>
+
+                    <div>
+                        <div style="height: 150px;">
+                            <div class="graphie" style="float: left">
+                                init({ range: [[-3, 3], [-3, 3]], scale: 25 });
+                                piechart([M_NUM, M_DENOM - M_NUM], ["#e00", "#999"], 2);
+                            </div>
+                            <div class="graphie" style="float: left">
+                                init({ range: [[-3, 3], [-3, 3]], scale: 25 });
+                                piechart([I_NUM2, I_DENOM - I_NUM2], ["#e00", "#999"], 2);
+                            </div>
+                        </div>
+
+                        <p data-if="SOLUTION === '>'">
+                            <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code> is more than 
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code>
+                        </p>
+                        <p data-else-if="SOLUTION === '<'">
+                            <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code> is less than 
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code>
+                        </p>
+                        <p data-else-if="SOLUTION === '='">
+                            <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code> is equal to
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code>
+                        </p>
+                    </div>
+
+                    <p>
+                        Therefore <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}
+                        <var>SOLUTION</var> \dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</var></code>
+                    </p>
+
                 </div>
             </div>
             <div id="different-whole">
                 <div class="vars" data-ensure="M_DENOM !== I_DENOM">
-                    <var id="WHOLE">randRange( 1, 5 )</var>
-                    <var id="WHOLE_2">randRange( 1, 5 )</var>
+                    <var id="WHOLE">randRange(1, 5)</var>
+                    <var id="WHOLE2" data-ensure="WHOLE !== WHOLE2">randRange(1, 5)</var>
+                    <var id="M_NUM">randRange(1, 9)</var>
+                    <var id="M_DENOM">randRange(M_NUM + 1, 10)</var>
 
-                    <var id="M_NUM">randRange( 1, 9 )</var>
-                    <var id="M_DENOM">randRange( M_NUM + 1, 10 )</var>
-                    <var id="M_DENOM_REDUCED">M_DENOM/ getGCD( M_NUM, M_DENOM )</var>
-                    <var id="M_NUM_REDUCED">M_NUM/ getGCD( M_NUM, M_DENOM )</var>
-
-                    <var id="M_NUM_2">randRange( 1, 9 )</var>
-                    <var id="M_DENOM_2">randRange( M_NUM_2 + 1, 10 )</var>
-
-                    <var id="M_REDUCED_NUM">M_NUM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
-                    <var id="M_REDUCED_DENOM">M_DENOM_2 / getGCD( M_NUM_2, M_DENOM_2 )</var>
-
-                    <var id="I_NUM">WHOLE_2 * M_REDUCED_DENOM + M_REDUCED_NUM</var>
-                    <var id="I_DENOM">M_REDUCED_DENOM</var>
-
-                    <var id="LCM">getLCM( M_DENOM_REDUCED, I_DENOM )</var>
-                    <var id="F1">LCM / M_DENOM_REDUCED</var>
-                    <var id="F2">LCM / I_DENOM</var>
-                    <var id="M_AS_I">M_DENOM_REDUCED*WHOLE+M_NUM_REDUCED</var>
+                    <var id="I_DENOM">randRange(M_NUM + 1, 10)</var>
+                    <var id="I_NUM2">randRange(1, 9)</var>
+                    <var id="I_NUM">WHOLE2 * I_DENOM + I_NUM2</var>
 
                     <var id="SOLUTION">(function() {
-                        if ( (M_AS_I*F1) &gt; (I_NUM*F2) ) {
+                        if (WHOLE +  M_NUM / M_DENOM &gt; I_NUM / I_DENOM) {
                             return "&gt;";
-                        } else if ( (M_AS_I*F1) === (I_NUM*F2) ) {
-                            return "=";
                         }
                         else {
                             return "&lt;";
@@ -125,8 +120,8 @@
                 <div class="problem">
                     <p>Fill in the blank.</p>
                     <p>
-                        <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code>
-                        ____<code><var>fraction( I_NUM, I_DENOM, false, true )</var></code>
+                        <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code>
+                        ____<code>\space \dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</code>
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
@@ -136,29 +131,23 @@
                     <li><code>=</code></li>
                 </ul>
                 <div class="hints">
-                    <p>First, let's convert the mixed number to an improper fraction with the same denominator.</p>
-                    <p>To get the numerator of the improper fraction, multiply the denominator (<strong><var>M_DENOM_REDUCED</var></strong>) by the whole number (<strong><var>WHOLE</var></strong>) and add the numerator (<strong><var>M_NUM_REDUCED</var></strong>).</p>
-                    <p class="hint_purple"><strong><code><var>M_DENOM_REDUCED</var>\cdot<var>WHOLE</var>+<var>M_NUM_REDUCED</var> = <var>M_AS_I</var></code></strong></p>
-                    <p>We can write the mixed number as an improper fraction with numerator <strong><var>M_AS_I</var></strong> and denominator <strong><var>M_DENOM_REDUCED</var></strong>.</p>
-                    <p>Now we need to compare <code><var>fraction ( M_AS_I, M_DENOM_REDUCED, false, true )</var></code> to <code><var>fraction ( I_NUM, I_DENOM, false, true )</var></code>.</p>
-                    <div data-if="M_DENOM_REDUCED !== I_DENOM" data-unwrap="">
-                        <p>It is easier to compare these two fractions when they have the same denominator.</p>
-                        <p>Their smallest common denominator is the LCM of <var>M_DENOM_REDUCED</var> and <var>I_DENOM</var>.</p>
-                        <p><code>\lcm(<var>M_DENOM_REDUCED</var>, <var>I_DENOM</var>) = <var>LCM</var></code></p>
-                        <div>
-                            <p data-if="F1 === 1">
-                                The first fraction remains as <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>}</code>.
-                            </p><p data-else>
-                                The first fraction becomes <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>}</code>.
-                            </p>
-                            <p data-if="F2 === 1">
-                                The second fraction remains as <code>\dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.
-                            </p><p data-else>
-                                The second fraction becomes <code>\dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.
-                            </p>
-                        </div>
+                    <div>
+                        <p><code>\dfrac{<var>I_DENOM * WHOLE2</var>}{<var>I_DENOM</var>} = <var>WHOLE2</var></code></p>
+                        <p>
+                            So <code>\dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</code> is 
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</code> more than <code><var>WHOLE2</var></code>
+                        </p>
                     </div>
-                    <p>We see that <code>\dfrac{<var>M_AS_I * F1</var>}{<var>LCM</var>} <var>SOLUTION</var> \dfrac{<var>I_NUM * F2</var>}{<var>LCM</var>}</code>.</p>
+
+                    <p>
+                        <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> is 
+                        <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> more than <code><var>WHOLE</var></code>
+                    </p>
+
+                    <p>
+                        Therefore <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}
+                        <var>SOLUTION</var> \dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</var></code>
+                    </p>
                 </div>
             </div>
         </div>
