@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-require="math subhints math-format calculus">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Exact Equations</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+
+
+    <div class="problems">
+        <div id="exact_equations">
+       	    <div class="vars">
+				<var id="psi">generateMultivariateFunction()</var>
+				<var id="M"> psi.differentiate("x").simplify() </var>
+				<var id="N"> psi.differentiate("y").simplify() </var>
+				<var id="M_y"> M.differentiate("y").simplify() </var>
+				<var id="N_x"> N.differentiate("x").simplify() </var>
+				<var id="psi_f"> psi.allAddTermsWithX()</var>
+				<var id="psi_g"> psi.allAddTermsWithY()</var>
+				<var id="M_y_int"> N.allAddTermsWithX()</var>
+				<var id="f_y_prime"> N.allAddTermsWithoutX()</var>
+				<var id="f_y"> psi.allAddTermsWithoutX()</var>
+				<var id="N_x_int"> M.allAddTermsWithY()</var>
+				<var id="g_x_prime"> M.allAddTermsWithoutY()</var>
+				<var id="g_x"> psi.allAddTermsWithoutY()</var>
+				
+			</div>
+	        <p class="problem">Determine if the following is an exact equation and if so, solve for <code>\psi</code>
+	            <div class="question">
+	           		<p><code>\color{<var>BLUE</var>}{(<var>M.tex()</var>)} + \color{<var>GREEN</var>}{(<var>N.tex()</var>)}y'=0</code></p>
+            		
+            	</div>
+            </p>
+            <div class="solution" data-type="multiple">
+    			<p><code>M_{y} = </code><span class="sol" data-type="expression"><var>M_y.print()</var></span></p>
+				<p><code>N_{x} = </code><span class="sol" data-type="expression"><var>N_x.print()</var></span></p>
+    			<p></p><code>\psi = </code><span class="sol" data-type="expression" 
+    			data-placeholder='If not exact, leave this blank' data-empty='true'><var>psi.print()</var>+C</span></p>
+			</div>
+			<div class="hints">
+					<div>
+            			<p>The equation is given to you in the form
+							<code>\color{<var>BLUE</var>}{M(x,y)} + \color{<var>GREEN</var>}{N(x,y)}y'=0</code>.</p>
+						<p>To determine if this is an exact equation compare 
+							<code class="hint_blue">M_{y}=\frac{\partial}{\partial y}M(x,y)</code> and
+							<code class="hint_green">N_{x}=\frac{\partial}{\partial y}N(x,y)</code>. If
+							<code>\color{<var>BLUE</var>}{M_{y}} = \color{<var>GREEN</var>}{N_{x}}</code>, 
+							the equation is exact. [<a href="#" class="show-subhint" data-subhint="take_derivatives"> Show me </a>]
+							</p>
+	            	
+		            	<div class="subhint" id="take_derivatives">
+	            			<p><code class="hint_blue">
+								\color{<var>PURPLE</var>}{\psi_{xy}=}
+								M_y = \frac{\partial}{\partial y}\Big( <var> M.tex() </var> \Big) =<var>M_y.tex()</var> </code></p>
+							<p><code class="hint_green">
+								\color{<var>PURPLE</var>}{\psi_{yx}=}
+								N_x = \frac{\partial}{\partial x}\Big(<var> N.tex() </var>\Big)=<var>N_x.tex()</var> </code></p>
+							<p>Since <code>\color{<var>BLUE</var>}{M_y} = \color{<var>PURPLE</var>}{\psi_{xy}} = \color{<var>GREEN</var>}{N_x}</code>,
+								 the equation is exact.</p>
+		            	</div>
+	            	</div>
+		            <div>
+		            	<p> To solve for <code class="hint_purple">\psi</code>, start by either 
+							[<a href="#" class="show-subhint" data-subhint="m_derivative"> Integrating M </a>] or
+		            		[<a href="#" class="show-subhint" data-subhint="n_derivative"> Integrating N </a>]
+		            	</p>
+	            		<div class="subhint" id="m_derivative">
+	            			<p><code>\color{<var>PURPLE</var>}{\psi} = \color{<var>BLUE</var>}{\int M\mathrm{d} x} + f(y) = 
+	            			<var>psi_f.tex()</var>+f(y)</code></p>
+	        	    	</div>
+	    	        	<div class="subhint" id="n_derivative">
+		            		<p><code>\color{<var>PURPLE</var>}{\psi} = \color{<var>GREEN</var>}{\int N\mathrm{d} y} + g(x) = 
+	            			<var>psi_g.tex()</var>+g(x)</code></p>
+		            	</div>
+	            	</div>
+	            	<div>
+	            		<p> Now finish by find the remaining function &nbsp;&nbsp;&nbsp;&nbsp;
+	        	    		[<a href="#" class="show-subhint" data-subhint="find_f_y"> Find f(y) </a>] &nbsp;&nbsp;&nbsp;&nbsp;
+	    	        		[<a href="#" class="show-subhint" data-subhint="find_g_x"> Find g(x) </a>]
+		            	</p>
+		            	<div class="subhint" id="find_f_y">
+	            			<p>To find <code>f(y)</code>, note that </p>
+	            			<p><code>\qquad
+	            			\begin{align}
+		           				f(y)& =\color{<var>PURPLE</var>}{\psi}-\color{<var>BLUE</var>}{\int M \mathrm{d} x}  \\
+		           				f'(y)& =\frac{\partial}{\partial y}\Big(\color{<var>PURPLE</var>}{\psi} - 
+	    	       					\color{<var>BLUE</var>}{\int M \mathrm{d} x} \Big) & \text{by differentiation} \\
+	       	    				& = \color{<var>GREEN</var>}{N} - \color{<var>BLUE</var>}{\int M_{y}\mathrm{d} x} 
+	           					      & \text{because  } \color{<var>PURPLE</var>}{\psi_{y}}=\color{<var>GREEN</var>}{N}
+	           				\end{align}
+	            		</code></p>
+	            			<p>So if we plug in our values </p>
+	        	    		<p><code>\qquad
+	            			\begin{align}
+		           				f'(y)& = \color{<var>GREEN</var>}{<var>N.tex()</var>} - \color{<var>BLUE</var>}{\int \big(<var>M_y.tex()</var>\big)\mathrm{d} x} \\
+	  		           		         & = \color{<var>GREEN</var>}{<var>N.tex()</var>} - \color{<var>BLUE</var>}{\big(<var>M_y_int.tex()</var>\big)} \\
+	           						 & = <var>f_y_prime.tex()</var> \\\\
+	           					f(y) & = \int \big(<var>f_y_prime.tex()</var>\big)\mathrm{d}y \\
+	           					     & = <var>f_y.tex()</var>+C	           					
+	           				\end{align}
+	            		</code></p>
+	    	        		</p>
+		            	</div>
+		            	<div class="subhint" id="find_g_x">
+	            			<p>To find <code>g(x)</code>, note that </p>
+	            			<p><code>\qquad
+	            			\begin{align}
+		           				g(x)& =\color{<var>PURPLE</var>}{\psi}-\color{<var>GREEN</var>}{\int N \mathrm{d} y}  \\
+		           				g'(x)& =\frac{\partial}{\partial x}\Big(\color{<var>PURPLE</var>}{\psi} - 
+	    	       					\color{<var>GREEN</var>}{\int N \mathrm{d} y} \Big) & \text{by differentiation} \\
+	       	    				& = \color{<var>BLUE</var>}{M} - \color{<var>GREEN</var>}{\int N_{x}\mathrm{d} y} 
+	           					      & \text{because  } \color{<var>PURPLE</var>}{\psi_{x}}=\color{<var>BLUE</var>}{M}
+	           				\end{align}
+	            		</code></p>
+	        	    		<p>So if we plug in our values </p>
+	    	        		<p><code>\qquad
+	            			\begin{align}
+		           				g'(x)& = \color{<var>BLUE</var>}{<var>M.tex()</var>} - \color{<var>GREEN</var>}{\int \big(<var>N_x.tex()</var>\big)\mathrm{d} y} \\
+	  		           		         & = \color{<var>BLUE</var>}{<var>M.tex()</var>} - \color{<var>GREEN</var>}{\big(<var>N_x_int.tex()</var>\big)} \\
+	           						 & = <var>g_x_prime.tex()</var> \\\\
+	           					g(x) & = \int \big(<var>g_x_prime.tex()</var>\big)\mathrm{d}x \\
+	           					     & = <var>g_x.tex()</var>+C	           					
+	           				\end{align}
+	            		</code></p>
+		            		</p>
+		            	</div>
+	            	</div>
+	            	<p>Thus, our answer is <code class="hint_purple">\psi = <var>psi.tex()</var>+C</code></p>
+			</div>
+        </div>
+    </div>
+    
+
+    
+    </div>
+</body>
+</html>
