@@ -1910,9 +1910,6 @@ window.Khan = (function() {
             .bind("readyForNextProblem", function(ev, data) {
                 renderNextProblem(data);
             })
-            .bind("warning", function(ev, data) {
-                warn(data.text, data.showClose);
-            })
             .bind("upcomingExercise", function(ev, data) {
                 var userExercise = data.userExercise;
                 startLoadingExercise(

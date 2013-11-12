@@ -147,7 +147,7 @@ $.extend(KhanUtil, {
         };
 
         sorter.getContent = function() {
-            content = [];
+            var content = [];
             list.find("li").each(function(tileNum, tile) {
                 content.push($.trim($(tile).find(".sort-key").text()));
             });
@@ -906,8 +906,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                         var coord = graph.getMouseCoord(event);
 
                         coord = applySnapAndConstraints(coord);
-                        coordX = coord[0];
-                        coordY = coord[1];
+                        var coordX = coord[0];
+                        var coordY = coord[1];
 
                         if (event.type === "vmousemove") {
                             var doMove = true;
@@ -2730,7 +2730,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             var oldRadius = circle.radius;
                             var doResize = true;
                             if (circle.onResize) {
-                                onResizeResult = circle.onResize(radius, oldRadius);
+                                var onResizeResult = circle.onResize(radius, oldRadius);
                                 if (_.isNumber(onResizeResult)) {
                                     radius = onResizeResult;
                                 } else if (onResizeResult === false) {

@@ -1,4 +1,4 @@
-var Calculator = (function(parser) {
+window.Calculator = (function(parser) {
     var CalculatorError = function(message) {
         this.message = message;
     };

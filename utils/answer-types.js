@@ -691,10 +691,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      */
     number: {
         convertToPredicate: function(correct, options) {
-            if (options.type === "predicate") {
-                return solution;
-            }
-
             // TODO(alpert): Don't think this $.trim is necessary
             var correctFloat = parseFloat($.trim(correct));
 
