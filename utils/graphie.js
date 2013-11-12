@@ -920,8 +920,8 @@
             // Grab code for later execution
             var code = $(this).text(), graphie;
 
-            // Ignore code that isn't really code
-            if (code.match(/Created with Rapha\xebl/)) {
+            // Ignore graphie elements that have already been processed
+            if ($(this).data("graphie") != null) {
                 return;
             }
 

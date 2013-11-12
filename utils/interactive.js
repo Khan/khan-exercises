@@ -2038,7 +2038,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
                     [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
                     [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]]
-                    ], { stroke: null, fill: KhanUtil.ORANGE });
+                    ], { stroke: "", fill: KhanUtil.ORANGE });
         } else if (arrowWidget.direction === "down") {
             arrowWidget.visibleShape = graph.path([
                     [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
@@ -2046,8 +2046,16 @@ $.extend(KhanUtil.Graphie.prototype, {
                     [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
                     [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
                     [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]]
-                    ], { stroke: null, fill: KhanUtil.ORANGE });
+                    ], { stroke: "", fill: KhanUtil.ORANGE });
         }
+
+        // You might think we JUST NOW set the style when we drew this. But
+        // does IE8 care? No! Of course not! It was too busy being slow and
+        // obnoxious. So apparently we have to set the style again, later, when
+        // it's paying attention. Or something.
+        _.defer(function() {
+            arrowWidget.visibleShape.attr({stroke: "", fill: KhanUtil.ORANGE});
+        });
 
         arrowWidget.mouseTarget = graph.mouselayer.circle(
                 graph.scalePoint(arrowWidget.coord)[0], graph.scalePoint(arrowWidget.coord)[1], 15);
