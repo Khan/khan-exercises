@@ -513,7 +513,11 @@ $.extend(KhanUtil.Graphie.prototype, {
             if (match) {
                 var distance = KhanUtil.getDistance(p1, p2);
                 var precision = match[1] || 1;
-                text = text.replace(match[0], distance.toFixed(precision));
+                if (Math.abs(distance.toFixed(precision) - distance) < 1e-9) {
+                    text = text.replace(match[0], distance.toFixed(precision));
+                } else {
+                    text = text.replace(match[0], "\\approx " + distance.toFixed(precision));
+                }
             }
 
             // Calculate label position
