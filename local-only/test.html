@@ -863,8 +863,18 @@
 
     QUnit.module("transforming");
 
-    var factor = function(input, reference) {
-        var actual = parse(input).factor().normalize().repr();
+    var factor = function(input, reference, options) {
+    	defaults = {
+            expandAbs: false,
+            expandLogs: false,
+            expandPow: {
+                baseMul: true,
+            	baseAdd: true,
+            	expAdd: false
+            },
+        };
+        options = _.extend(defaults, options);
+        var actual = parse(input).factor(options).normalize().repr();
         var expected = parse(reference).normalize().repr();
         var message = input + " factors as " + reference;
         strictEqual(actual, expected, message);
@@ -889,8 +899,18 @@
         factor("x^y+x^z", "x^y+x^z");
     });
 
-    var expand = function(input, reference) {
-        var actual = parse(input).expand().normalize().print();
+    var expand = function(input, reference, options) {
+    	defaults = {
+            expandAbs: false,
+            expandLogs: false,
+            expandPow: {
+                baseMul: true,
+            	baseAdd: true,
+            	expAdd: false
+            },
+        };
+        options = _.extend(defaults, options);
+        var actual = parse(input).expand(options).normalize().print();
         var expected = parse(reference).normalize().print();
         var message = input + " expands as " + reference;
         strictEqual(actual, expected, message);
@@ -938,36 +958,41 @@
 
     test("expand exponentiation", function() {
         expand("(ab)^2", "a^2 b^2");
+        expand("(ab)^2", "(ab)^2", {expandPow:{baseMul: false}});
         expand("2*(ab)^2", "2 a^2 b^2");
+        expand("(a+b)^2", "(a+b)^2", {expandPow:{baseAdd: false}});
         expand("(a+b)^2", "a^2+2ab+b^2");
 
         expand("(ab)^-2", "a^-2 b^-2");
         expand("2*(ab)^-2", "2 a^-2 b^-2");
+        expand("(a+b)^-2", "(a+b)^-2", {expandPow:{baseAdd: false}});
         expand("(a+b)^-2", "(a^2+2ab+b^2)^-1");
     });
 
     test("expand absolute value", function() {
         expand("|a+b|", "|a+b|");
-        expand("|ab|", "|a|*|b|");
+        expand("|ab|", "|ab|");
+        expand("|ab|", "|a|*|b|", {expandAbs: true});
     });
 
     test("expand logarithms", function() {
-        expand("ln(xy)", "lnx+lny");
-        expand("log_b(x)", "lnx/lnb");
-        expand("log_b(xy)", "lnx/lnb+lny/lnb");
-        expand("ln(xy/z)", "lnx+lny-lnz");
+    	expand("ln(xy)", "ln(xy)");
+        expand("ln(xy)", "lnx+lny", {expandLog: true});
+        expand("log_b(x)", "lnx/lnb", {expandLog: true});
+        expand("log_b(xy)", "lnx/lnb+lny/lnb", {expandLog: true});
+        expand("ln(xy/z)", "lnx+lny-lnz", {expandLog: true});
 
-        expand("ln(x^y)", "ylnx");
-        expand("log_b(x^y)", "ylnx/lnb");
-        expand("ln(x^y^z)", "y^zlnx");
+        expand("ln(x^y)", "ylnx", {expandLog: true});
+        expand("log_b(x^y)", "ylnx/lnb", {expandLog: true});
+        expand("ln(x^y^z)", "y^zlnx", {expandLog: true});
 
-        expand("ln(x^y/z)", "ylnx-lnz");
+        expand("ln(x^y/z)", "ylnx-lnz", {expandLog: true});
 
         // ln((xy)^z) -> ln(x^z*y^z) -> z*ln(x)+z*ln(y)
-        expand("ln((xy)^z)", "zlnx+zlny");
+        expand("ln((xy)^z)", "zlnx+zlny", {expandLog: true});
 
-        expand("log_b(x)log_x(y)", "ln(x)/ln(b)*ln(y)/ln(x)");
-        expand("log_b(x)log_x(y)log_y(z)", "ln(x)/ln(b)*ln(y)/ln(x)*ln(z)/ln(y)");
+        expand("log_b(x)log_x(y)", "ln(x)/ln(b)*ln(y)/ln(x)", {expandLog: true});
+        expand("log_b(x)log_x(y)log_y(z)", "ln(x)/ln(b)*ln(y)/ln(x)*ln(z)/ln(y)", {expandLog: true});
     });
 
     test("expand trig functions", function() {
@@ -1133,10 +1158,10 @@
         simplify("1/(xya)+1/(xyb)", "(1/a+1/b) 1/x 1/y");
     });
 
-    var isSimplified = function(input, expectedResult, options) {
+    var isSimplified = function(input, expectedResult, options, simplifyOptions) {
         if (expectedResult === undefined) expectedResult = true;
         var message = input + (expectedResult ? " is " : " is NOT ") + "simplified";
-        ok(parse(input, options).isSimplified() === expectedResult, message);
+        ok(parse(input, options).isSimplified(simplifyOptions) === expectedResult, message);
     }
 
     test("isSimplified (addition/subtraction)", function() {
@@ -1173,7 +1198,8 @@
     test("isSimplified (logarithms)", function() {
         isSimplified("ln(x)");
         isSimplified("ln(x+y)");
-        isSimplified("ln(x/y)", false);
+        isSimplified("ln(x/y)", true);
+        isSimplified("ln(x/y)", false, {},{expandLog: true});
     });
 
     test("isSimplified (equations)", function() {
