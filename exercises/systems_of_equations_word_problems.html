@@ -308,18 +308,16 @@
                     <var id="MULT2">[ 1, 1, roundTo( 8, -B1 / B2 ), B2 &gt; 0 &amp;&amp; B1 &lt; 0 ? -B1 : B1 ][ INDEX ]</var>
                     <var id="SIGN_1">A1 * X &gt; 0 ? "-" : "+"</var>
                     <var id="SIGN_2">A2 * X &gt; 0 ? "-" : "+"</var>
+                    <var id="LARGER">max(X, Y)</var>
+                    <var id="SMALLER">min(X, Y)</var>
                 </div>
                 <div class="question">
                     <p>The sum of two numbers is <var>C1</var>, and their difference is <var>C2</var>. What are the two numbers?</p>
                 </div>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol"><var>X</var></div>
-                    <div class="set-sol"><var>Y</var></div>
-                    <div class="input-format">
-                        <p><code>x</code> = <span class="entry short50" data-forms="integer, decimal"></span></p>
-                        <p><code>y</code> = <span class="entry short50" data-forms="integer, decimal"></span></p>
-                    </div>
+                <div class="solution" data-type="multiple">
+                    <p>larger number = <span class="sol short50" data-forms="integer, decimal"><var>LARGER</var></span></p>
+                    <p>smaller number = <span class="sol short50" data-forms="integer, decimal"><var>SMALLER</var></span></p>
                 </div>
                 <div class="hints">
                     <div>
@@ -367,6 +365,7 @@
                         <p><code>\green{<span data-if="abs( A2 ) !== 1"><var>A2</var></span><span data-if="A2 === -1">-</span>}\red{(<var>X</var>)}\green{ + <var>expr(["*", B2, "y"])</var> = <var>C2</var>}</code></p>
                         <p><code>\orange{y = <var>Y</var>}</code></p>
                     </div>
+                    <p>Therefore, the larger number is <code><var>LARGER</var></code>, and the smaller number is <code><var>SMALLER</var></code>.</p>
                 </div>
             </div>
         </div>
