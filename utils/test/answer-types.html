@@ -43,7 +43,7 @@
         };
     </script>
     <script src="../../local-only/underscore.js"></script>
-    <script src="../../third_party/MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"></script>
+    <script src="../../third_party/MathJax/2.1/MathJax.js?config=KAthJax-9e2776ffe7d2006f16f36d0d55d9464b"></script>
     <script src="../../local-only/katex/katex.js"></script>
 
     <!-- Include QUnit -->
@@ -396,21 +396,6 @@
         start();
     });
 
-    asyncTest("number decimal percent", 9, function() {
-        var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='decimal, percent'>0.42<\/p>"
-        );
-
-        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
-                $problem.children(".solution"));
-
-        testAnswer(answerData, "0.42", "right", "right answer is right");
-        testAnswer(answerData, "42%", "right", "right answer is right");
-        testAnswer(answerData, "42", "empty-message", "leaving off percent sign provides a message");
-
-        start();
-    });
-
     asyncTest("number mixed", 18, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='mixed'>-1.5<\/p>"
@@ -636,7 +621,7 @@
         start();
     });
 
-    asyncTest("multiple", 21, function() {
+    asyncTest("multiple", 42, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
                 "<span class='sol'>7<\/span>" +
@@ -654,6 +639,13 @@
         testMultipleAnswer(answerData, ["", "3/2"], "wrong", "incomplete answer is wrong");
         testMultipleAnswer(answerData, ["", ""], "empty", "empty answer is empty");
         testMultipleAnswer(answerData, ["7", "6/4"], "empty-message", "unsimplified right answer provides a message");
+        testMultipleAnswer(answerData, ["14/2", "6/4"], "empty-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["14/2", "3/2"], "empty-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["7", "6/4"], "empty-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["14/2", "7"], "wrong", "unsimplified right and wrong is wrong");
+        testMultipleAnswer(answerData, ["3", "6/4"], "wrong", "unsimplified right and wrong is wrong");
+        testMultipleAnswer(answerData, ["4/2", "4/2"], "wrong", "unsimplified wrong is wrong");
+        testMultipleAnswer(answerData, ["14/2", ""], "wrong", "unsimplified imcomplete answer is wrong");
 
         start();
     });
@@ -862,7 +854,7 @@
         start();
     });
 
-    asyncTest("set with as many things", 24, function() {
+    asyncTest("set with as many things", 45, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<div class='solution' data-type='set'>" +
                 "<span class='set-sol'>12<\/span>" +
@@ -885,6 +877,13 @@
         testMultipleAnswer(answerData, ["", ""], "empty", "empty answer is empty");
         testMultipleAnswer(answerData, ["12", "14"], "wrong", "wrong answer is wrong");
         testMultipleAnswer(answerData, ["12", "12"], "wrong", "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["24/2", "26/2"], "empty-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["24/2", "13"], "empty-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["12", "26/2"], "empty-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["24/2", "14"], "wrong", "unsimplified right and wrong is wrong");
+        testMultipleAnswer(answerData, ["14", "26/2"], "wrong", "unsimplified right and wrong is wrong");
+        testMultipleAnswer(answerData, ["4/2", "4/2"], "wrong", "unsimplified wrong is wrong");
+        testMultipleAnswer(answerData, ["24/2", ""], "wrong", "unsimplified imcomplete answer is wrong");
 
         start();
     });

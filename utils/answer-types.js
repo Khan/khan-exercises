@@ -1103,6 +1103,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     message: null,
                     guess: guess
                 };
+                var blockGradingMessage = null;
 
                 // If the answer is completely empty, don't grade it
                 if (checkIfAnswerEmpty(guess)) {
@@ -1117,27 +1118,36 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // with the corresponding validator
                     var pass = validators[i](g);
 
-                    score.empty = score.empty && pass.empty;
-                    score.correct = score.correct && pass.correct;
-                    // TODO(eater): This just forwards one message
-                    if (pass.message) {
-                        score.message = pass.message;
+                    if (pass.message && pass.empty) {
                         // Special case where a validator returns a message
                         // for an "empty" response. This probably means it's
                         // not really empty, but a correct-but-not-simplified
                         // answer. Rather that treating this as actually empty,
                         // possibly leading to the entire multiple being marked
-                        // wrong for being incomplete, bail here and forward on
-                        // the message.
-                        if (pass.empty) {
-                            score.empty = true;
-                            score.correct = false;
-                            return score;
-                        }
+                        // wrong for being incomplete, note the situation but
+                        // continue determining whether the entire answer is
+                        // otherwise correct or not before forwarding on the
+                        // message.
+                        blockGradingMessage = pass.message;
+                    } else {
+                        score.empty = score.empty && pass.empty;
+                        score.correct = score.correct && pass.correct;
+                        // TODO(eater): This just forwards one message
+                        score.message = pass.message;
                     }
                 });
 
-                return score;
+                if (blockGradingMessage == null || !score.correct) {
+                    score.empty = false;
+                    return score;
+                } else {
+                    return {
+                        empty: true,
+                        correct: false,
+                        message: blockGradingMessage,
+                        guess: guess
+                    };
+                }
             };
         }
     },
@@ -1255,6 +1265,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     message: null,
                     guess: guess
                 };
+                var blockGradingMessage = null;
+
                 // Store a copy of each of the validators. If one correctly
                 // identifies a guess, remove it from this array, so duplicate
                 // answers aren't marked correct twice
@@ -1268,6 +1280,19 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // Go through each of the unused validators
                     $.each(unusedValidators, function(i, validator) {
                         var pass = validator(g);
+
+                        // If this validator is trying to block grading
+                        if (pass.empty && pass.message) {
+                            // remove the working validator
+                            unusedValidators.splice(i, 1);
+                            // We want to block the entire answer from being
+                            // accepted as correct but continue checking in
+                            // case another part is wrong.
+                            blockGradingMessage = pass.message;
+                            correct = true;
+                            // break
+                            return false;
+                        }
 
                         // If this validator completely accepts this answer
                         // or returns a check answer message
@@ -1322,7 +1347,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     score.correct = false;
                 }
 
-                return score;
+                if (blockGradingMessage == null || !score.correct) {
+                    return score;
+                } else {
+                    return {
+                        empty: true,
+                        correct: false,
+                        message: blockGradingMessage,
+                        guess: guess
+                    };
+                }
             };
         }
     },
