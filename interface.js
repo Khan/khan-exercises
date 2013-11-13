@@ -78,7 +78,6 @@ function problemTemplateRendered() {
     $("#answerform").submit(handleCheckAnswer);
     $("#skip-question-button").click(handleSkippedQuestion);
     $("#opt-out-button").click(handleOptOut);
-    $("#show-prereqs-button").click(handleShowPrereqs);
 
     // Hint button
     $("#hint").click(onHintButtonClicked);
@@ -355,15 +354,6 @@ function handleAttempt(data) {
         },10);
     }
     return false;
-}
-
-/**
- * When the user clicks on the "Help me learn this" button in focus mode, we
- * trigger an event to show the prereqs to the left.
- */
-function handleShowPrereqs() {
-    $("#show-prereqs-button").prop("disabled", true);
-    $(Exercises).trigger("showPrereqs");
 }
 
 function onHintButtonClicked() {
