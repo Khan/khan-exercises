@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html data-require="math polynomials expressions math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Completing the square</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="B2">randRangeNonZero(-10, 10)</var>
+                    <var id="B">B2 * 2</var>
+                    <var id="C">randRangeNonZero(-100, 100)</var>
+                    <var id="D">pow(B2, 2)</var>
+                    <var id="POLY">new Polynomial(0, 2, [C, B, 1], "x")</var>
+                    <var id="POLY_TEXT">POLY.text()</var>
+                    <var id="OR">$._("or")</var>
+                </div>
+
+                <p class="question">
+                    Complete the square to rewrite this expression in the form <code>(x + a)^2 + b</code>.<br>
+                    <code>a</code> and <code>b</code> can be positive or negative.
+                    <p><code>\qquad <var>POLY_TEXT</var></code></p>
+                </p>
+                <div class="solution" data-type="expression" data-same-form>(x + <var>B2</var>)^2 + <var>C - D</var></div>
+            </div>
+        </div>
+        <div class="hints">
+            <div>
+                <p>If we square the sum of <code>x</code> and another number, we get</p>
+                <p><code>
+                    \begin{align} \qquad (x + a)^2 &amp;= (x + a)(x + a) \\
+                    &amp;= x^2 + \pink{2a}x + a^2\end{align}</code></p>
+                <p>The number multiplying the <code>x</code> term is <code>2</code> times the number that was added inside the square.</p>
+            </div>
+            <div>
+                <p>In the problem we're trying to solve, the number multiplying the <code>x</code> term is <code><var>B</var></code>, so when we rewrite the expression, the number added inside the square will be half of  <code><var>B</var></code>. (Which is  <code><var>B2</var></code>)</p>
+                <p><code>\qquad (x + <var>B2</var>)^2 + b</code></p>
+                <p>How can we find the value of <code>b</code>?</p>
+            </div>
+            <div>
+                <p>If we multiply out the square in this expression, we get</p>
+                <p><code>
+                    \begin{align} \qquad (x + <var>B2</var>)^2 + b &amp;= (x + <var>B2</var>)(x + <var>B2</var>) + b \\
+                    &amp;= x^2 + <var>B</var>x + <var>D</var> + b \end{align}</code>
+            </div>
+            <div>
+                <p>This looks just like the given expression if</p>
+                <p><code>\qquad <var>D</var> + b = <var>C</var></code></p>
+                <p>So <code>b</code> must be <code><var>C- D</var></code></p>
+            </div>
+            <div>
+                <p><code><var>POLY_TEXT</var></code> can be rewritten as:</p>
+                <p><code>\qquad (x + <var>B2</var>)^2 + <var>C - D</var></code>
+                <p>Now it's just a square minus another number! We have completed the square.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
