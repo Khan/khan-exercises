@@ -278,6 +278,7 @@ window.Khan = (function() {
             // http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
 
             // The normal module dependencies.
+            "scratchpad": ["../third_party/jquery.mobile.vmouse"],
             "calculus": ["math", "expressions", "polynomials"],
             "exponents": ["math", "math-format"],
             "kinematics": ["math"],

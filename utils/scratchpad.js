@@ -222,33 +222,17 @@ window.DrawingScratchpad = function(elem) {
         mousemove(e.pageX - offset.left, e.pageY - offset.top);
         e.preventDefault();
     };
-    container.mousedown(function(e) {
+    $(container).on("vmousedown", function(e) {
         var offset = $(container).offset();
         mousedown(e.pageX - offset.left, e.pageY - offset.top, e);
         e.preventDefault();
 
-        $(document).on("mousemove", handleMousemove);
-        $(document).one("mouseup", function(e) {
+        $(document).on("vmousemove", handleMousemove);
+        $(document).one("vmouseup", function(e) {
             mouseup(e.pageX - offset.left, e.pageY - offset.top, e);
             e.preventDefault();
-            $(document).off("mousemove", handleMousemove);
+            $(document).off("vmousemove", handleMousemove);
         });
-    });
-
-    container.bind("touchstart", function(e) {
-        var offset = $(container).offset();
-        mousedown(e.originalEvent.touches[0].pageX - offset.left, e.originalEvent.touches[0].pageY - offset.top, e.originalEvent);
-        e.preventDefault();
-    });
-    container.bind("touchmove", function(e) {
-        var offset = $(container).offset();
-        mousemove(e.originalEvent.touches[0].pageX - offset.left, e.originalEvent.touches[0].pageY - offset.top);
-        e.preventDefault();
-    });
-    container.bind("touchend", function(e) {
-        var offset = $(container).offset();
-        mouseup(e.originalEvent.touches[0].pageX - offset.left, e.originalEvent.touches[0].pageY - offset.top);
-        e.preventDefault();
     });
 
     this.clear = function() {
