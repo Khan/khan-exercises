@@ -1133,20 +1133,20 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         score.empty = score.empty && pass.empty;
                         score.correct = score.correct && pass.correct;
                         // TODO(eater): This just forwards one message
-                        score.message = pass.message;
+                        score.message = score.message || pass.message;
                     }
                 });
 
-                if (blockGradingMessage == null || !score.correct) {
-                    score.empty = false;
-                    return score;
-                } else {
+                if (score.correct && blockGradingMessage != null) {
                     return {
                         empty: true,
                         correct: false,
                         message: blockGradingMessage,
                         guess: guess
                     };
+                } else {
+                    score.empty = false;
+                    return score;
                 }
             };
         }
@@ -1347,15 +1347,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     score.correct = false;
                 }
 
-                if (blockGradingMessage == null || !score.correct) {
-                    return score;
-                } else {
+                if (score.correct && blockGradingMessage != null) {
                     return {
                         empty: true,
                         correct: false,
                         message: blockGradingMessage,
                         guess: guess
                     };
+                } else {
+                    return score;
                 }
             };
         }

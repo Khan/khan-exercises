@@ -665,6 +665,46 @@
         start();
     });
 
+    asyncTest("multiple with enforced simplification", 33, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='multiple'>" +
+                "<span class='sol' data-simplify='enforced'>7<\/span>" +
+                "<span class='sol' data-simplify='enforced'>1.5<\/span>" +
+            "<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["7", "3/2"], "right", "right answer is right");
+        testMultipleAnswer(answerData, ["7", "1.5"], "right", "right answer is right");
+        testMultipleAnswer(answerData, ["3/2", "7"], "wrong", "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", ""], "wrong", "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", "3/2"], "wrong", "incomplete answer is wrong");
+        testMultipleAnswer(answerData, ["", ""], "empty", "empty answer is empty");
+        testMultipleAnswer(answerData, ["7", "6/4"], "wrong-message", "unsimplified right answer provides a message");
+        testMultipleAnswer(answerData, ["14/2", "6/4"], "wrong-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["14/2", "3/2"], "wrong-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["7", "6/4"], "wrong-message", "unsimplified right gives message");
+        testMultipleAnswer(answerData, ["4/2", "4/2"], "wrong", "unsimplified wrong is wrong");
+        // TODO(eater): The following three cases currently return a message
+        //              about being almost right. It seems more natural that
+        //              they would just be marked wrong. But it also seems
+        //              expected that if several components of a multiple are
+        //              wrong and one of them returns a message, that message
+        //              would be preserved. So I hesitate to do the work to
+        //              make these test cases pass. Furthermore, this situation
+        //              never comes up today since the only exercise to do
+        //              data-simplify='enforced' doesn't do so in a multiple.
+        //              Thus I shall leave these three lines commented out as
+        //              a curiosity to be pondered.
+        // testMultipleAnswer(answerData, ["14/2", "7"], "wrong", "unsimplified right and wrong is wrong");
+        // testMultipleAnswer(answerData, ["3", "6/4"], "wrong", "unsimplified right and wrong is wrong");
+        // testMultipleAnswer(answerData, ["14/2", ""], "wrong", "unsimplified imcomplete answer is wrong");
+
+        start();
+    });
+
     asyncTest("multiple with fallback 1", 21, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
