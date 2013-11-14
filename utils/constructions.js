@@ -833,7 +833,6 @@ $.extend(KhanUtil, {
             "stroke-width": 2
         });
 
-        var graph = KhanUtil.construction;
         if (construction.snapPoints == null) {
             construction.snapPoints = [dummy];
         } else {
@@ -849,7 +848,7 @@ $.extend(KhanUtil, {
         KhanUtil.currentGraph.circle(coordinates,
                                 {r: 0.08, fill: "black", stroke: "none"});
 
-        var graph = KhanUtil.construction;
+        var construction = KhanUtil.construction;
         if (construction.snapPoints == null) {
             construction.snapPoints = [dummy];
         } else {
