@@ -8,46 +8,54 @@
 <body>
 
     <div class="exercise">
+        <div class="vars">
+            <var id="WHOLE">randRange(1, 5)</var>
+            <var id="WHOLE2">WHOLE</var>
+            <var id="DENOM1">randRangeWeighted(2, 5, 2, 0.4)</var>
+            <var id="DENOM2">randFromArray([[4, 6, 8, 10, 12], [6, 12], [8, 12], [10]][DENOM1 - 2])</var>
+            <var id="F">DENOM2 / DENOM1</var>
+
+            <var id="ORDER">randRange(0, 1)</var>
+            <var id="M_DENOM">ORDER ? DENOM1 : DENOM2</var>
+            <var id="I_DENOM">ORDER ? DENOM2 : DENOM1</var>
+
+            <var id="M_NUM">randRange(1, M_DENOM - 1)</var>
+            <var id="I_NUM2">randRange(1, I_DENOM - 1)</var>
+            <var id="I_NUM">WHOLE * I_DENOM + I_NUM2</var>
+
+            <var id="SOLUTION, COMPARISON">(function() {
+                var n1 = WHOLE +  M_NUM / M_DENOM;
+                var n2 = I_NUM / I_DENOM;
+
+                if (n1 &gt; n2) {
+                    return ["&gt;", $._("is more than")];
+                } else if (n1 === n2) {
+                    return ["=", $._("is equal to")];
+                }
+                else {
+                    return ["&lt;", $._("is less than")];
+                }
+            })()
+            </var>
+        </div>
+
         <div class="problems">
             <div id="same-whole">
-                <div class="vars" data-ensure="M_DENOM !== I_DENOM">
-                    <var id="WHOLE">randRange(1, 5)</var>
-                    <var id="M_NUM">randRange(1, 9)</var>
-                    <var id="M_DENOM">randRange(M_NUM + 1, 10)</var>
-
-                    <var id="I_DENOM">randRange(M_NUM + 1, 10)</var>
-                    <var id="I_NUM2">randRange(1, 9)</var>
-                    <var id="I_NUM">WHOLE * I_DENOM + I_NUM2</var>
-
-                    <var id="SOLUTION">(function() {
-                        var n1 = WHOLE +  M_NUM / M_DENOM;
-                        var n2 = I_NUM / I_DENOM;
-
-                        if (n1 &gt; n2) {
-                            return "&gt;";
-                        } else if (n1 === n2) {
-                            return "=";
-                        }
-                        else {
-                            return "&lt;";
-                        }
-                    })()
-                    </var>
-                </div>
-
                 <div class="problem">
                     <p>Fill in the blank.</p>
                     <p>
-                        <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code>
+                        <code><var>WHOLE2</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code>
                         ____<code>\space \dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</code>
                     </p>
                 </div>
+
                 <p class="solution"><code><var>SOLUTION</var></code></p>
                 <ul class="choices" data-category="true">
                     <li><code>&lt;</code></li>
                     <li><code>&gt;</code></li>
                     <li><code>=</code></li>
                 </ul>
+
                 <div class="hints">
                     <div>
                         <p><code>\dfrac{<var>I_DENOM * WHOLE</var>}{<var>I_DENOM</var>} = <var>WHOLE</var></code></p>
@@ -58,94 +66,89 @@
                     </div>
 
                     <p>
-                        <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> is 
-                        <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> more than <code><var>WHOLE</var></code>
+                        <code><var>WHOLE2</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> is 
+                        <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> more than <code><var>WHOLE2</var></code>
                     </p>
 
-                    <div>
+                    <p>
+                        Which is bigger, <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code>
+                        or <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</code> ?
+                    </p>
+
+                    <div data-if="ORDER === 1">
+                        <p>
+                            <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> is the same thing as
+                            <code>\dfrac{<var>M_NUM * F</var>}{<var>M_DENOM * F</var>}</var></code>
+                        </p>
+
                         <div style="height: 150px;">
-                            <div class="graphie" style="float: left">
-                                init({ range: [[-3, 3], [-3, 3]], scale: 25 });
-                                piechart([M_NUM, M_DENOM - M_NUM], ["#e00", "#999"], 2);
-                            </div>
-                            <div class="graphie" style="float: left">
-                                init({ range: [[-3, 3], [-3, 3]], scale: 25 });
-                                piechart([I_NUM2, I_DENOM - I_NUM2], ["#e00", "#999"], 2);
+                            <div class="graphie">
+                                init({ range: [[-0.1, 1], [0, 2.5]], scale: [400, 50] });
+                                rectchart([M_NUM * F, (M_DENOM - M_NUM)  * F], ["#e00", "#999"], 1.5);
+                                rectchart([I_NUM2, I_DENOM - I_NUM2], ["#e00", "#999"], 0);
+                                label([0, 2], "\\dfrac{" + (M_NUM * F) + "}{" + (M_DENOM * F) + "}", "left");
+                                label([0, 0.5], "\\dfrac{" + I_NUM2 + "}{" + I_DENOM + "}", "left");
                             </div>
                         </div>
+                    </div>
+                    <div data-else="">
+                        <p>
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code> is the same thing as
+                            <code>\dfrac{<var>I_NUM2 * F</var>}{<var>I_DENOM * F</var>}</var></code>
+                        </p>
 
-                        <p data-if="SOLUTION === '>'">
-                            <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code> is more than 
-                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code>
+                        <div class="graphie">
+                            init({ range: [[-0.1, 1], [0, 2.5]], scale: [400, 50] });
+                            rectchart([M_NUM, M_DENOM - M_NUM], ["#e00", "#999"], 1.5);
+                            rectchart([I_NUM2 * F, (I_DENOM - I_NUM2) * F], ["#e00", "#999"], 0);
+                            label([0, 2], "\\dfrac{" + M_NUM + "}{" + M_DENOM + "}", "left");
+                            label([0, 0.5], "\\dfrac{" + (I_NUM2 * F) + "}{" + (I_DENOM * F) + "}", "left");
+                        </div>
+                    </div>
+
+                    <div >
+                        <p data-if="ORDER === 1">
+                            <code>\dfrac{<var>M_NUM * F</var>}{<var>M_DENOM * F</var>}</var></code> <var>COMPARISON</var>
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code>.
                         </p>
-                        <p data-else-if="SOLUTION === '<'">
-                            <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code> is less than 
-                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code>
+                        <p data-else>
+                            <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> <var>COMPARISON</var>
+                            <code>\dfrac{<var>I_NUM2 * F</var>}{<var>I_DENOM * F</var>}</var></code>.
                         </p>
-                        <p data-else-if="SOLUTION === '='">
-                            <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code> is equal to
-                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code>
+                        <p>
+                            Therefore <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> <var>COMPARISON</var>
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</var></code>.
                         </p>
                     </div>
 
                     <p>
-                        Therefore <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}
+                        Therefore <code><var>WHOLE2</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}
                         <var>SOLUTION</var> \dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</var></code>
                     </p>
 
                 </div>
             </div>
-            <div id="different-whole">
-                <div class="vars" data-ensure="M_DENOM !== I_DENOM">
-                    <var id="WHOLE">randRange(1, 5)</var>
+            <div id="different-whole" data-type="same-whole">
+                <div class="vars">
                     <var id="WHOLE2" data-ensure="WHOLE !== WHOLE2">randRange(1, 5)</var>
-                    <var id="M_NUM">randRange(1, 9)</var>
-                    <var id="M_DENOM">randRange(M_NUM + 1, 10)</var>
-
-                    <var id="I_DENOM">randRange(M_NUM + 1, 10)</var>
-                    <var id="I_NUM2">randRange(1, 9)</var>
-                    <var id="I_NUM">WHOLE2 * I_DENOM + I_NUM2</var>
-
-                    <var id="SOLUTION">(function() {
-                        if (WHOLE +  M_NUM / M_DENOM &gt; I_NUM / I_DENOM) {
-                            return "&gt;";
-                        }
-                        else {
-                            return "&lt;";
-                        }
-                    })()
-                    </var>
                 </div>
 
-                <div class="problem">
-                    <p>Fill in the blank.</p>
-                    <p>
-                        <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</code>
-                        ____<code>\space \dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</code>
-                    </p>
-                </div>
-                <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-category="true">
-                    <li><code>&lt;</code></li>
-                    <li><code>&gt;</code></li>
-                    <li><code>=</code></li>
-                </ul>
                 <div class="hints">
                     <div>
-                        <p><code>\dfrac{<var>I_DENOM * WHOLE2</var>}{<var>I_DENOM</var>} = <var>WHOLE2</var></code></p>
+                        <p><code>\dfrac{<var>I_DENOM * WHOLE</var>}{<var>I_DENOM</var>} = <var>WHOLE</var></code></p>
                         <p>
                             So <code>\dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</code> is 
-                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</code> more than <code><var>WHOLE2</var></code>
+                            <code>\dfrac{<var>I_NUM2</var>}{<var>I_DENOM</var>}</code> more than <code><var>WHOLE</var></code>
                         </p>
                     </div>
 
                     <p>
-                        <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> is 
-                        <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> more than <code><var>WHOLE</var></code>
+                        <code><var>WHOLE2</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> is 
+                        <code>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}</var></code> more than <code><var>WHOLE2</var></code>
                     </p>
 
                     <p>
-                        Therefore <code><var>WHOLE</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}
+                        Therefore <code><var>WHOLE2</var>\dfrac{<var>M_NUM</var>}{<var>M_DENOM</var>}
                         <var>SOLUTION</var> \dfrac{<var>I_NUM</var>}{<var>I_DENOM</var>}</var></code>
                     </p>
                 </div>
