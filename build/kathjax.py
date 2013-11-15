@@ -154,3 +154,4 @@ shutil.rmtree(tempdir)
 print "Done. You probably want to run:"
 print "  git add -A third_party/MathJax"
 print "to remove deleted files from git."
+print "You should probably also update all the places that import MathJax.js"
