@@ -572,6 +572,90 @@ window.Khan = (function() {
 
             return actions;
         })(),
+        
+        workspace: (function() {
+            var disabled = false, isTex = false, wasVisible, workspace;
+
+            var actions = {
+                disable: function() {
+                    wasVisible = actions.isVisible();
+                    actions.hide();
+
+                    $("#workspace-show").hide();
+                    $("#workspace-not-available").show();
+                    disabled = true;
+                },
+
+                enable: function() {
+                    if (wasVisible) {
+                        actions.show();
+                        wasVisible = false;
+                    }
+
+                    $("#workspace-show").show();
+                    $("#workspace-not-available").hide();
+                    disabled = false;
+                },
+
+                isVisible: function() {
+                    return workspace ? $("#workspace").is(":visible"): false;
+                },
+
+                show: function() {
+                    if (actions.isVisible()) {
+                        return;
+                    }
+
+                    var makeVisible = function() {
+                        $("#workspace").show();
+                        $("#workspace-show").text($._("Hide workspace"));
+
+                        // If workspace has never been created or if it's empty
+                        // because it was removed from the DOM, recreate a new
+                        // workspace.
+                        if (!workspace || !$("#workspace").children().length) {
+                            workspace = new MakeWorkspace(
+                                $("#workspace"));
+                        }
+                        $(Exercises).trigger("showWorkspace");
+                        $("#workspace-tex-toggle").text(isTex ? "Switch to non-tex" : "Switch to tex");
+                    };
+
+                    loadModule("workspace").then(makeVisible);
+                },
+
+                hide: function() {
+                    if (!actions.isVisible()) {
+                        return;
+                    }
+
+                    $("#workspace").hide();
+                    $("#workspace-show").text($._("Show workspace"));
+                },
+                
+                texToggle: function() {
+                	isTex = !isTex;
+                	$("#workspace-tex-toggle").text(isTex ? "Switch to non-tex" : "Switch to tex");
+                	$("#workspace_input").trigger("propertychange");
+                },
+                
+                isTex: function() {
+                	return isTex;
+                },
+
+                toggle: function() {
+                    actions.isVisible() ? actions.hide() : actions.show();
+                },
+
+                clear: function() {
+                    $('#workspace_input').val('');
+                    $('#workspace_display').empty();
+                },
+
+            };
+
+            return actions;
+        })(),
 
         getSeedInfo: function() {
             return {
@@ -1099,6 +1183,11 @@ window.Khan = (function() {
                 if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
                     Khan.scratchpad.show();
                 }
+                
+                var lastWorkspace = window.localStorage["workspace:" + user];
+                if (typeof lastWorkspace !== "undefined" && JSON.parse(lastWorkspace)) {
+                    Khan.workspace.show();
+                }
             }
 
             $(Exercises).trigger("clearExistingProblem");
@@ -1179,6 +1268,8 @@ window.Khan = (function() {
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
         Khan.scratchpad.enable();
+        
+        Khan.workspace.enable();
 
         // Allow passing in a random seed
         if (typeof seed !== "undefined") {

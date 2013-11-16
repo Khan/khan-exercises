@@ -46,6 +46,7 @@ var PerseusBridge = Exercises.PerseusBridge,
 $(Exercises)
     .bind("problemTemplateRendered", problemTemplateRendered)
     .bind("newProblem", newProblem)
+    .bind("showWorkspace", onWorkspaceShown)
     .bind("hintShown", onHintShown)
     .bind("readyForNextProblem", readyForNextProblem)
     .bind("warning", warning)
@@ -112,6 +113,17 @@ function problemTemplateRendered() {
         if (!localMode && userExercise.user) {
             window.localStorage["scratchpad:" + userExercise.user] =
                     Khan.scratchpad.isVisible();
+        }
+    });
+    
+    // Workspace toggle
+    $("#workspace-show").click(function(e) {
+        e.preventDefault();
+        Khan.workspace.toggle();
+
+        if (!localMode && userExercise.user) {
+            window.localStorage["workspace:" + userExercise.user] =
+                    Khan.workspace.isVisible();
         }
     });
 
@@ -408,6 +420,13 @@ function onHintShown(e, data) {
     }
 }
 
+function onWorkspaceShown(e, data) {
+	$("#workspace a").click(function(e) {
+        e.preventDefault();
+        Khan.workspace.texToggle();
+	});
+}
+
 function updateHintButtonText() {
     var $hintButton = $("#hint");
     var hintsLeft = numHints - hintsUsed;
@@ -676,6 +695,7 @@ function clearExistingProblem() {
             .show();
 
     Khan.scratchpad.clear();
+    Khan.workspace.clear();
 }
 
 })();
