@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Clue Example</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="misconceptions_marked_wrong">
+            <div class="vars"></div>
+            <p class="question">First round the following numbers, then add them: 34.5, 22.1, 30.6
+            	<br/><br/> Try entering in 87 (the answer you'd get if you added, then rounded; a misconception).
+            	<br/><br/> (Inspired by this <a href="https://github.com/Khan/khan-exercises/issues/113278">issue</a>)
+            	<br/><br/><br/><br/> Problem 1 of 3 (marked wrong)</p>
+            <p class="solution" data-type="expression" 
+            	data-clues='{"87":"Did you forget to round each number BEFORE adding?"}'>
+            	88</p>
+        </div>
+        <div id="common_mistakes">
+            <div class="vars"></div>
+            <p class="question">Express .03 as a fraction
+            	<br/><br/> Try entering in 3/10  (the answer you'd get if you made a common mistake).
+            	<br/><br/> (Inspired by this <a href="https://github.com/Khan/khan-exercises/issues/115239">issue</a>)
+            	<br/><br/><br/><br/> Problem 3 of 3 (marked wrong)</p>
+            <p class="solution" data-type="expression" data-same-form
+            	data-clues='{"3/10":"If 3/1 = 3 and 3/10 is .3, how would you express .03?"}'>
+            	3/100</p>
+        </div>
+        
+        <div id="misunderstanding_format_of_answer">
+            <p class="question"> How many times do you need to multiply 52.024 by ten to get 5202.4?</p>
+			<br/><br/> Try entering in 100  (the actual power of 10 rather than the exponent).
+            	<br/><br/> (Inspired by this <a href="https://github.com/Khan/khan-exercises/issues/115251">issue</a>)
+            	<br/><br/><br/><br/> Problem 3 of 3 (NOT marked wrong / considered empty answer / note that the button doesn't shake)</p>
+            <p class="solution" data-type="expression" 
+            	data-clues='{"100":["Yes, multiplying by 100 gets 5202.4, but the question asks how many times.", true]}'>
+            	2</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
