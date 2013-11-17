@@ -152,7 +152,9 @@ function newProblem(e, data) {
         var task = Exercises.learningTask;
         var hideRelatedVideos = task && task.isMasteryTask() && nearMastery;
 
-        if (!hideRelatedVideos) {
+        if (hideRelatedVideos) {
+            Exercises.RelatedVideos.render([]);
+        } else {
             Exercises.RelatedVideos.render(
                     data.userExercise.exerciseModel.relatedVideos);
         }
