@@ -88,7 +88,7 @@
                     var trA = new Triangle( [ 0, -2 ],  A_ANGLES, 5*SCALE_A, {} );
                     trA.labels = {"sides": [A_SIDES[2], A_SIDES[0], A_SIDES[1]], "points" : A_POINTS };
                     trA.rotate( randRange( 0, 360 ) );
-                    trA.color = "blue";
+                    trA.color = BLUE;
                     // trA.boxOut( [ [ [ -1, -10  ], [ -1, 20 ] ] ], [ 0.5, 0 ] );
                     // trA.boxOut( TR.sides, [ 0, -1 ] );
                     return trA;
@@ -99,7 +99,7 @@
                     var trB = new Triangle( [ 8, -6 ],  B_ANGLES, 5*SCALE_B, {} );
                     trB.labels = {"sides": [B_LABELS[2], B_LABELS[0], B_LABELS[1]], "points" : B_POINTS };
                     trB.rotate( randRange( 0, 360 ) );
-                    trB.color = "red";
+                    trB.color = RED;
                     // trB.boxOut( [ [ [ 13, -10  ], [ 13, 20 ] ] ], [ -0.5, 0 ] );
                     // trB.boxOut( TR.sides, [ 0, -1 ] );
                     trB.boxOut( TR_A.sides, [ 0, -1 ] );
@@ -134,13 +134,13 @@
                     })
 
                     style({
-                        stroke: "blue",
+                        stroke: BLUE,
                     });
                     TR_A.draw();
                     TR_A.drawLabels();
 
                     style({
-                        stroke: "red",
+                        stroke: RED,
                     });
                     TR_B.draw();
                     TR_B.drawLabels();
@@ -158,21 +158,21 @@
                 <p>Similar triangles have proportional sides.</p>
                 <p>Therefore, we can set up equivalent proportions and solve for <code><var>X</var></code>.</p>
                 <div>
-                    <p><code>\dfrac{\color{red}{<var>B_LABELS[SOLUTION_INDEX]</var>}}{\color{blue}{<var>A_SIDES[SOLUTION_INDEX]</var>}} = \dfrac{\color{red}{<var>B_LABELS[PROP_INDEX]</var>}}{\color{blue}{<var>A_SIDES[PROP_INDEX]</var>}}</code></p>
-                    <p data-if="A_SIDES[PROP_INDEX] !== A_SIDES[ALTERNATE_INDEX]">Note: As each corresponding <code>\dfrac{\color{red}{side}}{\color{blue}{side}}</code> proportion is equivalent, you could use the other sides (i.e.,  <code>\dfrac{\color{red}{<var>B_LABELS[SOLUTION_INDEX]</var>}}{\color{blue}{<var>A_SIDES[SOLUTION_INDEX]</var>}} = \dfrac{\color{red}{<var>B_LABELS[ALTERNATE_INDEX]</var>}}{\color{blue}{<var>A_SIDES[ALTERNATE_INDEX]</var>}}</code>)</p>
+                    <p><code>\dfrac{\red{<var>B_LABELS[SOLUTION_INDEX]</var>}}{\blue{<var>A_SIDES[SOLUTION_INDEX]</var>}} = \dfrac{\red{<var>B_LABELS[PROP_INDEX]</var>}}{\blue{<var>A_SIDES[PROP_INDEX]</var>}}</code></p>
+                    <p data-if="A_SIDES[PROP_INDEX] !== A_SIDES[ALTERNATE_INDEX]">Note: As each corresponding <code>\dfrac{\red{side}}{\blue{side}}</code> proportion is equivalent, you could use the other sides (i.e.,  <code>\dfrac{\red{<var>B_LABELS[SOLUTION_INDEX]</var>}}{\blue{<var>A_SIDES[SOLUTION_INDEX]</var>}} = \dfrac{\red{<var>B_LABELS[ALTERNATE_INDEX]</var>}}{\blue{<var>A_SIDES[ALTERNATE_INDEX]</var>}}</code>)</p>
                 </div>
 
                 <div>
                     <p>Reduce the proportion on the right hand side.</p>
-                    <p><code>\dfrac{\color{red}{<var>B_LABELS[SOLUTION_INDEX]</var>}}{\color{blue}{<var>A_SIDES[SOLUTION_INDEX]</var>}} = \cancel{\dfrac{\color{red}{<var>B_LABELS[PROP_INDEX]</var>}}{\color{blue}{<var>A_SIDES[PROP_INDEX]</var>}}}{\color{green}{<var>fractionReduce(B_LABELS[PROP_INDEX], A_SIDES[PROP_INDEX])</var>}}</code></p>
+                    <p><code>\dfrac{\red{<var>B_LABELS[SOLUTION_INDEX]</var>}}{\blue{<var>A_SIDES[SOLUTION_INDEX]</var>}} = \cancel{\dfrac{\red{<var>B_LABELS[PROP_INDEX]</var>}}{\blue{<var>A_SIDES[PROP_INDEX]</var>}}}{\green{<var>fractionReduce(B_LABELS[PROP_INDEX], A_SIDES[PROP_INDEX])</var>}}</code></p>
                 </div>
 
                 <div>
                     <p>Multiply each side by <code><var>A_SIDES[SOLUTION_INDEX]</var></code> and simplify.</p>
-                    <p><code>\cancel{<var>A_SIDES[SOLUTION_INDEX]</var>} \times \dfrac{\color{red}{<var>B_LABELS[SOLUTION_INDEX]</var>}}{\cancel{\color{blue}{<var>A_SIDES[SOLUTION_INDEX]</var>}}} = \color{green}{<var>fractionReduce(B_LABELS[PROP_INDEX], A_SIDES[PROP_INDEX])</var>} \times <var>A_SIDES[SOLUTION_INDEX]</var></code></p>
+                    <p><code>\cancel{<var>A_SIDES[SOLUTION_INDEX]</var>} \times \dfrac{\red{<var>B_LABELS[SOLUTION_INDEX]</var>}}{\cancel{\blue{<var>A_SIDES[SOLUTION_INDEX]</var>}}} = \green{<var>fractionReduce(B_LABELS[PROP_INDEX], A_SIDES[PROP_INDEX])</var>} \times <var>A_SIDES[SOLUTION_INDEX]</var></code></p>
                 </div>
 
-                <p class="final_answer"><code>\color{red}{<var>X</var>}</code> is equal to <code><var>SOLUTION</var></code>.</p>
+                <p class="final_answer"><code>\red{<var>X</var>}</code> is equal to <code><var>SOLUTION</var></code>.</p>
 
             </div>
         </div>
