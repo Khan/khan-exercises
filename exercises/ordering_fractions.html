@@ -112,8 +112,9 @@
                     </div>
                     <div class="guess">SORTER.getContent()</div>
                     <div class="validator-function">
-                        if (SORTER.hasAttempted) {
-                            return guess.join(",") === NUMS_SORT_TEX;
+                        var guessSolution = guess.join(",") === NUMS_SORT_TEX;
+                        if (SORTER.hasAttempted || guessSolution) {
+                            return guessSolution;
                         } else {
                             return "";
                         }
