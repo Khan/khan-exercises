@@ -7,55 +7,77 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
-        <var id="N1">randRange( 1, 9 )</var>
-        <var id="N2">randRange( 1, 9 )</var>
-        <var id="D">randRange( N1 + N2 + 1, 20 )</var>
-    </div>
+        <div class="problems">
+            <div id="add-fractions">
+                <div class="vars">
+                    <var id="N1">randRange(2, 9)</var>
+                    <var id="N2">randRange(2, 9)</var>
+                    <var id="D">randFromArray([2, 3, 4, 5, 6, 8, 10, 12, 100])</var>
+                    <var id="DIGITS">(D + "").length</var>
+                    <var id="GCD">getGCD(N1 + N2, D)</var>
+                </div>
 
-    <div class="problems">
-        <div id="add-fractions">
-            <div class="question">
-                <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = {?}</code></p>
-            </div>
-            <div class="solution" data-simplify="optional" data-type="rational"><var>( N1 + N2 ) / D</var></div>
-        </div>
+                <div class="question">
+                    <p><code><var>fraction(N1, D)</var> + <var>fraction(N2, D)</var> = {?}</code></p>
+                </div>
+                <div class="solution" data-simplify="optional" data-type="rational"><var>(N1 + N2) / D</var></div>
 
-        <div id="custom-5" data-type="add-fractions" data-weight="0">
-            <div class="vars">
-                <var id="N1">1</var>
-                <var id="N2">1</var>
-                <var id="D">5</var>
-            </div>
-        </div>
-    </div>
+                <div class="hints">
+                    <div class="graphie">
+                        init({ range: [[-1, 20], [-1, 3]], scale: 20 });
 
-    <div class="hints">
-        <div style="height: 150px;">
-            <div class="graphie" style="float: left">
-                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                piechart( [ N1, D - N1 ], ["#e00", "#999"], 2 );
-            </div>
-            <div class="graphie" style="float: left;">
-                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                piechart( [ N2, D - N2 ], ["#e00", "#999"], 2 );
+                        label([0, 0], "\\dfrac{\\blue{" + N1 + "}}{" + D + "} + \\dfrac{\\green{" + N2 + "}}{" + D + "} = ");
+                        
+                        var x = 0.8 + 0.5 * DIGITS;
+                        var x2 = 3.5 + 0.8 * DIGITS;
+
+                        if (N1 > 2) {
+                            curlyBrace([x + 0.1, 0.9], [x + x2, 0.9]);
+                            label([x, 0], "\\dfrac{\\blue{1}}{" + D + "} + . . . + \\dfrac{\\blue{1}}{" + D + "}", "right");
+                            label([0.05 + x + x2 / 2, 1.1], "\\blue{" + N1 + "}", "above");
+                            x += x2;
+                        } else {
+                            label([x, 0], "\\dfrac{\\blue{1}}{" + D + "} + \\dfrac{\\blue{1}}{" + D + "}", "right");
+                            x += 2.1 + 0.6 * DIGITS;
+                        }
+                        
+                        label([x + 1.5, 0], "+", "left");
+
+                        if (N2 > 2) {
+                            curlyBrace([x + 1.6, 0.9], [x + x2 + 1.5, 0.9]);
+                            label([x + 1.5, 0], "\\dfrac{\\green{1}}{" + D + "} + . . . + \\dfrac{\\green{1}}{" + D + "}", "right");
+                            label([1.55 + x + x2 / 2, 1.1], "\\green{" + N2 + "}", "above");
+                        } else {
+                            label([x + 1.5, 0], "\\dfrac{\\green{1}}{" + D + "} + \\dfrac{\\green{1}}{" + D + "}", "right");
+                        }
+                    </div>
+
+                    <div class="graphie">
+                        init({ range: [[-1, 20], [-1, 3]], scale: 20 });
+                        
+                        var x = 0.8 + 0.5 * DIGITS;
+                        var x2 = 3.5 + 0.8 * DIGITS;
+
+                        label([x - 0.2, 0], "=");
+
+                        curlyBrace([x + 0.1, 0.9], [x + x2, 0.9]);
+
+                        label([x, 0], "\\dfrac{\\blue{1}}{" + D + "} + . . . + \\dfrac{\\green{1}}{" + D + "}", "right");
+                        label([0.05 + x + x2 / 2, 1.1], "\\blue{" + N1 + "} + \\green{" + N2 + "}", "above");
+                    </div>
+
+                    <p><code>\qquad = \dfrac{\blue{<var>N1</var>} + \green{<var>N2</var>}}{<var>D</var>}</code></p>
+                    <p><code>\qquad = \dfrac{<var>N1 + N2</var>}{<var>D</var>}</code></p>
+
+                    <div data-if="GCD !== 1">
+                        <p>Simplify.</p>
+                        <p data-if="D / GCD === 1"><code>\qquad = <var>(N1 + N2) / GCD</var></code></p>
+                        <p data-else><code>\qquad = <var>fractionReduce(N1 + N2, D)</var></code></p>
+                    </div>
+                </div>
+
             </div>
         </div>
-        <p>Add the numerators.</p>
-        <div class="graphie">
-            init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-            piechart( [ N1+N2, D - N2 - N1], ["#e00", "#999"], 2 );
-        </div>
-        <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = <var>fraction( N1 + N2, D )</var></code></p>
-        <div data-if="getGCD( N1 + N2, D ) !== 1">
-            <p>Simplify.</p>
-            <div class="graphie">
-                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                piechart( [ reduce( N1 + N2, D)[0], reduce( N1 + N2, D)[1] -  reduce( N1 + N2, D)[0]], ["#e00", "#999"], 2 );
-            </div>
-            <p><code><var>fraction( N1 + N2, D )</var> = <var>fractionReduce( N1 + N2, D )</var></code></p>
-        </div>
-    </div>
     </div>
 </body>
 </html>
