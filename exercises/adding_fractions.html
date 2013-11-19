@@ -7,66 +7,46 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="SIMP_D1 !== SIMP_D2">
-        <var id="N1">randRange( 1, 9 )</var>
-        <var id="D1">randRange( N1 + 1, 13 )</var>
-        <var id="GCD1">getGCD( N1, D1 )</var>
-        <var id="SIMP_N1">N1 / GCD1</var>
-        <var id="SIMP_D1">D1 / GCD1</var>
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="D1">randFromArray(smallDenominators)</var>
+                    <var id="D2">randFromArray(smallDenominators)</var>
+                    <var id="N1">randRangeExclude(1, 9, [D1])</var>
+                    <var id="N2">randRangeExclude(1, 9, [D2])</var>
+                    <var id="LCM">getLCM(D1, D2)</var>
+                    <var id="F1">LCM / D1</var>
+                    <var id="F2">LCM / D2</var>
+                </div>
 
-        <var id="N2">randRange( 1, 9 )</var>
-        <var id="D2">randRange( N2 + 1, 13 )</var>
-        <var id="GCD2">getGCD( N2, D2 )</var>
-        <var id="SIMP_N2">N2 / GCD2</var>
-        <var id="SIMP_D2">D2 / GCD2</var>
+                <p class="question"><code><var>fraction( N1, D1 )</var> + <var>fraction( N2, D2 )</var> = {?}</code></p>
+                <p class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></p>
 
-        <var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
-    </div>
+                <div class="hints">
+                    <p><code>
+                        \qquad = \blue{\dfrac{<var>N1</var> \times <var>F1</var>}{<var>D1</var> \times <var>F1</var>}} + 
+                        \green{\dfrac{<var>N2</var> \times <var>F2</var>}{<var>D2</var> \times <var>F2</var>}}
+                    </code></p>
 
-    <div class="problems">
-        <div id="add-fractions">
-            <p class="question"><code><var>fraction( N1, D1 )</var> + <var>fraction( N2, D2 )</var> = {?}</code></p>
-            <p class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></p>
-        </div>
+                    <p><code>
+                        \qquad = \blue{\dfrac{<var>N1 * F1</var>}{<var>LCM</var>}} + 
+                        \green{\dfrac{<var>N2 * F2</var>}{<var>LCM</var>}}
+                    </code></p>
 
-        <div id="custom-8" data-type="add-fractions" data-weight="0">
-            <div class="vars">
-                <var id="N1">1</var>
-                <var id="D1">2</var>
-                <var id="GCD1">getGCD( N1, D1 )</var>
-                <var id="SIMP_N1">N1 / GCD1</var>
-                <var id="SIMP_D1">D1 / GCD1</var>
+                    <p><code>
+                        \qquad = \dfrac{\blue{<var>N1 * F1</var>} + 
+                        \green{<var>N2 * F2</var>}}{<var>LCM</var>}
+                    </code></p>
 
-                <var id="N2">1</var>
-                <var id="D2">4</var>
-                <var id="GCD2">getGCD( N2, D2 )</var>
-                <var id="SIMP_N2">N2 / GCD2</var>
-                <var id="SIMP_D2">D2 / GCD2</var>
+                    <p><code>\qquad = <var>fraction(F1 * N1 + F2 * N2, LCM)</var></code></p>
 
-                <var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
+                    <div data-if="getGCD(F1 * N1 + F2 * N2, LCM) !== 1">
+                        <p>Simplify.</p>
+                        <p><code>\qquad = <var>fractionReduce(F1 * N1 + F2 * N2, LCM)</var></code></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="hints">
-        <div data-if="GCD1 !== 1 || GCD2 !== 1">
-            <p>Simplify each fraction.</p>
-            <p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> + <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
-        </div>
-        <p>Find a common denominator by finding the least common multiple of <code><var>SIMP_D1</var></code> and <code><var>SIMP_D2</var></code>.</p>
-        <p><code>\lcm(<var>SIMP_D1</var>, <var>SIMP_D2</var>) = <var>LCM</var></code></p>
-        <div>
-            <p>Change each fraction to an equivalent fraction with a denominator of <code><var>LCM</var></code>.</p>
-            <p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> + <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
-            <p><code>=<var>fraction( SIMP_N1, SIMP_D1 )</var> <span data-if="LCM !== SIMP_D1">\cdot <var>fraction( LCM / SIMP_D1, LCM / SIMP_D1 )</var></span> + <var>fraction( SIMP_N2, SIMP_D2 )</var> <span data-if="LCM !== SIMP_D2">\cdot <var>fraction( LCM / SIMP_D2, LCM / SIMP_D2 )</var></span></code></p>
-        </div>
-        <p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1, LCM )</var> + <var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
-        <p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1 + SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
-        <div data-if="getGCD( SIMP_N1 * LCM / SIMP_D1 + SIMP_N2 * LCM / SIMP_D2, LCM ) !== 1">
-            <p>Simplify.</p>
-            <p><code>=<var>fractionReduce( SIMP_N1 * LCM / SIMP_D1 + SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
-        </div>
-    </div>
     </div>
 </body>
 </html>
