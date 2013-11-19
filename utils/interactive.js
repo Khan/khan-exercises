@@ -253,8 +253,13 @@ $.extend(KhanUtil.Graphie.prototype, {
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
         $(graph.mouselayer.canvas).css("z-index", 1);
         if (options.onClick) {
+            var canvasClickTarget = graph.mouselayer.rect(
+                    0, 0, graph.xpixels, graph.ypixels).attr({
+                fill: "#000",
+                opacity: 0
+            });
             $(graph.mouselayer.canvas).on("vmouseup", function(e) {
-                if (e.target === graph.mouselayer.canvas) {
+                if (e.target === canvasClickTarget[0]) {
                     options.onClick(graph.getMouseCoord(e));
                 }
             });
