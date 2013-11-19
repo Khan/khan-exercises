@@ -476,6 +476,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         multiplier = Math.PI * 2;
                     }
 
+                    // We're taking an early stand along side xkcd in the
+                    // inevitable ti vs. pau debate... http://xkcd.com/1292
                     if (text.match(/pau/)) {
                         multiplier = Math.PI * 1.5;
                     }
