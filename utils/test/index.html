@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Utility Test Suite</title>
-	<!-- Include dependencies -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<script>
-		var Khan = {
-			query: {},
-			scriptWait: function(){},
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Utility Test Suite</title>
+    <!-- Include dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script>
+        var Khan = {
+            query: {},
+            scriptWait: function(){},
 
-			// This is a random number pulled out of my 32-bit pseudo-random hat so that tests are always the same
-			randomSeed: 0x4e27b400
-		};
-		var KhanUtil = Khan.Util = {
-			random: function() {
-				// Robert Jenkins' 32 bit integer hash function.
-				var seed = Khan.randomSeed;
-				seed = ( ( seed + 0x7ed55d16 ) + ( seed << 12 ) ) & 0xffffffff;
-				seed = ( ( seed ^ 0xc761c23c ) ^ ( seed >>> 19 ) ) & 0xffffffff;
-				seed = ( ( seed + 0x165667b1 ) + ( seed << 5 ) ) & 0xffffffff;
-				seed = ( ( seed + 0xd3a2646c ) ^ ( seed << 9 ) ) & 0xffffffff;
-				seed = ( ( seed + 0xfd7046c5 ) + ( seed << 3 ) ) & 0xffffffff;
-				seed = ( ( seed ^ 0xb55a4f09 ) ^ ( seed >>> 16 ) ) & 0xffffffff;
-				return ( Khan.randomSeed = ( seed & 0xfffffff ) ) / 0x10000000;
-			}
-		};
-	</script>
-	<script src="../../local-only/underscore.js"></script>
-	<script src="../../local-only/jed.js"></script>
-	<script src="../../local-only/i18n.js"></script>
+            // This is a random number pulled out of my 32-bit pseudo-random hat so that tests are always the same
+            randomSeed: 0x4e27b400
+        };
+        var KhanUtil = Khan.Util = {
+            random: function() {
+                // Robert Jenkins' 32 bit integer hash function.
+                var seed = Khan.randomSeed;
+                seed = ( ( seed + 0x7ed55d16 ) + ( seed << 12 ) ) & 0xffffffff;
+                seed = ( ( seed ^ 0xc761c23c ) ^ ( seed >>> 19 ) ) & 0xffffffff;
+                seed = ( ( seed + 0x165667b1 ) + ( seed << 5 ) ) & 0xffffffff;
+                seed = ( ( seed + 0xd3a2646c ) ^ ( seed << 9 ) ) & 0xffffffff;
+                seed = ( ( seed + 0xfd7046c5 ) + ( seed << 3 ) ) & 0xffffffff;
+                seed = ( ( seed ^ 0xb55a4f09 ) ^ ( seed >>> 16 ) ) & 0xffffffff;
+                return ( Khan.randomSeed = ( seed & 0xfffffff ) ) / 0x10000000;
+            }
+        };
+    </script>
+    <script src="../../local-only/underscore.js"></script>
+    <script src="../../local-only/jed.js"></script>
+    <script src="../../local-only/i18n.js"></script>
 
-	<!-- Include QUnit -->
-	<link rel="stylesheet" href="../../test/qunit/qunit/qunit.css" type="text/css" media="screen">
-	<script src="../../test/qunit/qunit/qunit.js"></script>
+    <!-- Include QUnit -->
+    <link rel="stylesheet" href="../../test/qunit/qunit/qunit.css" type="text/css" media="screen">
+    <script src="../../test/qunit/qunit/qunit.js"></script>
 
-	<!-- Include utility files and tests. -->
-	<script src="../math.js"></script>
-	<script src="math.js"></script>
-	<script src="../expressions.js"></script>
-	<script src="expressions.js"></script>
-	<script src="../polynomials.js"></script>
-	<script src="polynomials.js"></script>
-	<script src="../calculus.js"></script>
-	<script src="calculus.js"></script>
-	<script src="../tmpl.js"></script>
-	<script src="tmpl.js"></script>
-	<script src="../matrix.js"></script>
-	<script src="matrix.js"></script>
+    <!-- Include utility files and tests. -->
+    <script src="../math.js"></script>
+    <script src="math.js"></script>
+    <script src="../expressions.js"></script>
+    <script src="expressions.js"></script>
+    <script src="../polynomials.js"></script>
+    <script src="polynomials.js"></script>
+    <script src="../calculus.js"></script>
+    <script src="calculus.js"></script>
+    <script src="../tmpl.js"></script>
+    <script src="tmpl.js"></script>
+    <script src="../matrix.js"></script>
+    <script src="matrix.js"></script>
 </head>
 <body>
-	<h1 id="qunit-header">Utility Test Suite</h1>
-	<h2 id="qunit-banner"></h2>
-	<div id="qunit-testrunner-toolbar"></div>
-	<h2 id="qunit-userAgent"></h2>
-	<ol id="qunit-tests"></ol>
-	<div id="qunit-fixture">test markup</div>
+    <h1 id="qunit-header">Utility Test Suite</h1>
+    <h2 id="qunit-banner"></h2>
+    <div id="qunit-testrunner-toolbar"></div>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+    <div id="qunit-fixture">test markup</div>
 </body>
 </html>
