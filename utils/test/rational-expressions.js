@@ -1,73 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>rational-expressions</title>
-    <!-- Include dependencies -->
-    <script src="../../local-only/jquery.js"></script>
-    <script src="../../local-only/jed.js"></script>
-    <script src="../../local-only/i18n.js"></script>
-    <script>
-        // TODO(alpert): Ugh, should probably load khan-exercise.js for real...
-        var Khan = {
-            query: {},
-            scriptWait: $.noop,
-
-            // This is a random number pulled out of my 32-bit
-            // pseudo-random hat so that tests are always the same
-            randomSeed: 0x4e27b400
-        };
-        var KhanUtil = Khan.Util = {
-            debugLog: $.noop,
-            random: function() {
-                // Robert Jenkins' 32 bit integer hash function.
-                var seed = Khan.randomSeed;
-                seed = ((seed + 0x7ed55d16) + (seed << 12)) & 0xffffffff;
-                seed = ((seed ^ 0xc761c23c) ^ (seed >>> 19)) & 0xffffffff;
-                seed = ((seed + 0x165667b1) + (seed << 5)) & 0xffffffff;
-                seed = ((seed + 0xd3a2646c) ^ (seed << 9)) & 0xffffffff;
-                seed = ((seed + 0xfd7046c5) + (seed << 3)) & 0xffffffff;
-                seed = ((seed ^ 0xb55a4f09) ^ (seed >>> 16)) & 0xffffffff;
-                return (Khan.randomSeed = (seed & 0xfffffff)) / 0x10000000;
-            }
-        };
-        $.fn.runModules = function() {
-            $.fn.tmpl.apply(this, arguments);
-            $.fn.tex.apply(this, arguments);
-            return this;
-        };
-    </script>
-    <script src="../../local-only/underscore.js"></script>
-    <script src="../MathJax/2.1/MathJax.js?config=KAthJax-9e2776ffe7d2006f16f36d0d55d9464b"></script>
-
-    <!-- Include QUnit -->
-    <link rel="stylesheet" href="../../test/qunit/qunit/qunit.css" type="text/css" media="screen">
-    <script src="../../test/qunit/qunit/qunit.js"></script>
-
-    <!-- Include utility files and tests. -->
-    <script src="../math.js"></script>
-    <script src="../rational-expressions.js"></script>
-    <script src="../tex.js"></script>
-    <script src="../tmpl.js"></script>
-    <script src="../answer-types.js"></script>
-</head>
-<body>
-
-<h1 id="qunit-header">rational-expressions</h1>
-<h2 id="qunit-banner"></h2>
-<div id="qunit-testrunner-toolbar"></div>
-<h2 id="qunit-userAgent"></h2>
-<ol id="qunit-tests"></ol>
-
-<div id="qunit-fixture">
-    <div id="solutionarea">
-    </div>
-    <div class="problem">
-    </div>
-</div>
-
-<script>
 (function() {
+    module("rational-expressions");
     var t1 = new KhanUtil.Term(4);
     var t2 = new KhanUtil.Term(1, "x");
     var t3 = new KhanUtil.Term(-12, "x");
@@ -275,7 +207,3 @@
     });
 
 })();
-</script>
-
-</body>
-</html>

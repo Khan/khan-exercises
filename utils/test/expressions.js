@@ -6,7 +6,7 @@ var expr = KhanUtil.expr;
 var exprStripColor = KhanUtil.exprStripColor;
 var exprSimplifyAssociative = KhanUtil.exprSimplifyAssociative;
 
-test( "Expression formatter", function() {
+asyncTest( "Expression formatter", 37, function() {
     equal( expr([ "-", 1 ]), "-1", "-1");
     equal( expr([ "+", 1, 2 ]), "1+2", "1 + 2" );
     equal( expr([ "+", "elephant", "potato" ]), "elephant+potato", "random strings" );
@@ -56,9 +56,11 @@ test( "Expression formatter", function() {
     // Test colors
     equal( expr([ "*", 4, [ "+", 2, [ "color", "blue", 2 ] ] ]), "4(2+\\color{blue}{2})", "4(2+\\color{blue}{2})" );
     equal( expr([ "*", 4, [ "color", "blue", 2 ] ]), "(4)(\\color{blue}{2})", "(4)(\\color{blue}{2})" );
+
+    start();
 });
 
-test( "Expression evaluator", function() {
+asyncTest( "Expression evaluator", 10, function() {
     equal( expr([ "+", 2, 4 ], true ), 6, "2 + 4" );
     equal( expr([ "*", 2, 4 ], true ), 8, "2 * 4" );
     equal( expr([ "-", 2, 4 ], true ), -2, "2 - 4" );
@@ -71,9 +73,11 @@ test( "Expression evaluator", function() {
     // Test colors
     equal( expr([ "*", 4, [ "+", 2, [ "color", "blue", 2 ] ] ], true), 16, "4*(2+\\color{blue}{2})" );
     equal( expr([ "*", 4, [ "color", "blue", 2 ] ], true), 8, "(4)(\\color{blue}{2})" );
+
+    start();
 });
 
-test( "Expression utilities", function() {
+asyncTest( "Expression utilities", 5, function() {
     //remove colors
     equal( expr(exprStripColor([ "color", "green", 17 ])), "17", "color outside" );
     equal( expr(exprStripColor([ "*", 4, [ "+", 2, [ "color", "blue", 2 ] ] ])), "4(2+2)", "color inside" );
@@ -82,6 +86,8 @@ test( "Expression utilities", function() {
     equal( expr(exprSimplifyAssociative([ "+", 1, [ "+", [ "+", 2, 3 ], 4 ] ])), "1+2+3+4", "Simplify 1+((2+3)+4)" );
     equal( expr(exprSimplifyAssociative([ "*", [ "*", [ "*", 2, 3 ], 4 ], 5 ])), "(2)(3)(4)(5)", "Simplify ((2*3)*4)*5" );
     equal( expr(exprSimplifyAssociative([ "*", [ "*", [ "*", [ "+", 1, [ "+", [ "+", 2, 3, [ "*", [ "*", [ "*", 2, 3 ], 4 ], 5 ] ], 4 ] ], 3 ], 4 ], 5 ])), "(1+2+3+(2)(3)(4)(5)+4)(3)(4)(5)", "Simplify alternating multiplication and addition" );
+
+    start();
 });
 
 })();

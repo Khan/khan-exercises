@@ -13,7 +13,7 @@ function initVars() {
     );
 }
 
-test("Var Loading", 7, function() {
+asyncTest("Var Loading", 7, function() {
     initVars();
 
     jQuery("#qunit-fixture").tmpl();
@@ -27,9 +27,10 @@ test("Var Loading", 7, function() {
 
     equal( typeof jQuery.tmpl.VARS.F, "function", "Make sure that functions are evaluated." );
     equal( jQuery.tmpl.VARS.G, true, "Make sure that functions are evaluated." );
+    start();
 });
 
-test("Var Replacement", 6, function() {
+asyncTest("Var Replacement", 6, function() {
     initVars();
 
     jQuery("#qunit-fixture").append(
@@ -46,10 +47,12 @@ test("Var Replacement", 6, function() {
     equal( span[3].innerHTML, "test", "Make sure that strings are evaluated." );
     equal( span[4].innerHTML, "true", "Make sure that functions are evaluated." );
     equal( span[5].innerHTML, "1", "Make sure that expressions are evaluated." );
+    start();
 });
 
-test("Code Replacement", 10, function() {
+asyncTest("Code Replacement", 10, function() {
     initVars();
+    Exercises.useKatex = false;
 
     jQuery("#qunit-fixture").append(
         "<code>3 + 2 = 5</code><code>3 + <var>B</var> = 5</code>" +
@@ -71,9 +74,10 @@ test("Code Replacement", 10, function() {
     equal( $(code[3]).parent().parent()[0].className, "test", "Make sure that the className is maintained." );
     equal( code[3].innerHTML, "3 + 2 = 5", "Make sure that variables are substituted." );
     equal( code[3].type, "math/tex", "Make sure that it was turned into a MathJax element." );
+    start();
 });
 
-test("If Statement", 3, function() {
+asyncTest("If Statement", 3, function() {
     initVars();
 
     jQuery("#qunit-fixture").append(
@@ -88,9 +92,10 @@ test("If Statement", 3, function() {
 
     // test data-if on var
     equal( jQuery.tmpl.VARS.TEST, 1, "Make sure that data-if stops var declaration." );
+    start();
 });
 
-test("If/Else Statement", 4, function() {
+asyncTest("If/Else Statement", 4, function() {
     initVars();
 
     jQuery("#qunit-fixture").append(
@@ -107,9 +112,10 @@ test("If/Else Statement", 4, function() {
     equal( div[0].className, "A", "See that the if expression was evaluated correctly." );
     equal( div[1].className, "D", "See that the else expression was evaluated correctly." );
     equal( div[2].className, "E", "See that the if expression was evaluated correctly." );
+    start();
 });
 
-test("If/Else/Else-if Statement", 4, function() {
+asyncTest("If/Else/Else-if Statement", 4, function() {
     initVars();
 
     jQuery("#qunit-fixture").append(
@@ -124,9 +130,10 @@ test("If/Else/Else-if Statement", 4, function() {
     equal( div[0].className, "A", "See that the if expression was evaluated correctly." );
     equal( div[1].className, "E", "See that the else-if expression was evaluated correctly." );
     equal( div[2].className, "I", "See that the else expression was evaluated correctly." );
+    start();
 });
 
-test("Ensure", function() {
+asyncTest("Ensure", 4, function() {
     initVars();
 
     jQuery("#qunit-fixture").append(
@@ -141,9 +148,10 @@ test("Ensure", function() {
 
     equal( jQuery.tmpl.VARS.C, 5, "See that the C was incremented." );
     equal( jQuery.tmpl.VARS.D, 4, "See that the D was at the right value." );
+    start();
 });
 
-test("Unwrap", function() {
+asyncTest("Unwrap", 3, function() {
     initVars();
 
     jQuery("#qunit-fixture").append(
@@ -157,9 +165,10 @@ test("Unwrap", function() {
     equal( jQuery("#qunit-fixture > b").length, 1, "See that the div was unwrapped." );
     equal( jQuery("#qunit-fixture > i").length, 1, "See that the div was unwrapped with a true if." );
     equal( jQuery("#qunit-fixture > u").length, 0, "See that the div was unwrapped with a false if." );
+    start();
 });
 
-test("Looping", 23, function() {
+asyncTest("Looping", 23, function() {
     initVars();
 
     jQuery("#qunit-fixture").append(
@@ -231,9 +240,10 @@ test("Looping", 23, function() {
     li = jQuery("#qunit-fixture ul.f li");
 
     equal( li.length, 0, "See that the list item was removed." );
+    start();
 });
 
-test( "Inheritance", function() {
+asyncTest( "Inheritance", 1, function() {
     QUnit.config.fixture =
         "<div id='test-base-1' class='tmpl'><p id='base-p-1'>Test 1</p><p id='base-p-2'>Test 2</p></div>" +
         "<div id='test-child-1' class='tmpl'><p id='child-p-1'>Test 1</p><p id='child-p-2'>Test 2</p></div>";
@@ -246,4 +256,5 @@ test( "Inheritance", function() {
     jQuery("#qunit-fixture *").tmplApply({ attribute: "class", defaultApply: "appendContents" });
 
     equal( jQuery("#test-base-1").children("p").length, 4, "Verify that child nodes were appended." );
+    start();
 });

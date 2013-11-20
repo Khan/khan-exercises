@@ -2,7 +2,7 @@ module("math" );
 
 (function(){
 
-test( "math miscellanea", 44, function() {
+asyncTest( "math miscellanea", 44, function() {
     deepEqual( KhanUtil.digits(376), [ 6, 7, 3 ], "digits(376)" );
     deepEqual( KhanUtil.integerToDigits(376), [ 3, 7, 6 ], "integerToDigits(376)" );
 
@@ -61,6 +61,7 @@ test( "math miscellanea", 44, function() {
     deepEqual( KhanUtil.sortNumbers( KhanUtil.shuffle( KhanUtil.primes ) ),
         KhanUtil.primes, "shuffle then sort the primes" );
 
+    start();
 });
 
 })();
