@@ -1,6 +1,5 @@
-module("calculator");
-
-(function(){
+(function() {
+    module("calculator");
 
     function calculateStrictEqual(input, expectation) {
         strictEqual(Calculator.calculate(input), expectation, input + ' = '  + expectation);

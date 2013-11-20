@@ -1,6 +1,5 @@
-module("math" );
-
 (function(){
+module("math" );
 
 asyncTest( "math miscellanea", 44, function() {
     deepEqual( KhanUtil.digits(376), [ 6, 7, 3 ], "digits(376)" );

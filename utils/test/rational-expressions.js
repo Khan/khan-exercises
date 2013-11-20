@@ -1,5 +1,6 @@
 (function() {
     module("rational-expressions");
+
     var t1 = new KhanUtil.Term(4);
     var t2 = new KhanUtil.Term(1, "x");
     var t3 = new KhanUtil.Term(-12, "x");

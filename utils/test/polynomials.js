@@ -1,6 +1,5 @@
-module("polynomial");
-
 (function(){
+module("polynomial");
 
 //define the polynomial 2x^{4}-3x^{2}+12x+5+3x^{-1}
 var polyX = "x"; // polynomial is specified using x

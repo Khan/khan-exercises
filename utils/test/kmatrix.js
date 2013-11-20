@@ -1,6 +1,5 @@
-module("kmatrix");
-
 (function() {
+    module("kmatrix");
 
     var matrix = KhanUtil.kmatrix;
 

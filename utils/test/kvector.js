@@ -1,6 +1,5 @@
-module("kvector");
-
 (function() {
+    module("kvector");
 
     var vector = KhanUtil.kvector;
 

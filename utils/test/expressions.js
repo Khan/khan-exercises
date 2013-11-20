@@ -1,6 +1,5 @@
-module("expressions");
-
 (function(){
+module("expressions");
 
 var expr = KhanUtil.expr;
 var exprStripColor = KhanUtil.exprStripColor;

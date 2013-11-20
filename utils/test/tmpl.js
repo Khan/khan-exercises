@@ -1,4 +1,5 @@
-module( "tmpl" );
+(function(){
+module("tmpl");
 
 Khan.error = function( msg ) {
     throw msg;
@@ -258,3 +259,5 @@ asyncTest( "Inheritance", 1, function() {
     equal( jQuery("#test-base-1").children("p").length, 4, "Verify that child nodes were appended." );
     start();
 });
+
+})();
