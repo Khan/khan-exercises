@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Utility Test Suite</title>
     <!-- Include dependencies -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="../../local-only/jquery.js"></script>
     <script>
         var Khan = {
             query: {},
@@ -26,6 +26,9 @@
                 return ( Khan.randomSeed = ( seed & 0xfffffff ) ) / 0x10000000;
             }
         };
+        var Exercises = {
+            useKatex: false
+        };
     </script>
     <script src="../../local-only/underscore.js"></script>
     <script src="../../local-only/jed.js"></script>
@@ -42,12 +45,9 @@
     <script src="expressions.js"></script>
     <script src="../polynomials.js"></script>
     <script src="polynomials.js"></script>
-    <script src="../calculus.js"></script>
-    <script src="calculus.js"></script>
     <script src="../tmpl.js"></script>
+    <script src="../tex.js"></script>
     <script src="tmpl.js"></script>
-    <script src="../matrix.js"></script>
-    <script src="matrix.js"></script>
 </head>
 <body>
     <h1 id="qunit-header">Utility Test Suite</h1>

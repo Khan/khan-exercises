@@ -56,7 +56,7 @@ test("Code Replacement", 10, function() {
         "<code><span>3</span> + <var>B</var> = 5</code><code class='test'>3 + <var>B</var> = 5</code>"
     );
 
-    var code = jQuery("#qunit-fixture").tmpl().children( "code, span" );
+    var code = jQuery("#qunit-fixture").tmpl().tex().find("code>span>script");
 
     equal( code[0].innerHTML, "3 + 2 = 5", "Make sure that strings work." );
     equal( code[0].type, "math/tex", "Make sure that it was turned into a MathJax element." );
@@ -67,10 +67,10 @@ test("Code Replacement", 10, function() {
     equal( code[2].innerHTML, "3 + 2 = 5", "Make sure that extra HTML is stripped." );
     equal( code[2].type, "math/tex", "Make sure that it was turned into a MathJax element." );
 
-    equal( code[3].nodeName.toLowerCase(), "span", "Make sure that we're dealing with a span." );
-    equal( code[3].className, "test", "Make sure that the className is maintained." );
-    equal( code[3].firstChild.innerHTML, "3 + 2 = 5", "Make sure that variables are substituted." );
-    equal( code[3].firstChild.type, "math/tex", "Make sure that it was turned into a MathJax element." );
+    equal( code[3].nodeName.toLowerCase(), "script", "Make sure that we're dealing with a script tag." );
+    equal( $(code[3]).parent().parent()[0].className, "test", "Make sure that the className is maintained." );
+    equal( code[3].innerHTML, "3 + 2 = 5", "Make sure that variables are substituted." );
+    equal( code[3].type, "math/tex", "Make sure that it was turned into a MathJax element." );
 });
 
 test("If Statement", 3, function() {
