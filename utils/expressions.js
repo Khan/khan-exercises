@@ -15,6 +15,9 @@ $.extend(KhanUtil, {
     exprType: function(expr) {
 
         if (typeof expr === "object") {
+            if (expr[0] === "color") {
+                return KhanUtil.exprType(expr[2]);
+            }
 
             return expr[0];
 
