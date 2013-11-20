@@ -12,8 +12,8 @@
                 <div class="vars">
                     <var id="D1">randFromArray(smallDenominators)</var>
                     <var id="D2">randFromArray(smallDenominators)</var>
-                    <var id="N1">randRangeExclude(1, 9, [D1])</var>
-                    <var id="N2">randRangeExclude(1, 9, [D2])</var>
+                    <var id="N1">randRange(1, D1 - 1)</var>
+                    <var id="N2">randRange(1, D2 - 1)</var>
                     <var id="LCM">getLCM(D1, D2)</var>
                     <var id="F1">LCM / D1</var>
                     <var id="F2">LCM / D2</var>
@@ -23,20 +23,56 @@
                 <p class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></p>
 
                 <div class="hints">
-                    <p><code>
-                        \qquad = \blue{\dfrac{<var>N1</var> \times <var>F1</var>}{<var>D1</var> \times <var>F1</var>}} + 
-                        \green{\dfrac{<var>N2</var> \times <var>F2</var>}{<var>D2</var> \times <var>F2</var>}}
-                    </code></p>
+                    <div class="graphie">
+                        init({ range: [[0, 2.4], [-1, 2]], scale: [200, 40] });
+                        rectchart([N1, D1 - N1], [BLUE, "#999"], 0);
+                        var chart2 = rectchart([N2, D2 - N2], [GREEN, "#999"], 0);
+                        chart2.translate(240, 0);
 
-                    <p><code>
-                        \qquad = \blue{\dfrac{<var>N1 * F1</var>}{<var>LCM</var>}} + 
-                        \green{\dfrac{<var>N2 * F2</var>}{<var>LCM</var>}}
-                    </code></p>
+                        label([0.5, 1], "\\blue{\\dfrac{" + N1 + "}{" + D1 + "}}", "above");
+                        label([1.7, 1], "\\green{\\dfrac{" + N2 + "}{" + D2 + "}}", "above");
+                        label([1.1, 1], "+", "above");
+                    </div>
 
-                    <p><code>
-                        \qquad = \dfrac{\blue{<var>N1 * F1</var>} + 
-                        \green{<var>N2 * F2</var>}}{<var>LCM</var>}
-                    </code></p>
+                    <div class="graphie">
+                        init({ range: [[0, 3], [0, 2]], scale: [200, 40] });
+                        rectchart([N1 * F1, LCM - N1 * F1], [BLUE, "#999"], 0);
+                        var chart2 = rectchart([N2 * F2, LCM - N2 * F2], [GREEN, "#999"], 0);
+                        chart2.translate(240, 0);
+
+                        label([0.5, 1], "\\blue{\\dfrac{" + N1 + " \\times " + F1 + "}{" + D1 + " \\times " + F1 + "}}", "above");
+                        label([1.7, 1], "\\green{\\dfrac{" + N2 + " \\times " + F2 + "}{" + D2 + " \\times " + F2 + "}}", "above");
+                        label([1.1, 1], "+", "above");
+                    </div>
+
+                    <div class="graphie">
+                        init({ range: [[0, 3], [0, 1.5]], scale: [200, 40] });
+
+                        label([0.5, 0], "\\blue{\\dfrac{" + (N1 * F1) + "}{" + LCM  + "}}", "above");
+                        label([1.7, 0], "\\green{\\dfrac{" + (N2 * F2) + "}{" + LCM + "}}", "above");
+                        label([1.1, 0], "+", "above");
+                    </div>
+
+                    <div>
+                        <div class="graphie">
+                            init({ range: [[0, 3], [0, 2]], scale: [200, 40] });
+
+                            if (N1 / D1 + N2 / D2 &gt; 1) {
+                                var part1 = LCM - N1 * F1;
+                                var part2 = N2 * F2 - part1;
+
+                                rectchart([N1 * F1, part1], [BLUE, GREEN], 0);
+                                var chart2 = rectchart([part2, LCM - part2], [GREEN, "#999"], 0);
+                                chart2.translate(240, 0);
+                            } else {
+                                rectchart([N1 * F1, N2 * F2, LCM - N1 * F1 - N2 * F2], [BLUE, GREEN, "#999"], 0);
+                            }
+                        </div>
+                        <p><code>
+                            \qquad = \dfrac{\blue{<var>N1 * F1</var>} + 
+                            \green{<var>N2 * F2</var>}}{<var>LCM</var>}
+                        </code></p>
+                    </div>
 
                     <p><code>\qquad = <var>fraction(F1 * N1 + F2 * N2, LCM)</var></code></p>
                 </div>
