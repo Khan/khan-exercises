@@ -656,6 +656,17 @@ window.Khan = (function() {
                 $("#issue-title, #issue-body").val("");
             });
 
+            $("#issue-show-answer").click(function(e) {
+                e.preventDefault();
+                while (hints.length > 0) {
+                    $("#hint").click();
+                }
+                $(this).addClass("disabled");
+            });
+            $(Exercises).bind("newProblem", function() {
+                $("#issue-show-answer").removeClass("disabled");
+            });
+
             // Submit an issue.
             $("#issue .issue-form input:submit").click(function(e) {
                 e.preventDefault();
