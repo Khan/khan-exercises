@@ -220,7 +220,7 @@ $.extend(KhanUtil, {
             face.drawBack = function() {
             	if (object.facesTransparent){
                 return graph.path(
-                    face.mappedVerts(),
+                    face.mappedVerts().concat(true),
                     { fill: null, stroke: "#666", opacity: 0.1 }
                 );
                 }
