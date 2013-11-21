@@ -1980,6 +1980,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var options = {
                 form: solutionData.sameForm != null,
                 simplify: solutionData.simplify != null,
+                empty: solutionData.empty != null,
                 times: solutionData.times != null
             };
 
@@ -1993,7 +1994,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             if (!solution.parsed) {
                 throw new Error("The provided solution (" + solutionText +
                     ") didn't parse.");
-            } else if (options.simplified && !solution.expr.isSimplified()) {
+            } else if (options.simplify && !solution.expr.isSimplified()) {
                 throw new Error("The provided solution (" + solutionText +
                     ") isn't fully expanded and simplified.");
             } else {
@@ -2001,7 +2002,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
 
             // Assemble the solution area
-            var $input = $('<input type="text">');
+            var placeholder = solutionData.placeholder ? ' placeholder="' + solutionData.placeholder + '"': '';
+            var $input = $('<input type="text"'+placeholder+'>');
             var $tex = $('<span class="tex"/>');
             var $error = $('<span class="error"/>').append(
                 $('<span class="buddy"/>'),
@@ -2156,12 +2158,19 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     guess: guess
                 };
                 // Don't bother parsing an empty input
-                if (!guess) {
+                // Unless explicitly allowed via data-empty
+                if (!guess && !options.empty) {
                     score.empty = true;
                     return score;
                 }
 
                 var answer = KAS.parse(guess, options);
+                
+                // When passed through 'multiple', solution becomes a string
+                // This reconverts it to an expression
+                if (typeof solution === "string") {
+                	solution = KAS.parse(solution, options).expr;
+                }
 
                 // An unsuccessful parse doesn't count as wrong
                 if (!answer.parsed) {

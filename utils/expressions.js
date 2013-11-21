@@ -349,11 +349,11 @@ $.extend(KhanUtil, {
         },
 
         "csc": function(arg) {
-            return "\\sec{" + KhanUtil.exprParenthesize(arg) + "}";
+            return "\\csc{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
         "cot": function(arg) {
-            return "\\sec{" + KhanUtil.exprParenthesize(arg) + "}";
+            return "\\cot{" + KhanUtil.exprParenthesize(arg) + "}";
         },
 
         "ln": function(arg) {

@@ -187,16 +187,65 @@ $.extend(KhanUtil, {
 
             return this;
         }else {
-            return new KhanUtil.PowerRule();
+            return new KhanUtil.PowerRule(minDegree, maxDegree, coefs, variable, funcNotation);
         }
     },
 
+    generateMultivariateFunction: function(variables) {
+        // Generates a function of x and y out of power, log, and trig
+        // For the exact_equations_1 exercise
+        
+        Power = function Power(args) {
+            // e.g 6(x^3)(y^5)
+            var coef = KhanUtil.randRange(1, 9);
+            args = args[0] === "*" ? args.slice(1) : args;
+            var powers = _.map(args, function(base) {
+                var power = KhanUtil.randRange(1, 5);
+                return power !== 1 ? ["^", base, power] : base;
+            });
+            return ["*", coef].concat(powers);
+        };
+        
+        ExpLog = function ExpLog(args) { 
+            return KhanUtil.rand(2) ? ["^","e", args] : ["ln", args];
+        };
+        
+        Trig = function Trig(args) {
+            // If >= two variables, then use only [sin, cos] 
+            var n = _.isArray(args) ? 2 : 3;
+            return [KhanUtil.trigFuncs[KhanUtil.rand(n)], args];
+        };
+        
+        var f, vars, multiplied, v1, v2;
+
+        variables = variables || ["x", "y"];
+        multiplied = ["*"].concat(variables);
+        vars = KhanUtil.shuffle(variables.concat([multiplied]));
+        v1 = vars[0], v2 = _.isArray(v1) ? vars[1] : multiplied;
+
+        switch(KhanUtil.rand(10)){
+            // Specifically allow only these "nice" nontrivial cases
+            case 0: f = ["+", Power(v1), Power(v2)]; break;
+            case 1: f = ["+", Power(v1), ExpLog(v2)]; break;
+            case 2: f = ["+", Power(v1), Trig(v2)]; break;
+            case 3: f = ["+", Trig(v1), ExpLog(v2)]; break;
+            case 4: f = ["*", Power(v1), ExpLog(v2)]; break;
+            case 5: f = ["*", Power(v1), ExpLog(v2)]; break;
+            case 6: f = ["+",["*", Power("x"), Trig(v1)], Power("y")]; break;
+            case 7: f = ["+",["*", Power("y"), Trig(v1)], Power("x")]; break;
+            case 8: f = ["+",["*", Power("x"), ExpLog(v1)], Power("y")]; break;
+            case 9: f = ["+",["*", Power("y"), ExpLog(v1)], Power("x")]; break;
+        }
+
+        return KAS.parseArray(f).simplify();
+    },
+    
     CalcFunctions: [
         function(variable) {
             // power rule, polynomials
             var minDegree = KhanUtil.randRange(-2, 2);
             var maxDegree = KhanUtil.randRange(2, 4);
-            return KhanUtil.PowerRule(minDegree, maxDegree, KhanUtil.randCoefs(minDegree, maxDegree), variable);
+            return new KhanUtil.PowerRule(minDegree, maxDegree, KhanUtil.randCoefs(minDegree, maxDegree), variable);
         },
         function(variable) {
             // random trig func
