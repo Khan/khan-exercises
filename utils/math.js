@@ -57,7 +57,7 @@ $.extend(KhanUtil, {
         str = str.split(".");
 
         if (str.length === 1) {
-            return 0
+            return 0;
         } else {
             return str[1].length;
         }
