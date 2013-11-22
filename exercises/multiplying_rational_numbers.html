@@ -198,7 +198,7 @@
                 <div class="hints">
                     <div>First get all of the numbers as simplified fractions.</div>
 
-                    <div data-each="TOCHANGE as i"><code><p>\qquad
+                    <div data-each="TOCHANGE as i"><p><code>\qquad
                         <var>NUMS[i]</var><span data-if="TYPES[i] !== 'fraction'"> = <var>fraction(roundTo(i, POWER[i] * DECIMALS[i]), POWER[i])</var></span>
                         <span data-if="POWER[i] !== DENOMINATORS[i] / GCDS[i]"> = <var>fraction(SIMPLE_NUMERATORS[i], SIMPLE_DENOMINATORS[i])</var></span>
                     </code></p></div>
