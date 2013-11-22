@@ -81,27 +81,6 @@
             } else {
                 return KhanUtil.findAngle(point1, vertex) - KhanUtil.findAngle(point2, vertex);
             }
-        },
-
-        /* Returns the rotation of a point by an angle
-         *
-         * Inverse of findAngle. Returns point rotated by
-         * angle degrees about vertex or the origin, if no
-         * vertex is specified.
-         */
-        findPointFromAngle: function(point, angle, vertex) {
-            if (vertex === undefined) {
-                var polarCoord = cartToPolar(point);
-                var newAngle = polarCoord[1] + angle;
-                return polar(polarCoord[0], newAngle);
-            } else {
-                return KhanUtil.kvector.add(vertex,
-                    KhanUtil.findPointFromAngle(
-                        KhanUtil.kvector.subtract(point, vertex),
-                        angle
-                    )
-                );
-            }
         }
     });
 
