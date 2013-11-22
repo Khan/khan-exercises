@@ -562,21 +562,31 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
     var deciDiff = deciDivisor - deciDividend;
     var highlights = [];
     var index = 0;
+    var dy = -1;
     var remainder = 0;
     var fOnlyZeros = true;
-    var fShowFirstHalf = true;
     var leadingZeros = [];
     var value = 0;
     var decimals = [];
+    var hints = 0;
 
     this.show = function() {
         var paddedDivisor = digitsDivisor;
+        var nDigitsInAnswer = Math.floor(Math.log(dividend / divisor) / Math.log(10)) + 1;
+        var answerAsDigits = KhanUtil.integerToDigits(Math.round(dividend / divisor));
+
+        // Since we stop dividing once we get a remainder of 0
+        var i = answerAsDigits.length - 1;
+        while (answerAsDigits[i] === 0) {
+            nDigitsInAnswer--;
+            i--;
+        }
 
         if (deciDivisor !== 0) {
             paddedDivisor = (KhanUtil.padDigitsToNum(digitsDivisor.reverse(), deciDivisor + 1)).reverse();
         }
         graph.init({
-            range: [[-1 - paddedDivisor.length, 17], [(digitsDividend.length + (deciDiff > 0 ? deciDiff : 0)) * -2 - 1, 2]],
+            range: [[-1 - paddedDivisor.length, 17], [-2 * nDigitsInAnswer - 2, 2]],
             scale: [20, 40]
         });
         graph.style({
@@ -602,6 +612,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
     this.showHint = function() {
         this.removeHighlights();
+        hints++;
+
         if (index === digitsDividend.length) {
             while (leadingZeros.length) {
                 leadingZeros.pop().remove();
@@ -609,52 +621,66 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             return;
         }
 
-        if (fShowFirstHalf) {
+        if (hints % 2 === 1) {
             value = digitsDividend[index];
             var quotient = value / divisor;
             var total = value + remainder;
             highlights = highlights.concat(drawDigits([value], index, 0, KhanUtil.BLUE));
-            if (index !== 0) {
+            if (!fOnlyZeros) {
                 graph.style({
                     arrows: "->"
                 }, function() {
-                    highlights.push(graph.path([[index, 0 - 0.5], [index, -2 * index + 0.5]]));
+                    highlights.push(graph.path([[index, -0.5], [index, dy + 0.5]]));
                 });
             }
 
-            drawDigits([value], index, -2 * index);
             var totalDigits = KhanUtil.integerToDigits(total);
-            highlights = highlights.concat(drawDigits(totalDigits, index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE));
+            highlights = highlights.concat(drawDigits(totalDigits, index - totalDigits.length + 1, dy, KhanUtil.BLUE));
 
-            graph.label([digitsDividend.length + 0.5, -2 * index],
-                $._("\\text{How many times does }%(divisor)s" +
-                    "\\text{ go into }\\color{#6495ED}{%(total)s}\\text{?}",
-                    {divisor: divisor, total: total}), "right");
+            var question = $._("\\text{How many times does }%(divisor)s" +
+                              " \\text{ go into }\\color{#6495ED}{%(total)s}\\text{?}",
+                                {divisor: divisor, total: total});
 
-            fShowFirstHalf = false;
+            if (total >= divisor) {    
+                graph.label([digitsDividend.length + 0.5, dy], question, "right");
+            } else {
+                highlights = highlights.concat(graph.label([digitsDividend.length + 0.5, dy], question, "right"));
+            }
+
         } else {
             value += remainder;
             var quotient = Math.floor(value / divisor);
             var diff = value - (quotient * divisor);
             remainder = diff * 10;
             var quotientLabel = drawDigits([quotient], index, 1);
-            if (quotient === 0 && fOnlyZeros && digitsDividend.length - deciDividend + deciDivisor > index + 1) {
-                leadingZeros = leadingZeros.concat(quotientLabel);
-            } else {
-                fOnlyZeros = false;
-            }
             highlights = highlights.concat(drawDigits([quotient], index, 1, KhanUtil.GREEN));
 
+            if (quotient === 0 && fOnlyZeros) {
+                if (digitsDividend.length - deciDividend + deciDivisor > index + 1) {
+                    leadingZeros = leadingZeros.concat(quotientLabel);
+                }
+                index++;
+                return;
+            }
+
+            var digits = KhanUtil.integerToDigits(value);
+            if (fOnlyZeros) {
+                drawDigits(digits, index - digits.length + 1, dy);
+                fOnlyZeros = false;
+            } else {
+                drawDigits([digitsDividend[index]], index, dy);
+            }
+
             var product = KhanUtil.integerToDigits(divisor * quotient);
-            drawDigits(product, index - product.length + 1, -2 * index - 1);
-            highlights = highlights.concat(drawDigits(product, index - product.length + 1, -2 * index - 1, KhanUtil.ORANGE));
+            drawDigits(product, index - product.length + 1, dy - 1);
+            highlights = highlights.concat(drawDigits(product, index - product.length + 1, dy - 1, KhanUtil.ORANGE));
 
             var diffDigits = KhanUtil.integerToDigits(diff);
-            drawDigits(diffDigits, index - diffDigits.length + 1, -2 * index - 2);
-            graph.label([index - product.length, -2 * index - 1] , "-\\vphantom{0}");
-            graph.path([[index - product.length - 0.25, -2 * index - 1.5], [index + 0.5, -2 * index - 1.5]]);
+            drawDigits(diffDigits, index - diffDigits.length + 1, dy - 2);;
+            graph.path([[index - product.length - 0.25, dy - 0.5], [index + 0.5, dy - 0.5]]);
+            graph.label([index - digits.length, dy] , "-")
 
-            graph.label([digitsDividend.length + 0.5, -2 * index - 1],
+            graph.label([digitsDividend.length + 0.5, dy - 1],
                 "\\color{#6495ED}{" + value + "}"
                 + "\\div"
                 + divisor + "="
@@ -666,8 +692,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                 + " = "
                 + "\\color{#FFA500}{" + (divisor * quotient) + "}", "right");
             index++;
-            fShowFirstHalf = true;
-        }
+            dy -= 2;
+        } 
     }
 
     this.addDecimalRemainder = function() {
@@ -743,7 +769,23 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
 Divider.numHintsFor = function(divisor, dividend, deciDivisor, deciDividend) {
     var digitsDividend = KhanUtil.integerToDigits(dividend);
-    return 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
+    var hints = 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
+
+    // If answer ends in zeros that we don't use
+    if (Math.round(dividend / divisor) === dividend / divisor) {
+        var digitsAnswer = KhanUtil.integerToDigits(dividend / divisor);
+
+        var i = digitsAnswer.length - 1;
+        if (digitsAnswer[i] === 0) {
+            hints--;
+            while (digitsAnswer[i] === 0) {
+                hints -= 2;
+                i--;
+            }
+        }
+    }
+
+    return hints;
 };
 
 function squareFractions(nom, den, perLine, spacing, size) {
