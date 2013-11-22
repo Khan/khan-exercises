@@ -1,10 +1,9 @@
 (function() {
 
-    // TODO (jack): Figure out why this isn't working
-    // var kvector = KhanUtil.kvector;
-    // $.fn["graphieLoad"] = function() {
-    //     kvector = KhanUtil.kvector;
-    // };
+    var kpoint = KhanUtil.kpoint;
+    $.fn["graphieLoad"] = function() {
+        kpoint = KhanUtil.kpoint;
+    };
 
     var Graphie = KhanUtil.Graphie = function() {
     };
@@ -45,9 +44,7 @@
         },
 
         getDistance: function(point1, point2) {
-            var a = point1[0] - point2[0];
-            var b = point1[1] - point2[1];
-            return Math.sqrt(a * a + b * b);
+            return kpoint.distanceToPoint(point1, point2);
         },
 
         /**
