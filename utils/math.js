@@ -61,8 +61,6 @@ $.extend(KhanUtil, {
         } else {
             return str[1].length;
         }
-
-        return list;
     },
 
     digitsToInteger: function(digits) {
