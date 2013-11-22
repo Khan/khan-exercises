@@ -131,19 +131,6 @@ $.extend(KhanUtil, {
         return KhanUtil.fraction(n, d, true, true, small, parens);
     },
 
-    // Returns a reduced fraction or integer if denominator reduced to 1
-    fractionSimplify: function(n, d, small, parens) {
-        var gcd = KhanUtil.getGCD(n, d);
-        n = n / gcd;
-        d = d / gcd;
-
-        if (Math.abs(d) === 1) {
-            return n * d;
-        } else {
-            return KhanUtil.fraction(n, d, true, false, small, parens);
-        }
-    },
-
     /* Calls fraction with the small flag enabled. Additional parameters
      * correspond to the remaining fraction flags. */
     fractionSmall: function(n, d, defraction, reduce, parens) {
