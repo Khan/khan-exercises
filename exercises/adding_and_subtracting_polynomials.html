@@ -9,17 +9,21 @@
     <div class="exercise">
         <div class="vars">
             <var id="X">randVar()</var>
-            <var id="COLORS">[BLUE, RED, GREEN]</var>
+            <var id="MAX_DEGREE">7</var>
+            <var id="COLORS">[BLUE, RED, GREEN, ORANGE]</var>
             <var id="N">2 + (random() &lt; 0.25 ? 1 : 0)</var>
             <var id="SIGNS">[randFromArray(["-", "+"]), randFromArray(["-", "+"])].slice(0, N - 1)</var>
             <var id="DISTRIBUTE">_.any(SIGNS, function(s) { return s === "-"; })</var>
-            <var id="MAX_DEGREE">7</var>
-            <var id="NON_ZERO_INDICES">randRangeUnique(1, MAX_DEGREE, randRange(2, 5 - N))</var>
+            <var id="TERMS">_(N).times(function(term) { return randRange(2, 5 - N); })</var>
+            <var id="NON_ZERO_INDICES">randRangeUnique(1, MAX_DEGREE, 4)</var>
+            <var id="SORTED_INDICES">NON_ZERO_INDICES.sort(function(a, b) {return b - a; })</var>
             <var id="POLYNOMIALS">
-                tabulate(function() {
+                tabulate(function(p) {
                     var coefs = [];
+                    var terms = shuffle(NON_ZERO_INDICES).slice(0, TERMS[p]);
+
                     for (var i = 0; i &lt;= MAX_DEGREE; i++) {
-                        if (NON_ZERO_INDICES.indexOf(i) !== -1) {
+                        if (terms.indexOf(i) !== -1) {
                             coefs[i] = randRangeNonZero(-7, 7);
                         } else {
                             coefs[i] = 0;
@@ -34,6 +38,32 @@
                     sol = sol.add(POLYNOMIALS[i]);
                 }
                 return sol;
+            })()
+            </var>
+            <var id="COEFFICIENTS">(function() {
+                var coeffs = [[], [], [], []];
+                var toRemove = [];
+
+                for (var j = 0; j &lt; 4; j++) {
+                    for (var i = 0; i &lt; POLYNOMIALS.length; i++) {
+                        var coefficient = POLYNOMIALS[i].coefs[SORTED_INDICES[j]];
+                        if (coefficient !== 0) {
+                            coeffs[j].push(coefficient);
+                        }
+                    }
+                    if (coeffs[j].length === 0) {
+                        toRemove.push(j);
+                    }
+                }
+
+                toRemove.sort(function(a, b) {return b - a; });
+
+                for (var i = 0; i &lt; toRemove.length; i++) {
+                    coeffs.splice(toRemove[i], 1);
+                    SORTED_INDICES.splice(toRemove[i], 1);
+                }
+
+                return coeffs;
             })()
             </var>
         </div>
@@ -69,10 +99,12 @@
                 <p>Identify like terms.</p>
                 <p><code>
                     <span data-each="POLYNOMIALS as POL">
-                        <span data-each="NON_ZERO_INDICES as n, index" data-unwrap="">
-                            <var>(POL.coefs[index] &lt; 0) ? "-" : (n === 0 &amp;&amp; POL === POLYNOMIALS[0]) ? "" : "+"</var>
-                            \color{<var>COLORS[ n ]</var>}{<var>abs(POL.coefs[index]) === 1 ? "" : abs(POL.coefs[index])</var>
-                            <var>X</var>^<var>index</var>}
+                        <span data-each="SORTED_INDICES as n, index" data-unwrap="">
+                            <span data-if="POL.coefs[index] !== 0">
+                                <var>(POL.coefs[index] &lt; 0) ? "-" : (n === 0 &amp;&amp; POL === POLYNOMIALS[0]) ? "" : "+"</var>
+                                \color{<var>COLORS[ n ]</var>}{<var>abs(POL.coefs[index]) === 1 ? "" : abs(POL.coefs[index])</var>
+                                <var>X</var>^<var>index</var>}
+                            </span>
                         </span>
                     </span>
                 </code></p>
@@ -81,13 +113,23 @@
             <div>
                 <p>Combine like terms.</p>
                 <p><code>
-                    <span data-each="NON_ZERO_INDICES as index1, n">
-                        <span data-if="index1 !== 0"> + </span>\color{<var>COLORS[index1]</var>}
-                        {(<span data-each="POLYNOMIALS as index2, POL">
-                            <span data-if="index2 !== 0"> + </span><var>POL.coefs[n]</var>
-                        </span>)
-                        <var>X</var>^<var>n</var>}
-                    </span></code></p>
+                    <span data-each="COEFFICIENTS as index1, coeff">
+                        <span data-if="coeff.length &gt; 0">
+                            <span data-if="index1 !== 0"> + </span>\color{<var>COLORS[index1]</var>}{
+                            <span data-if="coeff.length === 1">
+                                <span data-if="coeff[0] !== 1"><var>coeff[0]</var></span>
+                            </span>
+                            <span data-else="">(
+                                <span data-each="coeff as index2, TERM">
+                                    <span data-if="index2 !== 0">
+                                        <span data-if="TERM > 0">+</span>
+                                    </span><var>TERM</var>
+                                </span>)
+                            </span>
+                            <var>X</var>^<var>SORTED_INDICES[index1]</var>}
+                        </span>
+                    </span>
+                </code></p>
             </div>
 
             <div>
