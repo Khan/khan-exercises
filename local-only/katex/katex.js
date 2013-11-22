@@ -400,6 +400,7 @@ var copyFuncs = {
     ],
     "rel": [
         "rel",
+        "\\approx",
         "\\geq",
         "\\gets",
         "\\leftarrow",
@@ -1050,6 +1051,7 @@ var charLookup = {
     "\\$": "$",
     "\\%": "%",
     "\\angle": "\u2220",
+    "\\approx": "\u2248",
     "\\cdot": "\u22c5",
     "\\circ": "\u2218",
     "\\colon": ":",
@@ -1329,10 +1331,11 @@ var parseTree = require("./parseTree");
 var utils = require("./utils");
 
 var process = function(toParse, baseNode) {
+    utils.clearNode(baseNode);
+
     var tree = parseTree(toParse);
     var node = buildTree(tree);
 
-    utils.clearNode(baseNode);
     baseNode.appendChild(node);
 };
 

@@ -1,9 +1,10 @@
 (function() {
 
-    var kvector = KhanUtil.kvector;
-    $.fn["graphieLoad"] = function() {
-        kvector = KhanUtil.kvector;
-    };
+    // TODO (jack): Figure out why this isn't working
+    // var kvector = KhanUtil.kvector;
+    // $.fn["graphieLoad"] = function() {
+    //     kvector = KhanUtil.kvector;
+    // };
 
     var Graphie = KhanUtil.Graphie = function() {
     };
@@ -94,9 +95,9 @@
                 var newAngle = polarCoord[1] + angle;
                 return polar(polarCoord[0], newAngle);
             } else {
-                return kvector.add(vertex,
+                return KhanUtil.kvector.add(vertex,
                     KhanUtil.findPointFromAngle(
-                        kvector.subtract(point, vertex),
+                        KhanUtil.kvector.subtract(point, vertex),
                         angle
                     )
                 );
@@ -461,7 +462,9 @@
                         // if there is an asymptote here, meaning that the graph switches signs and has a large difference
                         ((funcVal[1] < 0) !== (lastVal[1] < 0)) && Math.abs(funcVal[1] - lastVal[1]) > 2 * yScale ||
                         // or the function value gets really high (which breaks raphael)
-                        Math.abs(funcVal[1]) > 1e7
+                        Math.abs(funcVal[1]) > 1e7 ||
+                        // or the function is undefined
+                        isNaN(funcVal[1])
                        ) {
                         // split the path at this point, and draw it
                         paths.push(this.path(points));
@@ -917,8 +920,8 @@
             // Grab code for later execution
             var code = $(this).text(), graphie;
 
-            // Ignore code that isn't really code
-            if (code.match(/Created with Rapha\xebl/)) {
+            // Ignore graphie elements that have already been processed
+            if ($(this).data("graphie") != null) {
                 return;
             }
 

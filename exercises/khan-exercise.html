@@ -4,7 +4,7 @@
         o javascript/exercises-package/problem-template.handlebars
         o khan-exercises/exercises/khan-exercise.html
 
-    (these two files should simply be copies of each other)
+    (these two files should simply be copies of each other (this is a lie))
 
     TODO(eater): Make this simpler
 -->
@@ -20,15 +20,15 @@
     <form id="answerform" name="answerform">
         <div id="problemarea">
             <div id="scratchpad"><div></div></div>
-            <div id="workarea"></div>
-            <div id="hintsarea"></div>
+            <div id="workarea" class="workarea"></div>
+            <div id="hintsarea" class="hintsarea"></div>
         </div>
         <div id="answer_area_wrap"><div id="answer_area">
             <input style="position: absolute; left: -9999px; width: 1px; height: 1px" type="submit">
             <div class="info-box" id="answercontent">
                 <span id="examples-show">Acceptable formats</span>
                 <span class="info-box-header">Answer</span>
-                <div class="fancy-scrollbar" id="solutionarea"></div>
+                <div class="fancy-scrollbar solutionarea" id="solutionarea"></div>
                 <ul id="examples" style="display: none"></ul>
                 <div class="answer-buttons">
                 <div class="check-answer-wrapper">
@@ -121,6 +121,7 @@
                 </fieldset>
                 <label for="issue-title">Issue Title:<input id="issue-title" name="issue-title" type="text"></label>
                 <label for="issue-body">Description of Issue:<textarea id="issue-body" name="issue-body"></textarea></label>
+                <input type="button" class="simple-button green" id="issue-show-answer" value="Show answer">
                 <input class="simple-button" type="submit" value="Submit Issue">
                 <a href="/#" id="issue-cancel">Cancel</a>
                 <img id="issue-throbber" name="issue-throbber" style="display:none;">

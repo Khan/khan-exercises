@@ -5,7 +5,7 @@ var MAXERROR_EPSILON = Math.pow(2, -42);
 // Function used to get the text of the choices, which is then used
 // to check against the correct answer
 var extractRawCode = function(elem) {
-    $elem = $(elem).clone(true);
+    var $elem = $(elem).clone(true);
     var code = $elem.find("code");
     if (code.length) {
         // If there are <code> tags in the element, remove them and replace
@@ -420,16 +420,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                     // - pi
                     if ((match = text.match(
-                                    /^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
+                                    /^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4|pau)$/i
                                 ))) {
                         possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
-                    } else if ((match = text.match(/^([+-]?\s*\d+\s*(?:\/\s*[+-]?\s*\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i))) {
+                    } else if ((match = text.match(/^([+-]?\s*\d+\s*(?:\/\s*[+-]?\s*\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|pau)$/i))) {
                         possibilities = fractionTransformer(match[1]);
 
                     // 4 5 / 6 pi
-                    } else if ((match = text.match(/^([+-]?)\s*(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i))) {
+                    } else if ((match = text.match(/^([+-]?)\s*(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|pau)$/i))) {
                         var sign = parseFloat(match[1] + "1"),
                             integ = parseFloat(match[2]),
                             num = parseFloat(match[3]),
@@ -443,12 +443,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         }];
 
                     // 5 pi / 6
-                    } else if ((match = text.match(/^([+-]?\s*\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\s*\d+))?$/i))) {
+                    } else if ((match = text.match(/^([+-]?\s*\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|pau)\s*(?:\/\s*([+-]?\s*\d+))?$/i))) {
                         possibilities = fractionTransformer(match[1] +
                                                             "/" + match[3]);
 
                     // - pi / 4
-                    } else if ((match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i))) {
+                    } else if ((match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|pau)\s*(?:\/\s*([+-]?\d+))?$/i))) {
                         possibilities = fractionTransformer(match[1] +
                                                             "1/" + match[3]);
 
@@ -458,7 +458,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                     // 0.5 pi (fallback)
                     } else if ((match = text.match(
-                                /^(.+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
+                                /^(.+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|pau)$/i
                                         ))) {
                         possibilities = forms.decimal(match[1]);
                     } else {
@@ -474,6 +474,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     var multiplier = Math.PI;
                     if (text.match(/t(?:au)?|\u03c4/)) {
                         multiplier = Math.PI * 2;
+                    }
+
+                    // We're taking an early stand along side xkcd in the
+                    // inevitable ti vs. pau debate... http://xkcd.com/1292
+                    if (text.match(/pau/)) {
+                        multiplier = Math.PI * 1.5;
                     }
 
                     $.each(possibilities, function(ix, possibility) {
@@ -653,6 +659,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 score.empty = false;
                             } else if (form === "percent") {
                                 // Otherwise, an error was returned
+                                score.empty = true;
                                 score.message = $._("Your answer is almost correct, " +
                                           "but it is missing a " +
                                           "<code>\\%</code> at the end.");
@@ -690,10 +697,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      */
     number: {
         convertToPredicate: function(correct, options) {
-            if (options.type === "predicate") {
-                return solution;
-            }
-
             // TODO(alpert): Don't think this $.trim is necessary
             var correctFloat = parseFloat($.trim(correct));
 
@@ -1106,6 +1109,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     message: null,
                     guess: guess
                 };
+                var blockGradingMessage = null;
 
                 // If the answer is completely empty, don't grade it
                 if (checkIfAnswerEmpty(guess)) {
@@ -1120,27 +1124,36 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // with the corresponding validator
                     var pass = validators[i](g);
 
-                    score.empty = score.empty && pass.empty;
-                    score.correct = score.correct && pass.correct;
-                    // TODO(eater): This just forwards one message
-                    if (pass.message) {
-                        score.message = pass.message;
+                    if (pass.message && pass.empty) {
                         // Special case where a validator returns a message
                         // for an "empty" response. This probably means it's
                         // not really empty, but a correct-but-not-simplified
                         // answer. Rather that treating this as actually empty,
                         // possibly leading to the entire multiple being marked
-                        // wrong for being incomplete, bail here and forward on
-                        // the message.
-                        if (pass.empty) {
-                            score.empty = true;
-                            score.correct = false;
-                            return score;
-                        }
+                        // wrong for being incomplete, note the situation but
+                        // continue determining whether the entire answer is
+                        // otherwise correct or not before forwarding on the
+                        // message.
+                        blockGradingMessage = pass.message;
+                    } else {
+                        score.empty = score.empty && pass.empty;
+                        score.correct = score.correct && pass.correct;
+                        // TODO(eater): This just forwards one message
+                        score.message = score.message || pass.message;
                     }
                 });
 
-                return score;
+                if (score.correct && blockGradingMessage != null) {
+                    return {
+                        empty: true,
+                        correct: false,
+                        message: blockGradingMessage,
+                        guess: guess
+                    };
+                } else {
+                    score.empty = false;
+                    return score;
+                }
             };
         }
     },
@@ -1258,6 +1271,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     message: null,
                     guess: guess
                 };
+                var blockGradingMessage = null;
+
                 // Store a copy of each of the validators. If one correctly
                 // identifies a guess, remove it from this array, so duplicate
                 // answers aren't marked correct twice
@@ -1271,6 +1286,19 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // Go through each of the unused validators
                     $.each(unusedValidators, function(i, validator) {
                         var pass = validator(g);
+
+                        // If this validator is trying to block grading
+                        if (pass.empty && pass.message) {
+                            // remove the working validator
+                            unusedValidators.splice(i, 1);
+                            // We want to block the entire answer from being
+                            // accepted as correct but continue checking in
+                            // case another part is wrong.
+                            blockGradingMessage = pass.message;
+                            correct = true;
+                            // break
+                            return false;
+                        }
 
                         // If this validator completely accepts this answer
                         // or returns a check answer message
@@ -1325,7 +1353,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     score.correct = false;
                 }
 
-                return score;
+                if (score.correct && blockGradingMessage != null) {
+                    return {
+                        empty: true,
+                        correct: false,
+                        message: blockGradingMessage,
+                        guess: guess
+                    };
+                } else {
+                    return score;
+                }
             };
         }
     },
@@ -2101,6 +2138,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     $._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
                     $._("For <code>\\sqrt{x}</code>, enter <strong>sqrt(x)</strong>"),
                     $._("For <code>\\pi</code>, enter <strong>pi</strong>"),
+                    $._("For <code>\\sin \\theta</code>, enter <strong>sin(theta)</strong>"),
                     $._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
                     $._("For <code>\\neq</code>, enter <strong>=/=</strong>")
                 ],

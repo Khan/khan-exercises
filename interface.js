@@ -78,7 +78,6 @@ function problemTemplateRendered() {
     $("#answerform").submit(handleCheckAnswer);
     $("#skip-question-button").click(handleSkippedQuestion);
     $("#opt-out-button").click(handleOptOut);
-    $("#show-prereqs-button").click(handleShowPrereqs);
 
     // Hint button
     $("#hint").click(onHintButtonClicked);
@@ -153,7 +152,9 @@ function newProblem(e, data) {
         var task = Exercises.learningTask;
         var hideRelatedVideos = task && task.isMasteryTask() && nearMastery;
 
-        if (!hideRelatedVideos) {
+        if (hideRelatedVideos) {
+            Exercises.RelatedVideos.render([]);
+        } else {
             Exercises.RelatedVideos.render(
                     data.userExercise.exerciseModel.relatedVideos);
         }
@@ -357,15 +358,6 @@ function handleAttempt(data) {
     return false;
 }
 
-/**
- * When the user clicks on the "Help me learn this" button in focus mode, we
- * trigger an event to show the prereqs to the left.
- */
-function handleShowPrereqs() {
-    $("#show-prereqs-button").prop("disabled", true);
-    $(Exercises).trigger("showPrereqs");
-}
-
 function onHintButtonClicked() {
     var framework = Exercises.getCurrentFramework();
 
@@ -469,6 +461,8 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         // If working in the context of a LearningTask (on the new learning
         // dashboard), supply the task ID.
         task_id: Exercises.learningTask && Exercises.learningTask.get("id"),
+
+        user_mission_id: Exercises.userMissionId,
 
         // The current card data
         card: JSON.stringify(Exercises.currentCard),

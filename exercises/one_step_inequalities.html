@@ -75,8 +75,8 @@
                             init({
                                 range: [ [-1, 11], [-1, 1] ],
                             });
-                            var start = SOLUTION_REAL - 4.5;
-                            var end = SOLUTION_REAL + 4.5;
+                            var start = floor(SOLUTION_REAL - 4.5);
+                            var end = ceil(SOLUTION_REAL + 4.5);
 
                             numberLine( start, end );
 
@@ -85,20 +85,20 @@
                             var startOffset = 0.12;
                             switch ( COMP_SOLUTION ) {
                                 case "&gt;":
-                                    fill = null;
+                                    fill = BACKGROUND;
                                     offset = 5;
                                     break;
                                 case "≥":
-                                    fill = "#6495ED";
+                                    fill = BLUE;
                                     offset = 5;
                                     break;
                                 case "&lt;":
-                                    fill = null;
+                                    fill = BACKGROUND;
                                     offset = -5;
                                     startOffset *= -1;
                                     break;
                                 case "≤":
-                                    fill = "#6495ED";
+                                    fill = BLUE;
                                     offset = -5;
                                     startOffset *= -1;
                                     break;
@@ -106,10 +106,10 @@
 
                             var x = SOLUTION_REAL - start;
 
-                            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "-&gt;" });
+                            style({ stroke: BLUE, fill: BLUE, strokeWidth: 3.5, arrows: "-&gt;" });
                             path([ [ x + startOffset, 0 ], [ x + offset, 0 ]]);
-                            style({ stroke: "#6495ED", strokeWidth: 2.0, fill: fill });
-                            circle([ x, 0 ], 0.15 );
+                            style({ stroke: BLUE, strokeWidth: 3.0, fill: fill });
+                            circle([ x, 0 ], 0.12 );
                         </div>
                     </div>
                 </div>

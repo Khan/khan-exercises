@@ -1,113 +1,227 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
+<html data-require="math graphie graphie-helpers interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Parabola intuition 2</title>
     <script src="../khan-exercise.js"></script>
-    <style>
-        .parabola-answer {
-            padding: 0;
-            margin: 10px 0px;
-        }
-        .parabola-answer p {
-            margin: 8px 0px 2px 0px
-        }
-        .parabola-answer .mini-buttons {
-            width: 20px;
-            display: inline-block;
-        }
-        .parabola-answer .mini-buttons input {
-            margin-left: 5px;
-            padding: 0px 5px;
-            width: 20px;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-            <var id="A">randRangeNonZero( -2, 2 )</var>
-            <var id="X1">randRangeNonZero( -5, 5 )</var>
-            <var id="Y1">randRangeNonZero( -5, 5 )</var>
-        </div>
-
         <div class="problems">
-            <div>
-                <p class="question">Adjust the focus coordinates and the equation of the directrix to make the blue parabola match the orange parabola.</p>
-                <p>All points on the blue parabola are equidistant from the focus and the directrix. How does changing the numbers affect the shape of the parabola?</p>
+            <div id="drag">
+                <div class="vars">
+                    <div data-ensure="X1 !== 0 || Y1 !== 0 || A !== 0.25">
+                        <var id="X1">randRangeNonZero(-10, 10) / 2</var>
+                        <var id="VERTEX_Y">randRangeNonZero(-10, 10) / 2</var>
+                        <div data-ensure="Y1 !== DIR_Y">
+                            <var id="DIR_Y">randRangeNonZero(-16, 16) / 2</var>
+                            <var id="Y1">0.5 * (VERTEX_Y + DIR_Y)</var>
+                        </div>
+                        <var id="A">0.25 / (Y1 - DIR_Y)</var>
+                    </div>
+                    <var id="PRETTY_A">fractionReduce.apply(KhanUtil, toFraction(A, 0.001))</var>
+                    <var id="PRETTY_X1">fractionReduce.apply(KhanUtil, toFraction(X1, 0.001))</var>
+                    <var id="PRETTY_Y1">fractionReduce.apply(KhanUtil, toFraction(Y1, 0.001))</var>
+                    <var id="PRETTY_FOCUS_Y">fractionReduce.apply(KhanUtil, toFraction(VERTEX_Y, 0.001))</var>
+                    <var id="PRETTY_DIR_Y">fractionReduce.apply(KhanUtil, toFraction(DIR_Y, 0.001))</var>
+                </div>
+
+                <p class="question">
+                    Drag the <span class="hint_orange">focus</span> and <span class="hint_orange">directrix</span> to define a
+                    <span class="hint_blue">parabola</span> with the equation:
+                </p>
+                <p><code>\qquad y - <var>PRETTY_Y1</var> = <var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code>.</p>
 
                 <div class="graphie" id="grid">
+                    graph.A = A;
+                    graph.X1 = X1;
+                    graph.Y1 = Y1;
+
                     graphInit({
                         range: 10,
                         scale: 20,
                         tickStep: 1,
+                        labelStep: 1,
                         axisArrows: "&lt;-&gt;"
                     });
+                    addMouseLayer();
 
-                    // Plot the orange parabola
-                    style({
-                        stroke: "#FFA500",
-                        fill: "none",
-                        clipRect:[ [-10, -10], [20, 20] ],
-                        arrows: null
+                    graph.directrix = addMovableLineSegment({
+                        coordA: [0, -1],
+                        coordZ: [1, -1],
+                        snapY: 0.25,
+                        vertical: false,
+                        extendLine: true,
+                        normalStyle: {
+                            "stroke": KhanUtil.ORANGE,
+                            "stroke-width": 2
+                        },
+                        highlightStyle: {
+                            "stroke": KhanUtil.ORANGE,
+                            "stroke-width": 4
+                        }
                     });
+                    graph.directrix.onMove = function(x, y) {
+                        var oldK = graph.currParabola.getDirectrixK();
+                        var coord = this.coordA[1];
+                        graph.currParabola.deltaFocusDirectrix(0, 0, coord - oldK);
+                        graph.updateValues();
+                    };
 
-                    plot( new Parabola( A, X1, Y1 ).graphieFunction, [-10, 10]);
+                    graph.vertex = addMovablePoint({
+                        coordX: 0,
+                        coordY: 1,
+                        snapX: 0.25,
+                        snapY: 0.25,
+                    });
+                    graph.vertex.onMove = function(coordX, coordY) {
+                        var x = coordX - graph.currParabola.getFocusX();
+                        var y = coordY - graph.currParabola.getFocusY();
+                        graph.currParabola.deltaFocusDirectrix(x, y, 0);
+                        graph.updateValues();
+                    };
 
                     style({
                         stroke: "#6495ED",
                         strokeWidth: 3,
                         fill: "none",
-                        clipRect:[ [-10, -10], [20, 20] ],
+                        clipRect:[[-10, -10], [20, 20]],
                         arrows: null
                     });
 
-                    graph.currParabola = new Parabola( 1, 0, 0 );
-                    graph.currParabola.plot( true );
+                    graph.updateValues = function() {
+                        redrawParabola();
+                        
+                        var x = graph.currParabola.getVertexX();
+                        var y = graph.currParabola.getVertexY();
+                        var xText = x &gt; 0 ? "" : "+\\space";
+                        var yText = y &gt; 0 ? "" : "+\\space";
+                        xText += fractionReduce.apply(KhanUtil, toFraction(-x, 0.001));
+                        yText += fractionReduce.apply(KhanUtil, toFraction(-y, 0.001));
+                        var a = fractionReduce.apply(KhanUtil, toFraction(graph.currParabola.getLeadingCoefficient(), 0.001));
+
+                        $("#focus-x-label").html("&lt;code&gt;" + xText + "&lt;/code&gt;").tex();
+                        $("#focus-y-label").html("&lt;code&gt;" + yText + "&lt;/code&gt;").tex();
+                        $("#directrix-label").html("&lt;code&gt;" + a + "&lt;/code&gt;").tex();
+                    };
+
+                    graph.currParabola = new Parabola(0.25, 0, 0);
+                    graph.currParabola.plot();
+
+                    graph.setXCoordinate = function() {
+                        graph.vertex.moveTo(X1, graph.currParabola.getFocusY());
+                    };
+
+                    graph.setSolution = function() {
+                        graph.setXCoordinate();
+
+                        graph.vertex.moveTo(X1, graph.currParabola.getFocusY());
+                        var k = DIR_Y - graph.currParabola.getDirectrixK();
+
+                        graph.directrix.coordA = [0, DIR_Y];
+                        graph.directrix.coordZ = [0, DIR_Y];
+                        graph.directrix.transform();
+                        graph.currParabola.deltaFocusDirectrix(0, 0, k);
+
+                        graph.vertex.moveTo(graph.currParabola.getFocusX(), VERTEX_Y);
+                    }
                 </div>
 
                 <div class="solution" data-type="custom">
                     <div class="instruction">
-                        <p class="parabola-answer">focus x coordinate: <span id="focus-x-label"><code>0</code></span><span class="mini-buttons">
-                            <input class="simple-button" onclick="updateFocusDirectrix( 1, 0, 0 )" type="button" value="+">
-                            <input class="simple-button" onclick="updateFocusDirectrix( -1, 0, 0 )" type="button" value="-"></span></p>
-
-                        <p class="parabola-answer">focus y coordinate: <span id="focus-y-label"><code>0.25</code></span><span class="mini-buttons">
-                            <input class="simple-button" onclick="updateFocusDirectrix( 0, 1/8, 0 )" type="button" value="+">
-                            <input class="simple-button" onclick="updateFocusDirectrix( 0, -1/8, 0 )" type="button" value="-"></span></p>
-
-                        <p class="parabola-answer">directrix: <span id="directrix-label"><code>y=-0.25</code></span><span class="mini-buttons">
-                            <input class="simple-button" onclick="updateFocusDirectrix( 0, 0, 1/8 )" type="button" value="+">
-                            <input class="simple-button" onclick="updateFocusDirectrix( 0, 0, -1/8 )" type="button" value="-"></span></p>
+                        <div>
+                            Drag the focus and directrix on the graph to match the equation.
+                        </div><p>
+                            Equation of the parabola:<br>
+                            <span style="font-size: 12px;">
+                                <code>y\space</code><span id="focus-y-label"><code>+\space0</code></span>
+                                <code>\space=\space</code><span id="directrix-label"><code>\dfrac{1}{4}</code></span>
+                                <code>(x\space</code><span id="focus-x-label"><code>+\space0</code></span><code>)^2</code>
+                            </span>
+                        </p>
                     </div>
 
-                    <div class="guess">[A, X1, Y1]</div>
+                    <div class="guess">[
+                        graph.currParabola.getVertexX(),
+                        graph.currParabola.getVertexY(),
+                        graph.currParabola.getLeadingCoefficient()
+                    ]</div>
+
                     <div class="validator-function">
-                        var parab = graph.currParabola;
-                        return parab.getLeadingCoefficient() === A &amp;&amp;
-                               parab.getVertexX() === X1 &amp;&amp;
-                               parab.getVertexY() === Y1;
+                        if (guess[0] === 0 &amp;&amp; guess[1] === 0 &amp;&amp; guess[2] === 0.25) {
+                            return "";
+                        }
+                        return guess[0] === X1 &amp;&amp; guess[1] === Y1 &amp;&amp; guess[2] === A;
                     </div>
-                    <div class="show-guess">
-                        guess = guess.length ? guess : [1, 0, 0];
-                        var parab = graph.currParabola;
-                        parab.update.apply(parab, guess);
-                        redrawParabola(true);
+                </div>
+
+                <div class="hints">
+                    <p>The equation is in the form <code>y - y_1 = a(x - x_1)</code>.</p>
+
+                    <p data-if="A > 0">
+                        The leading coefficient, <code>a</code>, in the equation is <code><var>PRETTY_A</var></code>, which is positive.
+                        Therefore the parabola is upward opening.
+                    </p>
+                    <p data-else="">
+                        The leading coefficient, <code>a</code>, in the equation is <code><var>PRETTY_A</var></code>, which is negative.
+                        Therefore the parabola is downward opening.
+                    </p>
+
+                    <p>The value of <code>x_1</code> is <code><var>PRETTY_X1</var></code>, what does this number mean for the parabola?</p>
+
+                    <div data-if="A > 0">
+                        <p>The minimum value of <code><var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code> occurs when
+                        <code>(x - <var>PRETTY_X1</var>)^2 = 0</code>.</p>
+                        <p>Therefore the vertex of the parabola is at <code>x = <var>PRETTY_X1</var></code>.</p>
                     </div>
-                    <div class="show-guess-solutionarea">
-                        guess = guess.length ? guess : [1, 0, 0];
+                    <div data-else="">
+                        <p>The maximum value of <code><var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code> occurs when
+                        <code>(x - <var>PRETTY_X1</var>)^2 = 0</code>.</p>
+                        <p>Therefore the vertex of the parabola is at <code>x = <var>PRETTY_X1</var></code>.</p>
+                    </div>
 
-                        // Update the graph parabola so we can use its methods
-                        // to get focus and directrix
-                        var parab = graph.currParabola;
-                        parab.update.apply(parab, guess);
+                    <div>
+                        <div>
+                            The focus of the parabola has the same <code>x</code>-coordinate as the vertex,
+                            so move the focus horizontally, so its <code>x</code>-coordinate is <code><var>PRETTY_X1</var></code>.
+                        </div>
+                        <div>
+                            <a class="simple-button" href="javascript:void(0)"
+                                onclick="javascript: graph = KhanUtil.currentGraph.graph; graph.setXCoordinate();">Show me</a>
+                        </div>
+                    </div>
 
-                        var fX = parab.getFocusX(),
-                            fY = parab.getFocusY(),
-                            dK = parab.getDirectrixK();
-                        $("#focus-x-label").html("&lt;code&gt;" + fX + "&lt;/code&gt;").tex();
-                        $("#focus-y-label").html("&lt;code&gt;" + fY + "&lt;/code&gt;").tex();
-                        $("#directrix-label").html("&lt;code&gt;" + dK + "&lt;/code&gt;").tex();
+                    <div>
+                        <p>At <code>x = <var>PRETTY_X1</var></code>, then <code>y - <var>PRETTY_Y1</var> = 0</code>.</p>
+                        <p>
+                            Therefore, the vertex of the parabola is at <code>y = <var>PRETTY_Y1</var></code>.
+                            The focus and directrix should be an equal distance above and below this value.
+                        </p>
+                    </div>
+
+                    <p>
+                        The number in the denominator of <code>a</code> is the reciprocal of twice the distance between the directrix to the focus.
+                        Therefore, the focus and directrix are separated by <code><var>1 / (2 * abs(A))</var></code> units.
+                    </p>
+
+                    <p data-if="A > 0">
+                        The focus is therefore <code><var>1 / (4 * A)</var></code> units above the vertex,
+                        and the directrix is <code><var>1 / (4 * A)</var></code> units below the vertex.
+                    </p>
+                    <p data-else="">
+                        The focus is therefore <code><var>1 / (4 * -A)</var></code> units below the vertex,
+                        and the directrix is <code><var>1 / (4 * -A)</var></code> units above the vertex.
+                    </p>
+
+                    <div>
+                        <div>
+                            The focus is at <code>(<var>PRETTY_X1</var>, <var>PRETTY_FOCUS_Y</var>)</code>
+                            and the directrix is at <code>y = <var>PRETTY_DIR_Y</var></code>.
+                        </div>
+                        <div>
+                            <a class="simple-button" href="javascript:void(0)"
+                                onclick="javascript: graph = KhanUtil.currentGraph.graph; graph.setSolution();">Show me</a>
+                        </div>
                     </div>
                 </div>
             </div>

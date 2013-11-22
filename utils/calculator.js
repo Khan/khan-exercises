@@ -615,7 +615,7 @@ function Parser () {
 }
 Parser.prototype = parser;parser.Parser = Parser;
 return new Parser;
-})();var Calculator = (function(parser) {
+})();window.Calculator = (function(parser) {
     var CalculatorError = function(message) {
         this.message = message;
     };
@@ -645,7 +645,7 @@ return new Parser;
                 return ang;
             };
             if (tree === "ans") {
-                if (ans != null) {
+                if (ans !== undefined) {
                     return ans;
                 } else {
                     throw new CalculatorError("Invalid variable ans");
@@ -659,7 +659,7 @@ return new Parser;
             } else if (_.isArray(tree)) {
                 var fns = {
                     "+": function(a, b) { return a + b; },
-                    "-": function(a, b) { return b == null ? -a : a - b; },
+                    "-": function(a, b) { return b === undefined ? -a : a - b; },
                     "*": function(a, b) { return a * b; },
                     "/": function(a, b) { return a / b; },
                     "^": function(a, b) { return Math.pow(a, b); },

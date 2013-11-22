@@ -83,7 +83,7 @@ var kmatrix = KhanUtil.kmatrix = {
      */
     printMatrix: function(fn) {
         var args = Array.prototype.slice.call(arguments);
-        mat = kmatrix.deepZipWith.apply(this, [2].concat(args));
+        var mat = kmatrix.deepZipWith.apply(this, [2].concat(args));
 
         if (!mat) {
             return null;
@@ -466,9 +466,9 @@ var kmatrix = KhanUtil.kmatrix = {
         }
 
         mat = kmatrix.makeMatrix(mat);
-        matP = kmatrix.matrixCopy(mat);
+        var matP = kmatrix.matrixCopy(mat);
 
-        finalCols = Math.max(cols, mat.c);
+        var finalCols = Math.max(cols, mat.c);
 
         if (padVal === undefined) {
             padVal = "";

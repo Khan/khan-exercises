@@ -57,7 +57,7 @@
       history mode
 */
 
-var Khan = (function() {
+window.Khan = (function() {
     // Numbers which are coprime to the number of bins, used for jumping through
     // exercises.  To quickly test a number in python use code like:
     // import fractions
@@ -278,6 +278,7 @@ var Khan = (function() {
             // http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
 
             // The normal module dependencies.
+            "scratchpad": ["../third_party/jquery.mobile.vmouse"],
             "calculus": ["math", "expressions", "polynomials"],
             "exponents": ["math", "math-format"],
             "kinematics": ["math"],
@@ -342,7 +343,7 @@ var Khan = (function() {
                 "answer-types", "tmpl", "tex", "jquery.adhesion",
                 "calculator",
                 {
-                    src: urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"
+                    src: urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-9e2776ffe7d2006f16f36d0d55d9464b"
                 });
 
             return mods;
@@ -393,11 +394,15 @@ var Khan = (function() {
 
             crc32: crc32,
 
-            // Rounds num to X places, and uses the proper decimal point.
+            // Rounds num to X places, and uses the proper decimal seperator.
             // But does *not* insert thousands separators.
             localeToFixed: function(num, places) {
-                var decimal = icu.getDecimalFormatSymbols().decimal_separator;
-                return num.toFixed(places).replace(".", decimal);
+                var localeDecimalSeperator = icu.getDecimalFormatSymbols().decimal_separator;
+                var localeFixed = num.toFixed(places).replace(".", localeDecimalSeperator);
+                if (localeFixed === "-0") {
+                    localeFixed = "0";
+                }
+                return localeFixed;
             }
         },
 
@@ -651,6 +656,17 @@ var Khan = (function() {
                 $("#issue-title, #issue-body").val("");
             });
 
+            $("#issue-show-answer").click(function(e) {
+                e.preventDefault();
+                while (hints.length > 0) {
+                    $("#hint").click();
+                }
+                $(this).addClass("disabled");
+            });
+            $(Exercises).bind("newProblem", function() {
+                $("#issue-show-answer").removeClass("disabled");
+            });
+
             // Submit an issue.
             $("#issue .issue-form input:submit").click(function(e) {
                 e.preventDefault();
@@ -708,6 +724,7 @@ var Khan = (function() {
                 var agent_contains = function(sub) {
                         return agent.indexOf(sub) !== -1;
                     },
+                    profile = typeof KA !== "undefined" && KA.getUserProfile(),
                     flags = {
                         ie8: agent_contains("MSIE 8.0"),
                         ie9: agent_contains("Trident/5.0"),
@@ -722,6 +739,7 @@ var Khan = (function() {
                         lion: agent_contains("OS X 10_7") || agent_contains("OS X 10.7"),
                         scratchpad: (/scratch\s*pad/i).test(body),
                         ipad: agent_contains("iPad"),
+                        "500k": profile && profile.get("points") >= 500000,
                         undef: Exercises.guessLog == null
                     },
                     labels = [];
@@ -1904,9 +1922,6 @@ var Khan = (function() {
             .bind("readyForNextProblem", function(ev, data) {
                 renderNextProblem(data);
             })
-            .bind("warning", function(ev, data) {
-                warn(data.text, data.showClose);
-            })
             .bind("upcomingExercise", function(ev, data) {
                 var userExercise = data.userExercise;
                 startLoadingExercise(
@@ -2212,4 +2227,4 @@ var Khan = (function() {
 })();
 
 // Make this publicly accessible
-var KhanUtil = Khan.Util;
+window.KhanUtil = Khan.Util;

@@ -20,7 +20,7 @@
                         (function() {
                             var maxPower = DIGITS.length - 1;
                             var products = $.map( DIGITS, function( digit, index ){
-                                return expr([ "*", digit, pow( 10, maxPower - index ) ]);
+                                return "(" + digit + "\\times" + pow(10, maxPower - index) + ")";
                             });
                             return products.join( "+" );
                         })()
@@ -30,9 +30,9 @@
                         (function() {
                             var maxPower = DIGITS.length - 1;
                             var words = $.map( DIGITS, function( digit, index ) {
-                                return plural( digit, powerToPlace( maxPower - index ) );
+                                return pluralTex( digit, powerToPlace( maxPower - index ) );
                             });
-                            return words.join( " + " );
+                            return words.join(" &lt;code&gt;+&lt;/code&gt; ");
                         })()
                     </var>
 
@@ -47,19 +47,19 @@
                     <var id="SOLUTION">PLACES[ DIGITS.length - 1 - POWER ]</var>
                 </div>
 
-                <p class="question">What is the place value of <var>DIGIT</var> in <var>NUMBER</var>?</p>
-                <p class="solution"><var>SOLUTION</var></p>
+                <p class="question">What is the place value of <code><var>DIGIT</var></code> in <code><var>NUMBER</var></code>?</p>
+                <p class="solution"><var>capitalize(SOLUTION)</var></p>
                 <ul class="choices" data-category="true">
-                    <li data-each="PLACES as place"><var>place</var></li>
+                    <li data-each="PLACES as place"><var>capitalize(place)</var></li>
                 </ul>
 
                 <div class="hints">
                     <div>
-                        <p><var>NUMBER</var> can be represented as follows.</p>
+                        <p><code><var>NUMBER</var></code> can be represented as follows.</p>
                         <p><code>= <var>HINT_IN_NUMBERS</var></code></p>
                     </div>
                     <p><code>= </code> <var>HINT_IN_WORDS</var></p>
-                    <p class="final_hint">Thus, <var>DIGIT</var> is in the <var>SOLUTION</var> place.</p>
+                    <p class="final_hint">Thus, <code><var>DIGIT</var></code> is in the <var>SOLUTION</var> place.</p>
                 </div>
             </div>
 
@@ -80,35 +80,37 @@
                                 if ( index === DIGITS.length - 1 ) {
                                     if ( DIGITS[ index - 1] === 0 ) {
                                         ADDENDS.push( digit );
-                                        return cardinal( digit ) + " is the same as " + digit;
+                                        return Cardinal( digit ) + " is the same as &lt;code&gt;" +
+                                                digit + "&lt;/code&gt;";
                                     }
                                 } else if ( index === DIGITS.length - 2 ) {
                                     addend = digit * 10 + DIGITS[ DIGITS.length - 1 ];
                                     ADDENDS.push( addend );
-                                    return cardinal( addend ) + " is the same as " + addend;
+                                    return Cardinal( addend ) + " is the same as &lt;code&gt;" +
+                                            addend + "&lt;/code&gt;";
                                 } else {
-                                    var words = cardinal( digit ) + " " + powerToPlace(maxPower - index);
-                                    var input = [ "*", digit, pow(10, maxPower - index) ];
-                                    var ex = expr( input );
-                                    addend = expr( input, true );
+                                    var words = Cardinal( digit ) + " " + powerToPlace(maxPower - index);
+                                    var placeValue = pow(10, maxPower - index);
 
-                                    ADDENDS.push( addend );
-                                    return words + " is the same as " + ex + " = " + addend;
+                                    ADDENDS.push( digit * placeValue);
+                                    return words + " is the same as &lt;code&gt;" +
+                                            digit + "\\times" + placeValue + " = " +
+                                            (digit * placeValue) + "&lt;/code&gt;";
                                 }
                             });
                         })()
                     </var>
                 </div>
 
-                <p class="question">What is <var>cardinal( NUMBER )</var> in standard form?</p>
+                <p class="question">Rewrite <var>cardinal( NUMBER )</var> in numerals.</p>
                 <p class="solution"><var>NUMBER</var></p>
                 <div class="hints">
                     <p data-each="HINT as hint"><var>hint</var></p>
                     <div>
                         <p>Add all these parts up:</p>
-                        <p><var>ADDENDS.join( " + " )</var></p>
+                        <p><code><var>ADDENDS.join( " + " )</var></code></p>
                     </div>
-                    <p>= <var>NUMBER</var></p>
+                    <p><code>= <var>NUMBER</var></code></p>
                 </div>
 
             </div>

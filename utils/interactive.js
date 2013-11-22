@@ -147,7 +147,7 @@ $.extend(KhanUtil, {
         };
 
         sorter.getContent = function() {
-            content = [];
+            var content = [];
             list.find("li").each(function(tileNum, tile) {
                 content.push($.trim($(tile).find(".sort-key").text()));
             });
@@ -253,8 +253,13 @@ $.extend(KhanUtil.Graphie.prototype, {
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
         $(graph.mouselayer.canvas).css("z-index", 1);
         if (options.onClick) {
+            var canvasClickTarget = graph.mouselayer.rect(
+                    0, 0, graph.xpixels, graph.ypixels).attr({
+                fill: "#000",
+                opacity: 0
+            });
             $(graph.mouselayer.canvas).on("vmouseup", function(e) {
-                if (e.target === graph.mouselayer.canvas) {
+                if (e.target === canvasClickTarget[0]) {
                     options.onClick(graph.getMouseCoord(e));
                 }
             });
@@ -513,7 +518,11 @@ $.extend(KhanUtil.Graphie.prototype, {
             if (match) {
                 var distance = KhanUtil.getDistance(p1, p2);
                 var precision = match[1] || 1;
-                text = text.replace(match[0], distance.toFixed(precision));
+                if (Math.abs(distance.toFixed(precision) - distance) < 1e-9) {
+                    text = text.replace(match[0], distance.toFixed(precision));
+                } else {
+                    text = text.replace(match[0], "\\approx " + distance.toFixed(precision));
+                }
             }
 
             // Calculate label position
@@ -902,8 +911,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                         var coord = graph.getMouseCoord(event);
 
                         coord = applySnapAndConstraints(coord);
-                        coordX = coord[0];
-                        coordY = coord[1];
+                        var coordX = coord[0];
+                        var coordY = coord[1];
 
                         if (event.type === "vmousemove") {
                             var doMove = true;
@@ -2038,7 +2047,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
                     [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
                     [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]]
-                    ], { stroke: null, fill: KhanUtil.ORANGE });
+                    ], { stroke: "", fill: KhanUtil.ORANGE });
         } else if (arrowWidget.direction === "down") {
             arrowWidget.visibleShape = graph.path([
                     [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
@@ -2046,8 +2055,16 @@ $.extend(KhanUtil.Graphie.prototype, {
                     [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
                     [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
                     [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]]
-                    ], { stroke: null, fill: KhanUtil.ORANGE });
+                    ], { stroke: "", fill: KhanUtil.ORANGE });
         }
+
+        // You might think we JUST NOW set the style when we drew this. But
+        // does IE8 care? No! Of course not! It was too busy being slow and
+        // obnoxious. So apparently we have to set the style again, later, when
+        // it's paying attention. Or something.
+        _.defer(function() {
+            arrowWidget.visibleShape.attr({stroke: "", fill: KhanUtil.ORANGE});
+        });
 
         arrowWidget.mouseTarget = graph.mouselayer.circle(
                 graph.scalePoint(arrowWidget.coord)[0], graph.scalePoint(arrowWidget.coord)[1], 15);
@@ -2561,7 +2578,8 @@ $.extend(KhanUtil.Graphie.prototype, {
             snapX: 0.5,
             snapY: 0.5,
             snapRadius: 0.5,
-            minRadius: 1
+            minRadius: 1,
+            centerConstraints: {}
         }, options);
 
         circle.centerPoint = graphie.addMovablePoint({
@@ -2572,7 +2590,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                 fill: KhanUtil.BLUE
             },
             snapX: circle.snapX,
-            snapY: circle.snapY
+            snapY: circle.snapY,
+            constraints: circle.centerConstraints
         });
         circle.circ = graphie.circle(circle.center, circle.radius, {
             stroke: KhanUtil.BLUE,
@@ -2588,8 +2607,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             });
 
         // Highlight circle circumference on center point hover
-        $(circle.centerPoint.mouseTarget[0]).on(
-            "vmouseover vmouseout", function(event) {
+        if (!circle.centerConstraints.fixed) {
+            $(circle.centerPoint.mouseTarget[0]).on("vmouseover vmouseout",
+                    function(event) {
                 if (circle.centerPoint.highlight) {
                     circle.circ.animate({
                         stroke: KhanUtil.ORANGE,
@@ -2602,12 +2622,15 @@ $.extend(KhanUtil.Graphie.prototype, {
                     }, 50);
                 }
             });
+        }
 
         circle.toFront = function() {
             circle.circ.toFront();
             circle.perim.toFront();
             circle.centerPoint.visibleShape.toFront();
-            circle.centerPoint.mouseTarget.toFront();
+            if (!circle.centerConstraints.fixed) {
+                circle.centerPoint.mouseTarget.toFront();
+            }
         };
 
         circle.centerPoint.onMove = function(x, y) {
@@ -2712,7 +2735,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             var oldRadius = circle.radius;
                             var doResize = true;
                             if (circle.onResize) {
-                                onResizeResult = circle.onResize(radius, oldRadius);
+                                var onResizeResult = circle.onResize(radius, oldRadius);
                                 if (_.isNumber(onResizeResult)) {
                                     radius = onResizeResult;
                                 } else if (onResizeResult === false) {
@@ -2737,6 +2760,232 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         return circle;
     },
+
+    addRotateHandle: (function() {
+        var drawRotateHandle = function(graphie, center, radius, halfWidth,
+                angle) {
+            // Get a point on the arrow, given an angle offset and a distance
+            // from the "midline" of the arrow (ROTATE_HANDLE_DIST away from
+            // the rotation point).
+            var getRotateHandlePoint = function(offset,
+                    distanceFromArrowMidline) {
+                var distFromRotationCenter = radius + distanceFromArrowMidline;
+                var vec = KhanUtil.kvector.cartFromPolarDeg([
+                    distFromRotationCenter,
+                    angle + offset
+                ]);
+                var absolute = KhanUtil.kvector.add(center, vec);
+                var pixels = graphie.scalePoint(absolute);
+                return pixels[0] + "," + pixels[1];
+            };
+
+            // Inner and outer radii for the curved part of the arrow
+            var innerR = graphie.scaleVector(radius - halfWidth);
+            var outerR = graphie.scaleVector(radius + halfWidth);
+
+            // Draw the double-headed arrow thing that shows users where to
+            // click and drag to rotate
+            return graphie.raphael.path(
+                // upper arrowhead
+                " M" + getRotateHandlePoint(30, -halfWidth) +
+                " L" + getRotateHandlePoint(30, -3 * halfWidth) +
+                " L" + getRotateHandlePoint(60, 0) +
+                " L" + getRotateHandlePoint(30, 3 * halfWidth) +
+                " L" + getRotateHandlePoint(30, halfWidth) +
+                // outer arc
+                " A" + outerR[0] + "," + outerR[1] + ",0,0,1," +
+                    getRotateHandlePoint(-30, halfWidth) +
+                // lower arrowhead
+                " L" + getRotateHandlePoint(-30, 3 * halfWidth) +
+                " L" + getRotateHandlePoint(-60, 0) +
+                " L" + getRotateHandlePoint(-30, -3 * halfWidth) +
+                " L" + getRotateHandlePoint(-30, -halfWidth) +
+                // inner arc
+                " A" + innerR[0] + "," + innerR[1] + ",0,0,0," +
+                    getRotateHandlePoint(30, -halfWidth) +
+                " Z"
+            ).attr({
+                stroke: null,
+                fill: KhanUtil.ORANGE
+            });
+        };
+
+        return function(options) {
+            var graph = this;
+            var rotatePoint = options.center;
+            var radius = options.radius;
+            var id = _.uniqueId("rotateHandle");
+
+            // Normalize rotatePoint into something that always looks
+            // like a movablePoint
+            if (_.isArray(rotatePoint)) {
+                rotatePoint = {
+                    coord: rotatePoint
+                };
+            }
+
+            var rotateHandle = graph.addMovablePoint({
+                coord: KhanUtil.kpoint.addVector(
+                    rotatePoint.coord,
+                    KhanUtil.kvector.cartFromPolarDeg(
+                        radius,
+                        options.angleDeg || 0
+                )),
+                constraints: {
+                    fixedDistance: {
+                        dist: radius,
+                        point: rotatePoint
+                    }
+                },
+            });
+
+            // move the rotatePoint in front of the rotateHandle to avoid
+            // confusing clicking/scaling of the rotateHandle when the user
+            // intends to click on the rotatePoint
+            rotatePoint.toFront();
+
+            // The logic below in onMove handlers is to make sure we
+            // move rotateHandle with rotatePoint
+            var rotatePointPrevCoord = rotatePoint.coord;
+            var rotateHandlePrevCoord = rotateHandle.coord;
+            var rotateHandleStartCoord = rotateHandlePrevCoord;
+            var isRotating = false;
+            var isHovering = false;
+            var drawnRotateHandle;
+
+            var redrawRotateHandle = function(handleCoord) {
+                if (drawnRotateHandle) {
+                    drawnRotateHandle.remove();
+                }
+                var handleVec = KhanUtil.kvector.subtract(handleCoord,
+                        rotatePoint.coord);
+                var handlePolar = KhanUtil.kvector.polarDegFromCart(handleVec);
+                var angle = handlePolar[1];
+                drawnRotateHandle = drawRotateHandle(
+                    graph,
+                    rotatePoint.coord,
+                    options.radius,
+                    (isRotating || isHovering ?
+                        options.hoverWidth / 2 :
+                        options.width / 2
+                    ),
+                    angle
+                );
+            };
+
+
+            // when the rotation center moves, we need to move
+            // the rotationHandle as well, or it will end up out
+            // of sync
+            $(rotatePoint).on("move." + id, function() {
+                var delta = KhanUtil.kvector.subtract(
+                    rotatePoint.coord,
+                    rotatePointPrevCoord
+                );
+
+                rotateHandle.setCoord(KhanUtil.kvector.add(
+                    rotateHandle.coord,
+                    delta
+                ));
+
+                redrawRotateHandle(rotateHandle.coord);
+
+                rotatePointPrevCoord = rotatePoint.coord;
+                rotateHandle.constraints.fixedDistance.point = rotatePoint;
+                rotateHandlePrevCoord = rotateHandle.coord;
+            });
+
+            // Rotate polygon with rotateHandle
+            rotateHandle.onMove = function(x, y) {
+                if (!isRotating) {
+                    rotateHandleStartCoord = rotateHandlePrevCoord;
+                    isRotating = true;
+                }
+
+                var coord = [x, y];
+
+                if (options.onMove) {
+                    var oldPolar = KhanUtil.kvector.polarDegFromCart(
+                        KhanUtil.kvector.subtract(
+                            rotateHandlePrevCoord,
+                            rotatePoint.coord
+                        )
+                    );
+                    var newPolar = KhanUtil.kvector.polarDegFromCart(
+                        KhanUtil.kvector.subtract(coord, rotatePoint.coord)
+                    );
+
+                    var oldAngle = oldPolar[1];
+                    var newAngle = newPolar[1];
+                    var result = options.onMove(newAngle, oldAngle);
+                    if (result != null && result !== true) {
+                        if (result === false) {
+                            result = oldAngle;
+                        }
+                        coord = KhanUtil.kvector.add(
+                            rotatePoint.coord,
+                            KhanUtil.kvector.cartFromPolarDeg(
+                                [oldPolar[0], result]
+                            )
+                        );
+                    }
+                }
+
+                redrawRotateHandle(coord);
+
+                rotateHandlePrevCoord = coord;
+                return coord;
+            };
+
+            rotateHandle.onMoveEnd = function() {
+                isRotating = false;
+                redrawRotateHandle(rotateHandle.coord);
+                if (options.onMoveEnd) {
+                    var oldPolar = KhanUtil.kvector.polarDegFromCart(
+                        KhanUtil.kvector.subtract(
+                            rotateHandleStartCoord,
+                            rotatePoint.coord
+                        )
+                    );
+                    var newPolar = KhanUtil.kvector.polarDegFromCart(
+                        KhanUtil.kvector.subtract(
+                            rotateHandle.coord,
+                            rotatePoint.coord
+                        )
+                    );
+                    options.onMoveEnd(newPolar[1], oldPolar[1]);
+                }
+            };
+
+            // Remove the default dot added by the movablePoint since we have our
+            // double-arrow thing
+            rotateHandle.visibleShape.remove();
+            // Make the mouse target bigger to encompass the whole area around the
+            // double-arrow thing
+            rotateHandle.mouseTarget.attr({scale: 2});
+
+            // Make the arrow-thing grow and shrink with mouseover/out
+            $(rotateHandle.mouseTarget[0]).bind("vmouseover", function(e) {
+                isHovering = true;
+                redrawRotateHandle(rotateHandle.coord);
+            });
+            $(rotateHandle.mouseTarget[0]).bind("vmouseout", function(e) {
+                isHovering = false;
+                redrawRotateHandle(rotateHandle.coord);
+            });
+
+            redrawRotateHandle(rotateHandle.coord);
+
+            var oldRemove = rotateHandle.remove;
+            rotateHandle.remove = function() {
+                oldRemove.call(rotateHandle);
+                drawnRotateHandle.remove();
+                $(rotatePoint).off("move." + id);
+            };
+
+            return rotateHandle;
+        };
+    })(),
 
     protractor: function(center) {
         return new Protractor(this, center);

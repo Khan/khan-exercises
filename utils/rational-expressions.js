@@ -291,7 +291,7 @@ $.extend(KhanUtil, {
                 regex += Math.abs(this.coefficient);
             }
 
-            // Add all permuations of variables
+            // Add all permutations of variables
             var variable_array = [];
             for (var vari in this.variables) {
                 if (degree !== 0) {
@@ -300,11 +300,11 @@ $.extend(KhanUtil, {
             }
 
             if (variable_array.length > 1) {
-                permuations = KhanUtil.getPermutations(variable_array);
+                var permutations = KhanUtil.getPermutations(variable_array);
 
                 regex += "(?:";
-                for (var p=0; p<permuations.length; p++) {
-                    var variables = permuations[p];
+                for (var p=0; p<permutations.length; p++) {
+                    var variables = permutations[p];
 
                     regex += "(?:";
                     for (var i=0; i<variables.length; i++) {
@@ -312,7 +312,7 @@ $.extend(KhanUtil, {
                         var degree = variables[i][1];
                         regex += degree > 1 ? vari + "\\s*\\^\\s*" + degree : vari;
                     }
-                    regex += p < permuations.length - 1 ? ")|" : ")";
+                    regex += p < permutations.length - 1 ? ")|" : ")";
                 }
                 regex += ")";
 
