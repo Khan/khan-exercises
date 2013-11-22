@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Ordering decimals</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        .sort-key {
+            visibility: hidden;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="A">randRangeWeighted(0, 9, 0, 0.5)</var>
+            <var id="B">randRange(1, 9)</var>
+            <var id="C" data-ensure="C !== B">randRange(1, 9)</var>
+            <var id="NUMS">(function() {
+                var digits = [A, B, C, 0];
+                var array = [];
+                var used = {};
+
+                while (array.length &lt; 5) {
+                    var n = digitsToInteger(shuffle(digits));
+                    var p = randRange(2, 4);
+                    var ns = localeToFixed(n / 10000, p);
+                    var d = round(ns * 10000, 4);
+
+                    if (d !== 0 &amp;&amp; !used[d]) {
+                        used[d] = true;
+                        n = round(ns * pow(10, p), 4);
+
+                        array.push([ns, n, p, d]);
+                    }
+                }
+
+                return array;
+            })()</var>
+
+            <var id="MAX_P">(function() {
+                var p = 1;
+                for (var i=0; i &lt; NUMS.length; i++) {
+                    if (NUMS[i][2] &gt; p) {
+                        p = NUMS[i][2];
+                    }
+                }
+                return p;
+            })()</var>
+            <var id="P">pow(10, MAX_P)</var>
+            <var id="NUMS_TEX">$.map(NUMS, function(el) {
+                return el[1];
+            }).join( "," )</var>
+            <var id="NUMS_SORT">$.extend(true, [], NUMS).sort(function(a, b) {
+                return a[3] - b[3];
+            })</var>
+            <var id="NUMS_SORT_TEX">$.map(NUMS_SORT, function(el) {
+                return round(el[0] * P, 4);
+            }).join( "," )</var>
+            <var id="DECIMAL_SORT_TEX">$.map(NUMS_SORT, function(el) {
+                return el[0];
+            }).join( "," )</var>
+
+            <var id="SORTER">createSorter()</var>
+        </div>
+
+        <div class="problems">
+
+            <div>
+                <div class="question">
+                    <p>Order the following numbers from least to greatest:</p>
+                    <ul id="sortable">
+                        <li data-each="NUMS as NUM">
+                            <span class="sort-key"><var>NUM[0]</var></span>
+                            <code><var>NUM[0]</var></code>
+                        </li>
+                    </ul>
+                    <p><var>SORTER.init("sortable")</var></p>
+
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Drag the numbers left and right so they are in order from least to greatest
+                    </div>
+                    <div class="guess">SORTER.getContent()</div>
+                    <div class="validator-function">
+                        return guess.join( "," ) === DECIMAL_SORT_TEX;
+                    </div>
+                    <div class="show-guess">
+                        SORTER.setContent( guess );
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p><code>\qquad \begin{align*}
+                        <span data-each="NUMS as NUM">
+                            <var>NUM[0]</var> &amp;= <var>NUM[1]</var> \text{ <var>plural_form(decimalPlaces[NUM[2]], NUM[1])</var>} \\</span>
+                    \end{align*}</code></p>
+                    
+                    <p>Get each number in <var>plural_form(decimalPlaces[MAX_P], 2)</var>.</p>
+                    
+                    <p><code>\qquad \begin{align*}
+                        <span data-each="NUMS as NUM">
+                            <var>NUM[0]</var> &amp;= <var>round(NUM[0] * P, 4)</var>\text{ <var>plural_form(decimalPlaces[MAX_P], 2)</var>} \\</span>
+                    \end{align*}</code></p>
+                    
+                    <p>Order the numbers: <code>\Large{<var>NUMS_SORT_TEX</var>}</code>.</p>
+
+                    <div>
+                        <p>Convert back to decimals.</p>
+                        <p><code>\Large{<var>DECIMAL_SORT_TEX</var>}</code>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

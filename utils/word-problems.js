@@ -236,6 +236,24 @@ KhanUtil.Plural.prototype = {
     }
 };
 
+var decimalPlaces = [
+    new Plural(function(num) {
+        return $.ngettext("one", "ones", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("tenth", "tenths", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("hundredth", "hundredths", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("thousandth", "thousandths", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("ten thousandth", "ten thousandths", num);
+    })
+];
+
 $.fn["word-problemsLoad"] = function() {
 
     var IncrementalShuffler = function(array) {
