@@ -46,65 +46,82 @@
                     }
                     return a;
                 }</var>
-                <var id="RANDRANGE">function(low, high) {
-                    return random() * (high - low) + low;
-                }</var>
                 <var id="ANG">atan2(SLOPE, 1) + PI / 2</var>
-                <var id="PERP">[cos(ANG), sin(ANG)]</var>
                 <var id="TOTALOFFSET">[]</var>
                 <var id="POINTS">UNIQARRAYS(_.map(XS, function(x, index) {
-                    // calculate the sum of the offsets so far
+                    // Calculate the sum of the offsets so far
                     var total = _.reduce(TOTALOFFSET, function(sum, num) {
                         return sum + num;
                     }, 0);
+
+                    var randomRange = function(low, high) {
+                        return random() * (high - low) + low;
+                    }
 
                     var offset;
                     if (index &lt; 2 || index &gt; 6) {
                         // make sure the first two and last
                         // two points are on the same side
-                        offset = RANDRANGE(OFFSET/2, OFFSET);
+                        offset = randomRange(OFFSET/2, OFFSET);
                     } else if (total &lt; 0) {
                         // if the offset is negative, choose less
                         // negative numbers
-                        offset = RANDRANGE(-OFFSET - total, OFFSET);
+                        offset = randomRange(-OFFSET - total, OFFSET);
                     } else {
                         // if it is positive, choose less
                         //positive numbers
-                        offset = RANDRANGE(-OFFSET, OFFSET - total);
+                        offset = randomRange(-OFFSET, OFFSET - total);
                     }
 
                     // store this offset
                     TOTALOFFSET.push(offset);
 
                     // calculate the rounded point created by this offset
-                    return [BOUND(round(x + PERP[0] * offset), -9, 9),
-                            BOUND(round(FUNC(x) + PERP[1] * offset), -9, 9)];
+                    return [BOUND(round(x + cos(ANG) * offset), -9, 9),
+                            BOUND(round(FUNC(x) + sin(ANG) * offset), -9, 9)];
                     }))</var>
-                <var id="REALSLOPE,REALINTERCEPT">(function() {
-                    // calculate the linear square regression
-                    // line for our points
-                    var xAve = _.reduce(POINTS, function(sum, pt) {
-                        return sum + pt[0];
-                    }, 0) / POINTS.length;
+                <var id="REALSLOPE, REALINTERCEPT, R2">(function() {
+                    // calculate the linear square regression line for our points
 
-                    var yAve = _.reduce(POINTS, function(sum, pt) {
+                    var n = POINTS.length;
+
+                    var meanX = _.reduce(POINTS, function(sum, pt) {
+                        return sum + pt[0];
+                    }, 0) / n;
+                    var meanX2 = pow(meanX, 2);
+
+                    var meanY = _.reduce(POINTS, function(sum, pt) {
                         return sum + pt[1];
-                    }, 0) / POINTS.length;
+                    }, 0) / n;
+                    var meanY2 = pow(meanY, 2);
 
                     var xi2 = _.reduce(POINTS, function(sum, pt) {
                         return sum + pow(pt[0], 2);
+                    }, 0);
+
+                    var yi2 = _.reduce(POINTS, function(sum, pt) {
+                        return sum + pow(pt[1], 2);
                     }, 0);
 
                     var xiyi = _.reduce(POINTS, function(sum, pt) {
                         return sum + pt[0] * pt[1];
                     }, 0);
 
-                    var realIntercept = (yAve * xi2 - xAve * xiyi) /
-                        (xi2 - POINTS.length * pow(xAve, 2));
-                    var realSlope = (xiyi - POINTS.length * xAve * yAve) /
-                        (xi2 - POINTS.length * pow(xAve, 2));
+                    var error = xiyi - n * meanX * meanY;
+                    var realIntercept = (meanY * xi2 - meanX * xiyi) / (xi2 - n * meanX2);
+                    var realSlope = error / (xi2 - n * meanX2);
 
-                    return [realSlope, realIntercept];
+                    // Sample standard deviations
+                    var correction = n / (n - 1);
+                    var stdevX = correction * pow(xi2 / n - meanX2, 0.5);
+                    var stdevY = correction * pow(yi2 / n - meanY2, 0.5);
+
+                    var p = _.map(POINTS, function(pt) {return pt[0]; })
+                    console.log(stdevX + " "  + p)
+
+                    var r2 = error / ((n - 1) * stdevX * stdevY);
+
+                    return [realSlope, realIntercept, r2];
                 })()</var>
                 <var id="GRAPH">{}</var>
                 <var id="VALIDATOR">function(slope, intercept) {
@@ -452,7 +469,7 @@
         </div>
 
         <div id="nonlinear" data-type="linear" data-weight="1">
-            <div class="vars">
+            <div class="vars" data-ensure="abs(R2) < 0.36">
                 <var id="SLOPE">0</var>
                 <var id="INTERCEPT">0</var>
                 <var id="OFFSET">11</var>
@@ -500,12 +517,12 @@
 
             <div class="hints">
                 <p>Does the data look like it follows a linear relationship?</p>
-                <p>These data are mostly random, so there is no line that fits the data well.</p>
+                <p>The data is mostly random, so there is no line that fits the data well.</p>
             </div>
         </div>
 
         <div id="two-slopes" data-type="linear" data-weight="1">
-            <div class="vars">
+            <div class="vars" data-ensure="abs(R2) < 0.36">
                 <var id="BREAK">randRange(-3, 3)</var>
                 <var id="SLOPE1">randRange(-25, 25) / 10</var>
                 <var id="SLOPE2" data-ensure="abs(SLOPE1 - SLOPE2) > 1.5">randRange(-30, 30) / 10</var>
@@ -581,12 +598,12 @@
 
             <div class="hints">
                 <p>Does the data look like it follows a linear relationship?</p>
-                <p>These data form two separate linear trends, so there is no single line that fits the data well.</p>
+                <p>The data forms two separate linear trends, so there is no single line that fits the data well.</p>
             </div>
         </div>
 
         <div id="parabola" data-type="linear" data-weight="1">
-            <div class="vars">
+            <div class="vars" data-ensure="abs(R2) < 0.36">
                 <var id="GETPOINTS">function() {
                     var xs = shuffle([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
                     var n = randRange(9, 12);
@@ -661,7 +678,7 @@
 
             <div class="hints">
                 <p>Does the data look like it follows a linear relationship?</p>
-                <p>These data do not form a linear trend, so there is no single line that fits the data well.</p>
+                <p>The data does not form a linear trend, so there is no single line that fits the data well.</p>
             </div>
         </div>
     </div>
