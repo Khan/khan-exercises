@@ -2775,7 +2775,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     angle + offset
                 ]);
                 var absolute = KhanUtil.kvector.add(center, vec);
-                pixels = graphie.scalePoint(absolute);
+                var pixels = graphie.scalePoint(absolute);
                 return pixels[0] + "," + pixels[1];
             };
 
@@ -2941,13 +2941,13 @@ $.extend(KhanUtil.Graphie.prototype, {
                 isRotating = false;
                 redrawRotateHandle(rotateHandle.coord);
                 if (options.onMoveEnd) {
-                    oldPolar = KhanUtil.kvector.polarDegFromCart(
+                    var oldPolar = KhanUtil.kvector.polarDegFromCart(
                         KhanUtil.kvector.subtract(
                             rotateHandleStartCoord,
                             rotatePoint.coord
                         )
                     );
-                    newPolar = KhanUtil.kvector.polarDegFromCart(
+                    var newPolar = KhanUtil.kvector.polarDegFromCart(
                         KhanUtil.kvector.subtract(
                             rotateHandle.coord,
                             rotatePoint.coord
