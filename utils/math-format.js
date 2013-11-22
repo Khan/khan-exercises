@@ -131,14 +131,6 @@ $.extend(KhanUtil, {
         return KhanUtil.fraction(n, d, true, true, small, parens);
     },
 
-    fractionSimplify: function(n, d, small, parens) {
-        if (n % d) {
-            return KhanUtil.fraction(n, d, true, true, small, parens);
-        } else {
-            return n / d;
-        }
-    },
-
     /* Calls fraction with the small flag enabled. Additional parameters
      * correspond to the remaining fraction flags. */
     fractionSmall: function(n, d, defraction, reduce, parens) {

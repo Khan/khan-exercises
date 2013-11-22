@@ -549,9 +549,6 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
             var y = -digitsB.length + leadingZero;
             graph.label([-deciB - deciA + 0.5, y - 0.1],
                 "\\LARGE{" + decimalPointSymbol + "}", "center", true);
-            //console.log(y);
-            //graph.label([-deciB - deciA + 0.5, -0.1 - digitsB.length],
-            //    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
         });
     };
 }

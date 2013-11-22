@@ -92,7 +92,7 @@
                         <p>Now we have:</p>
                         <p><code>\qquad
                             <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> <span data-if="N === 3"> \times <var>DECIMALS[2]</var></span> = {?}
-                        </code></p>                 
+                        </code></p>
                     </div>
 
                     <p><code>\qquad
@@ -130,20 +130,20 @@
                     <div>First get all of the numbers as percentages.</div>
 
                     <div data-each="TOCHANGE as i">
-                        <p><code>\qquad<var>NUMS[i]</var> \times 100\% = <var>100 * DECIMALS[i]</var>\%</code></p>
+                        <p><code>\qquad<var>NUMS[i]</var> \times 100\% = <var>roundTo(2, 100 * DECIMALS[i])</var>\%</code></p>
                     </div>
 
                     <div>
                         <p>Now we have:</p>
                         <p><code>\qquad
-                            <var>100 * DECIMALS[0]</var>\% \times <var>100 * DECIMALS[1]</var>\%
-                            <span data-if="N === 3"> \times <var>100 * DECIMALS[2]</var>\%</span> = {?}
+                            <var>roundTo(2, 100 * DECIMALS[0])</var>\% \times <var>roundTo(2, 100 * DECIMALS[1])</var>\%
+                            <span data-if="N === 3"> \times <var>roundTo(2, 100 * DECIMALS[2])</var>\%</span> = {?}
                         </code></p>
                     </div>
 
                     <p><code>\qquad
-                        <var>100 * DECIMALS[0]</var>\% \times <var>100 * DECIMALS[1]</var>\%
-                            <span data-if="N === 3"> \times <var>100 * DECIMALS[2]</var>\%</span> = <var>100 * SOLUTION</var> \%
+                        <var>roundTo(2, 100 * DECIMALS[0])</var>\% \times <var>roundTo(2, 100 * DECIMALS[1])</var>\%
+                            <span data-if="N === 3"> \times <var>roundTo(2, 100 * DECIMALS[2])</var>\%</span> = <var>100 * SOLUTION</var> \%
                     </code></p>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                         return arr;
                     })()</var>
                     <var id="POWER">_.map(DECIMALS, function(d, i) {
-                        if (TYPES[i] === 'decimal' &amp;&amp; round(d * 100) === d * 100) {
+                        if (TYPES[i] === 'decimal' &amp;&amp; abs(round(d * 100) - d * 100) &lt; 10e-9) {
                             return 10;
                         } else {
                             return 100;
@@ -199,7 +199,7 @@
                     <div>First get all of the numbers as simplified fractions.</div>
 
                     <div data-each="TOCHANGE as i"><code><p>\qquad
-                        <var>NUMS[i]</var><span data-if="TYPES[i] !== 'fraction'"> = <var>fraction(POWER[i] * DECIMALS[i], POWER[i])</var></span>
+                        <var>NUMS[i]</var><span data-if="TYPES[i] !== 'fraction'"> = <var>fraction(roundTo(i, POWER[i] * DECIMALS[i]), POWER[i])</var></span>
                         <span data-if="POWER[i] !== DENOMINATORS[i] / GCDS[i]"> = <var>fraction(SIMPLE_NUMERATORS[i], SIMPLE_DENOMINATORS[i])</var></span>
                     </code></p></div>
 
@@ -227,7 +227,7 @@
                         <var>fraction(SIMPLE_NUMERATORS[1], SIMPLE_DENOMINATORS[1])</var>
                         <span data-if="N === 3"> \times <var>fraction(SIMPLE_NUMERATORS[2], SIMPLE_DENOMINATORS[2])</var></span>} =
                         <var>fraction(NUMERSOL, DENOMSOL)</var>
-                        <span data-if="DENOMSOL === 1 || reduces(NUMERSOL, DENOMSOL)"> = <var>fractionSimplify(NUMERSOL, DENOMSOL)</var></span>
+                        <span data-if="DENOMSOL === 1 || reduces(NUMERSOL, DENOMSOL)"> = <var>fractionReduce(NUMERSOL, DENOMSOL)</var></span>
                     </code></p>
                 </div>
             </div>
