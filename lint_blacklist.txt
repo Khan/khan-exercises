@@ -17,7 +17,6 @@ utils/convert-values.js
 utils/graphie-3d.js
 utils/graphie-geometry.js
 utils/graphie-helpers-arithmetic.js
-utils/matrix.js
 utils/proofs.js
 utils/rational-expressions.js
 utils/test/**
