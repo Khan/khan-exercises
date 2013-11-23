@@ -16,7 +16,7 @@ $.extend(KhanUtil, {
                 usedChars.pop();
             }
             return permArr;
-        };
+        }
 
         return permute(arr);
     },

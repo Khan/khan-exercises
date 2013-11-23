@@ -327,8 +327,8 @@ $.extend(KhanUtil, {
                 face.toFront();
                 image.push(face.draw());
                 if (object.faceBorder){
-                	image.push(face.drawBorder());
-                	};
+                    image.push(face.drawBorder());
+                }
             });
             _.each(backFaces, function(face) {
                 face.toBack();
