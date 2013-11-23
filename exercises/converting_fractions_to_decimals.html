@@ -9,33 +9,34 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1">
-                <var id="NUMERATOR">randRange( 1, 30 )</var>
-                <var id="DENOMINATOR">randRange( NUMERATOR + 1, 30 )</var>
-                <var id="DECIMAL_4">Math.floor( NUMERATOR / DENOMINATOR * 10000 ) / 10000</var>
-                <var id="DECIMAL">roundTo( 3, NUMERATOR / DENOMINATOR )</var>
+            <div class="vars" data-ensure="getGCD(NUMERATOR, DENOMINATOR) === 1">
+                <var id="DENOMINATOR">randFromArray([4, 5, 8, 10, 20, 25, 50])</var>
+                <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
+                <var id="DECIMAL_3">Math.floor(NUMERATOR / DENOMINATOR * 1000) / 1000</var>
+                <var id="DECIMAL">roundTo(2, NUMERATOR / DENOMINATOR)</var>
+                <var id="NUMERATOR_10">NUMERATOR * pow(10, 3)</var>
             </div>
-            <p>Express the fraction as a decimal, rounded to the thousandth.</p>
+            <p>Express the fraction as a decimal, rounded to the nearest hundredth.</p>
             <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
             <p class="solution" data-type="decimal"><var>DECIMAL</var></p>
             <div class="hints">
                 <p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
 
                 <div class="graphie" id="nmbrs">
-                    graph.divider = new Divider( DENOMINATOR, NUMERATOR * 10000, 0, 4 );
+                    graph.divider = new Divider(DENOMINATOR, NUMERATOR_10, 0, 3);
                     graph.divider.show();
-                    DUMMY = Array( graph.divider.getNumHints() );
+                    DUMMY = Array(graph.divider.getNumHints());
                 </div>
 
                 <div class="graphie" data-update="nmbrs">
                     graph.divider.shiftDecimals();
                 </div>
 
-                <div class="graphie" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 10000, 0, 4 ) times" data-update="nmbrs">
+                <div class="graphie" data-each="Divider.numHintsFor(DENOMINATOR, NUMERATOR_10, 0, 3) times" data-update="nmbrs">
                     graph.divider.showHint();
                 </div>
 
-                <p>Rounding <code><var>localeToFixed(DECIMAL_4, 4)</var></code> to the thousandths place gives <code><var>localeToFixed(DECIMAL, 3)</var></code>.</p>
+                <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>DECIMAL</var></code>, rounded to the hundredths place.</p>
             </div>
         </div>
     </div>

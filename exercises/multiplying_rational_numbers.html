@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying rational numbers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+
+        <div class="vars">
+            <var id="N">randRange(2, 3)</var>
+            <var id="TYPES" data-ensure="TYPES[0] !== TYPES[1] || (N === 3 && TYPES[0] !== TYPES[2])">_.map(_.range(N), function() {
+                return randFromArray(["decimal", "percentage", "fraction", "fraction"]);
+            }).slice(0, N)</var>
+            <var id="DENOMINATORS">_.map(TYPES, function(x) {
+                return randFromArray([2, 4, 5, 8, 10, 20, 25, 50, 100]);
+            })</var>
+            <var id="NUMERATORS">_.map(DENOMINATORS, function(d) {
+                return randRangeNonZero(-d, d);
+            })</var>
+            <var id ="DECIMALS">_.map(DENOMINATORS, function(d, i) {
+                return roundTo(3, NUMERATORS[i] / d);
+            })</var>
+            <var id="NUMS">_.map(TYPES, function(t, i) {
+                if (t === "fraction") {
+                    return fraction(NUMERATORS[i], DENOMINATORS[i]);
+                } else if (t === "percentage") {
+                    return round(100 * DECIMALS[i]) + "\\%";
+                } else {
+                    return DECIMALS[i];
+                }
+            })</var>
+            <var id="GCDS">_.map(DENOMINATORS, function(d, i) {
+                return getGCD(d, NUMERATORS[i]);
+            })</var>
+            <var id="TOCHANGE">(function() {
+                var arr = [];
+                for (var i = 0; i &lt; N; i++) {
+                    if (TYPES[i] !== 'decimal') {
+                        arr.push(i);
+                    }
+                }
+                return arr;
+            })()</var>
+            <var id="SOLUTION">(function() {
+                var x = 1;
+                for (var i = 0; i &lt; N; i++) {
+                    x *= NUMERATORS[i] / DENOMINATORS[i];
+                }
+                return roundTo(6, x);
+            })()</var>
+        </div>
+
+        <div class="problems">
+            <div id="decimal">
+                <div class="vars">
+                    <var id="TOCHANGE">(function() {
+                        var arr = [];
+                        for (var i = 0; i &lt; N; i++) {
+                            if (TYPES[i] !== 'decimal') {
+                                arr.push(i);
+                            }
+                        }
+                        return arr;
+                    })()</var>
+                </div>
+
+                <div class="problem">
+                    <p>Solve the following expression and give your answer as a decimal.</p>
+                </div>
+
+                <div class="question">
+                    <p><code>
+                        <var>NUMS[0]</var> \times <var>NUMS[1]</var> <span data-if="N === 3"> \times <var>NUMS[2]</var></span> = {?}
+                    </code></p>
+                </div>
+
+                <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
+
+                <div class="hints">
+                    <div>First get all of the numbers in decimal form.</div>
+
+                    <div data-each="TOCHANGE as i">
+                        <p data-if="TYPES[i] === 'fraction'"><code>\qquad<var>NUMS[i]</var> = <var>DECIMALS[i]</var></code></p>
+                        <p data-else=""><code>\qquad
+                            <var>NUMS[i]</var> = <var>fraction(round(NUMERATORS[i] * 100 / DENOMINATORS[i]), 100)</var> = <var>DECIMALS[i]</var>
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> <span data-if="N === 3"> \times <var>DECIMALS[2]</var></span> = {?}
+                        </code></p>
+                    </div>
+
+                    <p><code>\qquad
+                        <var>DECIMALS[0]</var> \times <var>DECIMALS[1]</var> <span data-if="N === 3"> \times <var>DECIMALS[2]</var></span> = <var>SOLUTION</var>
+                    </code></p>
+                </div>
+            </div>
+
+            <div id="percentage">
+                <div class="vars">
+                    <var id="TOCHANGE">(function() {
+                        var arr = [];
+                        for (var i = 0; i &lt; N; i++) {
+                            if (TYPES[i] !== 'percentage') {
+                                arr.push(i);
+                            }
+                        }
+                        return arr;
+                    })()</var>
+                </div>
+
+                <div class="problem">
+                    <p>Solve the following expression and give your answer as a percentage.</p>
+                </div>
+
+                <div class="question">
+                    <p><code>
+                        <var>NUMS[0]</var> \times <var>NUMS[1]</var> <span data-if="N === 3"> \times <var>NUMS[2]</var></span> = {?}
+                    </code></p>
+                </div>
+
+                <div class="solution" data-forms="percent"><var>SOLUTION</var></div>
+
+                <div class="hints">
+                    <div>First get all of the numbers as percentages.</div>
+
+                    <div data-each="TOCHANGE as i">
+                        <p><code>\qquad<var>NUMS[i]</var> \times 100\% = <var>roundTo(2, 100 * DECIMALS[i])</var>\%</code></p>
+                    </div>
+
+                    <div>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            <var>roundTo(2, 100 * DECIMALS[0])</var>\% \times <var>roundTo(2, 100 * DECIMALS[1])</var>\%
+                            <span data-if="N === 3"> \times <var>roundTo(2, 100 * DECIMALS[2])</var>\%</span> = {?}
+                        </code></p>
+                    </div>
+
+                    <p><code>\qquad
+                        <var>roundTo(2, 100 * DECIMALS[0])</var>\% \times <var>roundTo(2, 100 * DECIMALS[1])</var>\%
+                            <span data-if="N === 3"> \times <var>roundTo(2, 100 * DECIMALS[2])</var>\%</span> = <var>100 * SOLUTION</var> \%
+                    </code></p>
+                </div>
+            </div>
+
+            <div id="fractions">
+                <div class="vars">
+                    <var id="TOCHANGE">(function() {
+                        var arr = [];
+                        for (var i = 0; i &lt; N; i++) {
+                            if (TYPES[i] !== 'fraction' || GCDS[i] !== 1) {
+                                arr.push(i);
+                            }
+                        }
+                        return arr;
+                    })()</var>
+                    <var id="POWER">_.map(DECIMALS, function(d, i) {
+                        if (TYPES[i] === 'decimal' &amp;&amp; abs(round(d * 100) - d * 100) &lt; 10e-9) {
+                            return 10;
+                        } else {
+                            return 100;
+                        }
+                    })</var>
+                    <var id="SIMPLE_NUMERATORS">_.map(NUMERATORS, function(n, i) {
+                        return round(n / GCDS[i]);
+                    })</var>
+                    <var id="SIMPLE_DENOMINATORS">_.map(DENOMINATORS, function(d, i) {
+                        return round(d / GCDS[i]);
+                    })</var>
+                    <var id="NUMERSOL, DENOMSOL">(function() {
+                        var n = 1;
+                        var d = 1;
+                        for (var i = 0; i &lt; N; i++) {
+                            n *= SIMPLE_NUMERATORS[i];
+                            d *= SIMPLE_DENOMINATORS[i];
+                        }
+                        return [n, d];
+                    })()</var>
+                </div>
+
+                <div class="problem">
+                    <p>Solve the following expression and give your answer as a fraction.</p>
+                </div>
+
+                <div class="question">
+                    <p><code>
+                        <var>NUMS[0]</var> \times <var>NUMS[1]</var> <span data-if="N === 3"> \times <var>NUMS[2]</var></span> = {?}
+                    </code></p>
+                </div>
+
+                <div class="solution" data-type="rational" data-simplify="optional"><var>SOLUTION</var></div>
+
+                <div class="hints">
+                    <div>First get all of the numbers as simplified fractions.</div>
+
+                    <div data-each="TOCHANGE as i"><p><code>\qquad
+                        <var>NUMS[i]</var><span data-if="TYPES[i] !== 'fraction'"> = <var>fraction(roundTo(i, POWER[i] * DECIMALS[i]), POWER[i])</var></span>
+                        <span data-if="POWER[i] !== DENOMINATORS[i] / GCDS[i]"> = <var>fraction(SIMPLE_NUMERATORS[i], SIMPLE_DENOMINATORS[i])</var></span>
+                    </code></p></div>
+
+                    <div>
+                        <p>Now we have:</p>
+                        <p><code>\qquad
+                            <var>fraction(SIMPLE_NUMERATORS[0], SIMPLE_DENOMINATORS[0])</var> \times
+                            <var>fraction(SIMPLE_NUMERATORS[1], SIMPLE_DENOMINATORS[1])</var>
+                            <span data-if="N === 3"> \times <var>fraction(SIMPLE_NUMERATORS[2], SIMPLE_DENOMINATORS[2])</var></span> = {?}
+                        </code></p>
+                    </div>
+
+                    <p><code>\qquad \phantom{
+                        <var>fraction(SIMPLE_NUMERATORS[0], SIMPLE_DENOMINATORS[0])</var> \times
+                        <var>fraction(SIMPLE_NUMERATORS[1], SIMPLE_DENOMINATORS[1])</var>
+                        <span data-if="N === 3"> \times <var>fraction(SIMPLE_NUMERATORS[2], SIMPLE_DENOMINATORS[2])</var></span>} =
+                        \dfrac{<var>SIMPLE_NUMERATORS[0]</var> \times <var>SIMPLE_NUMERATORS[1]</var>
+                        <span data-if="N === 3">\times <var>SIMPLE_NUMERATORS[2]</var></span>}
+                        {<var>SIMPLE_DENOMINATORS[0]</var> \times <var>SIMPLE_DENOMINATORS[1]</var>
+                        <span data-if="N === 3">\times <var>SIMPLE_DENOMINATORS[2]</var></span>}
+                    </code></p>
+
+                    <p><code>\qquad \phantom{
+                        <var>fraction(SIMPLE_NUMERATORS[0], SIMPLE_DENOMINATORS[0])</var> \times
+                        <var>fraction(SIMPLE_NUMERATORS[1], SIMPLE_DENOMINATORS[1])</var>
+                        <span data-if="N === 3"> \times <var>fraction(SIMPLE_NUMERATORS[2], SIMPLE_DENOMINATORS[2])</var></span>} =
+                        <var>fraction(NUMERSOL, DENOMSOL)</var>
+                        <span data-if="DENOMSOL === 1 || reduces(NUMERSOL, DENOMSOL)"> = <var>fractionReduce(NUMERSOL, DENOMSOL)</var></span>
+                    </code></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

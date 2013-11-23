@@ -38,6 +38,31 @@ $.extend(KhanUtil, {
         return KhanUtil.digits(n).reverse();
     },
 
+    // Convert a decimal number into an array of digits (reversed)
+    decimalDigits: function(n) {
+        var str = "" + Math.abs(n);
+        str = str.replace(".", "");
+
+        var list = [];
+        for (var i = str.length; i > 0; i--) {
+            list.push(str.charAt(i-1));
+        }
+
+        return list;
+    },
+
+    // Find number of digits after the decimal place
+    decimalPlaces: function(n) {
+        var str = "" + Math.abs(n);
+        str = str.split(".");
+
+        if (str.length === 1) {
+            return 0;
+        } else {
+            return str[1].length;
+        }
+    },
+
     digitsToInteger: function(digits) {
         var place = Math.floor(Math.pow(10, digits.length - 1));
         var number = 0;
@@ -61,7 +86,7 @@ $.extend(KhanUtil, {
     placesLeftOfDecimal: [$._("one"), $._("ten"), $._("hundred"),
         $._("thousand")],
     placesRightOfDecimal: [$._("one"), $._("tenth"), $._("hundredth"),
-        $._("thousandth")],
+        $._("thousandth"),$._("ten thousandth")],
 
     powerToPlace: function(power) {
         if (power < 0) {

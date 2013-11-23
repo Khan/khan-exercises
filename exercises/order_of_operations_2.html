@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Order of operations 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars" data-ensure="B - C !== 0">
+            <var id="A">randRange(1, 10)</var>
+            <var id="B">randRange(1, 10)</var>
+            <var id="C">randRange(1, 10)</var>
+            <var id="D">randRange(1, 10)</var>
+            <var id="E">randRange(1, 10)</var>
+        </div>
+
+        <div class="problems">
+            <div id="order-of-operations">
+                <p class="question">Simplify the following expression.</p>
+                <p class="problem"><code><var>A</var> + (<var>B</var> \times <var>C</var>)</code></p>
+                <p class="solution" data-forms="integer"><var>A + B * C</var></p>
+
+                <div class="hints">
+                    <p><code>= <var>A</var> + (<var>B * C</var>)</code></p>
+                    <p><code>= <var>A</var> + <var>B * C</var></code></p>
+                    <p><code>= <var>A + B * C</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <p class="problem"><code><var>A</var> + <var>B</var> \times <var>C</var></code></p>
+                <p class="solution" data-forms="integer"><var>A + B * C</var></p>
+
+                <div class="hints">
+                    <p><code>= <var>A</var> + <var>B * C</var></code></p>
+                    <p><code>= <var>A + B * C</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <div class="vars">
+                    <var id="F">randRange(1, 9)</var>
+                    <var id="G">randRange(1, 10 - F)</var>
+                </div>
+                <p class="problem"><code><var>A</var> + <var>B</var>^2</code></p>
+                <p class="solution" data-forms="integer"><var>A + B * B</var></p>
+
+                <div class="hints">
+                    <p><code>= <var>A</var> + <var>B</var> \times <var>B</var></code></p>
+                    <p><code>= <var>A</var> + <var>B * B</var></code></p>
+                    <p><code>= <var>A + B * B</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <div class="vars">
+                    <var id="F">randRange(1, 9)</var>
+                    <var id="G">randRange(1, 10 - F)</var>
+                </div>
+                <p class="problem"><code>(<var>F</var> + <var>G</var>)^2</code></p>
+                <p class="solution" data-forms="integer"><var>(F + G) * (F + G)</var></p>
+
+                <div class="hints">
+                    <p><code>= (<var>F + G</var>)^2</code></p>
+                    <p><code>= <var>F + G</var>^2</code></p>
+                    <p><code>= <var>(F + G) * (F + G)</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <div class="vars">
+                    <var id="F">randRange(2, 10)</var>
+                    <var id="G">randRange(2, max(2, floor(100 / (F * F))))</var>
+                </div>
+                <p class="problem"><code><var>F</var> \times <var>G</var>^2</code></p>
+                <p class="solution" data-forms="integer"><var>F * G * G</var></p>
+
+                <div class="hints">
+                    <p><code>= <var>F</var> \times <var>G * G</var></code></p>
+                    <p><code>= <var>F * G * G</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <div class="vars">
+                    <var id="F">randRange(2, 5)</var>
+                    <var id="G">randRange(2, max(2, floor(10 / (F * F))))</var>
+                </div>
+                <p class="problem"><code>(<var>F</var> \times <var>G</var>)^2</code></p>
+                <p class="solution" data-forms="integer"><var>F * F * G * G</var></p>
+
+                <div class="hints">
+                    <p><code>= (<var>F * G</var>)^2</code></p>
+                    <p><code>= <var>F * G</var>^2</code></p>
+                    <p><code>= <var>F * G * F * G</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <p class="problem"><code><var>A</var> \times (<var>B</var> + <var>C</var>)</code></p>
+                <p class="solution" data-forms="integer"><var>A * (B + C)</var></p>
+
+                <div class="hints">
+                    <p><code>= <var>A</var> \times <var>B + C</var></code></p>
+                    <p><code>= <var>A * (B + C)</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <p class="problem"><code><var>A</var> + \left(\dfrac{<var>B * C</var>}{<var>C</var>}\right)</code></p>
+                <p class="solution" data-forms="integer"><var>A + B</var></p>
+
+                <div class="hints">
+                    <p><code>= <var>A</var> + (<var>B</var>)</code></p>
+                    <p><code>= <var>A</var> + <var>B</var></code></p>
+                    <p><code>= <var>A + B</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <p class="problem"><code><var>A</var> + \dfrac{<var>B * C</var>}{<var>C</var>}</code></p>
+                <p class="solution" data-forms="integer"><var>A + B</var></p>
+
+                <div class="hints">
+                    <p><code>= <var>A</var> + <var>B</var></code></p>
+                    <p><code>= <var>A + B</var></code></p>
+                </div>
+            </div>
+
+            <div data-type="order-of-operations">
+                <p class="problem"><code>\dfrac{ <var>(A * (B + C))</var> }{<var>B</var> + <var>C</var>}</code></p>
+                <p class="solution" data-forms="integer"><var>A</var></p>
+
+                <div class="hints">
+                    <p><code>= \dfrac{ <var>(A * (B + C))</var> }{(<var>(B + C)</var>)}</code></p>
+                    <p><code>= \dfrac{ <var>(A * (B + C))</var> }{<var>B + C</var>}</code></p>
+                    <p><code>= <var>A</var></code></p>
+                </div>
+            </div>
+            
+            <div data-type="order-of-operations">
+                <p class="problem"><code><var>A</var> \times <var>B</var> + <var>C</var> \times \dfrac{<var>(D * E)</var>}{<var>E</var>}</code></p>
+                <p class="solution" data-forms="integer"><var>(A * B) + (C * D)</var></p>
+
+                <div class="hints">
+                    <p><code>= <var>A</var> \times <var>B</var> + <var>C</var> \times <var>D</var></code></p>
+                    <p><code>= <var>(A * B)</var> + <var>C</var> \times <var>D</var></code></p>
+                    <p><code>= <var>(A * B)</var> + <var>(C * D)</var></code></p>
+                    <p><code>= <var>(A * B) + (C * D)</var></code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
