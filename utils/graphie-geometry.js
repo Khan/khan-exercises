@@ -840,7 +840,7 @@ $.extend(KhanUtil, {
     // Creates a representation of a weird blocky shape that you can find
     // the perimeter or area of
     createOddShape: function(options) {
-        shape = $.extend({
+        var shape = $.extend({
             width: 10,
             height: 10,
             squares: [],
