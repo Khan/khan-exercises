@@ -518,15 +518,6 @@ $.extend(KhanUtil, {
         return parseFloat(num.toFixed(digits));
     },
 
-    //Gives -1 or 1 so you can multiply to restore the sign of a number
-    restoreSign: function(num) {
-        num = parseFloat(num);
-        if (num < 0) {
-            return -1;
-        }
-        return 1;
-    },
-
     // Checks if a number or string representation thereof is an integer
     isInt: function(num) {
         return parseFloat(num) === parseInt(num, 10) && !isNaN(num);
@@ -551,19 +542,6 @@ $.extend(KhanUtil, {
             }
             return false;
         });
-    },
-
-    tagMarkup: function(val, tag, attr) {
-        attr = attr || "";
-        return "<" + tag + " " + attr + ">" + val + "</" + tag + ">";
-    },
-
-    /**
-     * Add hint color markup to a given value
-     */
-    hintColorMarkup: function(val, colorName) {
-        var hintCSS = "class='hint_" + colorName + "'";
-        return KhanUtil.tagMarkup(val, "span", hintCSS);
     },
 
     BLUE: "#6495ED",

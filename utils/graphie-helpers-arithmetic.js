@@ -788,37 +788,6 @@ Divider.numHintsFor = function(divisor, dividend, deciDivisor, deciDividend) {
     return hints;
 };
 
-function squareFractions(nom, den, perLine, spacing, size) {
-    spacing = spacing || 2.5;
-    perLine = perLine || 10;
-    size = size || 0.2;
-    var graph = KhanUtil.currentGraph;
-    var arr = [];
-    var x = 0;
-    var y = 0;
-
-    for (y = 0; y < den / perLine && y * perLine <= nom; y++) {
-        for (x = 0; x < perLine && y * perLine + x < nom; x++) {
-            arr.push(graph.regularPolygon([x * spacing * size, y * 2.5 * size], 4, size, Math.PI / 4).attr("stroke", "none").attr("fill", "#6495ed").attr("stroke-linecap", "square"));
-        }
-    }
-
-    y--;
-    for (x = x; x < perLine; x++) {
-        arr.push(graph.regularPolygon([x * spacing * size, y * 2.5 * size], 4, size, Math.PI / 4).attr("fill", "black").attr("stroke", "none").attr("stroke-linecap", "square"));
-    }
-
-    y++;
-    for (y = y; y < den / perLine; y++) {
-        for (x = 0; x < perLine; x++) {
-            arr.push(graph.regularPolygon([x * spacing * size, y * 2.5 * size], 4, size, Math.PI / 4).attr("fill", "black").attr("stroke", "none").attr("stroke-linecap", "square"));
-        }
-    }
-
-
-    return arr;
-}
-
 KhanUtil.Adder = Adder;
 KhanUtil.Subtractor = Subtractor;
 KhanUtil.Multiplier = Multiplier;

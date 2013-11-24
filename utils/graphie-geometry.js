@@ -807,38 +807,6 @@ var randomQuadAngles = {
         }
 };
 
-function newSquare(center) {
-    var center = center || [0, 0];
-    return new Quadrilateral(center, randomQuadAngles.square(), 1 , "", 3);
-}
-
-function newRectangle(center) {
-    var center = center || [0, 0];
-    return new Quadrilateral(center, randomQuadAngles.rectangle() , KhanUtil.randFromArray([0.2, 0.5, 0.7, 1.5]) , "", 3);
-}
-
-function newRhombus(center) {
-    var center = center || [0, 0];
-    return new Quadrilateral(center, randomQuadAngles.rhombus(), 1 , "", 3);
-}
-
-function newParallelogram(center) {
-    var center = center || [0, 0];
-    return new Quadrilateral(center, randomQuadAngles.parallelogram(), KhanUtil.randFromArray([0.2, 0.5, 0.7, 1.5]) , "", 3);
-}
-
-function newTrapezoid(center) {
-    var center = center || [0, 0];
-    return new Quadrilateral(center, randomQuadAngles.trapezoid(), KhanUtil.randFromArray([0.2, 0.5, 0.7, 1.5]) , "", 3);
-}
-
-function newKite(center) {
-    var center = center || [0, 0];
-    var angA = KhanUtil.randRange(90, 140);
-    var angB = KhanUtil.randRange(30, (360 - (2 * angA)) - 30);
-    var angC = 360 - angB - 2 * angA;
-    return new Quadrilateral(center, randomQuadAngles.kite(), 1 , "", 2);
-}
 
 $.extend(KhanUtil, {
 
