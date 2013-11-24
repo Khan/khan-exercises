@@ -291,7 +291,7 @@ window.Khan = (function() {
             "interactive": ["graphie", "../third_party/jquery.mobile.vmouse"],
             "mean-and-median": ["stat"],
             "congruency": ["angles", "interactive"],
-            "graphie": ["kvector"],
+            "graphie": ["kpoint"],
             "graphie-3d": ["graphie", "kmatrix", "kvector"],
             "graphie-geometry": ["graphie", "kmatrix", "kvector", "kline"],
             "graphie-helpers": ["math-format"],
