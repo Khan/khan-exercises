@@ -52,10 +52,10 @@
 
                     <div>
                         <p>
-                            How many slices would we need to cut each <var>pizza(1)</var> into so that <var>C</var> 
+                            How many slices would we need to cut each <var>pizza(1)</var> into so that <var>C</var>
                             slices would give us the same amount of <var>pizza(1)</var>?
                         </p>
-                        
+
                         <div class="graphie">
                             init({ range: [[0, 1], [0, N * 1.25]], scale: [475, 25] });
                             FILLED *= M;
@@ -75,7 +75,7 @@
                             Each of the original <var>A</var> slices must be divided into <var>M</var>
                             slices to get <var>C</var> slices in total.
                         </p>
-                        
+
                         <div class="graphie">
                             init({ range: [[0, 1], [0, 1]], scale: [475, 25] });
                             rectchart([M, M * B - M], [RED, BACKGROUND]);
@@ -84,10 +84,10 @@
 
                     <div>
                         <p>
-                            If we divide all the original slices into <var>M</var> slices, then one 
+                            If we divide all the original slices into <var>M</var> slices, then one
                             <var>pizza(1)</var> will have a total of <var>D</var> slices.
                         </p>
-                        
+
                         <div class="graphie">
                             init({ range: [[0, 1], [0, 1]], scale: [475, 25] });
                             rectchart([M, M * B - M], [RED, GRAY]);
@@ -102,7 +102,7 @@
                     </div>
 
                     <p>
-                        The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = 
+                        The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} =
                         \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>D</var></code>.
                     </p>
                 </div>
@@ -140,7 +140,7 @@
 
                     <div>
                         <p>What if we cut each <var>pizza(1)</var> into <var>D</var> slices instead?</p>
-                        
+
                         <div class="graphie">
                             init({ range: [[0, 1], [0, N * 1.25]], scale: [475, 25] });
                             FILLED *= M;
@@ -158,9 +158,9 @@
                     <div>
                         <p>
                             In order to take the same amount of <var>pizza(1)</var> as before,
-                            we now need to take <var>C</var> slices.</p>
+                            we now need to take <var>C</var> slices.
                         </p>
-                        
+
                         <div class="graphie">
                             init({ range: [[0, 1], [0, N * 1.25]], scale: [475, 25] });
 
@@ -182,7 +182,7 @@
                     </div>
 
                     <p>
-                        The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = 
+                        The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} =
                         \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>D</var></code>.
                     </p>
                 </div>
@@ -219,11 +219,14 @@
                     </div>
 
                     <div>
-                        <p>
-                            If we share those <var>C</var> slices equally between <var>A</var> <var>plural("person", A)</var>,
+                        <p data-if="isSingular(A)">
+                            If we share those <var>C</var> slices equally between <var>A</var> person,
+                            how many slices does each person get?
+                        </p><p data-else="">
+                            If we share those <var>C</var> slices equally between <var>A</var> people,
                             how many slices does each person get?
                         </p>
-                        
+
                         <div class="graphie">
                             init({ range: [[0, 1], [0, N * 1.25]], scale: [475, 25] });
 
@@ -240,7 +243,11 @@
                     </div>
 
                     <div>
-                        <p>Sharing <var>C</var> slices equally between <var>A</var> <var>plural("person", A)</var> means each person gets <var>M</var> slices.</p>
+                        <p data-if="isSingular(A)">
+                            Sharing <var>C</var> slices equally between <var>A</var> person means each person gets <var>M</var> slices.
+                        </p><p data-else="">
+                            Sharing <var>C</var> slices equally between <var>A</var> people means each person gets <var>M</var> slices.
+                        </p>
                         <div class="graphie">
                             init({ range: [[0, 1], [0, 1]], scale: [475, 25] });
                             rectchart([M, D - M], [RED, BACKGROUND]);
@@ -248,7 +255,7 @@
                         <p>If we give each person <var>M</var> slices, how many people can we feed with one <var>pizza(1)</var>?</p>
                     </div>
 
-                    <div>                        
+                    <div>
                         <div class="graphie">
                             init({ range: [[0, 1], [0, 1]], scale: [475, 25] });
                             var filled = A % B;
@@ -269,7 +276,7 @@
                     </div>
 
                     <p>
-                        The final equation is: <code>\dfrac{<var>C</var>}{<var>D</var>} \div \dfrac{<var>M</var>}{<var>M</var>} = 
+                        The final equation is: <code>\dfrac{<var>C</var>}{<var>D</var>} \div \dfrac{<var>M</var>}{<var>M</var>} =
                         \dfrac{<var>A</var>}{<var>B</var>}</code> so our answer is <code><var>B</var></code>.
                     </p>
                 </div>
@@ -307,7 +314,7 @@
 
                     <div>
                         <p>What if we cut each <var>pizza(1)</var> into <var>B</var> slices instead?</p>
-                        
+
                         <div class="graphie">
                             init({ range: [[0, 1], [0, N * 1.25]], scale: [475, 25] });
                             FILLED /= M;
@@ -325,9 +332,9 @@
                     <div>
                         <p>
                             In order to take the same amount of <var>pizza(1)</var> as before,
-                            we now need to take only <var>A</var> slices.</p>
+                            we now need to take only <var>A</var> slices.
                         </p>
-                        
+
                         <div class="graphie">
                             init({ range: [[0, 1], [0, N * 1.25]], scale: [475, 25] });
 
@@ -349,7 +356,7 @@
                     </div>
 
                     <p>
-                        The final equation is: <code>\dfrac{<var>C</var>}{<var>D</var>} \div \dfrac{<var>M</var>}{<var>M</var>} = 
+                        The final equation is: <code>\dfrac{<var>C</var>}{<var>D</var>} \div \dfrac{<var>M</var>}{<var>M</var>} =
                         \dfrac{<var>A</var>}{<var>B</var>}</code> so our answer is <code><var>A</var></code>.
                     </p>
                 </div>
