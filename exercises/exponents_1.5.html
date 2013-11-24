@@ -27,8 +27,8 @@
             </div>
 
             <p class="question">
-                <span data-if="BASE < 0"><code>\Large (<var>BASE</var>)^{<var>EXPONENT</var>} = ?</code></span>
-                <span data-else=""><code>\Large <var>BASE</var>^{<var>EXPONENT</var>} = ?</code></span>
+                <span data-if="BASE < 0"><code>\Large (<var>BASE</var>)^{<var>EXPONENT</var>} = \; ?</code></span>
+                <span data-else=""><code>\Large <var>BASE</var>^{<var>EXPONENT</var>} = \; ?</code></span>
             </p>
 
             <div class="solution" data-forms="integer"><code><var>EXPANSION[0]</var></code></div>
@@ -56,7 +56,7 @@
                 <var data-if="BASE < 0 && EXPONENT % 2 === 1" id="FAKE_SOLUTION4">"-(" + (-BASE) + ")^{" + EXPONENT + "}"</var>
             </div>
 
-            <p class="question"><code>\Large <var>EXPANSION[0]</var> = ?</code></p>
+            <p class="question"><code>\Large <var>EXPANSION[0]</var> = \; ?</code></p>
             <div class="solution" data-forms="integer"><code><var>SOLUTION</var></code></div>
             <ul class="choices" data-none="true" data-show="4">
                 <li><code><var>FAKE_SOLUTION1</var></code></li>
@@ -78,7 +78,7 @@
                 <var id="SOLUTION">round(pow(BASE, EXPONENT))</var>
             </div>
 
-            <p class="question"><code>\Large <var>BASE</var>^{<var>EXPONENT</var>} = ?</code></p>
+            <p class="question"><code>\Large <var>BASE</var>^{<var>EXPONENT</var>} = \; ?</code></p>
             <div class="solution" data-forms="integer"><var>SOLUTION</var></div>
             <div class="hints">
                 <div data-each="EXPANSION as v" data-unwrap="">
