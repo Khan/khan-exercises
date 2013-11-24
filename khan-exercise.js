@@ -1088,9 +1088,9 @@ window.Khan = (function() {
         var typeOverride = userExercise.problemType,
             seedOverride = userExercise.seed;
 
-        exerciseId = userExercise.exerciseModel.name;
-        exerciseName = userExercise.exerciseModel.displayName;
-        exerciseFile = userExercise.exerciseModel.fileName;
+        var exerciseId = userExercise.exerciseModel.name,
+            exerciseName = userExercise.exerciseModel.displayName,
+            exerciseFile = userExercise.exerciseModel.fileName;
 
         function finishRender() {
             // Get all problems of this exercise type...
