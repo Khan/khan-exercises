@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials calculus graphie derivative-intuition">
+<html data-require="math math-format polynomials graphie derivative-intuition">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Derivative intuition</title>
@@ -14,9 +14,9 @@
                     <var id="SCENARIO">{}</var>
                     <var id="POLYNOMIAL">new Polynomial(randRange(0, 3), randRange(2, 4))</var>
                     <var id="FNXTEXT">POLYNOMIAL.text()</var>
-                    <var id="DDXTEXT">ddxPolynomial(POLYNOMIAL).text()</var>
+                    <var id="DDXTEXT">POLYNOMIAL.derivative().text()</var>
                     <var id="FNX">function(x) {return POLYNOMIAL.evalOf(x);}</var>
-                    <var id="DDX">function(x) {return ddxPolynomial(POLYNOMIAL).evalOf(x);}</var>
+                    <var id="DDX">function(x) {return POLYNOMIAL.derivative().evalOf(x);}</var>
                     <var id="POINTS">[-2, -1.5, -1, 0, 1, 1.5, 2]</var>
                     <var id="XRANGE">[-2.5, 2.5]</var>
                     <var id="YMIN">min.apply(Math, $.map(POINTS, FNX).concat( $.map(POINTS, DDX)))</var>

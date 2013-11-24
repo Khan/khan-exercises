@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format calculus polynomials expressions">
+<html data-require="math math-format polynomials expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>L'Hôpital's rule</title>
@@ -43,8 +43,8 @@
                             // 0 as well
 
                             while ( d.findMinDegree() !== 0 || ( APPROACHES === 0 ? false : d.findMaxDegree() !== 0 ) ) {
-                                n = KhanUtil.ddxPolynomial( n );
-                                d = KhanUtil.ddxPolynomial( d );
+                                n = n.derivative();
+                                d = d.derivative();
                                 steps.push([ n, d ]);
                             }
 

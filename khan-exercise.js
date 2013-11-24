@@ -279,7 +279,6 @@ window.Khan = (function() {
 
             // The normal module dependencies.
             "scratchpad": ["../third_party/jquery.mobile.vmouse"],
-            "calculus": ["math", "expressions", "polynomials"],
             "exponents": ["math", "math-format"],
             "kinematics": ["math"],
             "math-format": ["math", "expressions"],
