@@ -162,11 +162,11 @@ $.extend(KhanUtil, {
                 t.center.mouseTarget.toFront();
                 t.circ.attr({
                     cx: graphie.scalePoint(x)[0],
-                    cy: graphie.scalePoint(y)[1],
+                    cy: graphie.scalePoint(y)[1]
                 });
                 t.perim.attr({
                     cx: graphie.scalePoint(x)[0],
-                    cy: graphie.scalePoint(y)[1],
+                    cy: graphie.scalePoint(y)[1]
                 });
             };
 
@@ -275,7 +275,7 @@ $.extend(KhanUtil, {
                                 data.radius = KhanUtil.eDist(data.center.coord,
                                     graphie.unscalePoint([mouseX, mouseY]));
                                 data.perim.attr({
-                                    r: graphie.scaleVector(data.radius)[0],
+                                    r: graphie.scaleVector(data.radius)[0]
                                 });
                                 data.circ.attr({
                                     rx: graphie.scaleVector(data.radius)[0],
@@ -360,7 +360,7 @@ $.extend(KhanUtil, {
                             stroke: KhanUtil.BLUE
                         }, 50);
                         event.data.line2.visibleShape.animate({
-                            stroke: KhanUtil.BLUE,
+                            stroke: KhanUtil.BLUE
                         }, 50);
                     }
                 });
@@ -386,7 +386,7 @@ $.extend(KhanUtil, {
 
             endpointMoveEnd = function(x, y, end) {
                 _.each(construction.snapLines, function(line) {
-                    distIntersect = KhanUtil.lDist(end.coord, line);
+                    var distIntersect = KhanUtil.lDist(end.coord, line);
                     if (distIntersect[0] < 0.25) {
                         end.setCoord(distIntersect[1]);
                         end.updateLineEnds();
@@ -582,7 +582,7 @@ $.extend(KhanUtil, {
 
             endpointMoveEnd = function(x, y, end) {
                 _.each(construction.snapLines, function(line) {
-                    distIntersect = KhanUtil.lDist(end.coord, line);
+                    var distIntersect = KhanUtil.lDist(end.coord, line);
                     if (distIntersect[0] < 0.25) {
                         end.setCoord(distIntersect[1]);
                         end.updateLineEnds();
@@ -679,7 +679,7 @@ $.extend(KhanUtil, {
 
         // remove ALL the tools
         construction.removeAllTools = function() {
-            staticTools = [];
+            var staticTools = [];
             _.each(construction.tools, function(tool) {
                 if (tool.dummy) {
                     staticTools.push(tool);
@@ -714,11 +714,11 @@ $.extend(KhanUtil, {
                         else if (tool1.interType === "line" &&
                                 tool2.interType === "circle") {
 
-                            m = (tool1.second.coord[1] -
+                            var m = (tool1.second.coord[1] -
                                     tool1.first.coord[1]) /
                                     (tool1.second.coord[0] -
                                     tool1.first.coord[0]);
-                            yint = tool1.first.coord[1] -
+                            var yint = tool1.first.coord[1] -
                                     m * tool1.first.coord[0];
 
 
@@ -742,11 +742,11 @@ $.extend(KhanUtil, {
 
 
                             if (!isNaN(x1)) {
-                                y1 = m * x1 + yint;
+                                var y1 = m * x1 + yint;
                                 construction.interPoints.push([x1, y1]);
                             }
                             if (!isNaN(x2)) {
-                                y2 = m * x2 + yint;
+                                var y2 = m * x2 + yint;
                                 construction.interPoints.push([x2, y2]);
                             }
                         }
@@ -833,7 +833,6 @@ $.extend(KhanUtil, {
             "stroke-width": 2
         });
 
-        var graph = KhanUtil.construction;
         if (construction.snapPoints == null) {
             construction.snapPoints = [dummy];
         } else {
@@ -849,7 +848,7 @@ $.extend(KhanUtil, {
         KhanUtil.currentGraph.circle(coordinates,
                                 {r: 0.08, fill: "black", stroke: "none"});
 
-        var graph = KhanUtil.construction;
+        var construction = KhanUtil.construction;
         if (construction.snapPoints == null) {
             construction.snapPoints = [dummy];
         } else {
