@@ -5,7 +5,7 @@ $.extend(KhanUtil, {
         },
         convertsTo: ["sin"],
         convertTo: function(type, angle) {
-            if (type.name == "sin") {
+            if (type.name === "sin") {
                 var cscv = KhanUtil.trigFunc.csc.print(angle);
                 var sinv = KhanUtil.trigFunc.sin.print(angle);
                 var toReturn = [];
@@ -19,26 +19,26 @@ $.extend(KhanUtil, {
         }
     },
     sec: {name: "sec", print: function(angle) {
-        if (angle == 0) {
+        if (angle === 0) {
             return 1;
         }
-        else if (angle == 30) {
+        else if (angle === 30) {
             return "\\frac{2 \\sqrt 3}{3}";
         }
-        else if (angle == 45) {
+        else if (angle === 45) {
             return "\\sqrt 2";
         }
-        else if (angle == 60) {
+        else if (angle === 60) {
             return "2";
         }
-        else if (angle == 90) {
+        else if (angle === 90) {
             return "undefined";
         }
         return "undef";
     },
     convertsTo: ["cos", "tan"],
     convertTo: function(type, angle) {
-        if (type.name == "cos") {
+        if (type.name === "cos") {
             var cosv = KhanUtil.trigFunc.cos.print(angle);
             var secv = KhanUtil.trigFunc.sec.print(angle);
             var toReturn = [];
@@ -48,7 +48,7 @@ $.extend(KhanUtil, {
             toReturn.push("\\cos x = " + cosv);
             return toReturn;
         }
-        else if (type.name == "tan") {
+        else if (type.name === "tan") {
             var tanv = KhanUtil.trigFunc.tan.print(angle);
             var secv = KhanUtil.trigFunc.sec.print(angle);
             var toReturn = [];
@@ -64,19 +64,19 @@ $.extend(KhanUtil, {
     }
 },
 tan: {name: "tan", print: function(angle) {
-    if (angle == 0) {
+    if (angle === 0) {
         return 0;
     }
-    else if (angle == 30) {
+    else if (angle === 30) {
         return "\\frac{\\sqrt 3}{3}";
     }
-    else if (angle == 45) {
+    else if (angle === 45) {
         return "1";
     }
-    else if (angle == 60) {
+    else if (angle === 60) {
         return "\\sqrt 3";
     }
-    else if (angle == 90) {
+    else if (angle === 90) {
         return "undefined";
     }
     return "undef";
@@ -84,7 +84,7 @@ tan: {name: "tan", print: function(angle) {
 },
 convertsTo: ["sec"],
 convertTo: function(type, angle) {
-    if (type.name == "sec") {
+    if (type.name === "sec") {
 
         var tanv = KhanUtil.trigFunc.tan.print(angle);
         var secv = KhanUtil.trigFunc.sec.print(angle);
@@ -108,7 +108,7 @@ convertTo: function(type, angle) {
     var cosv;
     var sinv;
     var secv;
-    if (type.name == "sin") {
+    if (type.name === "sin") {
         cosv = KhanUtil.trigFunc.cos.print(angle);
         sinv = KhanUtil.trigFunc.sin.print(angle);
         toReturn.push("\\sin^2 x + \\cos^2 x = 1");
@@ -119,7 +119,7 @@ convertTo: function(type, angle) {
         toReturn.push(sinv + " = \\sin x");
         return toReturn;
     }
-    else if (type.name == "sec") {
+    else if (type.name === "sec") {
         cosv = KhanUtil.trigFunc.cos.print(angle);
         secv = KhanUtil.trigFunc.sec.print(angle);
         toReturn.push(cosv + " = \\cos x");
@@ -130,26 +130,26 @@ convertTo: function(type, angle) {
 }
 },
 sin: {name: "sin", print: function(angle) {
-    if (angle == 0) {
+    if (angle === 0) {
         return 0;
     }
-    else if (angle == 30) {
+    else if (angle === 30) {
         return "\\frac{1}{2}";
     }
-    else if (angle == 45) {
+    else if (angle === 45) {
         return "\\frac{\\sqrt 2}{2}";
     }
-    else if (angle == 60) {
+    else if (angle === 60) {
         return "\\frac{\\sqrt 3}{2}";
     }
-    else if (angle == 90) {
+    else if (angle === 90) {
         return "1";
     }
     return "undefined";
 },
 convertsTo: ["cos", "csc"],
 convertTo: function(type, angle) {
-    if (type.name == "cos") {
+    if (type.name === "cos") {
         var sinv = KhanUtil.trigFunc.sin.print(angle);
         var cosv = KhanUtil.trigFunc.cos.print(angle);
         var toReturn = [];
@@ -162,7 +162,7 @@ convertTo: function(type, angle) {
         return toReturn;
 
     }
-    else if (type.name == "csc") {
+    else if (type.name === "csc") {
         var sinv = KhanUtil.trigFunc.sin.print(angle);
         var cscv = KhanUtil.trigFunc.csc.print(angle);
         var toReturn = [];
@@ -183,7 +183,7 @@ $.extend(KhanUtil, {
         var visited = {};
         var queue = [];
         var next = start;
-        while (next.name != end.name) {
+        while (next.name !== end.name) {
             if (next.convertsTo) {
                 $.each(next.convertsTo, function(i, str) {
                     if (! (str in visited)) {
@@ -198,7 +198,7 @@ $.extend(KhanUtil, {
         }
         var prev = next;
         var steps = [];
-        while (prev.name != start.name) {
+        while (prev.name !== start.name) {
             steps.unshift(prev.name);
             prev = prev.parent;
 

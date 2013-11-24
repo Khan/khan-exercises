@@ -8,15 +8,4 @@ test/**
 build/jshint.js
 
 # TODO(csilvers): fix these
-build/kathjax-config.js
 utils/calculator.js
-utils/chemistry.js
-utils/congruency.js
-utils/constructions.js
-utils/convert-values.js
-utils/graphie-3d.js
-utils/graphie-geometry.js
-utils/graphie-helpers-arithmetic.js
-utils/proofs.js
-utils/rational-expressions.js
-utils/test/**

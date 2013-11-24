@@ -1056,7 +1056,7 @@
             "The number of choices should be correct");
         _.each(texts, function(text) {
             ok(_.contains(choices, text),
-                "The text should be one of the provided choices")
+                "The text should be one of the provided choices");
         });
 
         var textCounts = _.countBy(texts);

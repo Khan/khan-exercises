@@ -2619,7 +2619,7 @@ $.fn["chemistryLoad"] = function() {
 
 
     var table = $("<table>").appendTo(periodicTable);
-    table.addClass("periodic-table")
+    table.addClass("periodic-table");
 
     var layout = [
         [ 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2],

@@ -161,7 +161,7 @@ $.extend(KhanUtil, {
 
             // the inverse function of the line
             line.invfunc = function(y) {
-                var slope = (line.slope === 0) ? 0.00001 : line.slope
+                var slope = (line.slope === 0) ? 0.00001 : line.slope;
                 return line.start[0] + (y - line.start[1]) / slope;
             };
 
@@ -419,8 +419,8 @@ $.extend(KhanUtil, {
             $(angle.point.mouseTarget[0]).css("cursor", "pointer");
 
             // Increase the point's size
-            var pointRadius = Math.sin(KhanUtil.toRadians(angle.angle) / 2)
-                              * angle.radius * graph.scale[0];
+            var pointRadius = Math.sin(KhanUtil.toRadians(angle.angle) / 2) *
+                angle.radius * graph.scale[0];
             angle.point.mouseTarget.attr({ r: pointRadius });
 
             // Replace the shape with our angle
@@ -495,7 +495,7 @@ $.extend(KhanUtil, {
                 this.setStyles();
 
                 this.draw();
-            }
+            };
 
             // setup the original styles
             angle.setStyles();
@@ -605,10 +605,10 @@ $.extend(KhanUtil, {
 
             coord = [];
 
-            coord[0] = (line1.slope * line1.start[0]
-                        - line2.slope * line2.start[0]
-                        + line2.start[1] - line1.start[1]) /
-                       (line1.slope - line2.slope);
+            coord[0] = (line1.slope * line1.start[0] -
+                        line2.slope * line2.start[0] +
+                        line2.start[1] - line1.start[1]) /
+                        (line1.slope - line2.slope);
             coord[1] = line1.func(coord[0]);
 
             point = congruency.addPoint(pointName, coord);

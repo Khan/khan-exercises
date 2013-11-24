@@ -73,14 +73,14 @@ function Adder(a, b, digitsA, digitsB) {
             carryStr = "\\color{#FFA500}{" + carry + "}";
         }
 
-        this.showSideLabel("\\Large{"
-            + prevCarryStr
-            + "\\color{#6495ED}{" + digitsA[index] + "}"
-            + addendStr
-            + " = "
-            + carryStr
-            + "\\color{#28AE7B}{" + sum % 10 + "}"
-            + "}");
+        this.showSideLabel("\\Large{" +
+            prevCarryStr +
+            "\\color{#6495ED}{" + digitsA[index] + "}" +
+            addendStr +
+            " = " +
+            carryStr +
+            "\\color{#28AE7B}{" + sum % 10 + "}" +
+            "}");
 
         index++;
     };
@@ -92,11 +92,11 @@ function Adder(a, b, digitsA, digitsB) {
         highlights.push(graph.label([pos.max - index, pos.sum],
             "\\LARGE{\\color{#28AE7B}{" + carry + "}}"));
 
-        this.showSideLabel("\\Large{"
-            + "\\color{#6495ED}{" + carry + "}"
-            + " = "
-            + "\\color{#28AE7B}{" + carry + "}"
-            + "}");
+        this.showSideLabel("\\Large{" +
+            "\\color{#6495ED}{" + carry + "}" +
+            " = " +
+            "\\color{#28AE7B}{" + carry + "}" +
+            "}");
     };
 
     this.getNumHints = function() {
@@ -121,7 +121,7 @@ function Adder(a, b, digitsA, digitsB) {
             });
         }
         this.showSideLabel("\\text{Make sure the decimals are lined up.}");
-    }
+    };
 }
 
 Adder.numHintsFor = function(a, b) {
@@ -224,15 +224,15 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
         }
 
         highlights[index].push(graph.label([pos.max - index, pos.diff], "\\LARGE{\\color{#28AE7B}{" + diff + "}}"));
-        if (subStr == "") {
+        if (subStr === "") {
             subStr = "- \\color{#6495ED}{ 0 }";
         }
 
-        this.showSideLabel("\\Large{"
-            + "\\color{#6495ED}{" + workingDigitsA[index] + "}"
-            + subStr
-            + " = "
-            + "\\color{#28AE7B}{" + diff + "}}");
+        this.showSideLabel("\\Large{" +
+            "\\color{#6495ED}{" + workingDigitsA[index] + "}" +
+            subStr +
+            " = " +
+            "\\color{#28AE7B}{" + diff + "}}");
 
         index++;
     };
@@ -298,7 +298,7 @@ Subtractor.numHintsFor = function(a, b) {
             drawn.showDecimals = (function(old) {
                 return function() {
                     old.call(drawn, aDecimal, bDecimal);
-                }
+                };
             })(drawn.showDecimals);
 
             return drawn;
@@ -320,63 +320,61 @@ Subtractor.numHintsFor = function(a, b) {
 })();
 
 function drawCircles(num, color) {
-    with (KhanUtil.currentGraph) {
-        var numCols = Math.floor(Math.sqrt(num));
-        var numRows = Math.floor(num / numCols);
-        var extra = num % numRows;
+    var graph = KhanUtil.currentGraph;
+    var numCols = Math.floor(Math.sqrt(num));
+    var numRows = Math.floor(num / numCols);
+    var extra = num % numRows;
 
-        init({
-            range: [[0, numCols + 1], [-1, numRows + 2]],
-            scale: [30, 30]
-        });
+    graph.init({
+        range: [[0, numCols + 1], [-1, numRows + 2]],
+        scale: [30, 30]
+    });
 
-        style({
-            stroke: color,
-            fill: color
-        });
+    graph.style({
+        stroke: color,
+        fill: color
+    });
 
-        for (var i = numRows; i > 0; i--) {
-            for (var j = numCols; j > 0; j--) {
-                circle([j, i], 0.25);
-            }
+    for (var i = numRows; i > 0; i--) {
+        for (var j = numCols; j > 0; j--) {
+            graph.circle([j, i], 0.25);
         }
+    }
 
-        for (var j = extra; j > 0; j--) {
-            circle([j, 0], 0.25);
-        }
+    for (var j = extra; j > 0; j--) {
+        graph.circle([j, 0], 0.25);
     }
 }
 
 function crossOutCircles(numCircles, numCrossed, color) {
-    with (KhanUtil.currentGraph) {
-        var numCols = Math.floor(Math.sqrt(numCircles));
-        var numRows = Math.floor(numCircles / numCols);
-        var extra = numCircles % numRows;
-        var count = 0;
+    var graph = KhanUtil.currentGraph;
+    var numCols = Math.floor(Math.sqrt(numCircles));
+    var numRows = Math.floor(numCircles / numCols);
+    var extra = numCircles % numRows;
+    var count = 0;
 
-        style({
-            stroke: color,
-            fill: color
-        });
+    graph.style({
+        stroke: color,
+        fill: color
+    });
 
-        for (var i = numRows; i > 0; i--) {
-            for (var j = numCols; j > 0; j--) {
-                path([[j - 0.3, i - 0.3], [j + 0.3, i + 0.3]]);
-                path([[j - 0.3, i + 0.3], [j + 0.3, i - 0.3]]);
-                count += 1;
-                if (count === numCrossed) {
-                    return;
-                }
-            }
-        }
-
-        for (var j = extra; j > 0; j--) {
-            path([[j - 0.3, i - 0.3], [j + 0.3, i + 0.3]]);
-            path([[j - 0.3, i + 0.3], [j + 0.3, i - 0.3]]);
+    for (var i = numRows; i > 0; i--) {
+        for (var j = numCols; j > 0; j--) {
+            graph.path([[j - 0.3, i - 0.3], [j + 0.3, i + 0.3]]);
+            graph.path([[j - 0.3, i + 0.3], [j + 0.3, i - 0.3]]);
             count += 1;
             if (count === numCrossed) {
                 return;
             }
+        }
+    }
+
+    for (var j = extra; j > 0; j--) {
+        graph.path([[j - 0.3, i - 0.3], [j + 0.3, i + 0.3]]);
+        graph.path([[j - 0.3, i + 0.3], [j + 0.3, i - 0.3]]);
+        count += 1;
+        if (count === numCrossed) {
+            return;
         }
     }
 }
@@ -472,12 +470,12 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
             highlights = highlights.concat(graph.label([-indexA, 3], "\\color{#FFA500}{" + carry + "}", "below"));
         }
         graph.label([2, -indexB * digitsA.length - indexA + 2],
-            "\\color{#6495ED}{" + bigDigit + "}"
-            + "\\times"
-            + "\\color{#FF00AF}{" + smallDigit + "}"
-            + (carry ? "+\\color{#FFA500}{" + carry + "}" : "")
-            + "="
-            + "\\color{#28AE7B}{" + product + "}", "right");
+            "\\color{#6495ED}{" + bigDigit + "}" +
+            "\\times" +
+            "\\color{#FF00AF}{" + smallDigit + "}" +
+            (carry ? "+\\color{#FFA500}{" + carry + "}" : "") +
+            "=" +
+            "\\color{#28AE7B}{" + product + "}", "right");
 
         drawDigits([ones], -indexB - indexA, -indexB);
         highlights = highlights.concat(drawDigits([ones], -indexB - indexA, -indexB, KhanUtil.GREEN));
@@ -511,7 +509,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
             graph.label([-1 - digitsProduct.length, y + 1] , "\\LARGE{+\\vphantom{0}}");
             drawDigits(digitsProduct, 1 - digitsProduct.length, y);
         }
-    }
+    };
 
     this.getNumHints = function() {
         return numHints;
@@ -521,12 +519,14 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         graph.style({
             fill: "#000"
         }, function() {
-            if (deciA > 0)
+            if (deciA > 0) {
                 graph.label([-deciA + 0.5, 1.9],
                     "\\LARGE{" + decimalPointSymbol + "}", "center", true);
-            if (deciB > 0)
+            }
+            if (deciB > 0) {
                 graph.label([-deciB + 0.5, 0.9],
                     "\\LARGE{" + decimalPointSymbol + "}", "center", true);
+            }
         });
     };
 
@@ -678,23 +678,23 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             var diffDigits = KhanUtil.integerToDigits(diff);
             drawDigits(diffDigits, index - diffDigits.length + 1, dy - 2);
             graph.path([[index - product.length - 0.25, dy - 0.5], [index + 0.5, dy - 0.5]]);
-            graph.label([index - digits.length, dy] , "-")
+            graph.label([index - digits.length, dy] , "-");
 
             graph.label([digitsDividend.length + 0.5, dy - 1],
-                "\\color{#6495ED}{" + value + "}"
-                + "\\div"
-                + divisor + "="
-                + "\\color{#28AE7B}{" + quotient + "}"
-                + "\\text{ " + $._("or") + " }"
-                + divisor
-                + "\\times"
-                + "\\color{#28AE7B}{" + quotient + "}"
-                + " = "
-                + "\\color{#FFA500}{" + (divisor * quotient) + "}", "right");
+                "\\color{#6495ED}{" + value + "}" +
+                "\\div" +
+                divisor + "=" +
+                "\\color{#28AE7B}{" + quotient + "}" +
+                "\\text{ " + $._("or") + " }" +
+                divisor +
+                "\\times" +
+                "\\color{#28AE7B}{" + quotient + "}" +
+                " = " +
+                "\\color{#FFA500}{" + (divisor * quotient) + "}", "right");
             index++;
             dy -= 2;
-        } 
-    }
+        }
+    };
 
     this.addDecimalRemainder = function() {
         dividend = dividend * 10;
@@ -728,7 +728,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                 graph.label([digitsDividend.length + deciDiff - 0.5, 0.9],
                     "\\LARGE{" + decimalPointSymbol + "}", "center", true);
             });
-    }
+    };
 
     this.shiftDecimals = function() {
         while (decimals.length) {

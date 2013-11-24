@@ -89,7 +89,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
             arr.push([center[0] + radius * Math.cos(rotation + (i + 1) * angle), center[1] + radius * Math.sin(rotation + (i + 1) * angle)]);
         }
         return KhanUtil.currentGraph.path(arr);
-    }
+    };
 
     function getSymmetryCoordinates(i) {
         var angle = rotation + Math.PI * i * 1 / numSides;
@@ -104,7 +104,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
         var coords = getSymmetryCoordinates(i);
         color = color || KhanUtil.BLUE;
         return graph.line.apply(graph, $.merge(coords, [{ stroke: color }]));
-    }
+    };
 
     this.drawFakeLineOfSymmetry = function(i, color) {
         color = color || KhanUtil.BLUE;
@@ -112,58 +112,58 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
             angle = 360 / numSides / 2,
             fudge = KhanUtil.randRange(10, angle - 10) * KhanUtil.randFromArray([-1, 1]);
         return graph.line(rotatePoint(coords[0], fudge), rotatePoint(coords[1], fudge), { stroke: color });
-    }
+    };
 
     this.drawSide = function(style) {
         return graph.line(this.path.graphiePath[0], this.path.graphiePath[1], style);
-    }
+    };
 
     this.drawSideLabel = function(s, color) {
         var path = this.path.graphiePath;
         return graph.label(kline.midpoint(path), "\\color{"+color+"}{"+s+"}", "right");
-    }
+    };
 
     this.drawRadius = function(style) {
         var vertex = this.path.graphiePath[0];
 
         return graph.line(center, vertex, style);
-    }
+    };
 
     this.drawRadiusLabel = function(r, color) {
         var vertex = this.path.graphiePath[0];
 
         return graph.label([(vertex[0] - center[0]) / 2, (vertex[1] - center[1]) / 2], "\\color{"+color+"}{"+r+"}", "below");
-    }
+    };
 
     this.drawApothem = function(style) {
         return graph.line(center, kline.midpoint(this.path.graphiePath), style);
-    }
+    };
 
     this.drawApothemLabel = function(a, color) {
         var midpoint = kline.midpoint(this.path.graphiePath);
 
         return graph.label([(midpoint[0] - center[0]) / 2, (midpoint[1] - center[1]) / 2], "\\color{"+color+"}{"+a+"}", "above");
-    }
+    };
 
     this.drawRightBox = function(style) {
 
-    }
+    };
 
     this.drawCentralAngle = function(style) {
         return graph.arc(center, 0.5, 0, 180 / numSides, null, style);
-    }
+    };
 
     this.drawCentralAngleLabel = function(t, color) {
         return graph.label(center, "\\color{"+color+"}{"+t+"}", "above right");
-    }
+    };
 
     this.drawIncircle = function(style) {
         return graph.circle(center, KhanUtil.getDistance(center, kline.midpoint(this.path.graphiePath)), style);
-    }
+    };
 
     this.drawCircumcircle = function(style) {
         return graph.circle(center, radius, style);
-    }
+    };
 
     this.drawRightTriangle = function(i, fromMidpoint, style) {
         var vertex = this.path.graphiePath[i],
@@ -175,7 +175,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
         } else {
             return graph.path([center, vertex, midpoint, center], style);
         }
-    }
+    };
 
     // Does not currently work with 2 points on one side
     this.splitPath = function(line) {
@@ -200,7 +200,7 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
         currPath.push(this.path[i]);
         paths.push(currPath);
         return graph.path(paths[1], { stroke: KhanUtil.ORANGE, "stroke-width": 5 });
-    }
+    };
 
     this.path = this.draw();
 }
@@ -470,18 +470,18 @@ function Triangle(center, angles, scale, labels, points) {
             return 0.7;
         }
         return 0.8;
-    }
+    };
 
     this.draw = function() {
         this.set = KhanUtil.currentGraph.raphael.set();
         this.set.push(KhanUtil.currentGraph.path(this.points.concat([this.points[0]])));
         return this.set;
-    }
+    };
 
     this.color = "black";
     this.createLabel = function(p, v) {
         this.set.push(KhanUtil.currentGraph.label(p, v, "center", { color: this.color }));
-    }
+    };
 
     this.boxOut = function(pol, amount, type) {
         var type = type || "simple";
@@ -493,7 +493,7 @@ function Triangle(center, angles, scale, labels, points) {
         if (shouldMove) {
             this.translate(amount);
         }
-    }
+    };
 
     this.boundingRange = function(margin) {
         margin = margin || 0;
@@ -501,7 +501,7 @@ function Triangle(center, angles, scale, labels, points) {
         var Y = $.map(this.points, function(p) { return p[1]; });
         return [[_.min(X) - margin, _.max(X) + margin],
              [_.min(Y) - margin, _.max(Y) + margin]];
-    }
+    };
 
     this.findCenterPoints = function() {
         var Ax = this.points[0][0];
@@ -522,7 +522,7 @@ function Triangle(center, angles, scale, labels, points) {
         this.circumCenter = [x, y];
         this.centroid = [1 / 3 * (Ax + Bx + Cx), 1 / 3 * (Ay + By + Cy)];
         this.inCenter = [x1, y1];
-    }
+    };
 
     this.findCenterPoints();
 
@@ -530,7 +530,7 @@ function Triangle(center, angles, scale, labels, points) {
         this.semiperimeter = (this.sideLengths[0] + this.sideLengths[1] + this.sideLengths[2]) / 2;
         this.inradius = this.scale / this.semiperimeter;
         this.circumradius = this.sideLengths[0] * this.sideLengths[1] * this.sideLengths[2] / (4 * this.semiperimeter * this.inradius);
-    }
+    };
 
     this.rotationCenter = this.centroid;
 
@@ -542,7 +542,7 @@ function Triangle(center, angles, scale, labels, points) {
         });
         this.genSides();
         this.findCenterPoints();
-    }
+    };
 
     this.genSides = function() {
         this.sides = [];
@@ -550,7 +550,7 @@ function Triangle(center, angles, scale, labels, points) {
         for (x = 0; x < this.points.length; x++) {
             this.sides.push([this.points[x], this.points[(x + 1) % this.points.length]]);
         }
-    }
+    };
 
     this.translate = function(amount) {
         this.points = $.map(this.points, function(el, i) {
@@ -558,12 +558,12 @@ function Triangle(center, angles, scale, labels, points) {
         });
         this.genSides();
         this.findCenterPoints();
-    }
+    };
 
     this.rotatePoint = function(pos, theta) {
         var theta = theta || this.rotation;
         return [this.rotationCenter[0] + (pos[0] - this.rotationCenter[0]) * Math.cos(theta) + (pos[1] - this.rotationCenter[1]) * Math.sin(theta), this.rotationCenter[1] + (-1) * ((pos[0] - this.rotationCenter[0]) * Math.sin(theta)) + ((pos[1] - this.rotationCenter[1]) * Math.cos(theta))];
-    }
+    };
 
     this.drawLabels = function() {
         var i = 0;
@@ -610,7 +610,7 @@ function Triangle(center, angles, scale, labels, points) {
 
 
         return this.set;
-    }
+    };
 
 }
 function Quadrilateral(center, angles, sideRatio, labels, size) {
@@ -666,22 +666,24 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
                 }
             }
         }
-    }
+    };
 
     this.sideTooShort = function() {
-        if (this.sideRatio === 1) return false;
+        if (this.sideRatio === 1) {
+            return false;
+        }
         var shortestSide = _.min(this.sideLengths);
         var allSides = _.reduce(this.sideLengths, function(acc,n) { return acc+n; }, 0);
         return shortestSide/allSides < 0.12 && {whichSide:_.indexOf(this.sideLengths,shortestSide)};
-    }
+    };
 
     this.isCrossed = function() {
         return (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0) || (vectorProduct([this.points[0], this.points[3]], [this.points[0], this.points[2]]) < 0);
-    }
+    };
 
     this.genSides = function() {
         this.sides = [[this.points[0], this.points[3]], [this.points[3], this.points[2]], [this.points[2], this.points[1]], [this.points[1], this.points[0]]];
-    }
+    };
 
     this.generatePoints();
 
@@ -1017,11 +1019,11 @@ KhanUtil.solveTriangle = function(triangle) {
     if (numAngles === 3 && numSides >= 1) {
         var knownSide = sides.indexOf(sides[0] || sides[1] || sides[2]);
         sides[(knownSide + 1) % 3] = (sides[knownSide] *
-            Math.sin(angles[(knownSide + 1) % 3] * Math.PI / 180))
-            / Math.sin(angles[knownSide] * Math.PI / 180);
+            Math.sin(angles[(knownSide + 1) % 3] * Math.PI / 180)) /
+            Math.sin(angles[knownSide] * Math.PI / 180);
         sides[(knownSide + 2) % 3] = (sides[knownSide] *
-            Math.sin(angles[(knownSide + 2) % 3] * Math.PI / 180))
-            / Math.sin(angles[knownSide] * Math.PI / 180);
+            Math.sin(angles[(knownSide + 2) % 3] * Math.PI / 180)) /
+            Math.sin(angles[knownSide] * Math.PI / 180);
     }
 
     triangle.sides = sides;
@@ -1036,7 +1038,7 @@ KhanUtil.solveTriangle = function(triangle) {
         return (this.angles[0] !== this.angles[1] &&
             this.angles[1] !== this.angles[2] &&
             this.angles[0] !== this.angles[2]);
-    }
+    };
 
     triangle.isNotDegenerate = function() {
         return (this.sides[1] + this.sides[2] > this.sides[0] &&
@@ -1067,8 +1069,8 @@ KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
     }, triangle);
 
     var getDistance = function(point1, point2) {
-        return Math.sqrt((point1[0] - point2[0]) * (point1[0] - point2[0])
-            + (point1[1] - point2[1]) * (point1[1] - point2[1]));
+        return Math.sqrt((point1[0] - point2[0]) * (point1[0] - point2[0]) +
+            (point1[1] - point2[1]) * (point1[1] - point2[1]));
     };
 
     var rotatePoint = function(point, angle) {
