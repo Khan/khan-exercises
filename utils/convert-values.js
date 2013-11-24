@@ -104,10 +104,13 @@ cos: {name: "cos", print: function(angle) {
 },
 convertsTo: ["sin", "sec"],
 convertTo: function(type, angle) {
+    var toReturn = [];
+    var cosv;
+    var sinv;
+    var secv;
     if (type.name == "sin") {
-        var cosv = KhanUtil.trigFunc.cos.print(angle);
-        var sinv = KhanUtil.trigFunc.sin.print(angle);
-        var toReturn = [];
+        cosv = KhanUtil.trigFunc.cos.print(angle);
+        sinv = KhanUtil.trigFunc.sin.print(angle);
         toReturn.push("\\sin^2 x + \\cos^2 x = 1");
         toReturn.push("\\sin^2 x + (" + cosv + ")^2 = 1");
         toReturn.push("(" + cosv + ")^2 = 1 - \\sin^2 x");
@@ -119,7 +122,6 @@ convertTo: function(type, angle) {
     else if (type.name == "sec") {
         cosv = KhanUtil.trigFunc.cos.print(angle);
         secv = KhanUtil.trigFunc.sec.print(angle);
-        toReturn = new Array();
         toReturn.push(cosv + " = \\cos x");
         toReturn.push(secv + " = \\frac{1}{\\cos x}");
         toReturn.push(secv + " = \\sec x");

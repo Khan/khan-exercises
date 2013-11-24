@@ -16,7 +16,7 @@ $.extend(KhanUtil, {
                 usedChars.pop();
             }
             return permArr;
-        };
+        }
 
         return permute(arr);
     },
@@ -280,11 +280,13 @@ $.extend(KhanUtil, {
                 return '';
             }
 
+            var regex;
+
             // Include leading space if there are earlier terms
             if (this.coefficient < 0){
-                var regex = includeSign ? '[-\\u2212]\\s*' : '\\s*[-\\u2212]\\s*';
+                regex = includeSign ? '[-\\u2212]\\s*' : '\\s*[-\\u2212]\\s*';
             } else {
-                var regex = includeSign ? '\\+\\s*' : '\\s*';
+                regex = includeSign ? '\\+\\s*' : '\\s*';
             }
 
             if (!(Math.abs(this.coefficient) === 1 && this.variableString !== '')) {
@@ -340,12 +342,13 @@ $.extend(KhanUtil, {
 
         for (var i = 0; i < terms.length; i++) {
             var term = terms[i];
+            var newTerm;
             if (typeof term === 'number') {
-                var newTerm = new KhanUtil.Term(term);
+                newTerm = new KhanUtil.Term(term);
             } else if (term instanceof KhanUtil.Term) {
-                var newTerm = new KhanUtil.Term(term.coefficient, term.variables);
+                newTerm = new KhanUtil.Term(term.coefficient, term.variables);
             } else {
-                var newTerm = new KhanUtil.Term(term[0], term[1]);
+                newTerm = new KhanUtil.Term(term[0], term[1]);
             }
             if (newTerm.coefficient !== 0) {
                 this.terms.push(newTerm);
@@ -483,13 +486,14 @@ $.extend(KhanUtil, {
 
         // Return a new expression representing the product of this one and the one passed in
         this.multiply = function(expression) {
+            var multiplyTerms;
             if (expression instanceof KhanUtil.RationalExpression) {
-                var multiplyTerms = expression.terms;
+                multiplyTerms = expression.terms;
             } else if (typeof expression === 'number' || expression instanceof KhanUtil.Term) {
-                var multiplyTerms = [expression];
+                multiplyTerms = [expression];
             } else {
                 // Assume it's a variable name
-                var multiplyTerms = [new KhanUtil.Term(1, expression)];
+                multiplyTerms = [new KhanUtil.Term(1, expression)];
             }
 
             var terms = [];

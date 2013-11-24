@@ -2205,8 +2205,9 @@ function sortEqualityList(equalityList, equalityObject) {
             dupCheck[equalityList[i]] = true;
         }
     }
+    var sortedEqualityList;
     if(equalityObject === finishedEqualities) {
-        var sortedEqualityList = _.clone(newEqualityList);
+        sortedEqualityList = _.clone(newEqualityList);
         for (var i = 0; i < newEqualityList.length; i++) {
             if (equalityObject[newEqualityList[i]] === "vertical angles are congruent" || equalityObject[newEqualityList[i]] === "alternate interior angles are congruent") {
                 sortedEqualityList[i - 1] = newEqualityList[i];
@@ -2215,7 +2216,7 @@ function sortEqualityList(equalityList, equalityObject) {
         }
     }
     else{
-        var sortedEqualityList = newEqualityList;
+        sortedEqualityList = newEqualityList;
     }
 
     return sortedEqualityList;

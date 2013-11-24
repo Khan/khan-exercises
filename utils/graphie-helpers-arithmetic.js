@@ -676,7 +676,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             highlights = highlights.concat(drawDigits(product, index - product.length + 1, dy - 1, KhanUtil.ORANGE));
 
             var diffDigits = KhanUtil.integerToDigits(diff);
-            drawDigits(diffDigits, index - diffDigits.length + 1, dy - 2);;
+            drawDigits(diffDigits, index - diffDigits.length + 1, dy - 2);
             graph.path([[index - product.length - 0.25, dy - 0.5], [index + 0.5, dy - 0.5]]);
             graph.label([index - digits.length, dy] , "-")
 
