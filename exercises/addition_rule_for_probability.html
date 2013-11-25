@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="cards1">
+            <div class="vars">
+                <var id="RANK">randFromArray(["jack", "queen", "king", "ace"])</var>
+                <var id="SUIT">randFromArray(["club", "diamond", "heart", "spade"])</var>
+            </div>
+
+            <div class="question">
+				<p>A deck of cards contains 52 playing cards.  If a single random card was chosen from the deck, what is the probability
+				of choosing a <var>SUIT</var> or a <var>RANK</var>?</p>
+            </div>
+
+            <div class="solution" data-type="rational"><var>4/13</var></div>
+            <div class="hints">
+                <p>There are four suits in a deck; clubs, diamonds, hearts, and spades. The probability of choosing a <var>SUIT</var> is 13/52.</p>
+                <p>There are four <var>RANK</var>s in the deck. The probability of chooisng a <var>RANK</var> is 4/52.</p>
+				<p>The probability of choosing <var>RANK</var> of <var>SUIT</var>s is 1/52.</p>
+            </div>
+        </div>
+		
+		<div id="dice">
+			<div class="vars">
+                <var id="NUMBER">randRange(1, 6)</var>
+            </div>
+            <div class="question">
+				<p>A dice is rolled two times. What is the probability that at least one of the 
+				rolls will be a <var>NUMBER</var>?</p>
+            </div>
+
+            <div class="solution" data-type="rational"><var>11/36</var></div>
+            <div class="hints">
+				<p>The probability that both rolls will be a <var>NUMBER</var> is 1/6 * 1/6 = 1/36.</p>
+				<p>The probability that one roll will be a <var>NUMBER</var> is 1/6.</p>
+				<p>The question is asking for the probability that the first OR the second roll will be a <var>NUMBER</var>.
+					There is also the chance that both the first AND the second roll will be <var>NUMBER</var>.</p>
+            </div>
+		</div>
+		
+		<div id="roulette">
+            <div class="vars" data-ensure="NUMBER % 2 == TYPES.indexOf(TYPE)">
+				<var id="TYPES">["even", "odd"]</var>
+                <var id="TYPE">randFromArray(TYPES)</var>
+                <var id="NUMBER">randRange(1, 36)</var>
+            </div>
+
+            <div class="question">
+				<p>A roulette wheel contains 36 numbers, numbered from 1 to 36. 
+					In a single spin, what is the probability
+					that the ball will land on an <var>TYPE</var> number or 
+					land on number <var>NUMBER</var>?<var>RESULT</var></p>
+            </div>
+
+            <div class="solution" data-type="rational"><var>1/2</var></div>
+            <div class="hints">
+				<p><var>NUMBER</var> is an <var>TYPE</var> number.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
