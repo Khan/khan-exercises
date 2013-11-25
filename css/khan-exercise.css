@@ -240,7 +240,7 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 
 #answer_area .calculator .keypad a sup {
     vertical-align: super;
-    font-size: 85%;
+    font-size: 80%;
     line-height: 0;
 }
 
