@@ -603,7 +603,7 @@ $.extend(KhanUtil, {
 
             var point = null;
 
-            coord = [];
+            var coord = [];
 
             coord[0] = (line1.slope * line1.start[0] -
                         line2.slope * line2.start[0] +

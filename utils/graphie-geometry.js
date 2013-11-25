@@ -1,11 +1,11 @@
-// TODO: shove these into KhanUtil or somewhere reasonable
+// TODO(eater): shove these into KhanUtil or somewhere reasonable
 
-var kline = KhanUtil.kline;
+window.kline = KhanUtil.kline;
 $.fn["graphie-geometryLoad"] = function() {
     kline = KhanUtil.kline;
 };
 
-function rotatePoint(p, deg, c) {
+window.rotatePoint = function(p, deg, c) {
     var rad = KhanUtil.toRadians(deg),
         cos = Math.cos(rad),
         sin = Math.sin(rad),
@@ -17,7 +17,7 @@ function rotatePoint(p, deg, c) {
         x = cx + (px - cx) * cos - (py - cy) * sin,
         y = cy + (px - cx) * sin + (py - cy) * cos;
     return [KhanUtil.roundTo(9, x), KhanUtil.roundTo(9, y)];
-}
+};
 
 $.extend(KhanUtil, {
     rightAngleBox: function(path1, path2, style) {
@@ -49,7 +49,7 @@ $.extend(KhanUtil, {
 
         var spacing = 0.5;
 
-        point = kline.midpoint(path);
+        var point = kline.midpoint(path);
 
         graph.path([path[0], point], $.extend(style, { arrows: "->" }));
     },
@@ -75,7 +75,7 @@ $.extend(KhanUtil, {
     }
 });
 
-function RegularPolygon(center, numSides, radius, rotation, fillColor) {
+window.RegularPolygon = function(center, numSides, radius, rotation, fillColor) {
     var graph = KhanUtil.currentGraph;
     rotation = rotation || 0;
     rotation = KhanUtil.toRadians(rotation);
@@ -203,20 +203,20 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
     };
 
     this.path = this.draw();
-}
+};
 
-function lineLength(line) {
+window.lineLength = function(line) {
     var a = line[0];
     var b = line[1];
     return Math.sqrt((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]));
-}
+};
 
-function dotProduct(a, b) {
+window.dotProduct = function(a, b) {
         return a[0] * b[0] + a[1] * b[1];
-}
+};
 //http://www.blackpawn.com/texts/pointinpoly/default.html
 //Checks whether two points are on the same side of a line
-function sameSide(p1, p2, l) {
+window.sameSide = function(p1, p2, l) {
     var a = l[0];
     var b = l[1];
 
@@ -224,11 +224,11 @@ function sameSide(p1, p2, l) {
     var cp2 = vectorProduct(b - a, p2 - a);
 
     return (dotProduct(cp1, cp2) >= 0);
-}
+};
 //Takes an array and an array of positions, all elements whose index is not in the positions array gets replaced by ""
 //Very useful for labels, for example, clearArray(["x", "x", "x"], [ANGLE]), where ANGLE is 1, will give you ["", "x", ""], which you can use to label angles in a Triangle such that the second angle is labeled x
 
-function clearArray(arr, i) {
+window.clearArray = function(arr, i) {
     return $.map(arr, function(el, index) {
         if ($.inArray(index, i) !== -1) {
             return el;
@@ -237,11 +237,11 @@ function clearArray(arr, i) {
             return "";
        }
     });
-}
+};
 
 //Used together with clearArray, for example mergeArray(clearArray(["x", "x", "x"], [ANGLE]), ["a","b","c"]), where ANGLE is 1, gives labels for a triangle ["a", "x", "c"]
 //need to be same length
-function mergeArray(ar1, ar2) {
+window.mergeArray = function(ar1, ar2) {
     var i = 0;
     for (i = 0; i < ar1.length; i++) {
         if (ar1[i] === "") {
@@ -249,9 +249,9 @@ function mergeArray(ar1, ar2) {
         }
     }
     return ar1;
-}
+};
 
-function isPointOnLineSegment(l, p, precision) {
+window.isPointOnLineSegment = function(l, p, precision) {
     var precision = precision || 0.1;
     //If line is vertical
     if (Math.abs(l[1][0] - l[0][0]) < precision) {
@@ -260,9 +260,9 @@ function isPointOnLineSegment(l, p, precision) {
     var m = (l[1][1] - l[0][1]) / (l[1][0] - l[0][0]);
     var k = l[0][1] - m * l[0][0];
     return (Math.abs(m * p[0] + k - p[1]) < precision);
-}
+};
 
-function findPointsOnLine(l, ps) {
+window.findPointsOnLine = function(l, ps) {
     var points = [];
     var ps = ps || [];
     var i = 0;
@@ -272,10 +272,10 @@ function findPointsOnLine(l, ps) {
         }
     }
     return points;
-}
+};
 
 //Are two polygons intersecting
-function areIntersecting(pol1, pol2) {
+window.areIntersecting = function(pol1, pol2) {
     var i, k = 0;
     for (i = 0; i < pol1.length; i++) {
         for (k = 0; k < pol2.length; k++) {
@@ -285,7 +285,7 @@ function areIntersecting(pol1, pol2) {
         }
     }
     return false;
-}
+};
 
 
 //Returns an intersection of two lines, and whether that point is inside both line segments
@@ -302,7 +302,7 @@ window.findIntersection = function(a, b) {
 
 
 //Checks whether there are duplicate points in an array
-function checkDuplicate(arr, el) {
+window.checkDuplicate = function(arr, el) {
     var i = 0;
     for (i = 0; i < arr.length; i++) {
         if (Math.sqrt((arr[i][0] - el[0]) * (arr[i][0] - el[0]) + (arr[i][1] - el[1]) * (arr[i][1] - el[1])) < 0.1) {
@@ -310,10 +310,10 @@ function checkDuplicate(arr, el) {
         }
     }
     return false;
-}
+};
 
 //Returns an array of points where a path intersects a line
-function linePathIntersection(l, p) {
+window.linePathIntersection = function(l, p) {
     var points = [];
     var ps = p.graphiePath;
     var l = l.graphiePath;
@@ -325,15 +325,15 @@ function linePathIntersection(l, p) {
         }
     }
     return points;
-}
+};
 
-function degToRad(deg) {
+window.degToRad = function(deg) {
     return deg * Math.PI / 180;
-}
+};
 
 //Returns [ m, k ] of y = mx + k
 //Vulnerable to division by 0
-function lineEquation(line) {
+window.lineEquation = function(line) {
     var x = [line[0][0], line[1][0]];
     var y = [line[0][1], line[1][1]];
 
@@ -342,34 +342,34 @@ function lineEquation(line) {
 
     return [m, k];
 
-}
+};
 
 //Given a line, returns a segment of that line of length amount starting at start
-function lineSegmentFromLine(start, line, amount) {
+window.lineSegmentFromLine = function(start, line, amount) {
 
     var eq = lineEquation(line);
     var m = eq[0];
     var angle = Math.atan(m);
     return [start, [start[0] + Math.cos(angle) * amount, start[1] + Math.sin(angle) * amount]];
 
-}
+};
 
 //Gives a line parralel to line going through point
-function parallelLine(line, point) {
+window.parallelLine = function(line, point) {
 
     var dif = [point[0] - line[0][0], point[1] - line[0][1]];
     return [point, [line[1][0] + dif[0], line[1][1] + dif[1]]];
 
-}
+};
 
-function movePoint(p, a) {
+window.movePoint = function(p, a) {
 
     return [p[0] + a[0], p[1] + a[1]];
-}
+};
 
 
 //Returns a line that bisects an angle defined by line1 and line2
-function bisectAngle(line1, line2, scale) {
+window.bisectAngle = function(line1, line2, scale) {
     var intPoint = findIntersection(line1, line2);
     var l1 = [];
     var l2 = [];
@@ -388,22 +388,22 @@ function bisectAngle(line1, line2, scale) {
     }
     return [intPoint, parallelLine(l1, l2[1])[1]];
 
-}
+};
 
-function vectorProduct(line1, line2) {
+window.vectorProduct = function(line1, line2) {
     var x1 = line1[1][0] - line1[0][0];
     var x2 = line2[1][0] - line2[0][0];
     var y1 = line1[1][1] - line1[0][1];
     var y2 = line2[1][1] - line2[0][1];
     return x1 * y2 - x2 * y1;
-}
+};
 
 //For [a, b] returns [b , a]
-function reverseLine(line) {
+window.reverseLine = function(line) {
     return [line[1], line[0]];
-}
+};
 
-function Triangle(center, angles, scale, labels, points) {
+window.Triangle = function(center, angles, scale, labels, points) {
 
     var fromPoints = false;
     if (points) {
@@ -612,8 +612,8 @@ function Triangle(center, angles, scale, labels, points) {
         return this.set;
     };
 
-}
-function Quadrilateral(center, angles, sideRatio, labels, size) {
+};
+window.Quadrilateral = function(center, angles, sideRatio, labels, size) {
 
     this.sideRatio = sideRatio;
     this.angles = angles;
@@ -693,13 +693,13 @@ function Quadrilateral(center, angles, sideRatio, labels, size) {
 
     area = 0.5 * vectorProduct([this.points[0], this.points[2]], [this.points[3], this.points[1]]);
 
-}
+};
 
 
 Quadrilateral.prototype = new Triangle([0, 0], [30, 30, 30], 3, "");
 
 //From http://en.wikipedia.org/wiki/Law_of_cosines
-function anglesFromSides(sides) {
+window.anglesFromSides = function(sides) {
         var c = sides[0];
         var a = sides[1];
         var b = sides[2];
@@ -707,11 +707,11 @@ function anglesFromSides(sides) {
         var beta = Math.round(Math.acos((a * a + c * c - b * b) / (2 * a * c)) * 180 / Math.PI);
         var alpha = Math.round(Math.acos((b * b + c * c - a * a) / (2 * b * c)) * 180 / Math.PI);
         return [alpha, beta, gamma];
-}
+};
 
 
 
-var randomTriangleAngles = {
+window.randomTriangleAngles = {
 
         triangle: function() {
             var a, b, c;
@@ -750,7 +750,7 @@ var randomTriangleAngles = {
 };
 
 
-var randomQuadAngles = {
+window.randomQuadAngles = {
 
         square: function() {
             return [90, 90, 90, 90];

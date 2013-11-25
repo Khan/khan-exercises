@@ -384,7 +384,7 @@ $.extend(KhanUtil, {
                 //t.second.onMoveEnd(t.second.coord[0], t.second.coord[1]);
             };
 
-            endpointMoveEnd = function(x, y, end) {
+            var endpointMoveEnd = function(x, y, end) {
                 _.each(construction.snapLines, function(line) {
                     var distIntersect = KhanUtil.lDist(end.coord, line);
                     if (distIntersect[0] < 0.25) {
@@ -580,7 +580,7 @@ $.extend(KhanUtil, {
                 t.second.onMoveEnd(t.second.coord[0], t.second.coord[1]);
             };
 
-            endpointMoveEnd = function(x, y, end) {
+            var endpointMoveEnd = function(x, y, end) {
                 _.each(construction.snapLines, function(line) {
                     var distIntersect = KhanUtil.lDist(end.coord, line);
                     if (distIntersect[0] < 0.25) {

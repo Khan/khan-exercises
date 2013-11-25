@@ -57,7 +57,7 @@ var givenProbability;
 // used to animate the last true statement proven
 var animationObjects;
 
-function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb, toProveType) {
+window.initProof = function(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb, toProveType) {
     userProofDone = false;
 
     knownEqualities = {};
@@ -184,21 +184,21 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     }
 
     return [newHTML, prettifyEquality(finalRelation)];
-}
+};
 
 // use knownequalities to see if the statement follows, if it does, update knownequalities
 // return true if statement is derivable and has been added to knownEqualities, and the proof
 // isn't already done. return false if the proof is done, or the statement is not derivable
 // return some error string if some argument is not properly formatted
-function verifyStatement() {
+window.verifyStatement = function() {
     var statement = $(".statement").val();
     var reason = $(".justification").val();
     var category = $(".statement_type").val();
 
     return verifyStatementArgs(statement, reason, category);
-}
+};
 
-function verifyStatementArgs(statement, reason, category) {
+window.verifyStatementArgs = function(statement, reason, category) {
     if (userProofDone) {
         //return false;
     }
@@ -300,15 +300,15 @@ function verifyStatementArgs(statement, reason, category) {
 
     return toReturn;
 
-}
+};
 
-function isProofDone() {
+window.isProofDone = function() {
     return userProofDone;
-}
+};
 
 
 // give a hint as to the next statement which the user should try to prove
-function nextStatementHint() {
+window.nextStatementHint = function() {
     var hintKeys = [];
     // filter out all keys with value "same *" or "given," as well as those values already in the proof
     for (var eq in finishedEqualities) {
@@ -373,12 +373,12 @@ function nextStatementHint() {
 
     }
     return "Sorry, there seems to be a problem with the hint system. Please report this bug.";
-}
+};
 
 
 // return the entire finished proof generated, formatted to look all pretty and etc.
 // used in "find the wrong statement" exercise, so also picks two statements for that exercise
-function outputFinishedProof() {
+window.outputFinishedProof = function() {
     var proofText = "<h3>Givens</h3>";
 
     var unsortedKeyList = _.clone(finishedEqualitiesList);
@@ -422,10 +422,10 @@ function outputFinishedProof() {
     var indices = KhanUtil.randRangeUnique(0, possibleValids.length - 2, 2);
 
     return [proofText, possibleValids[indices[0]], possibleValids[indices[1]]];
-}
+};
 
 // return the proof the user has done so far, formatted nicely
-function outputKnownProof() {
+window.outputKnownProof = function() {
     var proofText = "<h3>Givens</h3>";
 
     var knownKeysList = sortEqualityList(knownEqualitiesList, knownEqualities);
@@ -462,10 +462,10 @@ function outputKnownProof() {
     }
 
     return proofText;
-}
+};
 
 // returns a proof with a few blanks, blank statement fields will be wrapped by a div with id formatted according to divName
-function outputFillBlanksProof() {
+window.outputFillBlanksProof = function() {
     var reasonCodes = {"SSS" : 0, "ASA" : 1, "SAS" : 2, "AAS" : 3, "corresponding parts of congruent triangles are congruent" : 4,
      "vertical angles are congruent" : 5, "alternate interior angles are congruent" : 6};
     var proofText = "<h3>Givens</h3>";
@@ -556,12 +556,12 @@ function outputFillBlanksProof() {
 
     return [proofText, blanks];
 
-}
+};
 
 // given a div id (formatted according to divName), checks to make sure that the inputs in that
 // div correspond to that div name, for use in "fill-in-the-blank" proofs
 // returns true if the statements were filled in correctly, false otherwise
-function checkFillBlanksStatement(divID) {
+window.checkFillBlanksStatement = function(divID) {
     // for now, hardcode these
     var equivAngles = {"ADE" : "BDE", "BDF" : "BDE", "ADF" : "BDE", "BAF" : "BAC", "DAC" : "BAC", "DAF" : "BAC", "CFD" : "CFE", "AFE" : "CFE", "AFD" : "CFE"};
     var unsortedKeyList = _.clone(finishedEqualitiesList);
@@ -655,12 +655,12 @@ function checkFillBlanksStatement(divID) {
         }
     }
     return false;
-}
+};
 
 // given a select id with some reason, checks to make sure that the item
 // selected is equal to the id
 // returns true if the reason was filled in correctly, false otherwise
-function checkFillBlanksReason(select, selectID) {
+window.checkFillBlanksReason = function(select, selectID) {
     if (verifyStatementArgs(selectID.split(",")[0].substring(8,11) + "=" + selectID.split(",")[1].substring(8,11), select.val(), "triangle congruence") === true ||
             verifyStatementArgs(selectID.split(",")[0].substring(3,6) + "=" + selectID.split(",")[1].substring(3,6), select.val(), "angle equality") === true ||
             verifyStatementArgs(selectID.split(",")[0].substring(3,5) + "=" + selectID.split(",")[1].substring(3,5), select.val(), "segment equality") === true) {
@@ -670,11 +670,11 @@ function checkFillBlanksReason(select, selectID) {
         return true;
     }
     return false;
-}
+};
 
 // for fill-in-the-blanks proofs, this hint function looks for the next missing reason, and generate a hint based
 // on that
-function getFillBlanksHint(giveAway) {
+window.getFillBlanksHint = function(giveAway) {
     var unsortedKeyList = _.clone(finishedEqualitiesList);
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
@@ -756,11 +756,11 @@ function getFillBlanksHint(giveAway) {
             }
         }
     }
-}
+};
 
 // generate a bad proof
 // start with the givens and start adding statements you can derive, throwing in one you can't derive, then put in the last statement
-function outputBadProof() {
+window.outputBadProof = function() {
     var validStatements = 0;
     var invalidStatements = 0;
     var valid = null;
@@ -951,17 +951,17 @@ function outputBadProof() {
 
     return [proofText, prettifyEquality(invalid), prettifyEquality(valid)];
 
-}
+};
 
 
 // defines the primitive geometric objects: line segments, angles, and triangles
 // The triangles field consists of pairs (triangle, i), where this segment/angle
 // is the ith segment/angle in that triangle.
-function Seg(end1, end2) {
+window.Seg = function(end1, end2) {
     this.end1 = end1;
     this.end2 = end2;
     this.triangles = [];
-}
+};
 
 // going to try out modifying the toString so that it always produces
 // alphabetical order
@@ -975,7 +975,7 @@ Seg.prototype.equals = function(otherSeg) {
 };
 
 
-function Ang(end1, mid, end2, parts) {
+window.Ang = function(end1, mid, end2, parts) {
     this.end1 = end1;
     this.end2 = end2;
     this.mid = mid;
@@ -988,7 +988,7 @@ function Ang(end1, mid, end2, parts) {
         this.angleParts = _.flatten(parts);
     }
 
-}
+};
 
 Ang.prototype.toString = function() {
     return this.end1 < this.end2 ? "ang" + this.end1 + this.mid + this.end2 : "ang" + this.end2 + this.mid + this.end1;
@@ -1002,7 +1002,7 @@ Ang.prototype.equals = function(otherAng) {
 
 // When constructing a triangle, the order of the segments and angles should be
 // segs[0], angs[0], segs[1], angs[1], segs[2], angs[2] proceeding around the triangle.
-function Triang(segs, angs) {
+window.Triang = function(segs, angs) {
     this.segs = segs;
     for (var i = 0; i < 3; i++) {
         segs[i].triangles.push([this, i]);
@@ -1013,7 +1013,7 @@ function Triang(segs, angs) {
         angs[i].triangles.push([this, i]);
     }
 
-}
+};
 
 Triang.prototype.toString = function() {
     return "triangle" + this.angs[2].mid + this.angs[0].mid + this.angs[1].mid;
@@ -1028,7 +1028,7 @@ Triang.prototype.equals = function(otherTriang) {
 
 // If two smaller angles share a midpoint and one of two endpoints, they can be
 // added to form a larger angle
-function addAngs(ang1, ang2) {
+window.addAngs = function(ang1, ang2) {
     if (ang1.mid === ang2.mid && ang1.end1 === ang2.end1 && ang1.end2 !== ang2.end2) {
         return new Ang(ang1.end2, ang1.mid, ang2.end2, [ang1.angleParts, ang2.angleParts]);
     } else if (ang1.mid === ang2.mid && ang1.end1 === ang2.end2 && ang1.end2 !== ang2.end1) {
@@ -1040,7 +1040,7 @@ function addAngs(ang1, ang2) {
     } else {
         return null;
     }
-}
+};
 
 
 // Each call to traceBack takes a pair of objects, determines why they should be equal/congruent/similar/etc.,
@@ -1051,7 +1051,7 @@ function addAngs(ang1, ang2) {
 // traceBack assumes that the given relation is possible
 // if you give traceBack a statement that is impossible because of some fact of the diagram given,
 // no man or God can help you
-function traceBack(statementKey, depth) {
+window.traceBack = function(statementKey, depth) {
     // if this statement is already known, we don't want to trace it back any more
     if (eqIn(statementKey, finishedEqualities)) {
         return;
@@ -1474,13 +1474,13 @@ function traceBack(statementKey, depth) {
             }
         }
     }
-}
+};
 
 // setGivenOrTraceBack checks to see if the relation it is supposed to set as true (key) is actually possible
 // AND HASN'T ALREADY BEEN USED IN THE PROOF
 // if it is, it will set that statement as given or it will pass it to traceBack with some probability
 // if it is not, it will pass oldKey to traceBack, since the old statement needs to find new justification
-function setGivenOrTraceBack(keys, reason, oldKey, dep) {
+window.setGivenOrTraceBack = function(keys, reason, oldKey, dep) {
     var isPossibleAndNew = true;
     for (var i = 0; i < keys.length; i++) {
         isPossibleAndNew = isPossibleAndNew && isRelationPossible(keys[i]) && !eqIn(keys[i], finishedEqualities);
@@ -1536,12 +1536,12 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep) {
             traceBack(oldKey, dep + 1);
         }
     }
-}
+};
 
 // returns true if this statement can be true in the diagram
 // equalities cannot (will not be set to) be true if a segment is part of another segment, an angle is part of another angle,
 // a triangle has any component which is part of a component of another triangle, or both triangles are already in equalities
-function isRelationPossible(key) {
+window.isRelationPossible = function(key) {
     // if the relation is between two segments, check to make sure one is not part of the other
     if (key[0] instanceof Seg) {
         var sharedEndpoint = _.intersection([key[0].end1, key[0].end2], [key[1].end1, key[1].end2]);
@@ -1601,10 +1601,10 @@ function isRelationPossible(key) {
 
         return true;
     }
-}
+};
 
 // returns true if these triangles can be proven congruent, and adds this equality to knownEqualities, returns false otherwise
-function checkTriangleCongruent(triangle1, triangle2, reason) {
+window.checkTriangleCongruent = function(triangle1, triangle2, reason) {
     // to check if this pair of triangles is already in knownEqualities, we need to check
     // if any corresponding rotation is in knownEqualities
     var isRotation = false;
@@ -1709,13 +1709,13 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
 
     return false;
 
-}
+};
 
 
 // If the two given segments are equal, this function updates the known equalities object.
 // Checks to see if the two given segments are equal by checking to see if they belong to
 // congruent triangles.
-function checkSegEqual(seg1, seg2, reason) {
+window.checkSegEqual = function(seg1, seg2, reason) {
     //if this is already known
     if (eqIn([seg1, seg2], knownEqualities)) {
         return true;
@@ -1739,13 +1739,13 @@ function checkSegEqual(seg1, seg2, reason) {
         }
     }
     return false;
-}
+};
 
 
 // If the two given angles are equal, this function updates the known equalities object.
 // Checks to see if the two given angles are equal by checking if they belong to
 // congruent triangles, if they are opposite vertical angles, or if they are alternate interior
-function checkAngEqual(ang1, ang2, reason) {
+window.checkAngEqual = function(ang1, ang2, reason) {
     // if this is already known
     if (eqIn([ang1, ang2], knownEqualities)) {
         return true;
@@ -1807,13 +1807,13 @@ function checkAngEqual(ang1, ang2, reason) {
 
     return false;
 
-}
+};
 
 // check to see if this could be true for any reason, given what is known in knownEqualities, but
 // that it also has not already been proven, so that it can be used as a hint
 // it should return a list of the statements (in knownEqualities) which can prove this equality
 // this function will only use the equalities in equalityObject to find a hint
-function checkTriangleForHint(triangle1, triangle2, equalityObject) {
+window.checkTriangleForHint = function(triangle1, triangle2, equalityObject) {
     // to check if this pair of triangles is already in knownEqualities, we need to check
     // if any corresponding rotation is in knownEqualities
 
@@ -1878,10 +1878,10 @@ function checkTriangleForHint(triangle1, triangle2, equalityObject) {
 
     return [];
 
-}
+};
 
 // check to see if this segment equality can be proven, but has not already been proven
-function checkSegForHint(seg1, seg2, equalityObject) {
+window.checkSegForHint = function(seg1, seg2, equalityObject) {
     //if this is already known
     // if(eqIn([seg1,seg2], equalityObject)){
     //     return [];
@@ -1911,10 +1911,10 @@ function checkSegForHint(seg1, seg2, equalityObject) {
         }
     }
     return [];
-}
+};
 
 // check to see if this angle equality can be proven, but has not already been proven
-function checkAngForHint(ang1, ang2, equalityObject) {
+window.checkAngForHint = function(ang1, ang2, equalityObject) {
     // if this is already known
     // if(eqIn([ang1, ang2], equalityObject)){
     //     return [];
@@ -1974,12 +1974,12 @@ function checkAngForHint(ang1, ang2, equalityObject) {
 
     return [];
 
-}
+};
 
 
 // utility function to check if some pair of equalities is in an object without
 // using the === operator
-function eqIn(item, object) {
+window.eqIn = function(item, object) {
     var list;
     var item1;
     var item2;
@@ -2012,9 +2012,9 @@ function eqIn(item, object) {
     }
 
     return false;
-}
+};
 
-function prettifyEquality(equality) {
+window.prettifyEquality = function(equality) {
     var eq = equality.toString();
     if (eq[0] === "s") {
         return "<code> \\overline{" + eq.substring(3, 5) + "} \\cong \\overline{" + eq.substring(9, 11) + "}</code>";
@@ -2023,9 +2023,9 @@ function prettifyEquality(equality) {
     } else {
         return "<code> \\triangle " + eq.substring(8, 11) + " \\cong \\triangle " + eq.substring(20, 23) + "</code>";
     }
-}
+};
 
-function divName(equalityString) {
+window.divName = function(equalityString) {
     if (equalityString[0] === "s") {
         return equalityString.substring(3, 5) + "-" + equalityString.substring(9, 11);
     } else if (equalityString[0] === "a") {
@@ -2043,9 +2043,9 @@ function divName(equalityString) {
             triangle1.segs[2].toString().substring(3, 5) + " " + triangle2.segs[0].toString().substring(3, 5) + "2 " +
             triangle2.segs[1].toString().substring(3, 5) + "2 " + triangle2.segs[2].toString().substring(3, 5) + "2";
     }
-}
+};
 
-function triangIn(item, object) {
+window.triangIn = function(item, object) {
     var list = _.keys(object);
     var itemString = item.toString();
 
@@ -2055,12 +2055,12 @@ function triangIn(item, object) {
         }
     }
     return false;
-}
+};
 
 // sort a list of equalities, moving each equality which has reason "given" in equality object to the back
 // also, since we add the vertical angles and alternate angles before the triangles they prove, we need to move these
 // forward in the list
-function sortEqualityList(equalityList, equalityObject) {
+window.sortEqualityList = function(equalityList, equalityObject) {
     var dupCheck = {};
     var newEqualityList = [];
     for (var i = 0; i < equalityList.length; i++) {
@@ -2086,9 +2086,9 @@ function sortEqualityList(equalityList, equalityObject) {
     }
 
     return sortedEqualityList;
-}
+};
 
-function sortEqualityStringList(equalityList, equalityObject) {
+window.sortEqualityStringList = function(equalityList, equalityObject) {
     var newEqualityList = [];
     for (var i = 0; i < equalityList.length; i++) {
         if (equalityObject[equalityList[i]] === "given") {
@@ -2106,7 +2106,7 @@ function sortEqualityStringList(equalityList, equalityObject) {
     }
 
     return sortedEqualityList;
-}
+};
 
 // utility function to rotate an array
 Array.prototype.rotate = function(n) {
@@ -2123,7 +2123,7 @@ Array.prototype.flip = function() {
     this[2] = temp;
 };
 
-function generateTrianglePermutations(triangle) {
+window.generateTrianglePermutations = function(triangle) {
     var perms = [];
     triangle.segs.flip();
     triangle.angs.flip();
@@ -2145,8 +2145,4 @@ function generateTrianglePermutations(triangle) {
 
     return perms;
 
-}
-
-
-
-
+};

@@ -385,20 +385,20 @@ $.extend(KhanUtil, {
 
         // expresses the given trig^2 function in terms of sin and cosine
         showSimplified: function(func, small) {
-            d = small ? "\\frac" : "\\dfrac";
+            var d = small ? "\\frac" : "\\dfrac";
             switch(func) {
-                case "\\sin^2\\theta" : 
+                case "\\sin^2\\theta" :
                     return func;
                 case "\\cos^2\\theta" :
                     return func;
                 case "\\csc^2\\theta" :
-                    return d+"{1}{\\sin^2\\theta}";
+                    return d + "{1}{\\sin^2\\theta}";
                 case "\\sec^2\\theta" :
-                    return d+"{1}{\\cos^2\\theta}";
+                    return d + "{1}{\\cos^2\\theta}";
                 case "\\tan^2\\theta" :
-                    return d+"{\\sin^2\\theta}{\\cos^2\\theta}";
+                    return d + "{\\sin^2\\theta}{\\cos^2\\theta}";
                 case "\\cot^2\\theta" :
-                    return d+"{\\cos^2\\theta}{\\sin^2\\theta}";
+                    return d + "{\\cos^2\\theta}{\\sin^2\\theta}";
             }
         }
     }
