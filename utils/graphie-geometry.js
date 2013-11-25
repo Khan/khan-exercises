@@ -2,7 +2,7 @@
 
 window.kline = KhanUtil.kline;
 $.fn["graphie-geometryLoad"] = function() {
-    kline = KhanUtil.kline;
+    window.kline = KhanUtil.kline;
 };
 
 window.rotatePoint = function(p, deg, c) {
