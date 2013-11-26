@@ -24,12 +24,12 @@
             <var id="I_NUM">WHOLE * I_DENOM + I_NUM2</var>
 
             <var id="SOLUTION, COMPARISON">(function() {
-                var n1 = WHOLE +  M_NUM / M_DENOM;
+                var n1 = WHOLE2 +  M_NUM / M_DENOM;
                 var n2 = I_NUM / I_DENOM;
 
-                if (n1 &gt; n2) {
+                if (n1 - n2 &gt; 1e-9) {
                     return ["&gt;", $._("is more than")];
-                } else if (n1 === n2) {
+                } else if (abs(n1 - n2) &lt; 1e-9) {
                     return ["=", $._("is equal to")];
                 }
                 else {
