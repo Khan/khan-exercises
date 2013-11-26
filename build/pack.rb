@@ -157,7 +157,7 @@ def pack_file(file_contents)
   # Can specify a filename either on the commandline or piped into stdin
   doc = Nokogiri::HTML::Document.parse(file_contents)
 
-  doc.css("var").each do |var|
+  doc.css("var", "div.guess").each do |var|
     if var.elements.any?
       $stderr.puts "-- error: JS element has children"
       $stderr.puts var.inner_html
@@ -170,7 +170,7 @@ def pack_file(file_contents)
     var.content = uglify(var.content, :expr => true).gsub(/;$/, "")
   end
 
-  doc.css(".graphie", "div.guess", "div.show-guess", "div.show-guess-solutionarea").each do |graphie|
+  doc.css(".graphie", "div.show-guess", "div.show-guess-solutionarea").each do |graphie|
     if graphie.elements.any?
       $stderr.puts "-- error: JS element has children"
       exit 1
