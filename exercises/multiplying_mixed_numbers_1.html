@@ -37,7 +37,7 @@
 
         <div class="problems">
             <div class="problem">
-                <p>Multiply, reduce to lowest terms, and turn into a mixed number:</p>
+                <p>Multiply, reduce to lowest terms, and write as a mixed number:</p>
                 <p class="question"><code>
                     <var>WHOLE_1</var><var>fraction(NUM_1, DENOM_1, false, true)</var> \times
                     <var>WHOLE_2</var><var>fraction(NUM_2, DENOM_2, false, true)</var>
@@ -50,8 +50,8 @@
         </div>
 
         <div class="hints">
-            <p><code>\qquad = <var>fraction(I_NUM_1, I_DENOM, false, true)</var> \times <var>fraction(I_NUM_2, DENOM_2, false, true)</var></code></p>
-            <p><code>\qquad = \dfrac{<var>I_NUM_1</var> \times <var>I_NUM_2</var>}{<var>I_DENOM</var> \times <var>DENOM_2</var>}</code></p>
+            <p><code>\qquad = <var>fraction(I_NUM_1, DENOM_1, false, true)</var> \times <var>fraction(I_NUM_2, DENOM_2, false, true)</var></code></p>
+            <p><code>\qquad = \dfrac{<var>I_NUM_1</var> \times <var>I_NUM_2</var>}{<var>DENOM_1</var> \times <var>DENOM_2</var>}</code></p>
             <p><code>\qquad = <var>fraction(I_NUM, I_DENOM)</var></code></p>
             <p data-if="GCD !== 1"><code>\qquad = <var>fractionReduce(I_NUM, I_DENOM)</var></code></p>
             <p data-if="WHOLE_3 !== 0"><code>\qquad = <var>WHOLE_3</var> <var>fractionReduce(NUM_3, I_DENOM)</var></code></p>
