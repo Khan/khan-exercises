@@ -79,7 +79,7 @@ function addKpointExtensions() {
         polarRadFromCart: kvector.polarRadFromCart,
         polarDegFromCart: kvector.polarDegFromCart,
         cartFromPolarRad: kvector.cartFromPolarRad,
-        cartFromPolarDeg: kvector.cartFromPolarDeg,
+        cartFromPolarDeg: kvector.cartFromPolarDeg
     });
 }
 

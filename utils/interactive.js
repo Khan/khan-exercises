@@ -2836,7 +2836,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                         dist: radius,
                         point: rotatePoint
                     }
-                },
+                }
             });
 
             // move the rotatePoint in front of the rotateHandle to avoid

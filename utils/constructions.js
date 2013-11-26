@@ -33,7 +33,7 @@ $.extend(KhanUtil, {
             }));
         graphie.style({
             stroke: KhanUtil.BLUE,
-            strokeWidth: 1,
+            strokeWidth: 1
         }, function() {
             if (ticks === 1) {
                 hintLine.push(graphie.line(
