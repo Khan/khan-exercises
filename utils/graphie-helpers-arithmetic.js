@@ -569,6 +569,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
     var value = 0;
     var decimals = [];
     var hints = 0;
+    var hintType = 1;
 
     this.show = function() {
         var paddedDivisor = digitsDivisor;
@@ -618,14 +619,20 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             while (leadingZeros.length) {
                 leadingZeros.pop().remove();
             }
+
+            if (remainder === 0) {
+                 graph.label([digitsDividend.length + 0.5, dy], "\\text{The remainder is 0 so we have our answer.}", "right");
+            }
             return;
         }
 
-        if (hints % 2 === 1) {
+        if (hintType === 1) {
+            hintType = 0;
             value = digitsDividend[index];
             var quotient = value / divisor;
             var total = value + remainder;
             highlights = highlights.concat(drawDigits([value], index, 0, KhanUtil.BLUE));
+
             if (!fOnlyZeros) {
                 graph.style({
                     arrows: "->"
@@ -648,9 +655,12 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             }
 
         } else {
+            hintType = 1;
+
             value += remainder;
             var quotient = Math.floor(value / divisor);
             var diff = value - (quotient * divisor);
+
             remainder = diff * 10;
             var quotientLabel = drawDigits([quotient], index, 1);
             highlights = highlights.concat(drawDigits([quotient], index, 1, KhanUtil.GREEN));
