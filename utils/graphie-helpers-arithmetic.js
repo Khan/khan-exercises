@@ -619,6 +619,10 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             while (leadingZeros.length) {
                 leadingZeros.pop().remove();
             }
+
+            if (remainder === 0) {
+                 graph.label([digitsDividend.length + 0.5, dy], "\\text{The remainder is 0 so we have our answer.}", "right");
+            }
             return;
         }
 
@@ -628,6 +632,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             var quotient = value / divisor;
             var total = value + remainder;
             highlights = highlights.concat(drawDigits([value], index, 0, KhanUtil.BLUE));
+
             if (!fOnlyZeros) {
                 graph.style({
                     arrows: "->"
