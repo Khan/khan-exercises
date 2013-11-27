@@ -569,6 +569,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
     var value = 0;
     var decimals = [];
     var hints = 0;
+    var hintType = 1;
 
     this.show = function() {
         var paddedDivisor = digitsDivisor;
@@ -621,7 +622,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             return;
         }
 
-        if (hints % 2 === 1) {
+        if (hintType === 1) {
+            hintType = 0;
             value = digitsDividend[index];
             var quotient = value / divisor;
             var total = value + remainder;
@@ -648,9 +650,12 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             }
 
         } else {
+            hintType = 1;
+
             value += remainder;
             var quotient = Math.floor(value / divisor);
             var diff = value - (quotient * divisor);
+
             remainder = diff * 10;
             var quotientLabel = drawDigits([quotient], index, 1);
             highlights = highlights.concat(drawDigits([quotient], index, 1, KhanUtil.GREEN));
