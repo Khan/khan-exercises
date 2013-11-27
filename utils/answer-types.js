@@ -190,7 +190,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var options = $.extend({
                 simplify: "required",
                 ratio: false,
-                forms: Khan.answerTypes.predicate.defaultForms,
+                forms: Khan.answerTypes.predicate.defaultForms
             }, solutionData);
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
