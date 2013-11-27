@@ -621,7 +621,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             }
 
             if (remainder === 0) {
-                 graph.label([digitsDividend.length + 0.5, dy], "\\text{The remainder is 0 so we have our answer.}", "right");
+                 graph.label([digitsDividend.length + 0.5, dy], "\\text{" +
+                    $._("The remainder is 0 so we have our answer.") + "}", "right");
             }
             return;
         }
@@ -648,7 +649,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                               " \\text{ go into }\\color{#6495ED}{%(total)s}\\text{?}",
                                 {divisor: divisor, total: total});
 
-            if (total >= divisor) {    
+            if (total >= divisor) {
                 graph.label([digitsDividend.length + 0.5, dy], question, "right");
             } else {
                 highlights = highlights.concat(graph.label([digitsDividend.length + 0.5, dy], question, "right"));
