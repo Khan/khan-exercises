@@ -73,156 +73,12 @@ $.extend(KhanUtil, {
     }
 });
 
-window.RegularPolygon = function(center, numSides, radius, rotation, fillColor) {
-    var graph = KhanUtil.currentGraph;
-    rotation = rotation || 0;
-    rotation = KhanUtil.toRadians(rotation);
-    var lines = [];
-
-    this.draw = function() {
-        var angle = 2 * Math.PI / numSides;
-        var arr = [];
-        for (var i = 0; i < numSides; i++) {
-            arr.push([center[0] + radius * Math.cos(rotation + i * angle), center[1] + radius * Math.sin(rotation + i * angle)]);
-            arr.push([center[0] + radius * Math.cos(rotation + (i + 1) * angle), center[1] + radius * Math.sin(rotation + (i + 1) * angle)]);
-        }
-        return KhanUtil.currentGraph.path(arr);
-    };
-
-    function getSymmetryCoordinates(i) {
-        var angle = rotation + Math.PI * i * 1 / numSides;
-        var extend = 2;
-        var scaleToEnd = extend + 5.4;
-        var p1 = [center[0] - Math.cos(angle) * scaleToEnd, center[1] - Math.sin(angle) * scaleToEnd];
-        var p2 = [scaleToEnd * Math.cos(angle) + center[0], scaleToEnd * Math.sin(angle) + center[1]];
-        return [p1, p2];
-    }
-
-    this.drawLineOfSymmetry = function(i, color) {
-        var coords = getSymmetryCoordinates(i);
-        color = color || KhanUtil.BLUE;
-        return graph.line.apply(graph, $.merge(coords, [{ stroke: color }]));
-    };
-
-    this.drawFakeLineOfSymmetry = function(i, color) {
-        color = color || KhanUtil.BLUE;
-        var coords = getSymmetryCoordinates(i),
-            angle = 360 / numSides / 2,
-            fudge = KhanUtil.randRange(10, angle - 10) * KhanUtil.randFromArray([-1, 1]);
-        return graph.line(rotatePoint(coords[0], fudge), rotatePoint(coords[1], fudge), { stroke: color });
-    };
-
-    this.drawSide = function(style) {
-        return graph.line(this.path.graphiePath[0], this.path.graphiePath[1], style);
-    };
-
-    this.drawSideLabel = function(s, color) {
-        var path = this.path.graphiePath;
-        return graph.label(kline.midpoint(path), "\\color{"+color+"}{"+s+"}", "right");
-    };
-
-    this.drawRadius = function(style) {
-        var vertex = this.path.graphiePath[0];
-
-        return graph.line(center, vertex, style);
-    };
-
-    this.drawRadiusLabel = function(r, color) {
-        var vertex = this.path.graphiePath[0];
-
-        return graph.label([(vertex[0] - center[0]) / 2, (vertex[1] - center[1]) / 2], "\\color{"+color+"}{"+r+"}", "below");
-    };
-
-    this.drawApothem = function(style) {
-        return graph.line(center, kline.midpoint(this.path.graphiePath), style);
-    };
-
-    this.drawApothemLabel = function(a, color) {
-        var midpoint = kline.midpoint(this.path.graphiePath);
-
-        return graph.label([(midpoint[0] - center[0]) / 2, (midpoint[1] - center[1]) / 2], "\\color{"+color+"}{"+a+"}", "above");
-    };
-
-    this.drawRightBox = function(style) {
-
-    };
-
-    this.drawCentralAngle = function(style) {
-        return graph.arc(center, 0.5, 0, 180 / numSides, null, style);
-    };
-
-    this.drawCentralAngleLabel = function(t, color) {
-        return graph.label(center, "\\color{"+color+"}{"+t+"}", "above right");
-    };
-
-    this.drawIncircle = function(style) {
-        return graph.circle(center, KhanUtil.getDistance(center, kline.midpoint(this.path.graphiePath)), style);
-    };
-
-    this.drawCircumcircle = function(style) {
-        return graph.circle(center, radius, style);
-    };
-
-    this.drawRightTriangle = function(i, fromMidpoint, style) {
-        var vertex = this.path.graphiePath[i],
-        vertex2 = this.path.graphiePath[i + 1],
-        midpoint = kline.midpoint([vertex, vertex2]);
-
-        if (fromMidpoint) {
-            return graph.path([center, midpoint, vertex2, center], style);
-        } else {
-            return graph.path([center, vertex, midpoint, center], style);
-        }
-    };
-
-    // Does not currently work with 2 points on one side
-    this.splitPath = function(line) {
-        var points = linePathIntersection(line, this.path),
-            paths = [],
-            currPath = [];
-        for (var i = 0; i < this.path.graphiePath.length - 1; i = i + 2) {
-            var pt1 = this.path.graphiePath[i];
-            var pt2 = this.path.graphiePath[i + 1];
-            var intersections = findPointsOnLine([pt1, pt2], points);
-
-            currPath.push(pt1);
-
-            if (intersections.length !== 0) {
-                var point = intersections[0];
-                currPath.push(point);
-                paths.push(currPath);
-                currPath = [point];
-                points.splice(_(points).indexOf(point), 1);
-            }
-        }
-        currPath.push(this.path[i]);
-        paths.push(currPath);
-        return graph.path(paths[1], { stroke: KhanUtil.ORANGE, "stroke-width": 5 });
-    };
-
-    this.path = this.draw();
-};
-
 window.lineLength = function(line) {
     var a = line[0];
     var b = line[1];
     return Math.sqrt((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]));
 };
 
-window.dotProduct = function(a, b) {
-        return a[0] * b[0] + a[1] * b[1];
-};
-//http://www.blackpawn.com/texts/pointinpoly/default.html
-//Checks whether two points are on the same side of a line
-window.sameSide = function(p1, p2, l) {
-    var a = l[0];
-    var b = l[1];
-
-    var cp1 = vectorProduct(b - a, p1 - a);
-    var cp2 = vectorProduct(b - a, p2 - a);
-
-    return (dotProduct(cp1, cp2) >= 0);
-};
 //Takes an array and an array of positions, all elements whose index is not in the positions array gets replaced by ""
 //Very useful for labels, for example, clearArray(["x", "x", "x"], [ANGLE]), where ANGLE is 1, will give you ["", "x", ""], which you can use to label angles in a Triangle such that the second angle is labeled x
 
@@ -260,18 +116,6 @@ window.isPointOnLineSegment = function(l, p, precision) {
     return (Math.abs(m * p[0] + k - p[1]) < precision);
 };
 
-window.findPointsOnLine = function(l, ps) {
-    var points = [];
-    var ps = ps || [];
-    var i = 0;
-    for (i = 0; i < ps.length; i++) {
-        if (isPointOnLineSegment(l, ps[i])) {
-                points.push(ps[i]);
-        }
-    }
-    return points;
-};
-
 //Are two polygons intersecting
 window.areIntersecting = function(pol1, pol2) {
     var i, k = 0;
@@ -296,33 +140,6 @@ window.findIntersection = function(a, b) {
     var ub = ((tX[2] - tX[1]) * (tY[1] - tY[3]) - (tY[2] - tY[1]) * (tX[1] - tX[3])) / denominator;
     var isContained = (ua >= -0.01) && (ua <= 1.01) && (ub >= -0.01) && (ub <= 1.01);
     return [tX[1] + ua * (tX[2] - tX[1]), tY[1] + ua * (tY[2] - tY[1]), isContained];
-};
-
-
-//Checks whether there are duplicate points in an array
-window.checkDuplicate = function(arr, el) {
-    var i = 0;
-    for (i = 0; i < arr.length; i++) {
-        if (Math.sqrt((arr[i][0] - el[0]) * (arr[i][0] - el[0]) + (arr[i][1] - el[1]) * (arr[i][1] - el[1])) < 0.1) {
-            return true;
-        }
-    }
-    return false;
-};
-
-//Returns an array of points where a path intersects a line
-window.linePathIntersection = function(l, p) {
-    var points = [];
-    var ps = p.graphiePath;
-    var l = l.graphiePath;
-    var i = 0;
-    for (i = 0; i < ps.length - 1; i = i + 2) {
-        var x = findIntersection([ps[i], ps[i + 1]], l);
-        if (x[2] === true && ! checkDuplicate(points, [x[0], x[1]])) {
-            points.push([x[0], x[1]]);
-        }
-    }
-    return points;
 };
 
 window.degToRad = function(deg) {

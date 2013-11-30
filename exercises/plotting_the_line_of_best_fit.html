@@ -116,8 +116,7 @@
                     var stdevX = correction * pow(xi2 / n - meanX2, 0.5);
                     var stdevY = correction * pow(yi2 / n - meanY2, 0.5);
 
-                    var p = _.map(POINTS, function(pt) {return pt[0]; })
-                    console.log(stdevX + " "  + p)
+                    var p = _.map(POINTS, function(pt) {return pt[0]; });
 
                     var r2 = error / ((n - 1) * stdevX * stdevY);
 
