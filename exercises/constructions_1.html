@@ -325,7 +325,7 @@
             <div class="solution" data-type="custom">
                 <div class="instruction">
                     Use the compass and straightedge tools to construct
-                    a line the same length as <code>\overline{AB}</code>.
+                     a line parallel to the given line.
                 </div>
                 <div class="guess">getToolProperties(construction)</div>
                 <div class="validator-function">
@@ -466,13 +466,13 @@
 
                         graph.parallel.push(drawHintLine(graph.p1, graph.p2, 1));
                         graph.parallel.push(drawHintLine(graph.p3, graph.p4, 1));
-                        
+
                         graph.parallel.push(drawHintLine(P, graph.p3, 2));
                         graph.parallel.push(drawHintLine(P, graph.p4, 2));
                         graph.parallel.toBack();
                     </div>
                     <p>
-                        If we construct <span class="hint_blue">a triangle</span> with a vertex at 
+                        If we construct <span class="hint_blue">a triangle</span> with a vertex at
                         point <code>A</code>, then construct a triangle with the same side lengths
                         at and a vertex at point <code>P</code>, the angles at <code>A</code> and
                         <code>P</code> will be the same.
@@ -501,7 +501,7 @@
                         given distance from <code>A</code>.
                     </p>
                 </div>
-                
+
                 <div>
                     <div class="graphie" data-update="construction">
                          var compassVertex = circle(A, 0.08, {
@@ -515,7 +515,7 @@
                             strokeWidth: 1,
                             strokeDasharray: "- "
                         });
-                        
+
                         compassVertex.animate({
                             cx: scalePoint(P)[0],
                             cy: scalePoint(P)[1]
@@ -1296,7 +1296,7 @@
                     </div>
                     <p>
                         If we center a compass on <code>A</code> and set its radius such that it
-                        intersects <code>A</code>, then we will have a compass with a radius of 
+                        intersects <code>A</code>, then we will have a compass with a radius of
                         the correct length.
                     </p>
                 </div>
@@ -1411,7 +1411,7 @@
                             p1 = tool.second.coord;
                             p2 = tool.first.coord;
                         }
-                        
+
                         return atan2(p1[1] - p2[1], p1[0] - p2[0]);
                     });
 
@@ -1500,13 +1500,13 @@
 
                         graph.hintLines.push(drawHintLine(graph.p1, graph.p2, 1));
                         graph.hintLines.push(drawHintLine(graph.p3, graph.p4, 1));
-                        
+
                         graph.hintLines.push(drawHintLine(P, graph.p3, 2));
                         graph.hintLines.push(drawHintLine(P, graph.p4, 2));
                         graph.hintLines.toBack();
                     </div>
                     <p>
-                        If we construct <span class="hint_blue">a triangle</span> with a vertex at 
+                        If we construct <span class="hint_blue">a triangle</span> with a vertex at
                         point <code>A</code>, then construct a triangle with the same side lengths
                         at and a vertex at point <code>P</code>, the angles at <code>A</code> and
                         <code>P</code> will be the same.
@@ -1534,7 +1534,7 @@
                         <span class="hint_blue">two points equidistant from <code>A</code></span>.
                     </p>
                 </div>
-                
+
                 <div>
                     <div class="graphie" data-update="construction">
                          var compassVertex = circle(A, 0.08, {
@@ -1548,7 +1548,7 @@
                             strokeWidth: 1,
                             strokeDasharray: "- "
                         });
-                        
+
                         compassVertex.animate({
                             cx: scalePoint(P)[0],
                             cy: scalePoint(P)[1]
