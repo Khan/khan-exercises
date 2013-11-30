@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html data-require="math kmatrix matrix-input">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Finding the cross product of two vectors</title>
+    <script src="../khan-exercise.js"></script>
+    <script lang="javascript">
+        function crossProduct(v1,v2) {
+            return [[((v1[1][0]*v2[2][0])-(v1[2][0]*v2[1][0]))],
+                    [((v1[2][0]*v2[0][0])-(v1[0][0]*v2[2][0]))],
+                    [((v1[0][0]*v2[1][0])-(v1[1][0]*v2[0][0]))]];  
+        };
+        function crossElement(a,b,c,d) {
+            var termA = ["dot", a, b];
+            var termB = ["dot", c, d];
+            return KhanUtil.expr(["-", termA, termB]);
+        };
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="VEC1">[[randRange(-1, 7)],[randRange(-1, 7)],[randRange(-1, 7)]]</var>
+        <var id="VEC2">[[randRange(-2, 8)],[randRange(-2, 8)],[randRange(-2, 8)]]</var>
+        <var id="HINT_VEC1">
+            makeMatrix([["a1"],["a2"],["a3"]])
+        </var>
+        <var id="HINT_VEC2">
+            makeMatrix([["b1"],["b2"],["b3"]])
+        </var>
+        <var id="SOLN_VEC">crossProduct(VEC1,VEC2)</var>
+        <var id="PADDED_SOLN_VEC">matrixPad(SOLN_VEC,3,1)</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="problem">
+                <p>
+                    <code><var>printSimpleMatrix(VEC1)</var></code> x 
+                    <code><var>printSimpleMatrix(VEC2)</var></code>
+                </p>
+            </div>
+
+            <p class="question">
+                What is the cross product of the previous vectors?
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <div class="matrix-row" data-each="PADDED_SOLN_VEC as row">
+                    <span data-each="row as elem">
+                        <span class="sol" data-if="elem !== ''" data-simplify="optional">
+                            <var>elem</var>
+                        </span>
+                        <span class="sol" data-else="" data-type="text">
+                            <var>elem</var>
+                        </span>
+                    </span>
+                </div>
+                <p class="example">Express your answer in decimals.</p>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>The cross product of</p>
+                    <p>
+                        <code>A=<var>printSimpleMatrix(HINT_VEC1)</var></code>
+                        <code>B=<var>printSimpleMatrix(HINT_VEC2)</var></code>
+                    </p>
+                    <p>
+                        can be computed in the following way: <code>A</code>x<code>B=</code> 
+                        <code><var>printSimpleMatrix([["a2b3-a3b2"],["a3b1-a1b3"],["a1b2-a2b1"]])</var></code>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <p>In this specific case,</p> 
+                        <code>
+                            <var>
+                                printSimpleMatrix([[crossElement(VEC1[1][0],VEC2[2][0],VEC1[2][0],VEC2[1][0])],
+                                                   [crossElement(VEC1[2][0],VEC2[0][0],VEC1[0][0],VEC2[2][0])],
+                                                   [crossElement(VEC1[0][0],VEC2[1][0],VEC1[1][0],VEC2[0][0])]])
+                            </var>
+                        </code>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <code>=
+                            <var>
+                                printSimpleMatrix([[((VEC1[1][0]*VEC2[2][0])-(VEC1[2][0]*VEC2[1][0]))],
+                                                  [((VEC1[2][0]*VEC2[0][0])-(VEC1[0][0]*VEC2[2][0]))],
+                                                  [((VEC1[0][0]*VEC2[1][0])-(VEC1[1][0]*VEC2[0][0]))]])
+                            </var>
+                        </code>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</body>
+</html>
