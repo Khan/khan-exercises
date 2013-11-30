@@ -1114,7 +1114,7 @@ window.Khan = (function() {
             $(Exercises).trigger("clearExistingProblem");
 
             // Generate a new problem
-            makeProblem(typeOverride, seedOverride);
+            makeProblem(typeOverride, seedOverride, exerciseId);
         }
 
         // Use a separate variable here because if exerciseID changes, we still
@@ -1184,7 +1184,7 @@ window.Khan = (function() {
                  $.trim(guess.join("").replace(/,/g, "")) === "");
     }
 
-    function makeProblem(id, seed) {
+    function makeProblem(id, seed, exerciseId) {
         debugLog("start of makeProblem");
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
@@ -1208,7 +1208,9 @@ window.Khan = (function() {
         }
 
         if (typeof id !== "undefined") {
-            var problems = exercises.children(".problems").children();
+            var problems = exercises.filter(function() {
+                return exerciseId == null || $.data(this, "rootName") === exerciseId;
+            }).children(".problems").children();
 
             problem = /^\d+$/.test(id) ?
                 // Access a problem by number
@@ -1337,10 +1339,8 @@ window.Khan = (function() {
 
         debugLog("added inline styles");
 
-        // Get the filename of the currently shown exercise, then reset modules
-        // to only those required by the current exercise
-        var exerciseId = exercise.data("name");
-        Khan.resetModules(exerciseId);
+        // Reset modules to only those required by the current exercise
+        Khan.resetModules(exercise.data("name"));
 
         // Run the main method of any modules
         problem.runModules(problem, "Load");
@@ -1430,7 +1430,7 @@ window.Khan = (function() {
             // Making the problem failed, let's try again
             debugLog("validator was falsey");
             problem.remove();
-            makeProblem(id, randomSeed);
+            makeProblem(id, randomSeed, exerciseId);
             return;
         }
 
