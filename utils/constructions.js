@@ -383,61 +383,7 @@ $.extend(KhanUtil, {
                 //t.first.onMoveEnd(t.first.coord[0], t.first.coord[1]);
                 //t.second.onMoveEnd(t.second.coord[0], t.second.coord[1]);
             };
-
-            var endpointMoveEnd = function(x, y, end) {
-                _.each(construction.snapLines, function(line) {
-                    var distIntersect = KhanUtil.lDist(end.coord, line);
-                    if (distIntersect[0] < 0.25) {
-                        end.setCoord(distIntersect[1]);
-                        end.updateLineEnds();
-                    }
-                });
-
-                // keep track of all the possible snap points,
-                // and snap to the closest one
-                var myPossibleSnaps = [];
-                _.each(construction.snapPoints, function(point) {
-                    if (KhanUtil.eDist(end.coord, point.coord) < 0.25 &&
-                            end.coord !== point.coord) {
-                        myPossibleSnaps.push(point.coord);
-                    }
-                });
-
-                // before checking to see if we've moved onto an
-                // intersection of lines/circles, update these
-                // intersections
-                construction.updateIntersections();
-                _.each(construction.interPoints, function(point) {
-                    if (KhanUtil.eDist(end.coord, point) < 0.3 &&
-                            end.coord !== point) {
-                        myPossibleSnaps.push(point);
-                    }
-                });
-
-                // Now, snap to closest possible snap Point
-                var mySnapPoint = [];
-                var mySnapDist = null;
-                _.each(myPossibleSnaps, function(sCoord) {
-                    if (mySnapDist == null ||
-                            KhanUtil.eDist(sCoord, end.coord) < mySnapDist) {
-                        mySnapPoint = sCoord;
-                        mySnapDist = KhanUtil.eDist(sCoord, end.coord);
-                    }
-                });
-
-                if (mySnapPoint.length > 0) {
-                    end.setCoord(mySnapPoint);
-                    end.updateLineEnds();
-                }
-                t.edge.visibleLine.toFront();
-                t.edge.mouseTarget.toFront();
-                t.first.visibleShape.toFront();
-                t.first.mouseTarget.toFront();
-                t.second.visibleShape.toFront();
-                t.second.mouseTarget.toFront();
-            };
-
-
+            
             $(t.center.mouseTarget[0]).bind("dblclick", function() {
                 construction.removeTool(t, true);
             });
@@ -1040,7 +986,6 @@ $.extend(KhanUtil, {
     // return the lines that form an inscribed shape with n sides
     findInscribedPolygon: function (guess, center, radius, n) {
         var interiorAngle = 2 * Math.PI / n;
-        var degrees = interiorAngle * 180 / Math.PI;
         var sideLength = 2 * radius * Math.sin(interiorAngle / 2);
 
         // Get array of line of the correct length and with end points on the circle
