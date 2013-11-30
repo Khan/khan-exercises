@@ -454,7 +454,7 @@ $.fn.tmpl = function() {
 
     // Run through the attr and type processors, return as soon as one of them is decisive about a plan of action
     function process(elem, post) {
-        var ret, newElem,
+        var ret,
             $elem = $(elem);
 
         // Look through each of the attr processors, see if our element has the matching attribute

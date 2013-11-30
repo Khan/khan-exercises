@@ -491,7 +491,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // Converts '' to 1 and '-' to -1 so you can write "[___] x"
                 // and accept sane things
                 coefficient: function(text) {
-                    var match, possibilities = [];
+                    var possibilities = [];
 
                     // Replace unicode minus sign with hyphen
                     text = text.replace(/\u2212/, "-");
@@ -1622,12 +1622,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // New solutions include information about the correct
                     // answer like the correct index, etc. We can use that to
                     // make checking a lot simpler.
-
-                    // TODO(alpert): Casting to a number here is necessary
-                    // since guesses before 9 Sep 2013 had the index stored as
-                    // a string -- I'm adding in the cast here for timeline
-                    // compatibility but this can be removed after 1 Nov 2013
-                    var index = +guess.index;
 
                     if (guess.isNone && solution.noneIsCorrect) {
                         showReal();

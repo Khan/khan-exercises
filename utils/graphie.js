@@ -101,7 +101,6 @@
 
     KhanUtil.createGraphie = function(el) {
         var xScale = 40, yScale = 40, xRange, yRange;
-        var needsLabelTypeset = false;
 
         $(el).css("position", "relative");
         var raphael = Raphael(el);

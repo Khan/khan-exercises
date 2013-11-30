@@ -40,7 +40,6 @@ $.extend(KhanUtil, {
 
     updateGraphAndAnswer: function() {
         var pieces = KhanUtil.pieces;
-        var times;
         _.each(KhanUtil.times, function(times, id) {
             KhanUtil.currentGraph = $("#problemarea").find("#" + id).data("graphie");
             KhanUtil.currentGraph.raphael.clear();

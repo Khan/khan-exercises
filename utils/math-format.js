@@ -518,7 +518,7 @@ $.extend(KhanUtil, {
     // Formats a complex number in polar form.
     polarForm: function(radius, angle, useEulerForm) {
         var fraction = KhanUtil.toFraction(angle / Math.PI, 0.001);
-        var numerator = fraction[0], denominator = fraction[1];
+        var numerator = fraction[0];
 
         var equation;
         if (useEulerForm) {

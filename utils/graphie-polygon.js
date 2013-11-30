@@ -297,8 +297,7 @@ $.extend(KhanUtil, {
         };
 
         this.drawInscribedAngle = function(inscribed, start, end, arcRadius) {
-            var graph = KhanUtil.currentGraph,
-                chords = [this.drawChord(inscribed, start), this.drawChord(inscribed, end)],
+            var chords = [this.drawChord(inscribed, start), this.drawChord(inscribed, end)],
                 vertex = this.drawPoint(inscribed),
                 arc = this.drawInscribedArc(inscribed, start, end, arcRadius);
             return { chords: chords, vertex: vertex, arc: arc };

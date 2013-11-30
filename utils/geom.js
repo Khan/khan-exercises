@@ -48,7 +48,6 @@
 
             var ch = [];
             _.each(points, function(p) {
-                var l = ch.length;
                 while (ch.length >= 2 &&
                         ccw(ch[ch.length - 2], ch[ch.length - 1], p) <= eps) {
                     ch.pop();
@@ -77,7 +76,6 @@
                 var cos = dot(v0, v1) / mag;
                 var sin = -cross(v0, v1) / mag;
 
-                var rotated = [];
                 for (var j = 0; j < n; j++) {
                     var p = points[(i + j) % n];
                     var rotP = {

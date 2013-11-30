@@ -135,7 +135,6 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
     var workingDigitsA = digitsA.slice(0);
     var workingDigitsB = digitsB.slice(0);
     var highlights = [];
-    var carry = 0;
     var pos = { max: digitsA.length,
         carry: 3,
         first: 2,
