@@ -1010,19 +1010,19 @@ $.extend(KhanUtil, {
         var xFunction = function (cx) { return true; };
         var yFunction = function (cy) { return true; };
 
-        if (properties.radius !== null) {
+        if (properties.radius !== undefined) {
             radiusFunction = function (r) {
                 return Math.abs(r - properties.radius) < 0.5;
             };
         }
 
-        if (properties.cx !== null) {
+        if (properties.cx !== undefined) {
             xFunction = function (p) {
                 return Math.abs(p[0] - properties.cx) < 0.5;
             };
         }
 
-        if (properties.cy !== null) {
+        if (properties.cy !== undefined) {
             yFunction = function (p) {
                 return Math.abs(p[1] - properties.cy) < 0.5;
             };
