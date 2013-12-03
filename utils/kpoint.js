@@ -74,6 +74,7 @@ function addKpointExtensions() {
         addVector: kvector.add,
         addVectors: kvector.add,
         subtractVector: kvector.subtract,
+        equal: kvector.equal,
 
         // Convert from cartesian to polar and back
         polarRadFromCart: kvector.polarRadFromCart,
