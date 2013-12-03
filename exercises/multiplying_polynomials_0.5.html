@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying polynomials 0.5</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="constant">
+                <div class="vars">
+                    <var id="X">randVar()</var>
+                    <var id="COEFFICIENT1">randRangeNonZero(-5, 5)</var>
+                    <var id="CONSTANT1">randRangeExclude(-8, 8, [0, 1])</var>
+                    <var id="CONSTANT2">randRangeNonZero(-8, 8)</var>
+                    <var id="EXPRESSION">expr(["*", CONSTANT1, ["+", ["*", COEFFICIENT1, X], CONSTANT2]])</var>
+                </div>
+
+                <p class="question">Expand the expression.</p>
+                <p class="problem"><code><var>EXPRESSION</var></code></p>
+                <p class="solution" data-type="expression" data-simplify>
+                    (<var>CONSTANT1</var> * <var>COEFFICIENT1</var>)<var>X</var> + (<var>CONSTANT1</var> * <var>CONSTANT2</var>)
+                </p>
+                
+                <div class="hints">
+                    <p>Use the distributive property to distribute the <code>\blue{<var>CONSTANT1</var>}</code>.</p>
+                    <p>
+                        <code>\qquad = (\blue{<var>CONSTANT1</var>} \times <var>expr(["*", COEFFICIENT1, X])</var>) + 
+                        (\blue{<var>CONSTANT1</var>} \times <var>CONSTANT2</var>)</code>
+                    </p>
+                    <p>
+                        <code>\qquad = (<var>expr(["*", CONSTANT1 * COEFFICIENT1, X])</var>) + (<var>CONSTANT1 * CONSTANT2</var>)</code>
+                    </p>
+                    <p>
+                        <code>\qquad = <var>expr(["*", CONSTANT1 * COEFFICIENT1, X])</var> + <var>CONSTANT1 * CONSTANT2</var></code>
+                    </p>
+                </div>
+            </div>
+
+            <div id="variable">
+                <div class="vars">
+                    <var id="X">randVar()</var>
+                    <var id="COEFFICIENT1">randRangeNonZero(-5, 5)</var>
+                    <var id="COEFFICIENT2">randRangeExclude(-8, 8, [0, 1])</var>
+                    <var id="CONSTANT2">randRangeNonZero(-8, 8)</var>
+                    <var id="EXPRESSION">expr(["*", COEFFICIENT2, X, ["+", ["*", COEFFICIENT1, X], CONSTANT2]])</var>
+                </div>
+
+                <p class="question">Simplify the expression.</p>
+                <p class="problem"><code><var>EXPRESSION</var></code></p>
+                <p class="solution" data-type="expression" data-simplify>
+                    (<var>COEFFICIENT2</var> * <var>COEFFICIENT1</var>)<var>X</var>^2 + (<var>COEFFICIENT2</var> * <var>CONSTANT2</var><var>X</var>)
+                </p>
+                
+                <div class="hints">
+                    <p>Use the distributive property to distribute the <code>\blue{<var>expr(["*", COEFFICIENT2, X])</var>}</code>.</p>
+                    <p>
+                        <code>\qquad = (\blue{<var>expr(["*", COEFFICIENT2, X])</var>} \times <var>expr(["*", COEFFICIENT1, X])</var>) + 
+                        (\blue{<var>expr(["*", COEFFICIENT2, X])</var>} \times <var>CONSTANT2</var>)</code>
+                    </p>
+                    <p>
+                        <code>\qquad = (<var>expr(["*", COEFFICIENT2 * COEFFICIENT1, ["^", X, 2]])</var>) + 
+                        (<var>expr(["*", COEFFICIENT2 * CONSTANT2, X])</var>)</code>
+                    </p>
+                    <p>
+                        <code>\qquad = <var>expr(["*", COEFFICIENT2 * COEFFICIENT1, ["^", X, 2]])</var> + 
+                        <var>expr(["*", COEFFICIENT2 * CONSTANT2, X])</var></code>
+                    </p>
+                </div>
+            </div>
+
+
+            <div id="expression">
+                <div class="vars">
+                    <var id="X">randVar()</var>
+                    <var id="COEFFICIENT1">randRangeNonZero(-5, 5)</var>
+                    <var id="COEFFICIENT2">randRangeNonZero(-5, 5)</var>
+                    <var id="CONSTANT1">randRangeNonZero(-8, 8)</var>
+                    <var id="CONSTANT2">randRangeNonZero(-8, 8)</var>
+                    <var id="EXPRESSION">expr(["*", ["+", ["*", COEFFICIENT1, X], CONSTANT1], ["+", ["*", COEFFICIENT2, X], CONSTANT2]])</var>
+                    <var id="A">COEFFICIENT1 * COEFFICIENT2</var>
+                    <var id="B">CONSTANT1 * COEFFICIENT2 + COEFFICIENT1 * CONSTANT2</var>
+                    <var id="C">CONSTANT1 * CONSTANT2</var>
+                </div>
+
+                <p class="question">Simplify the expression.</p>
+                <p class="problem"><code><var>EXPRESSION</var></code></p>
+                <p class="solution" data-type="expression" data-simplify>
+                    <var>A</var><var>X</var>^2 + <var>B</var><var>X</var> + <var>C</var>
+                </p>
+                
+                <div class="hints">
+                    <p>
+                        First distribute the <code>\blue{<var>expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>}</code>
+                        onto the <code>\green{<var>expr(["*", COEFFICIENT2, X])</var>}</code> and <code>\red{<var>CONSTANT2</var>}</code>.
+                    </p>
+                    <p>
+                        <code>\qquad = \green{<var>expr(["*", COEFFICIENT2, X])</var>}(\blue{<var>expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>})
+                        + \red{<var>CONSTANT2</var>}(\blue{<var>expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>})</code>
+                    </p>
+
+                    <div>
+                        <p>Then distribute the <code>\green{<var>expr(["*", COEFFICIENT2, X])</var>}.</code></p>
+                        <p>
+                            <code>\qquad = (\green{<var>expr(["*", COEFFICIENT2, X])</var>} \times \blue{<var>expr(["*", COEFFICIENT1, X])</var>}) +
+                            (\green{<var>expr(["*", COEFFICIENT2, X])</var>} \times \blue{<var>CONSTANT1</var>}) + 
+                            \red{<var>CONSTANT2</var>}(\blue{<var>expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>})</code>
+                        </p>
+                        <p>
+                            <code>\qquad = <var>expr(["*", A, ["^", X, 2]])</var> +
+                            <var>expr(["*", CONSTANT1 * COEFFICIENT2, X])</var> + 
+                            \red{<var>CONSTANT2</var>}(\blue{<var>expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>})</code>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p>Then distribute the <code>\red{<var>CONSTANT2</var>}</code>.</p>
+                        <p>
+                            <code>\qquad = <var>expr(["*", A, ["^", X, 2]])</var> +
+                            <var>expr(["*", CONSTANT1 * COEFFICIENT2, X])</var> + 
+                            (\red{<var>CONSTANT2</var>} \times \blue{<var>expr(["*", COEFFICIENT1, X])</var>}) + 
+                            (\red{<var>CONSTANT2</var>} \times \blue{<var>CONSTANT1</var>})</code>
+                        </p>
+                        <p>
+                            <code>\qquad = <var>expr(["*", A, ["^", X, 2]])</var> +
+                            <var>expr(["*", CONSTANT1 * COEFFICIENT2, X])</var> + 
+                            <var>expr(["*", COEFFICIENT1 * CONSTANT2, X])</var> + 
+                            <var>C</var></code>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p>Finally, combine the <code>x</code> terms.</p>
+                        <p><code>\qquad = <var>expr(["*", A, ["^", X, 2]])</var> + <var>expr(["*", B, X])</var> + <var>C</var></code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
