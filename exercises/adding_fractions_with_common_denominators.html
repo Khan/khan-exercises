@@ -10,11 +10,17 @@
         <div class="problems">
             <div id="add-fractions">
                 <div class="vars">
-                    <var id="N1">randRange(2, 9)</var>
-                    <var id="N2">randRange(2, 9)</var>
                     <var id="D">randFromArray([2, 3, 4, 5, 6, 8, 10, 12, 100])</var>
                     <var id="DIGITS">(D + "").length</var>
-                    <var id="GCD">getGCD(N1 + N2, D)</var>
+                    <var id="N1">randRange(1, 7 - DIGITS)</var>
+                    <var id="N2">randRange(1, 7 - DIGITS)</var>
+                    <var id="SUM">(function() {
+                        var s = "\\dfrac{\\blue{" + N1 + "}}{" + D + "} + \\dfrac{\\green{" + N2 + "}}{" + D + "} = ";
+                        s += _(N1).times(function() {return "\\dfrac{\\blue{1}}{" + D + "}"}).join("+");
+                        s += "+";
+                        s += _(N2).times(function() {return "\\dfrac{\\green{1}}{" + D + "}"}).join("+");
+                        return s;
+                    })()</var>
                 </div>
 
                 <div class="question">
@@ -25,55 +31,36 @@
                 <div class="hints">
                     <div class="graphie">
                         init({ range: [[-1, 20], [-1, 3]], scale: 20 });
+                        label([0, 0], SUM, "right");
 
-                        label([0, 0], "\\dfrac{\\blue{" + N1 + "}}{" + D + "} + \\dfrac{\\green{" + N2 + "}}{" + D + "} = ");
-                        
-                        var x = 0.8 + 0.5 * DIGITS;
-                        var x2 = 3.5 + 0.8 * DIGITS;
-
+                        var x = 2.5 + 0.8 * DIGITS;
+                        var x2 = ((DIGITS * 9 + 20) * N1 - 16) / 20;
                         if (N1 > 2) {
-                            curlyBrace([x + 0.1, 0.9], [x + x2, 0.9]);
-                            label([x, 0], "\\dfrac{\\blue{1}}{" + D + "} + . . . + \\dfrac{\\blue{1}}{" + D + "}", "right");
-                            label([0.05 + x + x2 / 2, 1.1], "\\blue{" + N1 + "}", "above");
-                            x += x2;
-                        } else {
-                            label([x, 0], "\\dfrac{\\blue{1}}{" + D + "} + \\dfrac{\\blue{1}}{" + D + "}", "right");
-                            x += 2.1 + 0.6 * DIGITS;
+                            curlyBrace([x, 0.9], [x + x2, 0.9]);
+                            label([x + x2 / 2, 1.1], "\\blue{" + N1 + "}", "above");
                         }
-                        
-                        label([x + 1.5, 0], "+", "left");
 
+                        x += x2 + 0.9;
+                        x2 = ((DIGITS * 9 + 20) * N2 - 16) / 20;
                         if (N2 > 2) {
-                            curlyBrace([x + 1.6, 0.9], [x + x2 + 1.5, 0.9]);
-                            label([x + 1.5, 0], "\\dfrac{\\green{1}}{" + D + "} + . . . + \\dfrac{\\green{1}}{" + D + "}", "right");
-                            label([1.55 + x + x2 / 2, 1.1], "\\green{" + N2 + "}", "above");
-                        } else {
-                            label([x + 1.5, 0], "\\dfrac{\\green{1}}{" + D + "} + \\dfrac{\\green{1}}{" + D + "}", "right");
+                            curlyBrace([x, 0.9], [x + x2, 0.9]);
+                            label([x + x2 / 2, 1.1], "\\green{" + N2 + "}", "above");
                         }
                     </div>
 
-                    <div class="graphie">
+                    <div class="graphie" data-if="N1 !== 1 || N2 !== 1">
                         init({ range: [[-1, 20], [-1, 3]], scale: 20 });
+                        label([0, 0], SUM, "right");
                         
-                        var x = 0.8 + 0.5 * DIGITS;
-                        var x2 = 3.5 + 0.8 * DIGITS;
+                        var x = 2.5 + 0.8 * DIGITS;
+                        var x2 = ((DIGITS * 9 + 20) * (N1 + N2) - 16) / 20;
 
-                        label([x - 0.2, 0], "=");
-
-                        curlyBrace([x + 0.1, 0.9], [x + x2, 0.9]);
-
-                        label([x, 0], "\\dfrac{\\blue{1}}{" + D + "} + . . . + \\dfrac{\\green{1}}{" + D + "}", "right");
+                        curlyBrace([x, 0.9], [x + x2, 0.9]);
                         label([0.05 + x + x2 / 2, 1.1], "\\blue{" + N1 + "} + \\green{" + N2 + "}", "above");
                     </div>
 
                     <p><code>\qquad = \dfrac{\blue{<var>N1</var>} + \green{<var>N2</var>}}{<var>D</var>}</code></p>
                     <p><code>\qquad = \dfrac{<var>N1 + N2</var>}{<var>D</var>}</code></p>
-
-                    <div data-if="GCD !== 1">
-                        <p>Simplify.</p>
-                        <p data-if="D / GCD === 1"><code>\qquad = <var>(N1 + N2) / GCD</var></code></p>
-                        <p data-else><code>\qquad = <var>fractionReduce(N1 + N2, D)</var></code></p>
-                    </div>
                 </div>
 
             </div>
