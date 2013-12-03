@@ -14,6 +14,11 @@ var knumber = KhanUtil.knumber = {
     MACHINE_EPSILON: MACHINE_EPSILON,
 
     equal: function(x, y, tolerance) {
+        // Checking for undefined makes this function behave nicely
+        // with vectors of different lengths that are _.zip'd together
+        if (x == null || y == null) {
+            return x === y;
+        }
         if (tolerance == null) {
             tolerance = DEFAULT_TOLERANCE;
         }

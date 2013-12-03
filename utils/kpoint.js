@@ -6,8 +6,10 @@
 (function(KhanUtil) {
 
 var kvector = KhanUtil.kvector;
+var knumber = KhanUtil.knumber;
 $.fn["kpointLoad"] = function() {
     kvector = KhanUtil.kvector;
+    knumber = KhanUtil.knumber;
     addKpointExtensions();
 };
 
@@ -63,6 +65,27 @@ var kpoint = KhanUtil.kpoint = {
         var projectedPv = kvector.projection(pv, lv);
         var reflectedPv = kvector.subtract(kvector.scale(projectedPv, 2), pv);
         return kvector.add(line[0], reflectedPv);
+    },
+
+    /**
+     * Compares two points, returning -1, 0, or 1, for use with
+     * Array.prototype.sort
+     *
+     * Note: This technically doesn't satisfy the total-ordering
+     * requirements of Array.prototype.sort unless equalityTolerance
+     * is 0. In some cases very close points that compare within a
+     * few equalityTolerances could appear in the wrong order.
+     */
+    compare: function(point1, point2, equalityTolerance) {
+        if (point1.length !== point2.length) {
+            return point1.length - point2.length;
+        }
+        for (var i = 0; i < point1.length; i++) {
+            if (!knumber.equal(point1[i], point2[i], equalityTolerance)) {
+                return point1[i] - point2[i];
+            }
+        }
+        return 0;
     }
 };
 

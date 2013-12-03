@@ -68,8 +68,12 @@ var kvector = KhanUtil.kvector = {
     },
 
     equal: function(v1, v2, tolerance) {
+        // _.zip will nicely deal with the lengths, going through
+        // the length of the longest vector. knumber.equal then
+        // returns false for any number compared to the undefined
+        // passed in if one of the vectors is shorter.
         return _.all(_.zip(v1, v2), function(pair) {
-            return knumber.equal.call(knumber, pair[0], pair[1], tolerance);
+            return knumber.equal(pair[0], pair[1], tolerance);
         });
     },
 

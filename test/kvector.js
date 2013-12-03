@@ -93,6 +93,12 @@
         start();
     });
 
+    asyncTest('vector.equal should return false on a 2D and 3D vector with a trailing 0', 1, function() {
+        var result = vector.equal([6, 3, 0], [6, 3]);
+        strictEqual(result, false);
+        start();
+    });
+
     asyncTest("vector.collinear should return true on two collinear vectors of "
             + "the same magnitude but different direction", 1, function() {
         var result = vector.collinear([3, 3], [-3, -3]);
