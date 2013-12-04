@@ -1137,14 +1137,15 @@ window.Khan = (function() {
 
         // Otherwise create a random problem from weights
         } else {
-        	var typeIndex = [];
-        	$.each(problems, function(index) {
-        		if ($(this).data("weight") === 0) return;
-        		var weight = $(this).data("weight") || 1;
-        		_.times(weight, function(){ typeIndex.push(index); });
-        	});
-        	problem = problems.eq(Math.floor(Math.random() * typeIndex.length));
-        	id = $(problem).attr("id");
+            var typeIndex = [];
+            $.each(problems, function(index) {
+                if ($(this).data("weight") === 0) return;
+                var weight = $(this).data("weight") || 1;
+                _.times(weight, function(){ typeIndex.push(index); });
+            });
+            id = Math.floor(Math.random() * typeIndex.length);
+            problem = problems.eq(id);
+            id = $(problem).attr("id") || "" + id;
         }
 
         problemID = id;
