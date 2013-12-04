@@ -189,13 +189,6 @@ window.Khan = (function() {
     // The exercise elements
     exercises,
 
-    // Where we are in the shuffled list of problem types
-    problemBag,
-    problemBagIndex = 0,
-
-    // How many problems are we doing? (For the fair shuffle bag.)
-    problemCount = 10,
-
     hintsUsed,
 
     // Bug-hunting "undefined" attempt content
@@ -983,84 +976,6 @@ window.Khan = (function() {
         };
     }
 
-    // Add up how much total weight is in each exercise so we can adjust for
-    // it later
-    function weighExercises(problems) {
-        if (exercises.length > 1) {
-            $.map(problems, function(elem) {
-                elem = $(elem);
-
-                var exercise = elem.parents("div.exercise").eq(0);
-
-                var exerciseTotal = exercise.data("weight-sum");
-                exerciseTotal = exerciseTotal !== undefined ? exerciseTotal : 0;
-
-                var weight = elem.data("weight");
-                weight = weight !== undefined ? weight : 1;
-
-                exercise.data("weight-sum", exerciseTotal + weight);
-            });
-        }
-    }
-
-    // Create a set of n problems fairly from the weights - not random; it
-    // ensures that the proportions come out as fairly as possible with ints
-    // (still usually a little bit random).
-    // There has got to be a better way to do this.
-    function makeProblemBag(problems, n) {
-        var bag = [], totalWeight = 0;
-
-        if (problems.length > 0) {
-            // Collect the weights for the problems and find the total weight
-            var weights = $.map(problems, function(elem, i) {
-                elem = $(elem);
-
-                var exercise = elem.parents("div.exercise").eq(0);
-                var exerciseWeight = exercise.data("weight");
-                exerciseWeight = exerciseWeight !== undefined ? exerciseWeight : 1;
-                var exerciseTotal = exercise.data("weight-sum");
-
-                var weight = elem.data("weight");
-                weight = weight !== undefined ? weight : 1;
-
-                if (exerciseTotal !== undefined) {
-                    weight = weight * exerciseWeight / exerciseTotal;
-                    elem.data("weight", weight);
-                }
-
-                // Also write down the index/id for each problem so we can do
-                // links to problems (?problem=17)
-                elem.data("id", elem.attr("id") || "" + i);
-
-                totalWeight += weight;
-                return weight;
-            });
-
-            while (n) {
-                bag.push((function() {
-                    // Figure out which item we're going to pick
-                    var index = totalWeight * KhanUtil.random();
-
-                    for (var i = 0; i < problems.length; i++) {
-                        if (index < weights[i] || i === problems.length - 1) {
-                            var w = Math.min(weights[i], totalWeight / (n--));
-                            weights[i] -= w;
-                            totalWeight -= w;
-                            return problems.eq(i);
-                        } else {
-                            index -= weights[i];
-                        }
-                    }
-
-                    // This will never happen
-                    return Khan.error("makeProblemBag got confused w/ index " + index);
-                })());
-            }
-        }
-
-        return bag;
-    }
-
     // TODO(alpert): Merge with loadExercise
     function startLoadingExercise(exerciseId, exerciseName, exerciseFile) {
         var promise = exerciseFilePromises[exerciseId];
@@ -1100,9 +1015,6 @@ window.Khan = (function() {
                 return $.data(this, "rootName") === exerciseId;
             }).children(".problems").children();
 
-            // ...and create a new problem bag with problems of our new exercise type.
-            problemBag = makeProblemBag(problems, 10);
-
             // Make scratchpad persistent per-user
             if (user) {
                 var lastScratchpad = window.localStorage["scratchpad:" + user];
@@ -1114,7 +1026,7 @@ window.Khan = (function() {
             $(Exercises).trigger("clearExistingProblem");
 
             // Generate a new problem
-            makeProblem(typeOverride, seedOverride);
+            makeProblem(exerciseId, typeOverride, seedOverride);
         }
 
         // Use a separate variable here because if exerciseID changes, we still
@@ -1184,7 +1096,7 @@ window.Khan = (function() {
                  $.trim(guess.join("").replace(/,/g, "")) === "");
     }
 
-    function makeProblem(id, seed) {
+    function makeProblem(exerciseId, id, seed) {
         debugLog("start of makeProblem");
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
@@ -1206,10 +1118,12 @@ window.Khan = (function() {
         if (localMode) {
             id = typeof id !== "undefined" ? id : Khan.query.problem;
         }
+        
+        var problems = exercises.filter(function() {
+            return $.data(this, "name") === exerciseId;
+        }).children(".problems").children();
 
         if (typeof id !== "undefined") {
-            var problems = exercises.children(".problems").children();
-
             problem = /^\d+$/.test(id) ?
                 // Access a problem by number
                 problems.eq(parseFloat(id)) :
@@ -1221,12 +1135,17 @@ window.Khan = (function() {
                 throw new Error("Unknown problem type " + id);
             }
 
-        // Otherwise we grab a problem at random from the bag of problems
-        // we made earlier to ensure that every problem gets shown the
-        // appropriate number of times
-        } else if (problemBag.length > 0) {
-            problem = problemBag[problemBagIndex];
-            id = problem.data("id");
+        // Otherwise create a random problem from weights
+        } else if (typeof exerciseId !== "undefined") {
+        	var typeIndex = [];
+        	$.each(problems, function(index) {
+        		var weight = $(this).data("weight") || 1;
+        		_.times(weight, function(){typeIndex.push(index);});
+        	});
+        	problem = problems.eq(Math.floor(Math.random() * typeIndex.length));
+        	
+        	// var weightSum = typeIndex.length, jostler = weightSum % 3 ? 3 : 1;
+        	// problem = problems.eq(typeIndex[(jostler * problemNum) % weightSum]);
 
         // No valid problem was found, bail out
         } else {
@@ -1354,7 +1273,7 @@ window.Khan = (function() {
             debugLog("duplicate problem!");
             $(Exercises).trigger("clearExistingProblem");
             nextSeed(1);
-            return makeProblem();
+            return makeProblem(exerciseId);
         }
 
         // Store the solution to the problem
@@ -1430,7 +1349,7 @@ window.Khan = (function() {
             // Making the problem failed, let's try again
             debugLog("validator was falsey");
             problem.remove();
-            makeProblem(id, randomSeed);
+            makeProblem(exerciseId, id, randomSeed);
             return;
         }
 
@@ -1744,7 +1663,7 @@ window.Khan = (function() {
         if (localMode) {
             // Just generate a new problem from existing exercise
             $(Exercises).trigger("clearExistingProblem");
-            makeProblem();
+            makeProblem(exerciseId);
         } else {
             loadAndRenderExercise(data.userExercise);
         }
@@ -1964,7 +1883,6 @@ window.Khan = (function() {
     function setProblemNum(num) {
         problemNum = num;
         problemSeed = (seedOffset + jumpNum * (problemNum - 1 + seedsSkipped)) % bins;
-        problemBagIndex = (problemNum + problemCount - 1) % problemCount;
     }
 
     function getSeedsSkippedCacheKey() {
@@ -2209,16 +2127,8 @@ window.Khan = (function() {
         exercises = exercises.add($("div.exercise").detach());
         var problems = exercises.children(".problems").children();
 
-        // Don't make the problem bag when a specific problem is specified
-        // because it messes up problem permalinks (because makeProblemBag
-        // calls KhanUtil.random() and changes the seed)
-        if (Khan.query.problem == null) {
-            weighExercises(problems);
-            problemBag = makeProblemBag(problems, 10);
-        }
-
         // Generate the initial problem when dependencies are done being loaded
-        makeProblem();
+        makeProblem(exerciseId);
     }
 
     return Khan;
