@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="letters" data-weight="0.6">
+            <div id="letters" data-weight="3">
                 <div class="vars" data-ensure="WORD != PERM">
                     <var id="INDEX">randRange(0,11)</var>
                     <var id="WORD">["CLAW", "OPAL", "APE", "RULES", "ANGER", "SLIME", "FEAT", "FANCY", "SONG", "DEN", "TIGER", "IRON"][INDEX]</var>
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div id="reindeer" data-weight="0.4">
+            <div id="reindeer" data-weight="2">
                 <div class="vars">
                     <var id="NUM_NAMES">randRange(4,5)</var>
                     <var id="NAMES">_.map(randRangeUnique(0,8,NUM_NAMES), function(n){

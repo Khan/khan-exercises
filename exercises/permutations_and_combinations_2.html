@@ -34,7 +34,7 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="letters" data-weight="0.4">
+            <div id="letters" data-weight="2">
                 <div class="vars" data-ensure="PERM !== WORD">
                     <var id="INDEX">randRange(0,7)</var>
                     <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "CANNON", "PLOP", "ERROR", "THAT"][INDEX]</var>
@@ -92,7 +92,7 @@
                 </div>
             </div>
 
-            <div id="reindeer" data-weight="0.2">
+            <div id="reindeer" data-weight="1">
                 <div class="vars" data-ensure="PAIR[0] != PAIR[1]">
                     <var id="NAMES">shuffle(["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin", "Balthazar", "Ezekiel", "Jebediah", "Rudy"],
                         randRange(4,5))</var>
@@ -165,7 +165,7 @@
                     </div>
                 </div>
             </div>
-            <div id="divisible" data-weight="0.4">
+            <div id="divisible" data-weight="2">
                 <div class="vars" data-ensure="getGCD(FAC1,FAC2) === 1">
                     <var id="FAC1">randRange(2,10)</var>
                     <var id="FAC2">randRange(2,10)</var>

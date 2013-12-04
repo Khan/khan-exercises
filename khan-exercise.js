@@ -1136,20 +1136,15 @@ window.Khan = (function() {
             }
 
         // Otherwise create a random problem from weights
-        } else if (typeof exerciseId !== "undefined") {
+        } else {
         	var typeIndex = [];
         	$.each(problems, function(index) {
+        		if ($(this).data("weight") === 0) return;
         		var weight = $(this).data("weight") || 1;
-        		_.times(weight, function(){typeIndex.push(index);});
+        		_.times(weight, function(){ typeIndex.push(index); });
         	});
         	problem = problems.eq(Math.floor(Math.random() * typeIndex.length));
-        	
-        	// var weightSum = typeIndex.length, jostler = weightSum % 3 ? 3 : 1;
-        	// problem = problems.eq(typeIndex[(jostler * problemNum) % weightSum]);
-
-        // No valid problem was found, bail out
-        } else {
-            return;
+        	id = $(problem).attr("id");
         }
 
         problemID = id;
