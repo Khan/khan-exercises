@@ -332,8 +332,6 @@ window.degToRad = function(deg) {
 //Returns [ m, k ] of y = mx + k
 //Vulnerable to division by 0
 window.lineEquation = function(line) {
-    //var x = [line[0][0], line[1][0]];
-    //var y = [line[0][1], line[1][1]];
 
     var m = (line[1][1] - line[0][1]) / (line[1][0] - line[0][0]);
     var k = line[0][1] - m * line[0][0];
