@@ -562,7 +562,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
     var deciDiff = deciDivisor - deciDividend;
     var highlights = [];
     var index = 0;
-    var dy = -1;
+    var dy = 0;
     var remainder = 0;
     var fOnlyZeros = true;
     var leadingZeros = [];
@@ -570,6 +570,10 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
     var decimals = [];
     var hints = 0;
     var hintType = 1;
+
+    if (deciDividend !== 0) {
+        digitsDividend = (KhanUtil.padDigitsToNum(digitsDividend.reverse(), deciDividend + 1)).reverse();
+    }
 
     this.show = function() {
         var paddedDivisor = digitsDivisor;
@@ -587,7 +591,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             paddedDivisor = (KhanUtil.padDigitsToNum(digitsDivisor.reverse(), deciDivisor + 1)).reverse();
         }
         graph.init({
-            range: [[-1 - paddedDivisor.length, 17], [-2 * nDigitsInAnswer - 2, 2]],
+            range: [[-1 - paddedDivisor.length, 17], [-2 * nDigitsInAnswer - 3, 2]],
             scale: [20, 40]
         });
         graph.style({
@@ -688,8 +692,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
             var diffDigits = KhanUtil.integerToDigits(diff);
             drawDigits(diffDigits, index - diffDigits.length + 1, dy - 2);
-            graph.path([[index - product.length - 0.25, dy - 0.5], [index + 0.5, dy - 0.5]]);
-            graph.label([index - digits.length, dy] , "-");
+            graph.path([[index - product.length - 0.25, dy - 1.5], [index + 0.5, dy - 1.5]]);
+            graph.label([index - digits.length, dy - 1] , "-");
 
             graph.label([digitsDividend.length + 0.5, dy - 1],
                 "\\color{#6495ED}{" + value + "}" +
@@ -716,7 +720,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
         this.addDecimal();
         this.show();
         graph.label([digitsDividend.length, 1],
-            $._("\\text{Write in a decimal and a zero and continue dividing.}"), 
+            $._("\\text{Write in a decimal and a zero and continue dividing.}"),
             "right");
     };
 
@@ -780,6 +784,9 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
 Divider.numHintsFor = function(divisor, dividend, deciDivisor, deciDividend) {
     var digitsDividend = KhanUtil.integerToDigits(dividend);
+    if (deciDividend !== 0) {
+        digitsDividend = (KhanUtil.padDigitsToNum(digitsDividend.reverse(), deciDividend + 1)).reverse();
+    }
     var hints = 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
 
     // If answer ends in zeros that we don't use
