@@ -47,8 +47,6 @@ $.extend(KhanUtil, {
     parallel: function(path, num, style) {
         var graph = KhanUtil.currentGraph;
 
-        var spacing = 0.5;
-
         var point = kline.midpoint(path);
 
         graph.path([path[0], point], $.extend(style, { arrows: "->" }));
@@ -151,8 +149,6 @@ window.degToRad = function(deg) {
 //Returns [ m, k ] of y = mx + k
 //Vulnerable to division by 0
 window.lineEquation = function(line) {
-    var x = [line[0][0], line[1][0]];
-    var y = [line[0][1], line[1][1]];
 
     var m = (line[1][1] - line[0][1]) / (line[1][0] - line[0][0]);
     var k = line[0][1] - m * line[0][0];
@@ -302,7 +298,6 @@ window.Triangle = function(center, angles, scale, labels, points) {
 
     this.boxOut = function(pol, amount, type) {
         var type = type || "simple";
-        var intersectWith = this.sides;
         var shouldMove = areIntersecting(pol, this.sides);
         while (areIntersecting(pol, this.sides)) {
             this.translate(amount);
@@ -885,11 +880,6 @@ KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
         color: KhanUtil.BLUE
     }, triangle);
 
-    var getDistance = function(point1, point2) {
-        return Math.sqrt((point1[0] - point2[0]) * (point1[0] - point2[0]) +
-            (point1[1] - point2[1]) * (point1[1] - point2[1]));
-    };
-
     var rotatePoint = function(point, angle) {
         var matrix = KhanUtil.kmatrix.makeMatrix([
             [Math.cos(angle), -Math.sin(angle), 0],
@@ -966,7 +956,6 @@ KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
                 var y = (triangle.points[(i + 1) % 3][1] +
                     triangle.points[(i + 2) % 3][1]) / 2;
                 var ang;
-                var labelDist = 0.4;
                 if (triangle.angles[i] < 90) {
                     ang = Math.atan2(y - centerPoints.circumCenter[1],
                         x - centerPoints.circumCenter[0]);

@@ -259,7 +259,6 @@ $.extend(KhanUtil, {
         },
 
         setMaxVals: function(cell) {
-            var el = $(cell.el);
             var val = cell.val();
 
             // cell is nonempty

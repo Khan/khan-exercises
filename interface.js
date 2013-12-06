@@ -644,8 +644,6 @@ function disableCheckAnswer() {
 }
 
 function clearExistingProblem() {
-    var framework = Exercises.getCurrentFramework();
-
     $("#happy").hide();
     if (!$("#examples-show").data("show")) {
         // TODO(alpert): What does this do?

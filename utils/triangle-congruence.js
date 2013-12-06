@@ -406,7 +406,6 @@ $.extend(KhanUtil, {
 
             // When point 3 moves, scale the entire triangle
             triangle.points[3].onMove = function(coordX, coordY) {
-                var origCoord = triangle.points[3].coord;
                 triangle.points[3].coord = [coordX, coordY];
                 triangle.points[0].setCoord([coordX, coordY]);
                 var scaleFactor = KhanUtil.getDistance([coordX, coordY], triangle.rotationPoint.coord) / triangle.radii[3];

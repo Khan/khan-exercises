@@ -66,8 +66,6 @@ $.extend(KhanUtil, {
             var placeholder = $("<li>");
             placeholder.addClass("placeholder");
             container.addClass("sortable ui-helper-clearfix");
-            var tileWidth = list.find("li").outerWidth(true);
-            var numTiles = list.find("li").length;
 
             list.find("li").each(function(tileNum, tile) {
                 $(tile).bind("vmousedown", function(event) {
@@ -2972,7 +2970,6 @@ function Protractor(graph, center) {
 
     this.cx = center[0];
     this.cy = center[1];
-    var lineColor = "#789";
     var pro = this;
 
     var r = graph.unscaleVector(180.5)[0];

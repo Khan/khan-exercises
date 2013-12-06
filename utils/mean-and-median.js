@@ -219,7 +219,6 @@ $.extend(KhanUtil, {
     showMedianExample: function(onComplete) {
         var points = KhanUtil.currentGraph.graph.points;
         var targetMedian = KhanUtil.currentGraph.graph.targetMedian;
-        var maxWidth = Math.min(Math.abs(-7 - targetMedian), Math.abs(7 - targetMedian));
         var sortedPoints = points.sort(function(a, b) { return a.coord[0] - b.coord[0]; });
         var oldValues = [];
         $.each(sortedPoints, function(i, point) {

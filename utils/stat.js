@@ -89,7 +89,7 @@ $.extend(KhanUtil, {
     // Pass "count" to get an array of data
     randGaussian: function(tgtMean, tgtStdDev, count) {
         if (count == null) {
-            var x1, x2, rad, y1;
+            var x1, x2, rad;
 
             do {
                 x1 = 2 * KhanUtil.random() - 1;

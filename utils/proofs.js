@@ -44,7 +44,6 @@ var TRIANGLES;
 // need to populate this list in the exercise, needed for checking if segments are parts of
 // other segments,
 var supplementaryAngles;
-var parallelSegments;
 var altInteriorAngs;
 
 // keeps track of how many hints are left for the next statement
@@ -466,8 +465,6 @@ window.outputKnownProof = function() {
 
 // returns a proof with a few blanks, blank statement fields will be wrapped by a div with id formatted according to divName
 window.outputFillBlanksProof = function() {
-    var reasonCodes = {"SSS" : 0, "ASA" : 1, "SAS" : 2, "AAS" : 3, "corresponding parts of congruent triangles are congruent" : 4,
-     "vertical angles are congruent" : 5, "alternate interior angles are congruent" : 6};
     var proofText = "<h3>Givens</h3>";
     var blanks = 0;
     var blankStatements = 0;
@@ -764,7 +761,6 @@ window.outputBadProof = function() {
     var validStatements = 0;
     var invalidStatements = 0;
     var valid = null;
-    var before = KhanUtil.random() < 0.5;
     var count = 0;
 
     var filteredDupKeys = _.filter(_.keys(finishedEqualities), function(key) {
