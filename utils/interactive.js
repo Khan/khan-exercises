@@ -222,34 +222,6 @@ $.extend(KhanUtil.Graphie.prototype, {
         var graph = this;
         options = _.extend({}, options);
 
-        // Attach various metrics that are used by the interactive functions.
-        // TODO: Add appropriate helper functions in graphie and replace a lot of
-        // the cryptic references to scale, range, xpixels, ypixels, etc.
-        graph.xpixels = graph.raphael.canvas.offsetWidth;
-        graph.ypixels = graph.raphael.canvas.offsetHeight;
-        // Whereas, I heretofore declare today is May 13th, 2013.
-        // Whereas, Ben Eater and Marcia Lee participated in an epic pair
-        // programming session.
-        // Whereas, when reopening the number_line task in athena, the point
-        // was immobile.
-        // Whereas, this occurred only in chrome.
-        // Whereas, under the aforementioned circumstances, for some reason
-        // graph.raphael.offsetWidth equalled none other than zero.
-        // Whereas, the second clause of the below conditional was deemed of
-        // the utmost necessity.
-        // Whereas we have no idea why.
-        // Therefore, the following conditional reads as thus:
-        if (graph.xpixels === undefined || graph.xpixels === 0) {
-            graph.xpixels = graph.raphael.width;
-            graph.ypixels = graph.raphael.height;
-        }
-        graph.scale = [graph.scalePoint([1, 1])[0] - graph.scalePoint([0, 0])[0], graph.scalePoint([0, 0])[1] - graph.scalePoint([1, 1])[1]];
-        var xmin = 0 - (graph.scalePoint([0, 0])[0] / graph.scale[0]);
-        var xmax = (graph.xpixels / graph.scale[0]) + xmin;
-        var ymax = graph.scalePoint([0, 0])[1] / graph.scale[1];
-        var ymin = ymax - (graph.ypixels / graph.scale[1]);
-        graph.range = [[xmin, xmax], [ymin, ymax]];
-
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
         $(graph.mouselayer.canvas).css("z-index", 1);
         if (options.onClick) {

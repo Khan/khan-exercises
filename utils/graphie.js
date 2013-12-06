@@ -571,16 +571,16 @@
                 var w = (xRange[1] - xRange[0]) * xScale, h = (yRange[1] - yRange[0]) * yScale;
                 raphael.setSize(w, h);
 
-                this.dimensions = [w, h];
                 $(el).css({
                     "width": w,
                     "height": h
                 });
 
-                // TODO(alex): delete the other places where this gets set
-                if (!this.scale) {
-                    this.scale = scale;
-                }
+                this.range = options.range;
+                this.scale = scale;
+                this.dimensions = [w, h];
+                this.xpixels = w;
+                this.ypixels = h;
 
                 return this;
             },
