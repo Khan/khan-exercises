@@ -71,7 +71,37 @@ window.piechart = function(divisions, colors, radius, strokeColor) {
     return set;
 };
 
-window.rectchart = function(divisions, fills, y, strokes) {
+// Shade a rectangular area with diagonal stripes. We need to use clipRect so
+// that the ends of the diagonal lines are beveled at each end such that they
+// conform to the overall area of the rectangle being shaded. So this actually
+// draws the diagonal stripes over the entire graphie area and uses clipRect to
+// only show them where desired.
+//
+// The pad argument is an optional number of pixels of padding. Positive
+// numbers make the shaded area smaller.
+window.shadeRect = function(x, y, width, height, pad) {
+    var graph = KhanUtil.currentGraph;
+    var set = graph.raphael.set();
+    var x2 = graph.range[0][0];
+    var y1 = graph.range[1][0];
+    var y2 = graph.range[1][1];
+    var x1 = x2 - (y2 - y1) * graph.scale[1] / graph.scale[0];
+    var step = 8 / graph.scale[0];
+    var xpad = (pad || 0) / graph.scale[0];
+    var ypad = (pad || 0) / graph.scale[1];
+
+    while (x1 < graph.range[0][1]) {
+        set.push(graph.line([x1, y1], [x2, y2], {
+            clipRect: [[x + xpad, y + ypad],
+                      [width - 2 * xpad, height - 2 * ypad]]
+        }));
+        x1 += step;
+        x2 += step;
+    }
+    return set;
+};
+
+window.rectchart = function(divisions, fills, y, strokes, shading) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
 
@@ -105,6 +135,25 @@ window.rectchart = function(divisions, fills, y, strokes) {
                     fill: fill
                 }
             ));
+            if (shading && shading[i]) {
+                graph.style({
+                    stroke: "#000",
+                    strokeWidth: 2,
+                    strokeOpacity: 0.5,
+                    fillOpacity: 0,
+                    fill: null
+                }, function() {
+                    // We add or subtract a pixel of padding depending on
+                    // whether there's a stroke. If there is, we only shade
+                    // inside, otherwise we shade over the whole area. That's
+                    // why the last argument to shadeRect is 1 or -1 (the width
+                    // of the stroke is assumed to be 2)
+                    set.push(shadeRect(
+                        x + 2 * unit[0], y + 2 * unit[1],
+                        w - 4 * unit[0], 1 - 4 * unit[1],
+                        (strokes && strokes[i]) ? 1 : -1));
+                });
+            }
             partial += 1;
         }
     });
