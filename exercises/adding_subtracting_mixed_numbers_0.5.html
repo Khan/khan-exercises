@@ -24,22 +24,11 @@
                     <var id="N1">randRange( 1, D1 - 1 )</var>
                     <var id="N2">randRange( 1, D2 - 1 )</var>
                 </div>
-
-                <var id="GCD1">getGCD( N1, D1 )</var>
-                <var id="SIMP_N1">N1 / GCD1</var>
-                <var id="SIMP_D1">D1 / GCD1</var>
-
-                <var id="GCD2">getGCD( N2, D2 )</var>
-                <var id="SIMP_N2">N2 / GCD2</var>
-                <var id="SIMP_D2">D2 / GCD2</var>
-
-                <var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
-                <var id="GCD">getGCD( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2 , LCM )</var>
             </div>
 
             <p class="problem">Express your answer as a mixed number simplified to lowest terms.</p>
             <p class="question"><code><var>expr(["+", W1 + fraction( N1, D1 ), W2 + fraction( N2, D2 )])</var> = {?}</code></p>
-            <div class="solution" data-type="mixed"><var>W1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
+            <div class="solution" data-type="mixed" data-simplify="optional"><var>W1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
 
             <div class="hints">
                 <div>
@@ -64,12 +53,7 @@
 
                 <div>
                     <p>Combine the whole and fractional parts into a mixed number:</p>
-                    <p><code>= <var>W1 + W2 + fraction( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
-                </div>
-
-                <div data-if="GCD > 1">
-                    <p>Simplify to lowest terms:</p>
-                    <p><code>= <var>W1 + W2 + fractionReduce( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+                    <p><code>= <var>W1 + W2 + fraction( N1 + PM * N2, D2 )</var></code></p>
                 </div>
             </div>
         </div>

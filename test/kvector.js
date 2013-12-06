@@ -69,4 +69,61 @@
         start();
     });
 
+    asyncTest('vector.equal should return true on two equal 3D vectors', 1, function() {
+        var result = vector.equal([6, 3, 4], [6, 3, 4]);
+        strictEqual(result, true);
+        start();
+    });
+
+    asyncTest('vector.equal should return false on two inequal 3D vectors', 1, function() {
+        var result = vector.equal([6, 3, 4], [6, 4, 4]);
+        strictEqual(result, false);
+        start();
+    });
+
+    asyncTest('vector.equal should return false on a 2D and 3D vector', 1, function() {
+        var result = vector.equal([6, 4], [6, 4, 4]);
+        strictEqual(result, false);
+        start();
+    });
+
+    asyncTest('vector.equal should return false on a 2D and 3D vector', 1, function() {
+        var result = vector.equal([6, 3, 4], [6, 3]);
+        strictEqual(result, false);
+        start();
+    });
+
+    asyncTest('vector.equal should return false on a 2D and 3D vector with a trailing 0', 1, function() {
+        var result = vector.equal([6, 3, 0], [6, 3]);
+        strictEqual(result, false);
+        start();
+    });
+
+    asyncTest("vector.collinear should return true on two collinear vectors of "
+            + "the same magnitude but different direction", 1, function() {
+        var result = vector.collinear([3, 3], [-3, -3]);
+        strictEqual(result, true);
+        start();
+    });
+
+    asyncTest("vector.collinear should return true on two collinear vectors of "
+            + "different magnitudes", 1, function() {
+        var result = vector.collinear([2, 1], [6, 3]);
+        strictEqual(result, true);
+        start();
+    });
+
+    asyncTest("vector.collinear should return false on non-collinear vectors",
+            1, function() {
+        var result = vector.collinear([1, 2], [-1, 2]);
+        strictEqual(result, false);
+        start();
+    });
+
+    asyncTest("vector.negate of [-2, 2] is [2, -2]", 1, function() {
+        var result = vector.negate([-2, 2]);
+        deepEqual(result, [2, -2]);
+        start();
+    });
+
 })();

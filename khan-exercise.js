@@ -297,8 +297,9 @@ window.Khan = (function() {
             "kmatrix": ["expressions"],
             "matrix-input": ["../third_party/jquery.cursor-position"],
             "chemistry": ["math-format"],
-            "kpoint": ["kvector"],
-            "kline": ["kpoint"],
+            "kvector": ["knumber"],
+            "kpoint": ["kvector", "knumber"],
+            "kline": ["kpoint", "kvector"],
             "constructions": ["kmatrix"]
         },
 

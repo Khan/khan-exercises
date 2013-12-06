@@ -5,6 +5,11 @@
 
 (function(KhanUtil) {
 
+var knumber = KhanUtil.knumber;
+$.fn["kvectorLoad"] = function() {
+    knumber = KhanUtil.knumber;
+};
+
 function arraySum(array) {
     return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
 }
@@ -49,11 +54,43 @@ var kvector = KhanUtil.kvector = {
         });
     },
 
+    negate: function(v) {
+        return _.map(v, function(x) {
+            return -x;
+        });
+    },
+
     // Scale a vector
     scale: function(v1, scalar) {
         return _.map(v1, function(x) {
             return x * scalar;
         });
+    },
+
+    equal: function(v1, v2, tolerance) {
+        // _.zip will nicely deal with the lengths, going through
+        // the length of the longest vector. knumber.equal then
+        // returns false for any number compared to the undefined
+        // passed in if one of the vectors is shorter.
+        return _.all(_.zip(v1, v2), function(pair) {
+            return knumber.equal(pair[0], pair[1], tolerance);
+        });
+    },
+
+    collinear: function(v1, v2, tolerance) {
+        // The origin is trivially collinear with all other vectors.
+        // This gives nice semantics for collinearity between points when
+        // comparing their difference vectors.
+        if (knumber.equal(kvector.length(v1), 0, tolerance) ||
+                knumber.equal(kvector.length(v2), 0, tolerance)) {
+            return true;
+        }
+
+        v1 = kvector.normalize(v1);
+        v2 = kvector.normalize(v2);
+
+        return kvector.equal(v1, v2, tolerance) ||
+                kvector.equal(v1, kvector.negate(v2), tolerance);
     },
 
     // Convert a cartesian coordinate into a radian polar coordinate
@@ -133,7 +170,6 @@ var kvector = KhanUtil.kvector = {
         var scalar = kvector.dot(v1, v2) / kvector.dot(v2, v2);
         return kvector.scale(v2, scalar);
     }
-
 };
 
 })(KhanUtil);
