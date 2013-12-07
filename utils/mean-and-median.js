@@ -246,7 +246,6 @@ $.extend(KhanUtil, {
 
         var sortedPoints = points.sort(function(a, b) { return a.coord[0] - b.coord[0]; });
         var oldValues = [];
-        var newValues = [];
         $.each(sortedPoints, function(i, point) {
             oldValues.push(point.coord[0]);
         });
