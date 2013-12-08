@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive">
+<head>
+    <title>Cosine in the simplest cases.</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="Sign">randRangeNonZero(-1, 1)</var>
+            <var id="Angle_IN_Degree">Sign * randFromArray( [0, 90, 180, 270, 360] ) </var>
+            <var id="Angle_IN_PI">Angle_IN_Degree *PI /180 </var>
+            <var id="SOLUTION">roundTo(0, cos(Angle_IN_PI))</var>
+        </div>
+
+        <div class="problems">
+            <div id="problem-type-or-description">
+                <p class="problem">Find a value of cos(&theta;)</p>
+                <p class="question">
+                    for &theta; = <code><var>Angle_IN_Degree + "^{\\circ}"</var></code> = <code><var>Angle_IN_Degree/180</var></code> &pi;</br>cos(&theta;) = ?
+                </p>
+                <p class="solution">
+                    <span data-if='SOLUTION !== -1'><code><var>SOLUTION</var></code></span>
+                    <span data-if='SOLUTION === -1'>-1</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div>
+                <p>
+                    Drag the orange point on the unit circle bellow to the position corresponding to &theta; = <code><var>Angle_IN_Degree + "^{\\circ}"</var></code> = <code><var>Angle_IN_Degree/180</var></code> &pi;.</br>Find x coordinate for this point.</br>cos(<code><var>Angle_IN_Degree + "^{\\circ}"</var></code>) = cos(<code><var>Angle_IN_Degree/180</var></code> &pi;) = x</br></br>
+                </p>
+                <div class="graphie" id="grid">
+                graphInit({
+                    range: [[-1.5, 1.5], [-1.5, 1.5]], scale: 70, axisArrows: "&lt;-&gt;",
+                    tickStep: 1, labelStep: 10,    gridOpacity: 0.05, axisOpacity: 0.2, tickOpacity: 0.4, labelOpacity: 0.8
+                });
+
+                label([0, 1.5], "y", "above");
+                label([1.5, 0], "x = cos(&theta;)", "right");
+                label([1.2, -0.2], "1");
+                label([-1.2, -0.2], "-1");
+
+                circle([0, 0], 1, {stroke: PURPLE, strokeWidth: 2,});
+
+                addMouseLayer();
+                
+                var initial_degree = 0;
+                graph.point_onCircle = addMovablePoint({
+                    coord: polar(1, initial_degree),
+                    constraints: {fixedDistance: {dist: 1, point: [0, 0]}}                            
+                });    
+
+                graph.point_on_x = addMovablePoint({
+                    coord: [cos(initial_degree), 0.001],
+                    constraints: {constrainX: true},                            
+                    normalStyle: {opacity: 0}
+                });        
+
+                graph.vertical_line = addMovableLineSegment({
+                    pointA: graph.point_onCircle,
+                    pointZ: graph.point_on_x,
+                    normalStyle: {stroke: GREEN, "stroke-width": 2, "stroke-opacity": 0.8, "stroke-dasharray": "- "},
+                    fixed: true
+                });
+                
+                graph.angle_line = addMovableLineSegment({
+                    pointA: graph.point_onCircle,
+                    coordZ: [0, 0],
+                    normalStyle: {stroke: ORANGE, "stroke-width": 1, "stroke-opacity": 0.8, "stroke-dasharray": "-"},
+                    fixed: true
+                });                        
+                graph.point_on_x.toBack();                                                
+                
+                graph.point_onCircle.onMove = function(x, y) {
+                    graph.point_on_x.setCoord([x, 0.001]);
+                    graph.point_onCircle.setCoord( [x, y]);
+                    graph.point_onCircle.updateLineEnds();
+                    graph.point_on_x.updateLineEnds();
+                    graph.point_on_x.toBack();
+                    return true;
+                };                                               
+                </div>        
+            </div>
+            <div>
+                <p>
+                    The position of orange point corresponding to &theta; = <code><var>Angle_IN_Degree + "^{\\circ}"</var></code> = <code><var>Angle_IN_Degree/180</var></code> &pi; is shown on the graph. Corresponding x = cos(&theta;) = <code><var>SOLUTION</var></code></br>
+                </p>                    
+                <div class="graphie" data-update="grid">
+                    graph.point_onCircle.setCoord([cos(Angle_IN_PI), sin(Angle_IN_PI)]);
+                    graph.point_on_x.setCoord([cos(Angle_IN_PI), 0.001]);
+                    graph.point_onCircle.updateLineEnds();
+                    graph.point_on_x.updateLineEnds();
+                </div>    
+            </div>
+          <!-- Any hints to show to the student. -->
+        </div>
+    </div>
+</body>
+</html>
