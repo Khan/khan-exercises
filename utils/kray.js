@@ -1,6 +1,8 @@
 /*
  * Ray Utils
- * A ray is an array of two points e.g. [[-5, 0], [5, 0]].
+ * A ray is an array of an endpoint and another point along the ray.
+ * For example, [[0, 0], [1, 0]] is the ray starting at the origin and
+ * traveling along the positive x-axis.
  */
 
 (function(KhanUtil) {
