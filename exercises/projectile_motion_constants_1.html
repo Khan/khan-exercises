@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive">
+<head>
+    <title>Projectile motion: Constants</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+             <var id="ACCELERATION">9.81</var>        
+             <var id="ANGLE">randFromArray([30, 45, 60])</var>
+             <var id="ANGLE_RADIANS">ANGLE*PI/180</var>                 
+             <var id="V_INITIAL">randRange(10, 15)</var>
+             <var id="V_INITIAL_X">V_INITIAL*cos(ANGLE_RADIANS)</var>
+             <var id="V_INITIAL_Y">V_INITIAL*sin(ANGLE_RADIANS)</var>
+             <var id="FULL_TIME">2*V_INITIAL_Y/ACCELERATION</var>
+             <var id="X_MAX">roundTowardsZero(V_INITIAL_X*FULL_TIME)+1</var>                     
+             <var id="TIME_TO_THE_TOP">FULL_TIME/2</var>
+             <var id="Y_FUNC">function(x) {return ((V_INITIAL_Y*(x/V_INITIAL_X))-(ACCELERATION*pow((x/V_INITIAL_X),2)/2));}</var>
+             <var id="Y_MAX">roundTowardsZero(Y_FUNC(V_INITIAL_X*TIME_TO_THE_TOP))+1</var>            
+             <var id="V_X">function(x) {return (V_INITIAL_X);}</var>            
+             <var id="V_Y">function(x) {return (V_INITIAL_Y-(ACCELERATION*(x/V_X(x))));}</var>
+             <var id="VELOCITY">function(x) {return (sqrt(pow(V_X(x), 2)+ pow(V_Y(x), 2)));}</var>
+             <var id="SCALE_FACTOR">400</var>    
+             <var id="QUESTION">rand(3)</var>    
+             <var id="CHOICES">[$._("Yes"), $._("No"), $._("There is not enough information to say")]</var>
+             <var id="VECTORS">[$._("a vertical component of velocity"), $._("a horizontal component of velocity"), $._("a velocity"), $._("an acceleration")]</var>
+        </div>
+
+        <div class="problems">
+            <div id="problem-type-or-description">
+                <p class="problem">Drag the orange point along the x axis to change x coordinate and answer the following question.</p></br>
+                <div class="graphie" id="grid">
+                    var one_step = roundTo(0, X_MAX/10);
+                    graphInit({
+                        range: [[-2*one_step, X_MAX+2*one_step],[-2*one_step, Y_MAX+one_step ]], 
+                        scale: SCALE_FACTOR/X_MAX, axisArrows: "&gt;", tickStep: one_step, labelStep: one_step, 
+                        gridOpacity: 0.05,    axisOpacity: 0.2, tickOpacity: 0.4, labelOpacity: 0.5
+                    });
+
+                    label( [ 0, Y_MAX+one_step], "y", "above" );
+                    label( [ X_MAX+2*one_step, 0 ], "x", "right" );
+
+                    graph.trajectory = plot(function(x) {return Y_FUNC(x);}, [0, X_MAX], {stroke: "red", strokeDasharray: "- "});
+                            
+                    addMouseLayer();
+
+                    var xo = 0;
+                    var yo = 0;
+                    graph.point_onTraject = addMovablePoint({coord: [xo, yo], constraints: {fixed: true}, normalStyle: {stroke: "green"}});        
+
+                    graph.point_X = addMovablePoint({coord: [0, 0],    constraints: {constrainY: true}});                
+                        
+                    accel_vector = line([xo, yo], [xo, yo-1.5*one_step], { stroke: "#6495ed", arrows: "-&gt;", "stroke-opacity": 0.4 } ); 
+
+                    var v_scaling = 2*one_step/VELOCITY(xo);
+                    v_vector = line([xo, yo], [xo+V_X(xo)*v_scaling, yo+V_Y(0)*v_scaling], {stroke: "black", arrows: "-&gt;" });                 
+                    vx_vector = line([xo, yo], [xo+V_X(xo)*v_scaling, yo], {stroke: "green", arrows: "-&gt;", strokeDasharray: "- ", "stroke-opacity": 0.9});
+                    vy_vector = line([xo, yo], [xo, yo+V_Y(xo)*v_scaling], {stroke: "red", arrows: "-&gt;", strokeDasharray: "- ", "stroke-opacity": 0.9});
+
+                    graph.point_X.onMove = function(x, y) {
+                        var y_coord = Y_FUNC(x);
+                        graph.point_onTraject.setCoord([x, y_coord]);
+                        graph.point_X.setCoord([x, 0]);
+                        accel_vector.remove();
+                        accel_vector = line( [x, y_coord], [x, y_coord-1.5*one_step], { stroke: "#6495ed", arrows: "-&gt;", "stroke-opacity": 0.4 } );
+                        
+                        v_vector.remove();
+                        v_vector = line( [x, y_coord], [x+V_X(x)*v_scaling, y_coord+V_Y(x)*v_scaling], {stroke: "black", arrows: "-&gt;" }); 
+                        
+                        vx_vector.remove();
+                        vx_vector = line( [x, y_coord], [x+V_X(x)*v_scaling, y_coord], {stroke: "green", arrows: "-&gt;", strokeDasharray: "- ", "stroke-opacity": 0.9});
+
+                        vy_vector.remove();
+                        vy_vector = line( [x, y_coord], [x, y_coord+V_Y(x)*v_scaling], {stroke: "red", arrows: "-&gt;", strokeDasharray: "- ", "stroke-opacity": 0.9});                     
+                        return true;
+                    };  
+                </div>                
+                <p class="question"></br>Does  <var>VECTORS[QUESTION]</var> change during the motion?</p>
+                <p class="solution"><var>CHOICES[QUESTION%2]</var></p>
+                <ul class="choices" data-category="true">
+                    <li data-each="CHOICES as choice">
+                        <var>choice</var>
+                    </li>
+                </ul>                    
+                <div class="hints">
+                    <p>
+                        <span data-if='QUESTION === 0'>
+						<code class="hint_red">Vertical</code> component of the velocity vector is changing (there is a gravity force acting along the y axis).</span> 
+                        <span data-if='QUESTION === 1'>
+                        <code class="hint_green">Horizontal</code> component of the velocity vector is a constant (there are no forces acting along the x axis).</span>
+                        <span data-if='QUESTION === 2'>
+                        <code class="hint_black">Velocity</code> is changing during the motion.</span>
+                        <span data-if='QUESTION === 3'>
+                        <code class="hint_blue">Acceleration</code> due to gravity (g = 9.81 m/s^2) is a constant.</span>
+                        You can drag the orange point along the x axis to see that this is indeed correct.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
