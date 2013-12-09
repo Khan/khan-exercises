@@ -3174,9 +3174,23 @@ function MovableAngle(graphie, options) {
 
     if (!this.points || this.points.length !== 3) {
         throw new Error("MovableAngle requires 3 points");
-    } else if (_.any(this.points, _.isArray)) {
-        throw new Error("MovableAngle takes only MovablePoints");
     }
+
+    // Handle coordinates that are not MovablePoints (i.e. [2, 4])
+    this.points = _.map(options.points, function(point) {
+        if (_.isArray(point)) {
+            return graphie.addMovablePoint({
+                coord: point,
+                visible: false,
+                constraints: {
+                    fixed: true
+                },
+                normalStyle: this.normalStyle
+            });
+        } else {
+            return point;
+        }
+    }, this);
 
     this.rays = _.map([0, 2], function(i) {
         return graphie.addMovableLineSegment({
@@ -3190,8 +3204,10 @@ function MovableAngle(graphie, options) {
     this.temp = [];
     this.labeledAngle = graphie.label([0, 0], "", "center", this.labelStyle);
 
-    this.addMoveHandlers();
-    this.addHighlightHandlers();
+    if (!this.fixed) {
+        this.addMoveHandlers();
+        this.addHighlightHandlers();
+    }
     this.update();
 }
 
@@ -3201,6 +3217,7 @@ _.extend(MovableAngle.prototype, {
     angleLabel: "",
     numArcs: 1,
     pushOut: 0,
+    fixed: false,
 
     addMoveHandlers: function() {
         var graphie = this.graphie;
@@ -3244,7 +3261,6 @@ _.extend(MovableAngle.prototype, {
             if (valid) {
                 _.each(newPoints, function(newPoint, i) {
                     points[i].setCoord(newPoint);
-                    points[i].updateLineEnds();
                 });
             }
             return valid;
@@ -3303,6 +3319,9 @@ _.extend(MovableAngle.prototype, {
     update: function() {
         // Update coords
         this.coords = _.pluck(this.points, "coord");
+
+        // Update lines
+        _.invoke(this.points, "updateLineEnds");
 
         // Update angle label
         _.invoke(this.temp, "remove");
