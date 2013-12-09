@@ -7,17 +7,17 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="Sign">randRangeNonZero(-1, 1)</var>
-            <var id="Angle_IN_Degree">Sign * randFromArray( [0, 90, 180, 270, 360] ) </var>
-            <var id="Angle_IN_PI">Angle_IN_Degree *PI /180 </var>
-            <var id="SOLUTION">roundTo(0, cos(Angle_IN_PI))</var>
+            <var id="S">randRangeNonZero(-1, 1)</var>
+            <var id="ANGLE_IN_DEGREES">S * randFromArray( [0, 90, 180, 270, 360] ) </var>
+            <var id="ANGLE_IN_RADIANS">ANGLE_IN_DEGREES *PI /180 </var>
+            <var id="SOLUTION">roundTo(0, cos(ANGLE_IN_RADIANS))</var>
         </div>
 
         <div class="problems">
             <div id="problem-type-or-description">
                 <p class="problem">Find a value of cos(&theta;)</p>
                 <p class="question">
-                    for &theta; = <code><var>Angle_IN_Degree + "^{\\circ}"</var></code> = <code><var>Angle_IN_Degree/180</var></code> &pi;</br>cos(&theta;) = ?
+                    for &theta; = <code><var>ANGLE_IN_DEGREES + "^{\\circ}"</var></code> = <code><var>ANGLE_IN_DEGREES/180</var></code> &pi;</br>cos(&theta;) = ?
                 </p>
                 <p class="solution">
                     <span data-if='SOLUTION !== -1'><code><var>SOLUTION</var></code></span>
@@ -29,7 +29,7 @@
         <div class="hints">
             <div>
                 <p>
-                    Drag the orange point on the unit circle bellow to the position corresponding to &theta; = <code><var>Angle_IN_Degree + "^{\\circ}"</var></code> = <code><var>Angle_IN_Degree/180</var></code> &pi;.</br>Find x coordinate for this point.</br>cos(<code><var>Angle_IN_Degree + "^{\\circ}"</var></code>) = cos(<code><var>Angle_IN_Degree/180</var></code> &pi;) = x</br></br>
+                    Drag the orange point on the unit circle bellow to the position corresponding to &theta; = <code><var>ANGLE_IN_DEGREES + "^{\\circ}"</var></code> = <code><var>ANGLE_IN_DEGREES/180</var></code> &pi;.</br>Find x coordinate for this point.</br>cos(<code><var>ANGLE_IN_DEGREES + "^{\\circ}"</var></code>) = cos(<code><var>ANGLE_IN_DEGREES/180</var></code> &pi;) = x</br></br>
                 </p>
                 <div class="graphie" id="grid">
                 graphInit({
@@ -85,11 +85,11 @@
             </div>
             <div>
                 <p>
-                    The position of orange point corresponding to &theta; = <code><var>Angle_IN_Degree + "^{\\circ}"</var></code> = <code><var>Angle_IN_Degree/180</var></code> &pi; is shown on the graph. Corresponding x = cos(&theta;) = <code><var>SOLUTION</var></code></br>
+                    The position of orange point corresponding to &theta; = <code><var>ANGLE_IN_DEGREES + "^{\\circ}"</var></code> = <code><var>ANGLE_IN_DEGREES/180</var></code> &pi; is shown on the graph. Corresponding x = cos(&theta;) = <code><var>SOLUTION</var></code></br>
                 </p>                    
                 <div class="graphie" data-update="grid">
-                    graph.point_onCircle.setCoord([cos(Angle_IN_PI), sin(Angle_IN_PI)]);
-                    graph.point_on_x.setCoord([cos(Angle_IN_PI), 0.001]);
+                    graph.point_onCircle.setCoord([cos(ANGLE_IN_RADIANS), sin(ANGLE_IN_RADIANS)]);
+                    graph.point_on_x.setCoord([cos(ANGLE_IN_RADIANS), 0.001]);
                     graph.point_onCircle.updateLineEnds();
                     graph.point_on_x.updateLineEnds();
                 </div>    
