@@ -299,6 +299,7 @@ window.Khan = (function() {
             "chemistry": ["math-format"],
             "kvector": ["knumber"],
             "kpoint": ["kvector", "knumber"],
+            "kray": ["kpoint", "kvector"],
             "kline": ["kpoint", "kvector"],
             "constructions": ["kmatrix"]
         },

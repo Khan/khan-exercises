@@ -1,5 +1,5 @@
 /*
- * Line Utils 
+ * Line Utils
  * A line is an array of two points e.g. [[-5, 0], [5, 0]].
  */
 

@@ -77,9 +77,9 @@ var kvector = KhanUtil.kvector = {
         });
     },
 
-    collinear: function(v1, v2, tolerance) {
-        // The origin is trivially collinear with all other vectors.
-        // This gives nice semantics for collinearity between points when
+    codirectional: function(v1, v2, tolerance) {
+        // The origin is trivially codirectional with all other vectors.
+        // This gives nice semantics for codirectionality between points when
         // comparing their difference vectors.
         if (knumber.equal(kvector.length(v1), 0, tolerance) ||
                 knumber.equal(kvector.length(v2), 0, tolerance)) {
@@ -89,8 +89,12 @@ var kvector = KhanUtil.kvector = {
         v1 = kvector.normalize(v1);
         v2 = kvector.normalize(v2);
 
-        return kvector.equal(v1, v2, tolerance) ||
-                kvector.equal(v1, kvector.negate(v2), tolerance);
+        return kvector.equal(v1, v2, tolerance);
+    },
+
+    collinear: function(v1, v2, tolerance) {
+        return kvector.codirectional(v1, v2, tolerance) ||
+                kvector.codirectional(v1, kvector.negate(v2), tolerance);
     },
 
     // Convert a cartesian coordinate into a radian polar coordinate
