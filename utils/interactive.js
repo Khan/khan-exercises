@@ -2549,25 +2549,36 @@ $.extend(KhanUtil.Graphie.prototype, {
             snapY: 0.5,
             snapRadius: 0.5,
             minRadius: 1,
-            centerConstraints: {}
+            centerConstraints: {},
+            centerNormalStyle: {
+                stroke: KhanUtil.BLUE,
+                fill: KhanUtil.BLUE
+            },
+            centerHighlightStyle: {
+                stroke: KhanUtil.ORANGE,
+                fill: KhanUtil.ORANGE
+            },
+            circleNormalStyle: {
+                stroke: KhanUtil.BLUE,
+                "fill-opacity": 0
+            },
+            circleHighlightStyle: {
+                stroke: KhanUtil.ORANGE,
+                fill: KhanUtil.ORANGE,
+                "fill-opacity": 0.05
+            }
         }, options);
 
         circle.centerPoint = graphie.addMovablePoint({
             graph: graphie,
             coord: circle.center,
-            normalStyle: {
-                stroke: KhanUtil.BLUE,
-                fill: KhanUtil.BLUE
-            },
+            normalStyle: circle.centerNormalStyle,
             snapX: circle.snapX,
             snapY: circle.snapY,
             constraints: circle.centerConstraints
         });
-        circle.circ = graphie.circle(circle.center, circle.radius, {
-            stroke: KhanUtil.BLUE,
-            fill: KhanUtil.ORANGE,
-            fillOpacity: 0
-        });
+        circle.circ = graphie.circle(circle.center, circle.radius,
+                circle.circleNormalStyle);
         circle.perim = graphie.mouselayer.circle(
             graphie.scalePoint(circle.center)[0],
             graphie.scalePoint(circle.center)[1],
@@ -2581,15 +2592,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             $(circle.centerPoint.mouseTarget[0]).on("vmouseover vmouseout",
                     function(event) {
                 if (circle.centerPoint.highlight) {
-                    circle.circ.animate({
-                        stroke: KhanUtil.ORANGE,
-                        "fill-opacity": 0.05
-                    }, 50);
+                    circle.circ.animate(circle.circleHighlightStyle, 50);
                 } else {
-                    circle.circ.animate({
-                        stroke: KhanUtil.BLUE,
-                        "fill-opacity": 0
-                    }, 50);
+                    circle.circ.animate(circle.circleNormalStyle, 50);
                 }
             });
         }
@@ -2657,27 +2662,24 @@ $.extend(KhanUtil.Graphie.prototype, {
                 if (event.type === "vmouseover") {
                     circle.highlight = true;
                     if (!KhanUtil.dragging) {
-                        circle.circ.animate({
-                            stroke: KhanUtil.ORANGE,
-                            "fill-opacity": 0.05
-                        }, 50);
-                        circle.centerPoint.visibleShape.animate({
-                            stroke: KhanUtil.ORANGE,
-                            fill: KhanUtil.ORANGE
-                        }, 50);
+                        // TODO(jack): Figure out why this doesn't work
+                        // for circleHighlightStyle's that change
+                        // stroke-dasharray
+                        circle.circ.animate(circle.circleHighlightStyle, 50);
+                        circle.centerPoint.visibleShape.animate(
+                            circle.centerHighlightStyle,
+                            50
+                        );
                     }
 
                 } else if (event.type === "vmouseout") {
                     circle.highlight = false;
                     if (!circle.dragging) {
-                        circle.circ.animate({
-                            stroke: KhanUtil.BLUE,
-                            "fill-opacity": 0
-                        }, 50);
-                        circle.centerPoint.visibleShape.animate({
-                            stroke: KhanUtil.BLUE,
-                            fill: KhanUtil.BLUE
-                        }, 50);
+                        circle.circ.animate(circle.circleNormalStyle, 50);
+                        circle.centerPoint.visibleShape.animate(
+                            circle.centerNormalStyle,
+                            50
+                        );
                     }
 
                 } else if (event.type === "vmousedown" &&
