@@ -79,22 +79,8 @@
         start();
     });
 
-    asyncTest("trigonometry radians mode", 6, function() {
-        strictEqual(Calculator.angleMode, 'RAD', 'default angle mode is radians');
-        calculateStrictEqual('cos(pi)', -1);
-        calculateStrictEqual('sin(3*pi/2)', -1);
-
-        calculateStartsWith('asin(1)', 1.5707);
-
-        checkError('tan(pi/2)', /undefined/, 'tan(x*pi-pi/2) is undefined (for x=1)');
-
-        calculateStartsWith('tan(90)', -1.9952);
-        start();
-    });
-
-    asyncTest("trigonometry degree mode", 6, function() {
-        Calculator.angleMode = 'DEG';
-        strictEqual(Calculator.angleMode, 'DEG', 'angle mode is degree after switch');
+    asyncTest("trigonometry degrees mode", 6, function() {
+        strictEqual(Calculator.settings.angleMode, 'DEG', 'default angle mode is degrees');
         calculateStrictEqual('cos(180)', -1);
         calculateStrictEqual('sin(270)', -1);
         calculateStrictEqual('asin(1)', 90);
@@ -104,6 +90,20 @@
 
         //checkError('tan(270)', /undefined/, 'tan(x*180-90°) is undefined (for x=2)');
         //checkError('tan(450)', /undefined/, 'tan(x*180-90°) is undefined (for x=3)');
+        start();
+    });
+
+    asyncTest("trigonometry radians mode", 6, function() {
+        Calculator.settings.angleMode = 'RAD';
+        strictEqual(Calculator.settings.angleMode, 'RAD', 'angle mode is set to radians');
+        calculateStrictEqual('cos(pi)', -1);
+        calculateStrictEqual('sin(3*pi/2)', -1);
+
+        calculateStartsWith('asin(1)', 1.5707);
+
+        checkError('tan(pi/2)', /undefined/, 'tan(x*pi-pi/2) is undefined (for x=1)');
+
+        calculateStartsWith('tan(90)', -1.9952);
         start();
     });
 
