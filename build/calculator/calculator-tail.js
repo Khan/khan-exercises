@@ -9,20 +9,26 @@ window.Calculator = (function(parser) {
         throw new CalculatorError("err");
     };
 
+    var initialSettings = $.parseJSON(
+            window.localStorage["calculator_settings:" + window.USERNAME] || "{}");
+    if (initialSettings.angleMode == null) {
+        initialSettings.angleMode = "DEG";
+    }
+
     return _.bindAll({
-        angleMode: "RAD",
+        settings: initialSettings,
         parser: parser,
         parse: _.bind(parser.parse, parser),
 
         evaluate: function(tree, ans) {
             var toRad = function(ang) {
-                if (Calculator.angleMode === "DEG") {
+                if (Calculator.settings.angleMode === "DEG") {
                     return ang * Math.PI / 180;
                 }
                 return ang;
             };
             var fromRad = function(ang) {
-                if (Calculator.angleMode === "DEG") {
+                if (Calculator.settings.angleMode === "DEG") {
                     return ang / Math.PI * 180;
                 }
                 return ang;
