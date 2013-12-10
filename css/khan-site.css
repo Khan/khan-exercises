@@ -2060,9 +2060,6 @@ ul.ui-autocomplete .ui-menu-item .autocomplete-empty {
         .exercise-badge .topic-exercise-image {
             margin: -1px 5px 0 0;
         }
-        .exercise-badge .skill-bar {
-            height: 6px;
-        }
 
     /* TODO(kamens): goals: remove when goals are removed */
     .exercise-goal-icon {
@@ -2445,11 +2442,14 @@ div.arrow-right, div.arrow-left {
         right: 7px;
     }
 
+// TODO(benkomalo): some of this stuff really needs to be moved to a specific
+// stylesheet to power templates/viewbadges.html, and not be everywhere
+
 .achievement-badge-counts {
     text-decoration: none;
 }
 .achievement-badge-counts .badge {
-  margin-right:4px;
+  margin-right:10px;
 }
 
 .achievement-badge-counts .badge img {
@@ -2457,14 +2457,13 @@ div.arrow-right, div.arrow-left {
 }
 
 .achievement-badge {
-    background: #eee;
+    background: white;
     border: 1px solid #ddd;
-    color: #444;
     margin-bottom: 15px;
     margin-left: 15px;
     position: relative;
     width: 300px;
-    height: 90px;
+    height: 110px;
     opacity: 0.75;
     filter:alpha(opacity=75);
 
@@ -2480,21 +2479,9 @@ div.arrow-right, div.arrow-left {
 .achievement-badge-owned {
     border: 1px solid #ccc;
     border-bottom-color: #aaa;
-    background: #ddd;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#dddddd');
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(#ddd));
-    background: -moz-linear-gradient( top, #eee, #ddd );
-    background: -o-linear-gradient( top, #eee, #ddd );
-
-    -moz-box-shadow: 0 1px 1px #ccc;
-    -webkit-box-shadow: 0 1px 1px #ccc;
-    box-shadow: 0 1px 1px #ccc;
-
-    text-shadow: 0 1px 0 #fff;
+    background: #F7F7F7;
 }
 .achievement-badge-owned #outline-box {
-    border-top: 1px solid #fff;
-
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -2509,8 +2496,8 @@ div.arrow-right, div.arrow-left {
         top: 7px;
     }
     .achievement-badge .achievement-text {
-        margin: 0 15px 0 47px;
-        padding: 7px 0;
+        margin: 10px 4px 0 47px;
+        padding: 7px 7px 7px 20px;
     }
     .achievement-badge .achievement-title {
         font-size: larger;
@@ -2545,7 +2532,7 @@ div.arrow-right, div.arrow-left {
     .achievement-badge #badge-icon {
         width: 40px;
         height: 40px;
-        margin: 5px 0 0 5px;
+        margin: 10px 0 0 12px;
         float: left;
     }
     .achievement-badge.category-5 #badge-icon {
@@ -2555,42 +2542,10 @@ div.arrow-right, div.arrow-left {
         -o-border-radius: 20px;
         border-radius: 20px;
     }
-    .achievement-badge.category-0 #badge-icon {
-        margin-top: 1px;
-    }
+    /*.achievement-badge.category-0 #badge-icon {
+        margin-top: 10px;
+    }*/
 
-    .achievement-badge .add-goal {
-        background-color: #89B908;
-        position: absolute;
-        top: 7px;
-        right: 14px;
-        -webkit-border-radius: 6px;
-        -moz-border-radius: 6px;
-        -ms-border-radius: 6px;
-        -o-border-radius: 6px;
-        border-radius: 6px;
-        -webkit-transition: right 250ms ease-in-out, width 250ms ease-in-out, top 450ms ease-in-out;
-        -moz-transition: right 250ms ease-in-out, width 250ms ease-in-out, top 450ms ease-in-out;
-        -ms-transition: right 250ms ease-in-out, width 250ms ease-in-out, top 450ms ease-in-out;
-        -o-transition: right 250ms ease-in-out, width 250ms ease-in-out, top 450ms ease-in-out;
-        transition: right 250ms ease-in-out, width 250ms ease-in-out, top 450ms ease-in-out;
-        cursor: pointer;
-        padding: 0 12px 0 6px;
-        color: white;
-        font-weight: bold;
-    }
-    .achievement-badge:hover .add-goal {
-        right:46px;
-    }
-    .achievement-badge .add-goal.success, .achievement-badge .add-goal.failure {
-        right:5px;
-        padding-right:6px;
-        cursor: default;
-    }
-    .achievement-badge .add-goal.failure {
-        background-color:red;
-        top:27px;
-    }
     .achievement-badge .energy-points-badge {
         -webkit-transition: top 250ms ease-in-out;
         -moz-transition: top 250ms ease-in-out;
@@ -2709,9 +2664,9 @@ div.arrow-right, div.arrow-left {
 .hover-card-content .badge-container {
     padding-top: 2px;
 }
-.hover-card-content .badge-container img{
-    width: 18px;
-    height: 18px;
+.hover-card-content .badge-container .badge-icon {
+    width: 20px;
+    height: 20px;
 }
 .hover-card-content .user-stats {
     float: left;
@@ -4259,6 +4214,9 @@ body {
 #end-of-page-spacer {
   clear: both;
 }
+.external-styles-missing {
+  display: none;
+}
 article {
   padding: 0 20px;
   background: #fff;
@@ -4367,17 +4325,29 @@ footer a:visited,
 .visited-no-recolor a:visited,
 a.visited-no-recolor:visited {
   color: #005987;
+}
+a:link.no-underline,
+a:visited.no-underline,
+header a:visited.no-underline,
+footer a:visited.no-underline,
+.visited-no-recolor a:visited.no-underline,
+a.visited-no-recolor:visited.no-underline {
   text-decoration: none;
 }
 a:visited {
-  color: #678D00;
+  color: #7D00AD;
 }
 a:link:hover,
 a:link:focus,
 a:visited:hover,
 a:visited:focus {
-  color: #678D00;
-  text-decoration: underline;
+  color: #707070;
+}
+a:link:hover.no-underline,
+a:link:focus.no-underline,
+a:visited:hover.no-underline,
+a:visited:focus.no-underline {
+  text-decoration: none;
 }
 form {
   display: inline;
@@ -4389,6 +4359,11 @@ form {
   vertical-align: baseline;
   position: relative;
   top: -0.4em;
+}
+ul.styled-list,
+ol.styled-list {
+  list-style: initial;
+  margin-left: 16px;
 }
 .new-header .domain-color {
   background: #13967e !important;
@@ -4609,6 +4584,75 @@ form {
 .new-header .cs .accent-button:hover {
   border-bottom-color: #37571e;
 }
+.new-header .hour-of-code {
+  color: #ffffff;
+}
+.new-header .hour-of-code.domain-color,
+.new-header .hour-of-code .domain-color {
+  background: #5b9032 !important;
+}
+.new-header .hour-of-code.subject-color,
+.new-header .hour-of-code .subject-color {
+  background: #6baa4f !important;
+}
+.new-header .hour-of-code.topic-color,
+.new-header .hour-of-code .topic-color {
+  background: #71b64f !important;
+}
+.new-header .hour-of-code.tutorial-color,
+.new-header .hour-of-code .tutorial-color {
+  background: #93c263 !important;
+}
+.new-header .hour-of-code.accent-button,
+.new-header .hour-of-code .accent-button {
+  border: 1px solid #54852e;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #54852e;
+  background-image: -moz-linear-gradient(top, #5b9032, #4a7629);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5b9032), to(#4a7629));
+  background-image: -webkit-linear-gradient(top, #5b9032, #4a7629);
+  background-image: -o-linear-gradient(top, #5b9032, #4a7629);
+  background-image: linear-gradient(to bottom, #5b9032, #4a7629);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5b9032', endColorstr='#ff4a7629', GradientType=0);
+  border-color: #4a7629 #4a7629 #263d15;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #4a7629;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #ffffff !important;
+  font-family: "MuseoSans500", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.new-header .hour-of-code.accent-button:hover,
+.new-header .hour-of-code .accent-button:hover,
+.new-header .hour-of-code.accent-button:focus,
+.new-header .hour-of-code .accent-button:focus,
+.new-header .hour-of-code.accent-button:active,
+.new-header .hour-of-code .accent-button:active,
+.new-header .hour-of-code.accent-button.active,
+.new-header .hour-of-code .accent-button.active,
+.new-header .hour-of-code.accent-button.disabled,
+.new-header .hour-of-code .accent-button.disabled,
+.new-header .hour-of-code.accent-button[disabled],
+.new-header .hour-of-code .accent-button[disabled] {
+  color: #ffffff;
+  background-color: #4a7629;
+  *background-color: #3e6322;
+}
+.new-header .hour-of-code.accent-button:active,
+.new-header .hour-of-code .accent-button:active,
+.new-header .hour-of-code.accent-button.active,
+.new-header .hour-of-code .accent-button.active {
+  background-color: #32501c \9;
+}
+.new-header .hour-of-code.accent-button:focus,
+.new-header .hour-of-code .accent-button:focus,
+.new-header .hour-of-code.accent-button:hover,
+.new-header .hour-of-code .accent-button:hover {
+  border-bottom-color: #37571e;
+}
 .new-header .humanities {
   color: #ffffff;
 }
@@ -4747,140 +4791,14 @@ form {
 .new-header .test-prep .accent-button:hover {
   border-bottom-color: #5f3368;
 }
-.skill-bar {
-  margin-bottom: 15px;
-  height: 15px;
-  padding: 0px;
-  position: relative;
-  border: 1px solid #bbb;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
-}
-.skill-bar .description {
-  position: relative;
-  color: #fff;
-  line-height: 17px;
-  /* This needs to be adjusted if you adjust the skill-bar height */
-  padding-left: 10px;
-  z-index: 2;
-}
-.skill-bar .fill {
-  display: block;
-  height: 100%;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background-color: #3bd453;
-  background-image: -moz-linear-gradient(top, #2bc253, #54f054);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2bc253), to(#54f054));
-  background-image: -webkit-linear-gradient(top, #2bc253, #54f054);
-  background-image: -o-linear-gradient(top, #2bc253, #54f054);
-  background-image: linear-gradient(to bottom, #2bc253, #54f054);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff2bc253', endColorstr='#ff54f054', GradientType=0);
-  -webkit-box-shadow: inset 0 2px 9px  rgba(255,255,255,0.3);
-  -moz-box-shadow: inset 0 2px 9px  rgba(255,255,255,0.3);
-  box-shadow: inset 0 2px 9px  rgba(255,255,255,0.3);
-  position: relative;
-  overflow: hidden;
-}
-.skill-bar .fill.gray {
-  background-color: #d6d6d6;
-  background-image: -moz-linear-gradient(top, #dddddd, #cccccc);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dddddd), to(#cccccc));
-  background-image: -webkit-linear-gradient(top, #dddddd, #cccccc);
-  background-image: -o-linear-gradient(top, #dddddd, #cccccc);
-  background-image: linear-gradient(to bottom, #dddddd, #cccccc);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdddddd', endColorstr='#ffcccccc', GradientType=0);
-}
-.skill-bar .fill.green {
-  background-color: #7fac05;
-  background-image: -moz-linear-gradient(top, #8aba08, #6e9700);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#8aba08), to(#6e9700));
-  background-image: -webkit-linear-gradient(top, #8aba08, #6e9700);
-  background-image: -o-linear-gradient(top, #8aba08, #6e9700);
-  background-image: linear-gradient(to bottom, #8aba08, #6e9700);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8aba08', endColorstr='#ff6e9700', GradientType=0);
-}
-.skill-bar .fill.blue {
-  background-color: #0093e8;
-  background-image: -moz-linear-gradient(top, #00a0fc, #0080c9);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00a0fc), to(#0080c9));
-  background-image: -webkit-linear-gradient(top, #00a0fc, #0080c9);
-  background-image: -o-linear-gradient(top, #00a0fc, #0080c9);
-  background-image: linear-gradient(to bottom, #00a0fc, #0080c9);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00a0fc', endColorstr='#ff0080c9', GradientType=0);
-}
-.skill-bar .fill.orange {
-  background-color: #ed6224;
-  background-image: -moz-linear-gradient(top, #f46626, #e35d22);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f46626), to(#e35d22));
-  background-image: -webkit-linear-gradient(top, #f46626, #e35d22);
-  background-image: -o-linear-gradient(top, #f46626, #e35d22);
-  background-image: linear-gradient(to bottom, #f46626, #e35d22);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff46626', endColorstr='#ffe35d22', GradientType=0);
-}
-.skill-bar .fill.gray {
-  position: relative;
-  top: -100%;
-}
-.skill-bar .fill.blue,
-.skill-bar .fill.orange {
-  position: relative;
-  top: -200%;
-}
-.skill-bar-title {
-  margin: 0 0 5px 25px;
-}
-.skill-bar-title .small-exercise-icon {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  margin: 0 0 0 -25px;
-}
-.skill-bar-title .disabled {
-  cursor: not-allowed;
-}
-.small-exercise-icon.node-complete {
-  background: url(http://www.khanacademy.org/images/node-complete-20.png);
-}
-.small-exercise-icon.node-review {
-  background: url(http://www.khanacademy.org/images/node-review-20.png);
-}
-.small-exercise-icon.node-suggested {
-  background: url(http://www.khanacademy.org/images/node-suggested-20.png);
-}
-.small-exercise-icon.node-not-started {
-  background: url(http://www.khanacademy.org/images/node-not-started-20.png);
-}
-.topic-exercise-badge {
-  float: left;
-}
-.topic-exercise-badge .topic-exercise-image {
-  display: block;
-}
-.topic-exercise-image {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-  margin: -10px auto 0;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-}
 .dropdown-toggle {
   cursor: pointer;
   border-color: transparent;
   border-width: 1px 1px 0px 1px;
   border-style: solid;
+}
+button.dropdown-toggle {
+  background-color: white;
 }
 .dropdown.open .dropdown-toggle {
   color: #ffffff;
@@ -5214,6 +5132,11 @@ form {
   top: -5px;
   width: 1px;
 }
+body.lang-use-rtl .base-button.provider-signup .provider-separator {
+  float: right;
+  left: auto;
+  right: 36px;
+}
 .base-button.provider-signup img {
   position: relative;
   top: 7px;
@@ -5224,6 +5147,10 @@ form {
   left: 23px;
   position: relative;
   top: 2px;
+}
+body.lang-use-rtl .base-button.provider-signup .provider-signup-text {
+  left: auto;
+  right: 23px;
 }
 .base-button.social-button {
   display: inline-block;
@@ -5437,6 +5364,11 @@ form {
   top: -5px;
   width: 1px;
 }
+body.lang-use-rtl .simple-button.provider-signup .provider-separator {
+  float: right;
+  left: auto;
+  right: 36px;
+}
 .simple-button.provider-signup img {
   position: relative;
   top: 7px;
@@ -5447,6 +5379,10 @@ form {
   left: 23px;
   position: relative;
   top: 2px;
+}
+body.lang-use-rtl .simple-button.provider-signup .provider-signup-text {
+  left: auto;
+  right: 23px;
 }
 .simple-button.social-button {
   display: inline-block;
@@ -5730,6 +5666,22 @@ form {
 .simple-button.lightgreen:hover {
   border-bottom-color: #a0bb58;
 }
+/* A group of simple-buttons */
+.simple-button-group .simple-button {
+  border-radius: 0px;
+  /* Hide the overlapping blue focus outline */
+}
+.simple-button-group .simple-button:first-child {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.simple-button-group .simple-button:last-child {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.simple-button-group .simple-button:focus {
+  outline: none;
+}
 .action-gradient {
   /* TODO (jasonrr): remove this once the last few uses of it have been converted or removed */
   color: #ffffff;
@@ -5937,109 +5889,50 @@ a.big-button:active > div {
 .exercise-color.mastery3.border-only {
   border-left: 5px solid #004f7d;
 }
-.headline-container {
-  position: relative;
-}
-.headline-container .new-scratchpad {
-  position: absolute;
-  right: 12px;
-  top: 20px;
-}
-.main-headline.show-explorations {
-  float: left;
-}
-ul.scratchpad-list {
-  list-style: none;
-  margin-left: -30px;
-  overflow: hidden;
-  padding-top: 20px;
-  text-align: center;
-}
-ul.scratchpad-list li {
-  float: left;
-  margin-bottom: 20px;
-  margin-left: 30px;
-}
-ul.scratchpad-list li .scratchpad-thumbnail {
-  height: 200px;
-  width: 200px;
-  border: 1px solid #aaaaaa;
-  position: relative;
-}
-ul.scratchpad-list li .scratchpad-thumbnail img {
-  height: 200px;
-  width: 200px;
-}
-ul.scratchpad-list li .scratchpad-thumbnail [class*="scratchpad-difficulty-"] {
-  bottom: 0;
-  color: black;
-  left: 0;
-  position: absolute;
-  width: 100%;
-}
-ul.scratchpad-list li .scratchpad-thumbnail .scratchpad-difficulty-10 {
-  background-color: rgba(113, 211, 57, 0.8);
-}
-ul.scratchpad-list li .scratchpad-thumbnail .scratchpad-difficulty-20 {
-  background-color: rgba(219, 220, 52, 0.8);
-}
-ul.scratchpad-list li .scratchpad-thumbnail .scratchpad-difficulty-30 {
-  background-color: rgba(233, 152, 37, 0.8);
-}
-ul.scratchpad-list li .scratchpad-thumbnail .scratchpad-difficulty-40 {
-  background-color: rgba(221, 39, 0, 0.8);
-}
-ul.scratchpad-list li h4 {
-  width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-/*  Font Awesome 3.0
-    the iconic font designed for use with Twitter Bootstrap
-    -------------------------------------------------------
-    The full suite of pictographic icons, examples, and documentation
-    can be found at: http://fortawesome.github.com/Font-Awesome/
-
-    License
-    -------------------------------------------------------
-    • The Font Awesome font is licensed under the SIL Open Font License - http://scripts.sil.org/OFL
-    • Font Awesome CSS, LESS, and SASS files are licensed under the MIT License -
-      http://opensource.org/licenses/mit-license.html
-    • The Font Awesome pictograms are licensed under the CC BY 3.0 License - http://creativecommons.org/licenses/by/3.0/
-    • Attribution is no longer required in Font Awesome 3.0, but much appreciated:
-      "Font Awesome by Dave Gandy - http://fortawesome.github.com/Font-Awesome"
-
-    Contact
-    -------------------------------------------------------
-    Email: dave@davegandy.com
-    Twitter: http://twitter.com/fortaweso_me
-    Work: Lead Product Designer @ http://kyruus.com
-
-    */
+/*!
+ *  Font Awesome 3.5.4
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/davegandy
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url('/fonts/fontawesome-webfont.eot');
-  src: url('/fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/fontawesome-webfont.woff') format('woff'), url('/fonts/fontawesome-webfont.ttf') format('truetype');
+  src: url('/fonts/fontawesome-webfont.eot?v=3.5.4');
+  src: url('/fonts/fontawesome-webfont.eot?#iefix&v=3.5.4') format('embedded-opentype'), url('/fonts/fontawesome-webfont.woff?v=3.5.4') format('woff'), url('/fonts/fontawesome-webfont.ttf?v=3.5.4') format('truetype'), url('/fonts/fontawesome-webfont.svg#fontawesomeregular?v=3.5.4') format('svg');
   font-weight: normal;
   font-style: normal;
 }
-/*  Font Awesome styles
-    ------------------------------------------------------- */
-/* includes sprites.less reset */
+/* FONT AWESOME CORE
+ * -------------------------- */
 [class^="icon-"],
 [class*=" icon-"] {
   font-family: FontAwesome;
   font-weight: normal;
   font-style: normal;
   text-decoration: inherit;
-  display: inline;
-  width: auto;
-  height: auto;
-  vertical-align: baseline;
-  background-image: none !important;
-  background-position: 0% 0%;
-  background-repeat: repeat;
+  -webkit-font-smoothing: antialiased;
+  *margin-right: .3em;
 }
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
@@ -6047,55 +5940,76 @@ ul.scratchpad-list li h4 {
   display: inline-block;
   speak: none;
 }
-/* makes sure icons active on rollover in links */
-a [class^="icon-"],
-a [class*=" icon-"] {
-  display: inline-block;
-}
 /* makes the font 33% larger relative to the icon container */
 .icon-large:before {
   vertical-align: -10%;
   font-size: 1.3333333333333333em;
 }
-.btn [class^="icon-"],
-.nav [class^="icon-"],
-.btn [class*=" icon-"],
-.nav [class*=" icon-"] {
+/* makes sure icons active on rollover in links */
+a [class^="icon-"],
+a [class*=" icon-"] {
   display: inline;
-  /* keeps button heights with and without icons the same */
-  line-height: .6em;
 }
-.btn [class^="icon-"].icon-spin,
-.nav [class^="icon-"].icon-spin,
-.btn [class*=" icon-"].icon-spin,
-.nav [class*=" icon-"].icon-spin {
-  display: inline-block;
+li {
+  /* previous fontawesome fixed width list icon styling */
 }
 li [class^="icon-"],
 li [class*=" icon-"] {
   display: inline-block;
-  width: 1.25em;
   text-align: center;
+  width: 1.25em;
 }
-li [class^="icon-"].icon-large,
-li [class*=" icon-"].icon-large {
-  /* increased font size for icon-large */
-  width: 1.5625em;
+/* increased font size for icon-large */
+[class^="icon-"].icon-fixed-width,
+[class*=" icon-"].icon-fixed-width {
+  display: inline-block;
+  width: 1.1428571428571428em;
+  text-align: right;
+  padding-right: 0.2857142857142857em;
 }
-ul.icons {
+[class^="icon-"].icon-fixed-width.icon-large,
+[class*=" icon-"].icon-fixed-width.icon-large {
+  width: 1.4285714285714286em;
+}
+.icons-ul {
+  margin-left: 2.142857142857143em;
   list-style-type: none;
-  text-indent: -0.75em;
 }
-ul.icons li [class^="icon-"],
-ul.icons li [class*=" icon-"] {
-  width: .75em;
+.icons-ul > li {
+  position: relative;
+}
+.icons-ul .icon-li {
+  position: absolute;
+  left: -2.142857142857143em;
+  width: 2.142857142857143em;
+  text-align: center;
+  line-height: inherit;
+}
+[class^="icon-"].hide,
+[class*=" icon-"].hide {
+  display: none;
 }
 .icon-muted {
   color: #eeeeee;
 }
+.icon-light {
+  color: #ffffff;
+}
+.icon-dark {
+  color: #333333;
+}
 .icon-border {
   border: solid 1px #eeeeee;
   padding: .2em .25em .15em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.icon-15x {
+  font-size: 1.5em;
+}
+.icon-15x.icon-border {
+  border-width: 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -6127,6 +6041,15 @@ ul.icons li [class*=" icon-"] {
   -moz-border-radius: 6px;
   border-radius: 6px;
 }
+.icon-5x {
+  font-size: 5em;
+}
+.icon-5x.icon-border {
+  border-width: 5px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+}
 .pull-right {
   float: right;
 }
@@ -6135,40 +6058,51 @@ ul.icons li [class*=" icon-"] {
 }
 [class^="icon-"].pull-left,
 [class*=" icon-"].pull-left {
-  margin-right: .35em;
+  margin-right: .3em;
 }
 [class^="icon-"].pull-right,
 [class*=" icon-"].pull-right {
-  margin-left: .35em;
+  margin-left: .3em;
 }
-.btn [class^="icon-"].pull-left.icon-2x,
-.btn [class*=" icon-"].pull-left.icon-2x,
-.btn [class^="icon-"].pull-right.icon-2x,
-.btn [class*=" icon-"].pull-right.icon-2x {
-  margin-top: .35em;
+/* EXTRAS
+ * -------------------------- */
+/* Stacked and layered icon */
+.icon-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: -35%;
 }
-.btn [class^="icon-"].icon-spin.icon-large,
-.btn [class*=" icon-"].icon-spin.icon-large {
-  height: .75em;
+.icon-stack [class^="icon-"],
+.icon-stack [class*=" icon-"] {
+  display: block;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 1em;
+  line-height: inherit;
+  *line-height: 2em;
 }
-.btn.btn-small [class^="icon-"].pull-left.icon-2x,
-.btn.btn-small [class*=" icon-"].pull-left.icon-2x,
-.btn.btn-small [class^="icon-"].pull-right.icon-2x,
-.btn.btn-small [class*=" icon-"].pull-right.icon-2x {
-  margin-top: .45em;
+.icon-stack .icon-stack-base {
+  font-size: 2em;
+  *line-height: 1em;
 }
-.btn.btn-large [class^="icon-"].pull-left.icon-2x,
-.btn.btn-large [class*=" icon-"].pull-left.icon-2x,
-.btn.btn-large [class^="icon-"].pull-right.icon-2x,
-.btn.btn-large [class*=" icon-"].pull-right.icon-2x {
-  margin-top: .2em;
-}
+/* Animated rotating icon */
 .icon-spin {
   display: inline-block;
   -moz-animation: spin 2s infinite linear;
   -o-animation: spin 2s infinite linear;
   -webkit-animation: spin 2s infinite linear;
   animation: spin 2s infinite linear;
+}
+/* Prevent stack and spinners from being taken inline when inside a link */
+a .icon-stack,
+a .icon-spin {
+  display: inline-block;
+  text-decoration: none;
 }
 @-moz-keyframes spin {
   0% {
@@ -6210,8 +6144,55 @@ ul.icons li [class*=" icon-"] {
     transform: rotate(359deg);
   }
 }
-/*  Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
-    readers do not read off random characters that represent icons */
+/* Icon rotations and mirroring */
+.icon-rotate-90:before {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+.icon-rotate-180:before {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
+.icon-rotate-270:before {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+.icon-flip-horizontal:before {
+  -webkit-transform: scale(-1, 1);
+  -moz-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.icon-flip-vertical:before {
+  -webkit-transform: scale(1, -1);
+  -moz-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  -o-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+/* ensure rotation occurs inside anchor tags */
+a .icon-rotate-90:before,
+a .icon-rotate-180:before,
+a .icon-rotate-270:before,
+a .icon-flip-horizontal:before,
+a .icon-flip-vertical:before {
+  display: inline-block;
+}
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+   readers do not read off random characters that represent icons */
 .icon-glass:before {
   content: "\f000";
 }
@@ -6221,7 +6202,7 @@ ul.icons li [class*=" icon-"] {
 .icon-search:before {
   content: "\f002";
 }
-.icon-envelope:before {
+.icon-envelope-alt:before {
   content: "\f003";
 }
 .icon-heart:before {
@@ -6260,12 +6241,14 @@ ul.icons li [class*=" icon-"] {
 .icon-zoom-out:before {
   content: "\f010";
 }
+.icon-power-off:before,
 .icon-off:before {
   content: "\f011";
 }
 .icon-signal:before {
   content: "\f012";
 }
+.icon-gear:before,
 .icon-cog:before {
   content: "\f013";
 }
@@ -6275,7 +6258,7 @@ ul.icons li [class*=" icon-"] {
 .icon-home:before {
   content: "\f015";
 }
-.icon-file:before {
+.icon-file-alt:before {
   content: "\f016";
 }
 .icon-time:before {
@@ -6299,10 +6282,10 @@ ul.icons li [class*=" icon-"] {
 .icon-play-circle:before {
   content: "\f01d";
 }
+.icon-rotate-right:before,
 .icon-repeat:before {
   content: "\f01e";
 }
-/* \f020 doesn't work in Safari. all shifted one down */
 .icon-refresh:before {
   content: "\f021";
 }
@@ -6462,6 +6445,7 @@ ul.icons li [class*=" icon-"] {
 .icon-remove-sign:before {
   content: "\f057";
 }
+.icon-goals:before,
 .icon-ok-sign:before {
   content: "\f058";
 }
@@ -6495,6 +6479,7 @@ ul.icons li [class*=" icon-"] {
 .icon-arrow-down:before {
   content: "\f063";
 }
+.icon-mail-forward:before,
 .icon-share-alt:before {
   content: "\f064";
 }
@@ -6588,16 +6573,18 @@ ul.icons li [class*=" icon-"] {
 .icon-key:before {
   content: "\f084";
 }
+.icon-gears:before,
 .icon-cogs:before {
   content: "\f085";
 }
+.icon-discussion:before,
 .icon-comments:before {
   content: "\f086";
 }
-.icon-thumbs-up:before {
+.icon-thumbs-up-alt:before {
   content: "\f087";
 }
-.icon-thumbs-down:before {
+.icon-thumbs-down-alt:before {
   content: "\f088";
 }
 .icon-star-half:before {
@@ -6636,6 +6623,7 @@ ul.icons li [class*=" icon-"] {
 .icon-phone:before {
   content: "\f095";
 }
+.icon-unchecked:before,
 .icon-check-empty:before {
   content: "\f096";
 }
@@ -6735,6 +6723,7 @@ ul.icons li [class*=" icon-"] {
 .icon-copy:before {
   content: "\f0c5";
 }
+.icon-paperclip:before,
 .icon-paper-clip:before {
   content: "\f0c6";
 }
@@ -6807,12 +6796,13 @@ ul.icons li [class*=" icon-"] {
 .icon-sort-up:before {
   content: "\f0de";
 }
-.icon-envelope-alt:before {
+.icon-envelope:before {
   content: "\f0e0";
 }
 .icon-linkedin:before {
   content: "\f0e1";
 }
+.icon-rotate-left:before,
 .icon-undo:before {
   content: "\f0e2";
 }
@@ -6870,7 +6860,7 @@ ul.icons li [class*=" icon-"] {
 .icon-food:before {
   content: "\f0f5";
 }
-.icon-file-alt:before {
+.icon-file-text-alt:before {
   content: "\f0f6";
 }
 .icon-building:before {
@@ -6948,6 +6938,7 @@ ul.icons li [class*=" icon-"] {
 .icon-circle:before {
   content: "\f111";
 }
+.icon-mail-reply:before,
 .icon-reply:before {
   content: "\f112";
 }
@@ -6959,6 +6950,377 @@ ul.icons li [class*=" icon-"] {
 }
 .icon-folder-open-alt:before {
   content: "\f115";
+}
+.icon-expand-alt:before {
+  content: "\f116";
+}
+.icon-collapse-alt:before {
+  content: "\f117";
+}
+.icon-smile:before {
+  content: "\f118";
+}
+.icon-frown:before {
+  content: "\f119";
+}
+.icon-meh:before {
+  content: "\f11a";
+}
+.icon-gamepad:before {
+  content: "\f11b";
+}
+.icon-keyboard:before {
+  content: "\f11c";
+}
+.icon-flag-alt:before {
+  content: "\f11d";
+}
+.icon-flag-checkered:before {
+  content: "\f11e";
+}
+.icon-terminal:before {
+  content: "\f120";
+}
+.icon-code:before {
+  content: "\f121";
+}
+.icon-reply-all:before {
+  content: "\f122";
+}
+.icon-mail-reply-all:before {
+  content: "\f122";
+}
+.icon-star-half-full:before,
+.icon-star-half-empty:before {
+  content: "\f123";
+}
+.icon-location-arrow:before {
+  content: "\f124";
+}
+.icon-crop:before {
+  content: "\f125";
+}
+.icon-code-fork:before {
+  content: "\f126";
+}
+.icon-unlink:before {
+  content: "\f127";
+}
+.icon-question:before {
+  content: "\f128";
+}
+.icon-info:before {
+  content: "\f129";
+}
+.icon-exclamation:before {
+  content: "\f12a";
+}
+.icon-superscript:before {
+  content: "\f12b";
+}
+.icon-subscript:before {
+  content: "\f12c";
+}
+.icon-eraser:before {
+  content: "\f12d";
+}
+.icon-puzzle-piece:before {
+  content: "\f12e";
+}
+.icon-microphone:before {
+  content: "\f130";
+}
+.icon-microphone-off:before {
+  content: "\f131";
+}
+.icon-shield:before {
+  content: "\f132";
+}
+.icon-calendar-empty:before {
+  content: "\f133";
+}
+.icon-fire-extinguisher:before {
+  content: "\f134";
+}
+.icon-rocket:before {
+  content: "\f135";
+}
+.icon-maxcdn:before {
+  content: "\f136";
+}
+.icon-chevron-sign-left:before {
+  content: "\f137";
+}
+.icon-chevron-sign-right:before {
+  content: "\f138";
+}
+.icon-chevron-sign-up:before {
+  content: "\f139";
+}
+.icon-chevron-sign-down:before {
+  content: "\f13a";
+}
+.icon-html5:before {
+  content: "\f13b";
+}
+.icon-css3:before {
+  content: "\f13c";
+}
+.icon-anchor:before {
+  content: "\f13d";
+}
+.icon-unlock-alt:before {
+  content: "\f13e";
+}
+.icon-bullseye:before {
+  content: "\f140";
+}
+.icon-ellipsis-horizontal:before {
+  content: "\f141";
+}
+.icon-ellipsis-vertical:before {
+  content: "\f142";
+}
+.icon-rss-sign:before {
+  content: "\f143";
+}
+.icon-play-sign:before {
+  content: "\f144";
+}
+.icon-ticket:before {
+  content: "\f145";
+}
+.icon-minus-sign-alt:before {
+  content: "\f146";
+}
+.icon-check-minus:before {
+  content: "\f147";
+}
+.icon-level-up:before {
+  content: "\f148";
+}
+.icon-level-down:before {
+  content: "\f149";
+}
+.icon-check-sign:before {
+  content: "\f14a";
+}
+.icon-edit-sign:before {
+  content: "\f14b";
+}
+.icon-external-link-sign:before {
+  content: "\f14c";
+}
+.icon-share-sign:before {
+  content: "\f14d";
+}
+.icon-compass:before {
+  content: "\f14e";
+}
+.icon-collapse:before {
+  content: "\f150";
+}
+.icon-collapse-top:before {
+  content: "\f151";
+}
+.icon-expand:before {
+  content: "\f152";
+}
+.icon-euro:before,
+.icon-eur:before {
+  content: "\f153";
+}
+.icon-gbp:before {
+  content: "\f154";
+}
+.icon-dollar:before,
+.icon-usd:before {
+  content: "\f155";
+}
+.icon-rupee:before,
+.icon-inr:before {
+  content: "\f156";
+}
+.icon-yen:before,
+.icon-jpy:before {
+  content: "\f157";
+}
+.icon-renminbi:before,
+.icon-cny:before {
+  content: "\f158";
+}
+.icon-won:before,
+.icon-krw:before {
+  content: "\f159";
+}
+.icon-bitcoin:before,
+.icon-btc:before {
+  content: "\f15a";
+}
+.icon-file:before {
+  content: "\f15b";
+}
+.icon-file-text:before {
+  content: "\f15c";
+}
+.icon-sort-by-alphabet:before {
+  content: "\f15d";
+}
+.icon-sort-by-alphabet-alt:before {
+  content: "\f15e";
+}
+.icon-sort-by-attributes:before {
+  content: "\f160";
+}
+.icon-sort-by-attributes-alt:before {
+  content: "\f161";
+}
+.icon-sort-by-order:before {
+  content: "\f162";
+}
+.icon-sort-by-order-alt:before {
+  content: "\f163";
+}
+.icon-thumbs-up:before {
+  content: "\f164";
+}
+.icon-thumbs-down:before {
+  content: "\f165";
+}
+.icon-youtube-sign:before {
+  content: "\f166";
+}
+.icon-youtube:before {
+  content: "\f167";
+}
+.icon-xing:before {
+  content: "\f168";
+}
+.icon-xing-sign:before {
+  content: "\f169";
+}
+.icon-youtube-play:before {
+  content: "\f16a";
+}
+.icon-dropbox:before {
+  content: "\f16b";
+}
+.icon-stackexchange:before {
+  content: "\f16c";
+}
+.icon-instagram:before {
+  content: "\f16d";
+}
+.icon-flickr:before {
+  content: "\f16e";
+}
+.icon-adn:before {
+  content: "\f170";
+}
+.icon-bitbucket:before {
+  content: "\f171";
+}
+.icon-bitbucket-sign:before {
+  content: "\f172";
+}
+.icon-tumblr:before {
+  content: "\f173";
+}
+.icon-tumblr-sign:before {
+  content: "\f174";
+}
+.icon-long-arrow-down:before {
+  content: "\f175";
+}
+.icon-long-arrow-up:before {
+  content: "\f176";
+}
+.icon-long-arrow-left:before {
+  content: "\f177";
+}
+.icon-long-arrow-right:before {
+  content: "\f178";
+}
+.icon-apple:before {
+  content: "\f179";
+}
+.icon-windows:before {
+  content: "\f17a";
+}
+.icon-android:before {
+  content: "\f17b";
+}
+.icon-linux:before {
+  content: "\f17c";
+}
+.icon-dribbble:before {
+  content: "\f17d";
+}
+.icon-skype:before {
+  content: "\f17e";
+}
+.icon-foursquare:before {
+  content: "\f180";
+}
+.icon-trello:before {
+  content: "\f181";
+}
+.icon-female:before {
+  content: "\f182";
+}
+.icon-male:before {
+  content: "\f183";
+}
+.icon-gittip:before {
+  content: "\f184";
+}
+.icon-sun:before {
+  content: "\f185";
+}
+.icon-moon:before {
+  content: "\f186";
+}
+.icon-archive:before {
+  content: "\f187";
+}
+.icon-bug:before {
+  content: "\f188";
+}
+.icon-vk:before {
+  content: "\f189";
+}
+.icon-weibo:before {
+  content: "\f18a";
+}
+.icon-renren:before {
+  content: "\f18b";
+}
+.icon-ok-dotted:before {
+  content: "\f300";
+}
+.icon-coach-rec:before {
+  content: "\f301";
+}
+.icon-badge:before {
+  content: "\f302";
+}
+.icon-activity:before {
+  content: "\f303";
+}
+.icon-focus:before {
+  content: "\f304";
+}
+.icon-progress:before {
+  content: "\f306";
+}
+.icon-scratchpad:before {
+  content: "\f307";
+}
+.icon-coaches:before {
+  content: "\f309";
+}
+.icon-google:before {
+  content: "\f310";
 }
 .large-search-form {
   display: block;
@@ -7067,6 +7429,7 @@ ul.icons li [class*=" icon-"] {
   box-sizing: border-box;
   display: table;
   padding: 0 5px;
+  text-decoration: none;
   width: 100%;
 }
 .progress-container .progress-item-link .small-icon:after {
@@ -7078,6 +7441,8 @@ ul.icons li [class*=" icon-"] {
 }
 .progress-container .progress-icon.icon-exercise-node,
 .progress-container .progress-icon.icon-scratchpad-node,
+.progress-container .progress-icon.icon-talkie-node,
+.progress-container .progress-icon.icon-challenge-node,
 .progress-container .progress-icon.icon-article-node,
 .progress-container .progress-icon.icon-video-node {
   color: #dddddd;
@@ -7087,6 +7452,8 @@ ul.icons li [class*=" icon-"] {
 }
 .progress-container .progress-icon.icon-exercise-node:after,
 .progress-container .progress-icon.icon-scratchpad-node:after,
+.progress-container .progress-icon.icon-talkie-node:after,
+.progress-container .progress-icon.icon-challenge-node:after,
 .progress-container .progress-icon.icon-article-node:after,
 .progress-container .progress-icon.icon-video-node:after {
   color: #76a005;
@@ -7105,6 +7472,8 @@ ul.icons li [class*=" icon-"] {
 }
 .progress-container .progress-icon.icon-exercise-node.small-icon,
 .progress-container .progress-icon.icon-scratchpad-node.small-icon,
+.progress-container .progress-icon.icon-talkie-node.small-icon,
+.progress-container .progress-icon.icon-challenge-node.small-icon,
 .progress-container .progress-icon.icon-article-node.small-icon,
 .progress-container .progress-icon.icon-video-node.small-icon {
   font-size: 12px;
@@ -7113,6 +7482,8 @@ ul.icons li [class*=" icon-"] {
 }
 .progress-container .progress-icon.icon-exercise-node.small-icon:after,
 .progress-container .progress-icon.icon-scratchpad-node.small-icon:after,
+.progress-container .progress-icon.icon-talkie-node.small-icon:after,
+.progress-container .progress-icon.icon-challenge-node.small-icon:after,
 .progress-container .progress-icon.icon-article-node.small-icon:after,
 .progress-container .progress-icon.icon-video-node.small-icon:after {
   height: 10px;
@@ -7142,7 +7513,10 @@ ul.icons li [class*=" icon-"] {
   content: "\f03d";
 }
 .progress-container .progress-icon.icon-scratchpad-node:before,
-.progress-container .progress-icon.icon-scratchpad-node:after {
+.progress-container .progress-icon.icon-scratchpad-node:after,
+.progress-container .progress-icon.icon-talkie-node:before,
+.progress-container .progress-icon.icon-talkie-node:after .progress-container .progress-icon.icon-challenge-node:before,
+.progress-container .progress-icon.icon-challenge-node:after {
   content: "\f03e";
 }
 .progress-container .progress-icon.icon-article-node:before,
@@ -7172,7 +7546,9 @@ ul.icons li [class*=" icon-"] {
   bottom: auto;
   left: 7px;
 }
-.tutorial-nav-node .progress-container .progress-icon.icon-scratchpad-node:after {
+.tutorial-nav-node .progress-container .progress-icon.icon-scratchpad-node:after,
+.tutorial-nav-node .progress-container .progress-icon.icon-talkie-node:after,
+.tutorial-nav-node .progress-container .progress-icon.icon-challenge-node:after {
   height: 9px;
   position: absolute;
   top: 9px;
@@ -7182,6 +7558,8 @@ ul.icons li [class*=" icon-"] {
 }
 .related-video-list .progress-container .progress-icon.icon-exercise-node:after,
 .related-video-list .progress-container .progress-icon.icon-scratchpad-node:after,
+.related-video-list .progress-container .progress-icon.icon-talkie-node:after,
+.related-video-list .progress-container .progress-icon.icon-challenge-node:after,
 .related-video-list .progress-container .progress-icon.icon-video-node:after {
   height: 10px;
   position: absolute;
@@ -7192,6 +7570,8 @@ ul.icons li [class*=" icon-"] {
 }
 .topic-video .progress-container .progress-icon.icon-exercise-node:after,
 .topic-video .progress-container .progress-icon.icon-scratchpad-node:after,
+.topic-video .progress-container .progress-icon.icon-talkie-node:after,
+.topic-video .progress-container .progress-icon.icon-challenge-node:after,
 .topic-video .progress-container .progress-icon.icon-video-node:after {
   height: 11px;
   top: 0;
@@ -7366,6 +7746,38 @@ ul.icons li [class*=" icon-"] {
   color: #ffffff;
   text-decoration: none;
 }
+.new-header .hour-of-code .status.video-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.exercise-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.scratchpad-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.talkie-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.challenge-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.article-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .pipe.completed {
+  background-color: #71b64f;
+}
+.new-header .hour-of-code .progress-container:hover .progress-item:hover .progress-item-link {
+  background: #5b9032;
+  color: #ffffff;
+  text-decoration: none;
+}
 .new-header .humanities .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-humanities.png);
   /*! data-uri */
@@ -7531,6 +7943,38 @@ ul.icons li [class*=" icon-"] {
   color: #ffffff;
   text-decoration: none;
 }
+.new-header .hour-of-code .status.video-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.exercise-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.scratchpad-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.talkie-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.challenge-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .status.article-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-cs.png);
+  /*! data-uri */
+}
+.new-header .hour-of-code .pipe.completed {
+  background-color: #71b64f;
+}
+.new-header .hour-of-code .progress-container:hover .progress-item:hover .progress-item-link {
+  background: #5b9032;
+  color: #ffffff;
+  text-decoration: none;
+}
 .new-header .humanities .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-humanities.png);
   /*! data-uri */
@@ -7605,6 +8049,14 @@ ul.icons li [class*=" icon-"] {
 }
 .status.scratchpad-node {
   background-image: url(http://www.khanacademy.org/"/images/progress-icons/subway-sprites-scratchpad-default.png");
+  /*! data-uri */
+}
+.status.talkie-node {
+  background-image: url(http://www.khanacademy.org/"/images/progress-icons/subway-sprites-talkie-default.png");
+  /*! data-uri */
+}
+.status.challenge-node {
+  background-image: url(http://www.khanacademy.org/"/images/progress-icons/subway-sprites-challenge-default.png");
   /*! data-uri */
 }
 .status.article-node {
@@ -8738,7 +9190,7 @@ a.simple-button.seethrough.goal-history {
 .goalpicker h3,
 .goalpicker h4 {
   font-size: 30px;
-  font-family: MuseoSans300;
+  font-family: "MuseoSans300", sans-serif;
   font-weight: normal;
   line-height: 68px;
   color: #777;
@@ -8751,7 +9203,7 @@ a.simple-button.seethrough.goal-history {
 }
 .goalpicker h4 {
   text-transform: uppercase;
-  font-family: MuseoSans500;
+  font-family: "MuseoSans500", sans-serif;
   font-weight: bold;
   font-size: 24px;
   letter-spacing: 6px;
@@ -8984,6 +9436,10 @@ footer {
   top: -2px;
   line-height: 100%;
 }
+body.lang-use-rtl #top-header-container .icon-chevron-down {
+  margin-left: 0;
+  margin-right: 4px;
+}
 #top-header-container .sitewide-navigation {
   display: inline;
   line-height: 45px;
@@ -8997,6 +9453,9 @@ footer {
   font-size: 16px;
   letter-spacing: -1px;
   text-transform: uppercase;
+}
+body.lang-use-rtl #top-header-container .sitewide-navigation .nav-subheader span > a {
+  float: right;
 }
 #top-header-container .sitewide-navigation .nav-subheader span > a,
 #top-header-container .sitewide-navigation .nav-subheader span > a:visited,
@@ -9046,6 +9505,15 @@ footer {
              * itself relative to ul.dropdown-menu and thus top aligned.
              */
 }
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu {
+  right: 0;
+}
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-right {
+  display: none;
+}
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-left {
+  display: block;
+}
 #top-header-container .sitewide-navigation ul.topic-browser-menu a {
   white-space: normal;
 }
@@ -9064,12 +9532,21 @@ footer {
   line-height: 28px;
   width: 160px;
 }
-#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-right {
+#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-right,
+#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-left {
   font-size: 10px;
   line-height: 28px;
   position: absolute;
-  right: 3px;
   top: 0;
+}
+#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-right.icon-chevron-right,
+#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-left.icon-chevron-right {
+  right: 3px;
+}
+#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-right.icon-chevron-left,
+#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-left.icon-chevron-left {
+  display: none;
+  left: 3px;
 }
 #top-header-container .sitewide-navigation ul.topic-browser-menu li:hover > .icon-chevron-right {
   color: #ffffff;
@@ -9114,6 +9591,17 @@ footer {
   width: 520px;
   /* Welcome to goals country! */
 }
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul,
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom {
+  -webkit-box-shadow: -2px 5px 8px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: -2px 5px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: -2px 5px 8px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: -1px;
+  right: 176px;
+  bottom: auto;
+  left: auto;
+}
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .goals-title,
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom .goals-title,
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .submenu-title,
@@ -9136,6 +9624,12 @@ footer {
   float: right;
   font-size: 14px;
   padding: 0 5px;
+}
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .goals-title .km-link,
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom .goals-title .km-link,
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .submenu-title .km-link,
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom .submenu-title .km-link {
+  float: left;
 }
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .goals-title .km-link:hover,
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom .goals-title .km-link:hover,
@@ -9170,6 +9664,10 @@ footer {
   clear: none;
   float: left;
   width: 48.93%;
+}
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul li.level1,
+body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom li.level1 {
+  float: right;
 }
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul li.level1:nth-child(2n+1),
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom li.level1:nth-child(2n+1) {
@@ -9249,6 +9747,13 @@ footer {
   bottom: auto;
   left: auto;
   z-index: 102;
+}
+body.lang-use-rtl #top-header-container #page_auth {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 0;
 }
 #top-header-container #page_auth #login-menu {
   margin-top: 9px;
@@ -9403,7 +9908,7 @@ footer {
   border-radius: 0;
 }
 #top-header-container #user-info .sign-up-link,
-#top-header-container #user-info .sign-in-link {
+#top-header-container #user-info .log-in-link {
   display: inline-block;
   color: #ffffff;
   height: 45px;
@@ -9414,11 +9919,14 @@ footer {
   vertical-align: top;
 }
 #top-header-container #user-info .sign-up-link:hover,
-#top-header-container #user-info .sign-in-link:hover {
+#top-header-container #user-info .log-in-link:hover,
+#top-header-container #user-info .sign-up-link.highlight:hover,
+#top-header-container #user-info .log-in-link.highlight:hover {
   background: #ffffff;
   color: #2c3747;
 }
-#top-header-container #user-info .sign-up-link {
+#top-header-container #user-info .sign-up-link,
+#top-header-container #user-info .log-in-link.highlight {
   background: #89b908;
 }
 #top-header-container #user-info .user-dropdown-controls {
@@ -9589,6 +10097,7 @@ footer {
   margin-left: 0;
   padding: 0 10px;
   border-bottom: 1px solid #ffffff;
+  text-decoration: none;
 }
 #page_sub_nav .breadcrumbs_nav a.selected {
   border-bottom: 1px solid #444444;
@@ -9698,6 +10207,13 @@ footer .extra-links {
   position: relative;
   padding: 24px 0 12px;
 }
+footer .main-links a,
+footer .extra-links a {
+  text-decoration: none;
+}
+body.lang-use-rtl footer .main-links [class*="span"] {
+  float: right;
+}
 footer .extra-links {
   padding: 12px 0 24px;
 }
@@ -9720,6 +10236,13 @@ footer .handtree {
   bottom: 25px;
   left: auto;
   max-width: 100px;
+}
+body.lang-use-rtl footer .handtree {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: 25px;
+  left: 0;
 }
 footer .copyright {
   text-align: right;
@@ -11110,10 +11633,6 @@ footer .nowrap {
   stacks and cards: i.e. the stack of mini cards, the big exercise card, etc.
 
 */
-.exercises-stackview {
-  min-height: 100px;
-  margin-bottom: 10px;
-}
 .current-card-container {
   position: relative;
 }
@@ -11137,74 +11656,6 @@ footer .nowrap {
 }
 .card-type-endoftask #extras {
   display: none;
-}
-.exercises-stackview .card {
-  width: 25px;
-  height: 40px;
-  position: relative;
-  border: 1px solid #bbb;
-  margin: 0 auto;
-  -webkit-box-shadow: 0 0 3px #cccccc;
-  -moz-box-shadow: 0 0 3px #cccccc;
-  box-shadow: 0 0 3px #cccccc;
-}
-.exercise-template-old .exercises-stackview .card {
-  -webkit-transition: all 0.18s ease-in-out;
-  -moz-transition: all 0.18s ease-in-out;
-  -o-transition: all 0.18s ease-in-out;
-  transition: all 0.18s ease-in-out;
-}
-.exercises-stackview .card-container {
-  position: relative;
-  margin-bottom: -20px;
-  -webkit-transform: rotate(-20deg);
-  -moz-transform: rotate(-20deg);
-  -ms-transform: rotate(-20deg);
-  -o-transform: rotate(-20deg);
-  transform: rotate(-20deg);
-  z-index: 1;
-}
-.lte8 .exercises-stackview .card-container {
-  /* *
-     * Rotate these in IE < 8 too.
-     * WARNING: This is brittle. If we change the rotation from -20deg, these values need to be recalculated.
-     */
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.9396926207859084, M12=0.3420201433256687, M21=-0.3420201433256687, M22=0.9396926207859084, sizingMethod='auto expand');
-  zoom: 1;
-}
-.exercises-stackview .card .card-face {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-.exercises-stackview .card-face.card-front {
-  background: #f7f7f7;
-}
-.exercises-stackview .card-face.card-back {
-  color: white;
-  text-align: center;
-  background-color: #aaa;
-}
-.exercises-stackview .card-face.card-back {
-  -webkit-box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 4px #cfcfcf;
-  -moz-box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 4px #cfcfcf;
-  box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 4px #cfcfcf;
-  background-color: #cccccc;
-}
-.exercises-stackview .card-container:last-child .card-face.card-back,
-.exercises-stackview .card-container.end-of-stack-card .card-face.card-back {
-  /*
-     * This works in everything except IE8. Will work when we apply to appropriate
-     * classes to the end of stack card programatically.
-     * TODO (jasonrr): remove :last-child selector when that happens
-     */
-  background-color: #e9efdd;
-  /* nb. can't use above var below because this is inserted literally */
-  -webkit-box-shadow: inset 0 0 0 2px white, inset 0 0 0 4px #e9efdd;
-  -moz-box-shadow: inset 0 0 0 2px white, inset 0 0 0 4px #e9efdd;
-  box-shadow: inset 0 0 0 2px white, inset 0 0 0 4px #e9efdd;
 }
 .exercises-stack,
 .exercises-card {
@@ -11246,120 +11697,6 @@ footer .nowrap {
 .current-card .exercise_message {
   display: none;
   /* TODO: currently hiding all proficient/struggling/review messages */
-}
-.leaves-container {
-  margin: 8px 0 0 15px;
-  overflow: visible;
-  position: absolute;
-  right: 10px;
-  display: none;
-}
-.card-type-problem .leaves-container {
-  display: block;
-}
-.qtip.leaf-tooltip {
-  max-width: 200px !important;
-}
-/*FIXME(marcos): this seems at leaf.earned */
-.current-card .leaves .leaf {
-  background: transparent url(http://www.khanacademy.org/images/power-mode/card-leaf-empty-large.png) no-repeat 50% 0;
-  /* data-uri(/images/power-mode/card-leaf-empty-large.png) */
-  background-size: 40px 40px;
-  float: left;
-  color: transparent;
-  width: 40px;
-  height: 40px;
-  margin-right: 35px;
-}
-.lte8 .current-card .leaves .leaf {
-  background: transparent url(http://www.khanacademy.org/images/power-mode/card-leaf-empty-small.png) no-repeat 50% 0;
-  /* data-uri(/images/power-mode/card-leaf-empty-small.png) */
-}
-.exercises-stackview .leaves .leaf {
-  width: 5px;
-  height: 5px;
-  margin: 2px 0 0 2px;
-  float: left;
-  background: #83a600;
-  color: transparent;
-  border: 1px solid #a7b36b;
-  position: relative;
-  line-height: 25px;
-  text-align: center;
-  -webkit-border-top-right-radius: 50px;
-  -webkit-border-bottom-right-radius: 15px;
-  -webkit-border-bottom-left-radius: 50px;
-  -webkit-border-top-left-radius: 10px;
-  -moz-border-radius-topright: 50px;
-  -moz-border-radius-bottomright: 15px;
-  -moz-border-radius-bottomleft: 50px;
-  -moz-border-radius-topleft: 10px;
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 15px;
-  border-bottom-left-radius: 50px;
-  border-top-left-radius: 10px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-box-shadow: inset 0 0 9px 1px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: inset 0 0 9px 1px rgba(0, 0, 0, 0.25);
-  box-shadow: inset 0 0 9px 1px rgba(0, 0, 0, 0.25);
-}
-.leaves .leaf.available {
-  /* Nothing right now */
-}
-.leaves .leaf.unavailable {
-  background-color: transparent;
-}
-.leaves .leaf.earned .full-leaf {
-  background: url(http://www.khanacademy.org/images/power-mode/card-leaf-full-large.png) no-repeat;
-  /* data-uri(/images/power-mode/card-leaf-full-large.png) */
-  background-size: 40px 40px;
-  opacity: 0;
-  /* Don't support IE < 8 on purpose. It screws up display of transparent PNG leaf */
-  -moz-opacity: 0;
-  -webkit-transform: scale(8);
-  -moz-transform: scale(8);
-  -ms-transform: scale(8);
-  -o-transform: scale(8);
-  transform: scale(8);
-  width: 40px;
-  height: 40px;
-  margin: 0 auto;
-}
-.lte8 .leaves .leaf.earned .full-leaf {
-  background: url(http://www.khanacademy.org/images/power-mode/card-leaf-full-small.png) no-repeat 50% 0;
-  /* data-uri(/images/power-mode/card-leaf-full-small.png) */
-}
-.leaves .leaf.earned .full-leaf.animated {
-  -webkit-animation: fly-in-leaf 0.3s ease-out 0s 1 none normal;
-  -moz-animation: fly-in-leaf 0.3s ease-out 0s 1 none normal;
-  -ms-animation: fly-in-leaf 0.3s ease-out 0s 1 none normal;
-  -o-animation: fly-in-leaf 0.3s ease-out 0s 1 none normal;
-  animation: fly-in-leaf 0.3s ease-out 0s 1 none normal;
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -ms-transform: scale(1);
-  -o-transform: scale(1);
-  transform: scale(1);
-  opacity: 1;
-  -moz-opacity: 1;
-}
-.exercises-stackview .leaves .leaf.earned {
-  background: #83a600;
-  border-color: #5a7300;
-  color: transparent;
-  box-shadow: none;
-}
-.exercises-stackview .leaves .leaf.unavailable {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-}
-.exercises-stackview .leaves .full-leaf {
-  display: none;
 }
 .card-type-endofstack .current-card-contents {
   padding: 20px;
@@ -11496,8 +11833,7 @@ footer .nowrap {
   top: -3px;
 }
 .exercise-template-old .current-card.notransition .current-card-container,
-.exercise-template-old .current-card.notransition .current-card-container-inner,
-.exercise-template-old .current-card.shrinkRight .leaves .leaf.earned .full-leaf {
+.exercise-template-old .current-card.notransition .current-card-container-inner {
   /* For temporarily disabling transitions.
          * See http://stackoverflow.com/questions/6634470/disable-turn-off-inherited-css3-transitions
          */
@@ -11556,9 +11892,6 @@ footer .nowrap {
 .exercises-content-container.assessment-mode .exercises-header .section-headline {
   margin-left: 7%;
 }
-.exercises-content-container.assessment-mode .complete-stack .card-front .leaves {
-  display: none;
-}
 .tutorial-node-content .exercises-content-container .current-card-container-inner {
   border-left: 0;
   border-right: 0;
@@ -11613,45 +11946,8 @@ footer .nowrap {
 .end-of-stack-info .progress-graph.current-topic {
   display: none;
 }
-.current-topic .skill-bar-title {
-  margin: 0 0 0 25px;
-}
 .proficient-tick {
   vertical-align: -1px;
-}
-/* Much credit goes to: http://css-tricks.com/css3-progress-bars/ */
-.current-topic .skill-bar {
-  height: 5px;
-}
-.current-stack .skill-bar .fill.green {
-  -webkit-animation: progress-bar 1s;
-  -moz-animation: progress-bar 1s;
-  -ms-animation: progress-bar 1s;
-  -o-animation: progress-bar 1s;
-  animation: progress-bar 1s;
-}
-.current-stack .skill-bar .fill.blue.just-earned {
-  /* The 1s progress-bar animation and 1.5s progress-bar-proficient animations
-     * are connected, timing-wise. Don't change one without changing the other appropriately
-     * and taking a look at the keyframes %'s in each animation.
-     */
-  -webkit-animation: progress-bar-proficient 1.5s;
-  -moz-animation: progress-bar-proficient 1.5s;
-  -ms-animation: progress-bar-proficient 1.5s;
-  -o-animation: progress-bar-proficient 1.5s;
-  animation: progress-bar-proficient 1.5s;
-}
-.current-topic .skill-bar .fill {
-  -webkit-animation: none;
-  -moz-animation: none;
-}
-.dashboard-drawer .skill-bar .fill.gray,
-.current-topic .skill-bar .fill.gray {
-  visibility: hidden;
-}
-.current-topic .skill-bar .fill.blue,
-.current-topic .skill-bar .fill.orange {
-  top: -10px !important;
 }
 .three-col {
   float: left;
@@ -11672,226 +11968,9 @@ footer .nowrap {
 .end-of-stack-info .stack-controls.new-style-controls {
   margin: 10px;
 }
-/* three-pane progress panel design */
-.progress-panel-wrapper,
-.progress-panel {
-  height: 480px;
-}
-.progress-panel-wrapper .progress-panel-header,
-.progress-panel .progress-panel-header {
-  height: 59px;
-}
-.progress-panel-wrapper .progress-panel-content,
-.progress-panel .progress-panel-content {
-  top: 60px;
-  bottom: 80px;
-}
-.progress-panel-wrapper .progress-panel-tooltip,
-.progress-panel .progress-panel-tooltip {
-  bottom: 5px;
-  height: 60px;
-}
-.progress-panel-wrapper .progress-panel-skills .skillbars,
-.progress-panel .progress-panel-skills .skillbars {
-  max-height: 340px;
-}
-.progress-panel-wrapper.progress-panel-leaves .progress-panel-centered-content,
-.progress-panel.progress-panel-leaves .progress-panel-centered-content {
-  height: 300px;
-  margin-top: -150px;
-}
-.progress-panel-wrapper.progress-panel-streaks .progress-panel-centered-content,
-.progress-panel.progress-panel-streaks .progress-panel-centered-content {
-  height: 166px;
-  margin-top: -83px;
-}
-.progress-panel-wrapper {
-  width: 100%;
-  background-color: #e5f0f8;
-}
-.progress-panel {
-  float: left;
-  display: block;
-  position: relative;
-  vertical-align: top;
-  width: 28%;
-  background-color: #e5f0f8;
-  color: #2a839f;
-  font-family: "MuseoSans300", sans-serif;
-}
-.progress-panel.selected {
-  width: 44%;
-  background-color: #beddef;
-}
-.progress-panel.selected .progress-panel-header p:after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 50%;
-  margin-left: -8px;
-  bottom: 0px;
-  width: 0px;
-  height: 0px;
-  border-color: transparent transparent #2a839f transparent;
-  border-width: 8px;
-  border-style: solid;
-}
-.progress-panel.all-complete {
-  width: 33.3333%;
-}
-.progress-panel .progress-panel-selected-edge {
-  display: block;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  bottom: 0px;
-  width: 5px;
-}
-.progress-panel .progress-panel-selected-edge.selected {
-  background-color: #beddef;
-}
-.progress-panel .progress-panel-header {
-  display: block;
-  text-align: center;
-  border-bottom: 1px solid #2a839f;
-  position: absolute;
-  width: 100%;
-}
-.progress-panel .progress-panel-header p {
-  font-size: 20px;
-}
-.progress-panel .progress-panel-content {
-  background-color: #fff;
-  position: absolute;
-  display: block;
-  left: 5px;
-  right: 0px;
-}
-.progress-panel .progress-panel-content .progress-panel-centered-content {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-}
-.progress-panel .progress-panel-tooltip {
-  display: block;
-  position: absolute;
-  left: 15px;
-  right: 10px;
-  font-family: "MuseoSans500", sans-serif;
-}
-.progress-panel .progress-container {
-  display: block;
-  margin: 0 auto;
-}
-.progress-panel .progress-container .progress-visual {
-  display: inline-block;
-  vertical-align: middle;
-}
-.progress-panel .progress-container .progress-summary {
-  display: inline-block;
-  width: 120px;
-  vertical-align: middle;
-  font-family: "MuseoSans500", sans-serif;
-  text-align: center;
-  font-style: italic;
-}
-.progress-panel .progress-container .progress-summary .progress-count {
-  font-size: 80px;
-  line-height: 75px;
-}
-.progress-panel .progress-container .progress-summary p {
-  margin: 6px 0;
-  font-size: 16px;
-}
-.progress-panel .progress-container .progress-summary p.progress-subtitle {
-  color: #beb7b0;
-}
-.progress-panel .progress-checkmark {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: #ffffff;
-  background: rgba(255, 255, 255, 0.8);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
-  background-image: url(http://www.khanacademy.org/'/images/check-large.png');
-  background-repeat: no-repeat;
-  background-position: 50%;
-}
-.progress-panel.progress-panel-leaves .progress-container {
-  width: 200px;
-}
-.progress-panel.progress-panel-leaves .progress-container.wide {
-  width: 330px;
-}
-.progress-panel.progress-panel-leaves .progress-container .progress-visual {
-  width: 200px;
-  font-size: 42px;
-  color: #beb7b0;
-  line-height: 50px;
-}
-.progress-panel.progress-panel-leaves .progress-container .progress-visual .earned-leaf {
-  color: #9fb543;
-}
-.progress-panel.progress-panel-streaks .progress-container {
-  width: 140px;
-}
-.progress-panel.progress-panel-streaks .progress-container.wide {
-  width: 270px;
-}
-.progress-panel.progress-panel-streaks .progress-container .progress-visual {
-  width: 140px;
-}
-.progress-panel.progress-panel-streaks .progress-container .progress-visual .icon-streak-stack {
-  display: inline-block;
-  background-image: url(http://www.khanacademy.org/'/images/power-mode/streak-stack.png');
-  background-position: -68px 0px;
-  width: 68px;
-  height: 76px;
-}
-.progress-panel.progress-panel-streaks .progress-container .progress-visual .icon-streak-stack.earned-streak-stack {
-  background-position: 0px 0px;
-}
-.progress-panel.progress-panel-skills .progress-wrapper {
-  margin: 0 auto;
-  width: 220px;
-}
-.progress-panel.progress-panel-skills .progress-wrapper .progress-visual {
-  width: 220px;
-  height: 340px;
-  display: table-cell;
-  vertical-align: middle;
-  margin: 0 auto;
-}
-.progress-panel.progress-panel-skills .progress-wrapper .progress-visual .skillbars {
-  width: 220px;
-  display: inline-block;
-  vertical-align: middle;
-  overflow-y: auto;
-}
-.progress-panel.progress-panel-skills .progress-wrapper .progress-visual .skillbars .skill-bar-title .small-exercise-icon {
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-}
-.progress-panel.progress-panel-skills .progress-wrapper .progress-panel-content {
-  right: 5px;
-}
-.progress-panel.progress-panel-skills .progress-container.wide .progress-wrapper {
-  width: 350px;
-}
-.progress-panel.progress-panel-skills .progress-container.wide .progress-wrapper .progress-visual {
-  width: 350px;
-}
 /* overrides to cards-n-stacks for tutorials */
 #tutorial-page .exercises-content-container .exercises-content {
   background-color: transparent;
-}
-#tutorial-page .tutorial-description .progress-stack-view {
-  float: right;
-  min-height: 0;
-  margin: 5px 25px 2px 5px;
 }
 #tutorial-page .tutorial-description .card-container {
   -webkit-transform: rotate(0deg);
@@ -11945,15 +12024,6 @@ footer .nowrap {
 }
 #tutorial-page .tutorial-description .completed .card-face.card-back {
   background-color: #f4fafd;
-}
-#tutorial-page .tutorial-description .completed .card-face .leaves {
-  display: block;
-  font-size: 11px;
-  line-height: 10px;
-  position: relative;
-  top: 7px;
-  color: #76a005;
-  font-family: "FontAwesome";
 }
 .lte8 #tutorial-page .card-container {
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
