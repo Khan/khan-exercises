@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie interactive">
+<head>
+    <title>Cosine in the simplest cases: variations with 30&deg;, 45&deg;, and 60&deg;.<    itle>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="S">randRangeNonZero(-1, 1)</var>
+            <var id="ANGLE_IN_DEGREES">S*(rand(3)*90+randFromArray([30, 45, 60]))</var>
+            <var id="ANGLE_IN_RADIANS">ANGLE_IN_DEGREES *PI /180</var>
+            <var id="SIGN_OF_COSINE">cos(ANGLE_IN_RADIANS)<0?0:1</var>
+            <var id="SIGN_OF_COSINE_SYMBOL">SIGN_OF_COSINE?'':'-'</var>
+            <var id="CORRECT_ANGLE">function(alpha){return 180*(1-SIGN_OF_COSINE)+alpha;}</var>
+            <var id="COLOR">[KhanUtil.BLUE, KhanUtil.GREEN, KhanUtil.RED]</var>				
+            <var id="SIDE">["left", "right"]</var>
+			<var id="CHOICES">["-1", "-&radic;2", "-&radic;3", "1", "&radic;2", "&radic;3" ]</var>
+			<var id="N">roundTo(0, (pow(2*cos(ANGLE_IN_RADIANS), 2)))-1+SIGN_OF_COSINE*3</var>			
+        </div>
+        <div class="problems">
+            <div id="cosine_of_standart_angles_30_45_60">
+                <p class="problem">
+                    Find the value of cos(&theta;) for &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; = <code><var>piFraction(ANGLE_IN_RADIANS)</var></code></br>
+                    You can drag the orange point on the unit circle bellow to get an insight.</br></br>
+                </p>
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: [[-1.5, 1.5], [-1.5, 1.5]], scale: 130, axisArrows: "&lt;-&gt;",
+                        tickStep: 1, labelStep: 10,    gridOpacity: 0.05, axisOpacity: 0.2, tickOpacity: 0.4, labelOpacity: 0.8
+                    });
+                    label([0, 1.5], "y", "above");
+                    label([1.5, 0], "x = cos(&theta;)", "right");
+                    label([1.1, -0.1], "1");
+                    label([-1.1, -0.1], "-1");
+                    circle([0, 0], 1, {stroke: PURPLE, strokeWidth: 2,});
+                    addMouseLayer();                    
+                    var initial_degree = 0;
+                    graph.point_onCircle = addMovablePoint({
+                        coord: polar(1, initial_degree),
+                        constraints: {fixedDistance: {dist: 1, point: [0, 0]}}                            
+                    });           
+                    vertical_line_x = line([0, 0], [0, 0], {stroke: "green", arrows: "-&gt;", strokeDasharray: "- "});                               
+                    graph.angle_line = addMovableLineSegment({
+                        pointA: graph.point_onCircle,
+                        coordZ: [0, 0],
+                        normalStyle: {stroke: ORANGE, "stroke-width": 1, "stroke-dasharray": "-"},
+                        fixed: true
+                    });                                                                                      
+                    graph.point_onCircle.onMove = function(x, y) {
+                        vertical_line_x.remove();
+                        vertical_line_x = line([x, y], [x, 0], {stroke: "green", arrows: "-&gt;", strokeDasharray: "- "});    
+                        return true;
+                    };                                               
+                </div>
+                <p class="question"></p>
+                <p class="solution"><code>\Large{\frac{<var>CHOICES[N]</var>}{2}}</code></p>
+                <ul class="choices" data-category="true">
+                    <li data-each="CHOICES as choice">
+                        <code>\Large{\frac{<var>choice</var>}{2}}</code>
+                    </li>
+                </ul> 	
+            </div>
+        </div>
+        <div class="hints">
+			<div class="graphie" data-update="grid">
+				for (var a=30;a<=60;a+=15){					
+					addMovablePoint({coord: polar(1, CORRECT_ANGLE(a)), constraints:{fixed: true}, normalStyle: {stroke: COLOR[a/15-2], fill: COLOR[a/15-2]}});
+					addMovablePoint({coord: polar(1, CORRECT_ANGLE(-a)), constraints:{fixed: true}, normalStyle: {stroke: COLOR[a/15-2], fill: COLOR[a/15-2]}});
+					label(polar(1, CORRECT_ANGLE(a)), SIGN_OF_COSINE?a+"^{\\circ}":"180^{\\circ}+"+a+"^{\\circ}", SIDE[SIGN_OF_COSINE]);
+					label(polar(1, CORRECT_ANGLE(-a)), SIGN_OF_COSINE?"-"+a+"^{\\circ}":"180^{\\circ}-"+a+"^{\\circ}", SIDE[SIGN_OF_COSINE]);
+					addMovablePoint({coord: [cos(PI*(CORRECT_ANGLE(-a))/180), 0], constraints:{fixed: true}, normalStyle: {stroke: COLOR[a/15-2], fill: COLOR[a/15-2]}});
+				}
+			</div>  		
+		    <div>
+				You can drag the orange point to one of the marked positions on the unit circle. Choose the position corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg;. Find the x coordinate for this point. Then cos(&theta;) = x </br>
+			</div>
+			<div data-if='ANGLE_IN_DEGREES < -90 '>
+				Angle &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; is equivalent to the angle  <code>360</code>&deg;<code><var>ANGLE_IN_DEGREES</var></code>&deg; = <code><var>360+ANGLE_IN_DEGREES</var></code>&deg;. Now, drag the orange point to the marked positions corresponding to <code><var>360+ANGLE_IN_DEGREES</var></code>&deg; and find the x coordinate for this point.
+			</div>
+			<div data-if='SIGN_OF_COSINE === 1'>
+				</br>the x coordinate is equal to one of the following: <span style="color:red"><code>\Large{\frac{1}{2}}</code></span> < <span style="color:green"><code>\Large{\frac{&radic;2}{2}}</code></span> < <span style="color:blue"><code>\Large{\frac{&radic;3}{2}}</code></span></br>
+			</div>
+			<div data-if='SIGN_OF_COSINE === 0'>
+				</br>the x coordinate is equal to one of the following: </br> <span style="color:blue"><code>\Large{(-\frac{&radic;3}{2})}</code></span> < <span style="color:green"><code>\Large{(-\frac{&radic;2}{2})}</code></span> < <span style="color:red"><code>\Large{(-\frac{1}{2})}</code></span></br>
+			</div>
+			<div>
+				<div class="graphie" data-update="grid">
+					graph.point_onCircle.setCoord([cos(ANGLE_IN_RADIANS), sin(ANGLE_IN_RADIANS)]);
+					graph.point_onCircle.updateLineEnds();
+					vertical_line_x.remove();
+					vertical_line_x = line([cos(ANGLE_IN_RADIANS), sin(ANGLE_IN_RADIANS)], [cos(ANGLE_IN_RADIANS), 0], {stroke: "green", arrows: "-&gt;", "stroke-width": 3}); 
+				</div>
+				<p>
+					The position of orange point corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; is shown on the graph. Corresponding x = cos(&theta;) = <code>\Large{\frac{<var>CHOICES[N]</var>}{2}}</code>
+				</p>					
+			</div>	
+        </div>
+    </div>
+</body>
+</html>
