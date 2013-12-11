@@ -26,7 +26,6 @@
              <var id="CHOICES">[$._("Yes"), $._("No"), $._("There is not enough information to say")]</var>
              <var id="VECTORS">[$._("a vertical component of velocity"), $._("a horizontal component of velocity"), $._("a velocity"), $._("an acceleration")]</var>
         </div>
-
         <div class="problems">
             <div id="projectile_motion__constants">
                 <p class="problem">Drag the orange point along the x axis to change x coordinate and answer the following question.</p></br>
@@ -37,40 +36,29 @@
                         scale: SCALE_FACTOR/X_MAX, axisArrows: "&gt;", tickStep: one_step, labelStep: one_step, 
                         gridOpacity: 0.05,    axisOpacity: 0.2, tickOpacity: 0.4, labelOpacity: 0.5
                     });
-
                     label( [ 0, Y_MAX+one_step], "y", "above" );
                     label( [ X_MAX+2*one_step, 0 ], "x", "right" );
-
-                    graph.trajectory = plot(function(x) {return Y_FUNC(x);}, [0, X_MAX], {stroke: "red", strokeDasharray: "- "});
-                            
+                    graph.trajectory = plot(function(x) {return Y_FUNC(x);}, [0, X_MAX], {stroke: "red", strokeDasharray: "- "});                           
                     addMouseLayer();
-
                     var xo = 0;
                     var yo = 0;
                     graph.point_onTraject = addMovablePoint({coord: [xo, yo], constraints: {fixed: true}, normalStyle: {stroke: "green"}});        
-
                     graph.point_X = addMovablePoint({coord: [0, 0],    constraints: {constrainY: true}});                
-                        
                     accel_vector = line([xo, yo], [xo, yo-1.5*one_step], { stroke: "#6495ed", arrows: "-&gt;", "stroke-opacity": 0.4 } ); 
-
                     var v_scaling = 2*one_step/VELOCITY(xo);
                     v_vector = line([xo, yo], [xo+V_X(xo)*v_scaling, yo+V_Y(0)*v_scaling], {stroke: "black", arrows: "-&gt;" });                 
                     vx_vector = line([xo, yo], [xo+V_X(xo)*v_scaling, yo], {stroke: "green", arrows: "-&gt;", strokeDasharray: "- ", "stroke-opacity": 0.9});
                     vy_vector = line([xo, yo], [xo, yo+V_Y(xo)*v_scaling], {stroke: "red", arrows: "-&gt;", strokeDasharray: "- ", "stroke-opacity": 0.9});
-
                     graph.point_X.onMove = function(x, y) {
                         var y_coord = Y_FUNC(x);
                         graph.point_onTraject.setCoord([x, y_coord]);
                         graph.point_X.setCoord([x, 0]);
                         accel_vector.remove();
-                        accel_vector = line( [x, y_coord], [x, y_coord-1.5*one_step], { stroke: "#6495ed", arrows: "-&gt;", "stroke-opacity": 0.4 } );
-                        
+                        accel_vector = line( [x, y_coord], [x, y_coord-1.5*one_step], { stroke: "#6495ed", arrows: "-&gt;", "stroke-opacity": 0.4 } );                      
                         v_vector.remove();
                         v_vector = line( [x, y_coord], [x+V_X(x)*v_scaling, y_coord+V_Y(x)*v_scaling], {stroke: "black", arrows: "-&gt;" }); 
-                        
                         vx_vector.remove();
                         vx_vector = line( [x, y_coord], [x+V_X(x)*v_scaling, y_coord], {stroke: "green", arrows: "-&gt;", strokeDasharray: "- ", "stroke-opacity": 0.9});
-
                         vy_vector.remove();
                         vy_vector = line( [x, y_coord], [x, y_coord+V_Y(x)*v_scaling], {stroke: "red", arrows: "-&gt;", strokeDasharray: "- ", "stroke-opacity": 0.9});                     
                         return true;
@@ -86,7 +74,7 @@
                 <div class="hints">
                     <p>
                         <span data-if='QUESTION === 0'>
-						<code class="hint_red">Vertical</code> component of the velocity vector is changing (there is a gravity force acting along the y axis).</span> 
+                        <code class="hint_red">Vertical</code> component of the velocity vector is changing (there is a gravity force acting along the y axis).</span> 
                         <span data-if='QUESTION === 1'>
                         <code class="hint_green">Horizontal</code> component of the velocity vector is a constant (there are no forces acting along the x axis).</span>
                         <span data-if='QUESTION === 2'>

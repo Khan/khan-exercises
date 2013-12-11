@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie interactive">
 <head>
-    <title>Cosine in the simplest cases: variations with 90&deg;.<    itle>
+    <title>Cosine in the simplest cases: variations with 90&deg;.</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -55,18 +55,18 @@
                 </p>
             </div>
         </div>
-        <div class="hints">  		
+        <div class="hints">          
             <div>
-				Drag the orange point on the unit circle to the position corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg;. Find the x coordinate for this point. Then cos(&theta;) = x
+                Drag the orange point on the unit circle to the position corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg;. Find the x coordinate for this point. Then cos(&theta;) = x
             </div> 
             <div data-if='ANGLE_IN_DEGREES !== 0'>
                 <div class="graphie" data-update="grid">
                     ANGLE_IN_DEGREES>90?label([0, 1], "&bull;"):label([0, -1], "&bull;"); 
-					ANGLE_IN_DEGREES>90?label([0, 1.2], "90&deg;", "right"):label([0, -1.2], "-90&deg;", "right"); 
-                </div>  				
-				<p data-if='ANGLE_IN_DEGREES > 90 || ANGLE_IN_DEGREES < -90'>
-					To find the angle you can use the fact that <code><var>ANGLE_IN_DEGREES</var></code>&deg; = <code><var>ANGLE_IN_DEGREES/90</var></code> * 90&deg;
-				</p>
+                    ANGLE_IN_DEGREES>90?label([0, 1.2], "90&deg;", "right"):label([0, -1.2], "-90&deg;", "right"); 
+                </div>                  
+                <p data-if='ANGLE_IN_DEGREES > 90 || ANGLE_IN_DEGREES < -90'>
+                    To find the angle you can use the fact that <code><var>ANGLE_IN_DEGREES</var></code>&deg; = <code><var>ANGLE_IN_DEGREES/90</var></code> * 90&deg;
+                </p>
             </div>
             <div> 
                 <p>
