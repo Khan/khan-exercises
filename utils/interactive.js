@@ -2959,6 +2959,91 @@ $.extend(KhanUtil.Graphie.prototype, {
         };
     })(),
 
+    addReflectButton: (function() {
+        var decorateOnMoves = function(movable, decorator) {
+            var prevOnMove = movable.onMove;
+            var prevOnMoveEnd = movable.onMoveEnd;
+
+            if (prevOnMove) {
+                movable.onMove = function(x, y) {
+                    var result = prevOnMove.apply(movable, _.toArray(arguments));
+                    if (_.isArray(result)) {
+                        x = result[0];
+                        y = result[1];
+                    } else if (result === false && movable.coord) {
+                        x = movable.coord[0];
+                        y = movable.coord[1];
+                    }
+                    decorator(x, y);
+                    return result;
+                };
+            } else {
+                movable.onMove = decorator;
+            }
+
+            if (prevOnMoveEnd) {
+                movable.onMoveEnd = function() {
+                    prevOnMoveEnd();
+                    if (movable.coord) {
+                        decorator(movable.coord[0], movable.coord[1]);
+                    } else {
+                        decorator();
+                    }
+                };
+            } else {
+                movable.onMoveEnd = decorator;
+            }
+        };
+
+        return function(options) {
+            var graphie = this;
+
+            var line = options.line;
+
+            var button = graphie.addMovablePoint({
+                coord: KhanUtil.kline.midpoint([
+                    line.pointA.coord,
+                    line.pointZ.coord
+                ]),
+                normalStyle: options.normalStyle,
+                highlightStyle: options.highlightStyle,
+                onMove: function() { return false; }
+            });
+
+            // Keep the button's position in-sync with the line
+            var update = function(coordA, coordZ) {
+                coordA = coordA || line.pointA.coord;
+                coordZ = coordZ || line.pointZ.coord;
+
+                var buttonCoord = KhanUtil.kline.midpoint([coordA, coordZ]);
+                button.setCoord(buttonCoord);
+            };
+
+            decorateOnMoves(line, _.bind(update, null, null, null));
+            decorateOnMoves(line.pointA, function(x, y) {
+                update([x, y], null);
+            });
+            decorateOnMoves(line.pointZ, function(x, y) {
+                update(null, [x, y]);
+            });
+
+            button.update = update;
+
+            // Add click handling
+            $(button.mouseTarget[0]).on("vmousedown",
+                    _.bind(options.onClick, button));
+
+            // Bring the reflection line handles in front of the button, so
+            // that if we drag the reflectPoints really close together, we can
+            // still move the handles away from each other, rather than only
+            // being able to apply the reflection.
+            line.pointA.toFront();
+            line.pointZ.toFront();
+
+            return button;
+        };
+    })(),
+
     protractor: function(center) {
         return new Protractor(this, center);
     },
