@@ -5666,6 +5666,43 @@ body.lang-use-rtl .simple-button.provider-signup .provider-signup-text {
 .simple-button.lightgreen:hover {
   border-bottom-color: #a0bb58;
 }
+.simple-button.exercise-orange {
+  border: 1px solid #f09b00;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #f19c00;
+  background-image: -moz-linear-gradient(top, #ffa500, #db8e00);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffa500), to(#db8e00));
+  background-image: -webkit-linear-gradient(top, #ffa500, #db8e00);
+  background-image: -o-linear-gradient(top, #ffa500, #db8e00);
+  background-image: linear-gradient(to bottom, #ffa500, #db8e00);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffa500', endColorstr='#ffdb8e00', GradientType=0);
+  border-color: #db8e00 #db8e00 #8f5c00;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #db8e00;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #ffffff !important;
+}
+.simple-button.exercise-orange:hover,
+.simple-button.exercise-orange:focus,
+.simple-button.exercise-orange:active,
+.simple-button.exercise-orange.active,
+.simple-button.exercise-orange.disabled,
+.simple-button.exercise-orange[disabled] {
+  color: #ffffff;
+  background-color: #db8e00;
+  *background-color: #c27d00;
+}
+.simple-button.exercise-orange:active,
+.simple-button.exercise-orange.active {
+  background-color: #a86d00 \9;
+}
+.simple-button.exercise-orange:focus,
+.simple-button.exercise-orange:hover {
+  border-bottom-color: #b37300;
+}
 /* A group of simple-buttons */
 .simple-button-group .simple-button {
   border-radius: 0px;
