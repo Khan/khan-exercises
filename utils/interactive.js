@@ -1,5 +1,14 @@
 (function() {
 
+var kpoint = KhanUtil.kpoint;
+var kvector = KhanUtil.kvector;
+var kline = KhanUtil.kline;
+$.fn["interactiveLoad"] = function() {
+    kpoint = KhanUtil.kpoint;
+    kvector = KhanUtil.kvector;
+    kline = KhanUtil.kline;
+};
+
 function sum(array) {
     return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
 }
@@ -2995,28 +3004,129 @@ $.extend(KhanUtil.Graphie.prototype, {
             }
         };
 
+        var drawButton = function(
+                graphie,
+                buttonCoord,
+                lineCoords,
+                size,
+                distanceFromCenter,
+                leftStyle,
+                rightStyle) {
+
+            // Avoid invalid lines
+            if (kpoint.equal(lineCoords[0], lineCoords[1])) {
+                lineCoords = [
+                    lineCoords[0],
+                    kpoint.addVector(lineCoords[0], [1, 1])
+                ];
+            }
+
+            var lineDirection = kvector.normalize(
+                kvector.subtract(lineCoords[1], lineCoords[0])
+            );
+
+            var lineVec = kvector.scale(
+                lineDirection,
+                size/2
+            );
+
+            // Calculate the offset the center points should be placed at
+            var centerVec = kvector.scale(lineDirection, distanceFromCenter);
+            var leftCenterVec = kvector.rotateDeg(centerVec, 90);
+            var rightCenterVec = kvector.rotateDeg(centerVec, -90);
+
+            // Calculate the offsets for the far points
+            var negLineVec = kvector.negate(lineVec);
+            var leftVec = kvector.rotateDeg(lineVec, 90);
+            var rightVec = kvector.rotateDeg(lineVec, -90);
+
+            // Calculate the center point locations
+            var leftCenter = kpoint.addVectors(buttonCoord, leftCenterVec);
+            var rightCenter = kpoint.addVectors(buttonCoord, rightCenterVec);
+
+            // Calculate the far point locations
+            var leftCoord1 = kpoint.addVectors(buttonCoord, leftCenterVec, lineVec, leftVec);
+            var leftCoord2 = kpoint.addVectors(buttonCoord, leftCenterVec, negLineVec, leftVec);
+            var rightCoord1 = kpoint.addVectors(buttonCoord, rightCenterVec, lineVec, rightVec);
+            var rightCoord2 = kpoint.addVectors(buttonCoord, rightCenterVec, negLineVec, rightVec);
+
+            var leftButton = graphie.path(
+                [leftCenter, leftCoord1, leftCoord2, true],
+                leftStyle
+            );
+            var rightButton = graphie.path(
+                [rightCenter, rightCoord1, rightCoord2, true],
+                rightStyle
+            );
+
+            return {
+                remove: function() {
+                    leftButton.remove();
+                    rightButton.remove();
+                }
+            };
+        };
+
         return function(options) {
             var graphie = this;
 
             var line = options.line;
 
             var button = graphie.addMovablePoint({
-                coord: KhanUtil.kline.midpoint([
+                coord: kline.midpoint([
                     line.pointA.coord,
                     line.pointZ.coord
                 ]),
-                normalStyle: options.normalStyle,
-                highlightStyle: options.highlightStyle,
                 onMove: function() { return false; }
             });
+
+            var isHovering = false;
+            var isFlipped = false;
+            var currentlyDrawnButton;
+
+            var styles = _.map([0, 1], function(isHighlight) {
+                var baseStyle = isHighlight ?
+                        options.highlightStyle :
+                        options.normalStyle;
+
+                return _.map([0, 1], function(opacity) {
+                    return _.defaults({
+                        "fill-opacity": opacity
+                    }, baseStyle);
+                });
+            });
+
+            var getStyle = function(isRight) {
+                if (isFlipped) {
+                    isRight = !isRight;
+                }
+                return styles[+isHovering][+isRight];
+            };
+
+            var redraw = function(coord, lineCoords) {
+                if (currentlyDrawnButton) {
+                    currentlyDrawnButton.remove();
+                }
+                currentlyDrawnButton = drawButton(
+                    graphie,
+                    coord,
+                    lineCoords,
+                    isHovering ? options.size * 1.5 : options.size,
+                    isHovering ? options.size * 0.125 : 0.25,
+                    getStyle(0),
+                    getStyle(1)
+                );
+            };
 
             // Keep the button's position in-sync with the line
             var update = function(coordA, coordZ) {
                 coordA = coordA || line.pointA.coord;
                 coordZ = coordZ || line.pointZ.coord;
 
-                var buttonCoord = KhanUtil.kline.midpoint([coordA, coordZ]);
+                var buttonCoord = kline.midpoint([coordA, coordZ]);
                 button.setCoord(buttonCoord);
+
+                redraw(buttonCoord, [coordA, coordZ]);
             };
 
             decorateOnMoves(line, _.bind(update, null, null, null));
@@ -3030,8 +3140,14 @@ $.extend(KhanUtil.Graphie.prototype, {
             button.update = update;
 
             // Add click handling
-            $(button.mouseTarget[0]).on("vmousedown",
-                    _.bind(options.onClick, button));
+            $(button.mouseTarget[0]).on("vmousedown", function() {
+                var result = options.onClick();
+                if (result !== false) {
+                    isFlipped = !isFlipped;
+                    redraw(button.coord,
+                        [line.pointA.coord, line.pointZ.coord]);
+                }
+            });
 
             // Bring the reflection line handles in front of the button, so
             // that if we drag the reflectPoints really close together, we can
@@ -3040,6 +3156,29 @@ $.extend(KhanUtil.Graphie.prototype, {
             line.pointA.toFront();
             line.pointZ.toFront();
 
+            // Replace the visual point with the double triangle thing
+            button.visibleShape.remove();
+            // Resize the hidden point to cover the size of the visual point
+            var pointScale = graphie.scaleVector(options.size)[0] / 20;
+            button.mouseTarget.attr({scale: 1.5 * pointScale});
+
+            // Make the arrow-thing grow and shrink with mouseover/out
+            $(button.mouseTarget[0]).bind("vmouseover", function(e) {
+                isHovering = true;
+                redraw(button.coord, [line.pointA.coord, line.pointZ.coord]);
+            });
+            $(button.mouseTarget[0]).bind("vmouseout", function(e) {
+                isHovering = false;
+                redraw(button.coord, [line.pointA.coord, line.pointZ.coord]);
+            });
+
+            var oldButtonRemove = button.remove;
+            button.remove = function() {
+                currentlyDrawnButton.remove();
+                oldButtonRemove.call(button);
+            };
+
+            update();
             return button;
         };
     })(),
