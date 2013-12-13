@@ -417,7 +417,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     var indexA = 0;
     var indexB = 0;
     var maxNumDigits = Math.max(deciA + deciB, digitsProduct.length);
-    
+
     var leadingZero = 0;
     for (var i=digitsB.length-1; i>0; i--) {
         if (digitsB[i] === 0) {
@@ -498,7 +498,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     };
 
     this.showFinalAddition = function() {
-        if (digitsB.length > 1) {
+        if (digitsB.length - leadingZero > 1) {
             while (digitsProduct.length < deciA + deciB + 1) {
                 digitsProduct.unshift(0);
             }
@@ -546,6 +546,11 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
             fill: "#000"
         }, function() {
             var y = -digitsB.length + leadingZero;
+            if (y === -1) {
+                // y gets mistakenly calculated -1 only in the case where there's
+                // no addition step. In that case, the decimal really goes at y = 0
+                y = 0;
+            }
             graph.label([-deciB - deciA + 0.5, y - 0.1],
                 "\\LARGE{" + decimalPointSymbol + "}", "center", true);
         });

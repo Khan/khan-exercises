@@ -194,7 +194,7 @@
                 <p>The volume of a shape is measured by the number of one <var>UNIT</var> cubes which make up the shape.</p>
                 <p>The volume of a box equals width <code>\times</code> height <code>\times</code> length.</p>
                 <p>
-                    Therefore, <code><var>VOLUME_TEXT</var> = <var>FRACTIONS[0]</var> \times <var>FRACTIONS[1]</var> \times <var>FRACTIONS[2]</var></code>
+                    Therefore, <code><var>VOLUME_TEXT</var> = <var>FRACTIONS[0]</var> \cdot <var>FRACTIONS[1]</var> \cdot <var>FRACTIONS[2]</var></code>
                 </p>
                 <p>
                     <code>\qquad = <span data-if="getGCD(NUMERPRODUCT / GCD, DENOMPRODUCT / GCD) !== 1">
@@ -278,7 +278,7 @@
 
             <p class="question">
                 The volume of this box is <code><var>VOL</var> <var>UNIT_TEXT</var>^3</code>.
-                What is the number labeled <code>x</code> below?
+                Find <code>x</code>.
             </p>
 
             <div class="graphie" id = "box">
@@ -382,7 +382,7 @@
 
             <div class="hints">
                 <p>The volume of a box equals width <code>\times</code> height <code>\times</code> length.</p>
-                <p>Therefore <code><var>VOL</var> = <var>FRACTIONS[0]</var> \times <var>FRACTIONS[2]</var> \times x</code>.</p>
+                <p>Therefore <code><var>VOL</var> = <var>FRACTIONS[0]</var> \cdot <var>FRACTIONS[2]</var> \cdot x</code>.</p>
 
                 <p>
                     <code>\qquad<var>fractionReduce(NUMERATORS[0] * NUMERATORS[2], DENOMINATORS[0] * DENOMINATORS[2])</var>x = <var>VOL</var></code>
@@ -392,7 +392,7 @@
                     <var>fractionReduce(NUMERATORS[0] * NUMERATORS[2], DENOMINATORS[0] * DENOMINATORS[2])</var></code>
                 </p>
                 <p data-if="(NUMERATORS[0] * NUMERATORS[2]) % (DENOMINATORS[0] * DENOMINATORS[2])">
-                    <code>\qquad x = <var>VOL</var> \times
+                    <code>\qquad x = <var>VOL</var> \cdot
                     <var>fractionReduce(DENOMINATORS[0] * DENOMINATORS[2], NUMERATORS[0] * NUMERATORS[2])</var>
                     = <var>FRACTIONS[1]</var></code>
                 </p>

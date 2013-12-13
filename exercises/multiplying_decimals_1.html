@@ -8,13 +8,18 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="SMALL_FACTOR">randRange( 100, 999 )</var>
-            <var id="BIG_FACTOR">randRange( 100, 999 )</var>
-            <var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
-            <div data-ensure="BIG_FACTOR_DECIMAL &gt; 0 || SMALL_FACTOR_DECIMAL &gt; 0">
-                <var id="BIG_FACTOR_DECIMAL">randRange( 0, 2 )</var>
-                <var id="SMALL_FACTOR_DECIMAL">randRange( 0, 2 )</var>
+            <div data-ensure="BIG_FACTOR_DECIMAL > SMALL_FACTOR_DECIMAL">
+                <div data-ensure="BIG_FACTOR_DECIMAL > 0 || SMALL_FACTOR_DECIMAL > 0">
+                    <var id="BIG_FACTOR_DECIMAL">randRange( 0, 2 )</var>
+                    <var id="SMALL_FACTOR_DECIMAL">randRange( 0, 2 )</var>
+                </div>
+                <!-- SMALL_FACTOR and BIG_FACTOR themselves are integers. The actual factor is e.g., SMALL_FACTOR / 10^SMALL_FACTOR_DECIMAL -->
+                <!-- We want the resulting factors to be < 10, but we also want some things to the hundredths place -->
+                <!-- Based on the position of the decimal, choose factors in the range [1,9], [1.0,9.9], or [1.00,9.99] -->
+                <var id="SMALL_FACTOR">randRange(100 / pow(10, 2 - SMALL_FACTOR_DECIMAL), 1000 / pow(10, 2 - SMALL_FACTOR_DECIMAL) - 1)</var>
+                <var id="BIG_FACTOR">randRange(100 / pow(10, 2 - BIG_FACTOR_DECIMAL), 1000 / pow(10, 2 - BIG_FACTOR_DECIMAL) - 1)</var>
             </div>
+            <var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
             <var id="SMALL_FACTOR_DIGITS">padDigitsToNum( digits( SMALL_FACTOR ), SMALL_FACTOR_DECIMAL + 1 )</var>
             <var id="BIG_FACTOR_DIGITS">padDigitsToNum( digits( BIG_FACTOR ), BIG_FACTOR_DECIMAL + 1 )</var>
             <var id="DUMMY">[]</var>

@@ -1493,7 +1493,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // If showNone, replace the last solution with "None of the above",
             // which reveals the correct answer when it is picked and is right.
             if (showNone) {
-                var $none = $("<span>").html($._("None of the above."));
+                var $none = $("<span>").html($._("None of the above"));
                 $none.data("noneOfTheAbove", true);
 
                 // If the answer is correct, we add some data about what the
