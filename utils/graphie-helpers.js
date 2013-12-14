@@ -368,7 +368,7 @@ window.ParallelLines = function(x1, y1, x2, y2, distance) {
             radius = 0.5,
             args, angles;
 
-        color || (color = "#6495ED");
+        color = color || KhanUtil.BLUE;
         index = (index + 8) % 8;
         if (index < 4) {
             args = [lowerIntersection, radius];
