@@ -6,10 +6,10 @@ $.fn["graphie-geometryLoad"] = function() {
 };
 
 window.rotatePoint = function(p, deg, c) {
+    c = c || [0, 0];
     var rad = KhanUtil.toRadians(deg),
         cos = Math.cos(rad),
         sin = Math.sin(rad),
-        c = c || [0, 0],
         cx = c[0],
         cy = c[1],
         px = p[0],
@@ -106,7 +106,7 @@ window.mergeArray = function(ar1, ar2) {
 };
 
 window.isPointOnLineSegment = function(l, p, precision) {
-    var precision = precision || 0.1;
+    precision = precision || 0.1;
     //If line is vertical
     if (Math.abs(l[1][0] - l[0][0]) < precision) {
         return (Math.abs(p[0] - l[0][0]) < precision) && (p[1] <= (Math.max(l[1][1], l[0][1]) + precision)) && (p[1] >= (Math.min(l[1][1], l[0][1]) - precision));
@@ -373,7 +373,7 @@ window.Triangle = function(center, angles, scale, labels, points) {
     };
 
     this.rotatePoint = function(pos, theta) {
-        var theta = theta || this.rotation;
+        theta = theta || this.rotation;
         return [this.rotationCenter[0] + (pos[0] - this.rotationCenter[0]) * Math.cos(theta) + (pos[1] - this.rotationCenter[1]) * Math.sin(theta), this.rotationCenter[1] + (-1) * ((pos[0] - this.rotationCenter[0]) * Math.sin(theta)) + ((pos[1] - this.rotationCenter[1]) * Math.cos(theta))];
     };
 

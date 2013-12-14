@@ -935,7 +935,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // The provided answer is the cube of what is meant to be
             // entered. Use KhanUtil.splitCube to find the different parts
-            var ansCubed = parseFloat(ansCubed);
+            ansCubed = parseFloat(ansCubed);
             var ans = KhanUtil.splitCube(ansCubed);
 
             return function(guess) {

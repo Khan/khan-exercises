@@ -892,6 +892,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                         coord = applySnapAndConstraints(coord);
                         var coordX = coord[0];
                         var coordY = coord[1];
+                        var mouseX;
+                        var mouseY;
 
                         if (event.type === "vmousemove") {
                             var doMove = true;
@@ -1081,7 +1083,6 @@ $.extend(KhanUtil.Graphie.prototype, {
             snap: 0,
             range: [graph.range[0][0], graph.range[0][1]]
         }, options);
-        var graph = options.graph;
         var interactiveFn = {
             highlight: false
         };
