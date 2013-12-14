@@ -242,9 +242,9 @@ $.extend(KhanUtil, {
         this.drawMovablePoint = function(theta, min, max) {
             var graph = KhanUtil.currentGraph,
                 point = graph.polar(radius, theta);
-                min = min || 0,
-                max = max || 360,
-                graph.graph.movable = { vertex: KhanUtil.bogusShape, arc: KhanUtil.bogusShape, chords: [KhanUtil.bogusShape, KhanUtil.bogusShape] };
+            min = min || 0;
+            max = max || 360;
+            graph.graph.movable = { vertex: KhanUtil.bogusShape, arc: KhanUtil.bogusShape, chords: [KhanUtil.bogusShape, KhanUtil.bogusShape] };
 
             graph.graph.inscribedPoint = graph.addMovablePoint({coordX: point[0], coordY: point[1] });
 
@@ -265,8 +265,8 @@ $.extend(KhanUtil, {
 
         this.drawCentralArc = function(start, end, arcRadius) {
             var graph = KhanUtil.currentGraph,
-                arcRadius = arcRadius || 0.5,
                 arc;
+            arcRadius = arcRadius || 0.5;
             graph.style({fill: ""}, function() {
                 arc = graph.arc(center, arcRadius, start, end);
             });
@@ -288,8 +288,8 @@ $.extend(KhanUtil, {
                 point2 = graph.polar(radius, end),
                 theta1 = getThetaFromXY(point1[0] - vertex[0], point1[1] - vertex[1]),
                 theta2 = getThetaFromXY(point2[0] - vertex[0], point2[1] - vertex[1]),
-                arcRadius = arcRadius || 0.5,
                 arc;
+            arcRadius = arcRadius || 0.5;
             graph.style({ fill: "" }, function() {
                 arc = graph.arc(vertex, arcRadius, theta1, theta2);
             });
