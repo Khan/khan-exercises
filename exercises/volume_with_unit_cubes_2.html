@@ -46,8 +46,10 @@
     <div class="problems">
         <div id="find-volume-count">
             <div class="vars" data-ensure="DIMENSIONS[0] * DIMENSIONS[1] * DIMENSIONS[2] < 33  && DIMENSIONS[0] * DIMENSIONS[1] * DIMENSIONS[2] > 1">
-                <var id="DENOMINATOR">randRange(2, 5)</var>
-                <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
+                <div data-ensure="getGCD(NUMERATOR, DENOMINATOR) === 1">
+                    <var id="DENOMINATOR">randRange(2, 5)</var>
+                    <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
+                </div>
                 <var id="FRACTION">NUMERATOR / DENOMINATOR</var>
                 <var id="DIMENSIONS" >randRange(1,4,3)</var>
                 <var id="LENGTH">DIMENSIONS[0]</var>
@@ -88,7 +90,7 @@
             </div>
 
             <p class="question">What is the volume of this box?</p>
-            <p>Each cube has sides of lengths <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var>.</p>
+            <p>Each cube has <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var> sides.</p>
             <div class="graphie" id = "box">
                 init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                 addMouseLayer();
@@ -198,7 +200,8 @@
 
             <p class="question">What is the volume of this shape?</p>
             <p>
-                Each cube has sides of lengths <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var>.
+                Each cube has <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var> sides.
+            </p><p>
                 You can click and drag to rotate the shape.
             </p>
             <div class="graphie" id = "box">

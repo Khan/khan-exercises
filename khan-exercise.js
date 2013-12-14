@@ -299,6 +299,7 @@ window.Khan = (function() {
             "chemistry": ["math-format"],
             "kvector": ["knumber"],
             "kpoint": ["kvector", "knumber"],
+            "kray": ["kpoint", "kvector"],
             "kline": ["kpoint", "kvector"],
             "constructions": ["kmatrix"]
         },
@@ -1810,6 +1811,16 @@ window.Khan = (function() {
                 history.scrollTop(history[0].scrollHeight);
             };
 
+            var updateAngleMode = function() {
+                if (Calculator.settings.angleMode === "DEG") {
+                    // I18N: "DEGrees" calculator button (3 chars or less)
+                    $(".calculator-angle-mode").html("<br>" + $._("DEG"));
+                } else {
+                    // I18N: "RADians" calculator button (3 chars or less)
+                    $(".calculator-angle-mode").text($._("RAD"));
+                }
+            };
+
             // The enter handler needs to bind to keypress to prevent the
             // surrounding form submit... (http://stackoverflow.com/a/587575)
             input.on("keypress", function(e) {
@@ -1842,12 +1853,13 @@ window.Khan = (function() {
                         input.val("");
                         history.children().not(inputRow).remove();
                     } else if (behavior === "angle-mode") {
-                        // TODO(emily): The DEG/RAD should be i18nized at some
-                        // point here
-                        Calculator.angleMode = Calculator.angleMode === "DEG" ?
+                        Calculator.settings.angleMode =
+                            Calculator.settings.angleMode === "DEG" ?
                             "RAD" : "DEG";
-                        jel.html((Calculator.angleMode === "DEG" ? "<br>" : "") +
-                                 Calculator.angleMode);
+                        window.localStorage["calculator_settings:" +
+                            window.USERNAME] = JSON.stringify(
+                            Calculator.settings);
+                        updateAngleMode();
                     } else if (behavior === "evaluate") {
                         evaluate();
                     }
@@ -1864,6 +1876,8 @@ window.Khan = (function() {
                 input.val("");
                 history.children().not(inputRow).remove();
             });
+
+            updateAngleMode();
 
             // i18nize the decimal point button
             $(".calculator-decimal").html(separator);

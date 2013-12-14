@@ -1094,7 +1094,7 @@
         });
 
         strictEqual(texts.length, 4, "The number of choices should be correct");
-        strictEqual(texts[3], "None of the above.",
+        strictEqual(texts[3], "None of the above",
             "The last choice should be none of the above");
 
         start();
@@ -1122,7 +1122,7 @@
         });
 
         strictEqual(texts.length, 5, "The number of choices should be correct");
-        strictEqual(texts[4], "None of the above.",
+        strictEqual(texts[4], "None of the above",
             "The last choice should be none of the above");
 
         start();
@@ -1158,7 +1158,7 @@
             return $(e).text();
         });
 
-        deepEqual(texts, ["None of the above."],
+        deepEqual(texts, ["None of the above"],
             "The only choice should be none of the above");
 
         // By default, nothing is checked so the validator gives ""

@@ -20,16 +20,14 @@
 
             <var id="NUMERATOR">N1 * D2</var>
             <var id="DENOMINATOR">D1 * N2</var>
-            <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
         </div>
 
         <div class="problems">
             <div>
-                <div class="problem">Reduce to lowest terms:</div>
                 <div class="question">
                     <p><code>\dfrac{<var>N1</var>}{<var>D1</var>} \div \dfrac{<var>N2</var>}{<var>D2</var>} = {?}</code></p>
                 </div>
-                <div class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR</var></div>
+                <div class="solution" data-type="rational" data-simplify="optional"><var>NUMERATOR / DENOMINATOR</var></div>
             </div>
         </div>
 
@@ -43,29 +41,20 @@
             <div>
                 <p>Therefore:</p>
                 <p><code>
-                    \dfrac{<var>N1</var>}{<var>D1</var>} \div \dfrac{<var>N2</var>}{<var>D2</var>} = 
+                    \dfrac{<var>N1</var>}{<var>D1</var>} \div \dfrac{<var>N2</var>}{<var>D2</var>} =
                     \dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>N2</var>}
                 </code></p>
             </div>
 
             <p><code>
-                \phantom{\dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>N2</var>}} = 
+                \phantom{\dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>N2</var>}} =
                 \dfrac{<var>N1</var> \times <var>D2</var>}{<var>D1</var> \times <var>N2</var>}
             </code></p>
 
             <p><code>
-                \phantom{\dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>N2</var>}} = 
+                \phantom{\dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>N2</var>}} =
                 \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
             </code></p>
-
-            <div data-if="GCD !== 1">
-                <p>The numerator and denominator have a common divisor of <code><var>GCD</var></code>, so we can simplify:</p>
-                <p><code>
-                    \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = 
-                    \dfrac{<var>NUMERATOR</var> \div <var>GCD</var>}{<var>DENOMINATOR</var> \div <var>GCD</var>} = 
-                    <var>fractionReduce(NUMERATOR, DENOMINATOR)</var>
-                </code></p>
-            </div>
         </div>
     </div>
 </body>

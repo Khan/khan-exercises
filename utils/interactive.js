@@ -1,5 +1,14 @@
 (function() {
 
+var kpoint = KhanUtil.kpoint;
+var kvector = KhanUtil.kvector;
+var kline = KhanUtil.kline;
+$.fn["interactiveLoad"] = function() {
+    kpoint = KhanUtil.kpoint;
+    kvector = KhanUtil.kvector;
+    kline = KhanUtil.kline;
+};
+
 function sum(array) {
     return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
 }
@@ -2549,25 +2558,36 @@ $.extend(KhanUtil.Graphie.prototype, {
             snapY: 0.5,
             snapRadius: 0.5,
             minRadius: 1,
-            centerConstraints: {}
+            centerConstraints: {},
+            centerNormalStyle: {
+                stroke: KhanUtil.BLUE,
+                fill: KhanUtil.BLUE
+            },
+            centerHighlightStyle: {
+                stroke: KhanUtil.ORANGE,
+                fill: KhanUtil.ORANGE
+            },
+            circleNormalStyle: {
+                stroke: KhanUtil.BLUE,
+                "fill-opacity": 0
+            },
+            circleHighlightStyle: {
+                stroke: KhanUtil.ORANGE,
+                fill: KhanUtil.ORANGE,
+                "fill-opacity": 0.05
+            }
         }, options);
 
         circle.centerPoint = graphie.addMovablePoint({
             graph: graphie,
             coord: circle.center,
-            normalStyle: {
-                stroke: KhanUtil.BLUE,
-                fill: KhanUtil.BLUE
-            },
+            normalStyle: circle.centerNormalStyle,
             snapX: circle.snapX,
             snapY: circle.snapY,
             constraints: circle.centerConstraints
         });
-        circle.circ = graphie.circle(circle.center, circle.radius, {
-            stroke: KhanUtil.BLUE,
-            fill: KhanUtil.ORANGE,
-            fillOpacity: 0
-        });
+        circle.circ = graphie.circle(circle.center, circle.radius,
+                circle.circleNormalStyle);
         circle.perim = graphie.mouselayer.circle(
             graphie.scalePoint(circle.center)[0],
             graphie.scalePoint(circle.center)[1],
@@ -2581,15 +2601,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             $(circle.centerPoint.mouseTarget[0]).on("vmouseover vmouseout",
                     function(event) {
                 if (circle.centerPoint.highlight) {
-                    circle.circ.animate({
-                        stroke: KhanUtil.ORANGE,
-                        "fill-opacity": 0.05
-                    }, 50);
+                    circle.circ.animate(circle.circleHighlightStyle, 50);
                 } else {
-                    circle.circ.animate({
-                        stroke: KhanUtil.BLUE,
-                        "fill-opacity": 0
-                    }, 50);
+                    circle.circ.animate(circle.circleNormalStyle, 50);
                 }
             });
         }
@@ -2657,27 +2671,24 @@ $.extend(KhanUtil.Graphie.prototype, {
                 if (event.type === "vmouseover") {
                     circle.highlight = true;
                     if (!KhanUtil.dragging) {
-                        circle.circ.animate({
-                            stroke: KhanUtil.ORANGE,
-                            "fill-opacity": 0.05
-                        }, 50);
-                        circle.centerPoint.visibleShape.animate({
-                            stroke: KhanUtil.ORANGE,
-                            fill: KhanUtil.ORANGE
-                        }, 50);
+                        // TODO(jack): Figure out why this doesn't work
+                        // for circleHighlightStyle's that change
+                        // stroke-dasharray
+                        circle.circ.animate(circle.circleHighlightStyle, 50);
+                        circle.centerPoint.visibleShape.animate(
+                            circle.centerHighlightStyle,
+                            50
+                        );
                     }
 
                 } else if (event.type === "vmouseout") {
                     circle.highlight = false;
                     if (!circle.dragging) {
-                        circle.circ.animate({
-                            stroke: KhanUtil.BLUE,
-                            "fill-opacity": 0
-                        }, 50);
-                        circle.centerPoint.visibleShape.animate({
-                            stroke: KhanUtil.BLUE,
-                            fill: KhanUtil.BLUE
-                        }, 50);
+                        circle.circ.animate(circle.circleNormalStyle, 50);
+                        circle.centerPoint.visibleShape.animate(
+                            circle.centerNormalStyle,
+                            50
+                        );
                     }
 
                 } else if (event.type === "vmousedown" &&
@@ -2957,6 +2968,221 @@ $.extend(KhanUtil.Graphie.prototype, {
         };
     })(),
 
+    addReflectButton: (function() {
+        var decorateOnMoves = function(movable, decorator) {
+            var prevOnMove = movable.onMove;
+            var prevOnMoveEnd = movable.onMoveEnd;
+
+            if (prevOnMove) {
+                movable.onMove = function(x, y) {
+                    var result = prevOnMove.apply(movable, _.toArray(arguments));
+                    if (_.isArray(result)) {
+                        x = result[0];
+                        y = result[1];
+                    } else if (result === false && movable.coord) {
+                        x = movable.coord[0];
+                        y = movable.coord[1];
+                    }
+                    decorator(x, y);
+                    return result;
+                };
+            } else {
+                movable.onMove = decorator;
+            }
+
+            if (prevOnMoveEnd) {
+                movable.onMoveEnd = function() {
+                    prevOnMoveEnd();
+                    if (movable.coord) {
+                        decorator(movable.coord[0], movable.coord[1]);
+                    } else {
+                        decorator();
+                    }
+                };
+            } else {
+                movable.onMoveEnd = decorator;
+            }
+        };
+
+        var drawButton = function(
+                graphie,
+                buttonCoord,
+                lineCoords,
+                size,
+                distanceFromCenter,
+                leftStyle,
+                rightStyle) {
+
+            // Avoid invalid lines
+            if (kpoint.equal(lineCoords[0], lineCoords[1])) {
+                lineCoords = [
+                    lineCoords[0],
+                    kpoint.addVector(lineCoords[0], [1, 1])
+                ];
+            }
+
+            var lineDirection = kvector.normalize(
+                kvector.subtract(lineCoords[1], lineCoords[0])
+            );
+
+            var lineVec = kvector.scale(
+                lineDirection,
+                size/2
+            );
+
+            // Calculate the offset the center points should be placed at
+            var centerVec = kvector.scale(lineDirection, distanceFromCenter);
+            var leftCenterVec = kvector.rotateDeg(centerVec, 90);
+            var rightCenterVec = kvector.rotateDeg(centerVec, -90);
+
+            // Calculate the offsets for the far points
+            var negLineVec = kvector.negate(lineVec);
+            var leftVec = kvector.rotateDeg(lineVec, 90);
+            var rightVec = kvector.rotateDeg(lineVec, -90);
+
+            // Calculate the center point locations
+            var leftCenter = kpoint.addVectors(buttonCoord, leftCenterVec);
+            var rightCenter = kpoint.addVectors(buttonCoord, rightCenterVec);
+
+            // Calculate the far point locations
+            var leftCoord1 = kpoint.addVectors(buttonCoord, leftCenterVec, lineVec, leftVec);
+            var leftCoord2 = kpoint.addVectors(buttonCoord, leftCenterVec, negLineVec, leftVec);
+            var rightCoord1 = kpoint.addVectors(buttonCoord, rightCenterVec, lineVec, rightVec);
+            var rightCoord2 = kpoint.addVectors(buttonCoord, rightCenterVec, negLineVec, rightVec);
+
+            var leftButton = graphie.path(
+                [leftCenter, leftCoord1, leftCoord2, true],
+                leftStyle
+            );
+            var rightButton = graphie.path(
+                [rightCenter, rightCoord1, rightCoord2, true],
+                rightStyle
+            );
+
+            return {
+                remove: function() {
+                    leftButton.remove();
+                    rightButton.remove();
+                }
+            };
+        };
+
+        return function(options) {
+            var graphie = this;
+
+            var line = options.line;
+
+            var button = graphie.addMovablePoint({
+                coord: kline.midpoint([
+                    line.pointA.coord,
+                    line.pointZ.coord
+                ]),
+                onMove: function() { return false; }
+            });
+
+            var isHovering = false;
+            var isFlipped = false;
+            var currentlyDrawnButton;
+
+            var styles = _.map([0, 1], function(isHighlight) {
+                var baseStyle = isHighlight ?
+                        options.highlightStyle :
+                        options.normalStyle;
+
+                return _.map([0, 1], function(opacity) {
+                    return _.defaults({
+                        "fill-opacity": opacity
+                    }, baseStyle);
+                });
+            });
+
+            var getStyle = function(isRight) {
+                if (isFlipped) {
+                    isRight = !isRight;
+                }
+                return styles[+isHovering][+isRight];
+            };
+
+            var redraw = function(coord, lineCoords) {
+                if (currentlyDrawnButton) {
+                    currentlyDrawnButton.remove();
+                }
+                currentlyDrawnButton = drawButton(
+                    graphie,
+                    coord,
+                    lineCoords,
+                    isHovering ? options.size * 1.5 : options.size,
+                    isHovering ? options.size * 0.125 : 0.25,
+                    getStyle(0),
+                    getStyle(1)
+                );
+            };
+
+            // Keep the button's position in-sync with the line
+            var update = function(coordA, coordZ) {
+                coordA = coordA || line.pointA.coord;
+                coordZ = coordZ || line.pointZ.coord;
+
+                var buttonCoord = kline.midpoint([coordA, coordZ]);
+                button.setCoord(buttonCoord);
+
+                redraw(buttonCoord, [coordA, coordZ]);
+            };
+
+            decorateOnMoves(line, _.bind(update, null, null, null));
+            decorateOnMoves(line.pointA, function(x, y) {
+                update([x, y], null);
+            });
+            decorateOnMoves(line.pointZ, function(x, y) {
+                update(null, [x, y]);
+            });
+
+            button.update = update;
+
+            // Add click handling
+            $(button.mouseTarget[0]).on("vmousedown", function() {
+                var result = options.onClick();
+                if (result !== false) {
+                    isFlipped = !isFlipped;
+                    redraw(button.coord,
+                        [line.pointA.coord, line.pointZ.coord]);
+                }
+            });
+
+            // Bring the reflection line handles in front of the button, so
+            // that if we drag the reflectPoints really close together, we can
+            // still move the handles away from each other, rather than only
+            // being able to apply the reflection.
+            line.pointA.toFront();
+            line.pointZ.toFront();
+
+            // Replace the visual point with the double triangle thing
+            button.visibleShape.remove();
+            // Resize the hidden point to cover the size of the visual point
+            var pointScale = graphie.scaleVector(options.size)[0] / 20;
+            button.mouseTarget.attr({scale: 1.5 * pointScale});
+
+            // Make the arrow-thing grow and shrink with mouseover/out
+            $(button.mouseTarget[0]).bind("vmouseover", function(e) {
+                isHovering = true;
+                redraw(button.coord, [line.pointA.coord, line.pointZ.coord]);
+            });
+            $(button.mouseTarget[0]).bind("vmouseout", function(e) {
+                isHovering = false;
+                redraw(button.coord, [line.pointA.coord, line.pointZ.coord]);
+            });
+
+            var oldButtonRemove = button.remove;
+            button.remove = function() {
+                currentlyDrawnButton.remove();
+                oldButtonRemove.call(button);
+            };
+
+            update();
+            return button;
+        };
+    })(),
+
     protractor: function(center) {
         return new Protractor(this, center);
     },
@@ -3174,9 +3400,23 @@ function MovableAngle(graphie, options) {
 
     if (!this.points || this.points.length !== 3) {
         throw new Error("MovableAngle requires 3 points");
-    } else if (_.any(this.points, _.isArray)) {
-        throw new Error("MovableAngle takes only MovablePoints");
     }
+
+    // Handle coordinates that are not MovablePoints (i.e. [2, 4])
+    this.points = _.map(options.points, function(point) {
+        if (_.isArray(point)) {
+            return graphie.addMovablePoint({
+                coord: point,
+                visible: false,
+                constraints: {
+                    fixed: true
+                },
+                normalStyle: this.normalStyle
+            });
+        } else {
+            return point;
+        }
+    }, this);
 
     this.rays = _.map([0, 2], function(i) {
         return graphie.addMovableLineSegment({
@@ -3190,8 +3430,10 @@ function MovableAngle(graphie, options) {
     this.temp = [];
     this.labeledAngle = graphie.label([0, 0], "", "center", this.labelStyle);
 
-    this.addMoveHandlers();
-    this.addHighlightHandlers();
+    if (!this.fixed) {
+        this.addMoveHandlers();
+        this.addHighlightHandlers();
+    }
     this.update();
 }
 
@@ -3201,6 +3443,7 @@ _.extend(MovableAngle.prototype, {
     angleLabel: "",
     numArcs: 1,
     pushOut: 0,
+    fixed: false,
 
     addMoveHandlers: function() {
         var graphie = this.graphie;
@@ -3244,7 +3487,6 @@ _.extend(MovableAngle.prototype, {
             if (valid) {
                 _.each(newPoints, function(newPoint, i) {
                     points[i].setCoord(newPoint);
-                    points[i].updateLineEnds();
                 });
             }
             return valid;
@@ -3303,6 +3545,9 @@ _.extend(MovableAngle.prototype, {
     update: function() {
         // Update coords
         this.coords = _.pluck(this.points, "coord");
+
+        // Update lines
+        _.invoke(this.points, "updateLineEnds");
 
         // Update angle label
         _.invoke(this.temp, "remove");
