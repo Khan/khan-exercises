@@ -296,8 +296,7 @@ window.Triangle = function(center, angles, scale, labels, points) {
         this.set.push(KhanUtil.currentGraph.label(p, v, "center", { color: this.color }));
     };
 
-    this.boxOut = function(pol, amount, type) {
-        var type = type || "simple";
+    this.boxOut = function(pol, amount) {
         var shouldMove = areIntersecting(pol, this.sides);
         while (areIntersecting(pol, this.sides)) {
             this.translate(amount);
