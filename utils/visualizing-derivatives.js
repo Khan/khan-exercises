@@ -205,9 +205,11 @@ $.extend(KhanUtil, {
             var n = this.rangeArray.length;
 
             _.each(this.rangeArray, function(range, i) {
-                var fn = shiftedFnArray[i];
+                var fn = shiftedFnArray[i],
+                    origFn;
+
                 if (plotDerivative) {
-                    var origFn = antiderivFnArray[i];
+                    origFn = antiderivFnArray[i];
                 }
 
                 _.each(range, function(x, j) {
