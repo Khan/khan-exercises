@@ -5,10 +5,12 @@ things to do:
 big parens
 */
 .katex {
-  display: inline-block;
   font: normal 1.21em katex_main;
   line-height: 1.2;
   white-space: nowrap;
+}
+.katex .katex-inner {
+  display: inline-block;
 }
 .katex .base {
   display: inline-block;
