@@ -611,9 +611,7 @@ $.extend(KhanUtil, {
                 } else if (key === "circ") {
                     tool[key].remove();
                 } else if (key === "edge") {
-                    tool[key].visibleLine.remove();
-                    tool[key].visible = false;
-                    $(tool[key].mouseTarget[0]).remove();
+                    tool[key].remove();
                 }
             });
 

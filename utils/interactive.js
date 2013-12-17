@@ -1302,6 +1302,14 @@ $.extend(KhanUtil.Graphie.prototype, {
         }
         lineSegment.visibleLine = graph.raphael.path(path);
         lineSegment.visibleLine.attr(lineSegment.normalStyle);
+        // Clip the line 5px from the edge of the graphie to allow for
+        // arrowheads
+        if (lineSegment.extendLine || lineSegment.extendRay) {
+            lineSegment.visibleLine.attr({
+                "clip-rect": "5 5 " + (graph.dimensions[0] - 10) + " " +
+                    (graph.dimensions[1] - 10)
+            });
+        }
         if (!lineSegment.fixed) {
             lineSegment.mouseTarget = graph.mouselayer.rect(0, -15, 1, 30);
             lineSegment.mouseTarget.attr({fill: "#000", "opacity": 0.0});
@@ -1346,6 +1354,56 @@ $.extend(KhanUtil.Graphie.prototype, {
             // Temporary objects: array of SVG nodes that get recreated on drag
             _.invoke(this.temp, "remove");
             this.temp = [];
+
+            // Given `coord` and `angle`, find the point where a line extended
+            // from `coord` in the direction of `angle` would be clipped by the
+            // edge of the graphie canvas. Then draw an arrowhead at that point
+            // pointing in the direction of `angle`.
+            var drawArrowAtClipPoint = function(coord, angle) {
+                var graph = lineSegment.graph;
+                // Actually put the arrowheads 4px from the edge so they have
+                // a bit of room
+                var range = [[graph.range[0][0] + 4 / graph.scale[0],
+                              graph.range[0][1] - 4 / graph.scale[0]], [
+                              graph.range[1][0] + 4 / graph.scale[1],
+                              graph.range[1][1] - 4 / graph.scale[1]]];
+                // Find the angle between the point and each corner
+                var neAngle = KhanUtil.findAngle([range[0][1], range[1][1]], coord);
+                var nwAngle = KhanUtil.findAngle([range[0][0], range[1][1]], coord);
+                var swAngle = KhanUtil.findAngle([range[0][0], range[1][0]], coord);
+                var seAngle = KhanUtil.findAngle([range[0][1], range[1][0]], coord);
+                var clipPoint;
+                if (neAngle <= angle && angle <= nwAngle) {
+                    // clipped by top edge
+                    clipPoint = [coord[0] + (range[1][1] - coord[1]) * 1 / Math.tan(angle * Math.PI / 180), range[1][1]];
+                } else if (swAngle <= angle && angle <= seAngle) {
+                    // clipped by bottom edge
+                    clipPoint = [coord[0] + (range[1][0] - coord[1]) * 1 / Math.tan(angle * Math.PI / 180), range[1][0]];
+                } else if (nwAngle <= angle && angle <= swAngle) {
+                    // clipped by left edge
+                    clipPoint = [range[0][0], coord[1] + (range[0][0] - coord[0]) * Math.tan(angle * Math.PI / 180)];
+                } else {
+                    // clipped by right edge
+                    clipPoint = [range[0][1], coord[1] + (range[0][1] - coord[0]) * Math.tan(angle * Math.PI / 180)];
+                }
+                clipPoint = graph.scalePoint(clipPoint);
+
+                var arrowHead = graph.raphael.path("M-3 4 C-2.75 2.5 0 0.25 0.75 0C0 -0.25 -2.75 -2.5 -3 -4");
+                arrowHead.rotate(360 - angle, 0.75, 0)
+                    .scale(1.4, 1.4, 0.75, 0)
+                    .translate(clipPoint[0], clipPoint[1])
+                    .attr(lineSegment.normalStyle)
+                    .attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
+
+                return arrowHead;
+            };
+
+            if (this.extendLine) {
+                this.temp.push(drawArrowAtClipPoint(this.coordA, 360 - angle));
+                this.temp.push(drawArrowAtClipPoint(this.coordZ, (540 - angle) % 360));
+            } else if (this.extendRay) {
+                this.temp.push(drawArrowAtClipPoint(this.coordA, 360 - angle));
+            }
 
             // Labels are always above line, unless vertical (if so, on right)
             // probably want to add an option to flip this at will!
