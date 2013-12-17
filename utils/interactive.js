@@ -1393,7 +1393,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     .scale(1.4, 1.4, 0.75, 0)
                     .translate(clipPoint[0], clipPoint[1])
                     .attr(lineSegment.normalStyle)
-                    .attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
+                    .attr({ "stroke-linejoin": "round", "stroke-linecap": "round", "stroke-dasharray": "" });
 
                 return arrowHead;
             };
