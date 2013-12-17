@@ -1,11 +1,13 @@
 (function() {
 
-var kpoint = KhanUtil.kpoint;
+var knumber = KhanUtil.knumber;
 var kvector = KhanUtil.kvector;
+var kpoint = KhanUtil.kpoint;
 var kline = KhanUtil.kline;
 $.fn["interactiveLoad"] = function() {
-    kpoint = KhanUtil.kpoint;
+    knumber = KhanUtil.knumber;
     kvector = KhanUtil.kvector;
+    kpoint = KhanUtil.kpoint;
     kline = KhanUtil.kline;
 };
 
@@ -371,8 +373,10 @@ $.extend(KhanUtil.Graphie.prototype, {
             var match = text.match(/\$deg(\d)?/);
             if (match) {
                 var precision = match[1] || 1;
-                text = text.replace(match[0],
-                                    angle.toFixed(precision) + "^{\\circ}");
+                text = text.replace(
+                    match[0],
+                    KhanUtil.toFixedApprox(angle, precision) + "^{\\circ}"
+                );
             }
 
             // Calculate label position
@@ -497,11 +501,10 @@ $.extend(KhanUtil.Graphie.prototype, {
             if (match) {
                 var distance = KhanUtil.getDistance(p1, p2);
                 var precision = match[1] || 1;
-                if (Math.abs(distance.toFixed(precision) - distance) < 1e-9) {
-                    text = text.replace(match[0], distance.toFixed(precision));
-                } else {
-                    text = text.replace(match[0], "\\approx " + distance.toFixed(precision));
-                }
+                text = text.replace(
+                    match[0],
+                    KhanUtil.toFixedApprox(distance, precision)
+                );
             }
 
             // Calculate label position
