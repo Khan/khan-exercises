@@ -15,6 +15,7 @@
             <var id="DIVIDEND_DECIMAL">randRange(1, 2)</var>
             <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
             <var id="DUMMY">[]</var>
+            <var id="SOLUTION">QUOTIENT / pow(10, QUOTIENT_DECIMAL)</var>
         </div>
 
         <div class="problems">
@@ -24,7 +25,7 @@
                     graph.divider.show();
                     DUMMY = Array(graph.divider.getNumHints());
                 </div>
-                <div class="solution" data-type="decimal"><var>QUOTIENT / round(pow(10, QUOTIENT_DECIMAL))</var></div>
+                <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
             </div>
         </div>
         <div class="hints">
