@@ -76,9 +76,10 @@
         <div id="write-solution">
             <div class="vars">
                 <var id="SOLUTION">round(pow(BASE, EXPONENT))</var>
+                <var id="DISPLAY_BASE">BASE &lt; 0 ? "(" + BASE + ")" : BASE</var>
             </div>
 
-            <p class="question"><code>\Large <var>BASE</var>^{<var>EXPONENT</var>} = \; ?</code></p>
+            <p class="question"><code>\Large <var>DISPLAY_BASE</var>^{<var>EXPONENT</var>} = \; ?</code></p>
             <div class="solution" data-forms="integer"><var>SOLUTION</var></div>
             <div class="hints">
                 <div data-each="EXPANSION as v" data-unwrap="">
