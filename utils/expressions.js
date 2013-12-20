@@ -215,7 +215,7 @@ $.extend(KhanUtil, {
                         break;
                     }
 
-                    parenthesizeRest || (parenthesizeRest = parenthesize);
+                    parenthesizeRest = parenthesizeRest || parenthesize;
                     factor = KhanUtil.expr(factor);
 
                     if (parenthesizeRest) {
@@ -435,7 +435,7 @@ $.extend(KhanUtil, {
         },
 
         "+-": function() {
-            return Number.NaN;
+            return NaN;
         }
     },
 
