@@ -170,7 +170,7 @@ $.extend(KhanUtil, {
             var ddxMaxDegree = this.maxDegree ? this.maxDegree - 1 : 0;
 
             return new KhanUtil.Polynomial(ddxMinDegree, ddxMaxDegree, ddxCoefs, this.variable);
-        },
+        };
 
         /**
          * Add this polynomial to a number or other polynomial.

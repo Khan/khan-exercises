@@ -521,7 +521,7 @@ window.ComplexPolarForm = function(angleDenominator, maxRadius, euler) {
             fill: KhanUtil.ORANGE,
             stroke: "none"
         });
-    },
+    };
 
     this.redraw = function() {
         if (circle) {

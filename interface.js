@@ -124,8 +124,8 @@ function newProblem(e, data) {
     Exercises.guessLog = [];
     Exercises.userActivityLog = [];
 
-    canAttempt = true,
-    hintsAreFree = false,
+    canAttempt = true;
+    hintsAreFree = false;
     attempts = data.userExercise ? data.userExercise.lastAttemptNumber : 0;
     numHints = data.numHints;
     hintsUsed = data.userExercise ? data.userExercise.lastCountHints : 0;
