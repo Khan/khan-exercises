@@ -16,14 +16,14 @@
             <var id="COLOR">[KhanUtil.BLUE, KhanUtil.GREEN, KhanUtil.RED]</var>                
             <var id="SIDE">["left", "right"]</var>
             <var id="Number">roundTo(0, (pow(2*cos(ANGLE_IN_RADIANS), 2)))</var>            
-            <var id="ANSWER__1"><var>SIGN_OF_COSINE_SYMBOL</var> \frac{1}{2}</var>            
-            <var id="ANSWER__2"><var>SIGN_OF_COSINE_SYMBOL</var> \frac{\sqrt{<var>Number</var>}}{2}</var>            
+            <var id="ANSWER__1">\Large{<var>SIGN_OF_COSINE_SYMBOL</var>\frac{1}{2}}</var>            
+            <var id="ANSWER__2">\Large{<var>SIGN_OF_COSINE_SYMBOL</var>\frac{\sqrt{<var>Number</var>}}{2}}</var>
             <var id="ANSWER">Number == 1?ANSWER__1:ANSWER__2</var>            
         </div>
         <div class="problems">
             <div id="cosine_of_standart_angles_30_45_60">
                 <p class="problem">
-                    Find the value of cos(&theta;) for &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; = <code><var>piFraction(ANGLE_IN_RADIANS)</var></code></br>
+                    Find the value of <code>cos(\theta)</code> for <code>\theta=<var>ANGLE_IN_DEGREES</var>^{\circ}=<var>piFraction(ANGLE_IN_RADIANS)</var></code></br>
                     You can drag the orange point on the unit circle bellow to get an insight.</br></br>
                 </p>
                 <div class="graphie" id="grid">
@@ -58,12 +58,12 @@
                 <p class="question"></p>
                 <div class="solution"><code><var>ANSWER</var></code></div>
                     <ul class="choices" data-category="true">
-                        <li><code>- \frac{1}{2}</code></li>
-                        <li><code>- \frac{\sqrt{2}}{2}</code></li>
-                        <li><code>- \frac{\sqrt{3}}{2}</code></li>
-                        <li><code>\frac{1}{2}</code></li>
-                        <li><code>\frac{\sqrt{2}}{2}</code></li>
-                        <li><code>\frac{\sqrt{3}}{2}</code></li>
+                        <li><code>\Large{-\frac{1}{2}}</code></li>
+                        <li><code>\Large{-\frac{\sqrt{2}}{2}}</code></li>
+                        <li><code>\Large{-\frac{\sqrt{3}}{2}}</code></li>
+                        <li><code>\Large{\frac{1}{2}}</code></li>
+                        <li><code>\Large{\frac{\sqrt{2}}{2}}</code></li>
+                        <li><code>\Large{\frac{\sqrt{3}}{2}}</code></li>
                     </ul>  
             </div>
         </div>
@@ -78,16 +78,16 @@
                 }
             </div>          
             <div>
-                You can drag the orange point to one of the marked positions on the unit circle. Choose the position corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg;. Find the x coordinate for this point. Then cos(&theta;) = x </br>
+                You can drag the orange point to one of the marked positions on the unit circle. Choose the position corresponding to <code>\theta=<var>ANGLE_IN_DEGREES</var>^{\circ}</code>. Find the x coordinate for this point. Then <code>cos(\theta)=x</code></br>
             </div>
-            <div data-if='ANGLE_IN_DEGREES < -90 '>
-                Angle &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; is equivalent to the angle  <code>360</code>&deg;<code><var>ANGLE_IN_DEGREES</var></code>&deg; = <code><var>360+ANGLE_IN_DEGREES</var></code>&deg;. Now, drag the orange point to the marked positions corresponding to <code><var>360+ANGLE_IN_DEGREES</var></code>&deg; and find the x coordinate for this point.
+            <div data-if='ANGLE_IN_DEGREES < -90'>
+                Angle <code>\theta=<var>ANGLE_IN_DEGREES</var>^{\circ}</code> is equivalent to the angle  <code>360^{\circ}-<var>ANGLE_IN_DEGREES</var>^{\circ}</code>=<code><var>360+ANGLE_IN_DEGREES</var>^{\circ}</code>. Now, drag the orange point to the marked positions corresponding to <code><var>360+ANGLE_IN_DEGREES</var>^{\circ}</code>and find the x coordinate for this point.
             </div>
             <div data-if='SIGN_OF_COSINE === 1'>
-                </br>the x coordinate is equal to one of the following: <span style="color:red"><code>\Large{\frac{1}{2}}</code></span> < <span style="color:green"><code>\Large{\frac{&radic;2}{2}}</code></span> < <span style="color:blue"><code>\Large{\frac{&radic;3}{2}}</code></span></br>
+                </br>the x coordinate is equal to one of the following: <span style="color:red"><code>\Large{\frac{1}{2}}</code></span> < <span style="color:green"><code>\Large{\frac{\sqrt{2}}{2}}</code></span> < <span style="color:blue"><code>\Large{\frac{\sqrt{3}}{2}}</code></span></br>
             </div>
             <div data-if='SIGN_OF_COSINE === 0'>
-                </br>the x coordinate is equal to one of the following: </br> <span style="color:blue"><code>\Large{(-\frac{&radic;3}{2})}</code></span> < <span style="color:green"><code>\Large{(-\frac{&radic;2}{2})}</code></span> < <span style="color:red"><code>\Large{(-\frac{1}{2})}</code></span></br>
+                </br>the x coordinate is equal to one of the following: </br> <span style="color:blue"><code>\Large{(-\frac{\sqrt{3}}{2})}</code></span> < <span style="color:green"><code>\Large{(-\frac{\sqrt{2}}{2})}</code></span> < <span style="color:red"><code>\Large{(-\frac{1}{2})}</code></span></br>
             </div>
             <div>
                 <div class="graphie" data-update="grid">
@@ -97,7 +97,7 @@
                     vertical_line_x = line([cos(ANGLE_IN_RADIANS), sin(ANGLE_IN_RADIANS)], [cos(ANGLE_IN_RADIANS), 0], {stroke: "green", arrows: "-&gt;", "stroke-width": 3}); 
                 </div>
                 <p>
-                    The position of orange point corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; is shown on the graph. Corresponding x = cos(&theta;) = <code><var>ANSWER</var></code>
+                    The position of orange point corresponding to <code>\theta=<var>ANGLE_IN_DEGREES</var>^{\circ}</code> is shown on the graph. Corresponding <code>\Large{x=cos(\theta)=<var>ANSWER</var>}</code>
                 </p>                    
             </div>    
         </div>

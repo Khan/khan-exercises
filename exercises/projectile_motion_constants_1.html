@@ -25,18 +25,18 @@
                 <p class="problem">A ball was thrown from the ground as shown on the graph below. A red line represents a trajectory of the motion </br></br></p>
                 <div class="graphie" id="grid">
                     graphInit({
-                        range: [[-9, 40+PR.vx(FULL_TIME)*V_SCALING + 2],[min(PR.vy(FULL_TIME)*V_SCALING, ACCELERATION[1]*A_SCALING)-2, max(PR.y(PR.time_on_the_top())* SCALING, IN_COORD[1]* SCALING+IN_VELOCITY[1]* V_SCALING) + 5 ]], 
-                       scale: 8, axisArrows: "&gt;", tickStep: 5, labelStep: PR.x(FULL_TIME) * SCALING *10, 
-                       axisOpacity: 0.2, tickOpacity: 0.4, labelOpacity: 0.5  
+                        range: [[-9, 40+PR.vx(FULL_TIME)*V_SCALING+2],[min(PR.vy(FULL_TIME)*V_SCALING, ACCELERATION[1]*A_SCALING)-2, max(PR.y(PR.time_on_the_top())*SCALING, IN_COORD[1]*SCALING+IN_VELOCITY[1]*V_SCALING)+5]], 
+                       scale: 8, axisArrows: "&gt;", tickStep: 5, labelStep: PR.x(FULL_TIME)*SCALING*10, 
+                       axisOpacity: 0.2, tickOpacity: 0.4, labelOpacity: 0.5
                     });
-                    label( [ 40+PR.vx(FULL_TIME)*V_SCALING, 0], "x", "below" );
-                    label( [ 0, max(PR.y(PR.time_on_the_top())* SCALING, IN_COORD[1]* SCALING+IN_VELOCITY[1]* V_SCALING)+3], "y", "left" );
-                    plotParametric(function(t){return [PR.x(t)* SCALING, PR.y(t)* SCALING]}, [0, FULL_TIME], {stroke: "black", opacity: 0.5, strokeDasharray: "- "}); 
+                    label([40+PR.vx(FULL_TIME)*V_SCALING, 0], "x", "below");
+                    label([0, max(PR.y(PR.time_on_the_top())*SCALING, IN_COORD[1]*SCALING+IN_VELOCITY[1]*V_SCALING)+3], "y", "left");
+                    plotParametric(function(t){return [PR.x(t)*SCALING, PR.y(t)* SCALING]}, [0, FULL_TIME], {stroke: "black", opacity: 0.5, strokeDasharray: "- "}); 
                     graph.point_onTraject = addMovablePoint({coord: [IN_COORD[0]*SCALING, IN_COORD[1]*SCALING], constraints: {fixed: true}});      
                     GLOBAL.in_motion = 0;
                     PR.draw(graph, PR, 0, SCALING, A_SCALING, V_SCALING);
                 </div>
-                <p class="question"></br>Does  <var>VECTORS[QUESTION]</var> change during the motion?</p>
+                <p class="question"></br>Does <var>VECTORS[QUESTION]</var> change during the motion?</p>
                 <p class="solution"><var>ANSWERS[QUESTION%2]</var></p>
                 <ul class="choices" data-category="true">
                     <li data-each="ANSWERS as choice">

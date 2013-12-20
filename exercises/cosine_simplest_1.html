@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie interactive">
+<html data-require="math math-format graphie interactive angles">
 <head>
     <title>Cosine in the simplest cases: variations with 90&deg;.</title>
     <script src="../khan-exercise.js"></script>
@@ -8,21 +8,20 @@
     <div class="exercise">
         <div class="vars">
             <var id="S">randRangeNonZero(-1, 1)</var>
-            <var id="ANGLE_IN_DEGREES">S * randFromArray( [0, 90, 180, 270, 360] ) </var>
-            <var id="ANGLE_IN_RADIANS">ANGLE_IN_DEGREES *PI /180 </var>
+            <var id="ANGLE_IN_DEGREES">S * randFromArray([0, 90, 180, 270, 360]) </var>
+            <var id="ANGLE_IN_RADIANS">toRadians(ANGLE_IN_DEGREES) </var>
             <var id="SOLUTION">roundTo(0, cos(ANGLE_IN_RADIANS))</var>
         </div>
-
         <div class="problems">
             <div id="cosine_of_standart_angles_90">
                 <p class="problem">
-                    Find the value of cos(&theta;) for &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; = <code><var>piFraction(ANGLE_IN_RADIANS)</code></var></br>
+                    Find the value of <code>cos(\theta)</code> for <code>\theta =<var>ANGLE_IN_DEGREES</var>^{\circ}=<var>piFraction(ANGLE_IN_RADIANS)</var></code></br>
                     You can drag the orange point on the unit circle bellow to get an insight.</br></br>
                 </p>
                 <div class="graphie" id="grid">
                     graphInit({
                         range: [[-1.5, 1.5], [-1.5, 1.5]], scale: 70, axisArrows: "&lt;-&gt;",
-                        tickStep: 1, labelStep: 10,    gridOpacity: 0.05, axisOpacity: 0.2, tickOpacity: 0.4, labelOpacity: 0.8
+                        tickStep: 1, labelStep: 10, gridOpacity: 0.05, axisOpacity: 0.2, tickOpacity: 0.4, labelOpacity: 0.8
                     });
                     label([0, 1.5], "y", "above");
                     label([1.5, 0], "x = cos(&theta;)", "right");
@@ -57,7 +56,7 @@
         </div>
         <div class="hints">          
             <div>
-                Drag the orange point on the unit circle to the position corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg;. Find the x coordinate for this point. Then cos(&theta;) = x
+                Drag the orange point on the unit circle to the position corresponding to <code>\theta =<var>ANGLE_IN_DEGREES</var>^{\circ}</code>. Find the <code>x</code> coordinate for this point. Then <code>cos(\theta)=x</code>
             </div> 
             <div data-if='ANGLE_IN_DEGREES !== 0'>
                 <div class="graphie" data-update="grid">
@@ -65,18 +64,18 @@
                     ANGLE_IN_DEGREES>90?label([0, 1.2], "90&deg;", "right"):label([0, -1.2], "-90&deg;", "right"); 
                 </div>                  
                 <p data-if='ANGLE_IN_DEGREES > 90 || ANGLE_IN_DEGREES < -90'>
-                    To find the angle you can use the fact that <code><var>ANGLE_IN_DEGREES</var></code>&deg; = <code><var>ANGLE_IN_DEGREES/90</var></code> * 90&deg;
+                    To find the angle you can use the fact that <code><var>ANGLE_IN_DEGREES</var>^{\circ}=<var>ANGLE_IN_DEGREES/90</var>*90^{\circ}</code>
                 </p>
             </div>
             <div> 
                 <p>
-                    The position of orange point corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; is shown on the graph. Corresponding x = cos(&theta;) = <code><var>SOLUTION</var></code></br>
+                    The position of orange point corresponding to <code>\theta=<var>ANGLE_IN_DEGREES</var>^{\circ}</code> is shown on the graph. Corresponding <code>x=cos(\theta)=<var>SOLUTION</var></code></br>
                 </p>                    
                 <div class="graphie" data-update="grid">
                     graph.point_onCircle.setCoord([cos(ANGLE_IN_RADIANS), sin(ANGLE_IN_RADIANS)]);
                     graph.point_onCircle.updateLineEnds();
                     vertical_line_x.remove();
-                    vertical_line_x = line([cos(ANGLE_IN_RADIANS), sin(ANGLE_IN_RADIANS)], [cos(ANGLE_IN_RADIANS), 0], {stroke: "green", arrows: "-&gt;", "stroke-width": 3});    
+                    vertical_line_x = line([cos(ANGLE_IN_RADIANS), sin(ANGLE_IN_RADIANS)], [cos(ANGLE_IN_RADIANS), 0], {stroke: "green", arrows: "-&gt;", "stroke-width": 3});   
                 </div>    
             </div>
         </div>
