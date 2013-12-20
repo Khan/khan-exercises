@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie angles interactive physics">
 <head>
-    <title>Projectile PR: Constants</title>
+    <title>Projectile motion: Horizontal distance</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -21,8 +21,8 @@
              <var id="GLOBAL">this</var>
         </div>
         <div class="problems">
-            <div id="projectile_PR__constants">
-                <p class="problem">A ball was thrown from the ground as shown on the graph below. A red line represents a trajectory of the motion </br></br></p>
+            <div id="Projectile_motion_Horizontal_distance">
+                <p class="problem">A ball was thrown from the ground at <code>\theta = <var>roundTo(2, toDegrees(PR.v_angle(0)))</var>^\circ </code>  angle with the initial velocity <code> v = <var>roundTo(2, PR.v(0))</var> \frac{m}{s}</code> . A trajectory of the motion is shown below.  </br></br></p>
                 <div class="graphie" id="grid">
                     graphInit({
                         range: [[-9, 40+PR.vx(FULL_TIME)*V_SCALING + 2],[min(PR.vy(FULL_TIME)*V_SCALING, ACCELERATION[1]*A_SCALING)-2, max(PR.y(PR.time_on_the_top())* SCALING, IN_COORD[1]* SCALING+IN_VELOCITY[1]* V_SCALING) + 5 ]], 
@@ -32,30 +32,34 @@
                     label( [ 40+PR.vx(FULL_TIME)*V_SCALING, 0], "x", "below" );
                     label( [ 0, max(PR.y(PR.time_on_the_top())* SCALING, IN_COORD[1]* SCALING+IN_VELOCITY[1]* V_SCALING)+3], "y", "left" );
                     plotParametric(function(t){return [PR.x(t)* SCALING, PR.y(t)* SCALING]}, [0, FULL_TIME], {stroke: "black", opacity: 0.5, strokeDasharray: "- "}); 
-                    graph.point_onTraject = addMovablePoint({coord: [IN_COORD[0]*SCALING, IN_COORD[1]*SCALING], constraints: {fixed: true}});      
+                    graph.point_onTraject = addMovablePoint({coord: [IN_COORD[0]*SCALING, IN_COORD[1]*SCALING], constraints: {fixed: true}});    
+                    arc([0, 0], 4, 0, toDegrees(PR.v_angle(0)), 0);
+                    label( polar(4, toDegrees(PR.v_angle(0))/2), "&theta;", "right" );
                     GLOBAL.in_motion = 0;
                     PR.draw(graph, PR, 0, SCALING, A_SCALING, V_SCALING);
                 </div>
-                <p class="question"></br>Does  <var>VECTORS[QUESTION]</var> change during the motion?</p>
-                <p class="solution"><var>ANSWERS[QUESTION%2]</var></p>
-                <ul class="choices" data-category="true">
-                    <li data-each="ANSWERS as choice">
-                        <var>choice</var>
-                    </li>
-                </ul>  
+                <p class="question"></br>Please determine the horizontal distance the ball will travel until it will hit the ground? <br>(round to 1 significant digit after the decimal point)<br>
+                <p class="solution" data-type="decimal"><var>roundTo(1,PR.x(FULL_TIME))</var></p>
                 <div class="hints">
+                    <p>
+                        Horizontal velocity is constant during the motion. Thus equation for a horizontal coordinate will be                         <br><code>x(t) = \green{v_x}(0) * t</code>
+                    </p>
                     <div class="graphie" data-update="grid">
+                        label( [ PR.x(FULL_TIME)*SCALING, PR.y(FULL_TIME)*SCALING ], "&bull;");
+                        label( [ PR.x(FULL_TIME)*SCALING, PR.y(FULL_TIME)*SCALING ], "t_F", "above" );
+                        label( [ PR.x(FULL_TIME/2)*SCALING, PR.y(FULL_TIME/2)*SCALING ], "&bull;");
+                        label( [ PR.x(FULL_TIME/2)*SCALING, PR.y(FULL_TIME/2)*SCALING ], "t_T", "above" );
                         PR.move(graph, PR, FULL_TIME, SCALING, A_SCALING, V_SCALING, GLOBAL, 1000*FULL_TIME/500, 500);
                     </div>
                     <p>
-                        <span data-if='QUESTION === 0'>
-                        <code class="hint_red">Vertical</code> component of the velocity vector is changing (there is a gravity force acting along the y axis).</span> 
-                        <span data-if='QUESTION === 1'>
-                        <code class="hint_green">Horizontal</code> component of the velocity vector is a constant (there are no forces acting along the x axis).</span>
-                        <span data-if='QUESTION === 2'>
-                        <code class="hint_purple">Velocity</code> is changing during the motion.</span>
-                        <span data-if='QUESTION === 3'>
-                        <code class="hint_blue">Acceleration</code> due to gravity (<code>g \approx 9.81 \frac{m}{s^2}</code> on the Earth surface) is a constant.</span>
+                        <code>\green{v_x}(0) = \purple{v}(0) * cos(\theta) \approx <var>roundTo(3, PR.vx(0))</var> \frac{m}{s}</code>
+                    </p>
+                    <p>
+                        To find the time <code>t_F</code> when the ball will hit the ground, we calculate the time <code>t_T</code> it takes to reach the highest position and multiply it by 2: <br>
+                        <code>t_F = 2* t_T = 2 * \frac{\red{v_y}(0)}{\blue{g}} = 2 * \frac{\purple{v}(0) * sin(\theta)}{\purple{g}} \approx <var>roundTo(3, FULL_TIME)</var> s</code>
+                    </p>                    
+                    <p>
+                        <code>x(t_F) = \green{v_x}(0) * t_F \approx <var>roundTo(1, PR.x(FULL_TIME))</var> m</code>
                     </p>
                 </div>
             </div> 
