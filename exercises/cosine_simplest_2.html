@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie interactive">
+<html data-require="math math-format graphie interactive angles">
 <head>
     <title>Cosine in the simplest cases: variations with 30&deg;, 45&deg;, and 60&deg;.</title>
     <script src="../khan-exercise.js"></script>
@@ -9,14 +9,16 @@
         <div class="vars">
             <var id="S">randRangeNonZero(-1, 1)</var>
             <var id="ANGLE_IN_DEGREES">S*(rand(3)*90+randFromArray([30, 45, 60]))</var>
-            <var id="ANGLE_IN_RADIANS">ANGLE_IN_DEGREES *PI /180</var>
+            <var id="ANGLE_IN_RADIANS">toRadians(ANGLE_IN_DEGREES)</var>
             <var id="SIGN_OF_COSINE">cos(ANGLE_IN_RADIANS)<0?0:1</var>
             <var id="SIGN_OF_COSINE_SYMBOL">SIGN_OF_COSINE?'':'-'</var>
             <var id="CORRECT_ANGLE">function(alpha){return 180*(1-SIGN_OF_COSINE)+alpha;}</var>
             <var id="COLOR">[KhanUtil.BLUE, KhanUtil.GREEN, KhanUtil.RED]</var>                
             <var id="SIDE">["left", "right"]</var>
-            <var id="CHOICES">["-1", "-&radic;2", "-&radic;3", "1", "&radic;2", "&radic;3" ]</var>
-            <var id="N">roundTo(0, (pow(2*cos(ANGLE_IN_RADIANS), 2)))-1+SIGN_OF_COSINE*3</var>            
+            <var id="Number">roundTo(0, (pow(2*cos(ANGLE_IN_RADIANS), 2)))</var>            
+            <var id="ANSWER__1"><var>SIGN_OF_COSINE_SYMBOL</var> \frac{1}{2}</var>            
+            <var id="ANSWER__2"><var>SIGN_OF_COSINE_SYMBOL</var> \frac{\sqrt{<var>Number</var>}}{2}</var>            
+            <var id="ANSWER">Number == 1?ANSWER__1:ANSWER__2</var>            
         </div>
         <div class="problems">
             <div id="cosine_of_standart_angles_30_45_60">
@@ -54,12 +56,15 @@
                     };                                               
                 </div>
                 <p class="question"></p>
-                <p class="solution"><code>\Large{\frac{<var>CHOICES[N]</var>}{2}}</code></p>
-                <ul class="choices" data-category="true">
-                    <li data-each="CHOICES as choice">
-                        <code>\Large{\frac{<var>choice</var>}{2}}</code>
-                    </li>
-                </ul>     
+                <div class="solution"><code><var>ANSWER</var></code></div>
+                    <ul class="choices" data-category="true">
+                        <li><code>- \frac{1}{2}</code></li>
+                        <li><code>- \frac{\sqrt{2}}{2}</code></li>
+                        <li><code>- \frac{\sqrt{3}}{2}</code></li>
+                        <li><code>\frac{1}{2}</code></li>
+                        <li><code>\frac{\sqrt{2}}{2}</code></li>
+                        <li><code>\frac{\sqrt{3}}{2}</code></li>
+                    </ul>  
             </div>
         </div>
         <div class="hints">
@@ -69,7 +74,7 @@
                     addMovablePoint({coord: polar(1, CORRECT_ANGLE(-a)), constraints:{fixed: true}, normalStyle: {stroke: COLOR[a/15-2], fill: COLOR[a/15-2]}});
                     label(polar(1, CORRECT_ANGLE(a)), SIGN_OF_COSINE?a+"^{\\circ}":"180^{\\circ}+"+a+"^{\\circ}", SIDE[SIGN_OF_COSINE]);
                     label(polar(1, CORRECT_ANGLE(-a)), SIGN_OF_COSINE?"-"+a+"^{\\circ}":"180^{\\circ}-"+a+"^{\\circ}", SIDE[SIGN_OF_COSINE]);
-                    addMovablePoint({coord: [cos(PI*(CORRECT_ANGLE(-a))/180), 0], constraints:{fixed: true}, normalStyle: {stroke: COLOR[a/15-2], fill: COLOR[a/15-2]}});
+                    addMovablePoint({coord: [cos(toRadians(CORRECT_ANGLE(-a))), 0], constraints:{fixed: true}, normalStyle: {stroke: COLOR[a/15-2], fill: COLOR[a/15-2]}});
                 }
             </div>          
             <div>
@@ -92,7 +97,7 @@
                     vertical_line_x = line([cos(ANGLE_IN_RADIANS), sin(ANGLE_IN_RADIANS)], [cos(ANGLE_IN_RADIANS), 0], {stroke: "green", arrows: "-&gt;", "stroke-width": 3}); 
                 </div>
                 <p>
-                    The position of orange point corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; is shown on the graph. Corresponding x = cos(&theta;) = <code>\Large{\frac{<var>CHOICES[N]</var>}{2}}</code>
+                    The position of orange point corresponding to &theta; = <code><var>ANGLE_IN_DEGREES</var></code>&deg; is shown on the graph. Corresponding x = cos(&theta;) = <code><var>ANSWER</var></code>
                 </p>                    
             </div>    
         </div>
