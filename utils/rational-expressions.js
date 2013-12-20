@@ -192,7 +192,6 @@ $.extend(KhanUtil, {
                 return '';
             }
 
-            var coefficient = Math.abs(this.coefficient);
             var s = '';
 
             if (includeSign) {
