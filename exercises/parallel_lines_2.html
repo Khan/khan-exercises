@@ -22,6 +22,7 @@
 
                 <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
                 <var id="KNOWN_INDEX">(randRange(0, 3) * 2) + ((ANGLE &lt; 50) ? 1 : ((ANGLE &gt; 130) ? 0 : randRange(0, 1)))</var>
+                <var id="DRAW_ANGLE">KNOWN_INDEX % 2 === 0 ? ANGLE : 180 - ANGLE</var>
                 <var id="UNKNOWN_INDEX">(KNOWN_INDEX + 4) % 8</var>
                 <var id="BLUE_ANGLE">$._("blue angle")</var>
                 <var id="ORANGE_ANGLE">$._("orange angle")</var>
@@ -40,10 +41,10 @@
                 });
                 graph.pl = new ParallelLines(0, 0, 10, 0, 3);
                 graph.pl.draw();
-                graph.pl.drawMarkers(ANGLE);
-                graph.pl.drawTransverse(ANGLE);
+                graph.pl.drawMarkers(DRAW_ANGLE);
+                graph.pl.drawTransverse(DRAW_ANGLE);
                 graph.pl.drawAngle(KNOWN_INDEX, eq1);
-                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, "#FFA500");
+                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, ORANGE);
             </div>
 
             <div class="hints">
@@ -110,6 +111,7 @@
 
                 <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
                 <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle(randFromArray([[0, 6], [1, 7]]))</var>
+                <var id="DRAW_ANGLE">KNOWN_INDEX % 2 === 0 ? ANGLE : 180 - ANGLE</var>
                 <var id="BLUE_ANGLE">$._("blue angle")</var>
                 <var id="ORANGE_ANGLE">$._("orange angle")</var>
             </div>
@@ -127,10 +129,10 @@
                 });
                 graph.pl = new ParallelLines(0, 0, 10, 0, 3);
                 graph.pl.draw();
-                graph.pl.drawMarkers(ANGLE);
-                graph.pl.drawTransverse(ANGLE);
+                graph.pl.drawMarkers(DRAW_ANGLE);
+                graph.pl.drawTransverse(DRAW_ANGLE);
                 graph.pl.drawAngle(KNOWN_INDEX, eq1);
-                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, "#FFA500");
+                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, ORANGE);
             </div>
 
             <div class="hints">
@@ -183,7 +185,7 @@
             </div>
         </div>
 
-        <div class="alternate-exterior-angles-2">
+        <div id="alternate-exterior-angles-2">
             <div class="vars">
                 <div data-ensure="A * SOLUTION + B &gt; 0 &amp;&amp; A * SOLUTION + B &lt; 180">
                     <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
@@ -196,6 +198,7 @@
 
                 <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
                 <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle(randFromArray([[2, 4], [3, 5]]))</var>
+                <var id="DRAW_ANGLE">KNOWN_INDEX % 2 === 0 ? ANGLE : 180 - ANGLE</var>
                 <var id="BLUE_ANGLE">$._("blue angle")</var>
                 <var id="ORANGE_ANGLE">$._("orange angle")</var>
             </div>
@@ -213,10 +216,10 @@
                 });
                 graph.pl = new ParallelLines(0, 0, 10, 0, 3);
                 graph.pl.draw();
-                graph.pl.drawMarkers(ANGLE);
-                graph.pl.drawTransverse(ANGLE);
+                graph.pl.drawMarkers(DRAW_ANGLE);
+                graph.pl.drawTransverse(DRAW_ANGLE);
                 graph.pl.drawAngle(KNOWN_INDEX, eq1);
-                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, "#FFA500");
+                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, ORANGE);
             </div>
 
             <div class="hints">
@@ -282,6 +285,7 @@
 
                 <var id="ANCHOR">A*SOLUTION + B</var>
                 <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 1, 6 ], [ 0, 7 ] ] ) )</var>
+                <var id="DRAW_ANCHOR">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
                 <var id="VERTICAL_ANGLES">$._("vertical angles")</var>
                 <var id="ALTERNATE_INTERIOR_ANGLE">$._("alternate interior angle")</var>
             </div>
@@ -299,10 +303,10 @@
                 });
                 graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
                 graph.pl.draw();
-                graph.pl.drawMarkers(ANCHOR);
-                graph.pl.drawTransverse( ANCHOR );
+                graph.pl.drawMarkers( DRAW_ANCHOR );
+                graph.pl.drawTransverse( DRAW_ANCHOR );
                 graph.pl.drawAngle( KNOWN_INDEX, eq1 );
-                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, "#FFA500" );
+                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, ORANGE );
             </div>
 
             <div class="hints">
@@ -311,7 +315,7 @@
                     <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} + \color{<var>PINK</var>}{y} = 180</code></p>
                     <p>The pink angles equal each other because they are <code>\color{<var>GREEN</var>}{\text{<var>VERTICAL_ANGLES</var>}}</code>.</p>
                     <div class="graphie" data-update="parallel-lines">
-                        graph.pl.drawAdjacentAngles( KNOWN_INDEX, "y^\\circ", "#FF00A5" );
+                        graph.pl.drawAdjacentAngles( KNOWN_INDEX, "y^\\circ", PINK );
                     </div>
                 </div>
                 <div>
@@ -356,6 +360,7 @@
 
                 <var id="ANCHOR">A*SOLUTION + B</var>
                 <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 3, 4 ], [ 2, 5 ] ] ) )</var>
+                <var id="DRAW_ANCHOR">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
                 <var id="VERTICAL_ANGLES">$._("vertical angles")</var>
                 <var id="ALTERNATE_INTERIOR_ANGLE">$._("alternate interior angle")</var>
             </div>
@@ -374,10 +379,10 @@
 
                 graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
                 graph.pl.draw();
-                graph.pl.drawMarkers(ANCHOR);
-                graph.pl.drawTransverse( ANCHOR );
+                graph.pl.drawMarkers( DRAW_ANCHOR );
+                graph.pl.drawTransverse( DRAW_ANCHOR );
                 graph.pl.drawAngle( KNOWN_INDEX, eq1 );
-                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, "#FFA500" );
+                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, ORANGE );
             </div>
 
             <div class="hints">
@@ -386,7 +391,7 @@
                     <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} + \color{<var>PINK</var>}{y} = 180</code></p>
                     <p>The pink angles equal each other because they are <code>\color{<var>GREEN</var>}{\text{<var>VERTICAL_ANGLES</var>}}</code>.</p>
                     <div class="graphie" data-update="parallel-lines">
-                        graph.pl.drawAdjacentAngles( KNOWN_INDEX, "y^\\circ", "#FF00A5" );
+                        graph.pl.drawAdjacentAngles( KNOWN_INDEX, "y^\\circ", PINK );
                     </div>
                 </div>
                 <div>
