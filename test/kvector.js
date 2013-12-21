@@ -126,4 +126,15 @@
         start();
     });
 
+    asyncTest("rotate vector [-2, 2] by 90 degrees", 2, function() {
+        var result = vector.rotateDeg([-2, 2], 90);
+        var expectedResult = [-2, -2];
+        var resultPrecision = 2;
+        strictEqual(result[0].toPrecision(resultPrecision),
+            expectedResult[0].toPrecision(resultPrecision));
+        strictEqual(result[1].toPrecision(resultPrecision),
+            expectedResult[1].toPrecision(resultPrecision));
+        start();
+    });
+
 })();

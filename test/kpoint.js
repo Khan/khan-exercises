@@ -57,4 +57,10 @@
         start();
     });
 
+    asyncTest('distance between two points', 1, function() {
+        var result = point.distanceToPoint([2, 4], [2, 6]);
+        deepEqual(result, 2);
+        start();
+    });
+
 })();
