@@ -49,7 +49,7 @@
                     <span data-if="isSingular(A)"><var>person( 1 )</var> ate <var>A</var> slice of <var>pizza( 1 )</var>.</span><span data-else=""><var>person( 1 )</var> ate <var>A</var> slices of <var>pizza( 1 )</var>.</span>
                     <span data-if="isSingular(B)"><var>person( 2 )</var> ate <var>B</var> slice.</span><span data-else=""><var>person( 2 )</var> ate <var>B</var> slices.</span>
                 </p>
-                <p class="question"><span data-if="isSingular(LEFT)" data-unwrap="">If there were <var>LEFT</var> slice remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</span><span data-else="" data-unwrap="">If there were <var>LEFT</var> slices remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</span></p>
+                <p class="question"><span data-if="isSingular(LEFT)">If there were <var>LEFT</var> slice remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</span><span data-else="">If there were <var>LEFT</var> slices remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</span></p>
                 <p class="solution" data-simplify="optional" data-type="rational"><var>(A + B) / TOTAL</var></p>
                 <div class="hints">
                     <p><code>\text{<var>FRACTION_OF_PIZZAS_EATEN</var>} = \dfrac{\text{<var>NUMBER_OF_SLICES_EATEN</var>}}{\text{<var>NUMBER_OF_SLICES_TOTAL</var>}}</code></p>

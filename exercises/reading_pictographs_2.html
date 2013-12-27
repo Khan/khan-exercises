@@ -115,7 +115,7 @@
                 <var id="POINTS_PER_BADGE">$._("%(point)s per badge", {point: plural_form(SYMBOL_PL, VALUE_PER_IMG )})</var>
             </div>
 
-            <p class="question" id="stem"><span data-if="isSingular(VALUE)" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</span><span data-else="" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</span></p>
+            <p class="question" id="stem"><span data-if="isSingular(VALUE)">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</span><span data-else="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</span></p>
 
             <div class="solution"><var>person( PERSON + 1 )</var></div>
             <ul class="choices" data-category="true">
