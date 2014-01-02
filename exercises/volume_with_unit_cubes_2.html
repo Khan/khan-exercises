@@ -55,6 +55,8 @@
                 <var id="LENGTH">DIMENSIONS[0]</var>
                 <var id="WIDTH">DIMENSIONS[1]</var>
                 <var id="HEIGHT">DIMENSIONS[2]</var>
+                <var id="NUMERATOR3">NUMERATOR * NUMERATOR * NUMERATOR</var>
+                <var id="DENOMINATOR3">DENOMINATOR * DENOMINATOR * DENOMINATOR</var>
                 <var id="N">LENGTH * WIDTH * HEIGHT</var>
                 <var id="MAX">max(max(LENGTH, WIDTH), HEIGHT)</var>
                 <var id="XBORD">LENGTH/MAX</var>
@@ -169,16 +171,22 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="number"><var>N * FRACTION</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+                <p><span class="sol" data-type="number"><var>N * NUMERATOR3 / DENOMINATOR3</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
             </div>
 
             <div class="hints">
-                <p>The volume is measured by counting the number of cubic <var>plural_form(UNIT)</var>.</p>
-                <p>Carefully count the cubes.  Some of the cubes might be hidden behind other cubes.  Try to visualize all of the cubes.</p>
-                <p>There are a total of <code><var>LENGTH * WIDTH * HEIGHT</var></code> cubes.</p>
+                <p>The volume of a cube is equal to its side length cubed.</p>
                 <p>
-                    The volume is <code><var>N</var> \times <var>fraction(NUMERATOR, DENOMINATOR)</var> = 
-                    <var>fractionReduce(N * NUMERATOR, DENOMINATOR)</var> <var>UNIT_TEXT</var>^3</code>.
+                    The side length of one cube is <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var>,
+                    so the volume of one cube is <code>\left(<var>fraction(NUMERATOR, DENOMINATOR)</var>\right)^3 = 
+                    <var>fraction(NUMERATOR3, DENOMINATOR3)</var></code> <var>plural_form(UNIT)</var>.
+                </p>
+                <p>The volume of a shape is measured by counting the number of cubic <var>plural_form(UNIT)</var>.</p>
+                <p>Carefully count the cubes. Some of the cubes might be hidden behind other cubes. Try to visualize all of the cubes.</p>
+                <p>There are a total of <code><var>N</var></code> cubes.</p>
+                <p>
+                    The volume is <code><var>N</var> \times <var>fraction(NUMERATOR3, DENOMINATOR3)</var> = 
+                    <var>fractionReduce(N * NUMERATOR3, DENOMINATOR3)</var> <var>UNIT_TEXT</var>^3</code>.
                 </p>
             </div>
         </div>
@@ -186,6 +194,8 @@
             <div class="vars">
                 <var id="DENOMINATOR">randRange(2, 5)</var>
                 <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
+                <var id="NUMERATOR3">NUMERATOR * NUMERATOR * NUMERATOR</var>
+                <var id="DENOMINATOR3">DENOMINATOR * DENOMINATOR * DENOMINATOR</var>
                 <var id="FRACTION">NUMERATOR / DENOMINATOR</var>
                 <var id="N">randRange(3,8)</var>
                 <var id="COLOR1">"#D7ED3A"</var>
@@ -382,14 +392,21 @@
                 });
             </div>
             <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="number"><var>N * FRACTION</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+                <p><span class="sol" data-type="number"><var>N * NUMERATOR3 / DENOMINATOR3</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
             </div>
             <div class="hints">
-                <p>The volume of a shape can measured by the number of cubic <var>plural_form(UNIT)</var> which make up the shape.</p>
-                <p>There are <code><var>N</var></code> cubes.</p>
+                <p>The volume of a cube is equal to its side length cubed.</p>
                 <p>
-                    The volume is <code><var>N</var> \times <var>fraction(NUMERATOR, DENOMINATOR)</var> = 
-                    <var>fractionReduce(N * NUMERATOR, DENOMINATOR)</var> <var>UNIT_TEXT</var>^3</code>.
+                    The side length of one cube is <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var>,
+                    so the volume of one cube is <code>\left(<var>fraction(NUMERATOR, DENOMINATOR)</var>\right)^3 = 
+                    <var>fraction(NUMERATOR3, DENOMINATOR3)</var></code> <var>plural_form(UNIT)</var>.
+                </p>
+                <p>The volume of a shape is measured by counting the number of cubic <var>plural_form(UNIT)</var>.</p>
+                <p>Carefully count the cubes. Some of the cubes might be hidden behind other cubes. Try to visualize all of the cubes.</p>
+                <p>There are a total of <code><var>N</var></code> cubes.</p>
+                <p>
+                    The volume is <code><var>N</var> \times <var>fraction(NUMERATOR3, DENOMINATOR3)</var> = 
+                    <var>fractionReduce(N * NUMERATOR3, DENOMINATOR3)</var> <var>UNIT_TEXT</var>^3</code>.
                 </p>
             </div>
         </div>
