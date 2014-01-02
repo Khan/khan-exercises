@@ -635,26 +635,26 @@ return new Parser;
         throw new CalculatorError("err");
     };
 
-    var initialSettings = $.parseJSON(
+    var settings = $.parseJSON(
             window.localStorage["calculator_settings:" + window.USERNAME] || "{}");
-    if (initialSettings.angleMode == null) {
-        initialSettings.angleMode = "DEG";
+    if (settings.angleMode == null) {
+        settings.angleMode = "DEG";
     }
 
     return _.bindAll({
-        settings: initialSettings,
+        settings: settings,
         parser: parser,
         parse: _.bind(parser.parse, parser),
 
         evaluate: function(tree, ans) {
             var toRad = function(ang) {
-                if (Calculator.settings.angleMode === "DEG") {
+                if (settings.angleMode === "DEG") {
                     return ang * Math.PI / 180;
                 }
                 return ang;
             };
             var fromRad = function(ang) {
-                if (Calculator.settings.angleMode === "DEG") {
+                if (settings.angleMode === "DEG") {
                     return ang / Math.PI * 180;
                 }
                 return ang;
