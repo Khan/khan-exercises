@@ -3479,6 +3479,10 @@ function MovableAngle(graphie, options) {
             return point;
         }
     }, this);
+    this.coords = _.pluck(this.points, "coord");
+    if (this.reflex == null) {
+        this.reflex = (this._getClockwiseAngle(this.coords) > 180);
+    }
 
     this.rays = _.map([0, 2], function(i) {
         return graphie.addMovableLineSegment({
@@ -3604,14 +3608,50 @@ _.extend(MovableAngle.prototype, {
         }.bind(this);
     },
 
-    update: function() {
+    /**
+     * Returns the angle in [0, 360) degrees created by the
+     * coords when interpreted in a clockwise direction.
+     */
+    _getClockwiseAngle: function(coords) {
+        // TODO(jack): Add this to a kangle.js
+        var clockwiseAngle = (KhanUtil.findAngle(
+            // The order of these is "weird" to match what a clockwise
+            // order is in graphie.labelAngle
+            coords[2], // from the second point
+            coords[0], // clockwise to the first point
+            coords[1] // the vertex parameter is last
+        ) + 360) % 360;
+
+        return clockwiseAngle;
+    },
+
+    isReflex: function() {
+        return this.reflex;
+    },
+
+    update: function(shouldChangeReflexivity) {
         // Update coords
+        var prevCoords = this.coords;
         this.coords = _.pluck(this.points, "coord");
 
         // Update lines
         _.invoke(this.points, "updateLineEnds");
 
-        // Update angle label
+        var prevAngle = this._getClockwiseAngle(prevCoords);
+        var angle = this._getClockwiseAngle(this.coords);
+        var prevClockwiseReflexive = (prevAngle > 180);
+        var clockwiseReflexive = (angle > 180);
+
+        if (shouldChangeReflexivity == null) {
+            shouldChangeReflexivity =
+                    (prevClockwiseReflexive !== clockwiseReflexive) &&
+                    (Math.abs(angle - prevAngle) < 180);
+        }
+
+        if (shouldChangeReflexivity) {
+            this.reflex = !this.reflex;
+        }
+
         _.invoke(this.temp, "remove");
         this.temp = this.graphie.labelAngle({
             point1: this.coords[0],
@@ -3621,7 +3661,7 @@ _.extend(MovableAngle.prototype, {
             text: this.angleLabel,
             numArcs: this.numArcs,
             pushOut: this.pushOut,
-            clockwise: true,
+            clockwise: this.reflex === clockwiseReflexive,
             style: this.labelStyle
         });
     },
