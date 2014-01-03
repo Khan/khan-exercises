@@ -373,12 +373,12 @@
                     var lines = _.filter(guess, function(tool) {
                         if (tool.first) {
                             var line = [tool.first.coord, tool.second.coord];
-                            if (!isPointOnLineSegment(line, [0, 0], 0.2)) {
+                            if (!isPointOnLineSegment(line, [0, 0], 0.5)) {
                                 return false;
                             }
 
                             return _.any(graph.midpoints, function(p) {
-                                return isPointOnLineSegment(line, p, 0.2)
+                                return isPointOnLineSegment(line, p, 0.5)
                             });
                         }
                     });
