@@ -224,7 +224,7 @@
                             fill: KhanUtil.BLUE
                         }
                     });
-                    graph.line1 = addMovableLineSegment({
+                    graph.bestFitLine = addMovableLineSegment({
                         pointA: graph.pointA,
                         pointZ: graph.pointB,
                         fixed: true,
@@ -251,7 +251,7 @@
                         graph.pointA.mouseTarget.show();
                         graph.pointB.visibleShape.show();
                         graph.pointB.mouseTarget.show();
-                        graph.line1.visibleLine.show();
+                        graph.bestFitLine.show();
                     };
 
                     graph.hideLine = function() {
@@ -259,7 +259,7 @@
                         graph.pointA.mouseTarget.hide();
                         graph.pointB.visibleShape.hide();
                         graph.pointB.mouseTarget.hide();
-                        graph.line1.visibleLine.hide();
+                        graph.bestFitLine.hide();
                     };
 
                     // show the true least square regression line
@@ -337,7 +337,7 @@
                 <div class="show-guess">
                     GRAPH.pointA.setCoord(guess[0]);
                     GRAPH.pointB.setCoord(guess[1]);
-                    GRAPH.line1.transform(true);
+                    GRAPH.bestFitLine.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
                     $("#"+guess[2]).attr('checked', 'checked');
@@ -507,7 +507,7 @@
                 <div class="show-guess">
                     GRAPH.pointA.setCoord(guess[0]);
                     GRAPH.pointB.setCoord(guess[1]);
-                    GRAPH.line1.transform(true);
+                    GRAPH.bestFitLine.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
                     $("#"+guess[2]).attr('checked', 'checked');
@@ -588,7 +588,7 @@
                 <div class="show-guess">
                     GRAPH.pointA.setCoord(guess[0]);
                     GRAPH.pointB.setCoord(guess[1]);
-                    GRAPH.line1.transform(true);
+                    GRAPH.bestFitLine.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
                     $("#"+guess[2]).attr('checked', 'checked');
@@ -668,7 +668,7 @@
                 <div class="show-guess">
                     GRAPH.pointA.setCoord(guess[0]);
                     GRAPH.pointB.setCoord(guess[1]);
-                    GRAPH.line1.transform(true);
+                    GRAPH.bestFitLine.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
                     $("#"+guess[2]).attr('checked', 'checked');
