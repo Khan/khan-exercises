@@ -698,15 +698,14 @@ window.Khan = (function() {
                         "Please file the issue manually at " +
                         "<a href=\"http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
                         "Please reference exercise: %(exerciseId)s.", {exerciseId: exerciseId}),
-                    issueSuccess = function(url, title, suggestion) {
-                        return $._("Thank you for your feedback! " +
-                            "Your issue has been created and can be " +
-                            "found at the following link:" +
-                            "<p><a id=\"issue-link\" href=\"%(issueUrl)s\">%(issueTitle)s</a>" +
+                    issueSuccess = function(bugid, suggestion) {
+                        return $._("<p>Thank you for your feedback! " +
+                            "Issue <b>%(bugid)s</b> has been opened and we'll look into it shortly.</p>" +
                             "<p>%(suggestion)s</p>",
-                            {issueUrl: url, issueTitle: title, suggestion: suggestion}
+                            {bugid: bugid, suggestion: suggestion}
                         );
                     };
+
 
                 var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
                     if (info.status === -1) {
@@ -718,7 +717,9 @@ window.Khan = (function() {
                 if (mathjaxLoadFailures.length > 0) {
                     body += "\n\n" + mathjaxLoadFailures;
                 }
-                body += "\n\n" + debugLogLog.join("\n");
+                if (framework === "khan-exercises") {
+                    body += "\n\n" + debugLogLog.join("\n");
+                }
 
                 // flagging of browsers/os for issue labels. very primitive, but
                 // hopefully sufficient.
@@ -789,14 +790,34 @@ window.Khan = (function() {
                     body = body.substring(0, 65500) + "... [truncated]";
                 }
 
+                var url = "/githubpost";
                 var dataObj = {
                     title: issueInfo.pretitle + " - " + title,
                     body: body,
                     labels: labels
                 };
 
+                // Send perseus issues to JIRA
+                if (framework === "perseus") {
+                    url = "/jirapost";
+                    dataObj = {
+                        fields: {
+                            project: { key: "AI" },
+                            issuetype: { name: "Item issue report" },
+                            summary: issueInfo.pretitle + " - " + title,
+                            description: body,
+                            customfield_10024: [issueInfo.exercise],  // exercise
+                            customfield_10026: issueInfo.sha,         // sha
+                            customfield_10027: issueInfo.previewUrl,  // preview url
+                            customfield_10028: issueInfo.editUrl,     // edit url
+                            customfield_10025: [issueInfo.item],      // item
+                            customfield_10029: { value: "perseus" }   // framework
+                        }
+                    };
+                }
+
                 $.ajax({
-                    url: "/githubpost",
+                    url: url,
                     type: "POST",
                     data: JSON.stringify(dataObj),
                     contentType: "application/json",
@@ -805,9 +826,11 @@ window.Khan = (function() {
                         // hide the form
                         $("#issue .issue-form").hide();
 
+                        var bugid = data.key ? data.key : "KE-" + data.number;
+
                         // show status message
                         $("#issue-status").removeClass("error")
-                            .html(issueSuccess(data.html_url, data.title, suggestion))
+                            .html(issueSuccess(bugid, suggestion))
                             .show();
 
                         // reset the form elements
