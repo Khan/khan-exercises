@@ -3629,6 +3629,19 @@ _.extend(MovableAngle.prototype, {
         return this.reflex;
     },
 
+    isClockwise: function() {
+        var clockwiseReflexive = (this._getClockwiseAngle(this.coords) > 180);
+        return clockwiseReflexive === this.reflex;
+    },
+
+    getClockwiseCoords: function() {
+        if (this.isClockwise()) {
+            return _.clone(this.coords);
+        } else {
+            return _.clone(this.coords).reverse();
+        }
+    },
+
     update: function(shouldChangeReflexivity) {
         // Update coords
         var prevCoords = this.coords;
