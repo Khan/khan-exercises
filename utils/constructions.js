@@ -1019,11 +1019,12 @@ $.extend(KhanUtil, {
             targetAngles[(i + 0.5) * 360 / n] = 0;
         }
 
-        // Go through all angles and see if they are with 2 degrees of the target angles
+        // Go through all angles and see if they are with +/-4 degrees of the target angles
+        var threshold = 4;
         _.map(angles, function(angle) {
             for (var i = 0; i < n; i++) {
                 var targetAngle = (i + 0.5) * 360 / n;
-                if (Math.abs(angle - targetAngle) < 2) {
+                if (Math.abs(angle - targetAngle) < threshold) {
                     targetAngles[targetAngle]++;
                     break;
                 }
