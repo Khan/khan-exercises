@@ -301,7 +301,8 @@ window.Khan = (function() {
             "kpoint": ["kvector", "knumber"],
             "kray": ["kpoint", "kvector"],
             "kline": ["kpoint", "kvector"],
-            "constructions": ["kmatrix"]
+            "constructions": ["kmatrix"],
+            "polar-coordinates": ["math", "math-format" ,"expressions" ,"interactive" ,"graphie", "graphie-helpers"]
         },
 
         warnTimeout: function() {
