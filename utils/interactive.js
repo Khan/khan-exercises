@@ -1485,6 +1485,20 @@ $.extend(KhanUtil.Graphie.prototype, {
             }
         };
 
+        lineSegment.hide = function() {
+            lineSegment.visibleLine.hide();
+            if (lineSegment.temp.length) {
+                _.invoke(lineSegment.temp, "hide");
+            }
+        };
+
+        lineSegment.show = function() {
+            lineSegment.visibleLine.show();
+            if (lineSegment.temp.length) {
+                _.invoke(lineSegment.temp, "show");
+            }
+        };
+
         if (lineSegment.sideLabel) {
             lineSegment.labeledSide = this.label([0, 0], "", "center", lineSegment.labelStyle);
         }
