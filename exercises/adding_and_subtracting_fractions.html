@@ -47,10 +47,12 @@
 
             <p><code>
                 \qquad =
-                <span data-if="S1 === -1">-</span>
-                \dfrac{\blue{<var>N1 * F1</var>}
-                <span data-if="S2 === -1">-</span><span data-else>+</span>
-                \green{<var>N2 * F2</var>}}{<var>LCM</var>}
+                \dfrac{
+                    <span data-if="S1 === -1">-</span>
+                    \blue{<var>N1 * F1</var>}
+                    <span data-if="S2 === -1">-</span><span data-else>+</span>
+                    \green{<var>N2 * F2</var>}
+                }{<var>LCM</var>}
             </code></p>
 
             <p><code>\qquad = <var>fraction(S1 * F1 * N1 + S2 * F2 * N2, LCM)</var></code></p>
