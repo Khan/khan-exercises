@@ -1,10 +1,14 @@
 import hashlib
-import json
 import os
 import re
 import shutil
 import sys
 import tempfile
+
+try: 
+    import json
+except ImportError: 
+    import simplejson as json
 
 pack = [
     'extensions/MathEvents.js',
