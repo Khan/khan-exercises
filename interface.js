@@ -25,6 +25,9 @@ _.extend(Exercises, {
 
 var PerseusBridge = Exercises.PerseusBridge,
 
+    EMPTY_MESSAGE = $._("It looks like you haven't answered all of the " +
+        "question yet."),
+
     // Store these here so that they're hard to change after the fact via
     // bookmarklet, etc.
     localMode = Exercises.localMode,
@@ -192,16 +195,20 @@ function handleAttempt(data) {
         return false;
     }
 
+    var isAnswerEmpty = score.empty && !skipped;
+
     // Is this a message to be shown?
     if (score.message != null) {
         $("#check-answer-results > p").html(score.message).show().tex();
+    } else if (isAnswerEmpty) {
+        $("#check-answer-results > p").html(EMPTY_MESSAGE).show().tex();
     } else {
         $("#check-answer-results > p").hide();
     }
 
     // Stop if the user didn't try to skip the question and also didn't yet
     // enter a response
-    if (score.empty && !skipped) {
+    if (isAnswerEmpty) {
         return false;
     }
 
