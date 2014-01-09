@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
+<html data-require="math graphie graphie-helpers math-format word-problems interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Equivalent fractions</title>
@@ -8,39 +8,79 @@
 <body>
     <div class="exercise">
     <div class="vars" data-ensure="A < B">
-        <var id="A">randRange( 1, 3 )</var>
-        <var id="B">randRange( 2, 4 )</var>
-        <var id="M">randRange(2, 3)</var>
+        <var id="A">randRange(1, 5)</var>
+        <var id="B">randRange(2, 6)</var>
+        <var id="M">randRange(2,4)</var>
         <var id="C">A * M</var>
         <var id="D">B * M</var>
-        <var id="SYMBOL">binop( 1 )</var>
+        <var id="SYMBOL">randVar()</var>
     </div>
 
     <div class="problems">
-        <div id="numerator">
+        <div id="numerator-rectangle">
             <p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
             <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>SYMBOL</var>}{<var>D</var>}</code></p>
+            
+            <div class="graphie">
+                // draw a rectangle split into pieces that represents the first fraction
+                var numerator = A;
+                var denominator = B;
+                init({range: [[0, 1], [0, 1]], scale: [475, 25]});
+                rectchart([numerator, denominator-numerator], [RED, GRAY]);
+            </div>
+            <p id="interactive-rect-prompt">
+                <br>Drag the organge dot to create an equivalent fraction.<br>
+            </p>
+            <div class="graphie" id="interactive-rect">
+                // draw an interactive rectangle split into pieces that represents the second fraction
+                //   note: interactive-rect-prompt and interactive-rect ids are used in first hint
+                var numerator = C;
+                var denominator = D;
+                var numberOfSlices = 1;
+                var sliceInPoints = 1/denominator;
+                init({ range: [ [0, 1], [0, 1]],scale: [475, 50]});
+                addMouseLayer();
+                graph.chart = rectchart([numberOfSlices, denominator-numberOfSlices], [RED, GRAY],.5);
+                graph.fractionLabel = label([.05,0], numberOfSlices + "/" + denominator, "below");
+                
+                // add a knob that drags along the rectangle
+                graph.dragCenter = addMovablePoint({coord: [ 0, .2 ],visible: false});
+                graph.dragEnd = addMovablePoint({ coord: [ sliceInPoints, .2 ], constraints: { constrainY: true }});
+                graph.dragEnd.onMove = function( x, y ) {
+                    graph.chart.remove();
+                    graph.fractionLabel.remove();
+                    // convert from pixels to slices
+                    var numberOfSlices = round(x / sliceInPoints);
+                    if (numberOfSlices < 0) {
+                        numberOfSlices = 1;
+                    }
+                    graph.fractionLabel = label([.05,0], numberOfSlices + "/" + denominator, "below");
+                    graph.chart = rectchart([numberOfSlices, denominator-numberOfSlices],[RED, GRAY],.5);
+                    return true;
+            }
+            </div>
             <div class="solution" data-forms="integer"><var>C</var></div>
             <div class="hints">
                 <div>
                     <p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [A, B - A], ["#e00", "#999"] );
+                        // workaround: hide interactive graph because interactive (incorrectly) draws into last graphie created
+                        $('#interactive-rect-prompt').hide();
+                        $('#interactive-rect').hide();
                     </div>
                 </div>
                 <div>
                     <p>What if we cut the <var>pizza( 1 )</var> into <var>D</var> slices instead? How many slices would result in the same amount of <var>pizza( 1 )</var>?</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [0, D], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [0, D], [RED, GRAY] );
                     </div>
                 </div>
                 <div>
                     <p>We would need <var>C</var> slices.</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [C, D - C], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [C, D - C], [RED, GRAY] );
                     </div>
                 </div>
                 <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>C</var></code>.</p>
@@ -53,7 +93,95 @@
 
             </div>
         </div>
-
+        <div id="numerator-circle">
+            <p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
+            <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>SYMBOL</var>}{<var>D</var>}</code></p>
+            <div class="graphie">
+                // draw a pie split into pieces that represents the first fraction
+                var numerator = A;
+                var denominator = B;
+                var radius = 2.5;
+                init({range: [[-radius-1, radius+1], [-radius-1, radius+1]]});
+                piechart([numerator, denominator-numerator], [RED, GRAY], radius);
+            </div>
+            <p id="interactive-pie-prompt">
+            <br>Drag the organge dot to create an equivalent fraction.<br>
+            </p>
+            <div class="graphie" id="interactive-pie">
+                // draw an interactive pie split into pieces that represents the second fraction
+                //   the center of the pie is at [0,0]
+                //   note: interactive-pie interactive-pie-prompt ids are used in first hint
+                var numerator = C;
+                var denominator = D;
+                var numberOfSlices = 1;
+                var sliceInDegrees = 360/denominator;
+                var radius = 2.5;
+                init({range: [[-radius-1, radius+1], [-radius-1, radius+1]]});
+                addMouseLayer();
+                graph.chart = piechart([numberOfSlices, denominator-numberOfSlices], [RED, GRAY], radius);
+                graph.fractionLabel = label(polar(radius+1,0), numberOfSlices + "/" + denominator, "below");
+                
+                // add a knob that drags around the circle selecting slices of the pie
+                graph.dragCenter = addMovablePoint({coord: [ 0, 0 ],visible: false});
+                graph.dragEnd = addMovablePoint({coord: polar(radius+.25,numberOfSlices*sliceInDegrees)});
+                graph.dragEnd.constraints.fixedDistance = {dist: radius+.25,point: graph.dragCenter};
+                graph.dragLine = addMovableLineSegment({pointA: graph.dragCenter,pointZ: graph.dragEnd,fixed: true});
+                graph.dragEnd.onMove = function( x, y ) {
+                    graph.chart.remove();
+                    graph.fractionLabel.remove();
+                    // get the angle and convert to degrees
+                    var draggedRadians = Math.atan2(y, x);
+                    var draggedAngle = draggedRadians * 180 / Math.PI;
+                    draggedAngle = draggedAngle + 360;
+                    var numberOfSlices = round((draggedAngle - 360)/sliceInDegrees);
+                    if (numberOfSlices < 0) {
+                        numberOfSlices = numberOfSlices + denominator;
+                        }
+                    if (numberOfSlices === 0) {
+                        numberOfSlices = 1;
+                    }
+                    graph.fractionLabel = label(polar(radius+1,0), numberOfSlices + "/" + denominator, "below");
+                    graph.chart = piechart([numberOfSlices, denominator-numberOfSlices], [RED, GRAY], radius);
+                    return true;
+                }
+            </div>
+            <div class="solution" data-forms="integer"><var>C</var></div>
+            <div class="hints">
+                <div>
+                    <p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a <var>pizza( 1 )</var>.</p>
+                    <div class="graphie">
+                        // workaround: hide interactive graph because interactive (incorrectly) draws into last graphie created
+                        $('#interactive-pie-prompt').hide();
+                        $('#interactive-pie').hide();
+                    </div>
+                </div>
+                <div>
+                    <p>What if we cut the <var>pizza( 1 )</var> into <var>D</var> slices instead? How many slices would result in the same amount of <var>pizza( 1 )</var>?</p>
+                    <div class="graphie">
+                        var radius = 2.5;
+                        init({range: [[-radius-1, radius+1], [-radius-1, radius+1]]});
+                        // workaround: piechart draws incorrectly with 0 slices so we draw 1 gray slice and d-1 gray slices
+                        piechart( [1, D-1], [GRAY, GRAY], radius);
+                    </div>
+                </div>
+                <div>
+                    <p>We would need <var>C</var> slices.</p>
+                    <div class="graphie">
+                        var radius = 2.5;
+                        init({range: [[-radius-1, radius+1], [-radius-1, radius+1]]});
+                        piechart( [C, D-C], [RED, GRAY], radius);
+                    </div>
+                </div>
+                <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>C</var></code>.</p>
+                
+                <div>
+                    <p>Another way to get the answer is to multiply by <code>\dfrac{<var>M</var>}{<var>M</var>}</code>.</p>
+                    <p><code>\dfrac{<var>M</var>}{<var>M</var>} = \dfrac{1}{1} = 1</code> so really we are multiplying by 1.</p>
+                </div>
+                <p>The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>C</var></code>.</p>
+                
+            </div>
+        </div>
         <div id="denominator">
             <p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
             <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>SYMBOL</var>}</code></p>
@@ -62,24 +190,24 @@
                 <div>
                     <p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [A, B - A], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [A, B - A], [RED, GRAY] );
                     </div>
                 </div>
 
                 <div>
                     <p>How many total slices would we need if we want the same amount of <var>pizza( 1 )</var> in <var>C</var> slices? </p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [C, D - C], ["#e00", "#fff"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [C, D - C], [RED, GRAY] );
                     </div>
                 </div>
 
                 <div>
                     <p>We would need to cut the <var>pizza( 1 )</var> into <var>D</var> slices.</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [C, D - C], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [C, D - C], [RED, GRAY] );
                     </div>
                 </div>
                 <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>D</var></code>.</p>
@@ -91,17 +219,6 @@
 
                 <p>The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>D</var></code>.</p>
 
-            </div>
-        </div>
-
-        <div id="custom-7" data-weight="0" data-type="numerator">
-            <div class="vars">
-                <var id="A">1</var>
-                <var id="B">2</var>
-                <var id="M">2</var>
-                <var id="C">A * M</var>
-                <var id="D">B * M</var>
-                <var id="SYMBOL">"\\otimes"</var>
             </div>
         </div>
     </div>
