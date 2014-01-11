@@ -5,7 +5,7 @@ window.Calculator = (function(parser) {
     CalculatorError.prototype = new Error();
     CalculatorError.prototype.constructor = CalculatorError;
 
-    parser.parseError = function parseError(str, hash) {
+    parser.yy.parseError = function parseError(str, hash) {
         throw new CalculatorError("err");
     };
 
