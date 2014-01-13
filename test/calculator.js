@@ -134,21 +134,17 @@
         start();
     });
 
-    asyncTest("parse error", 8, function() {
-        checkError('(', /Parse error/, 'opening bracket without closing bracket');
-        checkError(')', /Parse error/, 'closing bracket without opening bracket');
-        checkError('()', /Parse error/, 'empty brackets');
-        checkError('tan', /Parse error/, 'possible function without opening bracket');
-        checkError('4-', /Parse error/, 'no number after operation');
-        checkError('4 4', /Parse error/, 'missing operation');
+    asyncTest("error", 9, function() {
+        checkError('(', /err/, 'opening bracket without closing bracket');
+        checkError(')', /err/, 'closing bracket without opening bracket');
+        checkError('()', /err/, 'empty brackets');
+        checkError('tan', /err/, 'possible function without opening bracket');
+        checkError('4-', /err/, 'no number after operation');
+        checkError('4 4', /err/, 'missing operation');
 
-        checkError('2pi', /Parse error/, 'needs operator before constant like pi');
-        checkError('3(2-1)', /Parse error/, 'needs operator before opening bracket');
-        start();
-    });
-
-    asyncTest("error", 1, function() {
-        checkError('tanh(0)', /err/, 'unknown function results in err = output (not sure if on purpose)');
+        checkError('2pi', /err/, 'needs operator before constant like pi');
+        checkError('3(2-1)', /err/, 'needs operator before opening bracket');
+        checkError('tanh(0)', /err/, 'unknown function');
         start();
     });
 
