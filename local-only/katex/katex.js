@@ -495,7 +495,7 @@ Parser.prototype.parseNucleus = function(pos) {
         if (group) {
             return new ParseResult(
                 new ParseNode("sizing", {
-                    size: "size" + (sizeFuncs.indexOf(nucleus.type) + 1),
+                    size: "size" + (_.indexOf(sizeFuncs, nucleus.type) + 1),
                     value: group.result
                 }),
                 group.position);

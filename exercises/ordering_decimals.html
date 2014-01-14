@@ -96,16 +96,16 @@
                 <div class="hints">
                     <p><code>\qquad \begin{align*}
                         <span data-each="NUMS as NUM">
-                            <var>NUM[0]</var> &amp;= <var>NUM[1]</var> \text{ <var>plural_form(decimalPlaces[NUM[2]], NUM[1])</var>} \\</span>
+                            <var>NUM[0]</var> &amp;= <var>NUM[1]</var> \text{ <var>plural_form(decimalPlaceNames[NUM[2]], NUM[1])</var>} \\</span>
                     \end{align*}</code></p>
-                    
-                    <p>Get each number in <var>plural_form(decimalPlaces[MAX_P], 2)</var>.</p>
-                    
+
+                    <p>Get each number in <var>plural_form(decimalPlaceNames[MAX_P], 2)</var>.</p>
+
                     <p><code>\qquad \begin{align*}
                         <span data-each="NUMS as NUM">
-                            <var>NUM[0]</var> &amp;= <var>round(NUM[0] * P, 4)</var>\text{ <var>plural_form(decimalPlaces[MAX_P], 2)</var>} \\</span>
+                            <var>NUM[0]</var> &amp;= <var>round(NUM[0] * P, 4)</var>\text{ <var>plural_form(decimalPlaceNames[MAX_P], 2)</var>} \\</span>
                     \end{align*}</code></p>
-                    
+
                     <p>Order the numbers: <code>\Large{<var>NUMS_SORT_TEX</var>}</code>.</p>
 
                     <div>

@@ -236,7 +236,7 @@ KhanUtil.Plural.prototype = {
     }
 };
 
-var decimalPlaces = [
+KhanUtil.decimalPlaceNames = [
     new Plural(function(num) {
         return $.ngettext("one", "ones", num);
     }),
