@@ -172,21 +172,11 @@ big parens
 .katex .reset-scriptscriptstyle.scriptscriptstyle {
   font-size: 1em;
 }
-.katex .baseline-align-hack-outer {
-  display: inline-block;
-  vertical-align: top;
-}
-.katex .baseline-align-hack-middle {
-  display: block;
-  height: 0;
-}
-.katex .baseline-align-hack-inner {
-  display: inline-block;
-}
 .katex .msupsub {
   display: inline-block;
   vertical-align: top;
   text-align: left;
+  margin-left: 0.1em;
 }
 .katex .msupsub .msup,
 .katex .msupsub .msub {
