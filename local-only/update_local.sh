@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 # Updates a specific set of files from the webapp repo, that are needed
 # for khan-exercises 'local' mode.  See the README for more details.
@@ -30,21 +30,22 @@ if [ -z "$webapp_root" ]; then
     fi
 fi
 
-srcdir="$webapp_root/javascript/shared-package"
+srcdir="$webapp_root/third_party/javascript-khansrc"
 destdir="$exercises_root/local-only"
 
-# Copy stuff from shared-package into local-only.
-cp -f "$srcdir"/jquery.js "$destdir"
-cp -f "$srcdir"/jquery-migrate-1.1.1.js "$destdir"
-cp -f "$srcdir"/jquery.qtip.js "$destdir"
-cp -f "$srcdir"/underscore.js "$destdir"
-cp -f "$srcdir"/jed.js "$destdir"
-cp -f "$srcdir"/i18n.js "$destdir"
+# Copy stuff from the webapp repo into local-only.
+cp -f "$srcdir"/jed/jed.js "$destdir"
+cp -f "$srcdir"/jquery-migrate/jquery-migrate-1.1.1.js "$destdir"
+cp -f "$srcdir"/jquery/jquery.js "$destdir"
+cp -f "$srcdir"/qTip2/jquery.qtip.js "$destdir"
+cp -f "$srcdir"/underscore/underscore.js "$destdir"
 
-# jquery-ui is in its own package.
+cp -f "$webapp_root"/javascript/shared-package/i18n.js "$destdir"
+
+# We only need some of the jquery-ui files.
 for f in core widget mouse position effect \
     effect-shake button draggable resizable dialog; do
-   cp -f "$webapp_root"/javascript/jqueryui-package/jquery.ui.$f.js "$destdir"
+   cp -f "$srcdir"/jqueryui/jquery.ui.$f.js "$destdir"
 done
 
 # We copy all the icu files, so we can support 'commafy' in all locales.

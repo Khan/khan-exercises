@@ -1174,12 +1174,19 @@ body .ui-tooltip {
 	border-radius: 8px;
 }
 
-/*! qTip2 - Pretty powerful tooltips - v2.0.0pre - 2012-12-14
-* http://craigsworks.com/projects/qtip2/
-* Copyright (c) 2012 Craig Michael Thompson; Licensed MIT, GPL */
-
-/* Core qTip styles */
-.qtip, .qtip{
+/*
+ * qTip2 - Pretty powerful tooltips - v2.2.0
+ * http://qtip2.com
+ *
+ * Copyright (c) 2013 Craig Michael Thompson
+ * Released under the MIT, GPL licenses
+ * http://jquery.org/license
+ *
+ * Date: Thu Nov 21 2013 08:34 GMT+0000
+ * Plugins: tips modal viewport svg imagemap ie6
+ * Styles: basic css3
+ */
+.qtip{
 	position: absolute;
 	left: -28000px;
 	top: -28000px;
@@ -1187,11 +1194,14 @@ body .ui-tooltip {
 
 	max-width: 280px;
 	min-width: 50px;
-	
+
 	font-size: 10.5px;
 	line-height: 12px;
 
 	direction: ltr;
+
+	box-shadow: none;
+	padding: 0;
 }
 
 	.qtip-content{
@@ -1231,7 +1241,7 @@ body .ui-tooltip {
 			right: 4px; top: 50%;
 			margin-top: -9px;
 		}
-	
+
 		* html .qtip-titlebar .qtip-close{ top: 16px; } /* IE fix */
 
 		.qtip-titlebar .ui-icon,
@@ -1239,7 +1249,6 @@ body .ui-tooltip {
 			display: block;
 			text-indent: -1000em;
 			direction: ltr;
-			vertical-align: middle;
 		}
 
 		.qtip-icon, .qtip-icon .ui-icon{
@@ -1253,6 +1262,7 @@ body .ui-tooltip {
 				width: 18px;
 				height: 14px;
 
+				line-height: 14px;
 				text-align: center;
 				text-indent: 0;
 				font: normal bold 10px/13px Tahoma,sans-serif;
@@ -1260,7 +1270,6 @@ body .ui-tooltip {
 				color: inherit;
 				background: transparent none no-repeat -100em -100em;
 			}
-
 
 /* Applied to 'focused' tooltips e.g. most recently displayed/interacted with */
 .qtip-focus{}
@@ -1287,11 +1296,12 @@ body .ui-tooltip {
 		background: #F1F1F1;
 		color: #777;
 	}
-	
+
 	.qtip-default .qtip-titlebar .qtip-close{
 		border-color: #AAA;
 		color: #111;
 	}
+
 
 
 /*! Light tooltip style */
@@ -1398,7 +1408,7 @@ body .ui-tooltip {
 	}
 
 
-/* Add shadows to your tooltips in: FF3+, Chrome 2+, Opera 10.6+, IE9+, Safari 2+ */
+
 .qtip-shadow{
 	-webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
 	-moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
@@ -1414,12 +1424,18 @@ body .ui-tooltip {
 	border-radius: 5px;
 }
 
+.qtip-rounded .qtip-titlebar{
+	-moz-border-radius: 4px 4px 0 0;
+	-webkit-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
+}
+
 /* Youtube tooltip style */
 .qtip-youtube{
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
-	
+
 	-webkit-box-shadow: 0 0 3px #333;
 	-moz-box-shadow: 0 0 3px #333;
 	box-shadow: 0 0 3px #333;
@@ -1439,11 +1455,11 @@ body .ui-tooltip {
 		background-color: #4A4A4A;
 		background-color: rgba(0,0,0,0);
 	}
-	
+
 	.qtip-youtube .qtip-content{
 		padding: .75em;
 		font: 12px arial,sans-serif;
-		
+
 		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#4a4a4a,EndColorStr=#000000);
 		-ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#4a4a4a,EndColorStr=#000000);";
 	}
@@ -1522,11 +1538,11 @@ body .ui-tooltip {
 		color: white;
 		border: 0 dashed transparent;
 	}
-	
+
 	.qtip-cluetip .qtip-icon{
 		border-color: #808064;
 	}
-	
+
 	.qtip-cluetip .qtip-titlebar .ui-state-hover{
 		border-color: #696952;
 		color: #696952;
@@ -1549,14 +1565,14 @@ body .ui-tooltip {
 }
 
 	.qtip-tipsy .qtip-titlebar{
-		padding: 6px 35px 0 10;
+		padding: 6px 35px 0 10px;
 		background-color: transparent;
 	}
 
 	.qtip-tipsy .qtip-content{
-		padding: 6px 10;
+		padding: 6px 10px;
 	}
-	
+
 	.qtip-tipsy .qtip-icon{
 		border-color: #222;
 		text-shadow: none;
@@ -1722,22 +1738,30 @@ body .ui-tooltip {
 }
 
 
-/* Tips plugin */
+
 .qtip .qtip-tip{
 	margin: 0 auto;
 	overflow: hidden;
 	z-index: 10;
+
 }
 
+	/* Opera bug #357 - Incorrect tip position
+	https://github.com/Craga89/qTip2/issues/367 */
+	x:-o-prefocus, .qtip .qtip-tip{
+		visibility: hidden;
+	}
+
 	.qtip .qtip-tip,
-	.qtip .qtip-tip .qtip-vml{
+	.qtip .qtip-tip .qtip-vml,
+	.qtip .qtip-tip canvas{
 		position: absolute;
 
 		color: #123456;
 		background: transparent;
 		border: 0 dashed transparent;
 	}
-	
+
 	.qtip .qtip-tip canvas{ top: 0; left: 0; }
 
 	.qtip .qtip-tip .qtip-vml{
@@ -1745,11 +1769,11 @@ body .ui-tooltip {
 		display: inline-block;
 		visibility: visible;
 	}
-/* Modal plugin */
+
 #qtip-overlay{
 	position: fixed;
-	left: -10000em;
-	top: -10000em;
+	left: 0; top: 0;
+	width: 100%; height: 100%;
 }
 
 	/* Applied to modals with show.modal.blur set to true */
@@ -1769,10 +1793,11 @@ body .ui-tooltip {
 	}
 
 
-/* IE6 Modal plugin fix */
+
 .qtipmodal-ie6fix{
 	position: absolute !important;
 }
+
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
@@ -4362,8 +4387,13 @@ form {
 }
 ul.styled-list,
 ol.styled-list {
-  list-style: initial;
   margin-left: 16px;
+}
+ul.styled-list {
+  list-style: disc;
+}
+ol.styled-list {
+  list-style: decimal;
 }
 .new-header .domain-color {
   background: #13967e !important;
@@ -4863,7 +4893,15 @@ button.dropdown-toggle {
 .dropdown-menu li > a {
   white-space: nowrap;
   display: block;
-  padding: 0px 8px;
+  padding: 0 8px;
+}
+.dropdown-menu__header {
+  border-bottom: 1px solid #cccccc;
+  color: #444444;
+  cursor: default;
+}
+.dropdown-menu__header__text {
+  padding: 0  0 4px 8px;
 }
 .dropdown-menu > li {
   color: #444444;
@@ -5132,11 +5170,6 @@ button.dropdown-toggle {
   top: -5px;
   width: 1px;
 }
-body.lang-use-rtl .base-button.provider-signup .provider-separator {
-  float: right;
-  left: auto;
-  right: 36px;
-}
 .base-button.provider-signup img {
   position: relative;
   top: 7px;
@@ -5147,10 +5180,6 @@ body.lang-use-rtl .base-button.provider-signup .provider-separator {
   left: 23px;
   position: relative;
   top: 2px;
-}
-body.lang-use-rtl .base-button.provider-signup .provider-signup-text {
-  left: auto;
-  right: 23px;
 }
 .base-button.social-button {
   display: inline-block;
@@ -5364,11 +5393,6 @@ body.lang-use-rtl .base-button.provider-signup .provider-signup-text {
   top: -5px;
   width: 1px;
 }
-body.lang-use-rtl .simple-button.provider-signup .provider-separator {
-  float: right;
-  left: auto;
-  right: 36px;
-}
 .simple-button.provider-signup img {
   position: relative;
   top: 7px;
@@ -5379,10 +5403,6 @@ body.lang-use-rtl .simple-button.provider-signup .provider-separator {
   left: 23px;
   position: relative;
   top: 2px;
-}
-body.lang-use-rtl .simple-button.provider-signup .provider-signup-text {
-  left: auto;
-  right: 23px;
 }
 .simple-button.social-button {
   display: inline-block;
@@ -5702,6 +5722,117 @@ body.lang-use-rtl .simple-button.provider-signup .provider-signup-text {
 .simple-button.exercise-orange:focus,
 .simple-button.exercise-orange:hover {
   border-bottom-color: #b37300;
+}
+.simple-button.facebook {
+  border: 1px solid #37538d;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #37538e;
+  background-image: -moz-linear-gradient(top, #3b5998, #314a7e);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3b5998), to(#314a7e));
+  background-image: -webkit-linear-gradient(top, #3b5998, #314a7e);
+  background-image: -o-linear-gradient(top, #3b5998, #314a7e);
+  background-image: linear-gradient(to bottom, #3b5998, #314a7e);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3b5998', endColorstr='#ff314a7e', GradientType=0);
+  border-color: #314a7e #314a7e #1c2a47;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #314a7e;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #ffffff !important;
+}
+.simple-button.facebook:hover,
+.simple-button.facebook:focus,
+.simple-button.facebook:active,
+.simple-button.facebook.active,
+.simple-button.facebook.disabled,
+.simple-button.facebook[disabled] {
+  color: #ffffff;
+  background-color: #314a7e;
+  *background-color: #2a3f6c;
+}
+.simple-button.facebook:active,
+.simple-button.facebook.active {
+  background-color: #23345a \9;
+}
+.simple-button.facebook:focus,
+.simple-button.facebook:hover {
+  border-bottom-color: #263961;
+}
+.simple-button.facebook-light {
+  border: 1px solid #4763a1;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #4864a2;
+  background-image: -moz-linear-gradient(top, #4c6aac, #415b93);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4c6aac), to(#415b93));
+  background-image: -webkit-linear-gradient(top, #4c6aac, #415b93);
+  background-image: -o-linear-gradient(top, #4c6aac, #415b93);
+  background-image: linear-gradient(to bottom, #4c6aac, #415b93);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4c6aac', endColorstr='#ff415b93', GradientType=0);
+  border-color: #415b93 #415b93 #2a3a5e;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #415b93;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #ffffff !important;
+}
+.simple-button.facebook-light:hover,
+.simple-button.facebook-light:focus,
+.simple-button.facebook-light:active,
+.simple-button.facebook-light.active,
+.simple-button.facebook-light.disabled,
+.simple-button.facebook-light[disabled] {
+  color: #ffffff;
+  background-color: #415b93;
+  *background-color: #395082;
+}
+.simple-button.facebook-light:active,
+.simple-button.facebook-light.active {
+  background-color: #314570 \9;
+}
+.simple-button.facebook-light:focus,
+.simple-button.facebook-light:hover {
+  border-bottom-color: #354977;
+}
+.simple-button.twitter {
+  border: 1px solid #3191ff;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #3291ff;
+  background-image: -moz-linear-gradient(top, #4099ff, #1c86ff);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4099ff), to(#1c86ff));
+  background-image: -webkit-linear-gradient(top, #4099ff, #1c86ff);
+  background-image: -o-linear-gradient(top, #4099ff, #1c86ff);
+  background-image: linear-gradient(to bottom, #4099ff, #1c86ff);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4099ff', endColorstr='#ff1c86ff', GradientType=0);
+  border-color: #1c86ff #1c86ff #0060cf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #1c86ff;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #ffffff !important;
+}
+.simple-button.twitter:hover,
+.simple-button.twitter:focus,
+.simple-button.twitter:active,
+.simple-button.twitter.active,
+.simple-button.twitter.disabled,
+.simple-button.twitter[disabled] {
+  color: #ffffff;
+  background-color: #1c86ff;
+  *background-color: #0378ff;
+}
+.simple-button.twitter:active,
+.simple-button.twitter.active {
+  background-color: #006ce8 \9;
+}
+.simple-button.twitter:focus,
+.simple-button.twitter:hover {
+  border-bottom-color: #0071f3;
 }
 /* A group of simple-buttons */
 .simple-button-group .simple-button {
@@ -7847,6 +7978,38 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
+.new-header .partner-content .status.video-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.exercise-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.scratchpad-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.talkie-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.challenge-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.article-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .pipe.completed {
+  background-color: #4ab6a4;
+}
+.new-header .partner-content .progress-container:hover .progress-item:hover .progress-item-link {
+  background: #13967e;
+  color: #ffffff;
+  text-decoration: none;
+}
 .new-header .test-prep .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-testPrep.png);
   /*! data-uri */
@@ -8041,6 +8204,38 @@ a .icon-flip-vertical:before {
 }
 .new-header .humanities .progress-container:hover .progress-item:hover .progress-item-link {
   background: #4858a4;
+  color: #ffffff;
+  text-decoration: none;
+}
+.new-header .partner-content .status.video-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.exercise-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.scratchpad-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.talkie-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.challenge-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .status.article-node {
+  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-partnerContent.png);
+  /*! data-uri */
+}
+.new-header .partner-content .pipe.completed {
+  background-color: #4ab6a4;
+}
+.new-header .partner-content .progress-container:hover .progress-item:hover .progress-item-link {
+  background: #13967e;
   color: #ffffff;
   text-decoration: none;
 }
@@ -9473,10 +9668,6 @@ footer {
   top: -2px;
   line-height: 100%;
 }
-body.lang-use-rtl #top-header-container .icon-chevron-down {
-  margin-left: 0;
-  margin-right: 4px;
-}
 #top-header-container .sitewide-navigation {
   display: inline;
   line-height: 45px;
@@ -9490,9 +9681,6 @@ body.lang-use-rtl #top-header-container .icon-chevron-down {
   font-size: 16px;
   letter-spacing: -1px;
   text-transform: uppercase;
-}
-body.lang-use-rtl #top-header-container .sitewide-navigation .nav-subheader span > a {
-  float: right;
 }
 #top-header-container .sitewide-navigation .nav-subheader span > a,
 #top-header-container .sitewide-navigation .nav-subheader span > a:visited,
@@ -9535,15 +9723,13 @@ body.lang-use-rtl #top-header-container .sitewide-navigation .nav-subheader span
   -webkit-box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
+  position: relative;
   margin-left: 0;
   font-family: "MuseoSans300", sans-serif;
   /**
              * This causes position: absolute div.sub-menu-custom to orient
              * itself relative to ul.dropdown-menu and thus top aligned.
              */
-}
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu {
-  right: 0;
 }
 body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-right {
   display: none;
@@ -9574,16 +9760,12 @@ body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-me
   font-size: 10px;
   line-height: 28px;
   position: absolute;
-  top: 0;
-}
-#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-right.icon-chevron-right,
-#top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-left.icon-chevron-right {
   right: 3px;
+  top: 0;
 }
 #top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-right.icon-chevron-left,
 #top-header-container .sitewide-navigation ul.topic-browser-menu .icon-chevron-left.icon-chevron-left {
   display: none;
-  left: 3px;
 }
 #top-header-container .sitewide-navigation ul.topic-browser-menu li:hover > .icon-chevron-right {
   color: #ffffff;
@@ -9628,17 +9810,6 @@ body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-me
   width: 520px;
   /* Welcome to goals country! */
 }
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul,
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom {
-  -webkit-box-shadow: -2px 5px 8px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: -2px 5px 8px rgba(0, 0, 0, 0.5);
-  box-shadow: -2px 5px 8px rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: -1px;
-  right: 176px;
-  bottom: auto;
-  left: auto;
-}
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .goals-title,
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom .goals-title,
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .submenu-title,
@@ -9661,12 +9832,6 @@ body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-me
   float: right;
   font-size: 14px;
   padding: 0 5px;
-}
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .goals-title .km-link,
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom .goals-title .km-link,
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .submenu-title .km-link,
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom .submenu-title .km-link {
-  float: left;
 }
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul .goals-title .km-link:hover,
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom .goals-title .km-link:hover,
@@ -9701,10 +9866,6 @@ body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-me
   clear: none;
   float: left;
   width: 48.93%;
-}
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul li.level1,
-body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom li.level1 {
-  float: right;
 }
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > ul li.level1:nth-child(2n+1),
 #top-header-container .sitewide-navigation ul.topic-browser-menu li > .sub-menu-custom li.level1:nth-child(2n+1) {
@@ -9785,13 +9946,6 @@ body.lang-use-rtl #top-header-container .sitewide-navigation ul.topic-browser-me
   left: auto;
   z-index: 102;
 }
-body.lang-use-rtl #top-header-container #page_auth {
-  position: absolute;
-  top: 0;
-  right: auto;
-  bottom: auto;
-  left: 0;
-}
 #top-header-container #page_auth #login-menu {
   margin-top: 9px;
 }
@@ -9817,19 +9971,16 @@ body.lang-use-rtl #top-header-container #page_auth {
   vertical-align: middle;
   width: 24px;
 }
-#top-header-container #user-info .dropdown .user-notification .icon {
-  position: relative;
-  top: 4px;
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  background-repeat: no-repeat;
-  border: 0;
-  background-image: url(http://www.khanacademy.org/"/images/notification-icons.png");
-  background-position: -18px 0;
+#top-header-container #user-info .dropdown .user-notification {
+  height: 45px;
 }
-#top-header-container #user-info .dropdown .user-notification .icon.brand-new {
-  background-position: 0 0;
+#top-header-container #user-info .dropdown .user-notification .icon-comments {
+  color: #ccc;
+  position: relative;
+  top: -4px;
+}
+#top-header-container #user-info .dropdown .user-notification .icon-comments.brand-new {
+  color: #9db63b;
 }
 #top-header-container #user-info .dropdown.open .icon {
   background-position: 0 0;
@@ -9983,10 +10134,10 @@ body.lang-use-rtl #top-header-container #page_auth {
              * the dropdown's content are loaded dynamically via notifications.css.
              */
 }
-#top-header-container #user-info #user-notifications .user-notification .icon .notification-bubble {
+#top-header-container #user-info #user-notifications .user-notification .notification-bubble {
   position: absolute;
-  right: -5px;
-  top: -9px;
+  right: -4px;
+  top: -6px;
   padding: 0 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -9994,7 +10145,7 @@ body.lang-use-rtl #top-header-container #page_auth {
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  background-color: #357316;
+  background-color: #76a005;
   color: #FFF;
   line-height: 13px;
   font-size: 10px;
@@ -10248,9 +10399,6 @@ footer .main-links a,
 footer .extra-links a {
   text-decoration: none;
 }
-body.lang-use-rtl footer .main-links [class*="span"] {
-  float: right;
-}
 footer .extra-links {
   padding: 12px 0 24px;
 }
@@ -10273,13 +10421,6 @@ footer .handtree {
   bottom: 25px;
   left: auto;
   max-width: 100px;
-}
-body.lang-use-rtl footer .handtree {
-  position: absolute;
-  top: auto;
-  right: auto;
-  bottom: 25px;
-  left: 0;
 }
 footer .copyright {
   text-align: right;
