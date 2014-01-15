@@ -591,22 +591,18 @@ window.Khan = (function() {
         },
 
         getIssueInfo: function() {
-            var path = exerciseFile + "?seed=" + problemSeed + "&problem=" +
-                        problemID,
-                locale = icu.getLocale(),
-                pathlink = "[" + path + (exercise && exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.kasandbox.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + ")",
-
-                historyLink = "[Answer timeline](" + "http://sandcastle.kasandbox.org/media/castles/Khan:master/exercises/" + path + "&debug&lang=" + locale + "&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
-                localeMsg = "Locale: " + locale,
-                userHash = "User hash: " + crc32(user),
-
-                parts = [pathlink, historyLink,
-                        "    " + JSON.stringify(Exercises.guessLog), localeMsg, userHash],
-                body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
-
             return {
                 pretitle: exerciseName,
-                bodyInfo: body
+                exercise: exerciseId,
+                item: problemID + "/" + problemSeed,
+                sha: userExercise.exerciseModel.sha1,
+                previewUrl: "http://sandcastle.kasandbox.org/media/castles/Khan:master/exercises/" +
+                        exerciseFile + "?seed=" + problemSeed + "&problem=" +
+                        problemID + "&debug&lang=" + icu.getLocale(),
+                editUrl: "http://exercises.ka.local/exercises/" +
+                        exerciseFile + "?seed=" + problemSeed + "&problem=" +
+                        problemID + "&debug",
+                bodyInfo: JSON.stringify(Exercises.guessLog)
             };
         },
 
@@ -623,18 +619,15 @@ window.Khan = (function() {
             $(selector).click(function(e) {
                 e.preventDefault();
 
-                // If a custom reportIssue handler already exists, just call it
-                if (Exercises.reportIssue) {
-                    Exercises.reportIssue();
-                    return;
+                var issueIntro = $._("Remember to check the hints and " +
+                        "double check your math. Thanks for your help!");
+
+                if (typeof KA !== "undefined" && KA.vipIssueReporter) {
+                    $("#issue .info-box-header").text($._("VIP Issue Report"));
                 }
 
-                var issueIntro = $._("Remember to check the hints and " +
-                        "double check your math. All provided information will " +
-                        "be public. Thanks for your help!");
-
-                var report = $("#issue").css("display") !== "none",
-                    form = $("#issue .issue-form").css("display") !== "none";
+                var report = $("#issue").css("display") !== "none";
+                var form = $("#issue .issue-form").css("display") !== "none";
 
                 if (report && form) {
                     $("#issue").hide();
@@ -677,87 +670,30 @@ window.Khan = (function() {
                     return;
                 }
 
-                var framework = Exercises.getCurrentFramework(),
-                    issueInfo = framework === "khan-exercises" ?
-                            Khan.getIssueInfo() :
-                            Exercises.PerseusBridge.getIssueInfo(),
-
-                    type = $("input[name=issue-type]:checked").prop("id"),
-                    title = $("#issue-title").val(),
-
-                    agent = navigator.userAgent,
-                    mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
-                        ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length)),
-                    sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
-                    warningInfo = $("#warning-bar-content").text(),
-
-                    parts = [$("#issue-body").val() || null, issueInfo.bodyInfo, agent, sessionStorageInfo, mathjaxInfo, warningInfo],
-                    body = $.grep(parts, function(e) { return e != null; }).join("\n\n"),
-
-                    issueError = $._("Communication with GitHub isn't working. " +
-                        "Please file the issue manually at " +
-                        "<a href=\"http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
-                        "Please reference exercise: %(exerciseId)s.", {exerciseId: exerciseId}),
-                    issueSuccess = function(bugid, suggestion) {
-                        return $._("<p>Thank you for your feedback! " +
-                            "Issue <b>%(bugid)s</b> has been opened and we'll look into it shortly.</p>" +
-                            "<p>%(suggestion)s</p>",
-                            {bugid: bugid, suggestion: suggestion}
-                        );
-                    };
-
-
-                var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
-                    if (info.status === -1) {
-                        return [script + ": error"];
-                    } else {
-                        return [];
-                    }
-                }).join("\n");
-                if (mathjaxLoadFailures.length > 0) {
-                    body += "\n\n" + mathjaxLoadFailures;
-                }
-                if (framework === "khan-exercises") {
-                    body += "\n\n" + debugLogLog.join("\n");
+                // Validate title
+                var title = $("#issue-title").val();
+                if (title === "") {
+                    $("#issue-status").addClass("error")
+                        .html($._("Please provide a title for the issue.")).show();
+                    return;
                 }
 
-                // flagging of browsers/os for issue labels. very primitive, but
-                // hopefully sufficient.
-                var agent_contains = function(sub) {
-                        return agent.indexOf(sub) !== -1;
-                    },
-                    profile = typeof KA !== "undefined" && KA.getUserProfile(),
-                    flags = {
-                        ie8: agent_contains("MSIE 8.0"),
-                        ie9: agent_contains("Trident/5.0"),
-                        chrome: agent_contains("Chrome/"),
-                        safari: !agent_contains("Chrome/") && agent_contains("Safari/"),
-                        firefox: agent_contains("Firefox/"),
-                        win7: agent_contains("Windows NT 6.1"),
-                        vista: agent_contains("Windows NT 6.0"),
-                        xp: agent_contains("Windows NT 5.1"),
-                        leopard: agent_contains("OS X 10_5") || agent_contains("OS X 10.5"),
-                        snowleo: agent_contains("OS X 10_6") || agent_contains("OS X 10.6"),
-                        lion: agent_contains("OS X 10_7") || agent_contains("OS X 10.7"),
-                        scratchpad: (/scratch\s*pad/i).test(body),
-                        ipad: agent_contains("iPad"),
-                        "500k": profile && profile.get("points") >= 500000,
-                        undef: Exercises.guessLog == null
-                    },
-                    labels = [];
-                $.each(flags, function(k, v) {
-                    if (v) {
-                        labels.push(k);
-                    }
-                });
+                // Validate body
+                var body = $("#issue-body").val();
+                if (body === "") {
+                    $("#issue-status").addClass("error")
+                        .html($._("Please provide a description of the issue.")).show();
+                    return;
+                }
 
+                // Based on the issue type, we suggest possible troubleshooting
+                // steps
+                var type = $("input[name=issue-type]:checked").prop("id");
                 if (!type) {
                     $("#issue-status").addClass("error")
                         .html($._("Please specify the issue type.")).show();
                     return;
                 } else {
-                    labels.push(type.slice("issue-".length));
-
                     var hintOrVideoMsg = $._("Please click the hint button above " +
                         "to see our solution or watch a video for additional help.");
                     var refreshOrBrowserMsg = $._("Please try a hard refresh " +
@@ -770,67 +706,105 @@ window.Khan = (function() {
                         "issue-other": ""
                     }[type];
                 }
+                body = $("label[for='" + type + "']").text() + "\n\n" + body;
 
-                if (title === "") {
-                    $("#issue-status").addClass("error")
-                        .html($._("Please provide a valid title for the issue.")).show();
-                    return;
+
+                var framework = Exercises.getCurrentFramework();
+                var issueInfo = framework === "khan-exercises" ?
+                            Khan.getIssueInfo() :
+                            Exercises.PerseusBridge.getIssueInfo();
+
+
+                // Construct debug info
+                var mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
+                        ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " +
+                        MathJax.Hub.queue.queue.length));
+                var sessionStorageInfo = (typeof sessionStorage === "undefined" ||
+                        typeof sessionStorage.getItem === "undefined" ?
+                        "sessionStorage NOT enabled" : null);
+                var warningInfo = $("#warning-bar-content").text();
+                var parts = [sessionStorageInfo, mathjaxInfo, warningInfo];
+                var debugInfo = $.grep(parts, function(e) { return e != null; }).join("\n\n");
+                var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
+                    if (info.status === -1) {
+                        return [script + ": error"];
+                    } else {
+                        return [];
+                    }
+                }).join("\n");
+                if (mathjaxLoadFailures.length > 0) {
+                    debugInfo += "\n\n" + mathjaxLoadFailures;
+                }
+                debugInfo += "\n\n" + debugLogLog.join("\n");
+
+
+                // Flag special users
+                var profile = typeof KA !== "undefined" && KA.getUserProfile();
+                var powerUser = profile && profile.get("points") >= 500000;
+                var vip = typeof KA !== "undefined" && KA.vipIssueReporter;
+                var userFlags = [];
+                if (powerUser) {
+                    userFlags.push({ value: "500k+ points" });
+                }
+                if (vip) {
+                    userFlags.push({ value: "VIP" });
+                    if (profile) {
+                        body = "VIP issue from " +
+                                profile.get("nickname") + " (" +
+                                profile.get("email") + ")\n\n" + body;
+                    }
                 }
 
                 var formElements = $("#issue input").add("#issue textarea");
 
                 // disable the form elements while waiting for a server response
                 formElements.attr("disabled", true);
-
                 $("#issue-cancel").hide();
                 $("#issue-throbber").show();
 
-                // GitHub complains if the body is > 65535 characters
-                if (body.length > 65530) {
-                    body = body.substring(0, 65500) + "... [truncated]";
-                }
-
-                var url = "/githubpost";
                 var dataObj = {
-                    title: issueInfo.pretitle + " - " + title,
-                    body: body,
-                    labels: labels
+                    fields: {
+                        project: { key: "AI" },
+                        issuetype: { name: "Item issue report" },
+                        summary: issueInfo.pretitle + " - " + title,
+                        description: body,
+                        customfield_10024: [issueInfo.exercise],  // exercise
+                        customfield_10026: issueInfo.sha,         // sha
+                        customfield_10027: issueInfo.previewUrl,  // preview url
+                        customfield_10028: issueInfo.editUrl,     // edit url
+                        customfield_10025: [issueInfo.item],      // item
+                        customfield_10029: { value: framework },  // framework
+                        customfield_10202: debugInfo,             // debug info
+                        customfield_10204: userFlags,             // user type
+                        customfield_10205: navigator.userAgent    // user agent
+                    }
                 };
 
-                // Send perseus issues to JIRA
-                if (framework === "perseus") {
-                    url = "/jirapost";
-                    dataObj = {
-                        fields: {
-                            project: { key: "AI" },
-                            issuetype: { name: "Item issue report" },
-                            summary: issueInfo.pretitle + " - " + title,
-                            description: body,
-                            customfield_10024: [issueInfo.exercise],  // exercise
-                            customfield_10026: issueInfo.sha,         // sha
-                            customfield_10027: issueInfo.previewUrl,  // preview url
-                            customfield_10028: issueInfo.editUrl,     // edit url
-                            customfield_10025: [issueInfo.item],      // item
-                            customfield_10029: { value: "perseus" }   // framework
-                        }
-                    };
-                }
-
                 $.ajax({
-                    url: url,
+                    url: "/jirapost",
                     type: "POST",
                     data: JSON.stringify(dataObj),
                     contentType: "application/json",
                     dataType: "json",
                     success: function(data) {
                         // hide the form
+                        $("#issue-throbber").hide();
                         $("#issue .issue-form").hide();
 
-                        var bugid = data.key ? data.key : "KE-" + data.number;
+                        var bugid = data.key;
+                        // VIPs get a link to the issue
+                        if (vip) {
+                            bugid = "<a href='https://khanacademy.atlassian.net/browse/" +
+                                    data.key + "'>" + data.key + "</a>";
+                        }
 
                         // show status message
                         $("#issue-status").removeClass("error")
-                            .html(issueSuccess(bugid, suggestion))
+                            .html($._("<p>Thank you for your feedback! " +
+                                "Issue <b>%(bugid)s</b> has been opened and " +
+                                "we'll look into it shortly.</p>" +
+                                "<p>%(suggestion)s</p>",
+                                {bugid: bugid, suggestion: suggestion}))
                             .show();
 
                         // reset the form elements
@@ -844,7 +818,12 @@ window.Khan = (function() {
                     error: function() {
                         // show status message
                         $("#issue-status").addClass("error")
-                            .html(issueError).show();
+                            .html($._("Communication with issue tracker isn't " +
+                                "working. Please file the issue manually at " +
+                                "<a href='http://github.com/Khan/khan-exercises/issues/new'>GitHub</a>. " +
+                                "Please reference item: <b>%(item)s</b>.",
+                                {item: issueInfo.exercise + "/" + issueInfo.item}))
+                            .show();
 
                         // enable the inputs
                         formElements.attr("disabled", false);
