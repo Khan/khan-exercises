@@ -296,6 +296,11 @@ function handleAttempt(data) {
         fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken
     });
 
+    if (Exercises.dontSendAttempts) {
+        // Skip the server; just pretend we have success
+        return false;
+    }
+
     if (localMode || Exercises.currentCard.get("preview")) {
         // Skip the server; just pretend we have success
         return false;
