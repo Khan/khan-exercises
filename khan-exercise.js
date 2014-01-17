@@ -714,6 +714,7 @@ window.Khan = (function() {
                             Khan.getIssueInfo() :
                             Exercises.PerseusBridge.getIssueInfo();
 
+                body = body + "\n\n" + issueInfo.bodyInfo;
 
                 // Construct debug info
                 var mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
