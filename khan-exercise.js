@@ -143,7 +143,7 @@ window.Khan = (function() {
     assessmentMode,
 
     // The ID, filename, and name of the exercise -- these will only be set here in localMode
-    exerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]) || "",
+    exerciseId = ((/([^\/]+?)(?:\.html)?$/.exec(window.location.pathname) || [])[1]) || "",
     exerciseFile = exerciseId + ".html",
     exerciseName = deslugify(exerciseId),
 
@@ -1119,16 +1119,13 @@ window.Khan = (function() {
             $(Exercises).trigger("clearExistingProblem");
 
             // Generate a new problem
-            makeProblem(typeOverride, seedOverride);
+            makeProblem(exerciseId, typeOverride, seedOverride);
         }
 
-        // Use a separate variable here because if exerciseID changes, we still
-        // want to log the old one.
-        var exid = exerciseId;
-        debugLog("loading and rendering " + exid);
+        debugLog("loading and rendering " + exerciseId);
         startLoadingExercise(exerciseId, exerciseName, exerciseFile).then(
             function() {
-                debugLog("loaded " + exid + ", now rendering");
+                debugLog("loaded " + exerciseId + ", now rendering");
                 finishRender();
             });
     }
@@ -1189,8 +1186,11 @@ window.Khan = (function() {
                  $.trim(guess.join("").replace(/,/g, "")) === "");
     }
 
-    function makeProblem(id, seed) {
-        debugLog("start of makeProblem");
+    function makeProblem(exerciseId, exerciseType, seed) {
+        debugLog("start of makeProblem with exerciseId '" + exerciseId 
+        		+ "', exerciseType '" + exerciseType + "', and seed '" + seed +"'");
+
+        var problem, problems;
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
         Khan.scratchpad.enable();
@@ -1209,36 +1209,40 @@ window.Khan = (function() {
 
         // Check to see if we want to test a specific problem
         if (localMode) {
-            id = typeof id !== "undefined" ? id : Khan.query.problem;
+            exerciseType = typeof exerciseType !== "undefined" ? exerciseType : Khan.query.problem;
         }
 
-        if (typeof id !== "undefined") {
-            var problems = exercises.children(".problems").children();
+        // Filters to problem types within an exercise (may be multiple types)
+        problems = exercises.filter(function() {
+            return $.data(this, "name") === exerciseId;
+        }).children(".problems").children();
 
-            problem = /^\d+$/.test(id) ?
-                // Access a problem by number
-                problems.eq(parseFloat(id)) :
+        if (typeof exerciseType !== "undefined") {
+            problem = /^\d+$/.test(exerciseType) ?
+                // Access a problem type by number
+                problems.eq(parseFloat(exerciseType)) :
 
-                // Or by its ID
-                problems.filter("#" + id);
-
-            if (!problem.length) {
-                throw new Error("Unknown problem type " + id);
-            }
+                // Or by its type name (as an id)
+                problems.filter("#" + exerciseType);
 
         // Otherwise we grab a problem at random from the bag of problems
         // we made earlier to ensure that every problem gets shown the
         // appropriate number of times
         } else if (problemBag.length > 0) {
             problem = problemBag[problemBagIndex];
-            id = problem.data("id");
-
-        // No valid problem was found, bail out
-        } else {
-            return;
+            exerciseType = problem.data("id");
         }
 
-        problemID = id;
+        // If problem is not set yet, try to salvage
+        if (problem == null && problems.length > 0) {
+            debugLog("problem was null; failed gracefully");
+            problem = problems.eq(Math.floor(Math.random() * problems.length));
+        } else if (problem == null) {
+        	debugLog("No valid problem was found, bail out");
+        	return;
+        }
+
+        problemID = exerciseType;
 
         // Find which exercise this problem is from
         exercise = problem.parents("div.exercise").eq(0);
@@ -1342,10 +1346,8 @@ window.Khan = (function() {
 
         debugLog("added inline styles");
 
-        // Get the filename of the currently shown exercise, then reset modules
-        // to only those required by the current exercise
-        var exerciseId = exercise.data("name");
-        Khan.resetModules(exerciseId);
+        // Reset modules to only those required by the current exercise
+        Khan.resetModules(exercise.data("name"));
 
         // Run the main method of any modules
         problem.runModules(problem, "Load");
@@ -1359,7 +1361,7 @@ window.Khan = (function() {
             debugLog("duplicate problem!");
             $(Exercises).trigger("clearExistingProblem");
             nextSeed(1);
-            return makeProblem();
+            return makeProblem(exerciseId);
         }
 
         // Store the solution to the problem
@@ -1435,7 +1437,7 @@ window.Khan = (function() {
             // Making the problem failed, let's try again
             debugLog("validator was falsey");
             problem.remove();
-            makeProblem(id, randomSeed);
+            makeProblem(exerciseId, exerciseType, randomSeed);
             return;
         }
 
@@ -1749,7 +1751,7 @@ window.Khan = (function() {
         if (localMode) {
             // Just generate a new problem from existing exercise
             $(Exercises).trigger("clearExistingProblem");
-            makeProblem();
+            makeProblem(exerciseId);
         } else {
             loadAndRenderExercise(data.userExercise);
         }
@@ -2236,7 +2238,7 @@ window.Khan = (function() {
         }
 
         // Generate the initial problem when dependencies are done being loaded
-        makeProblem();
+        makeProblem(exerciseId);
     }
 
     return Khan;
