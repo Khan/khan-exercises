@@ -10,7 +10,7 @@
     loadModule will load an individual exercise util module (e.g.,
     word-problems.js, etc). It _also_ loads in the Khan Academy site skin and
     exercise template via injectSite which runs prepareSite first then
-    makeProblemBag and makeProblem when it finishes loading dependencies.
+    makeProblem when it finishes loading dependencies.
 
     prepareSite and makeProblem are both fairly heavyweight functions.
 
@@ -927,18 +927,11 @@ window.Khan = (function() {
                 promises.push(loadModule(mod));
             });
 
-            // Ensure that all local exercises that don't have a data-name
-            // already get tagged with the current, original data-name.
-            $("div.exercise").not("[data-name]").data("name", exerciseId);
+            // Ensure that all local exercises get tagged with the exercise ID
+            $("div.exercise").data("name", exerciseId);
 
-            var remoteExercises = $("div.exercise[data-name]");
-
-            remoteExercises.each(function() {
-                promises.push(loadExercise(this));
-            });
-
-            // All remote exercises (if any) have now been loaded
             $.when.apply($, promises).then(function() {
+                // All modules have now been loaded
                 loadTestModeSite();
             });
         });
@@ -993,8 +986,7 @@ window.Khan = (function() {
         var exerciseElem = $("<div>")
             .data("name", exerciseId)
             .data("displayName", exerciseName)
-            .data("fileName", exerciseFile)
-            .data("rootName", exerciseId);
+            .data("fileName", exerciseFile);
 
         // Queue up an exercise load
         return loadExercise(exerciseElem);
@@ -1013,11 +1005,8 @@ window.Khan = (function() {
 
         function finishRender() {
             // Get all problems of this exercise type...
-            // TODO(alpert): What happens if multiple summatives in topic mode
-            // have the same subexercises? (Or if the subexercises appear in
-            // the topic individually.)
             var problems = exercises.filter(function() {
-                return $.data(this, "rootName") === exerciseId;
+                return $.data(this, "name") === exerciseId;
             }).children(".problems").children();
 
             // Make scratchpad persistent per-user
@@ -1951,7 +1940,7 @@ window.Khan = (function() {
      * is loaded
      *
      * @param {Element} exerciseElem HTML element with jQuery data
-     * properties name, weight, rootName, and fileName
+     * properties name, weight, and fileName
      */
     function loadExercise(exerciseElem) {
         exerciseElem = $(exerciseElem).detach();
@@ -1966,7 +1955,6 @@ window.Khan = (function() {
         }
 
         var weight = exerciseElem.data("weight");
-        var rootName = exerciseElem.data("rootName");
         var fileName = exerciseElem.data("fileName");
         // TODO(eater): remove this once all of the exercises in the datastore
         // have filename properties
@@ -1990,16 +1978,7 @@ window.Khan = (function() {
 
             var newContents = $(data).filter(".exercise");
 
-            // Name of the top-most ancestor exercise
-            newContents.data("rootName", rootName);
-
-            // First, remove ones that refer to other files...
-            var remoteExercises = newContents.filter("[data-name]");
-            newContents = newContents.not("[data-name]");
-
             // ...then save the exercise ID, fileName and weights for later
-            // TODO(david): Make sure weights work for recursively-loaded
-            // exercises.
             newContents.data({
                 name: id,
                 fileName: fileName,
@@ -2008,12 +1987,6 @@ window.Khan = (function() {
 
             // Add the new exercise elements to the exercises DOM set
             exercises = exercises.add(newContents);
-
-            // Maybe the exercise we just loaded loads some others
-            remoteExercises.each(function() {
-                debugLog("loadExercise sub " + $(this).data("name"));
-                subpromises.push(loadExercise(this));
-            });
 
             // Extract data-require
             var match = data.match(
@@ -2054,13 +2027,13 @@ window.Khan = (function() {
                 newContents.data(tag, result);
             });
 
-            // Wait for any subexercises to load, then resolve the promise
+            // Wait for any modules to load, then resolve the promise
             $.when.apply($, subpromises).then(function() {
-                // Success; all subexercises loaded
+                // Success; all modules loaded
                 debugLog("loadExercise finish " + fileName);
                 promise.resolve();
             }, function() {
-                // Failure; some subexercises failed to load
+                // Failure; some modules failed to load
                 // TODO(alpert): Find a useful error message
                 debugLog("loadExercise subfail " + fileName);
                 promise.reject();
