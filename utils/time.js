@@ -1,67 +1,106 @@
 $.extend(KhanUtil, {
-
     addAnalogClock: function(options) {
-
         var analogClock = $.extend(true, {
             graph: KhanUtil.currentGraph,
             set: KhanUtil.currentGraph.raphael.set(),
+            hands: KhanUtil.currentGraph.raphael.set(),
+            center: [0, 0],
             radius: 3.5,
             showLabels: true,
-            hour: false,
-            minute: false,
-            hourTicks: 12,
-            minuteTicks: 48,
-            hourTickLength: 0.8, // make this more understandable
-            minuteTickLength: 0.95
+            hour: null,
+            minute: null
         }, options);
 
-        analogClock.drawTicks = function(options) {
-            var n = options.n;
-            var p = options.p;
-            var x, y, outerPoint, innerPoint;
-
-            for (var i = 0; i < n; i++) {
-                x = this.radius * Math.cos(2 * Math.PI * i / n);
-                y = this.radius * Math.sin(2 * Math.PI * i / n);
-                outerPoint = [x, y];
-                innerPoint = [p * x, p * y];
-                var line = this.graph.line(outerPoint, innerPoint);
-                if (options.tickAttr) {
-                    line.attr(options.tickAttr);
-                }
-                this.set.push(line);
-            }
-        };
-
         analogClock.drawLabels = function() {
-            for (var i = 1; i < 13; i++) {
-                this.set.push(this.graph.label([0.7 * this.radius * Math.sin(2 * Math.PI * i / 12), 0.7 * this.radius * Math.cos(2 * Math.PI * i / 12)], i));
-            }
-            return this.set;
+            var self = this;
+            _(12).times(function(n) {
+                n += 1;
+                var coord = self.graph.scalePoint([
+                        self.center[0] + 0.78 * self.radius * Math.sin(2 * Math.PI * n / 12),
+                        self.center[1] + 0.78 * self.radius * Math.cos(2 * Math.PI * n / 12)]);
+                // Use raphael text rather than mathjax labels so the hands can
+                // be drawn on top. Also, the sans-serif font better fits the
+                // stylish look of this sleek, modern clock.
+                var lbl = self.graph.raphael.text(coord[0], coord[1], n);
+                lbl.attr({
+                    color: KhanUtil.GRAY,
+                    fill: KhanUtil.GRAY,
+                    "font-size": 14
+                });
+                self.set.push(lbl);
+            });
+            self.hands.toFront();
         };
 
         analogClock.drawHands = function() {
-            this.set.push(this.graph.line([0.45 * this.radius * Math.sin(2 * Math.PI * this.hour / 12 + (this.minute / 60) / 12 * 2 * Math.PI), 0.45 * this.radius * Math.cos(2 * Math.PI * this.hour / 12 + (this.minute / 60) / 12 * 2 * Math.PI)], [0, 0]));
-            this.set.push(this.graph.line([0.6 * this.radius * Math.sin((this.minute / 60) * 2 * Math.PI), 0.6 * this.radius * Math.cos((this.minute / 60) * 2 * Math.PI)], [0, 0]));
+            var self = this;
+            self.graph.style({
+                fill: "#333",
+                stroke: "none"
+            }, function() {
+                var hourHand = self.graph.path([
+                        [self.center[0] - 0.15 * self.radius, self.center[1] + 0.035 * self.radius],
+                        [self.center[0] + 0.45 * self.radius, self.center[1] + 0.020 * self.radius],
+                        [self.center[0] + 0.45 * self.radius, self.center[1] - 0.020 * self.radius],
+                        [self.center[0] - 0.15 * self.radius, self.center[1] - 0.035 * self.radius],
+                        true]);
+                hourHand.rotate(-KhanUtil.timeToDegrees((self.hour + self.minute/60) * 5),
+                        self.graph.scalePoint(self.center)[0], self.graph.scalePoint(self.center)[1]);
+                self.hands.push(hourHand);
+
+                var minuteHand = self.graph.path([
+                        [self.center[0] - 0.15 * self.radius, self.center[0] + 0.035 * self.radius],
+                        [self.center[0] + 0.85 * self.radius, self.center[0] + 0.017 * self.radius],
+                        [self.center[0] + 0.85 * self.radius, self.center[0] - 0.017 * self.radius],
+                        [self.center[0] - 0.15 * self.radius, self.center[0] - 0.035 * self.radius],
+                        true]);
+                minuteHand.rotate(-KhanUtil.timeToDegrees(self.minute),
+                        self.graph.scalePoint(self.center)[0], self.graph.scalePoint(self.center)[1]);
+                self.hands.push(minuteHand);
+            });
+            self.set.push(self.hands);
         };
 
         analogClock.draw = function() {
-            if (this.hourTicks) {
-                this.drawTicks({n: this.hourTicks, p: this.hourTickLength});
+            var self = this;
+            self.graph.style({
+                stroke: KhanUtil.GRAY,
+                fill: "#fff",
+                strokeWidth: 5
+            }, function() {
+                self.set.push(self.graph.circle(self.center, self.radius));
+            });
+            self.graph.style({
+                stroke: KhanUtil.GRAY,
+                strokeWidth: 4
+            }, function() {
+                _(12).times(function(n) {
+                    var tick = self.graph.line(
+                            [self.center[0] + self.radius - 4 / self.graph.scale[0], self.center[1]],
+                            [self.center[0] + self.radius - 8 / self.graph.scale[0], self.center[1]]);
+                    tick.rotate(n * 30, self.graph.scalePoint(self.center)[0], self.graph.scalePoint(self.center)[1]);
+                    self.set.push(tick);
+                });
+            });
+            self.graph.style({
+                stroke: KhanUtil.GRAY,
+                strokeWidth: 1
+            }, function() {
+                _(60).times(function(n) {
+                    var tick = self.graph.line(
+                            [self.center[0] + self.radius - 4 / self.graph.scale[0], self.center[1]],
+                            [self.center[0] + self.radius - 8 / self.graph.scale[0], self.center[1]]);
+                    tick.rotate(n * 6, self.graph.scalePoint(self.center)[0], self.graph.scalePoint(self.center)[1]);
+                    self.set.push(tick);
+                });
+            });
+            if (self.showLabels) {
+                self.drawLabels();
             }
-            if (this.minuteTicks) {
-                this.drawTicks({n: this.minuteTicks, p: this.minuteTickLength});
+            if (self.hour != null && self.minute != null) {
+                self.drawHands();
             }
-            // draw circles
-            this.set.push(this.graph.circle([0, 0], this.radius));
-            this.set.push(this.graph.circle([0, 0], this.radius / 40));
-            if (this.showLabels) {
-                this.drawLabels();
-            }
-            if (this.hour !== false && this.minute !== false) {
-                this.drawHands();
-            }
-            return this.set;
+            return self.set;
         };
 
         return analogClock;
@@ -70,8 +109,10 @@ $.extend(KhanUtil, {
     /* Map time in minutes to angle in degrees
      * - Minutes start at positive y-axis and increase clockwise
      * - Angle starts at positive x-axis and increases counterclockwise
-     * - (e.g., 0 minutes => 90 degrees; 15 minutes => 0 degrees; 30 minutes => 270 degrees; 45 minutes => 180 degrees)
-     * - Will return angle in radians if `angleInRadians` is specified as truthy.
+     * - (e.g., 0 minutes => 90 degrees; 15 minutes => 0 degrees;
+     *   30 minutes => 270 degrees; 45 minutes => 180 degrees)
+     * - Will return angle in radians if `angleInRadians` is specified as
+     *   truthy.
      */
     timeToDegrees: function(minutes, angleInRadians) {
         // p is the proportion of total time
@@ -89,5 +130,4 @@ $.extend(KhanUtil, {
         }
         return 360 * angleProportion;
     }
-
 });

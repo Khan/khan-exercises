@@ -26,14 +26,14 @@
                 <div class="problem">
 
                     <div class="graphie" id="clock">
-                        init({ range: [[-4, 4], [-4, 4]], scale: 45 });
+                        init({ range: [[-4.5, 4.5], [-4.5, 4.5]], scale: 30 });
 
                         var clockRadius = 3.75;
                         var minuteSnapPoints = 12;
                         var hourSnapPoints = 12 * 60 / MINUTE_INCREMENT;
 
-                        var outerPointRadius = clockRadius * 1.01;
-                        var minuteRadius = clockRadius * 0.6;
+                        var outerPointRadius = clockRadius * 1.10;
+                        var minuteRadius = clockRadius * 0.65;
                         var hourRadius = clockRadius * 0.45;
 
                         minuteStartAngle = 90;
@@ -83,12 +83,12 @@
                                 return movePartnerPoint({ x: x, y: y, point: this, outerPoint: outerMinutePoint, isOuterPoint: false });
                             },
                             normalStyle: {
-                                fill: ORANGE,
-                                stroke: ORANGE
+                                fill: RED,
+                                stroke: RED
                             },
                             highlightStyle: {
-                                fill: ORANGE,
-                                stroke: ORANGE
+                                fill: RED,
+                                stroke: RED
                             }
                         });
 
@@ -105,12 +105,12 @@
                                 return movePartnerPoint({ x: x, y: y, point: minutePoint, outerPoint: this, isOuterPoint: true });
                             },
                             normalStyle: {
-                                fill: ORANGE,
-                                stroke: ORANGE
+                                fill: RED,
+                                stroke: RED
                             },
                             highlightStyle: {
-                                fill: ORANGE,
-                                stroke: ORANGE
+                                fill: RED,
+                                stroke: RED
                             }
                         });
 
@@ -163,7 +163,7 @@
                             coordZ: [0, 0],
                             fixed: true,
                             normalStyle: {
-                                stroke: ORANGE,
+                                stroke: RED,
                                 "stroke-width": 10
                             }
                         });
@@ -236,8 +236,8 @@
                     <p>
                         The <span class="hint_blue" style="font-weight: bold">hour</span> hand is the short
                         <span class="hint_blue" style="font-weight: bold">blue</span> bar and the
-                        <span class="hint_orange" style="font-weight: bold">minute</span> hand is the long
-                        <span class="hint_orange" style="font-weight: bold">orange</span> bar.
+                        <span class="hint_red" style="font-weight: bold">minute</span> hand is the long
+                        <span class="hint_red" style="font-weight: bold">red</span> bar.
                     </p>
 
                     <p>
@@ -247,7 +247,7 @@
                     </p>
 
                     <p>
-                        First, let's set the <span class="hint_orange" style="font-weight: bold">minute</span> hand.
+                        First, let's set the <span class="hint_red" style="font-weight: bold">minute</span> hand.
                     </p>
 
                     <div>
@@ -260,7 +260,7 @@
                                 Since we are <code><var>MINUTE</var></code>
                                 minutes past the hour, the minute hand should
                                 be at the mark numbered
-                                <code class="hint_orange">12</code>, which is
+                                <code class="hint_red">12</code>, which is
                                 the first tick mark on the clock and represents
                                 <code>0</code> minutes past the hour.
                             </span><span data-else>
@@ -268,7 +268,7 @@
                                 minutes past the hour, and there are 5 minutes
                                 per tick mark, the minute hand should be at the
                                 mark numbered
-                                <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>
+                                <code class="hint_red"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>
                             </span>
                         </p>
                     </div>
@@ -347,7 +347,7 @@
                                 coordZ: [0, 0],
                                 fixed: true,
                                 normalStyle: {
-                                    stroke: ORANGE,
+                                    stroke: RED,
                                     "stroke-width": 10,
                                     "stroke-dasharray": ".",
                                     "stroke-linecap": "round",
@@ -360,7 +360,7 @@
                                 coordZ: [0, 0],
                                 fixed: true,
                                 normalStyle: {
-                                    stroke: ORANGE,
+                                    stroke: RED,
                                     "stroke-width": 10,
                                     "stroke-linecap": "round",
                                     "stroke-opacity": handOpacity
