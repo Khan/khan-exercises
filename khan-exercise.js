@@ -1144,7 +1144,7 @@ window.Khan = (function() {
         } else {
             var typeIndex = [];
             $.each(problems, function(index) {
-                if ($(this).data("weight") === 0) return;
+                if ($(this).data("weight") === 0) { return; }
                 var weight = $(this).data("weight") || 1;
                 _.times(weight, function(){ typeIndex.push(index); });
             });
