@@ -3520,6 +3520,7 @@ function MovableAngle(graphie, options) {
 _.extend(MovableAngle.prototype, {
     points: [],
     snapDegrees: 0,
+    snapOffsetDeg: 0,
     angleLabel: "",
     numArcs: 1,
     pushOut: 0,
@@ -3573,6 +3574,7 @@ _.extend(MovableAngle.prototype, {
         };
 
         var snap = this.snapDegrees;
+        var snapOffset = this.snapOffsetDeg;
 
         // Drag ray control points to move each ray individually
         _.each([0, 2], function(i) {
@@ -3584,7 +3586,8 @@ _.extend(MovableAngle.prototype, {
                     return false;
                 } else if (snap) {
                     var angle = KhanUtil.findAngle(newPoint, vertex);
-                    angle = Math.round(angle / snap) * snap;
+                    angle = Math.round((angle - snapOffset) / snap) * snap +
+                            snapOffset;
                     var distance = KhanUtil.getDistance(newPoint, vertex);
                     return addPoints(vertex, graphie.polar(distance, angle));
                 } else {
