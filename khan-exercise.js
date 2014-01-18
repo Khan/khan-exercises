@@ -1023,13 +1023,10 @@ window.Khan = (function() {
             makeProblem(exerciseId, typeOverride, seedOverride);
         }
 
-        // Use a separate variable here because if exerciseID changes, we still
-        // want to log the old one.
-        var exid = exerciseId;
-        debugLog("loading and rendering " + exid);
+        debugLog("loading and rendering " + exerciseId);
         startLoadingExercise(exerciseId, exerciseName, exerciseFile).then(
             function() {
-                debugLog("loaded " + exid + ", now rendering");
+                debugLog("loaded " + exerciseId + ", now rendering");
                 finishRender();
             });
     }
