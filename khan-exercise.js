@@ -1135,7 +1135,7 @@ window.Khan = (function() {
                 _.times(weight, function(){ typeIndex.push(index); });
             });
             id = Math.floor(Math.random() * typeIndex.length);
-            problem = problems.eq(id);
+            problem = problems.eq(typeIndex[id]);
             id = $(problem).attr("id") || "" + id;
         }
 
