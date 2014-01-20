@@ -143,9 +143,9 @@ window.Khan = (function() {
     assessmentMode,
 
     // The ID, filename, and name of the exercise -- these will only be set here in localMode
-    exerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]) || "",
-    exerciseFile = exerciseId + ".html",
-    exerciseName = deslugify(exerciseId),
+    currentExerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]) || "",
+    currentExerciseFile = currentExerciseId + ".html",
+    currentExerciseName = deslugify(currentExerciseId),
 
     // Bin users into a certain number of realms so that
     // there is some level of reproducability in their questions.
@@ -173,11 +173,11 @@ window.Khan = (function() {
     // Info for constructing the seed
     seedOffset = 0,
     jumpNum = 1,
-    problemSeed = 0,
+    currentProblemSeed = 0,
     seedsSkipped = 0,
     consecutiveSkips = 0,
 
-    problemID,
+    currentProblemType,
 
     // The current validator function
     answerData,
@@ -571,30 +571,30 @@ window.Khan = (function() {
             return {
                 // A hash representing the exercise version
                 sha1: typeof userExercise !== "undefined" ?
-                        userExercise.exerciseModel.sha1 : exerciseId,
-                seed: problemSeed,
-                problem_type: problemID
+                        userExercise.exerciseModel.sha1 : currentExerciseId,
+                seed: currentProblemSeed,
+                problem_type: currentProblemType
             };
         },
 
         getPreviewUrl: function() {
             return window.location.protocol + "//" + window.location.host +
-                "/preview/content/e/" + exerciseId + "?seed=" +
-                problemSeed + "&problem=" + problemID;
+                "/preview/content/e/" + currentExerciseId + "?seed=" +
+                currentProblemSeed + "&problem=" + currentProblemType;
         },
 
         getIssueInfo: function() {
             return {
-                pretitle: exerciseName,
-                exercise: exerciseId,
-                item: problemID + "/" + problemSeed,
+                pretitle: currentExerciseName,
+                exercise: currentExerciseId,
+                item: currentProblemType + "/" + currentProblemSeed,
                 sha: userExercise.exerciseModel.sha1,
                 previewUrl: "http://sandcastle.kasandbox.org/media/castles/Khan:master/exercises/" +
-                        exerciseFile + "?seed=" + problemSeed + "&problem=" +
-                        problemID + "&debug&lang=" + icu.getLocale(),
+                        currentExerciseFile + "?seed=" + currentProblemSeed + "&problem=" +
+                        currentProblemType + "&debug&lang=" + icu.getLocale(),
                 editUrl: "http://exercises.ka.local/exercises/" +
-                        exerciseFile + "?seed=" + problemSeed + "&problem=" +
-                        problemID + "&debug",
+                        currentExerciseFile + "?seed=" + currentProblemSeed + "&problem=" +
+                        currentProblemType + "&debug",
                 bodyInfo: JSON.stringify(Exercises.guessLog)
             };
         },
@@ -919,7 +919,7 @@ window.Khan = (function() {
                         "data-require") || "";
                 var exMods = modString.length ? modString.split(" ") : [];
 
-                Khan.exerciseModulesMap[exerciseId] = exMods;
+                Khan.exerciseModulesMap[currentExerciseId] = exMods;
                 mods.push.apply(mods, exMods);
             }
 
@@ -928,7 +928,7 @@ window.Khan = (function() {
             });
 
             // Ensure that all local exercises get tagged with the exercise ID
-            $("div.exercise").data("name", exerciseId);
+            $("div.exercise").data("name", currentExerciseId);
 
             $.when.apply($, promises).then(function() {
                 // All modules have now been loaded
@@ -1043,7 +1043,7 @@ window.Khan = (function() {
             return false;
         }
 
-        var cacheKey = "prevProblems:" + user + ":" + exerciseName;
+        var cacheKey = "prevProblems:" + user + ":" + currentExerciseName;
         var cached = LocalStore.get(cacheKey);
         var lastProblemNum = (cached && cached["lastProblemNum"]) || 0;
 
@@ -1087,43 +1087,43 @@ window.Khan = (function() {
                  $.trim(guess.join("").replace(/,/g, "")) === "");
     }
 
-    function makeProblem(exerciseId, id, seed) {
+    function makeProblem(exerciseId, typeOverride, seedOverride) {
         debugLog("start of makeProblem");
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
         Khan.scratchpad.enable();
 
         // Allow passing in a random seed
-        if (typeof seed !== "undefined") {
-            problemSeed = seed;
+        if (typeof seedOverride !== "undefined") {
+            currentProblemSeed = seedOverride;
 
         // If no user, just pick a random seed
         } else if (user == null) {
-            problemSeed = Math.abs(randomSeed % bins);
+            currentProblemSeed = Math.abs(randomSeed % bins);
         }
 
-        // Set randomSeed to what problemSeed is (save problemSeed for recall later)
-        randomSeed = problemSeed;
+        // Set randomSeed to what currentProblemSeed is (save currentProblemSeed for recall later)
+        randomSeed = currentProblemSeed;
 
         // Check to see if we want to test a specific problem
         if (localMode) {
-            id = typeof id !== "undefined" ? id : Khan.query.problem;
+            currentProblemType = typeof typeOverride !== "undefined" ? typeOverride : Khan.query.problem;
         }
         
         var problems = exercises.filter(function() {
             return $.data(this, "name") === exerciseId;
         }).children(".problems").children();
 
-        if (typeof id !== "undefined") {
-            problem = /^\d+$/.test(id) ?
+        if (typeof typeOverride !== "undefined") {
+            problem = /^\d+$/.test(typeOverride) ?
                 // Access a problem by number
-                problems.eq(parseFloat(id)) :
+                problems.eq(parseFloat(typeOverride)) :
 
                 // Or by its ID
-                problems.filter("#" + id);
+                problems.filter("#" + typeOverride);
 
             if (!problem.length) {
-                throw new Error("Unknown problem type " + id);
+                throw new Error("Unknown problem type " + typeOverride);
             }
 
         // Otherwise create a random problem from weights
@@ -1134,17 +1134,15 @@ window.Khan = (function() {
                 var weight = $(this).data("weight") || 1;
                 _.times(weight, function(){ typeIndex.push(index); });
             });
-            id = Math.floor(Math.random() * typeIndex.length);
-            problem = problems.eq(typeIndex[id]);
-            id = $(problem).attr("id") || "" + id;
+            var type = typeIndex[Math.floor(Math.random() * typeIndex.length)];
+            problem = problems.eq(type);
+            currentProblemType = $(problem).attr("id") || "" + type;
         }
-
-        problemID = id;
 
         // Find which exercise this problem is from
         exercise = problem.parents("div.exercise").eq(0);
 
-        debugLog("chose problem type and seed for " + exercise.data("name"));
+        debugLog("chose problem type and seed for " + exerciseId);
 
         // Work with a clone to avoid modifying the original
         problem = problem.clone();
@@ -1243,9 +1241,7 @@ window.Khan = (function() {
 
         debugLog("added inline styles");
 
-        // Get the filename of the currently shown exercise, then reset modules
-        // to only those required by the current exercise
-        var exerciseId = exercise.data("name");
+        // Reset modules to only those required by the current exercise
         Khan.resetModules(exerciseId);
 
         // Run the main method of any modules
@@ -1254,7 +1250,7 @@ window.Khan = (function() {
         problem.runModules(problem);
         debugLog("done with runModules");
 
-        if (typeof seed === "undefined" && shouldSkipProblem()) {
+        if (typeof seedOverride === "undefined" && shouldSkipProblem()) {
             // If this is a duplicate problem we should skip, just generate
             // another problem of the same problem type but w/ a different seed.
             debugLog("duplicate problem!");
@@ -1336,7 +1332,7 @@ window.Khan = (function() {
             // Making the problem failed, let's try again
             debugLog("validator was falsey");
             problem.remove();
-            makeProblem(exerciseId, id, randomSeed);
+            makeProblem(exerciseId, currentProblemType, randomSeed);
             return;
         }
 
@@ -1492,9 +1488,9 @@ window.Khan = (function() {
 
         if (userExercise == null || Khan.query.debug != null) {
             $("#problem-permalink").text("Permalink: " +
-                                         problemID + " #" +
-                                         problemSeed)
-                .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug&problem=" + problemID + "&seed=" + problemSeed);
+                                         currentProblemType + " #" +
+                                         currentProblemSeed)
+                .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug&problem=" + currentProblemType + "&seed=" + currentProblemSeed);
         }
 
         // Show the debug info
@@ -1506,7 +1502,7 @@ window.Khan = (function() {
             });
             var debugWrap = $("#debug").css({"margin-right": "15px"}).empty();
             var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname +
-                "?debug&problem=" + problemID;
+                "?debug&problem=" + currentProblemType;
 
             $("<h3>Debug Info</h3>").appendTo(debugWrap);
 
@@ -1524,7 +1520,7 @@ window.Khan = (function() {
             var links = $("<p>").appendTo(debugWrap);
 
             if (!Khan.query.activity) {
-                var historyURL = debugURL + "&seed=" + problemSeed + "&activity=";
+                var historyURL = debugURL + "&seed=" + currentProblemSeed + "&activity=";
                 $("<a>Problem history</a>").attr("href", "javascript:").click(function() {
                     window.location.href = historyURL + encodeURIComponent(
                             JSON.stringify(Exercises.userActivityLog));
@@ -1540,12 +1536,12 @@ window.Khan = (function() {
             links.append("<br><b>Problem types:</b><br>");
 
             exercises.children(".problems").children().each(function(n, prob) {
-                var probID = $(prob).attr("id") || n;
+                var probID = $(prob).attr("id") || "" + n;
                 links.append($("<div>")
                     .css({
                         "padding-left": "20px",
                         "outline":
-                            (problemID === probID || problemID === "" + n) ?
+                            (currentProblemType === probID) ?
                             "1px dashed gray" : ""
                     })
                     .append($("<span>").text(n + ": "))
@@ -1559,7 +1555,7 @@ window.Khan = (function() {
 
 
             // If this is a child exercise, show which one it came from
-            if (exercise.data("name") !== exerciseId) {
+            if (exercise.data("name") !== currentExerciseId) {
                 links.append("<br>");
                 links.append("Original exercise: " + exercise.data("name"));
             }
@@ -1650,7 +1646,7 @@ window.Khan = (function() {
         if (localMode) {
             // Just generate a new problem from existing exercise
             $(Exercises).trigger("clearExistingProblem");
-            makeProblem(exerciseId);
+            makeProblem(currentExerciseId);
         } else {
             loadAndRenderExercise(data.userExercise);
         }
@@ -1882,11 +1878,11 @@ window.Khan = (function() {
 
     function setProblemNum(num) {
         problemNum = num;
-        problemSeed = (seedOffset + jumpNum * (problemNum - 1 + seedsSkipped)) % bins;
+        currentProblemSeed = (seedOffset + jumpNum * (problemNum - 1 + seedsSkipped)) % bins;
     }
 
     function getSeedsSkippedCacheKey() {
-        return "seedsSkipped:" + user + ":" + exerciseName;
+        return "seedsSkipped:" + user + ":" + currentExerciseName;
     }
 
     /**
@@ -1911,9 +1907,9 @@ window.Khan = (function() {
         userExercise = data;
 
         if (data && data.exercise) {
-            exerciseId = data.exercise;
-            exerciseName = data.exerciseModel.displayName;
-            exerciseFile = data.exerciseModel.fileName;
+            currentExerciseId = data.exercise;
+            currentExerciseName = data.exerciseModel.displayName;
+            currentExerciseFile = data.exerciseModel.fileName;
         }
 
         if (user != null) {
@@ -1941,14 +1937,14 @@ window.Khan = (function() {
      */
     function loadExercise(exerciseElem) {
         exerciseElem = $(exerciseElem).detach();
-        var id = exerciseElem.data("name");
+        var exerciseId = exerciseElem.data("name");
 
-        var promise = exerciseFilePromises[id];
+        var promise = exerciseFilePromises[exerciseId];
         if (promise != null) {
             // Already started (or finished) loading this exercise
             return promise;
         } else {
-            promise = exerciseFilePromises[id] = $.Deferred();
+            promise = exerciseFilePromises[exerciseId] = $.Deferred();
         }
 
         var weight = exerciseElem.data("weight");
@@ -1956,7 +1952,7 @@ window.Khan = (function() {
         // TODO(eater): remove this once all of the exercises in the datastore
         // have filename properties
         if (fileName == null || fileName === "") {
-            fileName = id + ".html";
+            fileName = exerciseId + ".html";
         }
 
         // Promises for remote exercises contained within this one
@@ -1977,7 +1973,7 @@ window.Khan = (function() {
 
             // ...then save the exercise ID, fileName and weights for later
             newContents.data({
-                name: id,
+                name: exerciseId,
                 fileName: fileName,
                 weight: weight
             });
@@ -2001,7 +1997,7 @@ window.Khan = (function() {
             });
 
             // Store the module requirements in exerciseModulesMap
-            Khan.exerciseModulesMap[id] = requires;
+            Khan.exerciseModulesMap[exerciseId] = requires;
 
             // Extract contents from various tags and save them up for parsing
             // when actually showing this particular exercise.
@@ -2112,7 +2108,7 @@ window.Khan = (function() {
         var problems = exercises.children(".problems").children();
 
         // Generate the initial problem when dependencies are done being loaded
-        makeProblem(exerciseId);
+        makeProblem(currentExerciseId);
     }
 
     return Khan;
