@@ -3456,7 +3456,8 @@ function MovableAngle(graphie, options) {
 
     // TODO(alex): Move standard colors from math.js to somewhere else
     // so that they are available when this file is first parsed
-    _.extend(this, {
+    _.extend(this, options);
+    _.defaults(this, {
         normalStyle: {
             "stroke": KhanUtil.BLUE,
             "stroke-width": 2,
@@ -3471,8 +3472,10 @@ function MovableAngle(graphie, options) {
             "stroke": KhanUtil.BLUE,
             "stroke-width": 1,
             "color": KhanUtil.BLUE
-        }
-    }, options);
+        },
+        allowReflex: true // not on MovableAngle.prototype so that
+                          // it is not overridden by undefined
+    });
 
     if (!this.points || this.points.length !== 3) {
         throw new Error("MovableAngle requires 3 points");
@@ -3495,7 +3498,11 @@ function MovableAngle(graphie, options) {
     }, this);
     this.coords = _.pluck(this.points, "coord");
     if (this.reflex == null) {
-        this.reflex = (this._getClockwiseAngle(this.coords) > 180);
+        if (this.allowReflex) {
+            this.reflex = (this._getClockwiseAngle(this.coords) > 180);
+        } else {
+            this.reflex = false;
+        }
     }
 
     this.rays = _.map([0, 2], function(i) {
@@ -3672,14 +3679,16 @@ _.extend(MovableAngle.prototype, {
         var prevClockwiseReflexive = (prevAngle > 180);
         var clockwiseReflexive = (angle > 180);
 
-        if (shouldChangeReflexivity == null) {
-            shouldChangeReflexivity =
-                    (prevClockwiseReflexive !== clockwiseReflexive) &&
-                    (Math.abs(angle - prevAngle) < 180);
-        }
+        if (this.allowReflex) {
+            if (shouldChangeReflexivity == null) {
+                shouldChangeReflexivity =
+                        (prevClockwiseReflexive !== clockwiseReflexive) &&
+                        (Math.abs(angle - prevAngle) < 180);
+            }
 
-        if (shouldChangeReflexivity) {
-            this.reflex = !this.reflex;
+            if (shouldChangeReflexivity) {
+                this.reflex = !this.reflex;
+            }
         }
 
         _.invoke(this.temp, "remove");
