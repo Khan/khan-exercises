@@ -205,6 +205,75 @@
                     </div>
                 </div>
             </div>
+
+            <div id="give-components">
+                <div class="vars">
+                    <var id="AX">randRangeNonZero(-8, 8)</var>
+                    <var id="AY">randRangeNonZero(-8, 8)</var>
+                    <var id="AOX" data-ensure="AOX + AX !== 0">randRangeNonZero(max(-9, -9 - AX), min(9, 9 - AX))</var>
+                    <var id="AOY" data-ensure="AOY + AY !== 0">randRangeNonZero(max(-9, -9 - AY), min(9, 9 - AY))</var>
+                    <var id="AF">1 + 0.8 / sqrt(AX * AX + AY * AY)</var>
+                    <var id="COMPONENT">randRange(0, 1)</var>
+                    <var id="COMPONENT_NAME">["x", "y"][COMPONENT]</var>
+                    <var id="HORIZONTAL">$._("horizontally")</var>
+                    <var id="VERTICAL">$._("vertically")</var>
+                    <var id="DIRECTION">[HORIZONTAL, VERTICAL][COMPONENT]</var>
+                    <var id="ANS">[AX, AY][COMPONENT]</var>
+                </div>
+
+                <div class="question">
+                    <p>What is the <code><var>COMPONENT_NAME</var></code> component of <code>\vec a</code>?</p>
+
+                    <div class="graphie" id="graph">
+                        graphInit({
+                            range: 10,
+                            scale: 20,
+                            tickStep: 1,
+                            axisArrows: "&lt;-&gt;"
+                        });
+
+                        style({
+                            stroke: BLUE,
+                            color: BLUE
+                        }, function() {
+                            line([AOX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
+                            label([AOX + AF * AX, AOY + AF * AY], "\\vec a");
+                        });
+                    </div>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>ANS</var></div>
+
+                <div class="hints">
+                    <p>The <code><var>COMPONENT_NAME</var></code> component of a vector is the direction it moves <var>DIRECTION</var>.</p>
+
+                    <div>
+                        <div class="graphie" data-update="graph" data-if="COMPONENT"> 
+                            style(
+                                { strokeDasharray: ".",  stroke: BLACK },
+                                function() {
+                                    line([AOX + AX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
+                                }
+                            );
+                        </div>
+                        <div class="graphie" data-update="graph" data-else=""> 
+                            style(
+                                { strokeDasharray: ".",  stroke: BLACK },
+                                function() {
+                                    line([AOX, AOY + AY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
+                                }
+                            );
+                        </div>
+                        <p data-if="ANS !== 1">
+                            Vector <code>\vec a</code> starts at <code><var>COMPONENT_NAME</var> = <var>[AOX, AOY][COMPONENT]</var></code> and moves <var>DIRECTION</var> <code><var>ANS</var></code> units to <code><var>COMPONENT_NAME</var> = <var>[AOX + AX, AOY + AY][COMPONENT]</var></code>.
+                        </p>
+                        <p data-else="">
+                            Vector <code>\vec a</code> starts at <code><var>COMPONENT_NAME</var> = <var>[AOX, AOY][COMPONENT]</var></code> and moves <var>DIRECTION</var> <code>1</code> unit to <code><var>COMPONENT_NAME</var> = <var>[AOX + AX, AOY + AY][COMPONENT]</var></code>.
+                        </p>
+                        <p>Therefore, the <code><var>COMPONENT_NAME</var></code> component of <code>\vec a</code> is <code><var>ANS</var></code></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
