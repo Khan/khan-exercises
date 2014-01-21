@@ -287,11 +287,17 @@
             </div>
 
             <div id="direction">
-                <div class="vars" data-ensure="AX !== 0 || AY !== 0">
-                    <var id="AX">randRangeNonZero(-8, 8)</var>
-                    <var id="AY">randRangeNonZero(-8, 8)</var>
-                    <var id="VECTOR">[[AX], [AY]]</var>
+                <div class="vars">
                     <var id="SA">randFromArray([-1, -0.5, 0.5, -2, 2, -0.25, 0.25, -4, 4])</var>
+
+                    <div data-ensure="AX !== 0 || AY !== 0">
+                        <var id="AX">abs(SA) &lt; 1 ? randRangeNonZero(-4, 4) * 2 : randRangeNonZero(-4, 4) / 2</var>
+                        <var id="AY">abs(SA) &lt; 1 ? randRangeNonZero(-4, 4) * 2 : randRangeNonZero(-4, 4) / 2</var>
+                    </div>
+
+                    <var id="AF">1 + 0.8 / sqrt(AX * AX + AY * AY)</var>
+                    <var id="BF">1 + 0.8 / (abs(SA) * sqrt(AX * AX + AY * AY))</var>
+                    <var id="VECTOR">[[AX], [AY]]</var>
                     <var id="FORMAT">randFromArray([
                         AX + "\\hat\\imath + " + AY + "\\hat\\jmath",
                         "(" + AX + ", " + AY + ")",
@@ -325,7 +331,36 @@
                 </p>
 
                 <div class="hints">
-                    <p><code>\vec a</code> is scaled by <code><var>SA</var></code> to create vector <code>\vec b</code>.</p>
+                    <div class="graphie" id="graph">
+                        graphInit({
+                            range: 10,
+                            scale: 20,
+                            tickStep: 1,
+                            axisArrows: "&lt;-&gt;"
+                        });
+
+                        style({
+                            stroke: BLUE,
+                            color: BLUE
+                        }, function() {
+                            line([0, 0], [AX, AY], { arrows: "-&gt;" } );
+                            label([AF * AX, AF * AY], "\\vec a" );
+                        });
+                    </div>
+
+                    <div>
+                        <div class="graphie" data-update="graph">
+                            style({
+                                strokeDasharray: ".",
+                                color: BLACK
+                            }, function() {
+                                line([0, 0], [AX * SA, AY * SA], { arrows: "-&gt;" } );
+                                label([BF * AX * SA, BF * AY * SA], "\\vec b" );
+                            });
+                        </div>
+                        <p><code>\vec a</code> is scaled by <code><var>SA</var></code> to create vector <code>\vec b</code>.</p>
+                    </div>
+
                     <p><code><var>SA</var></code> is <var>SIGN</var>, so the direction of <code>\vec b</code> is against <code>\vec a</code>.</p>
                     <p>
                         Each of the components of <code>\vec a</code> is multiplied by <code><var>SA</var></code> to get <code>\vec b</code>,
