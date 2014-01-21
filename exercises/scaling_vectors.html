@@ -299,8 +299,11 @@
                     ])</var>
                     <var id="AGAINST">$._("Against")</var>
                     <var id="ALONG">$._("Along")</var>
+                    <var id="POSITIVE">$._("positive")</var>
+                    <var id="NEGATIVE">$._("negative")</var>
                     <var id="OPTIONS">[AGAINST, ALONG]</var>
-                    <var id="SOLUTION">OPTIONS[SA &lt; 0 ? 0 : 1]</var>
+                    <var id="SOLUTION">SA &lt; 0 ? AGAINST : ALONG</var>
+                    <var id="SIGN">SA &lt; 0 ? NEGATIVE : POSITIVE</var>
                 </div>
 
                 <div class="question">
@@ -322,9 +325,11 @@
                 </p>
 
                 <div class="hints">
-                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot <var>FORMAT</var></code></p>
-                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>, <var>SA</var> \cdot <var>AY</var>)</code></p>
-                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA * AX</var>, <var>SA * AY</var>)</code></p>
+                    <p><code>\vec a</code> is scaled by <code><var>SA</var></code> to create vector <code>\vec b</code>.</p>
+                    <p><code><var>SA</var></code> is <var>SIGN</var>, so the direction of <code>\vec b</code> is against <code>\vec a</code>.</p>
+                    <p>
+                        Each of the components of <code>\vec a</code> is multiplied by <code><var>SA</var></code> to get <code>\vec b</code>,
+                        so the magnitude of <code>\vec b</code> is <code><var>abs(SA)</var></code> times larger than <code>\vec a</code>.</p>
                 </div>
             </div>
         </div>
