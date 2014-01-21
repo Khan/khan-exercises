@@ -174,7 +174,7 @@
             </div>
 
             <div id="ij_vector">
-                <div class="vars">
+                <div class="vars" data-ensure="AX !== 0 || AY !== 0">
                     <var id="AX">randRangeNonZero(-8, 8)</var>
                     <var id="AY">randRangeNonZero(-8, 8)</var>
                     <var id="SA">randFromArray([-1, -0.5, 0.5, -2, 2, -3, 3, -4, 4, -5, 5])</var>
@@ -199,9 +199,9 @@
                 </div>
 
                 <div class="hints">
-                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var> \hat\imath + <var>AY</var> \hat\jmath)</code>.</p>
-                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>) \hat\imath + (<var>SA</var> \cdot <var>AY</var>) \hat\jmath</code>.</p>
-                    <p><code>\hphantom{<var>SA</var> \vec a} = <var>SA * AX</var> \hat\imath + <var>SA * AY</var> \hat\jmath</code>.</p>
+                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var> \hat\imath + <var>AY</var> \hat\jmath)</code></p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>) \hat\imath + (<var>SA</var> \cdot <var>AY</var>) \hat\jmath</code></p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = <var>SA * AX</var> \hat\imath + <var>SA * AY</var> \hat\jmath</code></p>
                 </div>
             </div>
 
@@ -242,9 +242,47 @@
                 </div>
 
                 <div class="hints">
-                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var> \hat\imath + <var>AY</var> \hat\jmath)</code>.</p>
-                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>) \hat\imath + (<var>SA</var> \cdot <var>AY</var>) \hat\jmath</code>.</p>
-                    <p><code>\hphantom{<var>SA</var> \vec a} = <var>SA * AX</var> \hat\imath + <var>SA * AY</var> \hat\jmath</code>.</p>
+                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot <var>printSimpleMatrix(VECTOR)</var></code></p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} =
+                        \left[\begin{array}{2r1}
+                            <var>SA</var> \cdot <var>AX</var> \\
+                            <var>SA</var> \cdot <var>AY</var>
+                        \end{array}\right]
+                    </code></p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = <var>printSimpleMatrix([[SA * AX], [SA * AY]])</var></code></p>
+                </div>
+            </div>
+
+            <div id="row_vector">
+                <div class="vars" data-ensure="AX !== 0 || AY !== 0">
+                    <var id="AX">randRangeNonZero(-8, 8)</var>
+                    <var id="AY">randRangeNonZero(-8, 8)</var>
+                    <var id="SA">randFromArray([-1, -0.5, 0.5, -2, 2, -3, 3, -4, 4, -5, 5])</var>
+                </div>
+
+                <div class="question">
+                    <p><code>\vec a = (<var>AX</var>, <var>AY</var>)</code></p>
+                    <span data-if="SA === -1">
+                        <p>What is <code>-\vec a</code>?</p>
+                    </span><span data-else="">
+                        <p>What is <code><var>decimalFraction(SA, true)</var> \vec a</code>?</p>
+                    </span>
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <code><span data-if="SA === -1">-\vec a</span><span data-else=""><var>decimalFraction(SA, true)</var> \vec a</span> = (</code>
+                            <span class="sol short40"><var>AX * SA</var></span>,
+                            <span class="sol short40"><var>AY * SA</var></span><code>)</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var>, <var>AY</var>)</code></p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>, <var>SA</var> \cdot <var>AY</var>)</code></p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA * AX</var>, <var>SA * AY</var>)</code></p>
                 </div>
             </div>
         </div>
