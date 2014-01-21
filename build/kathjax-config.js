@@ -65,7 +65,9 @@ MathJax.Hub.Config({
 MathJax.Ajax.timeout = 60 * 1000;
 MathJax.Ajax.loadError = (function( oldLoadError ) {
     return function( file ) {
-        Khan.warnTimeout();
+        if (window.Khan) {
+          Khan.warnTimeout();
+        }
         // Otherwise will receive unresponsive script error when finally finish loading
         MathJax.Ajax.loadComplete = function( file ) { };
         oldLoadError.call( this, file );
@@ -73,7 +75,9 @@ MathJax.Ajax.loadError = (function( oldLoadError ) {
 })( MathJax.Ajax.loadError );
 
 MathJax.Hub.Register.StartupHook("HTML-CSS Jax - disable web fonts", function() {
-    Khan.warnFont();
+    if (window.Khan) {
+        Khan.warnFont();
+    }
 });
 
 // Trying to monkey-patch MathJax.Message.Init to not throw errors

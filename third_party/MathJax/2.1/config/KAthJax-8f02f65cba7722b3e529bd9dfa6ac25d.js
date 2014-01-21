@@ -47,7 +47,7 @@ MathJax.Hub.Config({
                         frac.linethickness = "0em";
                         this.Push( frac );
                     },
-                    Cancel: function( name ) {K
+                    Cancel: function( name ) {
                         this.Push( MathJax.ElementJax.mml.menclose( this.ParseArg( name ) ).With({ notation: MathJax.ElementJax.mml.NOTATION.UPDIAGONALSTRIKE }) );
                     }
                 }
@@ -66,7 +66,7 @@ MathJax.Ajax.timeout = 60 * 1000;
 MathJax.Ajax.loadError = (function( oldLoadError ) {
     return function( file ) {
         if (window.Khan) {
-        	Khan.warnTimeout();
+          Khan.warnTimeout();
         }
         // Otherwise will receive unresponsive script error when finally finish loading
         MathJax.Ajax.loadComplete = function( file ) { };
@@ -76,7 +76,7 @@ MathJax.Ajax.loadError = (function( oldLoadError ) {
 
 MathJax.Hub.Register.StartupHook("HTML-CSS Jax - disable web fonts", function() {
     if (window.Khan) {
-    	Khan.warnFont();
+        Khan.warnFont();
     }
 });
 
