@@ -694,6 +694,7 @@ $.extend(KhanUtil, {
                                 construction.interPoints.push([x2, y2]);
                             }
                         }
+						// two circles
                         else if (tool1.center != null && tool2.center != null) {
                             var a = tool1.center.coord[0];
                             var b = tool1.center.coord[1];

@@ -336,82 +336,114 @@
                     }
 					console.debug("Guess:", guess);
 					
-                    // Require that there are at least two lines going through P
+					// Common requirements to all(?) parallel constructions. 
+					// Are these too permissive?
+                    // Require that there is one parallel line through P.
+					// And at least two circles with an intersection point on that line.
+					
+					// Lines that go through P
                     var lines = _.filter(guess, function(tool) {
                         if (tool.first != null) {
                             return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.1);
                         }
                     });
 					console.debug("Lines:", lines);
-                    if (lines.length &lt; 2) {
+                    if (lines.length &lt; 1) {
                         return false;
                     }
 					
 					
-                    // Ensure one of the lines is at the correct angle (within 5 degrees) - CHANGED TO 1 deg
+                    // Ensure at least one of the lines is at the correct angle (within 1.5 degrees)
                     var angle = null;
                     var rotated_angle = null;
                     var parallel = _.filter(lines, function(tool) {
-						console.debug(tool);
                         var ang = atan2(
                             tool.second.coord[1] - tool.first.coord[1],
                             tool.second.coord[0] - tool.first.coord[0]);
-
                         // Check angle of line
-                        var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);
-						var ang_debug = 	"ROT: " 	+ ROT
-										+ ", angle: "	+ ang
-										+ ", rot: " 	+ (90 - deltaAngle) * PI / 180
-										+ ", delt: " 	+ deltaAngle;
-						// If the line (tool) is within 5->1 degrees, then count it!
-                        if (abs(deltaAngle - 90) &gt; 1) {
-							console.debug("Not a parallel line! --", ang_debug);
+                        var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);	
+						// If the line (tool) is within 1.5 degrees, then count it!
+                        if (abs(deltaAngle - 90) &gt; 1.5) {
+							console.debug("Not a parallel line! -- ", "ROT: " 		, ROT
+																	, ", angle: "	, ang
+																	, ", rot: " 	, (90 - deltaAngle) * PI / 180
+																	, ", delt: " 	, deltaAngle);
 							angle = ang;
 							rotated_angle = (90 - deltaAngle) * PI / 180;
                             return false;
                         } else {
-							console.debug("Got a parallel line! --", ang_debug);
+							console.debug("Got a parallel line! -- ", "ROT: " 		, ROT
+																	, ", angle: "	, ang
+																	, ", rot: " 	, (90 - deltaAngle) * PI / 180
+																	, ", delt: " 	, deltaAngle);
                             return true;
                         }
                     });
+//                    if (parallel.length === 0) {
+//                        return false;
+//                    }
 					
-                    if (parallel.length === 0) {
-                        return false;
-                    }
+					var compasses = _.filter(guess, function(tool) {
+                        if (tool.radius != null) {
+                            return true;
+                        }
+                    });
+					console.debug("Got some compasses! -- ", compasses, compasses.length);
 					
-					
+					var compassintersections = [];
+					// code from constructions.js
+					for (var i=0; i&lt;compasses.length; i++) {
+						for (var j=0; j&lt;i; j++) {
+						var tool1 = compasses[i];
+						var tool2 = compasses[j];
+						// find intersections
+						var a = tool1.center.coord[0];
+						var b = tool1.center.coord[1];
+						var c = tool2.center.coord[0];
+						var d = tool2.center.coord[1];
+						var r = tool1.radius;
+						var s = tool2.radius;
 
-                    // Ensure there is a compass centered on P and find its radius
-                    var compass1 = findCompass(guess, { cx: P[0], cy: P[1] });
-					console.debug("Compass 1: ", compass1);
-					
-					// If two or more compass' are at P, then it's not wrong, just the code doesn't handle it!
-                    if (compass1.length !== 1) {
-                        return false;
-                    }
+						var e = c - a;
+						var f = d - b;
+						var p = Math.sqrt(Math.pow(e, 2) + Math.pow(f, 2));
+						var k = (Math.pow(p, 2) + Math.pow(r, 2) -
+								Math.pow(s, 2)) / (2 * p);
 
-                    // Ensure there is a compass centered on the intersection
-                    // between compass 1 and the line AP, with correct radius
-                    var r = compass1[0].radius;
-                    var p1 = [P[0] - r * cos(angle), P[1] - r * sin(angle)];
-                    var p2 = [P[0] + r * cos(angle), P[1] + r * sin(angle)];
-					
-                    // Radius, r2, will be base of an isosceles with one angle of ROT and two sides of r
-                    var r2 = abs(2 * r * sin(rotated_angle / 2));
-					
-					// DEBUG
-					console.debug("p1=",p1," : p2=",p2," : r=",r," : r2=",r2)
-					addDummyPoint(p1);
-					addDummyPoint(p2);
-					addDummyCircle(p1, r2);
-					addDummyCircle(p2, r2);
+						var x1 = a + e * k / p + (f / p) *
+							Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var y1 = b + f * k / p - (e / p) *
+							Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
 
-                    var compass2 = findCompass(guess, { cx: p1[0], cy: p1[1], radius: r2 });
-                    var compass3 = findCompass(guess, { cx: p2[0], cy: p2[1], radius: r2 });
-					console.debug("Compass 2 & 3: ", compass2, ", ", compass3);
+						var x2 = a + e * k / p - (f / p) *
+							Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var y2 = b + f * k / p + (e / p) *
+							Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+
+						if (!isNaN(x1)) {
+							compassintersections.push([x1, y1]);
+						}
+						if (!isNaN(x2)) {
+							compassintersections.push([x2, y2]);
+						
+						}
+					}}
+					console.debug("Compass intersections: ", compassintersections);
 					
-					//return "";  // Handy for debugging
-                    return compass2.length === 1 || compass3.length === 1;
+					var intersections = _.filter(compassintersections, function(compint) {
+						for (var i=0; i&lt;parallel.length; i++) {
+							var tool = parallel[i];
+							console.debug([tool.first.coord, tool.second.coord], compint);
+							return isPointOnLineSegment([tool.first.coord, tool.second.coord], compint, 0.1);
+						};
+					});
+					console.debug("The intersections also on parallel line: ", intersections);
+					
+					if (intersections.length &gt; 0) { return true; }
+					
+					//return false;
+					return ""; // Handy for debugging
+					
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
