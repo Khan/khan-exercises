@@ -3237,6 +3237,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             // Resize the hidden point to cover the size of the visual point
             var pointScale = graphie.scaleVector(options.size)[0] / 20;
             button.mouseTarget.attr({scale: 1.5 * pointScale});
+            $(button.mouseTarget[0]).css("cursor", "pointer");
 
             // Make the arrow-thing grow and shrink with mouseover/out
             $(button.mouseTarget[0]).bind("vmouseover", function(e) {
