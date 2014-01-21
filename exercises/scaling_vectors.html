@@ -297,23 +297,29 @@
                         "(" + AX + ", " + AY + ")",
                         printSimpleMatrix(VECTOR)
                     ])</var>
-                    <var id="SOLUTION">SA &lt; 0 ? "Against &lt;code&gt;\\vec a&lt;/code&gt;" : "Along &lt;code&gt;\\vec a&lt;/code&gt;"</var>
+                    <var id="AGAINST">$._("Against")</var>
+                    <var id="ALONG">$._("Along")</var>
+                    <var id="OPTIONS">[AGAINST, ALONG]</var>
+                    <var id="SOLUTION">OPTIONS[SA &lt; 0 ? 0 : 1]</var>
                 </div>
 
                 <div class="question">
                     <p><code>\vec a = <var>FORMAT</var></code></p>
                     <span data-if="SA === -1">
-                        <p>What is the direction of <code>-\vec a</code>?</p>
+                        <p><code>\vec b = -\vec a</code></p>
                     </span><span data-else="">
-                        <p>What is the direction <code><var>decimalFraction(SA, true)</var> \vec a</code>?</p>
+                        <p><code>\vec b = <var>decimalFraction(SA, true)</var> \vec a</code></p>
                     </span>
+                    <p>What is the magnitude and direction of <code>\vec b</code> compared to <code>\vec a</code>?</p>
                 </div>
 
-                <p class="solution"><var>SOLUTION</var></p>
-                <ul class="choices" data-category="true">
-                    <li>Along <code>\vec a</code></li>
-                    <li>Against <code>\vec a</code></li>
-                </ul>
+                <p class="solution" data-type="multiple">
+                    <code>\vec b</code> is 
+                    <span class="sol short40" data-type="rational"><var>abs(SA)</var></span>
+                    times larger than and moves
+                    <span class="sol" data-type="list" data-choices="OPTIONS"><var>SOLUTION</var></span>
+                    <code>\vec a</code>
+                </p>
 
                 <div class="hints">
                     <p><code><var>SA</var> \vec a = <var>SA</var> \cdot <var>FORMAT</var></code></p>
