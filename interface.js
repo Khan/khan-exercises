@@ -259,13 +259,17 @@ function handleAttempt(data) {
     } else if (score.correct) {
         // Correct answer, so show the next question button.
         $("#check-answer-button").hide();
+        var nextButtonText;
+        if (Exercises.learningTask &&  Exercises.learningTask.isComplete()) {
+            nextButtonText = $._("Awesome! Show points and badges...");
+        } else {
+            nextButtonText = $._("Correct! Next question...");
+        }
+                
         $("#next-question-button")
             .prop("disabled", false)
             .removeClass("buttonDisabled")
-            .val(Exercises.learningTask && Exercises.learningTask.isComplete()
-                // The checkAnswer event must precede calling isComplete
-                ? $._("Awesome! Show points and badges...")
-                : $._("Correct! Next question..."))
+            .val(nextButtonText)
             .show()
             .focus();
         $("#positive-reinforcement").show();
