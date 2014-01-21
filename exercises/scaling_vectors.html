@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
+<html data-require="math math-format graphie kmatrix">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Scaling vectors</title>
@@ -21,133 +21,192 @@
             }
         }
     </script>
+
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea tr {
+            padding-bottom: 1px;
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="( BX !== CX || BY !== CY ) &amp;&amp; ( BX !== DX || BY !== DY ) &amp;&amp; ( BX !== EX || BY !== EY ) &amp;&amp; ( CX !== DX || CY !== DY ) &amp;&amp; ( CX !== EX || CY !== EY ) &amp;&amp; ( DX !== EX || DY !== EY ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, BOX, BOY, BX * BF, BY * BF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, COX, COY, CX * CF, CY * CF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX, AY, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, COX, COY, CX * CF, CY * CF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( COX, COY, CX * CF, CY * CF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( COX, COY, CX * CF, CY * CF, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( DOX, DOY, DX * DF, DY * DF, EOX, EOY, EX * EF, EY * EF )">
-        <var id="AX">randRangeNonZero( -3, 3 )</var>
-        <var id="AY">randRangeNonZero( -3, 3 )</var>
-        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 &amp;&amp; abs( SA * AY ) &lt; 8">randFromArray([-1, -0.5, 0.5, -2, 2, -3, 3])</var>
+        <div class="problems">
+            <div id="graph">
+                <div class="vars" data-ensure="
+                (BX !== CX || BY !== CY) &amp;&amp;
+                (BX !== DX || BY !== DY) &amp;&amp;
+                (BX !== EX || BY !== EY) &amp;&amp;
+                (CX !== DX || CY !== DY) &amp;&amp;
+                (CX !== EX || CY !== EY) &amp;&amp;
+                (DX !== EX || DY !== EY) &amp;&amp;
+                !vectorsIntersect(AOX, AOY, AX * AF, AY * AF, BOX, BOY, BX * BF, BY * BF) &amp;&amp;
+                !vectorsIntersect(AOX, AOY, AX * AF, AY * AF, COX, COY, CX * CF, CY * CF) &amp;&amp;
+                !vectorsIntersect(AOX, AOY, AX * AF, AY * AF, DOX, DOY, DX * DF, DY * DF) &amp;&amp;
+                !vectorsIntersect(AOX, AOY, AX * AF, AY * AF, EOX, EOY, EX * EF, EY * EF) &amp;&amp;
+                !vectorsIntersect(BOX, BOY, BX * BF, BY * BF, COX, COY, CX * CF, CY * CF) &amp;&amp;
+                !vectorsIntersect(BOX, BOY, BX * BF, BY * BF, DOX, DOY, DX * DF, DY * DF) &amp;&amp;
+                !vectorsIntersect(BOX, BOY, BX * BF, BY * BF, EOX, EOY, EX * EF, EY * EF) &amp;&amp;
+                !vectorsIntersect(COX, COY, CX * CF, CY * CF, DOX, DOY, DX * DF, DY * DF) &amp;&amp;
+                !vectorsIntersect(COX, COY, CX * CF, CY * CF, EOX, EOY, EX * EF, EY * EF) &amp;&amp;
+                !vectorsIntersect(DOX, DOY, DX * DF, DY * DF, EOX, EOY, EX * EF, EY * EF)">
+                    <var id="AX">randRangeNonZero(-3, 3)</var>
+                    <var id="AY">randRangeNonZero(-3, 3)</var>
+                    <var id="SA">randFromArray([-1, -0.5, 0.5, -2, 2, -3, 3])</var>
 
-        <var id="BX">randRangeNonZero( -7, 7 )</var>
-        <var id="BY">randRangeNonZero( -7, 7 )</var>
-        <var id="CX">randRangeNonZero( -7, 7 )</var>
-        <var id="CY">randRangeNonZero( -7, 7 )</var>
-        <var id="DX">AX * SA</var>
-        <var id="DY">AY * SA</var>
-        <var id="EX">-AX * SA</var>
-        <var id="EY">-AY * SA</var>
+                    <var id="BX">randRangeNonZero(-7, 7)</var>
+                    <var id="BY">randRangeNonZero(-7, 7)</var>
+                    <var id="CX">randRangeNonZero(-7, 7)</var>
+                    <var id="CY">randRangeNonZero(-7, 7)</var>
+                    <var id="DX">AX * SA</var>
+                    <var id="DY">AY * SA</var>
+                    <var id="EX">-AX * SA</var>
+                    <var id="EY">-AY * SA</var>
 
-        <var id="ANS">[DX, DY]</var>
-        <var id="SHUF">shuffle([ [BX, BY], [CX, CY], ANS, [EX, EY] ])</var>
-        <var id="ANSL, ANSC">[
-            ["b", "pink"],
-            ["c", "green"],
-            ["d", "purple"],
-            ["e", "red"]
-        ][ $.inArray( ANS, SHUF ) ]</var>
+                    <var id="ANS">[DX, DY]</var>
+                    <var id="SHUF">shuffle([[BX, BY], [CX, CY], ANS, [EX, EY]])</var>
+                    <var id="ANSL, ANSC">[
+                        ["b", "pink"],
+                        ["c", "green"],
+                        ["d", "purple"],
+                        ["e", "red"]
+                    ][ $.inArray( ANS, SHUF ) ]</var>
 
-        <var id="BX, BY">SHUF[0]</var>
-        <var id="CX, CY">SHUF[1]</var>
-        <var id="DX, DY">SHUF[2]</var>
-        <var id="EX, EY">SHUF[3]</var>
+                    <var id="BX, BY">SHUF[0]</var>
+                    <var id="CX, CY">SHUF[1]</var>
+                    <var id="DX, DY">SHUF[2]</var>
+                    <var id="EX, EY">SHUF[3]</var>
 
-        <var id="AOX" data-ensure="abs( AX + AOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="AOY" data-ensure="abs( AY + AOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="BOX" data-ensure="abs( BX + BOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="BOY" data-ensure="abs( BY + BOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="COX" data-ensure="abs( CX + COX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="COY" data-ensure="abs( CY + COY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="DOX" data-ensure="abs( DX + DOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="DOY" data-ensure="abs( DY + DOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="EOX" data-ensure="abs( EX + EOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="EOY" data-ensure="abs( EY + EOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
-        <var id="AF">1 + 0.8 / sqrt( AX * AX + AY * AY )</var>
-        <var id="BF">1 + 0.8 / sqrt( BX * BX + BY * BY )</var>
-        <var id="CF">1 + 0.8 / sqrt( CX * CX + CY * CY )</var>
-        <var id="DF">1 + 0.8 / sqrt( DX * DX + DY * DY )</var>
-        <var id="EF">1 + 0.8 / sqrt( EX * EX + EY * EY )</var>
-    </div>
+                    <var id="AOX">randRangeNonZero(max(-9, -9 - AX), min(9, 9 - AX))</var>
+                    <var id="AOY">randRangeNonZero(max(-9, -9 - AY), min(9, 9 - AY))</var>
+                    <var id="BOX">randRangeNonZero(max(-9, -9 - BX), min(9, 9 - BX))</var>
+                    <var id="BOY">randRangeNonZero(max(-9, -9 - BY), min(9, 9 - BY))</var>
+                    <var id="COX">randRangeNonZero(max(-9, -9 - CX), min(9, 9 - CX))</var>
+                    <var id="COY">randRangeNonZero(max(-9, -9 - CY), min(9, 9 - CY))</var>
+                    <var id="DOX">randRangeNonZero(max(-9, -9 - DX), min(9, 9 - DX))</var>
+                    <var id="DOY">randRangeNonZero(max(-9, -9 - DY), min(9, 9 - DY))</var>
+                    <var id="EOX">randRangeNonZero(max(-9, -9 - EX), min(9, 9 - EX))</var>
+                    <var id="EOY">randRangeNonZero(max(-9, -9 - EY), min(9, 9 - EY))</var>
+                    <var id="AF">1 + 0.8 / sqrt( AX * AX + AY * AY )</var>
+                    <var id="BF">1 + 0.8 / sqrt( BX * BX + BY * BY )</var>
+                    <var id="CF">1 + 0.8 / sqrt( CX * CX + CY * CY )</var>
+                    <var id="DF">1 + 0.8 / sqrt( DX * DX + DY * DY )</var>
+                    <var id="EF">1 + 0.8 / sqrt( EX * EX + EY * EY )</var>
+                </div>
 
-    <div class="problems">
-        <div>
-            <div class="question">
-                <span data-if="SA === -1">
-                    <p>What is <code>-\vec a</code>?</p>
-                </span><span data-else="">
-                    <p>What is <code><var>decimalFraction(SA, true)</var> \vec a</code>?</p>
-                </span>
+                <div class="question">
+                    <span data-if="SA === -1">
+                        <p>What is <code>-\vec a</code>?</p>
+                    </span><span data-else="">
+                        <p>What is <code><var>decimalFraction(SA, true)</var> \vec a</code>?</p>
+                    </span>
 
-                <div class="graphie" id="graph">
-                    graphInit({
-                        range: 10,
-                        scale: 20,
-                        tickStep: 1,
-                        axisArrows: "&lt;-&gt;"
-                    });
+                    <div class="graphie" id="graph">
+                        graphInit({
+                            range: 10,
+                            scale: 20,
+                            tickStep: 1,
+                            axisArrows: "&lt;-&gt;"
+                        });
 
-                    style({
-                        stroke: BLUE,
-                        color: BLUE
-                    }, function() {
-                        var AF = 1 + 0.8 / sqrt( AX * AX + AY * AY );
-                        line( [AOX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" } );
-                        label( [AOX + AF * AX, AOY + AF * AY], "\\vec a" );
-                    });
+                        style({
+                            stroke: BLUE,
+                            color: BLUE
+                        }, function() {
+                            line( [AOX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" } );
+                            label( [AOX + AF * AX, AOY + AF * AY], "\\vec a" );
+                        });
 
-                    style({
-                        stroke: PINK,
-                        color: PINK
-                    }, function() {
-                        var BF = 1 + 0.8 / sqrt( BX * BX + BY * BY );
-                        line( [BOX, BOY], [BOX + BX, BOY + BY], { arrows: "-&gt;" } );
-                        label( [BOX + BF * BX, BOY + BF * BY], "\\vec b" );
-                    });
+                        style({
+                            stroke: PINK,
+                            color: PINK
+                        }, function() {
+                            line( [BOX, BOY], [BOX + BX, BOY + BY], { arrows: "-&gt;" } );
+                            label( [BOX + BF * BX, BOY + BF * BY], "\\vec b" );
+                        });
 
-                    style({
-                        stroke: GREEN,
-                        color: GREEN
-                    }, function() {
-                        var CF = 1 + 0.8 / sqrt( CX * CX + CY * CY );
-                        line( [COX, COY], [COX + CX, COY + CY], { arrows: "-&gt;" } );
-                        label( [COX + CF * CX, COY + CF * CY], "\\vec c" );
-                    });
+                        style({
+                            stroke: GREEN,
+                            color: GREEN
+                        }, function() {
+                            line( [COX, COY], [COX + CX, COY + CY], { arrows: "-&gt;" } );
+                            label( [COX + CF * CX, COY + CF * CY], "\\vec c" );
+                        });
 
-                    style({
-                        stroke: PURPLE,
-                        color: PURPLE
-                    }, function() {
-                        line( [DOX, DOY], [DOX + DX, DOY + DY], { arrows: "-&gt;" } );
-                        label( [DOX + DF * DX, DOY + DF * DY], "\\vec d" );
-                    });
+                        style({
+                            stroke: PURPLE,
+                            color: PURPLE
+                        }, function() {
+                            line( [DOX, DOY], [DOX + DX, DOY + DY], { arrows: "-&gt;" } );
+                            label( [DOX + DF * DX, DOY + DF * DY], "\\vec d" );
+                        });
 
-                    style({
-                        stroke: RED,
-                        color: RED
-                    }, function() {
-                        line( [EOX, EOY], [EOX + EX, EOY + EY], { arrows: "-&gt;" } );
-                        label( [EOX + EF * EX, EOY + EF * EY], "\\vec e" );
-                    });
+                        style({
+                            stroke: RED,
+                            color: RED
+                        }, function() {
+                            line( [EOX, EOY], [EOX + EX, EOY + EY], { arrows: "-&gt;" } );
+                            label( [EOX + EF * EX, EOY + EF * EY], "\\vec e" );
+                        });
+                    </div>
+                </div>
+
+                <p class="solution"><code>\large\<var>ANSC</var>{\vec <var>ANSL</var>}</code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>\large\pink{\vec b}</code></li>
+                    <li><code>\large\green{\vec c}</code></li>
+                    <li><code>\large\purple{\vec d}</code></li>
+                    <li><code>\large\red{\vec e}</code></li>
+                </ul>
+
+                <div class="hints">
+                    <p>Reading from the graph, we see that <code>\vec a = <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath</code>.</p>
+                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var> \hat\imath + <var>AY</var> \hat\jmath)</code>.</p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>) \hat\imath + (<var>SA</var> \cdot <var>AY</var>) \hat\jmath</code>.</p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = <var>SA * AX</var> \hat\imath + <var>SA * AY</var> \hat\jmath</code>.</p>
+                    <p>The vector that matches is <code>\vec <var>ANSL</var></code>.</p>
                 </div>
             </div>
 
-            <p class="solution"><code>\large\<var>ANSC</var>{\vec <var>ANSL</var>}</code></p>
-            <ul class="choices" data-category="true">
-                <li><code>\large\pink{\vec b}</code></li>
-                <li><code>\large\green{\vec c}</code></li>
-                <li><code>\large\purple{\vec d}</code></li>
-                <li><code>\large\red{\vec e}</code></li>
-            </ul>
-        </div>
-    </div>
+            <div id="ij_vector">
+                <div class="vars">
+                    <var id="AX">randRangeNonZero(-8, 8)</var>
+                    <var id="AY">randRangeNonZero(-8, 8)</var>
+                    <var id="SA">randFromArray([-1, -0.5, 0.5, -2, 2, -3, 3, -4, 4, -5, 5])</var>
+                </div>
 
-    <div class="hints">
-        <p>Reading from the graph, we see that <code>\vec a = <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath</code>.</p>
-        <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var> \hat\imath + <var>AY</var> \hat\jmath)</code>.</p>
-        <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>) \hat\imath + (<var>SA</var> \cdot <var>AY</var>) \hat\jmath</code>.</p>
-        <p><code>\hphantom{<var>SA</var> \vec a} = <var>SA * AX</var> \hat\imath + <var>SA * AY</var> \hat\jmath</code>.</p>
-        <p>The vector that matches is <code>\vec <var>ANSL</var></code>.</p>
-    </div>
+                <div class="question">
+                    <p><code>\vec a = <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath</code>.</p>
+                    <span data-if="SA === -1">
+                        <p>What is <code>-\vec a</code>?</p>
+                    </span><span data-else="">
+                        <p>What is <code><var>decimalFraction(SA, true)</var> \vec a</code>?</p>
+                    </span>
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <p>
+                        <span class="sol short40" data-fallback="1" data-forms="integer, proper, improper, mixed, decimal"><var>AX * SA</var></span>
+                        <code>\hat\imath + {}</code>
+                        <span class="sol short40" data-fallback="1" data-forms="integer, proper, improper, mixed, decimal"><var>AY * SA</var></span>
+                        <code>\hat\jmath</code>
+                    </p>
+                </div>
+
+                <div class="hints">
+                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var> \hat\imath + <var>AY</var> \hat\jmath)</code>.</p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>) \hat\imath + (<var>SA</var> \cdot <var>AY</var>) \hat\jmath</code>.</p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = <var>SA * AX</var> \hat\imath + <var>SA * AY</var> \hat\jmath</code>.</p>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 </body>
 </html>
