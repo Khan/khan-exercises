@@ -52,23 +52,6 @@
                     <var id="CY">COMPONENT ? -AY : randRange(-5, 5)</var>
                     <var id="DX">COMPONENT ? randRangeNonZero(-5, 5) : randRangeExclude(-5, 5, [AX])</var>
                     <var id="DY">COMPONENT ? randRangeExclude(-5, 5, [AY]) : randRangeNonZero(-5, 5)</var>
-                    <var id="EX">COMPONENT ? randRangeNonZero(-5, 5) : randRangeExclude(-5, 5, [AX])</var>
-                    <var id="EY">COMPONENT ? randRangeExclude(-5, 5, [AY]) : randRangeNonZero(-5, 5)</var>
-
-                    <var id="ANS">[BX, BY]</var>
-                    <var id="SHUF">shuffle([ANS, [CX, CY], [DX, DY], [EX, EY]])</var>
-                    <var id="INDEX">$.inArray(ANS, SHUF)</var>
-                    <var id="ANSL, ANSC">[
-                        ["b", "pink"],
-                        ["c", "green"],
-                        ["d", "purple"],
-                        ["e", "red"]
-                    ][INDEX]</var>
-
-                    <var id="BX, BY">SHUF[0]</var>
-                    <var id="CX, CY">SHUF[1]</var>
-                    <var id="DX, DY">SHUF[2]</var>
-                    <var id="EX, EY">SHUF[3]</var>
 
                     <var id="AOX" data-ensure="AOX + AX !== 0">randRangeNonZero(max(-9, -9 - AX), min(9, 9 - AX))</var>
                     <var id="AOY" data-ensure="AOY + AY !== 0">randRangeNonZero(max(-9, -9 - AY), min(9, 9 - AY))</var>
@@ -78,15 +61,32 @@
                     <var id="COY">randRangeNonZero(max(-9, -9 - CY), min(9, 9 - CY))</var>
                     <var id="DOX">randRangeNonZero(max(-9, -9 - DX), min(9, 9 - DX))</var>
                     <var id="DOY">randRangeNonZero(max(-9, -9 - DY), min(9, 9 - DY))</var>
-                    <var id="EOX">randRangeNonZero(max(-9, -9 - EX), min(9, 9 - EX))</var>
-                    <var id="EOY">randRangeNonZero(max(-9, -9 - EY), min(9, 9 - EY))</var>
+                    <var id="EOX">COMPONENT ? randRange(-9, -9) : AOX</var>
+                    <var id="EOY">COMPONENT ? AOY : randRange(-9, -9)</var>
+
+                    <var id="EX" data-ensure="abs(EX + EOX) &lt; 9">COMPONENT ? randRangeNonZero(-5, 5) : randRangeExclude(-5, 5, [AX])</var>
+                    <var id="EY" data-ensure="abs(EY + EOY) &lt; 9">COMPONENT ? randRangeExclude(-5, 5, [AY]) : randRangeNonZero(-5, 5)</var>
+
+                    <var id="ANS">[BX, BY, BOX, BOY]</var>
+                    <var id="SHUF">shuffle([ANS, [CX, CY, COX, COY], [DX, DY, DOX, DOY], [EX, EY, EOX, EOY]])</var>
+                    <var id="INDEX">$.inArray(ANS, SHUF)</var>
+                    <var id="ANSL, ANSC">[
+                        ["b", "pink"],
+                        ["c", "green"],
+                        ["d", "purple"],
+                        ["e", "red"]
+                    ][INDEX]</var>
+
+                    <var id="BX, BY, BOX, BOY">SHUF[0]</var>
+                    <var id="CX, CY, COX, COY">SHUF[1]</var>
+                    <var id="DX, DY, DOX, DOY">SHUF[2]</var>
+                    <var id="EX, EY, EOX, EOY">SHUF[3]</var>
+
                     <var id="AF">1 + 0.8 / sqrt( AX * AX + AY * AY )</var>
                     <var id="BF">1 + 0.8 / sqrt( BX * BX + BY * BY )</var>
                     <var id="CF">1 + 0.8 / sqrt( CX * CX + CY * CY )</var>
                     <var id="DF">1 + 0.8 / sqrt( DX * DX + DY * DY )</var>
                     <var id="EF">1 + 0.8 / sqrt( EX * EX + EY * EY )</var>
-
-                    <var id="ANS_START">[[BOX, BOY], [COX, COY], [DOX, DOY], [EOX, EOY]][INDEX]</var>
                 </div>
 
                 <div class="question">
@@ -183,7 +183,7 @@
                             style(
                                 { strokeDasharray: ".",  stroke: BLACK },
                                 function() {
-                                    line([ANS_START[0] + ANS[0], ANS_START[1]], [ANS_START[0] + ANS[0], ANS_START[1] + ANS[1]], { arrows: "-&gt;" });
+                                    line([ANS[2] + ANS[0], ANS[3]], [ANS[2] + ANS[0], ANS[3] + ANS[1]], { arrows: "-&gt;" });
                                 }
                             );
                         </div>
@@ -191,7 +191,7 @@
                             style(
                                 { strokeDasharray: ".",  stroke: BLACK },
                                 function() {
-                                    line([ANS_START[0], ANS_START[1] + ANS[1]], [ANS_START[0] + ANS[0], ANS_START[1] + ANS[1]], { arrows: "-&gt;" });
+                                    line([ANS[2], ANS[3] + ANS[1]], [ANS[2] + ANS[0], ANS[3] + ANS[1]], { arrows: "-&gt;" });
                                 }
                             );
                         </div>
@@ -222,7 +222,7 @@
                 </div>
 
                 <div class="question">
-                    <p>What is the <code><var>COMPONENT_NAME</var></code> component of <code>\vec a</code>?</p>
+                    <p>What is the value of the <code><var>COMPONENT_NAME</var></code> component of <code>\vec a</code>?</p>
 
                     <div class="graphie" id="graph">
                         graphInit({
