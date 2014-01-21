@@ -288,7 +288,7 @@
             </div>
         </div>
 
-        <div id="parallel">
+        <div id="parallel" data-weight="200000">
             <div class="vars">
                 <var id="DEG">ROT * 180/PI - 180</var>
                 <var id="DY">randRange(3, 5) / 2</var>
@@ -325,51 +325,67 @@
             <div class="solution" data-type="custom">
                 <div class="instruction">
                     Use the compass and straightedge tools to construct
-                     a line parallel to the given line.
+                     a line parallel to the given line 
+					 by the transferring the angle method.
+					Leave all constructions in place. <!-- Bleh!!! TODO -->
                 </div>
                 <div class="guess">getToolProperties(construction)</div>
                 <div class="validator-function">
-                    if (guess.length === 0) {
+					if (guess.length === 0) {
                         return "";
                     }
-
-                    // Ensure there are two lines going through P
+					console.debug("Guess:", guess);
+					
+                    // Require that there are at least two lines going through P
                     var lines = _.filter(guess, function(tool) {
                         if (tool.first != null) {
                             return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.1);
                         }
                     });
-
+					console.debug("Lines:", lines);
                     if (lines.length &lt; 2) {
                         return false;
                     }
-
-                    // Ensure one of the lines is at the correct angle
+					
+					
+                    // Ensure one of the lines is at the correct angle (within 5 degrees) - CHANGED TO 1 deg
                     var angle = null;
                     var rotated_angle = null;
                     var parallel = _.filter(lines, function(tool) {
+						console.debug(tool);
                         var ang = atan2(
                             tool.second.coord[1] - tool.first.coord[1],
                             tool.second.coord[0] - tool.first.coord[0]);
 
                         // Check angle of line
                         var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);
-                        if (abs(deltaAngle - 90) &gt; 5) {
-                            angle = ang;
-                            rotated_angle = (90 - deltaAngle) * PI / 180;
+						var ang_debug = 	"ROT: " 	+ ROT
+										+ ", angle: "	+ ang
+										+ ", rot: " 	+ (90 - deltaAngle) * PI / 180
+										+ ", delt: " 	+ deltaAngle;
+						// If the line (tool) is within 5->1 degrees, then count it!
+                        if (abs(deltaAngle - 90) &gt; 1) {
+							console.debug("Not a parallel line! --", ang_debug);
+							angle = ang;
+							rotated_angle = (90 - deltaAngle) * PI / 180;
                             return false;
                         } else {
+							console.debug("Got a parallel line! --", ang_debug);
                             return true;
                         }
                     });
-
+					
                     if (parallel.length === 0) {
                         return false;
                     }
+					
+					
 
                     // Ensure there is a compass centered on P and find its radius
                     var compass1 = findCompass(guess, { cx: P[0], cy: P[1] });
-
+					console.debug("Compass 1: ", compass1);
+					
+					// If two or more compass' are at P, then it's not wrong, just the code doesn't handle it!
                     if (compass1.length !== 1) {
                         return false;
                     }
@@ -379,13 +395,22 @@
                     var r = compass1[0].radius;
                     var p1 = [P[0] - r * cos(angle), P[1] - r * sin(angle)];
                     var p2 = [P[0] + r * cos(angle), P[1] + r * sin(angle)];
-
+					
                     // Radius, r2, will be base of an isosceles with one angle of ROT and two sides of r
-                    var r2 = 2 * r * sin(rotated_angle / 2);
+                    var r2 = abs(2 * r * sin(rotated_angle / 2));
+					
+					// DEBUG
+					console.debug("p1=",p1," : p2=",p2," : r=",r," : r2=",r2)
+					addDummyPoint(p1);
+					addDummyPoint(p2);
+					addDummyCircle(p1, r2);
+					addDummyCircle(p2, r2);
 
                     var compass2 = findCompass(guess, { cx: p1[0], cy: p1[1], radius: r2 });
                     var compass3 = findCompass(guess, { cx: p2[0], cy: p2[1], radius: r2 });
-
+					console.debug("Compass 2 & 3: ", compass2, ", ", compass3);
+					
+					//return "";  // Handy for debugging
                     return compass2.length === 1 || compass3.length === 1;
                 </div>
                 <div class="show-guess">
