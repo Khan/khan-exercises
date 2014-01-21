@@ -155,45 +155,39 @@
 
                     <div>
                         <div class="graphie" data-update="graph" data-if="COMPONENT"> 
-                            style(
-                                { strokeDasharray: ".",  stroke: BLACK },
-                                function() {
-                                    line([AOX + AX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
-                                }
-                            );
+                            style({ stroke: BLACK });
+                            line([AOX + AX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
+                            style({ strokeDasharray: "."});
+                            line([AOX, AOY], [AOX + AX, AOY]);
                         </div>
                         <div class="graphie" data-update="graph" data-else=""> 
-                            style(
-                                { strokeDasharray: ".",  stroke: BLACK },
-                                function() {
-                                    line([AOX, AOY + AY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
-                                }
-                            );
+                            style({ stroke: BLACK });
+                            line([AOX, AOY + AY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
+                            style({ strokeDasharray: "."});
+                            line([AOX, AOY], [AOX, AOY + AY]);
                         </div>
-                        <p data-if="[AX, AY][COMPONENT] !== 1">
-                            Vector <code>\vec a</code> starts at <code><var>COMPONENT_NAME</var> = <var>[AOX, AOY][COMPONENT]</var></code> and moves <var>DIRECTION</var> <code><var>[AX, AY][COMPONENT]</var></code> units to <code><var>COMPONENT_NAME</var> = <var>[AOX + AX, AOY + AY][COMPONENT]</var></code>.
-                        </p>
-                        <p data-else="">
-                            Vector <code>\vec a</code> starts at <code><var>COMPONENT_NAME</var> = <var>[AOX, AOY][COMPONENT]</var></code> and moves <var>DIRECTION</var> <code>1</code> unit to <code><var>COMPONENT_NAME</var> = <var>[AOX + AX, AOY + AY][COMPONENT]</var></code>.
-                        </p>
+                        <p>Vector <code>\vec a</code> starts at <code><var>COMPONENT_NAME</var> = <var>[AOX, AOY][COMPONENT]</var></code> and ends at <code><var>COMPONENT_NAME</var> = <var>[AOX + AX, AOY + AY][COMPONENT]</var></code>.</p>
                     </div>
 
+                    <p data-if="[AX, AY][COMPONENT] !== 1">
+                        Therefore, vector <code>\vec a</code> moves <var>DIRECTION</var> <code><var>[AX, AY][COMPONENT]</var></code> units.
+                    </p>
+                    <p data-else="">
+                        Therefore, vector <code>\vec a</code> moves <var>DIRECTION</var> <code>1</code> unit.
+                    </p>
+
                     <div>
-                        <div class="graphie" data-update="graph" data-if="COMPONENT"> 
-                            style(
-                                { strokeDasharray: ".",  stroke: BLACK },
-                                function() {
-                                    line([ANS[2] + ANS[0], ANS[3]], [ANS[2] + ANS[0], ANS[3] + ANS[1]], { arrows: "-&gt;" });
-                                }
-                            );
+                        <div class="graphie" data-update="graph" data-if="COMPONENT">
+                            style({ stroke: BLACK, strokeDasharray: "" });
+                            line([ANS[2] + ANS[0], ANS[3]], [ANS[2] + ANS[0], ANS[3] + ANS[1]], { arrows: "-&gt;" });
+                            style({ strokeDasharray: "."});
+                            line([ANS[2], ANS[3]], [ANS[2] + ANS[0], ANS[3]]);
                         </div>
                         <div class="graphie" data-update="graph" data-else=""> 
-                            style(
-                                { strokeDasharray: ".",  stroke: BLACK },
-                                function() {
-                                    line([ANS[2], ANS[3] + ANS[1]], [ANS[2] + ANS[0], ANS[3] + ANS[1]], { arrows: "-&gt;" });
-                                }
-                            );
+                            style({ stroke: BLACK, strokeDasharray: "" });
+                            line([ANS[2], ANS[3] + ANS[1]], [ANS[2] + ANS[0], ANS[3] + ANS[1]], { arrows: "-&gt;" });
+                            style({ strokeDasharray: "."});
+                            line([ANS[2], ANS[3]], [ANS[2], ANS[3] + ANS[1]]);
                         </div>
                         <p data-if="[AX, AY][COMPONENT] !== 1">
                             The only other vector that moves <var>DIRECTION</var> <code><var>[AX, AY][COMPONENT]</var></code> units is
