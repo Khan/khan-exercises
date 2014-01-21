@@ -207,9 +207,9 @@
 
             <div id="column_vector">
                 <div class="vars" data-ensure="AX !== 0 || AY !== 0">
-                    <var id="VECTOR">makeMatrix(randRange(-8, 8, 2, 1))</var>
-                    <var id="AX">VECTOR[0][0]</var>
-                    <var id="AY">VECTOR[1][0]</var>
+                    <var id="AX">randRangeNonZero(-8, 8)</var>
+                    <var id="AY">randRangeNonZero(-8, 8)</var>
+                    <var id="VECTOR">[[AX], [AY]]</var>
                     <var id="SA">randFromArray([-1, -0.5, 0.5, -2, 2, -3, 3, -4, 4, -5, 5])</var>
                 </div>
 
@@ -281,6 +281,42 @@
 
                 <div class="hints">
                     <p><code><var>SA</var> \vec a = <var>SA</var> \cdot (<var>AX</var>, <var>AY</var>)</code></p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>, <var>SA</var> \cdot <var>AY</var>)</code></p>
+                    <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA * AX</var>, <var>SA * AY</var>)</code></p>
+                </div>
+            </div>
+
+            <div id="direction">
+                <div class="vars" data-ensure="AX !== 0 || AY !== 0">
+                    <var id="AX">randRangeNonZero(-8, 8)</var>
+                    <var id="AY">randRangeNonZero(-8, 8)</var>
+                    <var id="VECTOR">[[AX], [AY]]</var>
+                    <var id="SA">randFromArray([-1, -0.5, 0.5, -2, 2, -0.25, 0.25, -4, 4])</var>
+                    <var id="FORMAT">randFromArray([
+                        AX + "\\hat\\imath + " + AY + "\\hat\\jmath",
+                        "(" + AX + ", " + AY + ")",
+                        printSimpleMatrix(VECTOR)
+                    ])</var>
+                    <var id="SOLUTION">SA &lt; 0 ? "Against &lt;code&gt;\\vec a&lt;/code&gt;" : "Along &lt;code&gt;\\vec a&lt;/code&gt;"</var>
+                </div>
+
+                <div class="question">
+                    <p><code>\vec a = <var>FORMAT</var></code></p>
+                    <span data-if="SA === -1">
+                        <p>What is the direction of <code>-\vec a</code>?</p>
+                    </span><span data-else="">
+                        <p>What is the direction <code><var>decimalFraction(SA, true)</var> \vec a</code>?</p>
+                    </span>
+                </div>
+
+                <p class="solution"><var>SOLUTION</var></p>
+                <ul class="choices" data-category="true">
+                    <li>Along <code>\vec a</code></li>
+                    <li>Against <code>\vec a</code></li>
+                </ul>
+
+                <div class="hints">
+                    <p><code><var>SA</var> \vec a = <var>SA</var> \cdot <var>FORMAT</var></code></p>
                     <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA</var> \cdot <var>AX</var>, <var>SA</var> \cdot <var>AY</var>)</code></p>
                     <p><code>\hphantom{<var>SA</var> \vec a} = (<var>SA * AX</var>, <var>SA * AY</var>)</code></p>
                 </div>
