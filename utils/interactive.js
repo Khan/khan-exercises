@@ -1367,29 +1367,20 @@ $.extend(KhanUtil.Graphie.prototype, {
                 var graph = lineSegment.graph;
                 // Actually put the arrowheads 4px from the edge so they have
                 // a bit of room
-                var range = [[graph.range[0][0] + 4 / graph.scale[0],
-                              graph.range[0][1] - 4 / graph.scale[0]], [
-                              graph.range[1][0] + 4 / graph.scale[1],
-                              graph.range[1][1] - 4 / graph.scale[1]]];
-                // Find the angle between the point and each corner
-                var neAngle = KhanUtil.findAngle([range[0][1], range[1][1]], coord);
-                var nwAngle = KhanUtil.findAngle([range[0][0], range[1][1]], coord);
-                var swAngle = KhanUtil.findAngle([range[0][0], range[1][0]], coord);
-                var seAngle = KhanUtil.findAngle([range[0][1], range[1][0]], coord);
-                var clipPoint;
-                if (neAngle <= angle && angle <= nwAngle) {
-                    // clipped by top edge
-                    clipPoint = [coord[0] + (range[1][1] - coord[1]) * 1 / Math.tan(angle * Math.PI / 180), range[1][1]];
-                } else if (swAngle <= angle && angle <= seAngle) {
-                    // clipped by bottom edge
-                    clipPoint = [coord[0] + (range[1][0] - coord[1]) * 1 / Math.tan(angle * Math.PI / 180), range[1][0]];
-                } else if (nwAngle <= angle && angle <= swAngle) {
-                    // clipped by left edge
-                    clipPoint = [range[0][0], coord[1] + (range[0][0] - coord[0]) * Math.tan(angle * Math.PI / 180)];
-                } else {
-                    // clipped by right edge
-                    clipPoint = [range[0][1], coord[1] + (range[0][1] - coord[0]) * Math.tan(angle * Math.PI / 180)];
-                }
+                var xExtent = graph.range[0][1] - graph.range[0][0];
+                var yExtent = graph.range[1][1] - graph.range[1][0];
+
+                // shoot a point off into the distance ...
+                var distance = xExtent + yExtent;
+                // we need to scale the point according to the scale of the axes
+                var xDist = distance * Math.cos(angle * Math.PI / 180) *
+                                xExtent / yExtent;
+                var yDist = distance * Math.sin(angle * Math.PI / 180);
+                var farCoord = [coord[0] + xDist, coord[1] + yDist];
+                var scaledAngle = KhanUtil.findAngle(farCoord, coord);
+                // ... and then bring it back
+                var clipPoint = graph.constrainToBoundsOnAngle(farCoord, 4,
+                                              scaledAngle * Math.PI / 180);
                 clipPoint = graph.scalePoint(clipPoint);
 
                 var arrowHead = graph.raphael.path("M-3 4 C-2.75 2.5 0 0.25 0.75 0C0 -0.25 -2.75 -2.5 -3 -4");
@@ -2051,17 +2042,21 @@ $.extend(KhanUtil.Graphie.prototype, {
         var lower = this.unscalePoint([padding, this.ypixels - padding]);
         var upper = this.unscalePoint([this.xpixels - padding, padding]);
 
-        if (point[0] < lower[0]) {
-            return [lower[0], point[1] + (lower[0] - point[0]) * Math.tan(angle)];
-        } else if (point[0] > upper[0]) {
-            return [upper[0], point[1] - (point[0] - upper[0]) * Math.tan(angle)];
-        } else if (point[1] < lower[1]) {
-            return [point[0] + (lower[1] - point[1]) / Math.tan(angle), lower[1]];
-        } else if (point[1] > upper[1]) {
-            return [point[0] - (point[1] - upper[1]) / Math.tan(angle), upper[1]];
-        } else {
-            return point;
+        result = point.slice();
+
+        if (result[0] < lower[0]) {
+            result = [lower[0], result[1] + (lower[0] - result[0]) * Math.tan(angle)];
+        } else if (result[0] > upper[0]) {
+            result = [upper[0], result[1] - (result[0] - upper[0]) * Math.tan(angle)];
         }
+
+        if (result[1] < lower[1]) {
+            result = [result[0] + (lower[1] - result[1]) / Math.tan(angle), lower[1]];
+        } else if (result[1] > upper[1]) {
+            result = [result[0] - (result[1] - upper[1]) / Math.tan(angle), upper[1]];
+        }
+
+        return result;
     },
 
     // MovableAngle is an angle that can be dragged around the screen.
