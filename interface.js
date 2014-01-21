@@ -261,7 +261,7 @@ function handleAttempt(data) {
         $("#check-answer-button").hide();
         var nextButtonText;
         if (Exercises.learningTask &&  Exercises.learningTask.isComplete()) {
-            nextButtonText = $._("Awesome! Show points and badges...");
+            nextButtonText = $._("Awesome! Show points...");
         } else {
             nextButtonText = $._("Correct! Next question...");
         }
