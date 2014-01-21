@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Components of vectors</title>
+    <script src="../khan-exercise.js"></script>
+
+    <script type="text/javascript">
+        // http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect/565282#565282
+        function vectorsIntersect( px, py, rx, ry, qx, qy, sx, sy ) {
+            function cross( vx, vy, wx, wy ) {
+                return vx * wy - vy * wx;
+            }
+
+            if ( cross( rx, ry, sx, sy ) === 0 ) {
+                return cross( qx - px, qy - py, rx, ry ) === 0;
+            } else {
+                var t = cross( qx - px, qy - py, sx, sy ) / cross( rx, ry, sx, sy );
+                var u = cross( qx - px, qy - py, rx, ry ) / cross( rx, ry, sx, sy );
+                return 0 <= t && t <= 1 && 0 <= u && u <= 1;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="match-components">
+                <div class="vars" data-ensure="
+                !vectorsIntersect(AOX, AOY, AX * AF, AY * AF, BOX, BOY, BX * BF, BY * BF) &amp;&amp;
+                !vectorsIntersect(AOX, AOY, AX * AF, AY * AF, COX, COY, CX * CF, CY * CF) &amp;&amp;
+                !vectorsIntersect(AOX, AOY, AX * AF, AY * AF, DOX, DOY, DX * DF, DY * DF) &amp;&amp;
+                !vectorsIntersect(AOX, AOY, AX * AF, AY * AF, EOX, EOY, EX * EF, EY * EF) &amp;&amp;
+                !vectorsIntersect(BOX, BOY, BX * BF, BY * BF, COX, COY, CX * CF, CY * CF) &amp;&amp;
+                !vectorsIntersect(BOX, BOY, BX * BF, BY * BF, DOX, DOY, DX * DF, DY * DF) &amp;&amp;
+                !vectorsIntersect(BOX, BOY, BX * BF, BY * BF, EOX, EOY, EX * EF, EY * EF) &amp;&amp;
+                !vectorsIntersect(COX, COY, CX * CF, CY * CF, DOX, DOY, DX * DF, DY * DF) &amp;&amp;
+                !vectorsIntersect(COX, COY, CX * CF, CY * CF, EOX, EOY, EX * EF, EY * EF) &amp;&amp;
+                !vectorsIntersect(DOX, DOY, DX * DF, DY * DF, EOX, EOY, EX * EF, EY * EF)">
+
+                    <var id="AX">randRangeNonZero(-5, 5)</var>
+                    <var id="AY">randRangeNonZero(-5, 5)</var>
+                    <var id="COMPONENT">randRange(0, 1)</var>
+                    <var id="COMPONENT_NAME">["x", "y"][COMPONENT]</var>
+                    <var id="HORIZONTAL">$._("horizontally")</var>
+                    <var id="VERTICAL">$._("vertically")</var>
+                    <var id="DIRECTION">[HORIZONTAL, VERTICAL][COMPONENT]</var>
+
+                    <var id="BX">COMPONENT ? randRange(-5, 5) : AX</var>
+                    <var id="BY">COMPONENT ? AY : randRange(-5, 5)</var>
+                    <var id="CX">COMPONENT ? randRange(-5, 5) : -AX</var>
+                    <var id="CY">COMPONENT ? -AY : randRange(-5, 5)</var>
+                    <var id="DX">COMPONENT ? randRangeNonZero(-5, 5) : randRangeExclude(-5, 5, [AX])</var>
+                    <var id="DY">COMPONENT ? randRangeExclude(-5, 5, [AY]) : randRangeNonZero(-5, 5)</var>
+                    <var id="EX">COMPONENT ? randRangeNonZero(-5, 5) : randRangeExclude(-5, 5, [AX])</var>
+                    <var id="EY">COMPONENT ? randRangeExclude(-5, 5, [AY]) : randRangeNonZero(-5, 5)</var>
+
+                    <var id="ANS">[BX, BY]</var>
+                    <var id="SHUF">shuffle([ANS, [CX, CY], [DX, DY], [EX, EY]])</var>
+                    <var id="INDEX">$.inArray(ANS, SHUF)</var>
+                    <var id="ANSL, ANSC">[
+                        ["b", "pink"],
+                        ["c", "green"],
+                        ["d", "purple"],
+                        ["e", "red"]
+                    ][INDEX]</var>
+
+                    <var id="BX, BY">SHUF[0]</var>
+                    <var id="CX, CY">SHUF[1]</var>
+                    <var id="DX, DY">SHUF[2]</var>
+                    <var id="EX, EY">SHUF[3]</var>
+
+                    <var id="AOX" data-ensure="AOX + AX !== 0">randRangeNonZero(max(-9, -9 - AX), min(9, 9 - AX))</var>
+                    <var id="AOY" data-ensure="AOY + AY !== 0">randRangeNonZero(max(-9, -9 - AY), min(9, 9 - AY))</var>
+                    <var id="BOX">randRangeNonZero(max(-9, -9 - BX), min(9, 9 - BX))</var>
+                    <var id="BOY">randRangeNonZero(max(-9, -9 - BY), min(9, 9 - BY))</var>
+                    <var id="COX">randRangeNonZero(max(-9, -9 - CX), min(9, 9 - CX))</var>
+                    <var id="COY">randRangeNonZero(max(-9, -9 - CY), min(9, 9 - CY))</var>
+                    <var id="DOX">randRangeNonZero(max(-9, -9 - DX), min(9, 9 - DX))</var>
+                    <var id="DOY">randRangeNonZero(max(-9, -9 - DY), min(9, 9 - DY))</var>
+                    <var id="EOX">randRangeNonZero(max(-9, -9 - EX), min(9, 9 - EX))</var>
+                    <var id="EOY">randRangeNonZero(max(-9, -9 - EY), min(9, 9 - EY))</var>
+                    <var id="AF">1 + 0.8 / sqrt( AX * AX + AY * AY )</var>
+                    <var id="BF">1 + 0.8 / sqrt( BX * BX + BY * BY )</var>
+                    <var id="CF">1 + 0.8 / sqrt( CX * CX + CY * CY )</var>
+                    <var id="DF">1 + 0.8 / sqrt( DX * DX + DY * DY )</var>
+                    <var id="EF">1 + 0.8 / sqrt( EX * EX + EY * EY )</var>
+
+                    <var id="ANS_START">[[BOX, BOY], [COX, COY], [DOX, DOY], [EOX, EOY]][INDEX]</var>
+                </div>
+
+                <div class="question">
+                    <p>Which vector has the same <code><var>COMPONENT_NAME</var></code> component as <code>\vec a</code>?</p>
+
+                    <div class="graphie" id="graph">
+                        graphInit({
+                            range: 10,
+                            scale: 20,
+                            tickStep: 1,
+                            axisArrows: "&lt;-&gt;"
+                        });
+
+                        style({
+                            stroke: BLUE,
+                            color: BLUE
+                        }, function() {
+                            line( [AOX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" } );
+                            label( [AOX + AF * AX, AOY + AF * AY], "\\vec a" );
+                        });
+
+                        style({
+                            stroke: PINK,
+                            color: PINK
+                        }, function() {
+                            line( [BOX, BOY], [BOX + BX, BOY + BY], { arrows: "-&gt;" } );
+                            label( [BOX + BF * BX, BOY + BF * BY], "\\vec b" );
+                        });
+
+                        style({
+                            stroke: GREEN,
+                            color: GREEN
+                        }, function() {
+                            line( [COX, COY], [COX + CX, COY + CY], { arrows: "-&gt;" } );
+                            label( [COX + CF * CX, COY + CF * CY], "\\vec c" );
+                        });
+
+                        style({
+                            stroke: PURPLE,
+                            color: PURPLE
+                        }, function() {
+                            line( [DOX, DOY], [DOX + DX, DOY + DY], { arrows: "-&gt;" } );
+                            label( [DOX + DF * DX, DOY + DF * DY], "\\vec d" );
+                        });
+
+                        style({
+                            stroke: RED,
+                            color: RED
+                        }, function() {
+                            line( [EOX, EOY], [EOX + EX, EOY + EY], { arrows: "-&gt;" } );
+                            label( [EOX + EF * EX, EOY + EF * EY], "\\vec e" );
+                        });
+                    </div>
+                </div>
+
+                <p class="solution"><code>\large\<var>ANSC</var>{\vec <var>ANSL</var>}</code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>\large\pink{\vec b}</code></li>
+                    <li><code>\large\green{\vec c}</code></li>
+                    <li><code>\large\purple{\vec d}</code></li>
+                    <li><code>\large\red{\vec e}</code></li>
+                </ul>
+
+                <div class="hints">
+                    <p>The <code><var>COMPONENT_NAME</var></code> component of a vector is the direction it moves <var>DIRECTION</var>.</p>
+
+                    <div>
+                        <div class="graphie" data-update="graph" data-if="COMPONENT"> 
+                            style(
+                                { strokeDasharray: ".",  stroke: BLACK },
+                                function() {
+                                    line([AOX + AX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
+                                }
+                            );
+                        </div>
+                        <div class="graphie" data-update="graph" data-else=""> 
+                            style(
+                                { strokeDasharray: ".",  stroke: BLACK },
+                                function() {
+                                    line([AOX, AOY + AY], [AOX + AX, AOY + AY], { arrows: "-&gt;" });
+                                }
+                            );
+                        </div>
+                        <p data-if="[AX, AY][COMPONENT] !== 1">
+                            Vector <code>\vec a</code> starts at <code><var>COMPONENT_NAME</var> = <var>[AOX, AOY][COMPONENT]</var></code> and moves <var>DIRECTION</var> <code><var>[AX, AY][COMPONENT]</var></code> units to <code><var>COMPONENT_NAME</var> = <var>[AOX + AX, AOY + AY][COMPONENT]</var></code>.
+                        </p>
+                        <p data-else="">
+                            Vector <code>\vec a</code> starts at <code><var>COMPONENT_NAME</var> = <var>[AOX, AOY][COMPONENT]</var></code> and moves <var>DIRECTION</var> <code>1</code> unit to <code><var>COMPONENT_NAME</var> = <var>[AOX + AX, AOY + AY][COMPONENT]</var></code>.
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="graphie" data-update="graph" data-if="COMPONENT"> 
+                            style(
+                                { strokeDasharray: ".",  stroke: BLACK },
+                                function() {
+                                    line([ANS_START[0] + ANS[0], ANS_START[1]], [ANS_START[0] + ANS[0], ANS_START[1] + ANS[1]], { arrows: "-&gt;" });
+                                }
+                            );
+                        </div>
+                        <div class="graphie" data-update="graph" data-else=""> 
+                            style(
+                                { strokeDasharray: ".",  stroke: BLACK },
+                                function() {
+                                    line([ANS_START[0], ANS_START[1] + ANS[1]], [ANS_START[0] + ANS[0], ANS_START[1] + ANS[1]], { arrows: "-&gt;" });
+                                }
+                            );
+                        </div>
+                        <p data-if="[AX, AY][COMPONENT] !== 1">
+                            The only other vector that moves <var>DIRECTION</var> <code><var>[AX, AY][COMPONENT]</var></code> units is
+                            <code>\vec <var>ANSL</var></code>.
+                        </p>
+                        <p data-else="">
+                            The only other vector that moves <var>DIRECTION</var> <code>1</code> unit is <code>\vec <var>ANSL</var></code>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
