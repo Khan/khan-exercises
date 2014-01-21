@@ -245,6 +245,14 @@ function handleAttempt(data) {
         });
     }
 
+    $(Exercises).trigger("checkAnswer", {
+        correct: score.correct,
+        card: Exercises.currentCard,
+        optOut: optOut,
+        // Determine if this attempt qualifies as fast completion
+        fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken
+    });
+
     // Update interface corresponding to correctness
     if (skipped || Exercises.assessmentMode) {
         disableCheckAnswer();
@@ -254,6 +262,10 @@ function handleAttempt(data) {
         $("#next-question-button")
             .prop("disabled", false)
             .removeClass("buttonDisabled")
+            .val(Exercises.learningTask && Exercises.learningTask.isComplete()
+                // The checkAnswer event must precede calling isComplete
+                ? $._("Awesome! Show points and badges...")
+                : $._("Correct! Next question..."))
             .show()
             .focus();
         $("#positive-reinforcement").show();
@@ -287,14 +299,6 @@ function handleAttempt(data) {
                 .addClass("green");
         updateHintButtonText();
     }
-
-    $(Exercises).trigger("checkAnswer", {
-        correct: score.correct,
-        card: Exercises.currentCard,
-        optOut: optOut,
-        // Determine if this attempt qualifies as fast completion
-        fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken
-    });
 
     if (localMode || Exercises.currentCard.get("preview")) {
         // Skip the server; just pretend we have success
