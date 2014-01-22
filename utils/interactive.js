@@ -3127,6 +3127,10 @@ $.extend(KhanUtil.Graphie.prototype, {
                 snapX: graphie.snap[0],
                 snapY: graphie.snap[1],
                 onMove: function(x, y) {
+                    if (options.fixed) {
+                        return false;
+                    }
+
                     if (options.onMove) {
                         var result = options.onMove.call(this, x, y);
                         if (result === false) {
