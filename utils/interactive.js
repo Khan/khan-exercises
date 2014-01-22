@@ -1605,6 +1605,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                             }
 
                         }
+
+                        $(lineSegment).trigger("move");
                     });
                 }
             });
@@ -2815,7 +2817,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
     addRotateHandle: (function() {
         var drawRotateHandle = function(graphie, center, radius, halfWidth,
-                angle) {
+                lengthAngle, angle) {
             // Get a point on the arrow, given an angle offset and a distance
             // from the "midline" of the arrow (ROTATE_HANDLE_DIST away from
             // the rotation point).
@@ -2839,22 +2841,22 @@ $.extend(KhanUtil.Graphie.prototype, {
             // click and drag to rotate
             return graphie.raphael.path(
                 // upper arrowhead
-                " M" + getRotateHandlePoint(30, -halfWidth) +
-                " L" + getRotateHandlePoint(30, -3 * halfWidth) +
-                " L" + getRotateHandlePoint(60, 0) +
-                " L" + getRotateHandlePoint(30, 3 * halfWidth) +
-                " L" + getRotateHandlePoint(30, halfWidth) +
+                " M" + getRotateHandlePoint(lengthAngle, -halfWidth) +
+                " L" + getRotateHandlePoint(lengthAngle, -3 * halfWidth) +
+                " L" + getRotateHandlePoint(2 * lengthAngle, 0) +
+                " L" + getRotateHandlePoint(lengthAngle, 3 * halfWidth) +
+                " L" + getRotateHandlePoint(lengthAngle, halfWidth) +
                 // outer arc
                 " A" + outerR[0] + "," + outerR[1] + ",0,0,1," +
-                    getRotateHandlePoint(-30, halfWidth) +
+                    getRotateHandlePoint(-lengthAngle, halfWidth) +
                 // lower arrowhead
-                " L" + getRotateHandlePoint(-30, 3 * halfWidth) +
-                " L" + getRotateHandlePoint(-60, 0) +
-                " L" + getRotateHandlePoint(-30, -3 * halfWidth) +
-                " L" + getRotateHandlePoint(-30, -halfWidth) +
+                " L" + getRotateHandlePoint(-lengthAngle, 3 * halfWidth) +
+                " L" + getRotateHandlePoint(-2 * lengthAngle, 0) +
+                " L" + getRotateHandlePoint(-lengthAngle, -3 * halfWidth) +
+                " L" + getRotateHandlePoint(-lengthAngle, -halfWidth) +
                 // inner arc
                 " A" + innerR[0] + "," + innerR[1] + ",0,0,0," +
-                    getRotateHandlePoint(30, -halfWidth) +
+                    getRotateHandlePoint(lengthAngle, -halfWidth) +
                 " Z"
             ).attr({
                 stroke: null,
@@ -2864,8 +2866,10 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         return function(options) {
             var graph = this;
+
             var rotatePoint = options.center;
             var radius = options.radius;
+            var lengthAngle = options.lengthAngle || 30;
             var id = _.uniqueId("rotateHandle");
 
             // Normalize rotatePoint into something that always looks
@@ -2921,6 +2925,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                         options.hoverWidth / 2 :
                         options.width / 2
                     ),
+                    lengthAngle,
                     angle
                 );
             };
@@ -3035,46 +3040,15 @@ $.extend(KhanUtil.Graphie.prototype, {
                 $(rotatePoint).off("move." + id);
             };
 
+            rotateHandle.update = function() {
+                redrawRotateHandle(rotateHandle.coord);
+            };
+
             return rotateHandle;
         };
     })(),
 
     addReflectButton: (function() {
-        var decorateOnMoves = function(movable, decorator) {
-            var prevOnMove = movable.onMove;
-            var prevOnMoveEnd = movable.onMoveEnd;
-
-            if (prevOnMove) {
-                movable.onMove = function(x, y) {
-                    var result = prevOnMove.apply(movable, _.toArray(arguments));
-                    if (_.isArray(result)) {
-                        x = result[0];
-                        y = result[1];
-                    } else if (result === false && movable.coord) {
-                        x = movable.coord[0];
-                        y = movable.coord[1];
-                    }
-                    decorator(x, y);
-                    return result;
-                };
-            } else {
-                movable.onMove = decorator;
-            }
-
-            if (prevOnMoveEnd) {
-                movable.onMoveEnd = function() {
-                    prevOnMoveEnd();
-                    if (movable.coord) {
-                        decorator(movable.coord[0], movable.coord[1]);
-                    } else {
-                        decorator();
-                    }
-                };
-            } else {
-                movable.onMoveEnd = decorator;
-            }
-        };
-
         var drawButton = function(
                 graphie,
                 buttonCoord,
@@ -3143,17 +3117,66 @@ $.extend(KhanUtil.Graphie.prototype, {
 
             var line = options.line;
 
+            var didButtonMove = false;
             var button = graphie.addMovablePoint({
+                constraints: options.constraints,
                 coord: kline.midpoint([
                     line.pointA.coord,
                     line.pointZ.coord
                 ]),
-                onMove: function() { return false; }
+                snapX: graphie.snap[0],
+                snapY: graphie.snap[1],
+                onMove: function(x, y) {
+                    if (options.onMove) {
+                        var result = options.onMove.call(this, x, y);
+                        if (result === false) {
+                            return false;
+                        }
+                        if (_.isArray(result)) {
+                            x = result[0];
+                            y = result[1];
+                        }
+                    }
+
+                    if (!kvector.equal([x, y], button.coord)) {
+                        didButtonMove = true;
+                    }
+
+                    // Update the line's position with this move
+                    var delta = kvector.subtract([x, y], button.coord);
+                    line.pointA.setCoord(
+                        kvector.add(line.pointA.coord, delta)
+                    );
+                    line.pointZ.setCoord(
+                        kvector.add(line.pointZ.coord, delta)
+                    );
+                    line.transform(true);
+
+                    // Redraw our visual aspects
+                    var lineCoords = [line.pointA.coord, line.pointZ.coord];
+                    redraw(kline.midpoint(lineCoords), lineCoords);
+
+                    // And return any modified coordinates
+                    return [x, y];
+                },
+                onMoveEnd: function(x, y) {
+                    didButtonMove = false;
+                    if (options.onMoveEnd) {
+                        options.onMoveEnd.call(this, x, y);
+                    }
+                    // Redraw our visual aspects
+                    var lineCoords = [line.pointA.coord, line.pointZ.coord];
+                    redraw(kline.midpoint(lineCoords), lineCoords);
+                }
             });
 
             var isHovering = false;
             var isFlipped = false;
             var currentlyDrawnButton;
+
+            var isHighlight = function() {
+                return isHovering && !didButtonMove;
+            };
 
             var styles = _.map([0, 1], function(isHighlight) {
                 var baseStyle = isHighlight ?
@@ -3171,7 +3194,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                 if (isFlipped) {
                     isRight = !isRight;
                 }
-                return styles[+isHovering][+isRight];
+                return styles[+isHighlight()][+isRight];
             };
 
             var redraw = function(coord, lineCoords) {
@@ -3182,8 +3205,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                     graphie,
                     coord,
                     lineCoords,
-                    isHovering ? options.size * 1.5 : options.size,
-                    isHovering ? options.size * 0.125 : 0.25,
+                    isHighlight() ? options.size * 1.5 : options.size,
+                    isHighlight() ? options.size * 0.125 : 0.25,
                     getStyle(0),
                     getStyle(1)
                 );
@@ -3200,24 +3223,23 @@ $.extend(KhanUtil.Graphie.prototype, {
                 redraw(buttonCoord, [coordA, coordZ]);
             };
 
-            decorateOnMoves(line, _.bind(update, null, null, null));
-            decorateOnMoves(line.pointA, function(x, y) {
-                update([x, y], null);
-            });
-            decorateOnMoves(line.pointZ, function(x, y) {
-                update(null, [x, y]);
-            });
-
-            button.update = update;
+            $(line).on("move", _.bind(update, button, null, null));
 
             // Add click handling
+            var didMouseDown = false;
             $(button.mouseTarget[0]).on("vmousedown", function() {
-                var result = options.onClick();
-                if (result !== false) {
-                    isFlipped = !isFlipped;
-                    redraw(button.coord,
-                        [line.pointA.coord, line.pointZ.coord]);
+                didMouseDown = true;
+            });
+            $(button.mouseTarget[0]).on("vmouseup", function() {
+                if (didMouseDown && !didButtonMove) {
+                    var result = options.onClick();
+                    if (result !== false) {
+                        isFlipped = !isFlipped;
+                        redraw(button.coord,
+                            [line.pointA.coord, line.pointZ.coord]);
+                    }
                 }
+                didMouseDown = false;
             });
 
             // Bring the reflection line handles in front of the button, so
@@ -3248,6 +3270,11 @@ $.extend(KhanUtil.Graphie.prototype, {
             button.remove = function() {
                 currentlyDrawnButton.remove();
                 oldButtonRemove.call(button);
+            };
+
+            button.update = update;
+            button.isFlipped = function() {
+                return isFlipped;
             };
 
             update();
