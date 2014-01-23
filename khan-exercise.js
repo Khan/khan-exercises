@@ -956,11 +956,7 @@ window.Khan = (function() {
                     // Run the main method of any modules
                     $.each(Khan.modules, function(mod) {
                         if ($.fn[mod + type]) {
-                            debugLog("running " + mod + type);
                             elem[mod + type](problem, info);
-                            debugLog("ran " + mod + type);
-                        } else {
-                            debugLog("(" + mod + type + " not a fn; src " + mod.src + ")");
                         }
                     });
                 });
@@ -976,6 +972,7 @@ window.Khan = (function() {
 
     // TODO(alpert): Merge with loadExercise
     function startLoadingExercise(exerciseId, exerciseName, exerciseFile) {
+        debugLog("startLoadingExercise(" + exerciseId + ", " + exerciseName + ", " + exerciseFile + ")");
         var promise = exerciseFilePromises[exerciseId];
         if (promise != null) {
             // Already started (or finished) loading this exercise
@@ -993,6 +990,7 @@ window.Khan = (function() {
     }
 
     function loadAndRenderExercise(nextUserExercise) {
+        debugLog("loadAndRenderExercise(" + (nextUserExercise || nextUserExercise.exercise) + ")");
 
         setUserExercise(nextUserExercise);
 
@@ -1088,12 +1086,12 @@ window.Khan = (function() {
     }
 
     function makeProblem(exerciseId, typeOverride, seedOverride) {
-        debugLog("start of makeProblem");
+        debugLog("makeProblem(" + exerciseId + ", " + typeOverride + ", " + seedOverride + ")");
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
         Khan.scratchpad.enable();
 
-        // Allow passing in a random seed
+        // Allow passing in an arbitrary seed
         if (typeof seedOverride !== "undefined") {
             currentProblemSeed = seedOverride;
 
@@ -1101,6 +1099,7 @@ window.Khan = (function() {
         } else if (user == null) {
             currentProblemSeed = Math.abs(randomSeed % bins);
         }
+        debugLog("  using seed " + currentProblemSeed + " for " + exerciseId);
 
         // Set randomSeed to what currentProblemSeed is (save currentProblemSeed for recall later)
         randomSeed = currentProblemSeed;
@@ -1109,7 +1108,7 @@ window.Khan = (function() {
         if (localMode) {
             currentProblemType = typeof typeOverride !== "undefined" ? typeOverride : Khan.query.problem;
         }
-        
+
         var problems = exercises.filter(function() {
             return $.data(this, "name") === exerciseId;
         }).children(".problems").children();
@@ -1142,7 +1141,7 @@ window.Khan = (function() {
         // Find which exercise this problem is from
         exercise = problem.parents("div.exercise").eq(0);
 
-        debugLog("chose problem type and seed for " + exerciseId);
+        debugLog("  chose problem type [" + currentProblemType + "] and seed [" + currentProblemSeed + "] for " + exerciseId);
 
         // Work with a clone to avoid modifying the original
         problem = problem.clone();
@@ -1457,6 +1456,7 @@ window.Khan = (function() {
     }
 
     function showHint() {
+        debugLog("showHint()");
         // Called when user hits hint button triggering showHint event or when
         // the server side data says the last_count_hints is not 0 when
         // exercise is loaded.
@@ -1484,6 +1484,7 @@ window.Khan = (function() {
     }
 
     function renderDebugInfo() {
+        debugLog("renderDebugInfo()");
         // triggered on newProblem
 
         if (userExercise == null || Khan.query.debug != null) {
@@ -1608,6 +1609,7 @@ window.Khan = (function() {
     }
 
     function renderExerciseBrowserPreview() {
+        debugLog("renderExerciseBrowserPreview()");
         // triggered on newProblem
 
         // Version of the site used by Khan/exercise-browser for the iframe
@@ -1659,6 +1661,7 @@ window.Khan = (function() {
      * different exercises).
      */
     function prepareSite() {
+        debugLog("prepareSite()");
         // Grab example answer format container
         examples = $("#examples");
 
