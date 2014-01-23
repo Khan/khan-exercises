@@ -1124,6 +1124,7 @@ window.Khan = (function() {
             if (!problem.length) {
                 throw new Error("Unknown problem type " + typeOverride);
             }
+            currentProblemType = typeOverride;
 
         // Otherwise create a random problem from weights
         } else {
@@ -1133,10 +1134,10 @@ window.Khan = (function() {
                 var weight = $(this).data("weight") || 1;
                 _.times(weight, function(){ typeIndex.push(index); });
             });
-            var type = typeIndex[Math.floor(Math.random() * typeIndex.length)];
-            problem = problems.eq(type);
+            var typeNum = typeIndex[Math.floor(Math.random() * typeIndex.length)];
+            problem = problems.eq(typeNum);
+            currentProblemType = $(problem).attr("id") || "" + typeNum;
         }
-        currentProblemType = $(problem).attr("id") || "" + type;
 
         // Find which exercise this problem is from
         exercise = problem.parents("div.exercise").eq(0);
