@@ -2044,7 +2044,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         var lower = this.unscalePoint([padding, this.ypixels - padding]);
         var upper = this.unscalePoint([this.xpixels - padding, padding]);
 
-        result = point.slice();
+        var result = point.slice();
 
         if (result[0] < lower[0]) {
             result = [lower[0], result[1] + (lower[0] - result[0]) * Math.tan(angle)];
