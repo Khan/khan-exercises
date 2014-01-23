@@ -1106,7 +1106,7 @@ window.Khan = (function() {
 
         // Check to see if we want to test a specific problem
         if (localMode) {
-            currentProblemType = typeof typeOverride !== "undefined" ? typeOverride : Khan.query.problem;
+            typeOverride = typeof typeOverride !== "undefined" ? typeOverride : Khan.query.problem;
         }
 
         var problems = exercises.filter(function() {
@@ -1135,8 +1135,8 @@ window.Khan = (function() {
             });
             var type = typeIndex[Math.floor(Math.random() * typeIndex.length)];
             problem = problems.eq(type);
-            currentProblemType = $(problem).attr("id") || "" + type;
         }
+        currentProblemType = $(problem).attr("id") || "" + type;
 
         // Find which exercise this problem is from
         exercise = problem.parents("div.exercise").eq(0);
