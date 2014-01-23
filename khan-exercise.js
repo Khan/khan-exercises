@@ -990,7 +990,7 @@ window.Khan = (function() {
     }
 
     function loadAndRenderExercise(nextUserExercise) {
-        debugLog("loadAndRenderExercise(" + (nextUserExercise || nextUserExercise.exercise) + ")");
+        debugLog("loadAndRenderExercise(" + (nextUserExercise && nextUserExercise.exercise) + ")");
 
         setUserExercise(nextUserExercise);
 
