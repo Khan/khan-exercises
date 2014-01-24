@@ -262,8 +262,6 @@ window.Khan = (function() {
 
         imageBase: imageBase,
 
-        startLoadingExercise: startLoadingExercise,
-
         moduleDependencies: {
             "math": ["../third_party/raphael", "knumber"],
 
@@ -997,25 +995,6 @@ window.Khan = (function() {
         };
     }
 
-    // TODO(alpert): Merge with loadExercise
-    function startLoadingExercise(exerciseId, exerciseName, exerciseFile) {
-        debugLog("startLoadingExercise(" + exerciseId + ", " + exerciseName + ", " + exerciseFile + ")");
-        var promise = exerciseFilePromises[exerciseId];
-        if (promise != null) {
-            // Already started (or finished) loading this exercise
-            return promise;
-        }
-
-        // TODO(alpert): Creating an HTML element here makes no sense to me
-        var exerciseElem = $("<div>")
-            .data("name", exerciseId)
-            .data("displayName", exerciseName)
-            .data("fileName", exerciseFile);
-
-        // Queue up an exercise load
-        return loadExercise(exerciseElem);
-    }
-
     function loadAndRenderExercise(nextUserExercise) {
         debugLog("loadAndRenderExercise(" + (nextUserExercise && nextUserExercise.exercise) + ")");
 
@@ -1025,7 +1004,6 @@ window.Khan = (function() {
             seedOverride = userExercise.seed;
 
         var exerciseId = userExercise.exerciseModel.name,
-            exerciseName = userExercise.exerciseModel.displayName,
             exerciseFile = userExercise.exerciseModel.fileName;
 
         function finishRender() {
@@ -1049,7 +1027,7 @@ window.Khan = (function() {
         }
 
         debugLog("loading and rendering " + exerciseId);
-        startLoadingExercise(exerciseId, exerciseName, exerciseFile).then(
+        loadExercise(exerciseId, exerciseFile).then(
             function() {
                 debugLog("loaded " + exerciseId + ", now rendering");
                 finishRender();
@@ -1869,9 +1847,8 @@ window.Khan = (function() {
             })
             .bind("upcomingExercise", function(ev, data) {
                 var userExercise = data.userExercise;
-                startLoadingExercise(
+                loadExercise(
                         userExercise.exercise,
-                        userExercise.exerciseModel.displayName,
                         userExercise.exerciseModel.fileName);
             })
             .bind("showHint", function() {
@@ -1963,13 +1940,10 @@ window.Khan = (function() {
      * Load an exercise and return a promise that is resolved when an exercise
      * is loaded
      *
-     * @param {Element} exerciseElem HTML element with jQuery data
-     * properties name, weight, and fileName
+     * @param {string} exerciseId uniquely identifies exercise (e.g. addition_1)
+     * @param {string} fileName identifies the exercise's path
      */
-    function loadExercise(exerciseElem) {
-        exerciseElem = $(exerciseElem).detach();
-        var exerciseId = exerciseElem.data("name");
-
+    function loadExercise(exerciseId, fileName) {
         var promise = exerciseFilePromises[exerciseId];
         if (promise != null) {
             // Already started (or finished) loading this exercise
@@ -1978,8 +1952,6 @@ window.Khan = (function() {
             promise = exerciseFilePromises[exerciseId] = $.Deferred();
         }
 
-        var weight = exerciseElem.data("weight");
-        var fileName = exerciseElem.data("fileName");
         // TODO(eater): remove this once all of the exercises in the datastore
         // have filename properties
         if (fileName == null || fileName === "") {
@@ -2005,8 +1977,7 @@ window.Khan = (function() {
             // ...then save the exercise ID, fileName and weights for later
             newContents.data({
                 name: exerciseId,
-                fileName: fileName,
-                weight: weight
+                fileName: fileName
             });
 
             // Add the new exercise elements to the exercises DOM set
