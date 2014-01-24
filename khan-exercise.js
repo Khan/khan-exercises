@@ -164,8 +164,8 @@ window.Khan = (function() {
     userCRC32,
 
     // The current problem and its corresponding exercise
-    problem,
-    exercise,
+    problem,    // the unprocessed contents of a specific problem type
+    exercise,   // the unprocessed contents of all problem types and vars
 
     // The number of the current problem that we're on
     problemNum = 1,
@@ -1114,6 +1114,7 @@ window.Khan = (function() {
             typeOverride = typeof typeOverride !== "undefined" ? typeOverride : Khan.query.problem;
         }
 
+        // problems contains the unprocessed contents of each problem type within exerciseId
         var problems = exercises.filter(function() {
             return $.data(this, "name") === exerciseId;
         }).children(".problems").children();
@@ -1142,6 +1143,17 @@ window.Khan = (function() {
             var typeNum = typeIndex[Math.floor(Math.random() * typeIndex.length)];
             problem = problems.eq(typeNum);
             currentProblemType = $(problem).attr("id") || "" + typeNum;
+        }
+
+        // TODO(brianmerlob): If we still don't have a problem then it's time to fail as gracefully
+        // as we can. This probably occurs during mastery challenges when some sort of race
+        // condition causes the type for one problem to sneak it's way in for another problem
+        // and then `problem = problems.eq(type)` returns an empty object (thus length === 0).
+        // This should _never_ happen, and hopefully these autoSubmitIssues will help debug.
+        if (problem.length === 0 && problems.length > 0) {
+            Khan.autoSubmitIssue("type was for the incorrect problem; failed gracefully" +
+                "\n\n problems: " + JSON.stringify(problems));
+            problem = problems.eq(Math.floor(Math.random() * problems.length));
         }
 
         // Find which exercise this problem is from
