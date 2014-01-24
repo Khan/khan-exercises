@@ -59,7 +59,7 @@
                         return "";
                     }
 
-                    // first determine if there is a perp. line
+                    // first determine if there is a perp. line within 7 degrees
                     perp = null;
                     _.each(guess, function(tool) {
                         if (tool.first != null) {
@@ -288,7 +288,7 @@
             </div>
         </div>
 
-        <div id="parallel" data-weight="200000">
+        <div id="parallel">
             <div class="vars">
                 <var id="DEG">ROT * 180/PI - 180</var>
                 <var id="DY">randRange(3, 5) / 2</var>
@@ -325,21 +325,29 @@
             <div class="solution" data-type="custom">
                 <div class="instruction">
                     Use the compass and straightedge tools to construct
-                     a line parallel to the given line 
-					 by the transferring the angle method.
-					Leave all constructions in place. <!-- Bleh!!! TODO -->
+                     a line parallel to the given line.
                 </div>
                 <div class="guess">getToolProperties(construction)</div>
                 <div class="validator-function">
 					if (guess.length === 0) {
                         return "";
                     }
-					console.debug("Guess:", guess);
 					
-					// Common requirements to all(?) parallel constructions. 
-					// Are these too permissive?
-                    // Require that there is one parallel line through P.
-					// And at least two circles with an intersection point on that line.
+					// Ways to construct a line a given point P that's parallel to a given line L.
+					// 1. Choose two points, A and B, on L and then use A, B, P to create a parallelogram.
+					//		(This can be done using only compasses - no need to draw the unneeded sides.)
+					// 2. Draw a line from P that crosses L. Transfer the angle created to P. 
+					//		(This is the method suggested in hints)
+					// 3. Construct two perpendicular lines. Messy, but ok.
+					// 4. More?
+					// Common requirements to all(?) good parallel constructions. 
+                    // 1) Require that there is one parallel line through P. 
+					//		- i.e., the problem is solved!
+					// 2) There are at least two circles with an intersection point on that line. 
+					//		- Some construction has been used to create the line. 
+					// Note that using the tools given, it is possible to simply draw a line one the given one then parallel transport it to P.
+					// It is also possible to create a "construction" that uses the above parallel transport as part of it.
+					// Q: Are these two conditions too permissive? Will theses checks be gamed or too easily allow false constructions?
 					
 					// Lines that go through P
                     var lines = _.filter(guess, function(tool) {
@@ -347,89 +355,57 @@
                             return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.1);
                         }
                     });
-					console.debug("Lines:", lines);
-                    if (lines.length &lt; 1) {
-                        return false;
-                    }
 					
 					
-                    // Ensure at least one of the lines is at the correct angle (within 1.5 degrees)
-                    var angle = null;
-                    var rotated_angle = null;
+                    // Ensure at least one of the lines is at the correct angle **within 5 degrees**
                     var parallel = _.filter(lines, function(tool) {
                         var ang = atan2(
                             tool.second.coord[1] - tool.first.coord[1],
                             tool.second.coord[0] - tool.first.coord[0]);
                         // Check angle of line
                         var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);	
-						// If the line (tool) is within 1.5 degrees, then count it!
-                        if (abs(deltaAngle - 90) &gt; 1.5) {
-							console.debug("Not a parallel line! -- ", "ROT: " 		, ROT
-																	, ", angle: "	, ang
-																	, ", rot: " 	, (90 - deltaAngle) * PI / 180
-																	, ", delt: " 	, deltaAngle);
-							angle = ang;
-							rotated_angle = (90 - deltaAngle) * PI / 180;
+                        if (abs(deltaAngle - 90) &gt; 5) {
                             return false;
                         } else {
-							console.debug("Got a parallel line! -- ", "ROT: " 		, ROT
-																	, ", angle: "	, ang
-																	, ", rot: " 	, (90 - deltaAngle) * PI / 180
-																	, ", delt: " 	, deltaAngle);
                             return true;
                         }
                     });
-//                    if (parallel.length === 0) {
-//                        return false;
-//                    }
+                    if (parallel.length === 0) {
+                        return false;
+                    }
 					
 					var compasses = _.filter(guess, function(tool) {
                         if (tool.radius != null) {
                             return true;
                         }
                     });
-					console.debug("Got some compasses! -- ", compasses, compasses.length);
 					
+					// Find intersections of compasses that lie on the parallel line
 					var compassintersections = [];
-					// code from constructions.js
+					// Circle intersection code from constructions.js
 					for (var i=0; i&lt;compasses.length; i++) {
 						for (var j=0; j&lt;i; j++) {
-						var tool1 = compasses[i];
-						var tool2 = compasses[j];
-						// find intersections
-						var a = tool1.center.coord[0];
-						var b = tool1.center.coord[1];
-						var c = tool2.center.coord[0];
-						var d = tool2.center.coord[1];
-						var r = tool1.radius;
-						var s = tool2.radius;
+
+						var a = compasses[i].center.coord[0];
+						var b = compasses[i].center.coord[1];
+						var c = compasses[j].center.coord[0];
+						var d = compasses[j].center.coord[1];
+						var r = compasses[i].radius;
+						var s = compasses[j].radius;
 
 						var e = c - a;
 						var f = d - b;
 						var p = Math.sqrt(Math.pow(e, 2) + Math.pow(f, 2));
-						var k = (Math.pow(p, 2) + Math.pow(r, 2) -
-								Math.pow(s, 2)) / (2 * p);
+						var k = (Math.pow(p, 2) + Math.pow(r, 2) - Math.pow(s, 2)) / (2 * p);
 
-						var x1 = a + e * k / p + (f / p) *
-							Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
-						var y1 = b + f * k / p - (e / p) *
-							Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var x1 = a + e * k / p + (f / p) * Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var y1 = b + f * k / p - (e / p) * Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var x2 = a + e * k / p - (f / p) * Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var y2 = b + f * k / p + (e / p) * Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
 
-						var x2 = a + e * k / p - (f / p) *
-							Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
-						var y2 = b + f * k / p + (e / p) *
-							Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
-
-						if (!isNaN(x1)) {
-							compassintersections.push([x1, y1]);
-						}
-						if (!isNaN(x2)) {
-							compassintersections.push([x2, y2]);
-						
-						}
+						if (!isNaN(x1)) {compassintersections.push([x1, y1]);}
+						if (!isNaN(x2)) {compassintersections.push([x2, y2]);}
 					}}
-					console.debug("Compass intersections: ", compassintersections);
-					
 					var intersections = _.filter(compassintersections, function(compint) {
 						for (var i=0; i&lt;parallel.length; i++) {
 							var tool = parallel[i];
@@ -437,12 +413,10 @@
 							return isPointOnLineSegment([tool.first.coord, tool.second.coord], compint, 0.1);
 						};
 					});
-					console.debug("The intersections also on parallel line: ", intersections);
 					
 					if (intersections.length &gt; 0) { return true; }
 					
-					//return false;
-					return ""; // Handy for debugging
+					return false;
 					
                 </div>
                 <div class="show-guess">
@@ -719,7 +693,7 @@
                         return "";
                     }
 
-                    // first determine if there is a perp. line
+                    // first determine if there is a perp. line within 7 degrees
                     perp = null;
                     _.each(guess, function(tool) {
                         if (tool.first != null) {
