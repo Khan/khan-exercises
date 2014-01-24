@@ -13,7 +13,7 @@
             var pre = "";
 
             if ( typeof n === "number" && typeof m === "number" ) {
-                return KhanUtil.fractionReduce( n, m, true );
+                return KhanUtil.fractionReduce( n, m );
             } else if ( typeof n === "string" && typeof m === "number" ) {
                 if ( m < 0 ) pre = "-";
                 m = Math.abs( m );
@@ -115,7 +115,7 @@
                 <div class="problem">
                     <p><code>f(x) = <var>M_X</var> + <var>B</var></code> for all real numbers.</p>
                 </div>
-                <p class="question">What is <code>f^{-1}(x)</code>, the inverse of <code>f(x)</code>?</p>
+                <p class="question">Write an expression for <code>f^{-1}(x)</code>, the inverse of <code>f(x)</code>.</p>
 
                 <div class="graphie" id="G">
                     graphInit({
@@ -136,7 +136,7 @@
 
                 </div>
 
-                <p class="solution" data-type="expression">x / <var>M</var> - <var>B</var> / <var>M</var></p>
+                <div class="solution" data-type="expression">x / <var>M</var> - <var>B</var> / <var>M</var></div>
             </div>
         </div>
 
@@ -146,8 +146,9 @@
             <p><code><var>expr([ "+", "y", -B ])</var> = <var>M_X</var></code></p>
             <p data-if="M !== 1"><code><var>Y_OVER_M + MINUS_B_OVER_M</var> = x</code></p>
             <p><code>x = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
-            <p>So we know: <br> <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
-            <p>Rename <code>y</code> to <code>x</code>: <br> <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
+            <p>So we know: <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
+            <p>Rename <code>y</code> to <code>x</code>: <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
+
             <div class="graphie" data-update="G">
                 var pos = function( n ) {
                         if ( n &gt;= 1 ) {
@@ -166,7 +167,7 @@
 
                 // plot function inverse
                 style({
-                    stroke: ORANGE,
+                    stroke: RED,
                     strokeWidth: 2
                 }, function() {
                     plot( F_INV, [ -10, 10 ] );
@@ -183,7 +184,7 @@
 
                     // label f_inv
                     style({
-                        color: ORANGE,
+                        color: RED,
                         strokeWidth: 1
                     }, function() {
                         label( labelPos( F_INV ), "f^{-1}(x)", fInvPos );
