@@ -3,6 +3,20 @@ window.DrawingScratchpad = function(elem) {
     var erase = "M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248";
     var undo = "M12.981,9.073V6.817l-12.106,6.99l12.106,6.99v-2.422c3.285-0.002,9.052,0.28,9.052,2.269c0,2.78-6.023,4.263-6.023,4.263v2.132c0,0,13.53,0.463,13.53-9.823C29.54,9.134,17.952,8.831,12.981,9.073z";
 
+    var rainbow = "0-#00ff00-#ff0000:50-#0000ff";
+
+    var nextRainbowStroke = (function() {
+        var freq = 0.1;
+        var iter = 0;
+        return function() {
+            var red   = Math.sin(freq * iter + 0) * 127 + 128;
+            var green = Math.sin(freq * iter + 2) * 127 + 128;
+            var blue  = Math.sin(freq * iter + 4) * 127 + 128;
+            iter++;
+            return "rgb(" + red + "," + green + "," + blue + ")";
+        };
+    })();
+
     var container = $(elem);
 
     var pad = Raphael(container[0], container.width(), container.height());
@@ -11,7 +25,7 @@ window.DrawingScratchpad = function(elem) {
         pad.setSize(container.width(), container.height());
     };
 
-    var palette = pad.set(), stroke = "#000000", colors = ["#000000", "#3f3f3f", "#7f7f7f", "#bfbfbf", "#ff0000", "#ff7f00", "#ffff00", "#00ff00", "#00ffff", "#007fff", "#0000ff", "#7f00ff"];
+    var palette = pad.set(), stroke = "#000000", colors = ["#000000", "#3f3f3f", "#7f7f7f", "#bfbfbf", "#ff0000", "#ff7f00", "#ffff00", "#00ff00", "#00ffff", "#007fff", "#0000ff", "#7f00ff", rainbow];
     for (var i = 0; i < colors.length; i++) {
         (function(color) {
             var setcolor = function(e) {
@@ -152,8 +166,11 @@ window.DrawingScratchpad = function(elem) {
     }
 
     function startPen(x, y) {
+        var singleColorStroke = (stroke === rainbow) ?
+            nextRainbowStroke() :
+            stroke;
         path = pad.path("M" + x + "," + y).attr(line_default).attr({
-            stroke: stroke,
+            stroke: singleColorStroke,
             "clip-rect": [0, 40, pad.width, pad.height - 40]
         });
         pathstr = path.attr("path");
