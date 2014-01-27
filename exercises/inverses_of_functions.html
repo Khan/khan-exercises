@@ -147,61 +147,60 @@
             <p data-if="M !== 1"><code><var>Y_OVER_M + MINUS_B_OVER_M</var> = x</code></p>
             <p><code>x = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
             <p>So we know: <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
-            <p>Rename <code>y</code> to <code>x</code>: <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
-
-            <div class="graphie" data-update="G">
-                var pos = function( n ) {
-                        if ( n &gt;= 1 ) {
-                            return "below right";
-                        } else if ( n &gt; 0 ) {
-                            return "below";
-                        } else if ( n &gt; -1 ) {
-                            return "above";
-                        } else {
-                            return "above right";
-                        }
-                    },
-                    fPos = pos( M ),
-                    fInvPos = pos( 1 / M );
-
-
-                // plot function inverse
-                style({
-                    stroke: RED,
-                    strokeWidth: 2
-                }, function() {
-                    plot( F_INV, [ -10, 10 ] );
-                });
-
-                if ( M !== -1 &amp;&amp; ( M !== 1 || B !== 0 ) ) {
-                    // label f
-                    style({
-                        color: BLUE,
-                        strokeWidth: 1
-                    }, function() {
-                        label( labelPos( F ), "f(x)", fPos );
-                    });
-
-                    // label f_inv
-                    style({
-                        color: RED,
-                        strokeWidth: 1
-                    }, function() {
-                        label( labelPos( F_INV ), "f^{-1}(x)", fInvPos );
-                    });
-                }
-            </div>
             <div>
                 <div class="graphie" data-update="G">
+                    var pos = function( n ) {
+                            if ( n &gt;= 1 ) {
+                                return "below right";
+                            } else if ( n &gt; 0 ) {
+                                return "below";
+                            } else if ( n &gt; -1 ) {
+                                return "above";
+                            } else {
+                                return "above right";
+                            }
+                        },
+                        fPos = pos( M ),
+                        fInvPos = pos( 1 / M );
+
+
+                    // plot function inverse
                     style({
-                        stroke: "#aaa",
-                        strokeWidth: 2,
-                        strokeDasharray: "- "
+                        stroke: RED,
+                        strokeWidth: 2
                     }, function() {
-                        plot( function( x ) { return x; }, [ -10, 10 ] );
+                        plot( F_INV, [ -10, 10 ] );
                     });
+
+                    if ( M !== -1 &amp;&amp; ( M !== 1 || B !== 0 ) ) {
+                        // label f
+                        style({
+                            color: BLUE,
+                            strokeWidth: 1
+                        }, function() {
+                            label( labelPos( F ), "f(x)", fPos );
+                        });
+
+                        // label f_inv
+                        style({
+                            color: RED,
+                            strokeWidth: 1
+                        }, function() {
+                            label( labelPos( F_INV ), "f^{-1}(x)", fInvPos );
+                        });
+
+                        // Show line of symmetry
+                        style({
+                            stroke: "#aaa",
+                            strokeWidth: 2,
+                            strokeDasharray: "- "
+                        }, function() {
+                            plot( function( x ) { return x; }, [ -10, 10 ] );
+                        });
+                    }
                 </div>
-                <p>Notice that <code>f^{-1}(x)</code> is just <code>f(x)</code> reflected across the line <code>y=x</code>.</p>
+                <p>Rename <code>y</code> to <code>x</code>: <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
+                <p>Notice that <code>f^{-1}(x)</code> is just <code>f(x)</code> reflected across the line <code>y = x</code>.</p>
             </div>
         </div>
     </div>
