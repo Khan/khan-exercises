@@ -44,6 +44,18 @@ div.definition {
 }
 
 #workarea { margin-left: 30px; }
+#workspace { margin-left: 30px; }
+#workspace textarea, #workspace #workspace_display {
+	width: 48%;
+	height: 150px;
+}
+#workspace textarea {
+	resize: none; 
+	font: inherit;
+}
+#workspace #workspace_display {
+	float: right;
+}
 #hintsarea { margin-left: 50px; }
 #answer_area ul { list-style: none; }
 #answer_area li { padding: 7px 0; }
