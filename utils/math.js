@@ -449,8 +449,8 @@ $.extend(KhanUtil, {
     },
 
     /**
-     * Return a string of num rounded to precision decimal places,
-     * with an approx symbol if num had to be rounded
+     * Return a string of num rounded to a fixed precision decimal places,
+     * with an approx symbol if num had to be rounded, and trailing 0s
      */
     toFixedApprox: function(num, precision) {
         // TODO(jack): Make this locale-dependent like
@@ -460,6 +460,20 @@ $.extend(KhanUtil, {
             return fixedStr;
         } else {
             return "\\approx " + fixedStr;
+        }
+    },
+
+    /**
+     * Return a string of num rounded to precision decimal places, with an
+     * approx symbol if num had to be rounded, but no trailing 0s if it was
+     * not rounded.
+     */
+    roundToApprox: function(num, precision) {
+        var fixed = KhanUtil.roundTo(precision, num);
+        if (knumber.equal(fixed, num)) {
+            return String(fixed);
+        } else {
+            return KhanUtil.toFixedApprox(num, precision);
         }
     },
 
