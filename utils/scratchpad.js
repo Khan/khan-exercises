@@ -6,7 +6,7 @@ window.DrawingScratchpad = function(elem) {
     var rainbow = "0-#00ff00-#ff0000:50-#0000ff";
 
     var nextRainbowStroke = (function() {
-        var freq = 0.1;
+        var freq = 0.05;
         var iter = 0;
         return function() {
             var red   = Math.sin(freq * iter + 0) * 127 + 128;
