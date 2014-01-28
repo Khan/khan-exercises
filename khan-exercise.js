@@ -659,9 +659,6 @@ window.Khan = (function() {
             $(selector).click(function(e) {
                 e.preventDefault();
 
-                var issueIntro = $._("Remember to check the hints and " +
-                        "double check your math. Thanks for your help!");
-
                 if (typeof KA !== "undefined" && KA.vipIssueReporter) {
                     $("#issue .info-box-header").text($._("VIP Issue Report"));
                 }
@@ -672,7 +669,7 @@ window.Khan = (function() {
                 if (report && form) {
                     $("#issue").hide();
                 } else if (!report || !form) {
-                    $("#issue-status").removeClass("error").html(issueIntro);
+                    $("#issue-status").removeClass("error").hide();
                     $("#issue, #issue .issue-form").show();
                     $("html, body").animate({
                         scrollTop: $("#issue").offset().top
