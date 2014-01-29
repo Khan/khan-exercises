@@ -1128,9 +1128,6 @@ window.Khan = (function() {
                 // Or by its ID
                 problems.filter("#" + typeOverride);
 
-            if (!problem.length) {
-                throw new Error("Unknown problem type " + typeOverride);
-            }
             currentProblemType = typeOverride;
 
         // Otherwise create a random problem from weights
@@ -1151,7 +1148,7 @@ window.Khan = (function() {
         // condition causes the type for one problem to sneak it's way in for another problem
         // and then `problem = problems.eq(type)` returns an empty object (thus length === 0).
         // This should _never_ happen, and hopefully these autoSubmitIssues will help debug.
-        if (problem.length === 0 && problems.length > 0) {
+        if (!problem.length && problems.length) {
             Khan.autoSubmitIssue("type was for the incorrect problem; failed gracefully" +
                 "\n\n problems: " + JSON.stringify(problems));
             problem = problems.eq(Math.floor(Math.random() * problems.length));
