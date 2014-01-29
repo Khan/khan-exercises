@@ -79,8 +79,8 @@
         start();
     });
 
-    asyncTest("trigonometry degrees mode", 6, function() {
-        strictEqual(Calculator.settings.angleMode, 'DEG', 'default angle mode is degrees');
+    asyncTest("trigonometry degrees mode", 5, function() {
+        Calculator.settings.angleMode = 'DEG';
         calculateStrictEqual('cos(180)', -1);
         calculateStrictEqual('sin(270)', -1);
         calculateStrictEqual('asin(1)', 90);
