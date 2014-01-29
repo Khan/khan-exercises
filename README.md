@@ -26,14 +26,10 @@ You need to serve the files from some sort of a server. You can't just open the 
 Now if you open your browser to `http://localhost:8000` (or `http://127.0.0.1:8000/`) you should see the contents of the `khan-exercises` directory. Navigate to the `exercises` subfolder, and an HTML file under there to see an exercise.
 
 
-## Writing Exercises
+## Exercise Development
 
-The process for writing exercises is rather well documented. More information about this process can be found in the [Khan Exercises wiki](https://github.com/Khan/khan-exercises/wiki). Specifically:
-
-* [How to Get Involved](https://github.com/Khan/khan-exercises/wiki/Getting-Involved)
-* [How to Write Exercises](https://github.com/Khan/khan-exercises/wiki/Writing-Exercises:-Home)
-* [How to Test Exercises](https://github.com/Khan/khan-exercises/wiki/Testing-Exercises)
+This framework supports over 450 of our current math exercises including updated versions of many exercises Sal built for his cousins before he made his first video! New exercises on Khan Academy, however, are now written by many content experts using [Perseus](https://github.com/Khan/perseus) and stored in our datastore as individual questions.
 
 ## More
 
-If you're passionate about creating these exercises and want to apply to be a full-time exercise developer at the Khan Academy, [please do so](http://hire.jobvite.com/CompanyJobs/Careers.aspx?c=qd69Vfw7&page=Job%20Description&j=ohjSVfw7).
+If you're passionate about providing a free world-class education for anyone, anywhere and want to apply to be a full-time or intern software developer at Khan Academy, [please do so](http://hire.jobvite.com/CompanyJobs/Careers.aspx?c=qd69Vfw7&page=Job%20Description&j=ohjSVfw7).
