@@ -2044,8 +2044,8 @@ window.Khan = (function() {
             });
         }).fail(function(xhr, status) {
             debugLog("loadExercise err " + xhr.status + " " + fileName);
-            Khan.error("Error loading exercise from file " + fileName +
-                    " " + xhr.status + " " + xhr.statusText);
+            Khan.autoSubmitIssue("loadExercise failed");
+            Khan.warnTimeout();
         });
 
         return promise;
