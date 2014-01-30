@@ -176,7 +176,7 @@ big parens
   display: inline-block;
   vertical-align: top;
   text-align: left;
-  margin-left: 0.1em;
+  margin-left: 0.05em;
 }
 .katex .msupsub .msup,
 .katex .msupsub .msub {
@@ -224,6 +224,9 @@ big parens
 .katex .mspace {
   display: inline-block;
 }
+.katex .mspace.negativethinspace {
+  margin-left: -0.16667em;
+}
 .katex .mspace.thinspace {
   width: 0.16667em;
 }
@@ -232,6 +235,9 @@ big parens
 }
 .katex .mspace.thickspace {
   width: 0.27778em;
+}
+.katex .mspace.enspace {
+  width: 0.5em;
 }
 .katex .mspace.quad {
   width: 1em;

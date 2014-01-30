@@ -392,15 +392,18 @@ var copyFuncs = {
     ],
     "open": [
         "open",
+        "\\langle",
         "\\lvert"
     ],
     "close": [
         "close",
+        "\\rangle",
         "\\rvert"
     ],
     "rel": [
         "rel",
         "\\approx",
+        "\\cong",
         "\\ge",
         "\\geq",
         "\\gets",
@@ -418,10 +421,12 @@ var copyFuncs = {
         "\\nleq"
     ],
     "spacing": [
+        "\\!",
         "\\ ",
         "\\,",
         "\\:",
         "\\;",
+        "\\enspace",
         "\\qquad",
         "\\quad",
         "\\space"
@@ -490,12 +495,12 @@ Parser.prototype.parseNucleus = function(pos) {
                 "Expected group after '" + nucleus.text + "'");
         }
     } else if (utils.contains(sizeFuncs, nucleus.type)) {
-        // If this is a color function, parse its argument and return
+        // If this is a size function, parse its argument and return
         var group = this.parseGroup(nucleus.position);
         if (group) {
             return new ParseResult(
                 new ParseNode("sizing", {
-                    size: "size" + (_.indexOf(sizeFuncs, nucleus.type) + 1),
+                    size: "size" + (utils.indexOf(sizeFuncs, nucleus.type) + 1),
                     value: group.result
                 }),
                 group.position);
@@ -921,9 +926,11 @@ var groupTypes = {
             var spacingClassMap = {
                 "\\qquad": "qquad",
                 "\\quad": "quad",
+                "\\enspace": "enspace",
                 "\\;": "thickspace",
                 "\\:": "mediumspace",
-                "\\,": "thinspace"
+                "\\,": "thinspace",
+                "\\!": "negativethinspace"
             };
 
             return makeSpan(["mord", "mspace", spacingClassMap[group.value]]);
@@ -1059,12 +1066,14 @@ var charLookup = {
     "\\cdot": "\u22c5",
     "\\circ": "\u2218",
     "\\colon": ":",
+    "\\cong": "\u2245",
     "\\div": "\u00f7",
     "\\ge": "\u2265",
     "\\geq": "\u2265",
     "\\gets": "\u2190",
     "\\in": "\u2208",
     "\\infty": "\u221e",
+    "\\langle": "\u27e8",
     "\\leftarrow": "\u2190",
     "\\le": "\u2264",
     "\\leq": "\u2264",
@@ -1075,6 +1084,7 @@ var charLookup = {
     "\\nleq": "\u2270",
     "\\pm": "\u00b1",
     "\\prime": "\u2032",
+    "\\rangle": "\u27e9",
     "\\rightarrow": "\u2192",
     "\\rvert": "|",
     "\\space": "\u00a0",
@@ -1365,20 +1375,26 @@ var parseTree = function(toParse) {
 module.exports = parseTree;
 
 },{"./Parser":4}],11:[function(require,module,exports){
-function fastContains(list, elem) {
-    return list.indexOf(elem) !== -1;
-}
-
-function slowContains(list, elem) {
-    for (var i = 0; i < list.length; i++) {
+var nativeIndexOf = Array.prototype.indexOf;
+var indexOf = function(list, elem) {
+    if (list == null) {
+        return -1;
+    }
+    if (nativeIndexOf && list.indexOf === nativeIndexOf) {
+        return list.indexOf(elem);
+    }
+    var i = 0, l = list.length;
+    for (; i < l; i++) {
         if (list[i] === elem) {
-            return true;
+            return i;
         }
     }
-    return false;
-}
+    return -1;
+};
 
-var contains = Array.prototype.indexOf ? fastContains : slowContains;
+var contains = function(list, elem) {
+    return indexOf(list, elem) !== -1;
+};
 
 var setTextContent;
 
@@ -1399,6 +1415,7 @@ function clearNode(node) {
 
 module.exports = {
     contains: contains,
+    indexOf: indexOf,
     setTextContent: setTextContent,
     clearNode: clearNode
 };
