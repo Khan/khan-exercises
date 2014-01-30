@@ -1149,8 +1149,7 @@ window.Khan = (function() {
         // and then `problem = problems.eq(type)` returns an empty object (thus length === 0).
         // This should _never_ happen, and hopefully these autoSubmitIssues will help debug.
         if (!problem.length && problems.length) {
-            Khan.autoSubmitIssue("type was for the incorrect problem; failed gracefully" +
-                "\n\n problems: " + JSON.stringify(problems));
+            Khan.autoSubmitIssue("type was for the incorrect problem; failed gracefully");
             problem = problems.eq(Math.floor(Math.random() * problems.length));
         }
 
@@ -1984,7 +1983,7 @@ window.Khan = (function() {
 
             var newContents = $(data).filter(".exercise");
 
-            // ...then save the exercise ID, fileName and weights for later
+            // ...then save the exercise ID and fileName for later
             newContents.data({
                 name: exerciseId,
                 fileName: fileName
