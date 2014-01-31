@@ -1961,12 +1961,6 @@ window.Khan = (function() {
             promise = exerciseFilePromises[exerciseId] = $.Deferred();
         }
 
-        // TODO(eater): remove this once all of the exercises in the datastore
-        // have filename properties
-        if (fileName == null || fileName === "") {
-            fileName = exerciseId + ".html";
-        }
-
         // Promises for remote exercises contained within this one
         var subpromises = [];
 
