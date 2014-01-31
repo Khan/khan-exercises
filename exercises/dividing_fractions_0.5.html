@@ -37,14 +37,14 @@
             <div>
                 <p>Divide <code>\red{\dfrac{1}{<var>DENOMINATOR</var>}}</code> into <code>\blue{<var>INTEGER</var>}</code> pieces.</p>
                 <div class="graphie" data-update="fraction">
-                    rect(0, 0, DENOMINATOR_FRACTION, INTEGER_FRACTION, {fill: BLUE, stroke: KhanUtil.BACKGROUND});
+                    rect(0, 0, DENOMINATOR_FRACTION, INTEGER_FRACTION, {fill: BLUE, stroke: KhanUtil._BACKGROUND});
 
                     style({ color: BLUE }, function() {
                         label([0, 1 / (2 * INTEGER)], "\\frac{" + 1 + "}{" + INTEGER + "}", "left" );
                     });
 
                     for (var i=1; i &lt; INTEGER; i++) {
-                        line([0, i * INTEGER_FRACTION], [DENOMINATOR_FRACTION, i * INTEGER_FRACTION], {stroke: KhanUtil.BACKGROUND});
+                        line([0, i * INTEGER_FRACTION], [DENOMINATOR_FRACTION, i * INTEGER_FRACTION], {stroke: KhanUtil._BACKGROUND});
                     }
                 </div>
             </div>
@@ -53,15 +53,15 @@
                 <p>Each piece is <code>\green{\dfrac{1}{<var>DENOMINATOR * INTEGER</var>}}</code> of the whole.</p>
 
                 <div class="graphie" data-update="fraction">
-                    rect(0, 0, DENOMINATOR_FRACTION, 1, {fill: "#CCC", stroke: KhanUtil.BACKGROUND, opacity: 0.7});
-                    rect(0, 0, DENOMINATOR_FRACTION, INTEGER_FRACTION, {fill: GREEN, stroke: KhanUtil.BACKGROUND});
+                    rect(0, 0, DENOMINATOR_FRACTION, 1, {fill: "#CCC", stroke: KhanUtil._BACKGROUND, opacity: 0.7});
+                    rect(0, 0, DENOMINATOR_FRACTION, INTEGER_FRACTION, {fill: GREEN, stroke: KhanUtil._BACKGROUND});
 
                     style({ color: BLACK }, function() {
                         label([DENOMINATOR_FRACTION/2, 1 / (2 * INTEGER)], "\\frac{" + 1 + "}{" + (DENOMINATOR * INTEGER) + "}", "center" );
                     });
 
                     for (var i=1; i &lt; INTEGER; i++) {
-                        line([0, i * INTEGER_FRACTION], [1, i * INTEGER_FRACTION], {stroke: KhanUtil.BACKGROUND});
+                        line([0, i * INTEGER_FRACTION], [1, i * INTEGER_FRACTION], {stroke: KhanUtil._BACKGROUND});
                     }
                 </div>
             </div>

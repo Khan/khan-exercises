@@ -588,7 +588,10 @@ $.extend(KhanUtil, {
     RED: "#DF0030",
     GRAY: "gray",
     BLACK: "black",
-    BACKGROUND: "#FAFAFA"
+    // Don't actually use _BACKGROUND! Make things transparent instead. The
+    // background color used in exercises is subject to change at the whim
+    // of fickle designers.
+    _BACKGROUND: "#FDFDFD"  // TODO(eater): Get rid of this altogether.
 });
 
 })();
