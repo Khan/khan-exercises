@@ -30,13 +30,17 @@
                 KhanUtil.processMath(code, null, true);
             });
         });
-
-        return false;
+        
+        event.preventDefault();
     });
 
     $(document).on("mouseenter mouseleave", "a.show-definition", function(event) {
         $("#" + $(this).data("definition")).toggle(200);
         return false;
+    });
+
+    $(document).on("click", "a.show-definition", function(event) {
+        event.preventDefault();
     });
 
     $.extend(KhanUtil, {
