@@ -1681,24 +1681,50 @@ window.Khan = (function() {
         examples = $("#examples");
 
         assessmentMode = !localMode && Exercises.assessmentMode;
-
         function initializeCalculator() {
+            var ansChars = ["+", "-", "/", "*", "^", " "];
             var calculator = $(".calculator"),
                 history = calculator.children(".history"),
+                output = $("#calc-output-content"),
+                outputContainer = $("#calc-output"),
                 inputRow = history.children(".calc-row.input"),
                 input = inputRow.children("input"),
                 buttons = calculator.find("a"),
+                previousInstrs = [],
+                currentInstrIndex = -1,
                 lastInstr = "",
-                ans,
+                ans = 0,
+                prevAnswer,
+                containsAns = false,
                 separator = icu.getDecimalFormatSymbols().decimal_separator;
+
+            var formatInputHistory = function(text) {
+                return text.replace(/pi/g, "\u03c0") + " =";
+            };
+
+            var appendDiv = function(div) {
+                output.append(div);
+                output.scrollTop(output[0].scrollHeight);
+            };
+
+            var insertPrevAnswer = function() {
+                if (prevAnswer !== undefined) {
+                    outdiv = $("<div>").addClass("output").text(prevAnswer);
+                    prevAnswer = undefined;
+                    appendDiv(outdiv);
+                }
+            };
 
             var evaluate = function() {
                 var instr = input.val();
-                var row, indiv, output, outstr, outdiv;
+                var indiv, output, outstr, outdiv;
+                var isError = false;
+                var newInputVal = instr;
                 if ($.trim(instr) !== "") {
                     lastInstr = instr;
-                    row = $("<div>").addClass("calc-row");
-                    indiv = $("<div>").addClass("input").text(instr.replace(/pi/g, "\u03c0")).appendTo(row);
+                    previousInstrs.unshift(instr);
+                    indiv = $("<div>").addClass("input-history")
+                                      .text(formatInputHistory(instr));
                     try {
                         if (separator !== ".") {
                             // i18nize the input numbers' decimal point
@@ -1714,49 +1740,130 @@ window.Khan = (function() {
                         } else {
                             outstr = output;
                         }
+                        newInputVal = outstr;
                     } catch (e) {
                         if (e instanceof Calculator.CalculatorError) {
                             outstr = e.message;
+                            newInputVal = instr;
+                            isError = true;
+                            containsAns = false;
+                            input.css({
+                                backgroundColor: "#ffcccc"
+                            });
+                            return;
                         } else {
                             throw e;
                         }
                     }
-                    outdiv = $("<div>").addClass("output").text(outstr).appendTo(row);
-                    inputRow.before(row);
+                    insertPrevAnswer();
+                    appendDiv(indiv);
+                    prevAnswer = outstr;
+                    // errors should appear immediately
+                    if (isError) {
+                        insertPrevAnswer();
+                    }
                 }
 
-                input.val("");
-                history.scrollTop(history[0].scrollHeight);
+                containsAns = true;
+                currentInstrIndex = -1;
+                input.val(newInputVal);
+            };
+
+            var selected = function(text) {
+                return "<span class='selected-anglemode'>" + text + "</span>";
+            };
+
+            var unselected = function(text) {
+                return "<span class='unselected-anglemode'>" + text + "</span>";
             };
 
             var updateAngleMode = function() {
+                // I18N: "DEGrees" calculator button (3 chars or less)
+                var deg = $._("DEG");
+                // I18N: "RADians" calculator button (3 chars or less)
+                var rad = $._("RAD");
                 if (Calculator.settings.angleMode === "DEG") {
-                    // I18N: "DEGrees" calculator button (3 chars or less)
-                    $(".calculator-angle-mode").html("<br>" + $._("DEG"));
+                    $(".calculator-angle-mode").html(unselected(rad) +
+                                                     "<br>" +
+                                                     selected(deg));
                 } else {
-                    // I18N: "RADians" calculator button (3 chars or less)
-                    $(".calculator-angle-mode").text($._("RAD"));
+                    $(".calculator-angle-mode").html(selected(rad) +
+                                                     "<br>" +
+                                                     unselected(deg));
                 }
             };
 
-            // The enter handler needs to bind to keypress to prevent the
-            // surrounding form submit... (http://stackoverflow.com/a/587575)
-            input.on("keypress", function(e) {
-                if (e.which === 13 /* enter */) {
-                    evaluate();
+            // backspace etc isn't caught by keypress...
+            var BACKSPACE = 8;
+            var LEFT = 37;
+            var RIGHT = 39;
+            var UP = 38;
+            var DOWN = 40;
+            var keysToCancel = [LEFT, RIGHT];
+            input.on("keydown", function(e) {
+                if (_.contains(keysToCancel, e.keyCode)) {
+                    containsAns = false;
+                }
+                if (e.which === BACKSPACE) {
+                    if (containsAns) {
+                        input.val("");
+                        insertPrevAnswer();
+                        return false;
+                    }
+                }
+
+                if (e.which === UP) {
+                    insertPrevAnswer();
+                    currentInstrIndex += 1;
+                    if (currentInstrIndex >= previousInstrs.length) {
+                        currentInstrIndex = previousInstrs.length - 1;
+                    }
+                    input.val(previousInstrs[currentInstrIndex]);
+                    return false;
+                }
+                if (e.which === DOWN) {
+                    insertPrevAnswer();
+                    currentInstrIndex -= 1;
+                    if (currentInstrIndex < -1) {
+                        currentInstrIndex = -1;
+                    }
+                    input.val(previousInstrs[currentInstrIndex] || ans);
                     return false;
                 }
             });
 
-            // ...but the arrow-key handler needs to bind to keyup because
-            // keypress isn't triggered.
-            input.on("keyup", function(e) {
-                if (e.which === 38 /* up */) {
-                    if (lastInstr !== "") {
-                        input.val(lastInstr);
-                    }
+            var insertText = function(inputtedChar) {
+                var shouldOverwriteAns = !_.contains(ansChars, inputtedChar) &&
+                                        containsAns;
+
+                insertPrevAnswer();
+                containsAns = false;
+                if (shouldOverwriteAns) {
+                    input.val("");
+                }
+                input.css({
+                    backgroundColor: "white"
+                });
+            };
+
+            history.on("click", function(e) {
+                input.focus();
+            });
+
+            // The enter handler needs to bind to keypress to prevent the
+            // surrounding form submit... (http://stackoverflow.com/a/587575)
+            var ENTER = 13;
+            var EQUALS = 61;
+            input.on("keypress", function(e) {
+                if (e.which === ENTER || e.which === EQUALS) {
+                    evaluate();
                     return false;
                 }
+                insertText(String.fromCharCode(e.charCode));
+            });
+
+            input.on("click", function(e) {
+                containsAns = false;
             });
 
             buttons.on("click", function() {
@@ -1769,7 +1876,12 @@ window.Khan = (function() {
                         input.val(val.slice(0, val.length - 1));
                     } else if (behavior === "clear") {
                         input.val("");
-                        history.children().not(inputRow).remove();
+                        ans = undefined;
+                        prevAnswer = undefined;
+                        previousInstrs = [];
+                        currentInstrIndex = -1;
+                        containsAns = false;
+                        output.empty();
                     } else if (behavior === "angle-mode") {
                         Calculator.settings.angleMode =
                             Calculator.settings.angleMode === "DEG" ?
@@ -1783,6 +1895,7 @@ window.Khan = (function() {
                     }
                 } else {
                     var text = jel.data("text") || jel.text();
+                    insertText(text);
                     input.val(input.val() + text);
                 }
 

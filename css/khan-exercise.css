@@ -182,30 +182,66 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     margin: 0 auto;
 }
 
+.calculator-angle-mode .selected-anglemode {
+    color: #050505;
+}
+
+.calculator-angle-mode .unselected-anglemode {
+    color: #BBBBBB;
+}
+
 #answer_area .calculator .history {
     font: 14px/1.5 Menlo, Monaco, Courier, monospace;
     margin: 0 0 10px;
     width: 183px;
-    max-height: 150px;
+
+    background-color: white;
+    border-radius: 5px;
+}
+
+#answer_area .calculator .history #calc-output-content {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
+    max-height: 80px;
+}
+
+#answer_area .calculator .history #calc-output {
+    height: 80px;
+    text-align: left;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: relative;
 }
 
 #answer_area .calculator .history .output {
     text-align: right;
+    margin-right: 3px;
 }
 
 #answer_area .calculator .history input {
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
     display: block;
     font: inherit;
     margin: 5px 3px 3px;
     width: 98%;
-    padding-right: 25px;
+    padding-left: 25px;
+    padding-right: 8px;
+    text-align: right;
+    border: none;
+    outline-width: 0;
 }
 
 #answer_area .calculator .history .input {
     position: relative;
+}
+
+#answer_area .calculator .history .input-history {
+    position: relative;
+    margin-left: 3px;
 }
 
 #answer_area .calculator .history .status a {
@@ -215,8 +251,8 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     text-decoration: none;
     line-height: 9px;
     height: 19px;
-    top: 2px;
-    right: 6px;
+    top: 5px;
+    left: 6px;
 }
 
 #answer_area .calculator .keypad .calc-row {

@@ -1,4 +1,6 @@
 window.Calculator = (function(parser) {
+    // I18N: calculator error message
+    var ERROR_TEXT = $._("Error");
     var CalculatorError = function(message) {
         this.message = message;
     };
@@ -6,7 +8,7 @@ window.Calculator = (function(parser) {
     CalculatorError.prototype.constructor = CalculatorError;
 
     parser.yy.parseError = function parseError(str, hash) {
-        throw new CalculatorError("err");
+        throw new CalculatorError(ERROR_TEXT);
     };
 
     var settings = $.parseJSON(
@@ -99,7 +101,7 @@ window.Calculator = (function(parser) {
                         this, _.map(tree.slice(1), function(t) {
                             return self.evaluate(t, ans); }));
                 } else {
-                    throw new CalculatorError("err");
+                    throw new CalculatorError(ERROR_TEXT);
                 }
             } else {
                 throw new CalculatorError(
