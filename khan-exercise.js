@@ -1708,6 +1708,7 @@ window.Khan = (function() {
             };
 
             var insertPrevAnswer = function() {
+                var outdiv;
                 if (prevAnswer !== undefined) {
                     outdiv = $("<div>").addClass("output").text(prevAnswer);
                     prevAnswer = undefined;
@@ -1717,7 +1718,7 @@ window.Khan = (function() {
 
             var evaluate = function() {
                 var instr = input.val();
-                var indiv, output, outstr, outdiv;
+                var indiv, output, outstr;
                 var isError = false;
                 var newInputVal = instr;
                 if ($.trim(instr) !== "") {
