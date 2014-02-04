@@ -135,16 +135,16 @@
     });
 
     asyncTest("error", 9, function() {
-        checkError('(', /err/, 'opening bracket without closing bracket');
-        checkError(')', /err/, 'closing bracket without opening bracket');
-        checkError('()', /err/, 'empty brackets');
-        checkError('tan', /err/, 'possible function without opening bracket');
-        checkError('4-', /err/, 'no number after operation');
-        checkError('4 4', /err/, 'missing operation');
+        checkError('(', /Error/, 'opening bracket without closing bracket');
+        checkError(')', /Error/, 'closing bracket without opening bracket');
+        checkError('()', /Error/, 'empty brackets');
+        checkError('tan', /Error/, 'possible function without opening bracket');
+        checkError('4-', /Error/, 'no number after operation');
+        checkError('4 4', /Error/, 'missing operation');
 
-        checkError('2pi', /err/, 'needs operator before constant like pi');
-        checkError('3(2-1)', /err/, 'needs operator before opening bracket');
-        checkError('tanh(0)', /err/, 'unknown function');
+        checkError('2pi', /Error/, 'needs operator before constant like pi');
+        checkError('3(2-1)', /Error/, 'needs operator before opening bracket');
+        checkError('tanh(0)', /Error/, 'unknown function');
         start();
     });
 
