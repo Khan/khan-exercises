@@ -2152,7 +2152,6 @@ window.Khan = (function() {
             });
         }).fail(function(xhr, status) {
             debugLog("loadExercise err " + xhr.status + " " + fileName);
-            Khan.autoSubmitIssue("loadExercise failed");
             Khan.warnTimeout();
         });
 
