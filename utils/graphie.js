@@ -197,6 +197,8 @@
             }).join("");
         };
 
+        $.extend(KhanUtil, {svgPath: svgPath});
+
         var processAttributes = function(attrs) {
             var transformers = {
                 scale: function(scale) {
@@ -391,6 +393,7 @@
                         }))
                     .data("labelDirection", direction)
                     .appendTo(el);
+
                 $span.setPosition = function(point) {
                     var scaledPoint = scalePoint(point);
                     $span.css({
@@ -398,6 +401,7 @@
                         top: scaledPoint[1]
                     });
                 };
+
                 $span.setPosition(point);
 
                 var span = $span[0];

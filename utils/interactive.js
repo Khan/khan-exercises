@@ -683,7 +683,8 @@ $.extend(KhanUtil.Graphie.prototype, {
             labelStyle: {
                 color: KhanUtil.BLUE
             },
-            vertexLabel: ""
+            vertexLabel: "",
+            mouseTarget: null
         }, options);
 
         // deprecated: don't use coordX/coordY; use coord[]
@@ -859,8 +860,14 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         if (movablePoint.visible && !movablePoint.constraints.fixed) {
             // the invisible shape in front of the point that gets mouse events
-            movablePoint.mouseTarget = graph.mouselayer.circle(graph.scalePoint(movablePoint.coord)[0], graph.scalePoint(movablePoint.coord)[1], 15);
-            movablePoint.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+            if (!movablePoint.mouseTarget) {
+                movablePoint.mouseTarget = graph.mouselayer.circle(
+                    graph.scalePoint(movablePoint.coord)[0],
+                    graph.scalePoint(movablePoint.coord)[1],
+                    15
+                );
+                movablePoint.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+            }
 
             $(movablePoint.mouseTarget[0]).css("cursor", "move");
             $(movablePoint.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
@@ -2870,6 +2877,8 @@ $.extend(KhanUtil.Graphie.prototype, {
             var rotatePoint = options.center;
             var radius = options.radius;
             var lengthAngle = options.lengthAngle || 30;
+            var hideArrow = options.hideArrow || false;
+            var mouseTarget = options.mouseTarget;
             var id = _.uniqueId("rotateHandle");
 
             // Normalize rotatePoint into something that always looks
@@ -2892,7 +2901,8 @@ $.extend(KhanUtil.Graphie.prototype, {
                         dist: radius,
                         point: rotatePoint
                     }
-                }
+                },
+                mouseTarget: mouseTarget
             });
 
             // move the rotatePoint in front of the rotateHandle to avoid
@@ -2910,13 +2920,19 @@ $.extend(KhanUtil.Graphie.prototype, {
             var drawnRotateHandle;
 
             var redrawRotateHandle = function(handleCoord) {
-                if (drawnRotateHandle) {
-                    drawnRotateHandle.remove();
+                if (hideArrow) {
+                    return; // Don't draw anything!
                 }
+
                 var handleVec = KhanUtil.kvector.subtract(handleCoord,
                         rotatePoint.coord);
                 var handlePolar = KhanUtil.kvector.polarDegFromCart(handleVec);
                 var angle = handlePolar[1];
+
+                if (drawnRotateHandle) {
+                    drawnRotateHandle.remove();
+                }
+
                 drawnRotateHandle = drawRotateHandle(
                     graph,
                     rotatePoint.coord,
@@ -3014,12 +3030,15 @@ $.extend(KhanUtil.Graphie.prototype, {
                 }
             };
 
-            // Remove the default dot added by the movablePoint since we have our
-            // double-arrow thing
+            // Remove the default dot added by the movablePoint since we have
+            // our double-arrow thing
             rotateHandle.visibleShape.remove();
-            // Make the mouse target bigger to encompass the whole area around the
-            // double-arrow thing
-            rotateHandle.mouseTarget.attr({scale: 2});
+            
+            if (!mouseTarget) {
+                // Make the default mouse target bigger to encompass the whole
+                // area around the double-arrow thing
+                rotateHandle.mouseTarget.attr({scale: 2});
+            }
 
             // Make the arrow-thing grow and shrink with mouseover/out
             $(rotateHandle.mouseTarget[0]).bind("vmouseover", function(e) {
@@ -3036,7 +3055,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             var oldRemove = rotateHandle.remove;
             rotateHandle.remove = function() {
                 oldRemove.call(rotateHandle);
-                drawnRotateHandle.remove();
+                if (drawnRotateHandle) {
+                    drawnRotateHandle.remove();
+                }
                 $(rotatePoint).off("move." + id);
             };
 
@@ -3290,6 +3311,10 @@ $.extend(KhanUtil.Graphie.prototype, {
         return new Protractor(this, center);
     },
 
+    ruler: function(options) {
+        return new Ruler(this, options || {});
+    },
+
     addPoints: addPoints
 });
 
@@ -3475,6 +3500,175 @@ function Protractor(graph, center) {
     };
 
     this.makeTranslatable();
+    return this;
+}
+
+function Ruler(graphie, options) {
+    _.defaults(options, {
+        center: [0, 0],
+        pixelsPerUnit: 40,
+        ticksPerUnit: 10,   // 10 or power of 2
+        units: 10,          // the length the ruler can measure
+        style: {
+            fill: null,
+            stroke: KhanUtil.GRAY
+        }
+    });
+
+    var light = _.extend({}, options.style, {strokeWidth: 1});
+    var bold  = _.extend({}, options.style, {strokeWidth: 2});
+
+    // Ruler dimensions in pixels
+    var width = options.units * options.pixelsPerUnit;
+    var height = 50;        // arbitrary, but looks good
+
+    // Bottom left corner of the ruler in graphie units
+    var leftBottom = graphie.unscalePoint(
+        kvector.subtract(
+            graphie.scalePoint(options.center),
+            kvector.scale([width, -height], 0.5)
+        )
+    );
+
+    var graphieUnitsPerUnit = options.pixelsPerUnit / graphie.scale[0];
+    var graphieUnitsHeight = height / graphie.scale[0];
+
+    // Top right corner of the ruler in graphie units
+    var rightTop = kvector.add(
+        leftBottom,
+        [options.units * graphieUnitsPerUnit, graphieUnitsHeight]
+    );
+
+    var tickHeight = 1.0;   // percent of ruler height
+    var tickHeightMap;      // mapping of tick frequency to tick height
+                            // {n: h} means every n-th tick will have height h
+
+    if (options.ticksPerUnit === 10) {
+        // decimal, as on a centimeter ruler
+        tickHeightMap = {
+            10: tickHeight,
+            5:  tickHeight * 0.55,
+            1:  tickHeight * 0.35
+        };
+    } else {
+        // powers of 2, as on an inch ruler
+        var sizes = [1, 0.6, 0.45, 0.3];
+
+        tickHeightMap = {};
+        for (var i = options.ticksPerUnit; i >= 1; i /= 2) {
+            tickHeightMap[i] = tickHeight * (sizes.shift() || 0.2);
+        }
+    }
+
+    var tickFrequencies = _.keys(tickHeightMap).sort(function(a, b) {
+        return b - a; 
+    });
+
+    function getTickHeight(i) {
+        for (var k = 0; k < tickFrequencies.length; k++) {
+            var key = tickFrequencies[k];
+            if (i % key === 0) {
+                return tickHeightMap[key];
+            }
+        }
+    }
+
+    // Draw the ruler
+    var left = leftBottom[0];
+    var bottom = leftBottom[1];
+    var right = rightTop[0];
+    var top = rightTop[1];
+
+    var numTicks = options.units * options.ticksPerUnit + 1;
+
+    var set = graphie.raphael.set();
+
+    var px = 1 / graphie.scale[0]; // one pixel
+    set.push(graphie.line([left - px, bottom], [right + px, bottom], bold));
+    set.push(graphie.line([left - px, top], [right + px, top], bold));
+
+    _.times(numTicks, function(i) {
+        var n = i / options.ticksPerUnit;
+        var x = left + n * graphieUnitsPerUnit;
+        var height = getTickHeight(i) * graphieUnitsHeight;
+
+        var style = (i === 0 || i === numTicks - 1) ? bold : light;
+        set.push(graphie.line([x, bottom], [x, bottom + height], style));
+
+        if (n && n % 1 === 0) {
+            // Graphie labels are difficult to rotate in IE8,
+            // so use raphael.text() instead
+            var coord = graphie.scalePoint([x, top]);
+            var offset = [-4 + n.toString().length * -3, 10];
+            var label = graphie.raphael.text(
+                coord[0] + offset[0],
+                coord[1] + offset[1],
+                n
+            );
+            label.attr({
+                "font-family": "katex_main",
+                "font-size": "12px",
+                "color": "#444"
+            });
+            set.push(label);
+        }
+    });
+
+    // Add a movable point for translating and being the center of rotation
+    var movablePoint = graphie.addMovablePoint({
+        coord: leftBottom,
+        normalStyle: {
+            fill: KhanUtil.ORANGE,
+            "fill-opacity": 0,
+            stroke: KhanUtil.ORANGE
+        },
+        highlightStyle: {
+            fill: KhanUtil.ORANGE,
+            "fill-opacity": 0.1,
+            stroke: KhanUtil.ORANGE
+        },
+        pointSize: 6, // or 8 maybe?
+        onMove: function(x, y) {
+            var moveVector = graphie.scaleVector(
+                kvector.subtract([x, y], movablePoint.coord)
+            );
+            set.translate(moveVector[0], -moveVector[1]);
+        }
+    });
+
+    // Add a mouse target
+    var mouseTarget = graphie.mouselayer.path(KhanUtil.svgPath([
+        leftBottom, [left, top], rightTop, [right, bottom], /* closed */ true
+    ]));
+    mouseTarget.attr({
+        fill: "#000",
+        opacity: 0,
+        stroke: "#000",
+        "stroke-width": 2
+    });
+    set.push(mouseTarget);
+
+    // Add a rotate handle
+    var rotateHandleAngleDeg = 6;   // sin(6) * width <= height of 50 (pixels)
+                                    // for width in [0, 480] (pixels)
+    var rotateHandle = graphie.addRotateHandle({
+        center: movablePoint,
+        mouseTarget: mouseTarget,
+        hideArrow: true,
+        radius: options.units * graphieUnitsPerUnit,
+        angleDeg: rotateHandleAngleDeg,
+        onMove: function(newAngle, oldAngle) {
+            var center = graphie.scalePoint(movablePoint.coord);
+            set.rotate(rotateHandleAngleDeg - newAngle, center[0], center[1]);
+        }
+    });
+
+    this.remove = function() {
+        set.remove();
+        movablePoint.remove();
+        rotateHandle.remove();
+    };
+
     return this;
 }
 
