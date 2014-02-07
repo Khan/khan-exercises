@@ -815,7 +815,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 validator: Khan.answerTypes.radical.createValidatorFunctional(
                         solutionText, solutionData),
                 answer: function() {
-                    return [inte.val(), rad.val()];
+                    return [$.trim(inte.val()), $.trim(rad.val())];
                 },
                 solution: ans,
                 examples: (options.simplify === "required") ?
