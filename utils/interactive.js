@@ -3544,6 +3544,7 @@ function Ruler(graphie, options) {
         pixelsPerUnit: 40,
         ticksPerUnit: 10,   // 10 or power of 2
         units: 10,          // the length the ruler can measure
+        label: "",          // e.g "cm" (the shorter, the better)
         style: {
             fill: null,
             stroke: KhanUtil.GRAY
@@ -3630,15 +3631,35 @@ function Ruler(graphie, options) {
         var style = (i === 0 || i === numTicks - 1) ? bold : light;
         set.push(graphie.line([x, bottom], [x, bottom + height], style));
 
-        if (n && n % 1 === 0) {
+        if (n % 1 === 0) {
             // Graphie labels are difficult to rotate in IE8,
             // so use raphael.text() instead
             var coord = graphie.scalePoint([x, top]);
-            var offset = [-4 + n.toString().length * -3, 10];
+            var text;
+            var offset;
+
+            if (n === 0) {
+                // Unit label
+                text = options.text;
+                offset = {
+                    mm: 13,
+                    cm: 11,
+                    m: 8,
+                    km: 11,
+                    in: 8,
+                    ft: 8,
+                    yd: 10,
+                    mi: 10
+                }[text] || (3 * text.toString().length);
+            } else {
+                // Tick label
+                text = n;
+                offset = -3 * (n.toString().length + 1);
+            }
             var label = graphie.raphael.text(
-                coord[0] + offset[0],
-                coord[1] + offset[1],
-                n
+                coord[0] + offset,
+                coord[1] + 10,
+                text
             );
             label.attr({
                 "font-family": "katex_main",
