@@ -3640,7 +3640,7 @@ function Ruler(graphie, options) {
 
             if (n === 0) {
                 // Unit label
-                text = options.text;
+                text = options.label;
                 offset = {
                     mm: 13,
                     cm: 11,
