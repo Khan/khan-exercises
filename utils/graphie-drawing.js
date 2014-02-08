@@ -156,6 +156,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         // Shorthand defaults for all per angle/side/vertex properties
         var defaults = {
             angleLabels: "",
+            showRightAngleMarkers: true,
             sideLabels: "",
             vertexLabels: "",
             arcs: 0,
@@ -167,7 +168,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         _.defaults(options, defaults, {
             points: [[3, -2], [0, 4], [-3, -2]]
         });
-        
+
         expandKeys(options, _.keys(defaults), options.points.length);
 
         var styles = getStyles(_.omit(options, "arrows"));
@@ -270,6 +271,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         _.defaults(options, {
             points: [],
             label: "",
+            showRightAngleMarker: true,
             distance: 0,
             arcs: 1
         });
@@ -282,6 +284,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             point3: options.points[2],
             clockwise: true,
             text: options.label,
+            showRightAngleMarker: options.showRightAngleMarker,
             numArcs: options.arcs,
             pushOut: options.distance,
             style: styles.labelStyle

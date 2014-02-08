@@ -35,6 +35,11 @@
 
     $.extend(KhanUtil, {
         unscaledSvgPath: function(points) {
+            // If this is an empty closed path, return "" instead of "z", which
+            // would give an error
+            if (points[0] === true) {
+                return "";
+            }
             return $.map(points, function(point, i) {
                 if (point === true) {
                     return "z";

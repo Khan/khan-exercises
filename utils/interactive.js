@@ -239,9 +239,18 @@ $.extend(KhanUtil.Graphie.prototype, {
                 fill: "#000",
                 opacity: 0
             });
-            $(graph.mouselayer.canvas).on("vmouseup", function(e) {
+            var isClickingCanvas = false;
+            $(graph.mouselayer.canvas).on("vmousedown", function(e) {
                 if (e.target === canvasClickTarget[0]) {
+                    isClickingCanvas = true;
+                }
+            });
+            $(graph.mouselayer.canvas).on("vmouseup", function(e) {
+                // Only register clicks that started on the canvas, and not
+                // on another mouseLayer target
+                if (e.target === canvasClickTarget[0] && isClickingCanvas) {
                     options.onClick(graph.getMouseCoord(e));
+                    isClickingCanvas = false;
                 }
             });
         }
@@ -306,12 +315,15 @@ $.extend(KhanUtil.Graphie.prototype, {
             vertex: [0, 0],
             point3: [0, 0],
             label: null,
-            text: "",
             numArcs: 1,
+            showRightAngleMarker: true,
             pushOut: 0,
             clockwise: false,
             style: {}
         });
+
+        // Allow null text to hide the 90 degree angle marker
+        var text = (options.text === undefined) ? "" : options.text;
 
         var vertex = options.vertex;
         var sVertex = graphie.scalePoint(vertex);
@@ -340,7 +352,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         var temp = [];
 
-        if (Math.abs(angle - 90) < 1e-9) {
+        if (Math.abs(angle - 90) < 1e-9 && options.showRightAngleMarker) {
             // Draw right angle box
             var v1 = addPoints(sVertex, scaledPolarDeg(sRadius, startAngle));
             var v2 = addPoints(sVertex, scaledPolarDeg(sRadius, endAngle));
@@ -365,7 +377,6 @@ $.extend(KhanUtil.Graphie.prototype, {
             });
         }
 
-        var text = options.text;
         if (text) {
             // Update label text
 
@@ -1656,7 +1667,6 @@ $.extend(KhanUtil.Graphie.prototype, {
         var graphie = this;
 
         var polygon = $.extend({
-            points: [],
             snapX: 0,
             snapY: 0,
             fixed: false,
@@ -1683,12 +1693,19 @@ $.extend(KhanUtil.Graphie.prototype, {
                 "color": KhanUtil.BLUE
             },
             angleLabels: [],
+            showRightAngleMarkers: [],
             sideLabels: [],
             vertexLabels: [],
             numArcs: [],
             numArrows: [],
-            numTicks: []
-        }, options);
+            numTicks: [],
+            updateOnPointMove: true,
+            closed: true
+        }, _.omit(options, "points"));
+
+        // don't deep copy the points array with $.extend;
+        // we may want to append to it later for click-to-add-points
+        polygon.points = options.points;
 
         var isPoint = function(coordOrPoint) {
             return !_.isArray(coordOrPoint);
@@ -1698,11 +1715,11 @@ $.extend(KhanUtil.Graphie.prototype, {
             var n = polygon.points.length;
 
             // Update coords
-            _.each(polygon.points, function(coordOrPoint, i) {
+            polygon.coords = _.map(polygon.points, function(coordOrPoint, i) {
                 if (isPoint(coordOrPoint)) {
-                    polygon.coords[i] = coordOrPoint.coord;
+                    return coordOrPoint.coord;
                 } else {
-                    polygon.coords[i] = coordOrPoint;
+                    return coordOrPoint;
                 }
             });
 
@@ -1718,7 +1735,18 @@ $.extend(KhanUtil.Graphie.prototype, {
             });
 
             // Create path
-            polygon.path = KhanUtil.unscaledSvgPath(scaledCoords.concat(true));
+            if (polygon.closed) {
+                scaledCoords.push(true);
+            } else {
+                // For open polygons, concatenate a reverse of the path,
+                // to remove the inside area of the path, which would
+                // otherwise be clickable (even if the closing line segment
+                // wasn't drawn
+                scaledCoords = scaledCoords.concat(
+                    _.clone(scaledCoords).reverse()
+                );
+            }
+            polygon.path = KhanUtil.unscaledSvgPath(scaledCoords);
 
             // Temporary objects
             _.invoke(polygon.temp, "remove");
@@ -1728,7 +1756,8 @@ $.extend(KhanUtil.Graphie.prototype, {
             var isClockwise = clockwise(polygon.coords);
 
             // Update angle labels
-            if (polygon.angleLabels.length) {
+            if (polygon.angleLabels.length ||
+                    polygon.showRightAngleMarkers.length) {
                 _.each(polygon.labeledAngles, function(label, i) {
                     polygon.temp.push(graphie.labelAngle({
                         point1: polygon.coords[(i - 1 + n) % n],
@@ -1736,6 +1765,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                         point3: polygon.coords[(i + 1) % n],
                         label: label,
                         text: polygon.angleLabels[i],
+                        showRightAngleMarker: polygon.showRightAngleMarkers[i],
                         numArcs: polygon.numArcs[i],
                         clockwise: isClockwise,
                         style: polygon.labelStyle
@@ -1829,14 +1859,19 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         // Setup
 
-        _.each(_.filter(polygon.points, isPoint), function(coordOrPoint) {
-            coordOrPoint.polygonVertices.push(polygon);
-        });
+        if (polygon.updateOnPointMove) {
+            _.each(_.filter(polygon.points, isPoint), function(coordOrPoint) {
+                coordOrPoint.polygonVertices.push(polygon);
+            });
+        }
 
         polygon.coords = new Array(polygon.points.length);
 
         if (polygon.angleLabels.length) {
-            polygon.labeledAngles = _.map(polygon.angleLabels, function(label) {
+            polygon.labeledAngles = _.times(Math.max(
+                        polygon.angleLabels.length,
+                        polygon.showRightAngleMarkers.length
+                    ), function() {
                 return this.label([0, 0], "", "center", polygon.labelStyle);
             }, this);
         }
@@ -3033,7 +3068,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             // Remove the default dot added by the movablePoint since we have
             // our double-arrow thing
             rotateHandle.visibleShape.remove();
-            
+
             if (!mouseTarget) {
                 // Make the default mouse target bigger to encompass the whole
                 // area around the double-arrow thing
