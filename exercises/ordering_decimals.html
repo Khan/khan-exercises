@@ -25,7 +25,7 @@
                 while (array.length &lt; 5) {
                     var n = digitsToInteger(shuffle(digits));
                     var p = randRange(2, 4);
-                    var ns = localeToFixed(n / 10000, p);
+                    var ns = roundTo(p, n / 10000);
                     var d = round(ns * 10000, 4);
 
                     if (d !== 0 &amp;&amp; !used[d]) {
@@ -51,16 +51,16 @@
             <var id="P">pow(10, MAX_P)</var>
             <var id="NUMS_TEX">$.map(NUMS, function(el) {
                 return el[1];
-            }).join( "," )</var>
+            }).join( ",\\ " )</var>
             <var id="NUMS_SORT">$.extend(true, [], NUMS).sort(function(a, b) {
                 return a[3] - b[3];
             })</var>
             <var id="NUMS_SORT_TEX">$.map(NUMS_SORT, function(el) {
                 return round(el[0] * P, 4);
-            }).join( "," )</var>
+            }).join( ",\\ " )</var>
             <var id="DECIMAL_SORT_TEX">$.map(NUMS_SORT, function(el) {
-                return el[0];
-            }).join( "," )</var>
+                return commafy(el[0]);
+            }).join( ",\\ " )</var>
 
             <var id="SORTER">createSorter()</var>
         </div>
@@ -72,8 +72,8 @@
                     <p>Order the following numbers from least to greatest:</p>
                     <ul id="sortable">
                         <li data-each="NUMS as NUM">
-                            <span class="sort-key"><var>NUM[0]</var></span>
-                            <code><var>NUM[0]</var></code>
+                            <span class="sort-key"><var>commafy(NUM[0])</var></span>
+                            <code><var>commafy(NUM[0])</var></code>
                         </li>
                     </ul>
                     <p><var>SORTER.init("sortable")</var></p>
@@ -86,7 +86,7 @@
                     </div>
                     <div class="guess">SORTER.getContent()</div>
                     <div class="validator-function">
-                        return guess.join( "," ) === DECIMAL_SORT_TEX;
+                        return guess.join( ",\\ " ) === DECIMAL_SORT_TEX;
                     </div>
                     <div class="show-guess">
                         SORTER.setContent( guess );
@@ -96,14 +96,14 @@
                 <div class="hints">
                     <p><code>\qquad \begin{align*}
                         <span data-each="NUMS as NUM">
-                            <var>NUM[0]</var> &amp;= <var>NUM[1]</var> \text{ <var>plural_form(decimalPlaceNames[NUM[2]], NUM[1])</var>} \\</span>
+                            <var>commafy(NUM[0])</var> &amp;= <var>NUM[1]</var> \text{ <var>plural_form(decimalPlaceNames[NUM[2]], NUM[1])</var>} \\</span>
                     \end{align*}</code></p>
 
                     <p>Get each number in <var>plural_form(decimalPlaceNames[MAX_P], 2)</var>.</p>
 
                     <p><code>\qquad \begin{align*}
                         <span data-each="NUMS as NUM">
-                            <var>NUM[0]</var> &amp;= <var>round(NUM[0] * P, 4)</var>\text{ <var>plural_form(decimalPlaceNames[MAX_P], 2)</var>} \\</span>
+                            <var>commafy(NUM[0])</var> &amp;= <var>round(NUM[0] * P, 4)</var>\text{ <var>plural_form(decimalPlaceNames[MAX_P], 2)</var>} \\</span>
                     \end{align*}</code></p>
 
                     <p>Order the numbers: <code>\Large{<var>NUMS_SORT_TEX</var>}</code>.</p>
