@@ -46,6 +46,22 @@ var kline = KhanUtil.kline = {
         // line2 is the same as the direction of the lines
         var line1ToLine2Vector = kvector.subtract(line2[0], line1[0]);
         return kvector.collinear(v1, line1ToLine2Vector, tolerance);
+    },
+
+    intersect: function(px, py, rx, ry, qx, qy, sx, sy) {
+        // Returns true is the line from (px, py) to (rx, ry) intersections the line (qx, qy) to (sx, sy)
+        // http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect/565282#565282
+        function cross(vx, vy, wx, wy) {
+            return vx * wy - vy * wx;
+        }
+
+        if (cross(rx, ry, sx, sy) === 0) {
+            return cross(qx - px, qy - py, rx, ry) === 0;
+        } else {
+            var t = cross(qx - px, qy - py, sx, sy) / cross(rx, ry, sx, sy);
+            var u = cross(qx - px, qy - py, rx, ry) / cross(rx, ry, sx, sy);
+            return 0 <= t && t <= 1 && 0 <= u && u <= 1;
+        }
     }
 };
 
