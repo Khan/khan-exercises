@@ -216,7 +216,8 @@
 
                     // Update the canvas size
                     raphael.setSize((xRange[1] - xRange[0]) * xScale, (yRange[1] - yRange[0]) * yScale);
-                    Khan.autoSubmitIssue("graphie.style:scale", "[" + scale[0] + ", " + scale[1] + "]");
+                    var errorString = "[" + scale[0] + ", " + scale[1] + "]\n\n" + (new Error()).stack;
+                    Khan.autoSubmitIssue("graphie.style:scale", errorString);
                 },
 
                 clipRect: function(pair) {
