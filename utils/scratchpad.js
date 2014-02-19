@@ -206,9 +206,10 @@ window.DrawingScratchpad = function(elem) {
             if (!actuallyErased) {
                 undoHistory.pop();
             }
-            eraser.animate({"fill-opacity": 0}, 100, function() {
-                eraser.remove();
-                eraser = null;
+            var e = eraser;
+            eraser = null;
+            e.animate({opacity: 0}, 100, function() {
+                e.remove();
             });
         }
 
