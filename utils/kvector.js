@@ -20,6 +20,13 @@ function arrayProduct(array) {
 
 var kvector = KhanUtil.kvector = {
 
+    is: function(vec, length) {
+        if (length !== undefined && vec.length !== length) {
+            return false;
+        }
+        return _.all(vec, knumber.is);
+    },
+
     // Normalize to a unit vector
     normalize: function(v) {
         return kvector.scale(v, 1 / kvector.length(v));
@@ -173,6 +180,32 @@ var kvector = KhanUtil.kvector = {
     projection: function(v1, v2) {
         var scalar = kvector.dot(v1, v2) / kvector.dot(v2, v2);
         return kvector.scale(v2, scalar);
+    },
+
+    // Round each number to a certain number of decimal places
+    round: function(vec, precision) {
+        return _.map(vec, function(elem, i) {
+            return knumber.round(elem, precision[i] || precision);
+        });
+    },
+
+    // Round each number to the nearest increment
+    roundTo: function(vec, increment) {
+        return _.map(vec, function(elem, i) {
+            return knumber.roundTo(elem, increment[i] || increment);
+        });
+    },
+
+    floorTo: function(vec, increment) {
+        return _.map(vec, function(elem, i) {
+            return knumber.floorTo(elem, increment[i] || increment);
+        });
+    },
+
+    ceilTo: function(vec, increment) {
+        return _.map(vec, function(elem, i) {
+            return knumber.ceilTo(elem, increment[i] || increment);
+        });
     }
 };
 

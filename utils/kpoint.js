@@ -93,6 +93,9 @@ var kpoint = KhanUtil.kpoint = {
 // in case kvector hasn't loaded when this file is executed
 function addKpointExtensions() {
     _.extend(kpoint, {
+        // Check if a value is a point
+        is: kvector.is,
+
         // Add and subtract vector(s)
         addVector: kvector.add,
         addVectors: kvector.add,
@@ -103,7 +106,13 @@ function addKpointExtensions() {
         polarRadFromCart: kvector.polarRadFromCart,
         polarDegFromCart: kvector.polarDegFromCart,
         cartFromPolarRad: kvector.cartFromPolarRad,
-        cartFromPolarDeg: kvector.cartFromPolarDeg
+        cartFromPolarDeg: kvector.cartFromPolarDeg,
+
+        // Rounding
+        round: kvector.round,
+        roundTo: kvector.roundTo,
+        floorTo: kvector.floorTo,
+        ceilTo: kvector.ceilTo
     });
 }
 
