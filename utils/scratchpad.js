@@ -17,6 +17,10 @@ window.DrawingScratchpad = function(elem) {
         };
     })();
 
+    if (!elem) {
+        throw new Error("No element provided to DrawingScratchpad");
+    }
+
     var container = $(elem);
 
     var pad = Raphael(container[0], container.width(), container.height());

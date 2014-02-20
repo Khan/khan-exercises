@@ -521,6 +521,14 @@ window.Khan = (function() {
                     }
 
                     var makeVisible = function() {
+                        if (!$("#scratchpad").length) {
+                            // Scratchpad's gone! The exercise template
+                            // probably isn't on screen right now, so let's
+                            // just not try and initialize stuff otherwise
+                            // Raphael will attach an <svg> to the body.
+                            return;
+                        }
+
                         $("#scratchpad").show();
                         $("#scratchpad-show").text($._("Hide scratchpad"));
 
