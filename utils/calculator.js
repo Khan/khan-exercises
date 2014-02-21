@@ -637,7 +637,7 @@ return new Parser;
         throw new CalculatorError(ERROR_TEXT);
     };
 
-    var settings = $.parseJSON(
+    var settings = window.localStorage == null ? {} : $.parseJSON(
             window.localStorage["calculator_settings:" + window.USERNAME] || "{}");
     if (settings.angleMode == null) {
         settings.angleMode = "DEG";

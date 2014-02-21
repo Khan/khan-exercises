@@ -1019,7 +1019,7 @@ window.Khan = (function() {
 
             // Make scratchpad persistent per-user
             if (user) {
-                var lastScratchpad = window.localStorage["scratchpad:" + user];
+                var lastScratchpad = LocalStore.get("scratchpad:" + user);
                 if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
                     Khan.scratchpad.show();
                 }
@@ -1895,9 +1895,11 @@ window.Khan = (function() {
                         Calculator.settings.angleMode =
                             Calculator.settings.angleMode === "DEG" ?
                             "RAD" : "DEG";
-                        window.localStorage["calculator_settings:" +
-                            window.USERNAME] = JSON.stringify(
-                            Calculator.settings);
+                        if (typeof window.localStorage !== "undefined") {
+                            window.localStorage["calculator_settings:" +
+                                window.USERNAME] = JSON.stringify(
+                                Calculator.settings);
+                        }
                         updateAngleMode();
                     } else if (behavior === "evaluate") {
                         evaluate();

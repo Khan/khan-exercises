@@ -113,8 +113,8 @@ function problemTemplateRendered() {
         Khan.scratchpad.toggle();
 
         if (!localMode && userExercise.user) {
-            window.localStorage["scratchpad:" + userExercise.user] =
-                    Khan.scratchpad.isVisible();
+            LocalStore.set("scratchpad:" + userExercise.user,
+                    Khan.scratchpad.isVisible());
         }
     });
 
