@@ -21,6 +21,9 @@ function arrayProduct(array) {
 var kvector = KhanUtil.kvector = {
 
     is: function(vec, length) {
+        if (!_.isArray(vec)) {
+            return false;
+        }
         if (length !== undefined && vec.length !== length) {
             return false;
         }
