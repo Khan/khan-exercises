@@ -1,0 +1,119 @@
+<!DOCTYPE html> 
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>State Capitals</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" >
+
+
+
+        <var id="IMG">"img class=flashcard src="</var>
+            <!-- use the form [IMAGE_PATHNAME, ANSWER] -->
+
+        <var id="TEST">["test/state/AL.jpg", "Montgomery","Alabama",["Birmingham","Huntsville","Tuscaloosa","Mobile",],]</var>
+
+        <var id="SOL">shuffle([TEST[1],TEST[3][0],TEST[3][1],TEST[3][2],TEST[3][3],],5)</var>        
+
+        <var id="SOL_1">shuffle([TEST[1],TEST[3][0],TEST[3][1],TEST[3][2],TEST[3][3],],5)</var>
+
+        <var id="SOL_2">shuffle([TEST[1],TEST[3][0],TEST[3][1],TEST[3][2],],4)</var>
+
+        <var id="SOL_3">shuffle([TEST[1],TEST[3][0],TEST[3][1],3)</var>
+
+        <var id="F_NAME">randFromArray([
+        ["test/state/AL.jpg", "Montgomery","Alabama",randFromArray(["Montgomery","Birmingham","Huntsville","Tuscaloosa","Mobile",],5),],
+        ["test/state/AK.jpg", "Juneau","Alaska",randFromArray(["Anchorage","Juneau","Fairbanks","Sitka","Ketchikan",],5),],
+        ["test/state/AZ.jpg", "Phoenix","Arizona",randFromArray(["Phoenix","Tucson","Mesa","Chandler","Glendale",],5),],
+        ["test/state/AR.jpg", "Little Rock","Arkansas",randFromArray(["Little Rock","Fort Smith","Fayettville","Springdale","Jonesboro",],5),],
+        ["test/state/CA.jpg", "Sacramento","California",randFromArray(["Los Angeles","San Diego","San Jose","Fresno","Sacramento",],5),],
+        ["test/state/CN.jpg", "Hartford","Connecticut",randFromArray(["Bridgeport","New Haven","Stamford","Hartford","Waterbury"],5),],
+        ["test/state/DE.jpg", "Dover","Delaware",randFromArray(["Wilmington","Dover","Newark","Middletown","Smyrna"],5),],
+        ["test/state/FL.jpg", "Tallahassee","Florida",randFromArray(["Jacksonville","Miami","Tampa","St. Petersburg","Tallahassee"],5),],
+        ["test/state/GA.jpg", "Atlanta","Georgia",randFromArray(["Atlanta","Augusta","Columbus","Savannah","Athens"],5)],
+        ["test/state/HI.jpg", "Honolulu","Hawaii",randFromArray(["Honolulu","Hilo","Kailua","Kapolei","Kaneohe"],5)],
+        ["test/state/ID.jpg", "Boise","Idaho",randFromArray(["Boise","Nampa","Meridian","Idaho Falls","Pocatello"],5)],
+        ["test/state/IL.jpg", "Springfield","Illinois",randFromArray(["Chicago","Aurora","Rockford","Joliet","Springfield"],5)],
+        ["test/state/IN.jpg", "Indianapolis","Indiana",randFromArray(["Indianapolis","Fort Wayne","Evansville","South Bend","Carmel",],5),],
+        ["test/state/IA.jpg", "Des Moines","Iowa",randFromArray(["Des Moines","Cedar Rapids","Davenport","Sioux City","Waterloo",],5),],
+        ["test/state/KS.jpg", "Topeka","Kansas",randFromArray(["Wichita","Overland Park","Kansas City","Topeka","Olathe",],5),],
+        ["test/state/KY.jpg", "Frankfort","Kentucky",randFromArray(["Louisville","Lexington","Bowling Green","Owensboro","Frankfort",],5),],
+        ["test/state/LA.jpg", "Baton Rouge","Louisiana",randFromArray(["New Orleans","Baton Rouge","Shreveport","Lafayette","Lake Charles",],5),],
+        ["test/state/ME.jpg", "Augusta","Maine",randFromArray(["Portland","Lewiston","Bangor","Auburn","Augusta",],5),],
+        ["test/state/MD.jpg", "Annapolis","Maryland",randFromArray(["Baltimore","Columbia","Germantown","Silver Spring","Annapolis",],5),],
+        ["test/state/MA.jpg", "Boston","Massachusetts",randFromArray(["Boston","Worcester","Springfield","Lowell","Cambridge",],5),],
+        ["test/state/MI.jpg", "Lansing","Michigan",randFromArray(["Detroit","Grand Rapids","Ann Arbor","Kalamazoo","Lansing",],5),],
+        ["test/state/MN.jpg", "St. Paul","Minnesota",randFromArray(["Minneapolis","St. Paul","Rochester","Duluth","Bloomington",],5),],
+        ["test/state/MS.jpg", "Jackson","Mississippi",randFromArray(["Jackson","Gulfport","Hattiesburg","Southaven","Biloxi",],5),],
+        ["test/state/MO.jpg", "Jefferson City","Missouri",randFromArray(["Kansas City","Saint Louis","Springfield","Independence","Jefferson City",],5),],
+        ["test/state/MON.jpg", "Helena","Montana",randFromArray(["Billings","Missoula","Great Falls","Butte","Helena",],5),],
+        ["test/state/NE.jpg", "Lincoln","Nebraska",randFromArray(["Omaha","Lincoln","Bellevue","Grand Island","Kearney",],5),],
+        ["test/state/NA.jpg", "Carson City","Nevada",randFromArray(["Las Vegas","Henderson","Reno","Sparks","Carson City",],5),],
+        ["test/state/NH.jpg", "Concord","New Hampshire",randFromArray(["Manchester","Nashua","Concord","Derry","Rochester",],5),],
+        ["test/state/NJ.jpg", "Trenton","New Jersey",randFromArray(["Newark","Jersey City","Paterson","Elizabeth","Trenton",],5),],
+        ["test/state/NM.jpg", "Santa Fe","New Mexico",randFromArray(["Albuquerque","Las Cruces","Rio Rancho","Santa Fe","Roswell",],5),],
+        ["test/state/NY.jpg", "Albany","New York",randFromArray(["New York City","Buffalo","Rochester","Syracuse","Albany",],5),],
+        ["test/state/NC.jpg", "Raleigh","North Carolina",randFromArray(["Charlotte","Raleigh","Greensboro","Durham","Winston-Salem",],5),],
+        ["test/state/ND.jpg", "Bismarck","North Dakota",randFromArray(["Fargo","Bismarck","Grand Forks","Minot","West Fargo",],5),],
+        ["test/state/OH.jpg", "Columbus","Ohio",randFromArray(["Columbus","Cleveland","Cincinnati","Toledo","Akron",],5),],
+        ["test/state/OK.jpg", "Oklahoma City","Oklahoma",randFromArray(["Oklahoma City","Tulsa","Norman","Broken Arrow","Lawton",],5),],
+        ["test/state/OR.jpg", "Salem","Oregon",randFromArray(["Portland","Eugene","Salem","Gresham","Hillsboro",],5),],
+        ["test/state/PA.jpg", "Harrisburg","Pennsylvania",randFromArray(["Philadelphia","Pittsburgh","Allentown","Erie","Harrisburg",],5),],
+        ["test/state/RI.jpg", "Providence","Rhode Island",randFromArray(["Providence","Warwick","Cranston","Pawtucket","East Providence",],5),],
+        ["test/state/SC.jpg", "Columbia","South Carolina",randFromArray(["Columbia","Charleston","Greenville","Mount Pleasant","Rock Hill",],5),],
+        ["test/state/SD.jpg", "Pierre","South Dakota",randFromArray(["Sioux Falls","Rapid City","Aberdeen","Brookings","Pierre",],5),], 
+        ["test/state/TN.jpg", "Nashville","Tennessee",randFromArray(["Memphis","Nashville","Knoxville","Chattanooga","Clarksville",],5),],
+        ["test/state/TX.jpg", "Austin","Texas",randFromArray(["Houston","San Antonio","Dallas","Austin","Fort Worth",],5),],
+         ["test/state/UT.jpg", "Salt Lake City","Utah",randFromArray(["Salt Lake City","West Valley City","Provo","West Jordan","Orem",],5),],
+        ["test/state/VT.jpg", "Montpelier","Vermont",randFromArray(["Burlington","Essex","Colchester","Rutland","Montpelier",],5),],
+        ["test/state/VA.jpg", "Richmond","Virginia",randFromArray(["Virginia Beech","Norfolk","Chesapeake","Richmond","Newport News",],5),],
+        ["test/state/WA.jpg", "Olympia","Washington",randFromArray(["Seattle","Spokane","Tacoma","Vancouver","Olympia",],5),],
+        ["test/state/WV.jpg", "Charleston","West Virginia",randFromArray(["Charleston","Huntington","Parkersburg","Morgantown","Wheeling",],5),],
+        ["test/state/WI.jpg", "Madison","Wisconsin",randFromArray(["Milwaukee","Madison","Green Bay","Kenosha","Racine",],5),],
+        ["test/state/WY.jpg", "Cheyenne","Wyoming",randFromArray(["Cheyenne","Casper","Laramie","Gillette","Rock Springs",],5),],
+        ])</var>
+
+
+        <var id="IMG_STR">  
+        ( function() {
+
+                        var qstn =  "<"+IMG+TEST[0]+">";
+
+                        return qstn;
+                    } )()
+
+        </var>
+
+
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is the capital of the state of <var>TEST[2]</var>?</p>
+                <p><var>IMG_STR</var></p>
+            </div>
+
+            <div class="solution" data-type="text"><var>TEST[1]</var></div>
+            <div class="hints">
+
+            <p>5 cities in <var>TEST[2]</var> are: <var>SOL_1[0]</var>, <var>SOL_1[1]</var>, <var>SOL_1[2]</var>, <var>SOL_1[3]</var>, and <var>SOL_1[4]</var>.</p>  
+
+            <p>4 cities in <var>TEST[2]</var> are: <var>SOL_2[0]</var>, <var>SOL_2[1]</var>, <var>SOL_2[2]</var>, and <var>SOL_2[3]</var>.</p>    
+
+            <p>3 cities in <var>TEST[2]</var> are: <var>SOL_2[0]</var>, <var>SOL_2[1]</var>, and <var>SOL_2[2]</var>.</p>
+
+            <p>It is <var>TEST[1]</var>.</p>        
+
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+</body>
+</html>
