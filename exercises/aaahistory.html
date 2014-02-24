@@ -1,0 +1,38 @@
+ <!DOCTYPE html>
+    <html data-require="math math-format word-problems">
+        <head>
+            <title>United States History</title>
+            <script src="../khan-exercise.js"></script>
+        </head>
+        <body>
+            <div class="exercise">
+                <div class="vars">
+                    <var id = "PRES">[["first","George Washington"],
+                                      ["second","John Adams"],
+                                      ["third","Thomas Jefferson"]]</var>
+                    <var id="INDEX">1</var>
+                    <var id="RANDINDEX">PRES[INDEX]</var>
+                    <var id ="NAME">RANDINDEX[1]</var>
+                    <VAR id ="NUM">RANDINDEX[0]</VAR>
+                </div>
+
+                <div class="problems">
+                    <div id="problem-type-or-description">
+                        <p class="problem"><!-- An overview of the problem including all needed info. --></p>
+                        <p class="question">Who was the <var>NUM</var> President of the United States?</p>
+                        <p class="solution"><var>NAME</var></p>
+                        <ul class="choices">
+                            <li>Abraham Lincoln</li>
+                            <li>John Adams</li>
+                            <li>Thomas Jefferson</li>
+                            <li>Barack Obama</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p>It is not Abraham  Lincoln or Barack Obama.</p>
+                    <p>It is not John Adams or Thomas Jefferson.</p>
+                    <p>It is George Washington.</p>
+                </div>
+            </div>
