@@ -17,6 +17,7 @@
             <var id="LCM">getLCM(D1, D2)</var>
             <var id="F1">LCM / D1</var>
             <var id="F2">LCM / D2</var>
+            <var id="GCD">getGCD(S1 * F1 * N1 + S2 * F2 * N2, LCM)</var>
         </div>
 
         <div class="problems">
@@ -56,6 +57,7 @@
             </code></p>
 
             <p><code>\qquad = <var>fraction(S1 * F1 * N1 + S2 * F2 * N2, LCM)</var></code></p>
+            <p data-if="GCD !== 1"><code>\qquad = <var>fractionReduce(S1 * F1 * N1 + S2 * F2 * N2, LCM)</var></code></p>
         </div>
     </div>
 </body>
