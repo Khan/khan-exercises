@@ -132,7 +132,10 @@
 
                     <div>
                         <p>Finally, combine the <code>x</code> terms.</p>
-                        <p><code>\qquad = <var>expr(["*", A, ["^", X, 2]])</var> + <var>expr(["*", B, X])</var> + <var>C</var></code></p>
+                        <p><code>
+                            \qquad = <var>expr(["*", A, ["^", X, 2]])</var>
+                            <span data-if="B !== 0"> + <var>expr(["*", B, X])</var></span> + <var>C</var>
+                        </code></p>
                     </div>
                 </div>
             </div>
