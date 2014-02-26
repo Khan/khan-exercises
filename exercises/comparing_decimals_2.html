@@ -135,12 +135,16 @@
             <p data-if="N1 > N2">
                 <code>\large{<var>D1</var>}</code> thousandths is more than <code>\large{<var>D2</var>}</code> thousandths.
             </p>
-            <p data-else="">
+            <p data-else-if="N1 < N2">
                 <code>\large{<var>D1</var>}</code> thousandths is less than <code>\large{<var>D2</var>}</code> thousandths.
+            </p>
+            <p data-else="">
+                <code>\large{<var>D1</var>}</code> thousandths is equal to <code>\large{<var>D2</var>}</code> thousandths.
             </p>
 
             <p data-if="N1 > N2">Therefore <code>\large{<var>N1</var> &gt; <var>N2</var>}</code>.</p>
-            <p data-else="">Therefore <code>\large{<var>N1</var> &lt; <var>N2</var>}</code>.</p>
+            <p data-else-if="N1 < N2">Therefore <code>\large{<var>N1</var> &lt; <var>N2</var>}</code>.</p>
+            <p data-else="">Therefore <code>\large{<var>N1</var> = <var>N2</var>}</code>.</p>
         </div>
     </div>
 </body>
