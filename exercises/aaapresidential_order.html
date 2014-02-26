@@ -1,0 +1,99 @@
+<!DOCTYPE html> 
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>United States Presidential History</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" >
+
+        <var id="IMG">"img class=flashcard src="</var>
+            <!-- use the form [IMAGE_PATHNAME, ANSWER] -->
+
+        <var id="F_NAME">randFromArray([
+        ["image/GW.jpg", "George Washington","first",["April 30th, 1789 - March 4th, 1797",],],
+        ["image/TJ.jpg","John Adams","second",["March 4th, 1797 - March 4th, 1801",],],
+        ["image/JA.jpg","Thomas Jefferson","third",["March 4th, 1801 - March 4th, 1809",],],
+        ["image/JM.jpg","James Madison","fourth",["March 4th, 1809 - March 4th, 1817",],],
+        ["image/JMo.jpg","James Monroe","fifth",["March 4th, 1817 - March 4th, 1825",],],
+        ["image/JQA.jpg","John Quincy Adams","sixth",["March 4th, 1825 - March 4th, 1829",],],
+        ["image/AJ.jpg","Andrew Jackson","seventh",["March 4th, 1829 - March 4th, 1837",],],
+        ["image/MVB.jpg","Martin Van Buren","eighth",["March 4th, 1837 - March 4th, 1841",],],
+        ["image/WHH.jpg","William Henry Harrison","ninth",["March 4th, 1841 - April 4th, 1841",],],
+        ["image/JT.jpg","John Tyler","tenth",["April 4th, 1841 - March 4th, 1845",],],
+        ["image/JKP.jpg","James K. Polk","eleventh",["March 4th, 1845 - March 4th, 1849",],],
+        ["image/ZT.jpg","Zachary Tayler","twelfth",["March 4th, 1849 - July 9th, 1850",],],
+        ["image/MF.jpg","Millard Fillmore","thirteenth",["July 9th, 1850 - March 4th, 1853",],],
+        ["image/FP.jpg","Franklin Pierce","fourteenth",["March 4th, 1853 - March 4th, 1857",],],
+        ["image/JB.jpg","James Buchanan","fifteenth",["March 4th, 1857 - March 4th, 1861",],],
+        ["image/AL.jpg","Abraham Lincoln","sixteenth",["March 4th, 1861 - April 15th, 1865",],],
+        ["image/AJo.jpg","Andrew Johnson","seventeenth",["April 15th, 1865 - March 4th, 1869",],],
+        ["image/USG.jpg","Ulysses S. Grant","eighteenth",["March 4th, 1869 - March 4th, 1877",],],
+        ["image/RH.jpg","Rutherford B. Hayes","nineteenth",["March 4th, 1877 - March 4th, 1881",],],
+        ["image/JG.jpg","James Garfield","twentieth",["March 4th, 1881 - September 19th 1881",],],
+        ["image/CAA.jpg","Chester A. Arthur","twenty first",["September 19th, 1881 - March 4th, 1885",],],
+        ["image/GC.jpg","Grover Cleveland","twenty second",["March 4th, 1885 - March 4th, 1889 and March 4th, 1893 - March 4th, 1897",],],
+        ["image/BH.jpg","Benjamin Harrison","twenty third",["March 4th, 1889 - March 4th, 1893",],],
+        ["image/GC.jpg","Grover Cleveland","twenty fourth",["March 4th, 1885 - March 4th 1889 and March 4th, 1893 - March 4th, 1897",],],
+        ["image/WM.jpg","William Mckinely","twenty fifth",["March 4th, 1897 - September 14th, 1902",],],
+        ["image/TR.jpg","Theodore Roosevelt","twenty sixth",["September 14th, 1901 - March 4th, 1909",],],
+        ["image/WHT.jpg","William Howard Taft","twenty seventh",["March 4th, 1909 - March 4th, 1913",],],
+        ["image/WW.jpg","Woodrow Wilson","twenty eighth",["March 4th, 1913 - March 4th, 1921",],],
+        ["image/WH.jpg","Warren G. Harding","twenty ninth",["March 4th, 1921 - August 2, 1923",],],
+        ["image/CC.jpg","Calvin Coolidge","thirtieth",["August 2, 1923 - March 4th, 1929",],],
+        ["image/HH.jpg","Herbert Hoover","thirty first",["March 4th, 1929 - March 4th, 1933",],],
+        ["image/FDR.jpg","Franklin D. Roosevelt","thirty second",["March 4th, 1933 - April 12th, 1945",],],
+        ["image/HST.jpg","Harry S Truman","thirty third",["April 12th, 1945 - January 20th, 1953",],],
+        ["image/DDE.jpg","Dwight D. Eisenhower","thirty fourth",["January 20th, 1953 - January 20th, 1961",],],
+        ["image/JFK.jpg","John F. Kennedy","thiry fifth",["January 20th, 1961 - November 22nd, 1963",],],
+        ["image/LBJ.jpg","Lyndon B. Johnson","thirty sixth",["November 22nd, 1963 - January 20th, 1969",],],
+        ["image/RN.jpg","Richard Nixon","thirty seventh",["January 20th, 1969 - August 9th, 1974",],],
+        ["image/GF.jpg","Gerald Ford","thirty eighth",["August 9th, 1974 - January 20th, 1977",],],
+        ["image/JC.jpg","Jimmy Carter","thirty ninth",["January 20th, 1977 - January 20th, 1981",],],
+        ["image/RR.jpg","Ronald Reagan","fortieth",["January 20th, 1981 - January 20th, 1989",],],
+        ["image/GHWB.jpg","George H. W. Bush","forty first",["January 20th, 1989 - January 20th, 1993",],],
+        ["image/BC.jpg","Bill Clinton","forty second",["January 20th, 1993 - January 20th, 2001",],],
+        ["image/GWB.jpeg","George W. Bush","forty third",["January 20th, 2001 - January 20th, 2009"],],
+        ["image/BO.jpg","Barack Obama","forty fourth",["January 20th, 2009 - January 20th, 2017",],],
+
+        ])</var>
+   
+        <var id="order">shuffle(["first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth","eleventh","twelfth","thirteenth","fourteenth","fifteenth","sixteenth","seventeenth","eighteenth","nineteenth","twentieth","twenty first","twenty second","twenty third","twenty fourth","twenty fifth","twenty sixth","twenty seventh","twenty eighth","twenty ninth","thirtieth","thirty first","thirty second","thirty third","thirty fourth","thirty fifth","thirty sixth","thirty seventh","thirty eighth","thirty ninth","fortieth","forty first","forty second","forty third","forty fourth"],4)</var>
+
+        <var id="IMG_STR">  
+        ( function() {
+
+                        var qstn =  "<"+IMG+F_NAME[0]+">";
+
+                        return qstn;
+                    } )()
+
+        </var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>In what order was <var>F_NAME[1]</var> President of the United States?</p>
+                <p><var>IMG_STR</var></p>
+            </div>
+            <div class="solution"><var>F_NAME[2]</var></div>
+            <ul class="choices">
+                <li><var data-ensure="F_NAME[2] !== order[0]">order[0]</var></li>
+                <li><var data-ensure="F_NAME[2] !== order[1]">order[1]</var></li>
+                <li><var data-ensure="F_NAME[2] !== order[2]">order[2]</var></li>
+                <li><var data-ensure="F_NAME[2] !== order[3]">order[3]</var></li>    
+            </ul>
+            <div class="hints">
+            <p><var>F_NAME[1]</var> served in office from: <var>F_NAME[3][0]</var>.</p>
+            <p>It is not <var>order[0]</var>, or <var>order[1]</var>.</p>
+            <p>It is not <var>order[2]</var>, or <var>order[3]</var>.</p>
+            <p>It is <var>F_NAME[2]</var></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
