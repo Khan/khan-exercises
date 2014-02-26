@@ -127,13 +127,13 @@
         <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>NUMERSOL.regex()</var></span>
-                <span class="sol" data-type="regex"><var>DENOMSOL.regex()</var></span>
-                <span class="sol" data-type="rational"><var>-CONSTANT/COEFFICIENT</var></span>
+                <span class="sol" data-fallback="1" data-type="regex"><var>DENOMSOL.regex()</var></span>
+                <span class="sol"><var>-CONSTANT/COEFFICIENT</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex()</var></span>
-                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex()</var></span>
-                <span class="sol" data-type="rational"><var>-CONSTANT/COEFFICIENT</var></span>
+                <span class="sol" data-fallback="1" data-type="regex"><var>DENOMSOL.multiply(-1).regex()</var></span>
+                <span class="sol"><var>-CONSTANT/COEFFICIENT</var></span>
             </div>
 
             <div class="input-format">
