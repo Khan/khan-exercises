@@ -793,6 +793,10 @@ Divider.numHintsFor = function(divisor, dividend, deciDivisor, deciDividend) {
     }
     var hints = 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
 
+    if (deciDivisor === 0) {
+        return hints;
+    }
+
     // If answer ends in zeros that we don't use
     if (Math.round(dividend / divisor) === dividend / divisor) {
         var digitsAnswer = KhanUtil.integerToDigits(dividend / divisor);
