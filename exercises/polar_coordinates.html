@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions interactive graphie graphie-helpers polar-coordinates">
+    <head>
+        <title>Polar Coordinates 1</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="r">0</var>
+                <var id="theta">0</var>
+                <var id="polarGraph">0</var>
+                <var id="cartGraph">0</var>
+                <var id="numCircles">4</var>
+                <var id="nullChar">'  '</var>
+                <var id="movePolar">(Math.random()<=.5) ? true : false</var>
+                <var id="firstCoord">movePolar ? (Math.floor(Math.random()*5+1)) : (Math.floor(Math.random()*7)*.5)</var>
+                <var id="firstCoordRounded">Math.round(firstCoord*1000.0)/1000.0</var>
+                <var id="secondCoord">movePolar ? (Math.floor(Math.random()*13)/12.0)*2*Math.PI : (Math.floor(Math.random()*7)*.5)</var>
+                <var id="secondCoordRounded">Math.round(secondCoord*1000.0)/1000.0</var>
+                <var id="secondCoordFormatted">movePolar ? piFraction(secondCoord) : secondCoord</var>
+                <var id="firstSolution">movePolar ? firstCoord*Math.cos(secondCoord) : Math.sqrt(Math.pow(firstCoord,2)+Math.pow(secondCoord,2))</var>
+                <var id="secondSolution">movePolar ? firstCoord*Math.sin(secondCoord) : Math.atan(secondCoord/firstCoord)</var>
+                <var id="firstSolutionRounded">Math.round(firstSolution*1000.0)/1000.0</var>
+                <var id="secondSolutionRounded">Math.round(secondSolution*1000.0)/1000.0</var>
+                <var id="firstCoordLabel">movePolar ? 'r' : 'x'</var>
+                <var id="secondCoordLabel">movePolar ? '&#952' : 'y'</var>
+                <var id="firstCoordAnswerLabel">movePolar ? 'x' : 'r'</var>
+                <var id="secondCoordAnswerLabel">movePolar ? 'y' : '&#952'</var>
+                <var id="secondCoordUnitsLabel">movePolar ? 'units' : 'radians'</var>
+                <var id="relevantEquation1">movePolar ?  'x=r cos(&#952)' : 'r=\\sqrt(x^2+y^2)' </var>
+                <var id="relevantEquation2">movePolar ?  'y=r sin(&#952)' : '&#952=arctan(\\frac{y}{x})' </var>
+                <var id="ANGLESNAP">Math.PI/12</var>
+                <var id="NUMCIRCLEDIVISIONS">24</var>
+            </div>
+
+            <div class="problems">
+                <div id="problem-type-or-description">
+                    <p class="problem">Grab the orange point on the graph and move it to the coordinates specified below.
+                    Then calculate the coordinates in the other coordinate system, and type in your answer as a decimal using 3 decimal places of accuracy.
+                    <table style="width:100%">
+                    </p>
+                    <p class="question">
+                    <table style="width:100%">
+                    <tr>
+                        Coordinates to use: 
+                        <code><var>firstCoordLabel</var></code>= <code><var>firstCoord</var></code>, <code><var>secondCoordLabel</var></code>= <code><var>secondCoordFormatted</var></code>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">
+                            Polar Coordinates:
+                        </td>
+                        <td style = "text-align:center">
+                            Rectangular Coordinates:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>   
+                            <code><var>nullChar</var></code>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td>
+                            <code><var>nullChar</var></code>
+                        </td>    
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="graphie">
+                                initVariables(movePolar);
+                                initPolarHalf();
+                            </div>
+                        </td>
+                        <td>
+                            <div class="graphie">
+                                initCartesianHalf();
+                            </div>
+                        </td>
+                    </tr>
+                    </table> 
+                    
+                    </p>
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            <div>
+                                <div style="float: left;"><span class="hint_orange"><code><var>firstCoordAnswerLabel</var></code></span>: <input id="current-guess1" type="text" value="" style = "margin-right:auto"></input> units</div>
+                            </div>
+                            
+                            <div style="clear: both;">
+                                <div style="float: left;"><span class="hint_blue"><code><var>secondCoordAnswerLabel</var></code></span>: <input id="current-guess2" type="text" value="" style = "margin-right:auto"></input> <var>secondCoordUnitsLabel</var></div>
+                            </div>
+                        </div>
+
+                        <div class="guess">[
+                                document.getElementById("current-guess1").value,
+                                document.getElementById("current-guess2").value
+                           ]</div>
+
+                        <div class="validator-function">
+                            var guessedSolution1 = guess[0];
+                            var guessedSolution2 = guess[1];
+                            return Math.abs(guessedSolution1 - firstSolution)<=0.001 &amp;&amp; Math.abs(guessedSolution2 - secondSolution)<=0.001;
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <table style="width:100%">
+                    <tr>
+                        <td>
+                            You may find the following equations useful:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>x=r cos(&#952)</code>
+                        </td>
+                        <td>
+                            <code>r=\sqrt(x^2+y^2)</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>y=r sin(&#952)</code>
+                        </td>
+                        <td>
+                            <code>&#952=arctan(\frac{y}{x})</code>
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div>
+                 <p>
+                        To find <span class="hint_orange"><code><var>firstCoordAnswerLabel</var></code></span> and <span class="hint_blue"><code><var>secondCoordAnswerLabel</var></code></span>, 
+                        try plugging in <code><var>firstCoordLabel</var>= <var>firstCoordRounded</var></code> and <code><var>secondCoordLabel</var>= <var>secondCoordRounded</var></code>
+                        into one of the equations listed above.
+                </p>
+                </div>
+                <div>
+                    <p>
+                        Plugging in <code><var>firstCoordLabel</var>=<var>firstCoordRounded</var></code> and <code><var>secondCoordLabel</var> = <var>secondCoordRounded</var></code> into 
+                        <code><var>relevantEquation1</var></code> yields: 
+                        <br></br> <span class="hint_orange"><code><var>firstCoordAnswerLabel</var></code></span><code>= <var>firstSolutionRounded</var></code>
+                        <br></br>
+                        Similarly, plugging in <code><var>firstCoordLabel</var>=<var>firstCoordRounded</var></code> and <code><var>secondCoordLabel</var> = <var>secondCoordRounded</var></code> into 
+                        <code><var>relevantEquation2</var></code> yields:
+                        <br></br> <span class="hint_blue"><code><var>secondCoordAnswerLabel</var></code></span><code>= <var>secondSolutionRounded</var></code>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
