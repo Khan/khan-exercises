@@ -36,7 +36,9 @@
                 <li><code><var>FAKE_SOLUTION1</var></code></li>
                 <li><code><var>FAKE_SOLUTION2</var></code></li>
                 <li><code><var>FAKE_SOLUTION3</var></code></li>
-                <li data-if="(BASE > 0 && BASE < 7) || (BASE === 4 && EXPONENT === 2)"><code><var>FAKE_SOLUTION4</var></code></li>
+                <li data-if="(BASE > 0 && BASE < 7) && (!(BASE === 4 && EXPONENT === 2) || !(BASE === 4 && EXPONENT === 2))">
+                    <code><var>FAKE_SOLUTION4</var></code>
+                </li>
             </ul>
 
             <div class="hints">
