@@ -17,6 +17,7 @@
                     <var id="LCM">getLCM(D1, D2)</var>
                     <var id="F1">LCM / D1</var>
                     <var id="F2">LCM / D2</var>
+ +                  <var id="GCD">getGCD(F1 * N1 - F2 * N2, LCM)</var>
                 </div>
                 <p class="question"><code><var>fraction(N1, D1)</var> - <var>fraction(N2, D2)</var> = {?}</code></p>
                 <p class="solution" data-type="rational"><var>N1 / D1 - N2 / D2</var></p>
@@ -38,6 +39,8 @@
                     </code></p>
 
                     <p><code>\qquad = <var>fraction(F1 * N1 - F2 * N2, LCM)</var></code></p>
+
+                    <p data-if="GCD !== 1"><code>\qquad = <var>fractionReduce(F1 * N1 - F2 * N2, LCM)</var></code></p>
                 </div>
             </div>
         </div>
