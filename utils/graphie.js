@@ -491,13 +491,20 @@
                 }, range);
             },
 
-            plot: function(fn, range) {
+            plot: function(fn, range, swapAxes) {
                 var min = range[0], max = range[1];
                 currentStyle["plot-points"] || (currentStyle["plot-points"] = 2 * (max - min) * xScale);
 
-                return this.plotParametric(function(x) {
-                    return [x, fn(x)];
-                }, range);
+                if (swapAxes) {
+                    return this.plotParametric(function(y) {
+                        return [fn(y), y];
+                    }, range);
+                } else {
+                    return this.plotParametric(function(x) {
+                        return [x, fn(x)];
+                    }, range);
+                }
+                
             },
 
             /**

@@ -1,5 +1,4 @@
 $.extend(KhanUtil, {
-
     doParabolaInteraction: function(func, vertex, directrix) {
         var graph = KhanUtil.currentGraph;
 
@@ -41,8 +40,7 @@ $.extend(KhanUtil, {
             highlighted = true;
         };
 
-        // Attach an onLeave handler that gets called whenever the mouse moves away
-        // from the parabola
+        // Attach an onLeave handler that gets called whenever the mouse moves away from the parabola
         func.onLeave = function(coordX, coordY) {
             vertexLine.animate({opacity: 0.0}, 100);
             directrixLine.animate({opacity: 0.0}, 100);
@@ -50,6 +48,90 @@ $.extend(KhanUtil, {
             highlighted = false;
         };
 
+    },
+
+    doHyperbolaInteraction: function(func, focus1, focus2) {
+        var graph = KhanUtil.currentGraph;
+        var focusLine1 = KhanUtil.bogusShape;
+        var focusLine2 = KhanUtil.bogusShape;
+        var highlighted = false;
+
+        func.onMove = function(coordX, coordY) {
+            focusLine1.remove();
+            focusLine2.remove();
+
+            // Draw a line from each focus to the highlighted point on the hyperbola
+            graph.style({ strokeWidth: 1.5, stroke: KhanUtil.GREEN, opacity: 0.0 });
+            focusLine1 = graph.line([coordX, coordY], focus1.coord);
+            graph.style({ stroke: KhanUtil.RED });
+            focusLine2 = graph.line([coordX, coordY], focus2.coord);
+
+            focusLine1.toBack();
+            focusLine2.toBack();
+
+            if (!highlighted) {
+                focusLine1.animate({opacity: 1.0}, 100);
+                focusLine2.animate({opacity: 1.0}, 100);
+                $('#problemarea div.focus-instructions').hide();
+                $('#problemarea div.focus-distances').show();
+            } else {
+                focusLine1.attr({ opacity: 1.0 });
+                focusLine2.attr({ opacity: 1.0 });
+            }
+
+            highlighted = true;
+            this.writeDistances(coordX, coordY);
+        };
+
+        func.onLeave = function(coordX, coordY) {
+            focusLine1.animate({opacity: 0.0}, 100);
+            focusLine2.animate({opacity: 0.0}, 100);
+            $('#problemarea div.focus-instructions').show();
+            $('#problemarea div.focus-distances').hide();
+            highlighted = false;
+        };
+    },
+
+    doEllipseInteraction: function(ellipse, focus1, focus2) {
+        var graph = KhanUtil.currentGraph;
+        var focusLine1 = KhanUtil.bogusShape;
+        var focusLine2 = KhanUtil.bogusShape;
+        var highlighted = false;
+
+        ellipse.onMove = function(coordX, coordY) {
+            focusLine1.remove();
+            focusLine2.remove();
+
+            // Draw a line from each focus to the highlighted point on the ellipse
+            graph.style({ strokeWidth: 1.5, stroke: KhanUtil.GREEN, opacity: 0.0 });
+            focusLine1 = graph.line([coordX, coordY], focus1.coord);
+            graph.style({ stroke: KhanUtil.RED });
+            focusLine2 = graph.line([coordX, coordY], focus2.coord);
+
+            focusLine1.toBack();
+            focusLine2.toBack();
+
+            if (!highlighted) {
+                focusLine1.animate({opacity: 1.0}, 100);
+                focusLine2.animate({opacity: 1.0}, 100);
+                $('#problemarea div.focus-instructions').hide();
+                $('#problemarea div.focus-distances').show();
+            } else {
+                focusLine1.attr({ opacity: 1.0 });
+                focusLine2.attr({ opacity: 1.0 });
+            }
+
+            highlighted = true;
+            this.writeDistances(coordX, coordY);
+        };
+
+        ellipse.onLeave = function(coordX, coordY) {
+            focusLine1.animate({opacity: 0.0}, 100);
+            focusLine2.animate({opacity: 0.0}, 100);
+            $('#problemarea div.focus-instructions').show();
+            $('#problemarea div.focus-distances').hide();
+            highlighted = false;
+        };
     }
 
 });

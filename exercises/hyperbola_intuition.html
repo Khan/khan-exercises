@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie interactive parabola-intuition">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Hyperbola and ellipse intuition</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="vertical-hyperbola">
+                <div class="vars">
+                    <var id="A, B, C">randFromArray([[3, 4, 5], [6, 8, 10], [9, 12, 15], [5, 12, 13]])</var>
+                    <var id="A2">A * A</var>
+                    <var id="B2">B * B</var>
+                    <var id="MAX_Y">18 - C</var>
+                    <var id="H">randRange(-5, 5)</var>
+                    <var id="K">randRange(-MAX_Y, MAX_Y)</var>
+                </div>
+
+                <div class="question">
+                    <p>The equation of a north-south opening hyperbola is :<br/>
+                        <code>\qquad \dfrac{(x - x_1)^2}{b^2} - \dfrac{(y - y_1)^2}{a^2} = 1</code>.
+                    </p>
+                    <p>
+                        Find the foci of the hyperbola below by moving the orange points to their correct positions.
+                        Then use that information to find the values of <code>y_1</code>, <code>x_1</code>, <code>a</code> and <code>b</code>.
+                    </p>
+                </div>
+
+                <div class="focus-information">
+                    <div class="focus-information-column-left">
+                        <div><span>Focus 1: </span><code>(</code>
+                            <span class="focus1-x-label"><code>-1</code></span><code>,\space</code>
+                            <span class="focus1-y-label"><code>1</code></span><code>)</code>
+                        </div>
+                        <div><span>Focus 2: </span><code>(</code>
+                            <span class="focus2-x-label"><code>1</code></span><code>,\space</code>
+                            <span class="focus2-y-label"><code>1</code></span><code>)</code>
+                        </div>
+                    </div>
+
+                    <div class="focus-information-column-right">
+                        <div class="focus-instructions">Point to the hyperbola to see the distance from that point to each focus.</div>
+                        <div class="focus-distances" style="display:none;">
+                            <span class="hint_green">Distance to focus 1</span> = <span class="focus-distance1"><code>1</code></span><br/>
+                            <span class="hint_red">Distance to focus 2</span> = <span class="focus-distance2"><code>1</code></span><br/>
+                            Difference of distances = <span class="distance-difference"><code>1</code></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="graphie">
+                    graph.H = H;
+                    graph.K = K;
+                    graph.C = C;
+                    
+                    initAutoscaledGraph([[-20, 20], [-20, 20]], {});
+                    addMouseLayer();
+
+                    graph.focus1 = addMovablePoint({
+                        coordX: -2,
+                        coordY: 2,
+                        snapX: 1,
+                        snapY: 1
+                    });
+                    graph.focus1.onMove = function(coordX, coordY) {
+                        $("#problemarea span.focus1-x-label").html("&lt;code&gt;" + coordX + "&lt;/code&gt;").tex();
+                        $("#problemarea span.focus1-y-label").html("&lt;code&gt;" + coordY + "&lt;/code&gt;").tex();
+                    };
+
+                    graph.focus2 = addMovablePoint({
+                        coordX: 2,
+                        coordY: 2,
+                        snapX: 1,
+                        snapY: 1
+                    });
+                    graph.focus2.onMove = function(coordX, coordY) {
+                        $("#problemarea span.focus2-x-label").html("&lt;code&gt;" + coordX + "&lt;/code&gt;").tex();
+                        $("#problemarea span.focus2-y-label").html("&lt;code&gt;" + coordY + "&lt;/code&gt;").tex();
+                    };
+
+                    graph.func1 = addInteractiveFn(function(x) {
+                        return K + sqrt(A2 / B2 * (x - H) * (x - H) + A2);
+                    }, {});
+
+                    graph.func2 = addInteractiveFn(function(x) {
+                        return K - sqrt(A2 / B2 * (x - H) * (x - H) + A2);
+                    }, {});
+
+                    doHyperbolaInteraction(graph.func1, graph.focus1, graph.focus2);
+                    doHyperbolaInteraction(graph.func2, graph.focus1, graph.focus2);
+
+                    var writeDistances = function(coordX, coordY) {
+                        var focusDistance1 = KhanUtil.getDistance([coordX, coordY], graph.focus1.coord);
+                        var focusDistance2 = KhanUtil.getDistance([coordX, coordY], graph.focus2.coord);
+                        var difference = abs(focusDistance1 - focusDistance2);
+                        $("#problemarea span.focus-distance1").html("&lt;code&gt;" + round(10 * focusDistance1) / 10 + "&lt;/code&gt;").tex();
+                        $("#problemarea span.focus-distance2").html("&lt;code&gt;" + round(10 * focusDistance2) / 10 + "&lt;/code&gt;").tex();
+                        $("#problemarea span.distance-difference").html("&lt;code&gt;" + round(10 * difference) / 10 + "&lt;/code&gt;").tex();
+                    };
+
+                    graph.func1.writeDistances = writeDistances;
+                    graph.func2.writeDistances = writeDistances;
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <div class="sol" data-type="custom">
+                        <div class="guess">[graph.focus1.coord, graph.focus2.coord]</div>
+                        <div class="validator-function">
+                            if (_.isEqual(guess, [[-2, 2], [2, 2]])) {
+                                return "";
+                            }
+
+                            return guess[0][0] === H &amp;&amp; guess[1][0] === H &amp;&amp;
+                                (guess[0][1] === K - C &amp;&amp; guess[1][1] === K + C) ||
+                                (guess[0][1] === K + C &amp;&amp; guess[1][1] === K - C)
+                        </div>
+                        <div class="show-guess">
+                            graph.focus1.setCoord(guess[0]);
+                            graph.focus2.setCoord(guess[1]);
+                        </div>
+                    </div>
+
+                    <p>
+                        Equation of the hyperbola:
+                        <table class="intuition-equation">
+                            <tr>
+                                <td><code>y_1 = </code></td>
+                                <td><span class="sol short40" data-fallback="0"><var>K</var></span></td>
+                            </tr>
+                            <tr>
+                                <td><code>x_1 = </code></td>
+                                <td><span class="sol short40" data-fallback="0"><var>H</var></span></td>
+                            </tr>
+                            <tr>
+                                <td><code>a = </code></td>
+                                <td><span class="sol short40"><var>A</var></span></td>
+                            </tr>
+                            <tr>
+                                <td><code>b = </code></td>
+                                <td><span class="sol short40"><var>B</var></span></td>
+                            </tr>
+                        </table>
+                    </p>
+
+                    <p class="example">set the position of the two foci by moving them around the graph</p>
+                    <p class="example">for the equation of the hyperbola, you may enter integers, fractions, or exact decimals for each term</p>
+                    <p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
+                </div>
+
+                <div class="hints">
+                    <p>
+                        For all points on a hyperbola, the absolute value of the distance from one focus minus the distance to the other focus is equal.
+                        There is only one way to arrange the two foci such that this is true.
+                        <button onclick="javascript:
+                            graph = KhanUtil.currentGraph.graph;
+                            graph.focus1.moveTo(graph.H, graph.K + graph.C);
+                            graph.focus2.moveTo(graph.H, graph.K - graph.C);
+                        ">Show me</button>
+                    </p>
+                    <p>One focus is <code>(<var>H</var>, <var>K + C</var>)</code> and the other is <code>(<var>H</var>, <var>K - C</var>)</code>.</p>
+                    <p><code>x_1</code> and <code>y_1</code> are the coordinates of the center of the hyperbola.</p>
+                    <div>
+                        <p>The center of a hyperbola is at the midpoint of its two foci.</p>
+                        <p><code>\left(\dfrac{<var>H</var> + <var>H</var>}{2}, \dfrac{<var>K+C</var> + <var>K-C</var>}{2}\right) = (<var>H</var>, <var>K</var>)</code>
+                    </div>
+                    <p>The absolute value of the distance from one focus minus the distance to the other focus is equal to <code>2a</code></p>
+                    <div>
+                        <code>\qquad\begin{align*}
+                            2a &amp;= <var>2 * A</var> \\
+                            a &amp;= <var>A</var>\end{align*}
+                        </code>
+                    </div>
+                    <div>
+                        <p>The <em>focal distance</em>, <code>c</code> is the distance between the center of the hyperbola to either focus.</p>
+                        <div><code>\qquad\begin{align*}
+                            c^2 &amp;= a^2 + b^2 \\
+                            b^2 &amp;= c^2 - a^2 \\
+                            b &amp;= \sqrt{c^2 - a^2} \\
+                            b &amp;= \sqrt{<var>C</var>^2 - <var>A</var>^2} \\
+                            b &amp;= \sqrt{<var>C * C - A * A</var>} \\
+                            b &amp;= <var>B</var>\end{align*}
+                        </code></div>
+                    </div>
+                    <p>
+                        So the equation of the hyperbola is
+                        <code>\dfrac{(y - <var>K</var>)^2}{<var>A</var>^2} - \dfrac{(x - <var>H</var>)^2}{<var>B</var>^2} = 1</code>.
+                    </p>
+                </div>
+            </div>
+
+            <div id="horizontal-hyperbola">
+                <div class="vars">
+                    <var id="A, B, C">randFromArray([[3, 4, 5], [6, 8, 10], [9, 12, 15], [5, 12, 13]])</var>
+                    <var id="A2">A * A</var>
+                    <var id="B2">B * B</var>
+                    <var id="MAX_Y">18 - C</var>
+                    <var id="H">randRange(-5, 5)</var>
+                    <var id="K">randRange(-MAX_Y, MAX_Y)</var>
+                </div>
+
+                <div class="question">
+                    <p>The equation of an east-west opening hyperbola is:<br/>
+                        <code>\qquad \dfrac{(x - x_1)^2}{b^2} - \dfrac{(y - y_1)^2}{a^2} = 1</code>.
+                    </p>
+                    <p>
+                        Find the foci of the hyperbola below by moving the orange points to their correct positions.
+                        Then use that information to find the values of <code>y_1</code>, <code>x_1</code>, <code>a</code> and <code>b</code>.
+                    </p>
+                </div>
+
+                <div class="focus-information">
+                    <div class="focus-information-column-left">
+                        <div><span>Focus 1: </span><code>(</code>
+                            <span class="focus1-x-label"><code>-1</code></span><code>,\space</code>
+                            <span class="focus1-y-label"><code>1</code></span><code>)</code>
+                        </div>
+                        <div><span>Focus 2: </span><code>(</code>
+                            <span class="focus2-x-label"><code>1</code></span><code>,\space</code>
+                            <span class="focus2-y-label"><code>1</code></span><code>)</code>
+                        </div>
+                    </div>
+
+                    <div class="focus-information-column-right">
+                        <div class="focus-instructions">Point to the hyperbola to see the distance from that point to each focus.</div>
+                        <div class="focus-distances" style="display:none;">
+                            <span class="hint_green">Distance to focus 1</span> = <span class="focus-distance1"><code>1</code></span><br/>
+                            <span class="hint_red">Distance to focus 2</span> = <span class="focus-distance2"><code>1</code></span><br/>
+                            Difference of distances, <code>c</code> = <span class="distance-difference"><code>1</code></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="graphie">
+                    graph.H = H;
+                    graph.K = K;
+                    graph.C = C;
+                    
+                    initAutoscaledGraph([[-20, 20], [-20, 20]], {});
+                    addMouseLayer();
+
+                    graph.focus1 = addMovablePoint({
+                        coordX: -2,
+                        coordY: 2,
+                        snapX: 1,
+                        snapY: 1
+                    });
+                    graph.focus1.onMove = function(coordX, coordY) {
+                        $("#problemarea span.focus1-x-label").html("&lt;code&gt;" + coordX + "&lt;/code&gt;").tex();
+                        $("#problemarea span.focus1-y-label").html("&lt;code&gt;" + coordY + "&lt;/code&gt;").tex();
+                    };
+
+                    graph.focus2 = addMovablePoint({
+                        coordX: 2,
+                        coordY: 2,
+                        snapX: 1,
+                        snapY: 1
+                    });
+                    graph.focus2.onMove = function(coordX, coordY) {
+                        $("#problemarea span.focus2-x-label").html("&lt;code&gt;" + coordX + "&lt;/code&gt;").tex();
+                        $("#problemarea span.focus2-y-label").html("&lt;code&gt;" + coordY + "&lt;/code&gt;").tex();
+                    };
+
+                    graph.func1 = addInteractiveFn(function(x) {
+                        return K + sqrt(A2 / B2 * (x - H) * (x - H) + A2);
+                    }, { swapAxes: true });
+
+                    graph.func2 = addInteractiveFn(function(x) {
+                        return K - sqrt(A2 / B2 * (x - H) * (x - H) + A2);
+                    }, { swapAxes: true });
+
+                    doHyperbolaInteraction(graph.func1, graph.focus1, graph.focus2);
+                    doHyperbolaInteraction(graph.func2, graph.focus1, graph.focus2);
+
+                    var writeDistances = function(coordX, coordY) {
+                        var focusDistance1 = KhanUtil.getDistance([coordX, coordY], graph.focus1.coord);
+                        var focusDistance2 = KhanUtil.getDistance([coordX, coordY], graph.focus2.coord);
+                        var difference = abs(focusDistance1 - focusDistance2);
+                        $("#problemarea span.focus-distance1").html("&lt;code&gt;" + round(10 * focusDistance1) / 10 + "&lt;/code&gt;").tex();
+                        $("#problemarea span.focus-distance2").html("&lt;code&gt;" + round(10 * focusDistance2) / 10 + "&lt;/code&gt;").tex();
+                        $("#problemarea span.distance-difference").html("&lt;code&gt;" + round(10 * difference) / 10 + "&lt;/code&gt;").tex();
+                    };
+
+                    graph.func1.writeDistances = writeDistances;
+                    graph.func2.writeDistances = writeDistances;
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <div class="sol" data-type="custom">
+                        <div class="guess">[graph.focus1.coord, graph.focus2.coord]</div>
+                        <div class="validator-function">
+                            if (_.isEqual(guess, [[2, -2], [2, 2]])) {
+                                return "";
+                            }
+
+                            return guess[0][1] === H &amp;&amp; guess[1][1] === H &amp;&amp;
+                                (guess[0][0] === K - C &amp;&amp; guess[1][0] === K + C) ||
+                                (guess[0][0] === K + C &amp;&amp; guess[1][0] === K - C)
+                        </div>
+                        <div class="show-guess">
+                            graph.focus1.setCoord(guess[0]);
+                            graph.focus2.setCoord(guess[1]);
+                        </div>
+                    </div>
+
+                    <p>
+                        Equation of the hyperbola:
+                        <table class="intuition-equation">
+                            <tr>
+                                <td><code>x_1 = </code></td>
+                                <td><span class="sol short40" data-fallback="0"><var>K</var></span></td>
+                            </tr>
+                            <tr>
+                                <td><code>y_1 = </code></td>
+                                <td><span class="sol short40" data-fallback="0"><var>H</var></span></td>
+                            </tr>
+                            <tr>
+                                <td><code>b = </code></td>
+                                <td><span class="sol short40"><var>B</var></span></td>
+                            </tr>
+                            <tr>
+                                <td><code>a = </code></td>
+                                <td><span class="sol short40"><var>A</var></span></td>
+                            </tr>
+                        </table>
+                    </p>
+
+                    <p class="example">set the position of the two foci by moving them around the graph</p>
+                    <p class="example">for the equation of the hyperbola, you may enter integers, fractions, or exact decimals for each term</p>
+                    <p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
+                </div>
+
+                <div class="hints">
+                    <p>
+                        For all points on a hyperbola, the absolute value of the distance from one focus minus the distance to the other focus is equal.
+                        There is only one way to arrange the two foci such that this is true.
+                        <button onclick="javascript:
+                            graph = KhanUtil.currentGraph.graph;
+                            graph.focus1.moveTo(graph.K + graph.C, graph.H);
+                            graph.focus2.moveTo(graph.K - graph.C, graph.H);
+                        ">Show me</button>
+                    </p>
+                    <p>One focus is <code>(<var>K - C</var>, <var>H</var>)</code> and the other is <code>(<var>K + C</var>, <var>H</var>)</code>.</p>
+                    <p><code>x_1</code> and <code>y_1</code> are the coordinates of the center of the hyperbola.</p>
+                    <div>
+                        <p>The center of a hyperbola is at the midpoint of its two foci.</p>
+                        <p><code>\left(\dfrac{<var>K - C</var> + <var>K + C</var>}{2}, \dfrac{<var>H</var> + <var>H</var>}{2}\right) = (<var>K</var>, <var>H</var>)</code>
+                    </div>
+                    <p>The absolute value of the distance from one focus minus the distance to the other focus is equal to <code>2a</code></p>
+                    <div>
+                        <code>\qquad\begin{align*}
+                            2a &amp;= <var>2 * A</var> \\
+                            a &amp;= <var>A</var>\end{align*}
+                        </code>
+                    </div>
+                    <div>
+                        <p>The <em>focal distance</em>, <code>c</code> is the distance between the center of the hyperbola to either focus.</p>
+                        <div><code>\qquad\begin{align*}
+                            c^2 &amp;= a^2 + b^2 \\
+                            b^2 &amp;= c^2 - a^2 \\
+                            b &amp;= \sqrt{c^2 - a^2} \\
+                            b &amp;= \sqrt{<var>C</var>^2 - <var>A</var>^2} \\
+                            b &amp;= \sqrt{<var>C * C - A * A</var>} \\
+                            b &amp;= <var>B</var>\end{align*}
+                        </code></div>
+                    </div>
+                    <p>
+                        So the equation of the hyperbola is
+                        <code>\dfrac{(x - <var>H</var>)^2}{<var>B</var>^2} + \dfrac{(y - <var>K</var>)^2}{<var>A</var>^2} = 1</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

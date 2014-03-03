@@ -1112,7 +1112,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         graph.style({
             stroke: KhanUtil.BLUE
         }, function() {
-            interactiveFn.visibleShape = graph.plot(fn, options.range);
+            interactiveFn.visibleShape = graph.plot(fn, options.range, options.swapAxes);
         });
 
         // Draw a circle that will be used to highlight the point on the function the mouse is closest to
@@ -1136,6 +1136,15 @@ $.extend(KhanUtil.Graphie.prototype, {
         var mouseAreaWidth = 30;
         var points = [];
         var step = (options.range[1] - options.range[0]) / 100;
+
+        var addScaledPoint = function(x, y) {
+            if (options.swapAxes) {
+                points.push([(y - graph.range[0][0]) * graph.scale[0], (graph.range[1][1] - x) * graph.scale[1]]);
+            } else {
+                points.push([(x - graph.range[0][0]) * graph.scale[0], (graph.range[1][1] - y) * graph.scale[1]]);
+            }
+        }
+
         // Draw a curve parallel to, but (mouseAreaWidth/2 pixels) above the function
         for (var x = options.range[0]; x <= options.range[1]; x += step) {
             var ddx = (fn(x - 0.001) - fn(x + 0.001)) / 0.002;
@@ -1152,7 +1161,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     y1 = normalslope * (x - x1) + fn(x);
                 }
             }
-            points.push([(x1 - graph.range[0][0]) * graph.scale[0], (graph.range[1][1] - y1) * graph.scale[1]]);
+            addScaledPoint(x1, y1);
         }
         // Draw a curve parallel to, but (mouseAreaWidth/2 pixels) below the function
         for (var x = options.range[1]; x >= options.range[0]; x -= step) {
@@ -1170,11 +1179,11 @@ $.extend(KhanUtil.Graphie.prototype, {
                     y1 = normalslope * (x - x1) + fn(x);
                 }
             }
-            points.push([(x1 - graph.range[0][0]) * graph.scale[0], (graph.range[1][1] - y1) * graph.scale[1]]);
+            addScaledPoint(x1, y1);
         }
+
         // plot the polygon and make it invisible
-        interactiveFn.mouseTarget = graph.mouselayer.path(
-                KhanUtil.unscaledSvgPath(points));
+        interactiveFn.mouseTarget = graph.mouselayer.path(KhanUtil.unscaledSvgPath(points));
         interactiveFn.mouseTarget.attr({ fill: "#000", "opacity": 0.0 });
 
         // Add mouse handlers to the polygon
@@ -1194,20 +1203,30 @@ $.extend(KhanUtil.Graphie.prototype, {
             var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
             // Find the closest point on the curve to the mouse (by brute force)
-            var closestX = 0;
-            var minDist = Math.sqrt((coordX) * (coordX) + (coordY) * (coordY));
-            for (var x = options.range[0]; x < options.range[1]; x += ((options.range[1] - options.range[0]) / graph.xpixels)) {
-                if (Math.sqrt((x - coordX) * (x - coordX) + (fn(x) - coordY) * (fn(x) - coordY)) < minDist) {
-                    closestX = x;
-                    minDist = Math.sqrt((x - coordX) * (x - coordX) + (fn(x) - coordY) * (fn(x) - coordY));
+            var findDistance = function(coordX, coordY) {
+                var closestX = 0;
+                var minDist = Math.sqrt((coordX) * (coordX) + (coordY) * (coordY));
+                for (var x = options.range[0]; x < options.range[1]; x += ((options.range[1] - options.range[0]) / graph.xpixels)) {
+                    if (Math.sqrt((x - coordX) * (x - coordX) + (fn(x) - coordY) * (fn(x) - coordY)) < minDist) {
+                        closestX = x;
+                        minDist = Math.sqrt((x - coordX) * (x - coordX) + (fn(x) - coordY) * (fn(x) - coordY));
+                    }
                 }
+                return closestX;
+            };
+
+            if (options.swapAxes) {
+                var closestX = findDistance(coordY, coordX);
+                coordX = fn(closestX);
+                coordY = closestX;
+            } else {
+                var closestX = findDistance(coordX, coordY);
+                coordX = closestX;
+                coordY = fn(closestX);
             }
 
-            interactiveFn.cursorPoint.attr("cx", (graph.range[0][1] + closestX) * graph.scale[0]);
-            interactiveFn.cursorPoint.attr("cy", (graph.range[1][1] - fn(closestX)) * graph.scale[1]);
-
-            coordX = closestX;
-            coordY = fn(closestX);
+            interactiveFn.cursorPoint.attr("cx", (graph.range[0][1] + coordX) * graph.scale[0]);
+            interactiveFn.cursorPoint.attr("cy", (graph.range[1][1] - coordY) * graph.scale[1]);
 
             // If the caller wants to be notified when the user points to the function
             if (_.isFunction(interactiveFn.onMove)) {
@@ -2855,6 +2874,79 @@ $.extend(KhanUtil.Graphie.prototype, {
         });
 
         return circle;
+    },
+
+    interactiveEllipse: function(options) {
+        var graphie = this;
+        var ellipse = $.extend({
+            center: [0, 0],
+            radius: 2,
+            xRadius: 2,
+            yRadius: 2,
+            ellipseNormalStyle: {
+                stroke: KhanUtil.BLUE,
+                "fill-opacity": 0
+            },
+            ellipseBoundaryHideStyle: {
+                "fill-opacity": 0,
+                "stroke-width": 0
+            },
+            ellipseBoundaryShowStyle: {
+                "fill-opacity": 1,
+                fill: KhanUtil.BLUE
+            },
+            onMove: function(coordX, coordY) { /* Here to be overriden */ },
+            onLeave: function(coordX, coordY) { /* Here to be overriden */ }
+        }, options);
+
+        ellipse.circ = graphie.ellipse(ellipse.center, [ellipse.xRadius, ellipse.yRadius], ellipse.ellipseNormalStyle);
+        ellipse.perim = graphie.mouselayer.ellipse(
+            graphie.scalePoint(ellipse.center)[0],
+            graphie.scalePoint(ellipse.center)[1],
+            graphie.scaleVector(ellipse.xRadius)[0],
+            graphie.scaleVector(ellipse.yRadius)[0]).attr({
+                "stroke-width": 30,
+                "opacity": 0.002  // This is as close to 0 as MSIE will allow
+        });
+
+        ellipse.boundaryPoint = graphie.circle(ellipse.center, 0.4, ellipse.ellipseBoundaryHideStyle);
+
+        ellipse.remove = function() {
+            ellipse.circ.remove();
+            ellipse.perim.remove();
+        };
+
+        ellipse.showPoint = function(event) {
+            // Fix to ellipse boundary by finding angle and adjusting the radius
+            var coord = graphie.constrainToBounds(graphie.getMouseCoord(event), 10);
+            var dx = ellipse.yRadius * (ellipse.center[0] - coord[0]);
+            var dy = ellipse.xRadius * (ellipse.center[1] - coord[1]);
+            var angle = Math.atan2(dy, dx);
+
+            coord[0] = ellipse.center[0] - ellipse.xRadius * Math.cos(angle);
+            coord[1] = ellipse.center[1] - ellipse.yRadius * Math.sin(angle);
+
+            var scaledPoint = graphie.scalePoint(coord);
+            ellipse.boundaryPoint.attr({ cx: scaledPoint[0] });
+            ellipse.boundaryPoint.attr({ cy: scaledPoint[1] });
+            ellipse.boundaryPoint.animate(ellipse.ellipseBoundaryShowStyle, 50);
+
+            ellipse.onMove(coord[0], coord[1]);
+        };
+
+        $(ellipse.perim[0]).on(
+            "vmouseover vmouseout vmousemove", function(event) {
+                if (event.type === "vmouseover") {
+                    ellipse.showPoint(event);
+                } else if (event.type === "vmouseout") {
+                    ellipse.boundaryPoint.animate(ellipse.ellipseBoundaryHideStyle, 50);
+                    ellipse.onLeave();
+                } else if (event.type === "vmousemove") {
+                    ellipse.showPoint(event);
+                }
+        });
+
+        return ellipse;
     },
 
     addRotateHandle: (function() {

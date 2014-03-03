@@ -945,6 +945,29 @@ span.hover-hint:hover {
     border-top: 1px solid black;
 }
 
+#problemarea div.focus-information {
+    padding-bottom: 12px;
+    height: 70px;
+    clear: both;
+}
+
+#problemarea div.focus-information div {
+    display: block;
+}
+#problemarea div.focus-information-column-left {
+    float: left;
+    width: 30%;
+}
+#problemarea div.focus-information-column-right {
+    float: right;
+    width: 55%;
+}
+
+#solutionarea .intuition-equation td {
+    text-align: right;
+    padding-left: 5px;
+}
+
 body.debug span.error {
     font-weight: bold;
     color: #FFF;
