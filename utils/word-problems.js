@@ -236,6 +236,24 @@ KhanUtil.Plural.prototype = {
     }
 };
 
+KhanUtil.numberPlaceNames = [
+    new Plural(function(num) {
+        return $.ngettext("one", "ones", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("ten", "tens", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("hundred", "hundreds", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("thousand", "thousands", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("ten thousand", "ten thousands", num);
+    })
+];
+
 KhanUtil.decimalPlaceNames = [
     new Plural(function(num) {
         return $.ngettext("one", "ones", num);

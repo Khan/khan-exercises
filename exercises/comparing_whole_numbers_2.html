@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html data-require="math word-problems graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Comparing whole numbers 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="3-same-digits">
+                <div class="vars">
+                    <var id="A">randRange(1, 9)</var>
+                    <var id="B">randRange(1, 9)</var>
+                    <var id="C">randRange(1, 9)</var>
+                    <var id="D1">shuffle([A, B, C])</var>
+                    <var id="D2">shuffle([A, B, C])</var>
+                    <var id="N1">D1[0] * 100 + D1[1] * 10 + D1[2]</var>
+                    <var id="N2">D2[0] * 100 + D2[1] * 10 + D2[2]</var>
+                    <var id="SOLUTION">N1 === N2 ? "=" : N1 &lt; N2 ? "&lt;" : "&gt;"</var>
+                </div>
+
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+                </div>
+
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>=</code></li>
+                    <li><code>&gt;</code></li>
+                </ul>
+            </div>
+
+            <div id="3-different-digits">
+                <div class="vars">
+                    <var id="D1">[randRange(0, 9), randRange(0, 9), randRange(1, 9)]</var>
+                    <var id="D2">[randRange(0, 9), randRange(0, 9), randRange(1, 9)]</var>
+                    <var id="N1">D1[2] * 100 + D1[1] * 10 + D1[0]</var>
+                    <var id="N2">D2[2] * 100 + D2[1] * 10 + D2[0]</var>
+                    <var id="SOLUTION">N1 === N2 ? "=" : N1 &lt; N2 ? "&lt;" : "&gt;"</var>
+                </div>
+
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+                </div>
+
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>=</code></li>
+                    <li><code>&gt;</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div>
+                <div><code>\large{&lt;}</code> means "less than".</div>
+                <div><code>\large{=}</code> means "equal to".</div>
+                <div><code>\large{&gt;}</code> means "greater than".</div>
+            </div>
+
+            <p><code>
+                \large{\qquad \blue{<var>D1[2]</var>} \green{<var>D1[1]</var>} \red{<var>D1[0]</var>} = 
+                \blue{<var>D1[2]</var> \text{ <var>plural_form(numberPlaceNames[2], D1[2])</var>}} + 
+                \green{<var>D1[1]</var> \text{ <var>plural_form(numberPlaceNames[1], D1[1])</var>}} +
+                \red{<var>D1[0]</var> \text{ <var>plural_form(numberPlaceNames[0], D1[0])</var>}}}
+            </code></p>
+
+            <p><code>
+                \large{\qquad \blue{<var>D2[2]</var>} \green{<var>D2[1]</var>} \red{<var>D2[0]</var>} =
+                \blue{<var>D2[2]</var> \text{ <var>plural_form(numberPlaceNames[2], D2[2])</var>}} + 
+                \green{<var>D2[1]</var> \text{ <var>plural_form(numberPlaceNames[1], D2[1])</var>}} +
+                \red{<var>D2[0]</var> \text{ <var>plural_form(numberPlaceNames[0], D2[0])</var>}}}
+            </code></p>
+
+            <div data-if="N1 > N2" data-unwrap="">
+                <p><code>\large{<var>N1</var>}</code> is greater than <code>\large{<var>N2</var>}</code>.</p>
+                <p>Therefore <code>\large{<var>N1</var> &gt; <var>N2</var>}</code>.</p>
+            </div>
+            <div data-else-if="N1 < N2" data-unwrap="">
+                <p><code>\large{<var>N1</var>}</code> is less than <code>\large{<var>N2</var>}</code>.</p>
+                <p>Therefore <code>\large{<var>N1</var> &lt; <var>N2</var>}</code>.</p>
+            </div>
+            <div data-else="" data-unwrap="">
+                <p><code>\large{<var>N1</var>}</code> is equal to <code>\large{<var>N2</var>}</code>.</p>
+                <p>Therefore <code>\large{<var>N1</var> = <var>N2</var>}</code>.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
