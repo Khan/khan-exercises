@@ -35,7 +35,8 @@ var knumber = KhanUtil.knumber = {
 
     // Round a number to a certain number of decimal places
     round: function(num, precision) {
-        return knumber.roundTo(num, Math.pow(10, precision));
+        var factor = Math.pow(10, precision);
+        return Math.round(num * factor) / factor;
     },
 
     // Round a number to the nearest increment
