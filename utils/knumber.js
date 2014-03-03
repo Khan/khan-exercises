@@ -39,7 +39,8 @@ var knumber = KhanUtil.knumber = {
         return Math.round(num * factor) / factor;
     },
 
-    // Round a number to the nearest increment
+    // Round num to the nearest multiple of increment
+    // i.e. roundTo(83, 5) -> 85
     roundTo: function(num, increment) {
         return Math.round(num / increment) * increment;
     },
