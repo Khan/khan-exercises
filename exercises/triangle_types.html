@@ -121,7 +121,7 @@
                     <div>
                         <p><code>180 -<var>TRIANGLE[ 0 ][ 0 ]</var> - <var>TRIANGLE[ 0 ][ 1 ]</var> = <var>TRIANGLE[ 0 ][ 2 ]</var></code></p>
                         <div class="graphie" data-update="typeTr">
-                            graph.TR.labels = { "angles" : graph.TR.niceAngles };
+                            graph.TR.labels = { "angles" : clearArray( graph.TR.niceAngles, [2] ) };
                             graph.TR.drawLabels();
                         </div>
                     </div>
