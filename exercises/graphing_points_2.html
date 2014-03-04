@@ -46,6 +46,10 @@
                         graph.movablePoint.onMove = function( x, y ) {
                             return [ max( -10, min( x, 10 ) ), max( -10, min( y, 10 ) ) ];
                         };
+
+                        graph.showCorrect = function() {
+                            graph.movablePoint.moveTo(X, Y);
+                        };
                     </div>
                 </div>
                 <div class="solution" data-type="custom">
@@ -132,7 +136,7 @@
                     <div>
                         <p>
                             Move the point to <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> at the marked point above.
-                            <input onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" type="button" value="Show me">
+                            <input onclick="javascript:KhanUtil.currentGraph.graph.showCorrect();" type="button" value="Show me">
                         </p>
                         <div class="graphie" data-update="grid">
                             style({
