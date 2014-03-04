@@ -1143,7 +1143,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             } else {
                 points.push([(x - graph.range[0][0]) * graph.scale[0], (graph.range[1][1] - y) * graph.scale[1]]);
             }
-        }
+        };
 
         // Draw a curve parallel to, but (mouseAreaWidth/2 pixels) above the function
         for (var x = options.range[0]; x <= options.range[1]; x += step) {
