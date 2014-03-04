@@ -31,6 +31,15 @@
 
                             addMouseLayer();
                             graph.protractor = protractor([14, -8]);
+
+                            graph.showOrigin = function() {
+                                graph.protractor.moveTo( 0, 0 );
+                            };
+
+                            graph.showCorrect = function() {
+                                graph.showOrigin();
+                                graph.protractor.rotateTo(540 - ANGLE_ONE - DIFF);
+                            };
                         </div>
                     </div>
                     <div class="solution" data-type="multiple">
@@ -42,19 +51,19 @@
             <div class="hints">
                 <p>
                     First, align the origin of the protractor with the vertex of the angle.
-                    <button onclick="javascript: KhanUtil.currentGraph.graph.protractor.moveTo( 0, 0 ); ">Show me</button>
+                    <button onclick="javascript:
+                        KhanUtil.currentGraph.graph.showOrigin();
+                    ">Show me</button>
                 </p>
                 <p>
                     Next, rotate the protractor so that the <code>0^{\circ}</code> mark lines up with one side of the angle.
                     <button onclick="javascript:
-                        KhanUtil.currentGraph.graph.protractor.moveTo( 0, 0 );
-                        KhanUtil.currentGraph.graph.protractor.rotateTo(KhanUtil.tmpl.getVAR('540 - ANGLE_ONE - DIFF'));
+                        KhanUtil.currentGraph.graph.showCorrect();
                     ">Show me</button>
                 </p>
                 <div>
                     <div class="graphie" data-update="angle">
-                        graph.protractor.moveTo( 0, 0 );
-                        graph.protractor.rotateTo( 540 - ANGLE_ONE - DIFF );
+                        graph.showCorrect();
                         label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                     </div>
                     <p>The angle is <code><var>DIFF</var></code> degrees.</p>
