@@ -83,7 +83,9 @@
             } else {
                 return KhanUtil.findAngle(point1, vertex) - KhanUtil.findAngle(point2, vertex);
             }
-        }
+        },
+
+        graphs: {}
     });
 
 
@@ -948,6 +950,11 @@
                 }
                 graphie = KhanUtil.createGraphie(el);
                 $(el).data("graphie", graphie);
+
+                var id = $(el).attr("id");
+                if (id) {
+                    KhanUtil.graphs[id] = graphie;
+                }
             }
 
             // So we can write graph.bwahahaha = 17 to save stuff between updates

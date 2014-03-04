@@ -77,8 +77,6 @@
                         labels: [[[-0.5, 0, 0], SIDE]]
                     }
                 ]</var>
-                <var id="GRAPH">{}</var>
-                <var id="UNWRAPGRAPH">{}</var>
 
                 <var id="BASE_TEXT">$._("base")</var>
                 <var id="HEIGHT_TEXT">$._("height")</var>
@@ -89,7 +87,7 @@
                 Drag on the object to rotate it.
             </p>
             <div class="problem">
-                <div class="graphie">
+                <div class="graphie" id="main">
                     init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                     addMouseLayer();
 
@@ -105,13 +103,11 @@
 
                     graph.obj.doDraw();
 
-                    GRAPH = graph;
-
                     var spinner;
                     setTimeout(function() {
                         spinner = setInterval(function() {
-                            GRAPH.obj.rotate(0, 1, 0, 0.01);
-                            GRAPH.obj.doDraw();
+                            graph.obj.rotate(0, 1, 0, 0.01);
+                            graph.obj.doDraw();
                         }, 50);
                     }, 300);
 
@@ -121,27 +117,27 @@
                     $(mouseTarget[0]).bind("vmousedown", function(event) {
                         event.preventDefault();
 
-                        GRAPH.lastX = event.pageX;
-                        GRAPH.lastY = event.pageY;
+                        graph.lastX = event.pageX;
+                        graph.lastY = event.pageY;
 
                         clearInterval(spinner);
 
                         $(document).bind("vmousemove vmouseup", function(event) {
                             event.preventDefault();
 
-                            var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
-                            var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+                            var dx = (event.pageX - graph.lastX) / 200 * PI;
+                            var dy = (event.pageY - graph.lastY) / 200 * PI;
 
-                            GRAPH.lastX = event.pageX;
-                            GRAPH.lastY = event.pageY;
+                            graph.lastX = event.pageX;
+                            graph.lastY = event.pageY;
 
-                            var xAxis = normalize(GRAPH.obj.perspective[1]);
-                            var yAxis = normalize(GRAPH.obj.perspective[0]);
+                            var xAxis = normalize(graph.obj.perspective[1]);
+                            var yAxis = normalize(graph.obj.perspective[0]);
 
-                            GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
-                            GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+                            graph.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                            graph.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
 
-                            GRAPH.obj.doDraw();
+                            graph.obj.doDraw();
 
                             if (event.type === "vmouseup") {
                                 $(document).unbind("vmousemove vmouseup");
@@ -313,8 +309,8 @@
                 of each of the faces, and add all the areas up.</p>
                 <div>
                     <p>To see this better, let's try unwrapping the box:
-                    <input onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')" type="submit" value="Unwrap!"/></p>
-                    <div class="graphie">
+                    <input onclick="KhanUtil.graphs.unwrap.graph.unwrap()" type="submit" value="Unwrap!"/></p>
+                    <div class="graphie" id="unwrap">
                         var verts = [
                             [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
                             [LENGTH/MAX, WIDTH/MAX, -HEIGHT/MAX],
@@ -380,15 +376,13 @@
 
                         graph.obj.doDraw();
 
-                        UNWRAPGRAPH = graph;
-                        UNWRAPGRAPH.unwrapped = false;
-
+                        graph.unwrapped = false;
                         graph.unwrap = function() {
-                            if (UNWRAPGRAPH.unwrapped) {
+                            if (graph.unwrapped) {
                                 return;
                             }
 
-                            UNWRAPGRAPH.unwrapped = true;
+                            graph.unwrapped = true;
 
                             var last = 0;
 
@@ -436,16 +430,16 @@
                                         2 * cos(now) * WIDTH / MAX;
 
                                     if (now &lt; PI / 2) {
-                                        UNWRAPGRAPH.obj.rotate(0, 1, 0,
+                                        graph.obj.rotate(0, 1, 0,
                                             -2 / 10 * (now - last));
                                     } else {
-                                        UNWRAPGRAPH.obj.rotate(1, 0, 0,
+                                        graph.obj.rotate(1, 0, 0,
                                             -2 / 8 * (now - last));
                                     }
 
                                     last = now;
 
-                                    UNWRAPGRAPH.obj.doDraw();
+                                    graph.obj.doDraw();
                                 }
                             });
                         };

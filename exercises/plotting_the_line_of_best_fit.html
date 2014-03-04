@@ -122,7 +122,6 @@
 
                     return [realSlope, realIntercept, r2];
                 })()</var>
-                <var id="GRAPH">{}</var>
                 <var id="VALIDATOR">function(slope, intercept) {
                     var low = _.first(POINTS), high = _.last(POINTS);
 
@@ -186,7 +185,7 @@
 
             <p class="question">Fit a line to the data or mark that no line fits the data well.</p>
             <div class="problem">
-                <div class="graphie">
+                <div class="graphie" id="main">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -290,8 +289,6 @@
                             }
                         });
                     };
-
-                    GRAPH = graph;
                 </div>
             </div>
 
@@ -301,20 +298,21 @@
                     <ul>
                         <li>
                             <label>
-                                <input id="exists" checked name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
+                                <input id="exists" checked name="linear" onclick="KhanUtil.graphs.main.graph.showLine()" type="radio">
                                 <span>A line fits the data well</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input id="notexists" name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
+                                <input id="notexists" name="linear" onclick="KhanUtil.graphs.main.graph.hideLine()" type="radio">
                                 <span>No line fits the data well</span>
                             </label>
                         </li>
                     </ul>
                 </div>
                 <div class="guess">[
-                    GRAPH.pointA.coord, GRAPH.pointB.coord,
+                    KhanUtil.graphs.main.graph.pointA.coord,
+                    KhanUtil.graphs.main.graph.pointB.coord,
                     $("input[name='linear']:checked").attr("id")
                 ]</div>
                 <div class="validator-function">
@@ -335,9 +333,9 @@
                     return VALIDATOR(slope, intercept);
                 </div>
                 <div class="show-guess">
-                    GRAPH.pointA.setCoord(guess[0]);
-                    GRAPH.pointB.setCoord(guess[1]);
-                    GRAPH.bestFitLine.transform(true);
+                    KhanUtil.graphs.main.graph.pointA.setCoord(guess[0]);
+                    KhanUtil.graphs.main.graph.pointB.setCoord(guess[1]);
+                    KhanUtil.graphs.main.graph.bestFitLine.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
                     $("#"+guess[2]).attr('checked', 'checked');
@@ -459,7 +457,7 @@
                 <p>
                     There are several lines that satisfy this.
                     <a class="simple-button" href="javascript:void(0)"
-                        onclick="javascript:KhanUtil.tmpl.getVAR('GRAPH').showSolution()">
+                        onclick="javascript:KhanUtil.graphs.main.graph.showSolution()">
                             Click here
                     </a>
                     to show one of them.
@@ -472,7 +470,6 @@
                 <var id="SLOPE">0</var>
                 <var id="INTERCEPT">0</var>
                 <var id="OFFSET">11</var>
-                <var id="GRAPH">{}</var>
             </div>
 
             <div class="solution" data-type="custom">
@@ -481,20 +478,21 @@
                     <ul>
                         <li>
                             <label>
-                                <input id="exists" checked name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
+                                <input id="exists" checked name="nonlinear" onclick="KhanUtil.graphs.main.graph.showLine()" type="radio">
                                 <span>A line fits the data well</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input id="notexists" name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
+                                <input id="notexists" name="nonlinear" onclick="KhanUtil.graphs.main.graph.hideLine()" type="radio">
                                 <span>No line fits the data well</span>
                             </label>
                         </li>
                     </ul>
                 </div>
                 <div class="guess">[
-                    GRAPH.pointA.coord, GRAPH.pointB.coord,
+                    KhanUtil.graphs.main.graph.pointA.coord,
+                    KhanUtil.graphs.main.graph.pointB.coord,
                     $("input[name='nonlinear']:checked").attr("id")
                 ]</div>
                 <div class="validator-function">
@@ -505,9 +503,9 @@
                     return guess[2] === "notexists";
                 </div>
                 <div class="show-guess">
-                    GRAPH.pointA.setCoord(guess[0]);
-                    GRAPH.pointB.setCoord(guess[1]);
-                    GRAPH.bestFitLine.transform(true);
+                    KhanUtil.graphs.main.graph.pointA.setCoord(guess[0]);
+                    KhanUtil.graphs.main.graph.pointB.setCoord(guess[1]);
+                    KhanUtil.graphs.main.graph.bestFitLine.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
                     $("#"+guess[2]).attr('checked', 'checked');
@@ -562,20 +560,20 @@
                     <ul>
                         <li>
                             <label>
-                                <input id="exists" checked name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
+                                <input id="exists" checked name="nonlinear" onclick="KhanUtil.graphs.main.graph.showLine()" type="radio">
                                 <span>A line fits the data well</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input id="notexists" name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
+                                <input id="notexists" name="nonlinear" onclick="KhanUtil.graphs.main.graph.hideLine()" type="radio">
                                 <span>No line fits the data well</span>
                             </label>
                         </li>
                     </ul>
                 </div>
                 <div class="guess">[
-                    GRAPH.pointA.coord, GRAPH.pointB.coord,
+                    KhanUtil.graphs.main.graph.pointA.coord, KhanUtil.graphs.main.graph.pointB.coord,
                     $("input[name='nonlinear']:checked").attr("id")
                 ]</div>
                 <div class="validator-function">
@@ -586,9 +584,9 @@
                     return guess[2] === "notexists";
                 </div>
                 <div class="show-guess">
-                    GRAPH.pointA.setCoord(guess[0]);
-                    GRAPH.pointB.setCoord(guess[1]);
-                    GRAPH.bestFitLine.transform(true);
+                    KhanUtil.graphs.main.graph.pointA.setCoord(guess[0]);
+                    KhanUtil.graphs.main.graph.pointB.setCoord(guess[1]);
+                    KhanUtil.graphs.main.graph.bestFitLine.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
                     $("#"+guess[2]).attr('checked', 'checked');
@@ -642,20 +640,21 @@
                     <ul>
                         <li>
                             <label>
-                                <input id="exists" checked name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
+                                <input id="exists" checked name="nonlinear" onclick="KhanUtil.graphs.main.graph.showLine()" type="radio">
                                 <span>A line fits the data well</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input id="notexists" name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
+                                <input id="notexists" name="nonlinear" onclick="KhanUtil.graphs.main.graph.hideLine()" type="radio">
                                 <span>No line fits the data well</span>
                             </label>
                         </li>
                     </ul>
                 </div>
                 <div class="guess">[
-                    GRAPH.pointA.coord, GRAPH.pointB.coord,
+                    KhanUtil.graphs.main.graph.pointA.coord,
+                    KhanUtil.graphs.main.graph.pointB.coord,
                     $("input[name='nonlinear']:checked").attr("id")
                 ]</div>
                 <div class="validator-function">
@@ -666,9 +665,9 @@
                     return guess[2] === "notexists";
                 </div>
                 <div class="show-guess">
-                    GRAPH.pointA.setCoord(guess[0]);
-                    GRAPH.pointB.setCoord(guess[1]);
-                    GRAPH.bestFitLine.transform(true);
+                    KhanUtil.graphs.main.graph.pointA.setCoord(guess[0]);
+                    KhanUtil.graphs.main.graph.pointB.setCoord(guess[1]);
+                    KhanUtil.graphs.main.graph.bestFitLine.transform(true);
                 </div>
                 <div class="show-guess-solutionarea">
                     $("#"+guess[2]).attr('checked', 'checked');
