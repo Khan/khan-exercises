@@ -238,6 +238,30 @@
                         graph.set.toBack();
                     };
 
+                    graph.showCorrect = function() {
+                        graph.pointA.setCoord([ 0, YINT_1 ]);
+                        graph.pointB.setCoord([ SLOPE_FRAC_1[1], YINT_1 + SLOPE_FRAC_1[0] ]);
+                        graph.pointC.setCoord([ 0, YINT_2 ]);
+                        graph.pointD.setCoord([ SLOPE_FRAC_2[1], YINT_2 + SLOPE_FRAC_2[0] ]);
+                        graph.shadetop1 = graph.pointA.coord[0] > graph.pointB.coord[0] ? LESS_THAN_1 : !LESS_THAN_1;
+                        graph.shadetop2 = graph.pointC.coord[0] > graph.pointD.coord[0] ? LESS_THAN_2 : !LESS_THAN_2;
+                        if ( INCLUSIVE_1 ) {
+                            graph.dasharray1 = '';
+                            $( 'input[name=dashradio1][value=solid]' ).attr( 'checked', true );
+                        } else {
+                            graph.dasharray1 = '- ';
+                            $( 'input[name=dashradio1][value=dashed]' ).attr( 'checked', true );
+                        }
+                        if ( INCLUSIVE_2 ) {
+                            graph.dasharray2 = '';
+                            $( 'input[name=dashradio2][value=solid]' ).attr( 'checked', true );
+                        } else {
+                            graph.dasharray2 = '- ';
+                            $( 'input[name=dashradio2][value=dashed]' ).attr( 'checked', true );
+                        }
+                        graph.update();
+                    };
+
                     // A and B can't be in the same place
                     graph.pointA.onMove = function( x, y ) {
                         if ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] ) {
@@ -523,31 +547,7 @@
         </div>
         <div>
             <input onclick="javascript:
-                with ( KhanUtil.currentGraph ) {
-                    with ( KhanUtil.tmpl ) {
-                        graph.pointA.setCoord([ 0, getVAR( 'YINT_1' ) ]);
-                        graph.pointB.setCoord([ getVAR( 'SLOPE_FRAC_1' )[1], getVAR( 'YINT_1' ) + getVAR( 'SLOPE_FRAC_1' )[0] ]);
-                        graph.pointC.setCoord([ 0, getVAR( 'YINT_2' ) ]);
-                        graph.pointD.setCoord([ getVAR( 'SLOPE_FRAC_2' )[1], getVAR( 'YINT_2' ) + getVAR( 'SLOPE_FRAC_2' )[0] ]);
-                        graph.shadetop1 = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? getVAR( 'LESS_THAN_1' ) : !getVAR( 'LESS_THAN_1' );
-                        graph.shadetop2 = graph.pointC.coord[0] &gt; graph.pointD.coord[0] ? getVAR( 'LESS_THAN_2' ) : !getVAR( 'LESS_THAN_2' );
-                        if ( getVAR( 'INCLUSIVE_1' ) ) {
-                            graph.dasharray1 = '';
-                            $( 'input[name=dashradio1][value=solid]' ).attr( 'checked', true );
-                        } else {
-                            graph.dasharray1 = '- ';
-                            $( 'input[name=dashradio1][value=dashed]' ).attr( 'checked', true );
-                        }
-                        if ( getVAR( 'INCLUSIVE_2' ) ) {
-                            graph.dasharray2 = '';
-                            $( 'input[name=dashradio2][value=solid]' ).attr( 'checked', true );
-                        } else {
-                            graph.dasharray2 = '- ';
-                            $( 'input[name=dashradio2][value=dashed]' ).attr( 'checked', true );
-                        }
-                        graph.update();
-                    }
-                }
+                KhanUtil.currentGraph.graph.showCorrect();
             " type="button" value="Show me the correct graphs">
         </div>
         <div>
