@@ -116,6 +116,16 @@
                         }
                     });
 
+                    graph.showCorrect1 = function() {
+                        graph.pointA.moveTo( 0, YINT_1, true );
+                        graph.pointB.moveTo( SLOPE_1_FRAC[1], YINT_1 + SLOPE_1_FRAC[0], true );
+                    };
+
+                    graph.showCorrect2 = function() {
+                        graph.pointC.moveTo( 0, YINT_2, true );
+                        graph.pointD.moveTo( SLOPE_2_FRAC[1], YINT_2 + SLOPE_2_FRAC[0], true );
+                    };
+
                     // A and B can't be in the same place
                     graph.pointA.onMove = function( x, y ) {
                         return ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] );
@@ -252,9 +262,7 @@
             <code>(0, <var>YINT_1</var>)</code> and
             <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
             <br><input onclick="javascript:
-                KhanUtil.currentGraph.graph.pointA.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_1' ), true );
-                KhanUtil.currentGraph.graph.pointB.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[1]' ),
-                    KhanUtil.tmpl.getVAR( 'YINT_1' ) + KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[0]' ), true );
+                KhanUtil.currentGraph.graph.showCorrect1();
             " type="button" value="Show me">
         </p>
         <div data-if="STD_FORM_2" data-unwrap="">
@@ -310,9 +318,7 @@
             <code>(0, <var>YINT_2</var>)</code> and
             <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
             <br><input onclick="javascript:
-                KhanUtil.currentGraph.graph.pointC.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_2' ), true );
-                KhanUtil.currentGraph.graph.pointD.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[1]' ),
-                    KhanUtil.tmpl.getVAR( 'YINT_2' ) + KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[0]' ), true );
+                KhanUtil.currentGraph.graph.showCorrect2();
             " type="button" value="Show me">
         </p>
         <p>
