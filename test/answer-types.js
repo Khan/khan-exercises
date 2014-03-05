@@ -913,9 +913,9 @@
     });
 
 
-    asyncTest("prime factorization", 18, function() {
+    asyncTest("prime factorization", 24, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='primeFactorization'>2x3x5<\/p>"
+            "<p class='solution' data-type='primeFactorization'>2x2x3x5<\/p>"
         );
 
         var answerData = Khan.answerTypes.primeFactorization.setup($("#solutionarea"),
@@ -923,10 +923,12 @@
 
         testAnswer(answerData, "", "empty", "empty answer is empty");
         testAnswer(answerData, "5x6", "wrong", "wrong answer is wrong");
-        testAnswer(answerData, "2x3x5", "right", "right answer is right");
-        testAnswer(answerData, "2*3*5", "right", "right answer is right");
-        testAnswer(answerData, "2 * 3 * 5", "right", "right answer is right");
-        testAnswer(answerData, "3 * 5 * 2", "right", "right answer is right");
+        testAnswer(answerData, "2x2x3x5", "right", "right answer is right");
+        testAnswer(answerData, "2*2*3*5", "right", "right answer is right");
+        testAnswer(answerData, "2 *2 * 3 * 5", "right", "right answer is right");
+        testAnswer(answerData, "3 * 2 * 5 * 2", "right", "right answer is right");
+        testAnswer(answerData, "2 ^ 2 * 5 * 3", "right", "right answer is right");
+        testAnswer(answerData, "2^2*3^1*5^1", "right", "right answer is right");
 
         start();
     });

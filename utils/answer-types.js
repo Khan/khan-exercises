@@ -1832,8 +1832,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 },
                 solution: $.trim(solutionText),
                 examples: [
-                    $._("a product of prime factors, like " +
-                        "<code>2 \\times 3</code>"),
+                    $._("a product of prime factors, like <code>2 \\times 3</code>"),
                     $._("a single prime number, like <code>5</code>")
                 ],
                 showGuess: function(guess) {
@@ -1847,9 +1846,24 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // Get rid of all the whitespace
                 guess = guess.split(" ").join("").toLowerCase();
-                // Split on x, *, or unicode x, sort, and join with xs
-                guess = KhanUtil.sortNumbers(guess.split(/x|\*|\u00d7/))
-                                .join("x");
+                // Split on x, *, or unicode x
+                guess = guess.split(/x|\*|\u00d7/);
+
+                // Replace a^b with b lots of axa
+                var terms = [];
+                for (var i = 0; i < guess.length; i++) {
+                    var t = guess[i].split('^');
+                    if (t.length > 1) {
+                        for (var j = 0; j < t[1]; j++) {
+                            terms.push(t[0]);
+                        }
+                    } else {
+                        terms.push(guess[i]);
+                    }
+                }
+
+                // Sort, and join with xs
+                guess = KhanUtil.sortNumbers(terms).join("x");
                 // perform simple string comparison
                 return {
                     empty: guess === "",
