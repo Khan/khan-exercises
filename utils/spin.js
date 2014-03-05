@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
     spin: function(content) {
         // First find all top-level blocks and spin them
@@ -45,3 +47,5 @@ $.fn.spin = function() {
         $(this).html(spun);
     });
 };
+
+});

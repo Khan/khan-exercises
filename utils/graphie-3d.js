@@ -1,11 +1,8 @@
-(function(KhanUtil) {
+define(function(require) {
 
-var kmatrix = KhanUtil.kmatrix;
-var kvector = KhanUtil.kvector;
-$.fn["graphie-3dLoad"] = function() {
-    kmatrix = KhanUtil.kmatrix;
-    kvector = KhanUtil.kvector;
-};
+require("./graphie.js");
+var kmatrix = require("./kmatrix.js");
+var kvector = require("./kvector.js");
 
 $.extend(KhanUtil, {
     // make a 3d object, which holds the vertices,
@@ -363,4 +360,4 @@ $.extend(KhanUtil, {
     }
 });
 
-})(KhanUtil);
+});

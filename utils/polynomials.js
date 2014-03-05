@@ -1,3 +1,8 @@
+define(function(require) {
+
+require("./math.js");
+require("./expressions.js");
+
 $.extend(KhanUtil, {
     Polynomial: function(minDegree, maxDegree, coefs, variable, name) {
         var term = function(coef, vari, degree) {
@@ -419,4 +424,6 @@ $.extend(KhanUtil, {
         }
         return roots;
     }
+});
+
 });

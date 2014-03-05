@@ -1,4 +1,4 @@
-(function() {
+define(function(require) {
 
 function findChildOrAdd(elem, className) {
     var $child = $(elem).find("." + className);
@@ -211,5 +211,4 @@ $.fn.texCleanup = function() {
     return this;
 };
 
-
-})();
+});

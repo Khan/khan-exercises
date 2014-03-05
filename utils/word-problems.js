@@ -1,4 +1,6 @@
-(function() {
+define(function(require) {
+
+require("./math.js");
 
 // Example usage:
 // <var>person(1)</var> traveled 5 mi by <var>vehicle(1)</var>. Let
@@ -1047,4 +1049,4 @@ $.fn["word-problemsLoad"] = function() {
     });
 };
 
-})();
+});

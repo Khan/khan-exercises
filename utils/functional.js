@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
     tabulate: function(fn, n) {
         // Return an array, [fn(), fn(), ...] of length n if fn does not take arguments
@@ -6,4 +8,6 @@ $.extend(KhanUtil, {
             return [fn(i)];
         });
     }
+});
+
 });

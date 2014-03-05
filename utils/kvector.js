@@ -2,13 +2,9 @@
  * Vector Utils 
  * A vector is an array of numbers e.g. [0, 3, 4].
  */
+define(function(require) {
 
-(function(KhanUtil) {
-
-var knumber = KhanUtil.knumber;
-$.fn["kvectorLoad"] = function() {
-    knumber = KhanUtil.knumber;
-};
+var knumber = require("./knumber.js");
 
 function arraySum(array) {
     return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
@@ -212,4 +208,6 @@ var kvector = KhanUtil.kvector = {
     }
 };
 
-})(KhanUtil);
+return kvector;
+
+});

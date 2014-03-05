@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
 
     PiecewiseFunction: function(options) {
@@ -1159,4 +1161,6 @@ $.extend(KhanUtil, {
 
         this.init();
     }
+});
+
 });

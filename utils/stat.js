@@ -1,3 +1,7 @@
+define(function(require) {
+
+require("./math.js");
+
 $.extend(KhanUtil, {
     sum: function(values) {
         var sum = 0;
@@ -177,5 +181,7 @@ $.extend(KhanUtil, {
             "305": 0.9989, "306": 0.9989, "307": 0.9989, "308": 0.999, "309": 0.999
         }[z]);
     }
+
+});
 
 });

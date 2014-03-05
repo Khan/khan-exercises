@@ -1,4 +1,6 @@
-(function(KhanUtil) {
+define(function(require) {
+
+require("./expressions.js");
 
 var kmatrix = KhanUtil.kmatrix = {
     // To add two 2-dimensional matrices, use
@@ -528,4 +530,6 @@ _.each(kmatrix, function(func, name) {
     KhanUtil[name] = func;
 });
 
-})(KhanUtil);
+return kmatrix;
+
+});

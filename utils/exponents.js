@@ -1,3 +1,8 @@
+define(function(require) {
+
+require("./math.js");
+require("./math-format.js");
+
 $.extend(KhanUtil, {
 
     /* fraction math-format function called with defraction enabled, which is always
@@ -146,4 +151,6 @@ $.extend(KhanUtil, {
             root: root
         };
     }
+});
+
 });

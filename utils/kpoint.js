@@ -2,16 +2,10 @@
  * Point Utils
  * A point is an array of two numbers e.g. [0, 0].
  */
+define(function(require) {
 
-(function(KhanUtil) {
-
-var kvector = KhanUtil.kvector;
-var knumber = KhanUtil.knumber;
-$.fn["kpointLoad"] = function() {
-    kvector = KhanUtil.kvector;
-    knumber = KhanUtil.knumber;
-    addKpointExtensions();
-};
+var kvector = require("./kvector.js");
+var knumber = require("./knumber.js");
 
 var kpoint = KhanUtil.kpoint = {
 
@@ -89,36 +83,29 @@ var kpoint = KhanUtil.kpoint = {
     }
 };
 
-// raw redirect functions. these must be attached separately
-// in case kvector hasn't loaded when this file is executed
-function addKpointExtensions() {
-    _.extend(kpoint, {
-        // Check if a value is a point
-        is: kvector.is,
+_.extend(kpoint, {
+    // Check if a value is a point
+    is: kvector.is,
 
-        // Add and subtract vector(s)
-        addVector: kvector.add,
-        addVectors: kvector.add,
-        subtractVector: kvector.subtract,
-        equal: kvector.equal,
+    // Add and subtract vector(s)
+    addVector: kvector.add,
+    addVectors: kvector.add,
+    subtractVector: kvector.subtract,
+    equal: kvector.equal,
 
-        // Convert from cartesian to polar and back
-        polarRadFromCart: kvector.polarRadFromCart,
-        polarDegFromCart: kvector.polarDegFromCart,
-        cartFromPolarRad: kvector.cartFromPolarRad,
-        cartFromPolarDeg: kvector.cartFromPolarDeg,
+    // Convert from cartesian to polar and back
+    polarRadFromCart: kvector.polarRadFromCart,
+    polarDegFromCart: kvector.polarDegFromCart,
+    cartFromPolarRad: kvector.cartFromPolarRad,
+    cartFromPolarDeg: kvector.cartFromPolarDeg,
 
-        // Rounding
-        round: kvector.round,
-        roundTo: kvector.roundTo,
-        floorTo: kvector.floorTo,
-        ceilTo: kvector.ceilTo
-    });
-}
+    // Rounding
+    round: kvector.round,
+    roundTo: kvector.roundTo,
+    floorTo: kvector.floorTo,
+    ceilTo: kvector.ceilTo
+});
 
-// Extend kpoint when loaded without khan-exercises module system
-if (kvector) {
-    addKpointExtensions();
-}
+return kpoint;
 
-})(KhanUtil);
+});

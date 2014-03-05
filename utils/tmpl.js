@@ -1,4 +1,4 @@
-(function() {
+define(function(require) {
 
 var localMode;
 
@@ -646,4 +646,4 @@ $.extend({
     }
 });
 
-})();
+});

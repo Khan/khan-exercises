@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
     commonAngles: [
         {deg: 15, rad: "\\frac{\\pi}{12}"},
@@ -28,4 +30,6 @@ $.extend(KhanUtil, {
     toDegrees: function(radians) {
         return radians * 180 / Math.PI;
     }
+});
+
 });

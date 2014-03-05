@@ -1,3 +1,8 @@
+define(function(require) {
+
+require("./math.js");
+require("./expressions.js");
+
 $.extend(KhanUtil, {
     /* Wraps a number in paretheses if it's negative. */
     negParens: function(n) {
@@ -599,4 +604,6 @@ $.extend(KhanUtil, {
         var mantissa = KhanUtil.localeToFixed(KhanUtil.scientificMantissa(precision, num), precision);
         return "" + mantissa + "\\times 10^{" + exponent + "}";
     }
+});
+
 });

@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
     /* coinFlips(2) returns
      * [["HH", 2], ["HT", 1], ["TH", 1], ["TT", 0]] */
@@ -47,4 +49,6 @@ $.extend(KhanUtil, {
             return sum;
         }
     }
+});
+
 });

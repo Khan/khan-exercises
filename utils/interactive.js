@@ -1,15 +1,12 @@
-(function() {
+define(function(require) {
 
-var knumber = KhanUtil.knumber;
-var kvector = KhanUtil.kvector;
-var kpoint = KhanUtil.kpoint;
-var kline = KhanUtil.kline;
-$.fn["interactiveLoad"] = function() {
-    knumber = KhanUtil.knumber;
-    kvector = KhanUtil.kvector;
-    kpoint = KhanUtil.kpoint;
-    kline = KhanUtil.kline;
-};
+require("../third_party/jquery.mobile.vmouse.js");
+
+require("./graphie.js");
+var knumber = require("./knumber.js");
+var kvector = require("./kvector.js");
+var kpoint = require("./kpoint.js");
+var kline = require("./kline.js");
 
 function sum(array) {
     return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
@@ -4081,4 +4078,4 @@ _.extend(MovableAngle.prototype, {
     }
 });
 
-})();
+});

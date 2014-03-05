@@ -1,9 +1,10 @@
-// TODO(eater): shove these into KhanUtil or somewhere reasonable
+define(function(require) {
 
-window.kline = KhanUtil.kline;
-$.fn["graphie-geometryLoad"] = function() {
-    window.kline = KhanUtil.kline;
-};
+require("./graphie.js");
+var kline = require("./kline.js");
+var kmatrix = require("./kmatrix.js");
+
+// TODO(eater): shove these into KhanUtil or somewhere reasonable
 
 window.rotatePoint = function(p, deg, c) {
     c = c || [0, 0];
@@ -880,13 +881,13 @@ KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
     }, triangle);
 
     var rotatePoint = function(point, angle) {
-        var matrix = KhanUtil.kmatrix.makeMatrix([
+        var matrix = kmatrix.makeMatrix([
             [Math.cos(angle), -Math.sin(angle), 0],
             [Math.sin(angle), Math.cos(angle), 0],
             [0, 0, 1]
         ]);
-        var vector = KhanUtil.kmatrix.makeMatrix([[point[0]], [point[1]], [1]]);
-        var prod = KhanUtil.kmatrix.matrixMult(matrix, vector);
+        var vector = kmatrix.makeMatrix([[point[0]], [point[1]], [1]]);
+        var prod = kmatrix.matrixMult(matrix, vector);
         return [prod[0][0], prod[1][0]];
     };
 
@@ -1021,3 +1022,5 @@ KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
 
     return triangle;
 };
+
+});

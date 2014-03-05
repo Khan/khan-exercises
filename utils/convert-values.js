@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
     trigFunc: {
         csc: {name: "csc", print: function(angle) {
@@ -404,3 +406,4 @@ $.extend(KhanUtil, {
     }
 });
 
+});

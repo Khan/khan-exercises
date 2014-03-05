@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
 
     /* A set of cipher messages to diversify exercises */
@@ -100,5 +102,7 @@ $.extend(KhanUtil, {
 
         return freq;
     }
+
+});
 
 });

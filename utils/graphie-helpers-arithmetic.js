@@ -1,4 +1,4 @@
-(function() {
+define(function(require) {
 
 var decimalPointSymbol = icu.getDecimalFormatSymbols().decimal_separator;
 
@@ -823,4 +823,4 @@ KhanUtil.drawDigits = drawDigits;
 KhanUtil.drawRow = drawRow;
 KhanUtil.crossOutCircles = crossOutCircles;
 
-})();
+});

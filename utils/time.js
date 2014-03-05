@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
     addAnalogClock: function(options) {
         var analogClock = $.extend(true, {
@@ -130,4 +132,6 @@ $.extend(KhanUtil, {
         }
         return 360 * angleProportion;
     }
+});
+
 });

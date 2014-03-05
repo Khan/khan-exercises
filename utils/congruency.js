@@ -1,3 +1,8 @@
+define(function(require) {
+
+require("./angles.js");
+require("./interactive.js");
+
 $.extend(KhanUtil, {
     // Add a "congruency" object that stores data about the
     // points, lines, and angles that you added to the congruency
@@ -661,4 +666,6 @@ $.extend(KhanUtil, {
 
         return congruency;
     }
+});
+
 });

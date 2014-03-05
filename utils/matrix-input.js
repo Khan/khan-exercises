@@ -29,6 +29,9 @@
  * </div>
  *
  */
+define(function(require) {
+
+require("../third_party/jquery.cursor-position.js");
 
 $.extend(KhanUtil, {
 
@@ -349,3 +352,5 @@ $.fn["matrix-inputCleanup"] = function() {
 
     KhanUtil.matrixInput.eventsAttached = false;
 };
+
+});

@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
 
     expr: function(expr, compute) {
@@ -496,3 +498,5 @@ $.extend(KhanUtil, {
 });
 
 KhanUtil.computeOperators["frac"] = KhanUtil.computeOperators["/"];
+
+});

@@ -1,3 +1,5 @@
+define(function(require) {
+
 KhanUtil.scale = {
     orig: {
         unknown: 1,
@@ -293,3 +295,5 @@ KhanUtil.scale = {
         this.balance();
     }
 };
+
+});

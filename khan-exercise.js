@@ -56,6 +56,7 @@
     * showGuess -- when a guess is populated in the answer area in problem
       history mode
 */
+define(function(require) {
 
 window.Khan = (function() {
     // Numbers which are coprime to the number of bins, used for jumping through
@@ -206,9 +207,6 @@ window.Khan = (function() {
     // site, immediately)
     modulePromises = {},
 
-    // Promise that gets resolved when MathJax is loaded
-    mathJaxLoaded,
-
     urlBase = localMode ? "../" : "/khan-exercises/",
 
     // In local mode, we use khan-exercises local copy of the /images
@@ -262,23 +260,21 @@ window.Khan = (function() {
 
         imageBase: imageBase,
 
+        // Inter-util dependencies. This map is currently necessary so that we
+        // can expose only the appropriate $.fn["module-nameLoad"] hooks used
+        // by each problem. Dependencies on third-party files need not be
+        // listed here.
+        // TODO(alpert): Now that these deps are now encoded in require()
+        // lines, find a way to remove this map.
         moduleDependencies: {
-            "math": ["../third_party/raphael", "knumber"],
-
-            // Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
-            // http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
-
-            // The normal module dependencies.
-            "scratchpad": ["../third_party/jquery.mobile.vmouse"],
+            "math": ["knumber"],
             "exponents": ["math", "math-format"],
             "kinematics": ["math"],
             "math-format": ["math", "expressions"],
             "polynomials": ["math", "expressions"],
             "stat": ["math"],
             "word-problems": ["math"],
-            "derivative-intuition": ["../third_party/jquery.mobile.vmouse"],
-            "unit-circle": ["../third_party/jquery.mobile.vmouse"],
-            "interactive": ["graphie", "../third_party/jquery.mobile.vmouse"],
+            "interactive": ["graphie"],
             "mean-and-median": ["stat"],
             "congruency": ["angles", "interactive"],
             "graphie": ["kpoint"],
@@ -286,7 +282,6 @@ window.Khan = (function() {
             "graphie-geometry": ["graphie", "kmatrix", "kvector", "kline"],
             "graphie-helpers": ["math-format"],
             "kmatrix": ["expressions"],
-            "matrix-input": ["../third_party/jquery.cursor-position"],
             "chemistry": ["math-format"],
             "kvector": ["knumber"],
             "kpoint": ["kvector", "knumber"],
@@ -333,10 +328,7 @@ window.Khan = (function() {
             // was a dependency of 'math' so this isn't really any different.
             mods.push(
                 "answer-types", "tmpl", "tex", "jquery.adhesion",
-                "calculator",
-                {
-                    src: urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-8f02f65cba7722b3e529bd9dfa6ac25d"
-                });
+                "calculator");
 
             return mods;
         },
@@ -396,66 +388,6 @@ window.Khan = (function() {
                 }
                 return localeFixed;
             }
-        },
-
-        // Load in a collection of scripts, execute callback upon completion
-        loadScript: function(url, callback) {
-            var head = document.getElementsByTagName("head")[0];
-            var isMathJax = url.indexOf("/MathJax/") !== -1;
-
-            if (!localMode && url.indexOf("/khan-exercises/") === 0 &&
-                    (!isMathJax || window.MathJax)) {
-                // Don't bother loading khan-exercises content in non-local
-                // mode; this content is already packaged up and available
-                // (*unless* it's MathJax, which is silly and still needs
-                // to be loaded (if it's not preloaded))
-                callback();
-                return;
-            }
-            debugLog("loadScript loading " + url);
-
-            // Adapted from jQuery getScript (ajax/script.js) -- can't use
-            // jQuery here because we load jQuery using this routine
-            var script = document.createElement("script");
-            script.async = "async";
-            script.src = url;
-
-            script.onerror = function() {
-                // No error in IE, but this is mostly for debugging during
-                // development so it's probably okay
-                // http://stackoverflow.com/questions/2027849/how-to-trigger-script-onerror-in-internet-explorer
-                Khan.error("Error loading script " + script.src);
-            };
-
-            script.onload = script.onreadystatechange = function() {
-                if (!script.readyState ||
-                        (/loaded|complete/).test(script.readyState)) {
-                    debugLog("loadScript loaded " + url);
-
-                    // Handle memory leak in IE
-                    script.onload = script.onreadystatechange = null;
-
-                    // Remove the script
-                    if (script.parentNode) {
-                        script.parentNode.removeChild(script);
-                    }
-
-                    // Dereference the script
-                    script = undefined;
-
-                    if (isMathJax) {
-                        // If we're loading MathJax, don't bump up the
-                        // count of loaded scripts until MathJax is done
-                        // loading all of its dependencies.
-                        MathJax.Hub.Queue(mathJaxLoaded.resolve);
-                        mathJaxLoaded.then(callback);
-                    } else {
-                        callback();
-                    }
-                }
-            };
-
-            head.appendChild(script);
         },
 
         // Query String Parser
@@ -541,7 +473,9 @@ window.Khan = (function() {
                         }
                     };
 
-                    loadModule("scratchpad").then(makeVisible);
+                    require("./utils/scratchpad.js", function() {
+                        makeVisible();
+                    });
                 },
 
                 hide: function() {
@@ -907,45 +841,16 @@ window.Khan = (function() {
     }
 
     if (localMode) {
-        var lang = Khan.query.lang || "en-US";
-
         // Load in jQuery and underscore, as well as the interface glue code
         // TODO(cbhl): Don't load history.js if we aren't in readOnly mode.
-        var initScripts = [
-                "../local-only/jquery.js",
-                "../local-only/jquery-migrate-1.1.1.js",
-                "../local-only/jquery.ui.core.js",
-                "../local-only/jquery.ui.widget.js",
-                "../local-only/jquery.ui.mouse.js",
-                "../local-only/jquery.ui.position.js",
-                "../local-only/jquery.ui.effect.js",
-                "../local-only/jquery.ui.effect-shake.js",
-                "../local-only/jquery.ui.button.js",
-                "../local-only/jquery.ui.draggable.js",
-                "../local-only/jquery.ui.resizable.js",
-                "../local-only/jquery.ui.dialog.js",
-                "../local-only/jquery.qtip.js",
-                "../local-only/underscore.js",
-                "../local-only/kas.js",
-                "../local-only/jed.js",
-                "../local-only/i18n.js",
-                "../local-only/localeplanet/icu." + lang + ".js",
-                "../local-only/i18n.js",
-                "../local-only/katex/katex.js",
-                "../exercises-stub.js",
-                "../history.js",
-                "../interface.js",
-                "../related-videos.js"
-            ];
-
-        (function loadInitScripts() {
-            if (initScripts.length) {
-                var src = initScripts.shift();
-                Khan.loadScript(src, loadInitScripts);
-            } else {
-                onjQueryLoaded();
-            }
-        })();
+        requirejs([
+            "../exercises-stub.js",
+            "../history.js",
+            "../interface.js",
+            "../related-videos.js"
+        ], function() {
+            onjQueryLoaded();
+        });
     } else {
         onjQueryLoaded();
     }
@@ -956,8 +861,7 @@ window.Khan = (function() {
         // Initialize to an empty jQuery set
         exercises = $();
 
-        mathJaxLoaded = $.Deferred();
-        Khan.mathJaxLoaded = mathJaxLoaded.promise();
+        Khan.mathJaxLoaded = loadMathJax();
 
         $(function() {
             var promises = [];
@@ -977,6 +881,8 @@ window.Khan = (function() {
             $.each(mods, function(i, mod) {
                 promises.push(loadModule(mod));
             });
+
+            promises.push(Khan.mathJaxLoaded);
 
             // Ensure that all local exercises get tagged with the exercise ID
             $("div.exercise").data("name", currentExerciseId);
@@ -2189,41 +2095,84 @@ window.Khan = (function() {
         return promise;
     }
 
-    function loadModule(modNameOrObject) {
-        var src, deps = [];
-
-        if (typeof modNameOrObject === "string") {
-            src = urlBase + "utils/" + modNameOrObject + ".js";
-            deps = Khan.moduleDependencies[modNameOrObject] || [];
-        } else {
-            src = modNameOrObject.src;
-        }
-
+    function loadModule(moduleName) {
         // Return the promise if it exists already
-        var selfPromise = modulePromises[src];
+        var selfPromise = modulePromises[moduleName];
         if (selfPromise) {
             return selfPromise;
         } else {
             selfPromise = $.Deferred();
         }
-        debugLog("loadModule mod " + src);
+        debugLog("loadModule mod " + moduleName);
 
-        var depsPromises = [];
-
-        // Load the dependencies
-        $.each(deps, function(i, dep) {
-            depsPromises.push(loadModule(dep));
+        // Load the module
+        require(["./utils/" + moduleName + ".js"], function() {
+            selfPromise.resolve();
         });
 
-        // Load the module once all of the dependencies have been loaded
-        $.when.apply($, depsPromises).then(function() {
-            Khan.loadScript(src, function() {
-                selfPromise.resolve();
-            });
-        });
-
-        modulePromises[src] = selfPromise;
+        modulePromises[moduleName] = selfPromise;
         return selfPromise;
+    }
+
+    // Load a script by URL, then execute callback
+    function loadScript(url, callback) {
+        var head = document.getElementsByTagName("head")[0];
+
+        debugLog("loadScript loading " + url);
+
+        // Adapted from jQuery getScript (ajax/script.js) -- can't use
+        // jQuery here because we load jQuery using this routine
+        var script = document.createElement("script");
+        script.async = "async";
+        script.src = url;
+
+        script.onerror = function() {
+            // No error in IE, but this is mostly for debugging during
+            // development so it's probably okay
+            // http://stackoverflow.com/questions/2027849/how-to-trigger-script-onerror-in-internet-explorer
+            Khan.error("Error loading script " + script.src);
+        };
+
+        script.onload = script.onreadystatechange = function() {
+            if (!script.readyState ||
+                    (/loaded|complete/).test(script.readyState)) {
+                debugLog("loadScript loaded " + url);
+
+                // Handle memory leak in IE
+                script.onload = script.onreadystatechange = null;
+
+                // Remove the script
+                if (script.parentNode) {
+                    script.parentNode.removeChild(script);
+                }
+
+                // Dereference the script
+                script = undefined;
+
+                callback();
+            }
+        };
+
+        head.appendChild(script);
+    }
+
+    function loadMathJax() {
+        var deferred = $.Deferred();
+
+        // We don't want to finish until MathJax is done loading all of its
+        // dependencies.
+        
+        if (window.MathJax) {
+            waitForMathJaxReady();
+        } else {
+            loadScript(urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-8f02f65cba7722b3e529bd9dfa6ac25d", waitForMathJaxReady);
+        }
+
+        function waitForMathJaxReady() {
+            MathJax.Hub.Queue(deferred.resolve);
+        }
+
+        return deferred.promise();
     }
 
     function loadTestModeSite() {
@@ -2266,3 +2215,5 @@ window.Khan = (function() {
 
 // Make this publicly accessible
 window.KhanUtil = Khan.Util;
+
+});

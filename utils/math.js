@@ -1,9 +1,9 @@
-(function() {
+define(function(require) {
 
-var knumber = KhanUtil.knumber;
-$.fn["mathLoad"] = function() {
-    knumber = KhanUtil.knumber;
-};
+// Minify Raphael ourselves because IE8 has a problem with the 1.5.2 minified release
+// http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
+require("../third_party/raphael.js");
+var knumber = require("./knumber.js");
 
 $.extend(KhanUtil, {
 
@@ -594,4 +594,4 @@ $.extend(KhanUtil, {
     _BACKGROUND: "#FDFDFD"  // TODO(eater): Get rid of this altogether.
 });
 
-})();
+});

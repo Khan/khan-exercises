@@ -42,10 +42,11 @@ cp -f "$srcdir"/underscore/underscore.js "$destdir"
 
 cp -f "$webapp_root"/javascript/shared-package/i18n.js "$destdir"
 
-# We only need some of the jquery-ui files.
+# We only need some of the jquery-ui files, and we'll concatenate them together
+rm -f "$destdir"/jquery-ui.js
 for f in core widget mouse position effect \
     effect-shake button draggable resizable dialog; do
-   cp -f "$srcdir"/jqueryui/jquery.ui.$f.js "$destdir"
+   cat "$srcdir"/jqueryui/jquery.ui.$f.js >>"$destdir"/jquery-ui.js
 done
 
 # We copy all the icu files, so we can support 'commafy' in all locales.

@@ -1,9 +1,6 @@
-(function(KhanUtil) {
+define(function(require) {
 
-var kmatrix = KhanUtil.kmatrix;
-$.fn["constructionsLoad"] = function() {
-    kmatrix = KhanUtil.kmatrix;
-};
+var kmatrix = require("./kmatrix.js");
 
 $.extend(KhanUtil, {
     drawHintLine: function(pt1, pt2, ticks) {
@@ -1043,4 +1040,5 @@ $.extend(KhanUtil, {
         return lines;
     }
 });
-})(KhanUtil);
+
+});

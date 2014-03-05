@@ -1,3 +1,7 @@
+define(function(require) {
+
+require("../third_party/jquery.mobile.vmouse.js");
+
 $.extend(KhanUtil, {
     FN_COLOR: "#6495ED",
     DDX_COLOR: "#FFA500",
@@ -289,5 +293,7 @@ $.extend(KhanUtil, {
             KhanUtil.ddxShown = true;
         }
     }
+
+});
 
 });

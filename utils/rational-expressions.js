@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
 
     getPermutations: function(arr) {
@@ -676,5 +678,7 @@ $.extend(KhanUtil, {
             return regex;
         };
     }
+
+});
 
 });

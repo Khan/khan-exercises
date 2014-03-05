@@ -1,3 +1,7 @@
+define(function(require) {
+
+require("./math-format.js");
+
 $.fn["chemistryLoad"] = function() {
     // TODO(jeresig): i18n: Currently the names of the atomic elements aren't
     // being used in the UI, but if they are, they will need to be translated.
@@ -2655,3 +2659,5 @@ $.fn["chemistryLoad"] = function() {
         }
     });
 };
+
+});

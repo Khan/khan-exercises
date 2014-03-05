@@ -2,15 +2,10 @@
  * Line Utils
  * A line is an array of two points e.g. [[-5, 0], [5, 0]].
  */
+define(function(require) {
 
-(function(KhanUtil) {
-
-var kpoint = KhanUtil.kpoint;
-var kvector = KhanUtil.kvector;
-$.fn["klineLoad"] = function() {
-    kpoint = KhanUtil.kpoint;
-    kvector = KhanUtil.kvector;
-};
+var kpoint = require("./kpoint.js");
+var kvector = require("./kvector.js");
 
 var kline = KhanUtil.kline = {
 
@@ -65,4 +60,6 @@ var kline = KhanUtil.kline = {
     }
 };
 
-})(KhanUtil);
+return kline;
+
+});

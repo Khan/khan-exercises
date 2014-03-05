@@ -1,4 +1,4 @@
-(function() {
+define(function(require) {
 
 var MAXERROR_EPSILON = Math.pow(2, -42);
 
@@ -2246,4 +2246,4 @@ _.each(Khan.answerTypes, function(info, type) {
     }
 });
 
-})();
+});

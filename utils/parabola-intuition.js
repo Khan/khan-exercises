@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
     doParabolaInteraction: function(func, vertex, directrix) {
         var graph = KhanUtil.currentGraph;
@@ -133,5 +135,7 @@ $.extend(KhanUtil, {
             highlighted = false;
         };
     }
+
+});
 
 });

@@ -1,3 +1,7 @@
+define(function(require) {
+
+require("../third_party/jquery.mobile.vmouse.js");
+
 $.extend(KhanUtil, {
     initUnitCircle: function(degrees) {
         var graph = KhanUtil.currentGraph;
@@ -406,5 +410,7 @@ $.extend(KhanUtil, {
         }
 
     }
+
+});
 
 });

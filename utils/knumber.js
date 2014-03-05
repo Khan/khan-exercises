@@ -2,8 +2,7 @@
  * Number Utils
  * A number is a js-number, e.g. 5.12
  */
-
-(function(KhanUtil) {
+define(function(require) {
 
 var DEFAULT_TOLERANCE = 1e-9;
 var MACHINE_EPSILON = Math.pow(2, -42);
@@ -54,4 +53,6 @@ var knumber = KhanUtil.knumber = {
     }
 };
 
-})(KhanUtil);
+return knumber;
+
+});

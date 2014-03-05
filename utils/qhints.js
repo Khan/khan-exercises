@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.fn["qhintsLoad"] = function() {
 
     var checkAnswer = function(parent, source) {
@@ -65,3 +67,5 @@ $.fn["qhintsLoad"] = function() {
         }
     });
 };
+
+});

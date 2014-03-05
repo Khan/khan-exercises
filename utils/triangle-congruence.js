@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
 
     initCongruence: function(options) {
@@ -676,5 +678,7 @@ $.extend(KhanUtil, {
         graphie.drawArcs(triangle.points[1], triangle.points[2], triangle.points[0], arcs[2]);
         $(triangle.set).each(function() { this.toBack(); });
     }
+
+});
 
 });

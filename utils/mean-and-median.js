@@ -1,3 +1,7 @@
+define(function(require) {
+
+require("./stat.js");
+
 $.extend(KhanUtil, {
 
     updateMean: function(mean) {
@@ -336,5 +340,7 @@ $.extend(KhanUtil, {
         });
         KhanUtil.currentGraph.graph.moved = true;
     }
+
+});
 
 });

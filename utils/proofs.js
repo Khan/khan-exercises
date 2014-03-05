@@ -1,3 +1,4 @@
+define(function(require) {
 
 /*
 TODO:
@@ -2142,3 +2143,5 @@ window.generateTrianglePermutations = function(triangle) {
     return perms;
 
 };
+
+});

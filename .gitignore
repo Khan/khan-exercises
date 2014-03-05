@@ -2,3 +2,4 @@
 _hashed-*.js
 exercises-packed
 exercises-packed.zip
+genfiles/**

@@ -1,3 +1,7 @@
+define(function(require) {
+
+require("./math-format.js");
+
 // Temporary not really following convention file, see #160
 
 window.numberLine = function(start, end, step, x, y, denominator) {
@@ -668,3 +672,5 @@ window.curlyBrace = function(startPointGraph, endPointGraph) {
     brace.translate(midPoint[0], midPoint[1]);
     return brace;
 };
+
+});

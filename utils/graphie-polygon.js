@@ -1,3 +1,5 @@
+define(function(require) {
+
 $.extend(KhanUtil, {
     Polygon: function(numSides) {
         // This should be renamed...
@@ -303,4 +305,6 @@ $.extend(KhanUtil, {
             return { chords: chords, vertex: vertex, arc: arc };
         };
     }
+});
+
 });
