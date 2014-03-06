@@ -6,12 +6,15 @@ requirejs.config({
 
 requirejs([
     "jquery",
+    "../local-only/katex/katex.js",
     "../local-only/underscore.js",
     "../local-only/kas.js",
     "../local-only/jed.js",
-    "../local-only/localeplanet/icu." + getLang() + ".js",
-    "../local-only/katex/katex.js"
-], function($, _, KAS, jed, icu, katex) {
+    "../local-only/localeplanet/icu." + getLang() + ".js"
+], function($, katex) {
+    // Only 'jquery' and 'katex' have amd wrappers (and jQuery sets the global
+    // regardless); the other files export globally directly and we don't use
+    // their return values
     window.katex = katex;
 
     // These scripts depend on jQuery, so we wait to load them
