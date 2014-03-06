@@ -1,5 +1,7 @@
 define(function(require) {
 
+var crc32 = require("./crc32.js");
+
 var localMode;
 
 // Keep the template variables private, to prevent external access
@@ -284,7 +286,7 @@ $.tmpl = {
 
         // Just convert top-level values to strings instead of recursively
         // stringifying, due to issues with circular references.
-        return KhanUtil.crc32(JSON.stringify($.map(VARS, function(value, key) {
+        return crc32(JSON.stringify($.map(VARS, function(value, key) {
             return [key, String(value)];
         })));
     },
