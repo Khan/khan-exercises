@@ -507,6 +507,16 @@ var Khan = {
     },
 
     autoSubmitIssue: function(title, description) {
+        // Capture a stack trace for easier debugging. Safari requires an
+        // exception to be thrown in order for .stack to be set
+        var err;
+        try {
+            throw new Error();
+        } catch (e) {
+            err = e;
+        }
+        description += "\n\n" + err.stack;
+
         var framework = Exercises.getCurrentFramework();
         var issueInfo = framework === "khan-exercises" ?
             Khan.getIssueInfo() :

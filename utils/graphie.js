@@ -217,16 +217,7 @@ KhanUtil.createGraphie = function(el) {
                 // Update the canvas size
                 raphael.setSize((xRange[1] - xRange[0]) * xScale, (yRange[1] - yRange[0]) * yScale);
 
-                // Safari requires an exception to be thrown in order for
-                // .stack to be set
-                var err;
-                try {
-                    throw new Error();
-                } catch (e) {
-                    err = e;
-                }
-
-                var errorString = "[" + scale[0] + ", " + scale[1] + "]\n\n" + err.stack;
+                var errorString = "[" + scale[0] + ", " + scale[1] + "]";
                 Khan.autoSubmitIssue("graphie.style:scale", errorString);
             },
 

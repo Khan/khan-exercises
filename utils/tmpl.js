@@ -293,6 +293,9 @@ $.tmpl = {
 
     // Make sure any HTML formatting is stripped
     cleanHTML: function(text) {
+        if ((/&gt;|&lt;|&amp;/g).test(text)) {
+            Khan.autoSubmitIssue("Found HTML entities in var", text);
+        }
         return ("" + text).replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
     }
 };
