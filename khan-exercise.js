@@ -1852,7 +1852,7 @@ window.Khan = (function() {
             $(".calculator-decimal").html(separator);
         }
 
-        require("./utils/calculator.js"], initializeCalculator);
+        require(["./utils/calculator.js"], initializeCalculator);
         Khan.initReportIssueLink("#extras .report-issue-link");
 
         $("#answer_area").delegate("input.button, select", "keydown", function(e) {
