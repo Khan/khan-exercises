@@ -473,7 +473,7 @@ window.Khan = (function() {
                         }
                     };
 
-                    require("./utils/scratchpad.js", function() {
+                    require(["./utils/scratchpad.js"], function() {
                         makeVisible();
                     });
                 },
