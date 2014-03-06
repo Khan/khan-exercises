@@ -14,6 +14,9 @@
         // required without a callback, r.js will include them automatically)
         "utils/scratchpad.js",
 
+        // Utils used by Perseus only
+        "utils/kray.js",
+
         // Complete list of utils that are required by exercises (i.e., in a
         // <html data-require="..."> tag)
         "utils/algebra-intuition.js",
