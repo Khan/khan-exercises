@@ -12,7 +12,6 @@ requirejs([
     "../local-only/localeplanet/icu." + getLang() + ".js",
     "../local-only/katex/katex.js"
 ], function($, _, KAS, jed, icu, katex) {
-    window.KAS = KAS;
     window.katex = katex;
 
     // These scripts depend on jQuery, so we wait to load them
