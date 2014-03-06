@@ -51,33 +51,47 @@
     <!-- Include utility files and tests. -->
     <script src="../exercises-stub.js"></script>
 
-    <script src="../utils/math.js"></script>
-    <script src="math.js"></script>
-    <script src="../utils/expressions.js"></script>
-    <script src="expressions.js"></script>
-    <script src="../utils/polynomials.js"></script>
-    <script src="polynomials.js"></script>
-    <script src="../utils/tex.js"></script>
-    <script src="../utils/tmpl.js"></script>
-    <script src="tmpl.js"></script>
-    <script src="../utils/calculator.js"></script>
-    <script src="calculator.js"></script>
-    <script src="../utils/knumber.js"></script>
-    <script src="knumber.js"></script>
-    <script src="../utils/kmatrix.js"></script>
-    <script src="kmatrix.js"></script>
-    <script src="../utils/kvector.js"></script>
-    <script src="kvector.js"></script>
-    <script src="../utils/kpoint.js"></script>
-    <script src="kpoint.js"></script>
-    <script src="../utils/kline.js"></script>
-    <script src="kline.js"></script>
-    <script src="../utils/kray.js"></script>
-    <script src="kray.js"></script>
-    <script src="../utils/answer-types.js"></script>
-    <script src="answer-types.js"></script>
-    <script src="../utils/rational-expressions.js"></script>
-    <script src="rational-expressions.js"></script>
+    <script src="../local-only/require.js"></script>
+
+    <script>
+    require([
+        "../utils/answer-types.js",
+        "../utils/calculator.js",
+        "../utils/expressions.js",
+        "../utils/kline.js",
+        "../utils/kmatrix.js",
+        "../utils/knumber.js",
+        "../utils/kpoint.js",
+        "../utils/kray.js",
+        "../utils/kvector.js",
+        "../utils/math.js",
+        "../utils/polynomials.js",
+        "../utils/rational-expressions.js",
+        "../utils/tex.js",
+        "../utils/tmpl.js",
+    ], function() {
+
+        // Now that we've loaded the deps, load the tests
+        // TODO(alpert): Have these tests use require() reasonably
+        require([
+            "answer-types.js",
+            "calculator.js",
+            "expressions.js",
+            "kline.js",
+            "kmatrix.js",
+            "knumber.js",
+            "kpoint.js",
+            "kray.js",
+            "kvector.js",
+            "math.js",
+            "polynomials.js",
+            "rational-expressions.js",
+            "tmpl.js",
+        ], function() {
+
+        });
+    });
+    </script>
 </head>
 <body>
     <h1 id="qunit-header">Utility Test Suite</h1>
