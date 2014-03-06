@@ -956,12 +956,7 @@ window.Khan = (function() {
     function makeProblem(exerciseId, typeOverride, seedOverride) {
         debugLog("makeProblem(" + exerciseId + ", " + typeOverride + ", " + seedOverride + ")");
 
-        // Enable scratchpad (unless the exercise explicitly disables it later)
-        if (localMode || typeof KA === "object" && KA.allowScratchpad) {
-            Khan.scratchpad.enable();
-        } else {
-            Khan.scratchpad.disable();
-        }
+        Khan.scratchpad.enable();
 
         // Allow passing in an arbitrary seed
         if (typeof seedOverride !== "undefined") {
