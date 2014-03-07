@@ -10,8 +10,7 @@ $.extend(KhanUtil, {
     // Simplify formulas before display
     cleanMath: function(expr) {
         return typeof expr === "string" ?
-            KhanUtil.tmpl.cleanHTML(expr)
-                .replace(/\+\s*-/g, "- ")
+            expr.replace(/\+\s*-/g, "- ")
                 .replace(/-\s*-/g, "+ ")
                 .replace(/\^1/g, "") :
             expr;
