@@ -23,7 +23,7 @@
 
                 <p class="question">Find the z-score for <var>person( 1 )</var>'s exam grade. Round to two decimal places.</p>
 
-                <div class="solution" data-forms="integer, decimal"><var>ZSCORE</var></div>
+                <div class="solution"><var>ZSCORE</var></div>
 
                 <div class="hints">
                     <p>A z-score is defined as the number of <span class="hint_green">standard deviations</span> a specific point is away from the <span class="hint_pink">mean</span>.</p>
@@ -32,17 +32,14 @@
                         his grade and then dividing by the <span class="hint_green">standard deviation <code>(\sigma)</code></span>.</p><p data-else="">We can calculate the z-score for <var>person( 1 )</var>'s exam grade by subtracting the <span class="hint_pink">mean <code>(\mu)</code></span> from
                         her grade and then dividing by the <span class="hint_green">standard deviation <code>(\sigma)</code></span>.</p>
                         <p>
-                            <code>
-                                \large{\quad z \quad = \quad
-                                \dfrac{x - \color{<var>PINK</var>}{\mu}}{\color{<var>GREEN</var>}{\sigma}}}
-                            </code>
+                            <code>\large{\quad z \quad = \quad \dfrac{x - \pink{\mu}}{\green{\sigma}}}</code>
                         </p>
                     </div>
                     <div>
                         <p>
                             <code>
                                 \large{\quad z \quad = \quad
-                                \dfrac{<var>GRADE</var> - \color{<var>PINK</var>}{<var>MEAN</var>}}{\color{<var>GREEN</var>}{<var>localeToFixed(STDDEV, 1)</var>}}}
+                                \dfrac{<var>GRADE</var> - \pink{<var>MEAN</var>}}{\green{<var>localeToFixed(STDDEV, 1)</var>}}}
                             </code>
                         </p>
                     </div>
