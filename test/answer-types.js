@@ -1,13 +1,13 @@
 (function() {
-    module("answer-types", {
-        setup: function() {
-            jQuery("#qunit-fixture").append(
-                "<div id='solutionarea'>" +
-                "</div>" +
-                "<div class='problem'>" +
-                "</div>");
-        }
-    });
+    module("answer-types");
+
+    function setupSolutionArea() {
+        jQuery("#qunit-fixture").html(
+            "<div id='solutionarea'>" +
+            "</div>" +
+            "<div class='problem'>" +
+            "</div>");
+    }
 
     /**
      * Return a promise that gets resolved after 1 ms
@@ -69,6 +69,7 @@
     }
 
     asyncTest("number integer", 24, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='integer'>-42<\/p>"
         );
@@ -89,6 +90,7 @@
     });
 
     asyncTest("number big integer", 18, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='integer'>12345678<\/p>"
         );
@@ -107,6 +109,7 @@
     });
 
     asyncTest("number proper", 15, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='proper'>-0.5<\/p>"
         );
@@ -124,6 +127,7 @@
     });
 
     asyncTest("number proper (enforced simplification)", 15, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='proper' " +
             "data-simplify='enforced'>-0.5<\/p>"
@@ -142,6 +146,7 @@
     });
 
     asyncTest("number proper (unsimplified)", 15, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='proper' " +
             "data-simplify='optional'>-0.5<\/p>"
@@ -160,6 +165,7 @@
     });
 
     asyncTest("number improper", 18, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='improper'>-1.5<\/p>"
         );
@@ -178,6 +184,7 @@
     });
 
     asyncTest("number improper (enforced simplification)", 18, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='improper' " +
             "data-simplify='enforced'>-1.5<\/p>"
@@ -197,6 +204,7 @@
     });
 
     asyncTest("number improper (unsimplified)", 18, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='improper' " +
             "data-simplify='optional'>-1.5<\/p>"
@@ -216,6 +224,7 @@
     });
 
     asyncTest("number pi", 39, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='pi'>-6.283185307179586<\/p>"
         );
@@ -241,6 +250,7 @@
     });
 
     asyncTest("number pi (rational)", 42, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='pi'>-2.6179938779914944<\/p>"
         );
@@ -267,6 +277,7 @@
     });
 
     asyncTest("number pi (rational > 1)", 21, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='pi'>-15.184364492350666<\/p>"
         );
@@ -286,6 +297,7 @@
     });
 
     asyncTest("number pi (decimal)", 18, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='pi'>-1.5707963267948966<\/p>"
         );
@@ -304,6 +316,7 @@
     });
 
     asyncTest("number log", 9, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='log'>2<\/p>"
         );
@@ -319,6 +332,7 @@
     });
 
     asyncTest("number percent", 9, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='percent'>0.42<\/p>"
         );
@@ -334,6 +348,7 @@
     });
 
     asyncTest("number decimal percent", 9, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='decimal, percent'>0.42<\/p>"
         );
@@ -349,6 +364,7 @@
     });
 
     asyncTest("number mixed", 18, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='mixed'>-1.5<\/p>"
         );
@@ -367,6 +383,7 @@
     });
 
     asyncTest("number mixed (simplification enforced)", 18, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='mixed' " +
             "data-simplify='enforced'>-1.5<\/p>"
@@ -386,6 +403,7 @@
     });
 
     asyncTest("number mixed (unsimplified)", 18, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='mixed' " +
             "data-simplify='optional'>-1.5<\/p>"
@@ -405,6 +423,7 @@
     });
 
     asyncTest("number decimal", 27, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='decimal'>12345.6789<\/p>"
         );
@@ -426,6 +445,7 @@
     });
 
     asyncTest("number leading zeros are okay on decimals", 3, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number'>0.372<\/p>"
         );
@@ -439,6 +459,7 @@
     });
 
     asyncTest("number leading zeros are not okay on integers", 12, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number'>372<\/p>"
         );
@@ -455,6 +476,7 @@
     });
 
     asyncTest("number inexact", 12, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-inexact data-max-error='1'>123.45<\/p>"
         );
@@ -471,6 +493,7 @@
     });
 
     asyncTest("number max-error-only", 12, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-max-error='1'>123.45<\/p>"
         );
@@ -487,6 +510,7 @@
     });
 
     asyncTest("decimal", 30, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='decimal'>12345.6789<\/p>"
         );
@@ -509,6 +533,7 @@
     });
 
     asyncTest("number generic 0", 12, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>0<\/p>"
         );
@@ -525,6 +550,7 @@
     });
 
     asyncTest("number generic 1/3", 12, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>0.3333333333333333<\/p>"
         );
@@ -541,6 +567,7 @@
     });
 
     asyncTest("number generic -1.5", 15, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>-1.5<\/p>"
         );
@@ -558,6 +585,7 @@
     });
 
     asyncTest("number generic 41976", 12, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>41976<\/p>"
         );
@@ -574,6 +602,7 @@
     });
 
     asyncTest("multiple", 42, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
                 "<span class='sol'>7<\/span>" +
@@ -603,6 +632,7 @@
     });
 
     asyncTest("multiple with enforced simplification", 33, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
                 "<span class='sol' data-simplify='enforced'>7<\/span>" +
@@ -643,6 +673,7 @@
     });
 
     asyncTest("multiple with fallback 1", 21, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
                 "<span class='sol'>7<\/span>" +
@@ -665,6 +696,7 @@
     });
 
     asyncTest("multiple with fallback 0", 21, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
                 "<span class='sol'>7<\/span>" +
@@ -687,6 +719,7 @@
     });
 
     asyncTest("multiple with coefficient +1", 18, function() {
+        setupSolutionArea();
         var forms = "integer, proper, improper, mixed, decimal, coefficient";
 
         var $problem = jQuery("#qunit-fixture .problem").append(
@@ -710,6 +743,7 @@
     });
 
     asyncTest("multiple with coefficient -1", 21, function() {
+        setupSolutionArea();
         var forms = "integer, proper, improper, mixed, decimal, coefficient";
 
         var $problem = jQuery("#qunit-fixture .problem").append(
@@ -734,6 +768,7 @@
     });
 
     asyncTest("multiple with two coefficients of 1", 15, function() {
+        setupSolutionArea();
         var forms = "integer, proper, improper, mixed, decimal, coefficient";
 
         var $problem = jQuery("#qunit-fixture .problem").append(
@@ -756,6 +791,7 @@
     });
 
     asyncTest("multiple with true checkbox", 12, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
                 // Doing data-text here so that '' grades true; `set` will
@@ -777,6 +813,7 @@
     });
 
     asyncTest("multiple with false checkbox", 12, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='multiple'>" +
                 "<span class='sol'>12<\/span>" +
@@ -796,6 +833,7 @@
     });
 
     asyncTest("set with no things", 15, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<div class='solution' data-type='set'>" +
                 "<div class='input-format'>" +
@@ -822,6 +860,7 @@
     });
 
     asyncTest("set with fewer things", 21, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<div class='solution' data-type='set'>" +
                 "<span class='set-sol'>12<\/span>" +
@@ -847,6 +886,7 @@
     });
 
     asyncTest("set with as many things", 45, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<div class='solution' data-type='set'>" +
                 "<span class='set-sol'>12<\/span>" +
@@ -881,6 +921,7 @@
     });
 
     asyncTest("set with more things", 36, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<div class='solution' data-type='set'>" +
                 "<span class='set-sol'>12<\/span>" +
@@ -914,6 +955,7 @@
 
 
     asyncTest("prime factorization", 24, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='primeFactorization'>2x2x3x5<\/p>"
         );
@@ -934,6 +976,7 @@
     });
 
     asyncTest("radio answerability", 8, function() {
+        setupSolutionArea();
         // TODO(alpert): Get rid of MathJax
         Exercises.useKatex = false;
 
@@ -985,6 +1028,7 @@
     });
 
     asyncTest("radio category", 4, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>C<\/p>" +
             "<ul class='choices' data-category='true'>" +
@@ -1032,6 +1076,7 @@
     });
 
     asyncTest("radio setup", 24, function() {
+        setupSolutionArea();
         var choices = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
 
         var $problem = jQuery("#qunit-fixture .problem").append(
@@ -1075,6 +1120,7 @@
     });
 
     asyncTest("radio none of the above setup", 2, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>A<\/p>" +
             "<ul class='choices' data-none='true'>" +
@@ -1103,6 +1149,7 @@
     });
 
     asyncTest("radio none of the above setup 2", 2, function() {
+        setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution'>A<\/p>" +
             "<ul class='choices' data-none='true' data-show='5'>" +
@@ -1131,6 +1178,7 @@
     });
 
     asyncTest("radio none of the above answerability", 4, function() {
+        setupSolutionArea();
         // Even if there are 500 distractors, the correct answer must always be
         // mixed in as one of the correct ones -- we'll test that if there's
         // only answer and we show "None of the above", then it's hiding the
