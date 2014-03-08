@@ -260,7 +260,7 @@ var Khan = {
         // was a dependency of 'math' so this isn't really any different.
         mods.push(
             "answer-types", "tmpl", "tex", "jquery.adhesion",
-            "calculator");
+            "calculator", "scratchpad");
 
         return mods;
     },
@@ -403,9 +403,7 @@ var Khan = {
                     }
                 };
 
-                require(["./utils/scratchpad.js"], function() {
-                    makeVisible();
-                });
+                makeVisible();
             },
 
             hide: function() {
@@ -2096,7 +2094,7 @@ function loadMathJax() {
 
     // We don't want to finish until MathJax is done loading all of its
     // dependencies.
-    
+
     if (window.MathJax) {
         waitForMathJaxReady();
     } else {
