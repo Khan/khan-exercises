@@ -148,7 +148,7 @@ $.extend(KhanUtil, {
      * If niceAngle is truthy, it also delivers more natural values for 0 (0 instead
      * of 0 \pi) and 1 (\pi instead of 1 \pi).
      * */
-    piFraction: function(num, niceAngle, tolerance) {
+    piFraction: function(num, niceAngle, tolerance, big) {
         if (num.constructor === Number) {
             if (tolerance == null) {
                 tolerance = 0.001;
@@ -166,7 +166,8 @@ $.extend(KhanUtil, {
                     return "\\pi";
                 }
             }
-            return d === 1 ? n + "\\pi" : KhanUtil.fractionSmall(n, d) + "\\pi";
+            var frac = big ? KhanUtil.fraction(n, d) : KhanUtil.fractionSmall(n, d) ;
+            return d === 1 ? n + "\\pi" : frac + "\\pi";
         }
     },
 

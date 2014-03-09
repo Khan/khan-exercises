@@ -23,7 +23,7 @@
                 </div>
 
                 <p class="question">
-                    <code>\<var>FN</var>(<var>PRETTY_ANGLE</var>) = \text{?}</code>
+                    <code>\<var>FN</var>\left(<var>PRETTY_ANGLE</var>\right) = \text{?}</code>
                 </p>
 
                 <div class="solution" data-type="multiple">
@@ -31,7 +31,8 @@
 
                     <div class="sol" data-type="custom">
                         <div class="instruction"></div>
-                        <div class="guess"> angle </div>
+                        <div class="guess">angle</div>
+                        <div class="example">A decimal rounded to three decimal places</div>
 
                         <div class="validator-function">
                             // Convert guess to an angle between 0 and 2*PI for comparison
@@ -59,8 +60,9 @@
 
                 <div class="problem">
                     <p>
-                        Move the orange point around the unit circle to the angle indicated inside the <var>FNNAME</var> expression above. <br>
-                        Indicate the <var>FNNAME</var> value in the answer field.
+                        Move the orange point around the unit circle to the angle <code><var>PRETTY_ANGLE</var></code>.<br>
+                        Indicate the <var>FNNAME</var> value in the answer field.<br>
+                        <em>Round to the nearest thousandth.</em>
                     </p>
                     <div class="graphie" id="unitcircle">
                         initUnitCircle( DEGREES );
@@ -107,7 +109,7 @@
                         9*PI/4, 7*PI/3, 5*PI/2, 6*PI/2
                     ])</var>
                     <var id="ANGLE_RADIANS">ANGLE</var>
-                    <var id="PRETTY_ANGLE">piFraction(ANGLE)</var>
+                    <var id="PRETTY_ANGLE">piFraction(ANGLE, false, 0.001, true)</var>
                     <var id="FN">randFromArray( [ "cos", "sin" ] )</var>
                     <var id="FNNAME">{ "cos": $._("cosine"), "sin": $._("sine")}[FN]</var>
                     <var id="COORD">{ "cos": "x", "sin": "y"}[FN]</var>
