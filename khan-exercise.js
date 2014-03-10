@@ -832,11 +832,6 @@ function onjQueryLoaded() {
     });
 
     $.fn.extend({
-        // Pick a random element from a set of elements
-        getRandom: function() {
-            return this.eq(Math.floor(this.length * KhanUtil.random()));
-        },
-
         // Run the methods provided by a module against some elements
         runModules: function(problem, type) {
             type = type || "";
@@ -858,11 +853,6 @@ function onjQueryLoaded() {
             return this;
         }
     });
-
-    // See if an element is detached
-    $.expr[":"].attached = function(elem) {
-        return $.contains(elem.ownerDocument.documentElement, elem);
-    };
 }
 
 function loadAndRenderExercise(nextUserExercise) {
