@@ -1,6 +1,7 @@
 define(function(require) {
 
 var kpoint = require("./kpoint.js");
+require("./tex.js");  // for graphie.label()
 require("./tmpl.js");
 
 var Graphie = KhanUtil.Graphie = function() {
@@ -495,7 +496,7 @@ KhanUtil.createGraphie = function(el) {
                     return [x, fn(x)];
                 }, range);
             }
-            
+
         },
 
         /**
