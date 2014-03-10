@@ -176,6 +176,12 @@
 			});
 
 			QUnit.done(function ( result ) {
+				// Because the tests are loaded asynchronously, QUnit
+				// originally thinks that it's done because none of them have
+				// loaded yet.
+				if ( result.total === 0 ) {
+					return
+				}
 				console.log( "---------------" );
 				console.log( "Took " + result.runtime +  "ms to run " + result.total + " tests. " + ANSI.colorizeText( result.passed + " passed", "green" ) + ", " + ANSI.colorizeText( result.failed + " failed", "red" ) + "." );
 				console.log( "---------------" );
