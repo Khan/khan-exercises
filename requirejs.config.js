@@ -48,7 +48,6 @@
         "utils/parabola-intuition.js",
         "utils/polynomials.js",
         "utils/probability.js",
-        "utils/proofs.js",
         "utils/qhints.js",
         "utils/rational-expressions.js",
         "utils/slice-clone.js",
