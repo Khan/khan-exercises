@@ -953,6 +953,31 @@
         start();
     });
 
+    asyncTest("set with message", 18, function() {
+        setupSolutionArea();
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<div class='solution' data-type='set'>" +
+                "<span class='set-sol' data-simplify='enforced'>0.5<\/span>" +
+                "<span class='set-sol' data-simplify='required'>0.25<\/span>" +
+                "<div class='input-format'>" +
+                    "<span class='entry'></span>" +
+                "<\/div>" +
+            "<\/div>"
+        );
+
+        var answerData = Khan.answerTypes.set.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["1/2"], "right", "right answer is right");
+        testMultipleAnswer(answerData, ["1/4"], "right", "right answer is right");
+        testMultipleAnswer(answerData, ["1/8"], "wrong", "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["2/4"], "wrong-message", "enforced simplification");
+        testMultipleAnswer(answerData, ["2/8"], "empty-message", "required simplification");
+        testMultipleAnswer(answerData, ["2/16"], "wrong", "wrong answer is wrong");
+
+        start();
+    });
+
 
     asyncTest("prime factorization", 24, function() {
         setupSolutionArea();
