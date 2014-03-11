@@ -24,7 +24,9 @@ requirejs([
         "../local-only/jquery.qtip.js",
         "../local-only/i18n.js"
     ], function() {
-        requirejs(["../khan-exercise.js"]);
+        requirejs(["../khan-exercise.js"], function() {
+            Khan.loadLocalModeSiteWhenReady();
+        });
     });
 });
 

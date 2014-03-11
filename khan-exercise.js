@@ -138,6 +138,7 @@ var primes = [197, 3, 193, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
     // (module.src) -- will be resolved when the module is loaded (on the live
     // site, immediately)
     modulePromises = {},
+    initialModulesPromise = $.Deferred(),
 
     urlBase = localMode ? "../" : "/khan-exercises/",
 
@@ -288,6 +289,12 @@ var Khan = {
                 moduleSet[modNameOrObject.name] = true;
             }
         }
+    },
+
+    loadLocalModeSiteWhenReady: function() {
+        initialModulesPromise.then(function() {
+            loadLocalModeSite();
+        });
     },
 
     // Populate this with modules
@@ -827,7 +834,7 @@ function onjQueryLoaded() {
 
         $.when.apply($, promises).then(function() {
             // All modules have now been loaded
-            loadTestModeSite();
+            initialModulesPromise.resolve();
         });
     });
 
@@ -2098,7 +2105,7 @@ function loadMathJax() {
     return deferred.promise();
 }
 
-function loadTestModeSite() {
+function loadLocalModeSite() {
     // TODO(alpert): Is the DOM really not yet ready?
     $(function() {
         // Inject the site markup
@@ -2106,14 +2113,14 @@ function loadTestModeSite() {
             $.get(urlBase + "exercises/khan-site.html", function(site) {
                 $.get(urlBase + "exercises/khan-exercise.html",
                     function(ex) {
-                        injectTestModeSite(site, ex);
+                        injectLocalModeSite(site, ex);
                     });
             });
         }
     });
 }
 
-function injectTestModeSite(html, htmlExercise) {
+function injectLocalModeSite(html, htmlExercise) {
     $("body").prepend(html);
     $("#container .exercises-header h2").append(document.title);
     $("#container .exercises-body .current-card-contents").html(
