@@ -788,11 +788,11 @@ if (localMode && Khan.query.seed) {
 if (localMode) {
     // Load in jQuery and underscore, as well as the interface glue code
     // TODO(cbhl): Don't load history.js if we aren't in readOnly mode.
-    requirejs([
-        "../exercises-stub.js",
-        "../history.js",
-        "../interface.js",
-        "../related-videos.js"
+    require([
+        "./exercises-stub.js",
+        "./history.js",
+        "./interface.js",
+        "./related-videos.js"
     ], function() {
         onjQueryLoaded();
     });
