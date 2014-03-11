@@ -140,7 +140,10 @@ var primes = [197, 3, 193, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
     modulePromises = {},
     initialModulesPromise = $.Deferred(),
 
-    urlBase = localMode ? "../" : "/khan-exercises/",
+    urlBase = localMode ?  "../" :
+        Exercises.khanExercisesUrlBase != null ?
+            Exercises.khanExercisesUrlBase :
+            "/khan-exercises/",
 
     // In local mode, we use khan-exercises local copy of the /images
     // directory.  But in production (on www.khanacademy.org), we use
