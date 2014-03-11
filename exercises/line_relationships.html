@@ -22,7 +22,12 @@
                     <var id="LINE_TYPE">"perpendicular"</var>
                 </div>
                 <div class="question">
-                    <p><b>Find the slope and y-intercept of the line that is <code>\color{<var>GREEN</var>}{\text{<var>LINE_TYPE</var>}}</code> to <code>\enspace \color{<var>BLUE</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else=""><var>M_SIGN</var></span>x <span data-if="B !== 0">+ <var>B</var></span>}\enspace</code> and passes through the point <code>\color{red}{(<var>X</var>, <var>Y</var>)}</code>.</b></p>
+                    <p>
+                        Find the slope and y-intercept of the line that is <code>\green{\text{<var>LINE_TYPE</var>}}</code> to <code>\blue{y =
+                        <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span>
+                        <span data-else=""><var>M_SIGN</var></span>x
+                        <span data-if="B !== 0">+ <var>B</var></span>}</code> and passes through the point <code>\red{(<var>X</var>, <var>Y</var>)}</code>.
+                    </p>
                     <div class="graphie" id="grid">
                             graphInit({
                                 range: [[-10, 10], [-10, 10]],
@@ -52,22 +57,30 @@
                     <p><code>b</code> = <span class="sol short40"><var>Y - ( -1 / M * X )</var></span></p>
                 </div>
                 <div class="hints">
-                    <p>Lines are considered perpendicular if their slopes are negative reciprocals of each other.
-                    </p><div>
-                        <p>The slope of the blue line is <code>\color{<var>BLUE</var>}{<var>M_FRAC</var>}</code>, and its negative reciprocal is <code>\color{<var>GREEN</var>}{<var>M_PERP_FRAC</var>}</code>.</p>
-                        <p>Thus, the equation of our perpendicular line will be of the form <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else=""><var>M_PERP_SIGN</var></span>x + b}\enspace</code>.</p>
+                    <p>Lines are considered perpendicular if their slopes are negative reciprocals of each other.</p>
+                    <div>
+                        <p>The slope of the blue line is <code>\blue{<var>M_FRAC</var>}</code>, and its negative reciprocal is <code>\green{<var>M_PERP_FRAC</var>}</code>.</p>
+                        <p>Thus, the equation of our perpendicular line will be of the form <code>\green{y = <span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else=""><var>M_PERP_SIGN</var></span>x + b}</code>.</p>
                     </div>
                     <div>
-                        <p>We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\color{<var>GREEN</var>}{b}</code>, the y-intercept.</p>
-                        <p data-if="M !== -1"><code><var>Y</var> = \color{<var>GREEN</var>}{<span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else=""><var>M_PERP_SIGN</var></span>}(<var>X</var>) + \color{<var>GREEN</var>}{b}</code></p>
+                        <p>We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\green{b}</code>, the y-intercept.</p>
+                        <p data-if="M !== -1"><code><var>Y</var> = \green{<span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else=""><var>M_PERP_SIGN</var></span>}(<var>X</var>) + \green{b}</code></p>
                     </div>
                     <div>
-                        <p><code><var>Y</var> = <var>decimalFraction( -1 / M * X, "true", "true" )</var> + \color{<var>GREEN</var>}{b}</code></p>
-                        <p><code><var>Y</var> - <var>decimalFraction( -1 / M * X, "true", "true" )</var> = \color{<var>GREEN</var>}{b} = <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var></code></p>
+                        <p><code><var>Y</var> = <var>decimalFraction( -1 / M * X, "true", "true" )</var> + \green{b}</code></p>
+                        <p><code><var>Y</var> - <var>decimalFraction( -1 / M * X, "true", "true" )</var> = \green{b} = <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var></code></p>
                     </div>
                     <div>
-                        <p>The equation of the perpendicular line is <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_PERP_FRAC ) !== 1"><var>M_PERP_FRAC</var></span><span data-else=""><var>M_PERP_SIGN</var></span>x<span data-if="Y - ( -1 / M * X ) !== 0"> + <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var></span>}\enspace</code>.</p>
-                        <p><code>\color{<var>GREEN</var>}{m = <var>decimalFraction( -1 / M, "true", "true" )</var>, \enspace b = <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var>}</code></p>
+                        <p>
+                            The equation of the perpendicular line is <code>\green{y =
+                            <span data-if="abs(M_PERP_FRAC) !== 1"><var>M_PERP_FRAC</var></span>
+                            <span data-else=""><var>M_PERP_SIGN</var></span>x
+                            <span data-if="Y - (-1 / M * X) !== 0"> + <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var></span>}</code>.
+                        </p>
+                        <p>
+                            So <code>\green{m = <var>decimalFraction( -1 / M, "true", "true" )</var>}</code> and
+                            <code>\green{b = <var>decimalFraction( Y - ( -1 / M * X ), "true", "true" )</var>}</code>.
+                        </p>
                         <div class="graphie" data-update="grid">
                             plot(function( x ) {
                                 return ( -1 / M * x + ( Y - ( -1 / M * X ) ) );
@@ -91,19 +104,26 @@
                 <div class="hints">
                     <div>
                         <p>Parallel lines have the same slope.</p>
-                        <p>The slope of the blue line is <code>\color{<var>BLUE</var>}{<var>M_FRAC</var>}</code>, so the equation of our parallel line will be of the form <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else=""><var>M_SIGN</var></span>x + b}\enspace</code>.</p>
+                        <p>The slope of the blue line is <code>\blue{<var>M_FRAC</var>}</code>, so the equation of our parallel line will be of the form <code>\green{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else=""><var>M_SIGN</var></span>x + b}</code>.</p>
                     </div>
                     <div>
-                        <p>We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\color{<var>GREEN</var>}{b}</code>, the y-intercept.</p>
-                        <p data-if="M !== 1"><code><var>Y</var> = \color{<var>GREEN</var>}{<span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else=""><var>M_SIGN</var></span>}(<var>X</var>) + \color{<var>GREEN</var>}{b}</code></p>
+                        <p>We can plug our point, <code>(<var>X</var>, <var>Y</var>)</code>, into this equation to solve for <code>\green{b}</code>, the y-intercept.</p>
+                        <p data-if="M !== 1"><code><var>Y</var> = \green{<span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else=""><var>M_SIGN</var></span>}(<var>X</var>) + \green{b}</code></p>
                     </div>
                     <div>
-                        <p><code><var>Y</var> = <var>decimalFraction( M * X, "true", "true" )</var> + \color{<var>GREEN</var>}{b}</code></p>
-                        <p><code><var>Y</var> - <var>decimalFraction( M * X, "true", "true" )</var> = \color{<var>GREEN</var>}{b} = <var>decimalFraction( Y - M * X, "true", "true" )</var></code></p>
+                        <p><code><var>Y</var> = <var>decimalFraction( M * X, "true", "true" )</var> + \green{b}</code></p>
+                        <p><code><var>Y</var> - <var>decimalFraction( M * X, "true", "true" )</var> = \green{b} = <var>decimalFraction( Y - M * X, "true", "true" )</var></code></p>
                     </div>
                     <div>
-                        <p>The equation of the parallel line is <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else=""><var>M_SIGN</var></span>x<span data-if="Y - ( M * X ) !== 0"> + <var>decimalFraction( Y - M * X, "true", "true" )</var>}</span>\enspace</code>.</p>
-                        <p><code>\color{<var>GREEN</var>}{m = <var>decimalFraction( M, "true", "true" )</var>, \enspace b = <var>decimalFraction( Y - M * X, "true", "true" )</var>}</code></p>
+                        <p>The equation of the parallel line is <code>\green{y =
+                            <span data-if="abs(M_FRAC) !== 1"><var>M_FRAC</var></span>
+                            <span data-else=""><var>M_SIGN</var></span>x
+                            <span data-if="Y - (M * X) !== 0"> + <var>decimalFraction( Y - M * X, "true", "true" )</var></span>}</code>.
+                        </p>
+                        <p>
+                            So <code>\green{m = <var>decimalFraction( M, "true", "true" )</var>}</code> and 
+                            <code>\green{b = <var>decimalFraction( Y - M * X, "true", "true" )</var>}</code>.
+                        </p>
                         <div class="graphie" data-update="grid">
                             plot(function( x ) {
                                 return ( M * x + ( Y - M * X ) );
@@ -184,6 +204,7 @@
                         <p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
                         <p data-if="B2 !== 1"><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
                     </div>
+                    <p>So the two equations describe equal lines.</p>
                 </div>
             </div>
 
