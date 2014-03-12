@@ -13,11 +13,7 @@
                     <var id="NUM_ITEMS">3</var>
                     <var id="DENOMINATOR">randFromArray([3, 4, 6, 8])</var>
                     <var id="NUMERATORS">randRangeUnique(1, DENOMINATOR, NUM_ITEMS)</var>
-                    <var id="NUMS_SORTED">$.map(NUMERATORS, function(el) {
-                        return el;
-                    }).sort(function(a, b) {
-                        return a - b;
-                    })</var>
+                    <var id="NUMS_SORTED">NUMERATORS.slice().sort()</var>
                     <var id="SORTED_LIST">NUMS_SORTED.join(",")</var>
                     <var id="ANSWER">$.map(NUMS_SORTED, function(el) {
                         return "\\dfrac{" + el + "}{" + DENOMINATOR + "}";
@@ -94,6 +90,10 @@
                     <li><code>&gt;</code></li>
                 </ul>
                 <div class="hints">
+                    <div>
+                        <div><code>\large{&lt;}</code> means "less than".</div>
+                        <div><code>\large{&gt;}</code> means "greater than".</div>
+                    </div>
                     <div>
                         <p>We can draw a picture to compare the fractions.</p>
                         <div class="graphie">

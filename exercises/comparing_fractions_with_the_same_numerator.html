@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html data-require="math math-format interactive graphie graphie-helpers word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Ordering fractions with the same numerator</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="ordering">
+                <div class="vars" data-ensure="DENOMINATORS.join(',') !== SORTED_LIST">
+                    <var id="NUM_ITEMS">3</var>
+                    <var id="ALLOWED_DENOMINATORS">[2, 3, 4, 6, 8]</var>
+                    <var id="DENOMINATORS">_.map(randRangeUnique(0, 4, NUM_ITEMS), function(el) {
+                        return ALLOWED_DENOMINATORS[el];
+                    })</var>
+                    <var id="MIN_DENOM">min.apply(null, DENOMINATORS)</var>
+                    <var id="NUMERATOR">randRange(1, MIN_DENOM)</var>
+                    <var id="NUMS_SORTED">DENOMINATORS.slice(0).sort().reverse()</var>
+                    <var id="SORTED_LIST">NUMS_SORTED.join(",")</var>
+                    <var id="ANSWER">$.map(NUMS_SORTED, function(el) {
+                        return "\\dfrac{" + NUMERATOR + "}{" + el + "}";
+                    }).join(",")</var>
+                    <var id="SORTER">createSorter()</var>
+                </div>
+
+                <div class="question">
+                    <p>Order the following fractions from least to greatest:</p>
+                    <ul id="sortable">
+                        <li data-each="DENOMINATORS as D">
+                            <span class="sort-key"><var>D</var></span>
+                            <code>\dfrac{<var>NUMERATOR</var>}{<var>D</var>}</code>
+                        </li>
+                    </ul>
+                    <p><var>SORTER.init("sortable")</var></p>
+
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Drag the fractions left and right so they are in order from least to greatest
+                    </div>
+                    <div class="guess">SORTER.getContent()</div>
+                    <div class="validator-function">
+                        if (SORTER.hasAttempted) {
+                            return guess.join(",") === SORTED_LIST;
+                        } else {
+                            return "";
+                        }
+                    </div>
+                    <div class="show-guess">
+                        SORTER.setContent(guess);
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <div>
+                        <p>We can draw a picture to compare the fractions.</p>
+                        <div class="graphie">
+                            init({
+                                range: [[-0.1, 1], [0, NUM_ITEMS * 2]],
+                                scale: [400, 25]
+                            });
+                            for (var i = 0; i &lt; NUM_ITEMS; i++) {
+                                var y = (NUM_ITEMS - i - 1) * 2;
+                                rectchart([NUMERATOR, DENOMINATORS[i] - NUMERATOR], [RED, GRAY], y);
+                                label([-0.05, y + 0.5], "\\dfrac{" + NUMERATOR + "}{" + DENOMINATORS[i] + "}");
+                            }
+                        </div>
+                    </div>
+                    <p>The order from least to greatest is: <code><var>ANSWER</var></code>.</p>
+                </div>
+            </div>
+
+            <div id="comparison-operator">
+                <div class="vars">
+                    <var id="DENOMINATOR_1">randFromArray([2, 3, 4, 6, 8])</var>
+                    <var id="DENOMINATOR_2">randFromArrayExclude([2, 3, 4, 6, 8], [DENOMINATOR_1])</var>
+                    <var id="NUMERATOR">randRange(1, min(DENOMINATOR_1, DENOMINATOR_2))</var>
+                    <var id="SOLUTION">DENOMINATOR_1 &gt; DENOMINATOR_2 ? "&lt;" : "&gt;"</var>
+                </div>
+
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p>
+                        <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>}</code> ____
+                        <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_2</var>}</code>
+                    </p>
+                </div>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                </ul>
+                <div class="hints">
+                    <div>
+                        <div><code>\large{&lt;}</code> means "less than".</div>
+                        <div><code>\large{&gt;}</code> means "greater than".</div>
+                    </div>
+                    <div>
+                        <p>We can draw a picture to compare the fractions.</p>
+                        <div class="graphie">
+                            init({
+                                range: [[-0.1, 1], [0, 5.5]],
+                                scale: [425, 25]
+                            });
+
+                            rectchart([NUMERATOR, DENOMINATOR_1 - NUMERATOR], [RED, GRAY], 3);
+                            rectchart([NUMERATOR, DENOMINATOR_2 - NUMERATOR], [RED, GRAY], 1);
+                            label([-0.05, 3.5], "\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_1 + "}");
+                            label([-0.05, 1.5], "\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_2 + "}");
+                        </div>
+                    </div>
+                    <p>
+                        <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>} <var>SOLUTION</var>
+                              \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_2</var>}</code>
+                    </p>
+                </div>
+            </div>
+
+            <div id="number-line">
+                <div class="vars">
+                    <var id="NUMERATOR">randRange(1, 9)</var>
+                    <var id="DENOMINATOR_1">randFromArray([2, 3, 4, 6, 8])</var>
+                    <var id="DENOMINATOR_2">randFromArrayExclude([2, 3, 4, 6, 8], [DENOMINATOR_1])</var>
+                    <var id="MAX_NUM">ceil(NUMERATOR / min(DENOMINATOR_1, DENOMINATOR_2))</var>
+                    <var id="COMPARISON">DENOMINATOR_1 &gt; DENOMINATOR_2 ? "&lt;" : "&gt;"</var>
+                    <var id="SOLUTION">randFromArray(["A", "B"])</var>
+                </div>
+
+                <div class="problem">
+                    <p>Which number line correctly shows
+                        <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>}</code> and
+                        <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_2</var>}</code>?
+                    </p>
+                    <div class="graphie">
+                        init({
+                            range: [[-0.15, 1.1], [0, 7]],
+                            scale: [400, 25]
+                        });
+
+                        var tick = 0.25;
+                        var labels = [
+                            0,
+                            "\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_1 + "}",
+                            "\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_2 + "}"
+                        ];
+
+                        var drawNumberLine = function(y, name, numbers) {
+                            // Seems this only adds an arrow to one end
+                            line([-0.05, y], [1.05, y], { arrows: "&lt;-&gt;" });
+                            line([1.05, y], [-0.05, y], { arrows: "&lt;-&gt;" });
+                            label([-0.1, y], name);
+
+                            for (var i = 0; i &lt; numbers.length; i++) {
+                                var x = numbers[i] === 0 ? 0 : NUMERATOR / numbers[i] / MAX_NUM;
+                                line([x, y - tick], [x, y + tick]);
+                                label([x, y - 0.2], labels[i], "below");
+                            }
+                        };
+
+                        if (SOLUTION === "A") {
+                            drawNumberLine(6, "A", [0, DENOMINATOR_1, DENOMINATOR_2]);
+                            drawNumberLine(2, "B", [0, DENOMINATOR_2, DENOMINATOR_1]);
+                        } else {
+                            drawNumberLine(6, "A", [0, DENOMINATOR_2, DENOMINATOR_1]);
+                            drawNumberLine(2, "B", [0, DENOMINATOR_1, DENOMINATOR_2]);
+                        }
+                    </div>
+                </div>
+                <div class="solution">Number line <code><var>SOLUTION</var></code></div>
+                <ul class="choices" data-category="true">
+                    <li>Number line <code>A</code></li>
+                    <li>Number line <code>B</code></li>
+                </ul>
+                <div class="hints">
+                    <div>
+                        <p>
+                            <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> means dividing <code>1</code> whole into
+                            <code>\blue{<var>DENOMINATOR_1</var>}</code> equal segments, then taking <code><var>NUMERATOR</var></code> copies of them.
+                        </p>
+                        <div class="graphie" id="hint-line">
+                            init({
+                                range: [[-0.1, 1.1], [0, 3]],
+                                scale: [400, 25]
+                            });
+
+                            var y = 2;
+                            line([-0.05, y], [1.05, y], { arrows: "&lt;-&gt;" });
+                            line([1.05, y], [-0.05, y], { arrows: "&lt;-&gt;" });
+
+                            var tick = 0.25
+                            for (var i = 0; i &lt;= MAX_NUM * DENOMINATOR_1; i++) {
+                                var x = i / DENOMINATOR_1 / MAX_NUM; 
+                                line([x, y - tick], [x, y + tick]);
+                                if (i % DENOMINATOR_1 === 0) {
+                                    label([x, y], roundTo(1, i / DENOMINATOR_1), "above");
+                                }
+                            }
+
+                            label([
+                                NUMERATOR / DENOMINATOR_1 / MAX_NUM, 1.8],
+                                "\\blue{\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_1 + "}}",
+                                "below"
+                            );
+                        </div>
+                    </div>
+                    <div>
+                        <p>
+                            <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code> means dividing <code>1</code> whole into
+                            <code>\red{<var>DENOMINATOR_2</var>}</code> equal segments, then taking <code><var>NUMERATOR</var></code> copies of them.
+                        </p>
+                        <div class="graphie" id="hint-line">
+                            init({
+                                range: [[-0.1, 1.1], [0, 3]],
+                                scale: [400, 25]
+                            });
+
+                            var y = 2;
+                            line([-0.05, y], [1.05, y], { arrows: "&lt;-&gt;" });
+                            line([1.05, y], [-0.05, y], { arrows: "&lt;-&gt;" });
+
+                            var tick = 0.25
+                            for (var i = 0; i &lt;= MAX_NUM * DENOMINATOR_2; i++) {
+                                var x = i / DENOMINATOR_2 / MAX_NUM; 
+                                line([x, y - tick], [x, y + tick]);
+                                if (i % DENOMINATOR_2 === 0) {
+                                    label([x, y], roundTo(1, i / DENOMINATOR_2), "above");
+                                }
+                            }
+
+                            label([
+                                NUMERATOR / DENOMINATOR_2 / MAX_NUM, 1.8],
+                                "\\red{\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_2 + "}}",
+                                "below"
+                            );
+                        </div>
+                    </div>
+                    <p>
+                        The <em>larger</em> the denominator, the <em>smaller</em> the segments,
+                        since the denominator tells us how many equal segments there are in the whole.
+                    </p>
+                    <div>
+                        <p>
+                            <code><var>NUMERATOR</var></code> copies of <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code>
+                             segments are <em>larger</em> than
+                             <code><var>NUMERATOR</var></code> copies of <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code> segments.
+                        </p>
+                        <p>
+                            <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> <var>COMPARISON</var>
+                            <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code>
+                        </p>
+                    </div>
+                    <p>So number line <code><var>SOLUTION</var></code> is correct.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
