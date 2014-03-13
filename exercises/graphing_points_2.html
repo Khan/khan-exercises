@@ -13,17 +13,24 @@
                 <div class="vars">
                     <var id="X">randRangeNonZero( -10, 10 )</var>
                     <var id="Y">randRangeNonZero( -10, 10 )</var>
-                    <var id="QUADRANT">X &gt; 0 ? ( Y &gt; 0 ? "QI" : "QIV" ) : ( Y &gt; 0 ? "QII" : "QIII" )</var>
+
                     <!-- I18N: This is the letter placed at the beginning of a quadrant, as in "Q1" for the first quadrant -->
                     <var id="Q">$._("Q")</var>
                     <!-- I18N: This is a quadrant label, as in "the first quadrant" -->
                     <var id="QI">$._("QI")</var>
+                    <!-- I18N: This is a quadrant label, as in "the second quadrant" -->
+                    <var id="QII">$._("QII")</var>
+                    <!-- I18N: This is a quadrant label, as in "the third quadrant" -->
+                    <var id="QIII">$._("QIII")</var>
+                    <!-- I18N: This is a quadrant label, as in "the forth quadrant" -->
+                    <var id="QIV">$._("QIV")</var>
+                    <var id="QUADRANT">X &gt; 0 ? (Y &gt; 0 ? QI : QIV) : (Y &gt; 0 ? QII : QIII)</var>
                 </div>
                 <p class="question">
                     Plot <code>(<var>X</var>, <var>Y</var>)</code> and select the quadrant in which the point lies.
                 </p>
                 <div class="problem">
-                    <br>
+                    <p><em>The graph is part of your answer.</em></p>
                     <div class="graphie" id="grid">
                         graphInit({
                             range: 11,
@@ -52,34 +59,27 @@
                         };
                     </div>
                 </div>
-                <div class="solution" data-type="custom">
-                    <div class="instruction">
-                        Graph the point and select the quadrant that contains the point.
-                        <ul>
-                            <li><input id="r1" name="sol" type="radio" value="QI"><label for="r1">QI</label></li>
-                            <li><input id="r2" name="sol" type="radio" value="QII"><label for="r2">QII</label></li>
-                            <li><input id="r3" name="sol" type="radio" value="QIII"><label for="r3">QIII</label></li>
-                            <li><input id="r4" name="sol" type="radio" value="QIV"><label for="r4">QIV</label></li>
-                        </ul>
-                        Your graph is also part of your answer.
-                    </div>
-                    <div class="guess">[ graph.movablePoint.coord, $( "#solutionarea" ).find( "input:checked" ).val() ]</div>
-                    <div class="validator-function">
-                        if ( guess[ 0 ][ 0 ] === 0 &amp;&amp; guess[ 0 ][ 1 ] === 0 &amp;&amp; guess[ 1 ] == null ) {
-                            return "";
-                        }
-                        return guess[ 0 ][ 0 ] === X &amp;&amp; guess[ 0 ][ 1 ] === Y &amp;&amp; guess[ 1 ] === QUADRANT;
-                    </div>
-                    <div class="show-guess">
-                        graph.movablePoint.setCoord( guess[0] );
-                    </div>
-                    <div class="show-guess-solutionarea">
-                        $( "#solutionarea" ).find( "input" ).prop( 'checked', false );
-                        if ( guess[ 1 ] != null ) {
-                            $( "#solutionarea" ).find( "input[value=" + guess[ 1 ] + "]" ).prop( 'checked', true );
-                        }
-                    </div>
-                </div>
+
+                <p class="solution" data-type="multiple">
+                    Graph the point then select the quadrant that contains it.<br>
+                    Quadrant: 
+                    <span class="sol" data-choices="['', QI, QII, QIII, QIV]" data-type="list">
+                        <var>QUADRANT</var>
+                    </span>
+                    <span class="sol" data-type="custom">
+                        <span class="guess">graph.movablePoint.coord</span>
+                        <span class="validator-function">
+                            if (guess[0] === 0 &amp;&amp; guess[1] === 0) {
+                                // TODO: Replace this string with "" when clues are added
+                                return $._("Drag the orange point on the graph to the right position.");
+                            }
+                            return guess[0] === X &amp;&amp; guess[1] === Y;
+                        </span>
+                        <span class="show-guess">
+                            graph.movablePoint.setCoord(guess);
+                        </span>
+                    </span>
+                </p>
 
                 <div class="hints">
                     <p>Coordinates are listed as <code>(\blue{x},\green{y})</code>.</p>
@@ -155,14 +155,10 @@
                         <p>By convention, quadrants are named with a capital <code>\text{<var>Q</var>}</code> and a roman numeral,
                         starting in the upper right quadrant as <code>\text{<var>QI</var>}</code> and rotating counter-clockwise.</p>
                         <div class="graphie" data-update="grid">
-                            <!-- This is a quadrant label, as in "the first quadrant" -->
-                            label( [ 5, 5] , " \\text{ " + $._("QI") + " }", "center", { color: "purple" } );
-                            <!-- This is a quadrant label, as in "the second quadrant" -->
-                            label( [ -5, 5] , " \\text{ " + $._("QII") + " }", "center", { color: "purple" } );
-                            <!-- This is a quadrant label, as in "the third quadrant" -->
-                            label( [ -5, -5] , " \\text{ " + $._("QIII") + " }", "center", { color: "purple" } );
-                            <!-- This is a quadrant label, as in "the fourth quadrant" -->
-                            label( [ 5, -5] , " \\text{ " + $._("QIV") + " }", "center", { color: "purple" } );
+                            label( [ 5, 5] , " \\text{" + QI + "}", "center", { color: "purple" } );
+                            label( [ -5, 5] , " \\text{" + QII + "}", "center", { color: "purple" } );
+                            label( [ -5, -5] , " \\text{" + QIII + "}", "center", { color: "purple" } );
+                            label( [ 5, -5] , " \\text{" + QIV + "}", "center", { color: "purple" } );
                         </div>
                     </div>
                     <p class="final_answer" data-if="X > 0 &amp;&amp; Y > 0">
