@@ -973,6 +973,71 @@ span.hover-hint:hover {
     position: absolute;
 }
 
+#coin-flip-sequence-charts {
+    height: 324px;
+    position: relative;
+    width: 496px;
+}
+
+#coin-flip-sequence-charts .graphie {
+    height: 324px;
+    width: 496px;
+    position: absolute !important;
+}
+
+#coin-flip-sequence-chart-1 {
+    left: 496px;
+}
+
+#coin-flip-sequence-chart-2 {
+    left: 992px;
+}
+
+#coin-flip-sequence-chart-3 {
+    left: 1488px;
+}
+
+.view-coin-flip-sequence-patterns {
+    margin-top: 12px;
+}
+
+.view-coin-flip-sequence-patterns span {
+    color: #ccc;
+}
+
+.view-coin-flip-sequence-patterns a {
+    margin: 0 5px;
+}
+
+.view-coin-flip-sequence-patterns a.selected {
+    font-weight: bold;
+    color: #444 !important;
+    cursor: default;
+    text-decoration: none !important;
+}
+
+.coin-flip-sequence-heads {
+    background: #a6a6a6;
+    color: #333;
+}
+
+.coin-flip-sequence-heads,
+.coin-flip-sequence-tails {
+    border-right: 1px solid #888;
+    float: left;
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding: 0 2px;
+    text-align: center;
+    width: 16px;
+}
+
+.coin-flip-sequence-tails {
+    background: #595959;
+    color: #ccc;
+}
+
 body.debug span.error {
     font-weight: bold;
     color: #FFF;

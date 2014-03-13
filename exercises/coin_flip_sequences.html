@@ -4,73 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
     <title>Coin flip sequences</title>
-
-    <style>
-        .chart {
-            height: 324px;
-            width: 496px;
-            position: absolute !important;
-        }
-
-        .heads {
-            background: #a6a6a6;
-            color: #333;
-        }
-
-        .heads,
-        .tails {
-            border-right: 1px solid #888;
-            float: left;
-            font-family: Verdana, sans-serif;
-            font-size: 14px;
-            margin-bottom: 5px;
-            padding: 0 2px;
-            text-align: center;
-            width: 16px;
-        }
-
-        .tails {
-            background: #595959;
-            color: #ccc;
-        }
-
-        #chart-1 {
-            left: 496px;
-        }
-
-        #chart-2 {
-            left: 992px;
-        }
-
-        #chart-3 {
-            left: 1488px;
-        }
-
-        #charts {
-            height: 324px;
-            position: relative;
-            width: 496px;
-        }
-
-        .pattern-tabs {
-            color: #ccc;
-        }
-
-        .pattern-tabs a {
-            margin: 0 5px;
-        }
-
-        a.selected {
-            font-weight: bold;
-            color: #444 !important;
-            cursor: default;
-            text-decoration: none !important;
-        }
-
-        .view-patterns {
-            margin-top: 12px;
-        }
-    </style>
 </head>
 <body>
 <div class="exercise">
@@ -97,12 +30,12 @@
     <p class="question">Which method was used to generate this sequence of heads and tails?</p>
     <div class="problem">
         <div style="overflow: hidden; width: 496px;">
-            <div id="charts">
+            <div id="coin-flip-sequence-charts">
                 <div data-each="SEQUENCE.split('') as FLIP">
-                    <div class="heads" data-if="FLIP === 'H'">H</div>
-                    <div class="tails" data-else="">T</div>
+                    <div class="coin-flip-sequence-heads" data-if="FLIP === 'H'">H</div>
+                    <div class="coin-flip-sequence-tails" data-else="">T</div>
                 </div>
-                <div class="graphie chart" id="chart-1">
+                <div class="graphie" id="coin-flip-sequence-chart-1">
                     init({
                         range: [[0, 15], [0, 6]],
                         scale: [31, 54]
@@ -138,7 +71,7 @@
                         rect(10, 1, 4, ONE_FLIP_RESULT[1] / SEQUENCE.length * 5);
                     });
                 </div>
-                <div class="graphie chart" id="chart-2">
+                <div class="graphie" id="coin-flip-sequence-chart-2">
                     init({
                         range: [[0, 16], [0, 6]],
                         scale: [31, 54]
@@ -170,7 +103,7 @@
                         });
                     });
                 </div>
-                <div class="graphie chart" id="chart-3">
+                <div class="graphie" id="coin-flip-sequence-chart-3">
                     init({
                         range: [[0, 16], [0, 6]],
                         scale: [31, 54]
@@ -204,7 +137,7 @@
                 </div>
             </div>
         </div>
-        <p class="view-patterns">View patterns:
+        <p class="view-coin-flip-sequence-patterns">View patterns:
             <span class="pattern-tabs">
                 <a href="javascript:void(0);" class="selected" id="show-flips" data-offset="0">Coin flips</a> |
                 <a href="javascript:void(0);" id="show-chart-1" data-offset="1">H vs T</a> |
@@ -220,7 +153,7 @@
 
             $('.pattern-tabs a').removeClass("selected");
             $el.addClass("selected");
-            var charts = $('#charts');
+            var charts = $('#coin-flip-sequence-charts');
 
             var offset = $el.data("offset") * -1 * 496;
             charts.animate({marginLeft: offset});
