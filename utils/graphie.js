@@ -217,9 +217,6 @@ KhanUtil.createGraphie = function(el) {
 
                 // Update the canvas size
                 raphael.setSize((xRange[1] - xRange[0]) * xScale, (yRange[1] - yRange[0]) * yScale);
-
-                var errorString = "[" + scale[0] + ", " + scale[1] + "]";
-                Khan.autoSubmitIssue("graphie.style:scale", errorString);
             },
 
             clipRect: function(pair) {
