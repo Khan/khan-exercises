@@ -944,10 +944,12 @@ function shouldSkipProblem() {
             pastHashes.shift();
         }
 
-        LocalStore.set(cacheKey, {
-            lastProblemNum: problemNum,
-            history: pastHashes
-        });
+        if (LocalStore.isEnabled()) {
+            LocalStore.set(cacheKey, {
+                lastProblemNum: problemNum,
+                history: pastHashes
+            });
+        }
         return false;
     }
 }
