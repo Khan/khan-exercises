@@ -228,7 +228,8 @@ function handleAttempt(data) {
     // If user hasn't changed their answer and is resubmitting w/in one second
     // of last attempt, don't allow this attempt. They're probably just
     // smashing Enter.
-    if (stringifiedGuess === lastAttemptContent && millisTaken < 1000) {
+    if (!skipped &&
+            stringifiedGuess === lastAttemptContent && millisTaken < 1000) {
         return false;
     }
     lastAttemptContent = stringifiedGuess;
