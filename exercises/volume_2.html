@@ -30,45 +30,41 @@
     <div class="problems">
         <div id="sending-flour" >
             <div class="vars">
-
                 <var id="LENGTH">randRange(2,7)</var>
                 <var id="WIDTH">randRange(2,7)</var>
                 <var id="HEIGHT">randRange(2,7)</var>
+                <var id="VOL">LENGTH * WIDTH * HEIGHT</var>
             </div>
              <p>
                  <var>person(1)</var> needs to ship a package of flour to a baker.
-                 <span data-if="isMale(1)">He has <code><var>LENGTH * WIDTH * HEIGHT</var></code> cubic meters of flour to send.</span>
-                 <span data-else>She has <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour to send.</span>
+                 <span data-if="isMale(1)">He has <code><var>VOL</var></code> cubic meters of flour to send.</span>
+                 <span data-else>She has <code><var>VOL</var></code> cubic meters of flour to send.</span>
                  The post office will not ship any box which has an edge <code>10</code> meters or longer.
              </p>
             <p class="question">
-               What are the dimensions of a box which will hold exactly  <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic meters of flour, but whose edge lengths are all less than <code>10</code> meters?
+               What dimensions will hold exactly <code><var>VOL</var></code> cubic meters of flour,
+               but whose edge lengths are all integers less than <code>10</code> meters?
             </p>
             <div class="solution" data-type="custom">
-                    <div class="instruction">
-                       Length <code>=</code>
-                   <input id="response1" type="text"/> m
-                   <br/>
-                   Width <code>\hphantom{ }=</code>
-                   <input id="response2" type="text"/> m
-                   <br/>
-                   Height <code> =</code>
-                   <input id="response3" type="text"/> m
-
-                     </div>
-                    <div class="guess">[$("input#response1").val(),$("input#response2").val(),$("input#response3").val()]</div>
-                    <div class="validator-function">
-                        return  guess[0]*guess[1]*guess[2] == LENGTH*WIDTH*HEIGHT &amp;&amp; guess[0]&lt; 10 &amp;&amp; guess[1] &lt; 10 &amp;&amp; guess[2] &lt; 10
-                    </div>
-
+                <div class="instruction">
+                   Length <code>=</code> <input id="response1" type="text"/> m <br/>
+                   Width <code>\hphantom{ }=</code> <input id="response2" type="text"/> m <br/>
+                   Height <code> =</code> <input id="response3" type="text"/> m
                 </div>
+                
+                <div class="guess">[$("input#response1").val(),$("input#response2").val(),$("input#response3").val()]</div>
+                <div class="validator-function">
+                    return guess[0]*guess[1]*guess[2] == VOL &amp;&amp; guess[0]&lt; 10 &amp;&amp; guess[1] &lt; 10 &amp;&amp; guess[2] &lt; 10
+                </div>
+                <div class="example">an integer, like <code>6</code></div>
+            </div>
 
             <div class="hints">
                 <p>
                     The volume of a box is the product of the length, width and height of the box.
                 </p>
                 <p>
-                    So we need to find <code>3</code> numbers whose product is <code><var>LENGTH*WIDTH*HEIGHT</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these!
+                    So we need to find <code>3</code> numbers whose product is <code><var>VOL</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these!
                 </p>
                 <p>
                     For instance, the numbers <code><var>LENGTH</var></code>, <code><var>WIDTH</var></code>, and <code><var>HEIGHT</var></code> work, but there might be other solutions as well!
@@ -340,145 +336,134 @@
             </div>
 
             <p class="question">
-                   How many cubic <var>plural_form(TO)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>?
+                How many cubic <var>plural_form(TO)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>?
             </p>
 
-            <div class="solution">
-                  <var>VOL * CONVERSION * CONVERSION * CONVERSION</var>
-
-            </div>
+            <div class="solution"><var>VOL * CONVERSION * CONVERSION * CONVERSION</var></div>
 
             <div class="hints">
-            <p>First we will figure out how many cubic <var>plural_form(TO)</var> fit in one cubic <var>FROM</var>.</p>
-            <p>
-                There are <code><var>CONVERSION</var></code> <var>plural_form(TO, CONVERSION)</var> in every <var>FROM</var>.
-            </p>
-            <div>
-                <p>
-                    So a cubic <var>FROM</var> is the same as a
-                    <code>
-                        <var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
-                        \times <var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
-                        \times<var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
-                    </code>
-                    cube.
-                </p>
-                <div class="graphie" id = "box">
-                    init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
-                    addMouseLayer();
+                <p>First we will figure out how many cubic <var>plural_form(TO)</var> fit in one cubic <var>FROM</var>.</p>
+                <p>There are <code><var>CONVERSION</var></code> <var>plural_form(TO, CONVERSION)</var> in every <var>FROM</var>.</p>
+                <div>
+                    <p>
+                        So a cubic <var>FROM</var> is the same as a
+                        <code>
+                            <var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                            \times <var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                            \times<var>CONVERSION</var> \text{ <var>TO_TEXT</var>}
+                        </code>
+                        cube.
+                    </p>
+                    <div class="graphie" id = "box">
+                        init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
+                        addMouseLayer();
 
-                    //Adding verticies for the slabs
-                    for (var i = 1; i &lt; HEIGHT;i++ ){
-                        VERTICES.push( [LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                        VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                        VERTICES.push([-LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                        VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
-                    };
+                        //Adding verticies for the slabs
+                        for (var i = 1; i &lt; HEIGHT;i++ ){
+                            VERTICES.push( [LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                            VERTICES.push([-LENGTH/MAX,WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                            VERTICES.push([-LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                            VERTICES.push([LENGTH/MAX,-WIDTH/MAX,(-HEIGHT+2*i)/MAX]);
+                        };
 
-                    //Adding verticies for the cubes in one slab
-                    for (var i = 1; i &lt; LENGTH; i++ ){
-                        VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
-                    };
-                    for (var i = 1; i &lt; LENGTH; i++ ){
-                        VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT)/MAX]);
-                    };
-                    for (var i = 1; i &lt; WIDTH; i++ ){
-                        VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                    };
-                    for (var i = 1; i &lt; WIDTH; i++ ){
-                        VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
-                    };
+                        //Adding verticies for the cubes in one slab
+                        for (var i = 1; i &lt; LENGTH; i++ ){
+                            VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT)/MAX]);
+                        };
+                        for (var i = 1; i &lt; LENGTH; i++ ){
+                            VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT)/MAX]);
+                        };
+                        for (var i = 1; i &lt; WIDTH; i++ ){
+                            VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
+                        };
+                        for (var i = 1; i &lt; WIDTH; i++ ){
+                            VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT)/MAX]);
+                        };
 
-                    for (var i = 1; i &lt; LENGTH; i++ ){
-                        VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                    };
-                    for (var i = 1; i &lt; LENGTH; i++ ){
-                        VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT+2)/MAX]);
-                    };
-                    for (var i = 1; i &lt; WIDTH; i++ ){
-                        VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                    };
-                    for (var i = 1; i &lt; WIDTH; i++ ){
-                        VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
-                    };
+                        for (var i = 1; i &lt; LENGTH; i++ ){
+                            VERTICES.push( [(-LENGTH+2*i)/MAX,-WIDTH/MAX,(-HEIGHT+2)/MAX]);
+                        };
+                        for (var i = 1; i &lt; LENGTH; i++ ){
+                            VERTICES.push( [(-LENGTH+2*i)/MAX,WIDTH/MAX,(-HEIGHT+2)/MAX]);
+                        };
+                        for (var i = 1; i &lt; WIDTH; i++ ){
+                            VERTICES.push( [(-LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
+                        };
+                        for (var i = 1; i &lt; WIDTH; i++ ){
+                            VERTICES.push( [(LENGTH)/MAX,(-WIDTH+2*i)/MAX,(-HEIGHT+2)/MAX]);
+                        };
 
-                    //  graphing the initial object
-                    graph.obj = make3dObject(VERTICES, { scale: SCALE });
-                    _.each(FACES, function(face) {
-                        graph.obj.addFace(face);
-                    });
+                        //  graphing the initial object
+                        graph.obj = make3dObject(VERTICES, { scale: SCALE });
+                        _.each(FACES, function(face) {
+                            graph.obj.addFace(face);
+                        });
 
-                    graph.obj.setPos([0, 0, 5]);
-                    graph.obj.rotate(1,0 , 0, PI/3);
-                    graph.obj.rotate(0, 1, 0, 0);
-                    graph.obj.rotate(0, 0, 1, PI/8);
-                    graph.obj.doDraw();
+                        graph.obj.setPos([0, 0, 5]);
+                        graph.obj.rotate(1,0 , 0, PI/3);
+                        graph.obj.rotate(0, 1, 0, 0);
+                        graph.obj.rotate(0, 0, 1, PI/8);
+                        graph.obj.doDraw();
 
-                    GRAPH = graph;
+                        GRAPH = graph;
 
-                    var spinner;
-                    setTimeout(function() {
-                        spinner = setInterval(function() {
-                            GRAPH.obj.rotate(0, 0, 1, 0);
-                            GRAPH.obj.doDraw();
-                        }, 50);
-                    }, 300);
+                        var spinner;
+                        setTimeout(function() {
+                            spinner = setInterval(function() {
+                                GRAPH.obj.rotate(0, 0, 1, 0);
+                                GRAPH.obj.doDraw();
+                            }, 50);
+                        }, 300);
 
-                    var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
-                        fill: "#000", opacity: 0.0
-                    });
-                    $(mouseTarget[0]).bind("vmousedown", function(event) {
-                        GRAPH.lastX = event.pageX;
-                        GRAPH.lastY = event.pageY;
-
-                        clearInterval(spinner);
-
-                        $(document).bind("vmousemove vmouseup", function(event) {
-                            event.preventDefault();
-
-                            var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
-                            var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
-
+                        var mouseTarget = mouselayer.rect(0, 0, 400, 400).attr({
+                            fill: "#000", opacity: 0.0
+                        });
+                        $(mouseTarget[0]).bind("vmousedown", function(event) {
                             GRAPH.lastX = event.pageX;
                             GRAPH.lastY = event.pageY;
 
-                            var xAxis = normalize(GRAPH.obj.perspective[1]);
-                            var yAxis = normalize(GRAPH.obj.perspective[0]);
+                            clearInterval(spinner);
 
-                            GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
-                            GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+                            $(document).bind("vmousemove vmouseup", function(event) {
+                                event.preventDefault();
 
-                            GRAPH.obj.doDraw();
+                                var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
+                                var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
 
-                            if (event.type === "vmouseup") {
-                                $(document).unbind("vmousemove vmouseup");
-                            }
-                        })
-                    });
+                                GRAPH.lastX = event.pageX;
+                                GRAPH.lastY = event.pageY;
+
+                                var xAxis = normalize(GRAPH.obj.perspective[1]);
+                                var yAxis = normalize(GRAPH.obj.perspective[0]);
+
+                                GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                                GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+
+                                GRAPH.obj.doDraw();
+
+                                if (event.type === "vmouseup") {
+                                    $(document).unbind("vmousemove vmouseup");
+                                }
+                            })
+                        });
+                    </div>
                 </div>
-            </div>
 
                <p>
-                       There are
-                       <code><var>CONVERSION</var> \times <var>CONVERSION</var>
-                           \times <var>CONVERSION</var>  =
-                           <var>CONVERSION * CONVERSION * CONVERSION</var>
-                           \text{ <var>TO_TEXT</var>}^3
-                       </code>
-                       in each cubic <var>FROM</var>, by the volume formula.
+                   There are <code><var>CONVERSION</var> \times <var>CONVERSION</var>
+                    \times <var>CONVERSION</var> = <var>CONVERSION * CONVERSION * CONVERSION</var> \text{ <var>TO_TEXT</var>}^3</code>
+                   in each cubic <var>FROM</var>, by the volume formula.
                </p>
                <p>
-                       Since we have <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>, and each cubic <var>FROM</var> holds
-                       <code><var>CONVERSION * CONVERSION *
-                               CONVERSION</var></code> cubic
-                       <var>plural_form(TO, CONVERSION * CONVERSION *
-                           CONVERSION)</var>, we have a total of
-                       <code><var>VOL</var> \times <var>CONVERSION * CONVERSION
-                               * CONVERSION</var></code>
-                       cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var>.
+                   Since we have <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>, and each cubic <var>FROM</var> holds
+                   <code><var>CONVERSION * CONVERSION * CONVERSION</var></code> cubic
+                   <var>plural_form(TO, CONVERSION * CONVERSION * CONVERSION)</var>, we have a total of
+                   <code><var>VOL</var> \times <var>CONVERSION * CONVERSION * CONVERSION</var></code>
+                   cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var>.
                </p>
                <p>
-                       So <code><var>VOL * CONVERSION * CONVERSION * CONVERSION</var></code> cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>.
+                    So <code><var>VOL * CONVERSION * CONVERSION * CONVERSION</var></code> cubic <var>
+                    plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>.
                </p>
             </div>
         </div>
