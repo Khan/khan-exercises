@@ -32,8 +32,6 @@
 
     * hintUsed -- when a hint has been used by the user
 
-    * allHintsUsed -- when all possible hints have been used by the user
-
     * checkAnswer -- when the user attempts to check an answer, incorrect or
       correct
 

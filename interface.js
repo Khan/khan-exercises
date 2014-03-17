@@ -403,7 +403,6 @@ function onHintShown(e, data) {
     // If there aren't any more hints, disable the get hint button
     if (hintsUsed === numHints) {
         $("#hint").attr("disabled", true);
-        $(Exercises).trigger("allHintsUsed");
     }
 
     var curTime = new Date().getTime();
