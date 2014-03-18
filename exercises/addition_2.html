@@ -1,38 +1,50 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>2-digit addition</title>
+    <title>Add within 20</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="A_10">randRange( 1, 8 )*10</var>
-            <var id="A_1">randRange ( 0, 9 )*1</var>
-            <var id="B_10" data-ensure="B_10+A_10&lt;100">randRange( 1, 8 )*10</var>
-            <var id="B_1" data-ensure="B_1+A_1&lt;10">randRange ( 0, 9 )*1</var>
-
-            <var id="A">A_10+A_1</var>
-            <var id="B">B_10+B_1</var>
-            <var id="DUMMY">[]</var>
+            <var id="A">randRange(1, 19)</var>
+            <var id="B">randRange(1, 20 - A)</var>
         </div>
 
-    <div class="problems">
-        <div>
-            <div class="graphie" id="numbers">
-                graph.adder = new Adder( A, B );
-                graph.adder.show();
-                DUMMY = Array( graph.adder.getNumHints() );
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <div class="graphie">
+                        init({
+                            range: [[0, 12], [-1, 1]]
+                        });
+
+                        var equation = rand(2) === 0 ?
+                            "\\Huge{\\blue{" + A + "} + \\green{" + B + "} = {?}}" :
+                            "\\Huge{{?} = \\blue{" + A + "} + \\green{" + B + "}}"
+
+                        label([0, 0], equation, "right");
+                    </div>
+                </div>
+                <div class="solution" data-forms="integer"><var>A + B</var></div>
+                <div class="hints">
+                    <div class="graphie" style="float: left;">
+                        drawCircles(A, BLUE);
+                    </div>
+                    <div class="graphie" style="float: left;">
+                        drawCircles(B, GREEN);
+                    </div>
+                    <p style="clear: left;">
+                        <span data-if="isSingular(A)">There is <code>\blue{<var>A</var>}</code> blue dot.</span>
+                        <span data-else="">There are <code>\blue{<var>A</var>}</code> blue dots.</span>
+                        <span data-if="isSingular(B)">There is <code>\green{<var>B</var>}</code> green dot.</span>
+                        <span data-else="">There are <code>\green{<var>B</var>}</code> green dots.</span>
+                    </p>
+                    <p>There are a total of <var>A + B</var> dots.</p>
+                </div>
             </div>
-            <div class="solution" data-forms="integer"><var>A + B</var></div>
         </div>
-    </div>
-    <div class="hints">
-        <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
-            graph.adder.showHint();
-        </div>
-    </div>
     </div>
 </body>
 </html>

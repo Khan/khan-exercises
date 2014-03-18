@@ -1,45 +1,49 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>2 and 3-digit subtraction</title>
+    <title>Subtract within 20</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
 </head>
 <body>
-<div class="exercise">
-    <div class="vars">
+    <div class="exercise">
+        <div class="vars">
+            <var id="A">randRange(2, 20)</var>
+            <var id="B">randRange(1, A - 1)</var>
+        </div>
 
-        <var id="A_100">randRangeWeighted(1, 9, 0, 0.5)</var>
-        <var id="A_10">randRange(1, 9)</var>
-        <var id="A_1">randRange(2, 9)</var>
-        <var id="A">100 * A_100 + 10 * A_10 + A_1</var>
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <div class="graphie">
+                        init({
+                            range: [[0, 12], [-1, 1]]
+                        });
 
-        <var id="B_100">randRange(0, A_100 - 1)</var>
-        <var id="B_10">randRange(0, A_10 - 1)</var>
-        <var id="B_1">randRange(0, A_1 - 1)</var>
-        <var id="B">100 * B_100 + 10 * B_10 + B_1</var>
+                        var equation = rand(2) === 0 ?
+                            "\\Huge{\\blue{" + A + "} - \\red{" + B + "} = {?}}" :
+                            "\\Huge{{?} = \\blue{" + A + "} - \\red{" + B + "}}"
 
-        <var id="NUM_HINTS">0</var>
-    </div>
-
-    <div class="problems">
-        <div id="subtraction-2">
-            <div class="graphie" id="numbers">
-                graph.subtractor = new Subtractor( A, B );
-                graph.subtractor.show();
-                NUM_HINTS = graph.subtractor.getNumHints();
-            </div>
-            <div class="solution" data-forms="integer">
-                <var>A - B</var>
+                        label([0, 0], equation, "right");
+                    </div>
+                </div>
+                <div class="solution" data-forms="integer"><var>A - B</var></div>
+                <div class="hints">
+                    <div class="graphie" id="circles" style="float: left;">
+                        drawCircles(A, BLUE);
+                    </div>
+                    <div class="graphie" data-update="circles">
+                        crossOutCircles(A, B, RED);
+                    </div>
+                    <p style="clear: left;">
+                        <span data-if="isSingular(A)">We began with <code>\blue{<var>A</var>}</code> dot and crossed out <code>\red{<var>B</var>}</code> of them.</span>
+                        <span data-else="">We began with <code>\blue{<var>A</var>}</code> dots and crossed out <code>\red{<var>B</var>}</code> of them.</span>
+                    </p>
+                    <p data-if="isSingular(A - B)">We are left with <var>A - B</var> dot.</p>
+                    <p data-else="">We are left with <var>A - B</var> dots.</p>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="hints">
-        <div class="graphie" data-each="NUM_HINTS times" data-update="numbers">
-            graph.subtractor.showHint();
-        </div>
-    </div>
-</div>
 </body>
 </html>
