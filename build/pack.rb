@@ -180,7 +180,7 @@ def pack_file(file_contents)
     graphie.content = uglify(js, :expr => false).gsub(/;$/, "")
   end
 
-  doc.css("div.validator-function").each do |validator|
+  doc.css(".validator-function").each do |validator|
     if validator.elements.any?
       $stderr.puts "-- error: JS element has children"
       exit 1
