@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-require="math math-format graphie graphie-helpers word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rounding whole numbers</title>
@@ -14,7 +14,8 @@
                 <var id="DIGITS">shuffle( [1, 2, 3, 4, 5, 6, 7, 8, 9], 5 )</var>
                 <var id="NUM">+DIGITS.join( "" )</var>
                 <var id="PLACE">randFromArray([ -2, -3 ])</var>
-                <var id="TPLACE">placesLeftOfDecimal[ -PLACE ]</var>
+                <var id="TPLACE">numberPlaceNames[-PLACE]</var>
+                <var id="TPLACES">plural_form(numberPlaceNames[-PLACE - 1], 2)</var>
                 <var id="ROUNDED">Math.round(roundTo( PLACE, NUM ))</var>
                 <var id="KEYDIGIT">DIGITS[5 + PLACE]</var>
             </div>
@@ -33,7 +34,8 @@
                     })()
                 </var>
                 <var id="NUM">+DIGITS.join( "" )</var>
-                <var id="TPLACE">placesLeftOfDecimal[ -PLACE ]</var>
+                <var id="TPLACE">numberPlaceNames[-PLACE]</var>
+                <var id="TPLACES">plural_form(numberPlaceNames[-PLACE - 1], 2)</var>
                 <var id="ROUNDED">roundTo( PLACE, NUM )</var>
                 <var id="KEYDIGIT">5</var>
             </div>
@@ -43,14 +45,15 @@
     </div>
 
     <div class="hints">
-        <p>Because we want to round to the <var>TPLACE</var>s place, we need to look at the digit in the <var>placesLeftOfDecimal[-PLACE - 1]</var>s place.</p>
-        <p>The digit in the <var>placesLeftOfDecimal[-PLACE - 1]</var>s place is <code><var>KEYDIGIT</var></code>.</p>
+        <p>
+            Because we want to round to the <var>plural_form(TPLACE, 2)</var> place, we need to look at the digit in the <var>TPLACES</var> place.
+        </p>
+        <p>The digit in the <var>TPLACES</var> place is <code><var>KEYDIGIT</var></code>.</p>
         <p data-if="KEYDIGIT > 5">
-            Because <code><var>KEYDIGIT</var></code> is more than</span> <code>5</code>,
-            we round up to <code><var>commafy(ROUNDED)</var></code>.
+            Because <code><var>KEYDIGIT</var></code> is more than <code>5</code>, we round up to <code><var>commafy(ROUNDED)</var></code>.
         </p>
         <p data-else-if="KEYDIGIT === 5">
-            Because the <var>placesLeftOfDecimal[-PLACE - 1]</var>s place digit is <code><var>KEYDIGIT</var></code>,
+            Because the <var>TPLACES</var> place digit is <code><var>KEYDIGIT</var></code>,
             we round up to <code><var>commafy(ROUNDED)</var></code>.
         </p>
         <p data-else="">
