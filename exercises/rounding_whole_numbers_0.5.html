@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Rounding whole numbers</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="NDIGITS">randRange(2, 3)</var>
+                <var id="PLACE">randFromArray([-1, -(NDIGITS - 1)])</var>
+                <var id="DIGITS">
+                    (function() {
+                        var digits = shuffle([1, 2, 3, 4, 6, 7, 8, 9], NDIGITS);
+                        if (rand(3) === 0) {
+                            digits[NDIGITS + PLACE] = 5;
+                        }
+                        return digits;
+                    })()
+                </var>
+                <var id="NUM">+DIGITS.join("")</var>
+                <var id="TPLACE">placesLeftOfDecimal[-PLACE]</var>
+                <var id="ROUNDED">Math.round(roundTo(PLACE, NUM))</var>
+                <var id="KEYDIGIT">DIGITS[NDIGITS + PLACE]</var>
+            </div>
+
+            <p class="question">Round <code><var>NUM</var></code> to the nearest <var>TPLACE</var>.</p>
+            <div class="problem">
+                <div class="graphie" id="number-line">
+                    var mag = pow(10, -PLACE);
+                    var lower = floorTo(PLACE, NUM);
+                    var upper = ceilTo(PLACE, NUM);
+
+                    init({
+                        range: [[-0.1, 1.4], [-1, 1]],
+                        scale: [350, 40]
+                    });
+
+                    style({arrows: "&gt;"});
+                    line([0, 0], [1.06, 0] );
+
+                    style({arrows: "-&gt;"});
+                    line([0, 0], [-0.06, 0]);
+
+                    style({arrows: ""});
+                    for (var x = 0.1; x &lt; 1; x += 0.1 ) {
+                        line([x, -0.2], [x, 0.2]);
+                        label([x, -0.53], lower + x * mag, "center", { color: GRAY });
+                    }
+
+                    style({ stroke: BLUE, strokeWidth: 3.5 });
+                    line([0, -0.2], [0, 0.2]);
+                    label([0, -0.53], lower, "center", { color: BLUE });
+                    line([1, -0.2], [1, 0.2]);
+                    label([1, -0.53], upper, "center", { color: BLUE });
+
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({
+                        coord: [(NUM - lower) / mag, 0],
+                        constraints: { constrainY: true },
+                        snapX: 0.025
+                    });
+                    graph.movablePoint.onMove = function(x, y) {
+                        return [min(max(0, x), 1), y];
+                    };
+                </div>
+
+            </div>
+
+            <div class="solution" data-type="custom">
+                <span class="instruction"> Move the orange dot to select your answer. </span>
+                <div class="guess"> graph.movablePoint.coord[0] </div>
+                <div class="validator-function">
+                    var ans = ROUNDED &lt; NUM ? 0 : 1;
+                    return abs(ans - guess) &lt; 0.001;
+                </div>
+                <div class="show-guess">
+                    graph.movablePoint.setCoord( [ guess, 0 ] );
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>Because we want to round to the <var>TPLACE</var>s place, we need to look at the digit in the <var>placesLeftOfDecimal[-PLACE - 1]</var>s place.</p>
+        <p>The digit in the <var>placesLeftOfDecimal[-PLACE - 1]</var>s place is <code><var>KEYDIGIT</var></code>.</p>
+        <p data-if="KEYDIGIT > 5">
+            Because <code><var>KEYDIGIT</var></code> is more than</span> <code>5</code>,
+            we round up to <code><var>commafy(ROUNDED)</var></code>.
+        </p>
+        <p data-else-if="KEYDIGIT === 5">
+            Because the <var>placesLeftOfDecimal[-PLACE - 1]</var>s place digit is <code><var>KEYDIGIT</var></code>,
+            we round up to <code><var>commafy(ROUNDED)</var></code>.
+        </p>
+        <p data-else="">
+            Because <code><var>KEYDIGIT</var></code> is less than <code>5</code>, we round down to <code><var>commafy(ROUNDED)</var></code>.
+        </p>
+    </div>
+</div>
+</body>
+</html>
