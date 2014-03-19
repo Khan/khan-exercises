@@ -8,10 +8,14 @@
 <body>
 <div class="exercise">
     <div class="vars" data-ensure="A * H * H + K !== 0">
-        <var id="A">randRangeNonZero( -5, 5 )</var>
-        <var id="H">randRangeNonZero( -5, 5 )</var>
-        <var id="K">randRangeNonZero( -5, 5 )</var>
+        <var id="A">randRangeNonZero(-5, 5)</var>
+        <var id="H">randRangeNonZero(-5, 5)</var>
+        <var id="K">randRangeNonZero(-5, 5)</var>
         <var id="A_DISP">A === 1 ? "" : A === -1 ? "-" : A</var>
+        <var id="X1">H + 1</var>
+        <var id="Y1">A * (X1 - H) * (X1 - H) + K</var>
+        <var id="X2">H - 1</var>
+        <var id="Y2">A * (X2 - H) * (X2 - H) + K</var>
     </div>
 
     <p class="question">Graph the following equation:</p>
@@ -156,7 +160,6 @@
                     }
                 });
             };
-
         </div>
     </div>
 
@@ -164,43 +167,48 @@
         <div class="instruction">
             Drag the three points to graph the equation.
         </div>
-        <div class="guess">[ graph.pointA.coord, graph.pointB.coord, graph.pointC.coord ]</div>
+        <div class="guess">[graph.pointA.coord, graph.pointB.coord, graph.pointC.coord]</div>
         <div class="validator-function">
-            var coeffs = graph.fitParabola( graph.pointA.coord, graph.pointB.coord, graph.pointC.coord );
-            if ( coeffs[0] === 0 &amp;&amp; coeffs[1] === 0 &amp;&amp; coeffs[2] === 5 ) {
+            var coeffs = graph.fitParabola(graph.pointA.coord, graph.pointB.coord, graph.pointC.coord);
+            if (coeffs[0] === 0 &amp;&amp; coeffs[1] === 0 &amp;&amp; coeffs[2] === 5) {
                 return "";
             }
-            return abs( A - coeffs[0] ) &lt; 0.001 &amp;&amp; abs( (-2 * A * H) - coeffs[1] ) &lt; 0.001 &amp;&amp; abs( (A * H * H + K) - coeffs[2] ) &lt; 0.001;
+            return abs(A - coeffs[0]) &lt; 0.001 &amp;&amp; abs((-2 * A * H) - coeffs[1]) &lt; 0.001 &amp;&amp; abs((A * H * H + K) - coeffs[2]) &lt; 0.001;
         </div>
         <div class="show-guess">
-            graph.pointA.setCoord( guess[0] );
-            graph.pointB.setCoord( guess[1] );
-            graph.pointC.setCoord( guess[2] );
+            graph.pointA.setCoord(guess[0]);
+            graph.pointB.setCoord(guess[1]);
+            graph.pointC.setCoord(guess[2]);
             graph.drawParabola();
         </div>
     </div>
 
     <div class="problems">
-        <div id="standard-form">
-            <div class="vars" data-apply="appendVars">
-                <var id="X1">H + 1</var>
-                <var id="Y1">A * ( X1 - H ) * ( X1 - H ) + K</var>
-                <var id="X2">H - 1</var>
-                <var id="Y2">A * ( X2 - H ) * ( X2 - H ) + K</var>
+        <div id="vertex-form">
+            <div class="problem" data-apply="prependContents">
+                <p class="hint_blue">
+                    <code>\qquad y = <var>A_DISP</var>(x - <var>H</var>)^2 + <var>K</var></code>
+                </p>
             </div>
+        </div>
+        <div id="standard-form">
             <div class="problem" data-apply="prependContents">
                 <p class="hint_blue">
                     <code>y = <var>A_DISP</var>x^2 + <var>-2 * A * H</var>x + <var>A * H * H + K</var></code>
                 </p>
             </div>
-            <div class="hints">
+            <div class="hints" data-apply="prependContents">
                 <p>
                     We could try plugging in some different <code>x</code>-values, but instead of guessing it might be easier to
                     convert the equation to vertex form.
                 </p>
 
                 <div>
-                    <p>Convert the equation to vertex form by completing the square. [<a href="#" class="show-subhint" data-subhint="complete-square">Show me how</a>]</p>
+                    <p>
+                        Convert the equation to vertex form by completing the square.
+                        [<a href="#" class="show-subhint" data-subhint="complete-square">Show me how</a>]
+                    </p>
+
                     <div class="subhint" id="complete-square">
                         <p>First, move the constant term to the left side of the equation:</p>
                         <p><code>\qquad
@@ -238,93 +246,94 @@
                             y = <var>A_DISP</var>(x - <var>H</var>)^2 + <var>K</var>
                         </code></p>
                     </div>
+
                     <p><code>\qquad y = <var>A_DISP</var>(x - <var>H</var>)^2 + <var>K</var></code></p>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div>
-                    <p>When the equation is written in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:</p>
-                    <p><code>\qquad y = a(x - \green{h})^2 + \green{k}</code></p>
-                </div>
+    <div class="hints">
+        <div>
+            <p>When the equation is written in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:</p>
+            <p><code>\qquad y = a(x - \green{h})^2 + \green{k}</code></p>
+        </div>
 
-                <div>
-                    <p><code>\qquad y = <var>A_DISP</var>(x - \green{<var>H</var>})^2 + \green{<var>K</var>}</code></p>
-                    <p>Examining our equation, we can see the vertex of the parabola is at <code class="hint_green">(<var>H</var>, <var>K</var>)</code>.</p>
-                    <div class="graphie" data-update="grid">
-                        style({
-                            stroke: GREEN,
-                            strokeWidth: 3
-                        }, function() {
-                            line( [ H - 0.3, K - 0.3 ], [ H + 0.3, K + 0.3 ] ).toBack();
-                            line( [ H - 0.3, K + 0.3 ], [ H + 0.3, K - 0.3 ] ).toBack();
-                        });
-                    </div>
-                </div>
-
-                <p>To find another point on the parabola, we can try plugging an <code>x</code> value into the equation.</p>
-
-                <div>
-                    <p>
-                        Since the vertex is at <code class="hint_green">x = <var>H</var></code>, let's try one unit to the right and evaluate
-                        the equation at <code class="hint_pink">x = <var>X1</var></code>.
-                    </p>
-                    <p><code>\qquad
-                        \begin{eqnarray}
-                            <var>A_DISP</var>(\pink{x} - <var>H</var>)^2 + <var>K</var> &amp;=&amp; y \\ \\
-                            <var>A_DISP</var>(\pink{<var>X1</var>} - <var>H</var>)^2 + <var>K</var> &amp;=&amp; \pink{<var>Y1</var>}
-                        \end{eqnarray}
-                    </code></p>
-                    <p>Another point on the parabola is <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
-                    </p><div class="graphie" data-update="grid">
-                        style({
-                            stroke: PINK,
-                            strokeWidth: 3
-                        }, function() {
-                            line( [ X1 - 0.3, Y1 - 0.3 ], [ X1 + 0.3, Y1 + 0.3 ] ).toBack();
-                            line( [ X1 - 0.3, Y1 + 0.3 ], [ X1 + 0.3, Y1 - 0.3 ] ).toBack();
-                        });
-                    </div>
-                </div>
-
-                <div>
-                    <p>A parabola has an <span class="hint_green">axis of symmetry</span> that passes through its vertex.</p>
-                    <div class="graphie" data-update="grid">
-                        style({
-                            stroke: GREEN,
-                            strokeDasharray: "-"
-                        }, function() {
-                            line( [ H, -11 ], [ H, 11 ] ).toBack();
-                        });
-                    </div>
-                </div>
-
-                <div>
-                    <p>
-                        Because the parabola is symmetric, we can reflect the point <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
-                        across the <span class="hint_green">axis of symmetry</span> to get another point,
-                        <code class="hint_orange">(<var>X2</var>, <var>Y2</var>)</code>, that must
-                        also be on the parabola.
-                    </p>
-                    <div class="graphie" data-update="grid">
-                        style({
-                            stroke: ORANGE,
-                            strokeWidth: 3
-                        }, function() {
-                            line( [ X2 - 0.3, Y2 - 0.3 ], [ X2 + 0.3, Y2 + 0.3 ] ).toBack();
-                            line( [ X2 - 0.3, Y2 + 0.3 ], [ X2 + 0.3, Y2 - 0.3 ] ).toBack();
-                        });
-                    </div>
-                </div>
-
-                <div>
-                    <p class="final_answer">
-                        There is only one graph of a parabola that passes through all three points we found.
-                        <br><input onclick="javascript:KhanUtil.currentGraph.graph.showSolution();" type="button" value="Show me">
-                    </p>
-                </div>
-
+        <div>
+            <p><code>\qquad y = <var>A_DISP</var>(x - \green{<var>H</var>})^2 + \green{<var>K</var>}</code></p>
+            <p>Examining our equation, we can see the vertex of the parabola is at <code class="hint_green">(<var>H</var>, <var>K</var>)</code>.</p>
+            <div class="graphie" data-update="grid">
+                style({
+                    stroke: GREEN,
+                    strokeWidth: 3
+                }, function() {
+                    line( [ H - 0.3, K - 0.3 ], [ H + 0.3, K + 0.3 ] ).toBack();
+                    line( [ H - 0.3, K + 0.3 ], [ H + 0.3, K - 0.3 ] ).toBack();
+                });
             </div>
         </div>
 
+        <p>To find another point on the parabola, we can try plugging an <code>x</code> value into the equation.</p>
+
+        <div>
+            <p>
+                Since the vertex is at <code class="hint_green">x = <var>H</var></code>, let's try one unit to the right and evaluate
+                the equation at <code class="hint_pink">x = <var>X1</var></code>.
+            </p>
+            <p><code>\qquad
+                \begin{eqnarray}
+                    <var>A_DISP</var>(\pink{x} - <var>H</var>)^2 + <var>K</var> &amp;=&amp; y \\ \\
+                    <var>A_DISP</var>(\pink{<var>X1</var>} - <var>H</var>)^2 + <var>K</var> &amp;=&amp; \pink{<var>Y1</var>}
+                \end{eqnarray}
+            </code></p>
+            <p>Another point on the parabola is <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
+            </p><div class="graphie" data-update="grid">
+                style({
+                    stroke: PINK,
+                    strokeWidth: 3
+                }, function() {
+                    line( [ X1 - 0.3, Y1 - 0.3 ], [ X1 + 0.3, Y1 + 0.3 ] ).toBack();
+                    line( [ X1 - 0.3, Y1 + 0.3 ], [ X1 + 0.3, Y1 - 0.3 ] ).toBack();
+                });
+            </div>
+        </div>
+
+        <div>
+            <p>A parabola has an <span class="hint_green">axis of symmetry</span> that passes through its vertex.</p>
+            <div class="graphie" data-update="grid">
+                style({
+                    stroke: GREEN,
+                    strokeDasharray: "-"
+                }, function() {
+                    line( [ H, -11 ], [ H, 11 ] ).toBack();
+                });
+            </div>
+        </div>
+
+        <div>
+            <p>
+                Because the parabola is symmetric, we can reflect the point <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
+                across the <span class="hint_green">axis of symmetry</span> to get another point,
+                <code class="hint_orange">(<var>X2</var>, <var>Y2</var>)</code>, that must
+                also be on the parabola.
+            </p>
+            <div class="graphie" data-update="grid">
+                style({
+                    stroke: ORANGE,
+                    strokeWidth: 3
+                }, function() {
+                    line( [ X2 - 0.3, Y2 - 0.3 ], [ X2 + 0.3, Y2 + 0.3 ] ).toBack();
+                    line( [ X2 - 0.3, Y2 + 0.3 ], [ X2 + 0.3, Y2 - 0.3 ] ).toBack();
+                });
+            </div>
+        </div>
+
+        <div>
+            <p class="final_answer">
+                There is only one graph of a parabola that passes through all three points we found.
+                <br><input onclick="javascript:KhanUtil.currentGraph.graph.showSolution();" type="button" value="Show me">
+            </p>
+        </div>
     </div>
 
 </div>
