@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Properties of addition and subtraction 1</title>
+    <script data-main="../local-only/main" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars" data-ensure="A !== B">
+            <var id="A">randRange(1, 19)</var>
+            <var id="B">randRange(1, 20 - A)</var>
+            <var id="C">A + B</var>
+            <var id="MISSING">randRange(0, 2)</var>
+        </div>
+        <div class="problems">
+            <div id="addition">
+                <p class="question">
+                    Fill in the blank to make the equation true.
+                </p>
+                <div class="graphie" style="z-index: -10">
+                    // Focus the first input
+                    $('.problem-equation input').eq(0).focus()
+                    Khan.scratchpad.disable();
+                </div>
+
+                <div class="problem">
+                    <table class="problem-equation">
+                        <tr>
+                            <td><code><var>A</var></code></td>
+                            <td><code>+</code></td>
+                            <td><code><var>B</var></code></td>
+                            <td><code>=</code></td>
+                            <td><code><var>C</var></code></td>
+                        </tr>
+                        <tr data-if="MISSING === 0">
+                            <td><input type="number"></td>
+                            <td><code>+</code></td>
+                            <td><code><var>A</var></code></td>
+                            <td><code>=</code></td>
+                            <td><code><var>C</var></code></td>
+                        </tr>
+                        <tr data-else-if="MISSING === 1">
+                            <td><code><var>B</var></code></td>
+                            <td><code>+</code></td>
+                            <td><input type="number"></td>
+                            <td><code>=</code></td>
+                            <td><code><var>C</var></code></td>
+                        </tr>
+                        <tr data-else="">
+                            <td><code><var>B</var></code></td>
+                            <td><code>+</code></td>
+                            <td><code><var>A</var></code></td>
+                            <td><code>=</code></td>
+                            <td><input type="number"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Fill in the blank with the correct number.
+                    </div>
+                    <div class="guess">$("div.problem input").val()</div>
+                    <div class="validator-function">
+                        var validator = Khan.answerTypes.number.createValidatorFunctional([B, A, C][MISSING], {});
+                        var result = validator(guess);
+                        if (result.empty) {
+                            return result.message || "";
+                        }
+                        return result.message || result.correct;
+                    </div>
+                    <div class="show-guess">
+                        $("div.problem input").val(guess);
+                    </div>
+                </div>
+                <div class="hints">
+                    <div>
+                        <p>If we have
+                            <span data-if="isSingular(A)"><code>\blue{<var>A</var>}</code> blue dot</span>
+                            <span data-else=""><code>\blue{<var>A</var>}</code> blue dots</span> and 
+                            <span data-if="isSingular(B)"><code>\green{<var>B</var>}</code> green dot</span>
+                            <span data-else=""><code>\green{<var>B</var>}</code> green dots</span>, 
+                            then we have a total of <code><var>C</var></code> dots.
+                        </p>
+                        <div class="graphie" id="graph">
+                            var numCols = floor(sqrt(max(A, B)));
+                            var numRows1 = floor(A / numCols);
+                            var numRows2 = floor(B / numCols);
+                            var top = max(numRows1, numRows2);
+
+                            init({
+                                range: [[0, numCols * 2 + 3], [-1, top + 1]],
+                                scale: [30, 30]
+                            });
+
+                            // Distance between start of each set of dots in pixels
+                            graph.translation = (numCols + 1) * 30;
+
+                            function drawDots(n, dx) {
+                                var set = raphael.set();
+                                var x = 0;
+                                var y = top;
+
+                                for (var i = 0; i &lt; n; i++) {
+                                    set.push(circle([x + dx, y], 0.25));
+                                    x++;
+                                    if (x &gt;= numCols) {
+                                        x = 0;
+                                        y--;
+                                    }
+                                }
+                                return set;
+                            }
+
+                            style({
+                                stroke: BLUE,
+                                fill: BLUE
+                            });
+                            graph.dotsA = drawDots(A, 1);
+
+                            style({
+                                stroke: GREEN,
+                                fill: GREEN
+                            });
+                            graph.dotsB = drawDots(B, numCols + 2);
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>If we swap the order of the dots, the number of dots doesn't change.</p>
+                        <div class="graphie" data-update="graph">
+                            graph.dotsA.animate({ translation: graph.translation }, 500);
+                            graph.dotsB.animate({ translation: -1 * graph.translation }, 500);
+                        </div>
+                    </div>
+
+                    <p>
+                        So, <code>\green{<var>B</var>} + \blue{<var>A</var>} = <var>C</var></code>.
+                    </p>
+                </div>
+            </div>
+            <div id="subtraction">
+                <p class="question">
+                    Fill in the blank to make the equation true.
+                </p>
+                <div class="graphie" style="z-index: -10">
+                    // Focus the first input
+                    $('.problem-equation input').eq(0).focus()
+                    Khan.scratchpad.disable();
+                </div>
+
+                <div class="problem">
+                    <table class="problem-equation">
+                        <tr>
+                            <td><code><var>C</var></code></td>
+                            <td><code>-</code></td>
+                            <td><code><var>B</var></code></td>
+                            <td><code>=</code></td>
+                            <td><code><var>A</var></code></td>
+                        </tr>
+                        <tr data-if="MISSING === 0">
+                            <td><input type="number"></td>
+                            <td><code>-</code></td>
+                            <td><code><var>A</var></code></td>
+                            <td><code>=</code></td>
+                            <td><code><var>B</var></code></td>
+                        </tr>
+                        <tr data-else-if="MISSING === 1">
+                            <td><code><var>C</var></code></td>
+                            <td><code>-</code></td>
+                            <td><input type="number"></td>
+                            <td><code>=</code></td>
+                            <td><code><var>B</var></code></td>
+                        </tr>
+                        <tr data-else="">
+                            <td><code><var>C</var></code></td>
+                            <td><code>-</code></td>
+                            <td><code><var>A</var></code></td>
+                            <td><code>=</code></td>
+                            <td><input type="number"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Fill in the blank with the correct number.
+                    </div>
+                    <div class="guess">$("div.problem input").val()</div>
+                    <div class="validator-function">
+                        var validator = Khan.answerTypes.number.createValidatorFunctional([C, A, B][MISSING], {});
+                        var result = validator(guess);
+                        if (result.empty) {
+                            return result.message || "";
+                        }
+                        return result.message || result.correct;
+                    </div>
+                    <div class="show-guess">
+                        $("div.problem input").val(guess);
+                    </div>
+                </div>
+                <div class="hints">
+                    <div>
+                        <p>If we have <code>\blue{<var>C</var>}</code> blue dots</span> and remove
+                            <code>\red{<var>B</var>}</code> of them, then we have
+                            <span data-if="isSingular(A)"><code><var>A</var></code> dot</span>
+                            <span data-else=""><code><var>A</var></code> dots</span> left.
+                        </p>
+                        <div class="graphie" style="float: left;">
+                            drawCircles(C, BLUE);
+                            crossOutCircles(C, B, RED);
+                        </div>
+                        <div class="graphie" id="graph" style="float: left;">
+                        </div>
+                    </div>
+
+                    <div style="clear: left;">
+                        <p>If we have <code>\blue{<var>C</var>}</code> blue dots</span> and remove
+                            <code>\red{<var>A</var>}</code> of them, then we have
+                            <span data-if="isSingular(B)"><code><var>B</var></code> dot</span>
+                            <span data-else=""><code><var>B</var></code> dots</span> left.
+                        </p>
+                        <div class="graphie" data-update="graph">
+                            drawCircles(C, BLUE);
+
+                            var numCols = floor(sqrt(C));
+                            var numRows = floor(C / numCols);
+                            var extra = C % numRows;
+                            var count = 0;
+
+                            style({
+                                stroke: RED,
+                                fill: RED
+                            });
+
+                            for (var i = numRows; i &gt; 0; i--) {
+                                for (var j = numCols; j &gt; 0; j--) {
+                                    if (count &gt;= B) {
+                                        path([[j - 0.3, i - 0.3], [j + 0.3, i + 0.3]]);
+                                        path([[j - 0.3, i + 0.3], [j + 0.3, i - 0.3]]);
+                                    }
+                                    count++;
+                                }
+                            }
+
+                            for (var j = extra; j &gt; 0; j--) {
+                                if (count &gt;= B) {
+                                    path([[j - 0.3, i - 0.3], [j + 0.3, i + 0.3]]);
+                                    path([[j - 0.3, i + 0.3], [j + 0.3, i - 0.3]]);
+                                }
+                                count++;
+                            }
+
+                        </div>
+                    </div>
+
+                    <p>
+                        So, <code>\blue{<var>C</var>} - \red{<var>A</var>} = <var>B</var></code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

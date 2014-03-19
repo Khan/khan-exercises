@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Properties of addition and subtraction 2</title>
+    <script data-main="../local-only/main" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="addition">
+                <div class="vars" data-ensure="TOTAL > 11">
+                    <var id="A">randRange(1, 15)</var>
+                    <var id="B">randRange(1, 16 - A)</var>
+                    <var id="C">randRange(1, 17 - A - B)</var>
+                    <var id="TOTAL">A + B + C</var>
+                    <var id="D">randRange(0, 1) === 0 ? 10 : TOTAL - 10</var>
+                    <var id="E">TOTAL - D</var>
+                    <var id="MISSING">randRange(0, 1)</var>
+                </div>
+
+                <p class="question">
+                    Fill in the blanks to make the equations true.
+                </p>
+                <div class="graphie" style="z-index: -10">
+                    // Focus the first input
+                    $('.problem-equation input').eq(0).focus()
+                    Khan.scratchpad.disable();
+                </div>
+
+                <div class="problem">
+                    <table class="problem-equation">
+                        <tr data-if="MISSING === 0">
+                            <td><code><var>A</var></code></td>
+                            <td><code>+</code></td>
+                            <td><code><var>B</var></code></td>
+                            <td><code>+</code></td>
+                            <td><code><var>C</var></code></td>
+                            <td><code>=</code></td>
+                            <td><input type="number"></td>
+                            <td><code>+</code></td>
+                            <td><code><var>D</var></code></td>
+                        </tr>
+                        <tr data-else-if="MISSING === 1">
+                            <td><code><var>A</var></code></td>
+                            <td><code>+</code></td>
+                            <td><code><var>B</var></code></td>
+                            <td><code>+</code></td>
+                            <td><code><var>C</var></code></td>
+                            <td><code>=</code></td>
+                            <td><code><var>D</var></code></td>
+                            <td><code>+</code></td>
+                            <td><input type="number"></td>
+                        </tr>
+                        <tr>
+                            <td><code><var>A</var></code></td>
+                            <td><code>+</code></td>
+                            <td><code><var>B</var></code></td>
+                            <td><code>+</code></td>
+                            <td><code><var>C</var></code></td>
+                            <td><code>=</code></td>
+                            <td><input type="number"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Fill in the blanks with the correct numbers.
+                    </div>
+                    <div class="guess">_.map($("div.problem input"), function(el) {
+                        return $(el).val();
+                    })</div>
+                    <div class="validator-function">
+                        if (guess[0] === "" || guess[1] === "") {
+                            return "Fill in both blanks.";
+                        }
+
+                        var validator1 = Khan.answerTypes.number.createValidatorFunctional(E, {});
+                        var validator2 = Khan.answerTypes.number.createValidatorFunctional(TOTAL, {});
+                        var result1 = validator1(guess[0]);
+                        var result2 = validator2(guess[1]);
+
+                        if (result1.empty) {
+                            return result1.message || "";
+                        }
+                        if (result2.empty) {
+                            return result2.message || "";
+                        }
+
+                        return result1.correct &amp;&amp; result2.correct;
+                    </div>
+                    <div class="show-guess">
+                        $("div.problem input").val(guess);
+                    </div>
+                </div>
+                <div class="hints">
+                    <div>
+                        <p>We have
+                            <span data-if="isSingular(A)"><code>\blue{<var>A</var>}</code> blue dot</span>
+                            <span data-else=""><code>\blue{<var>A</var>}</code> blue dots</span> and 
+                            <span data-if="isSingular(B)"><code>\green{<var>B</var>}</code> green dot</span>
+                            <span data-else=""><code>\green{<var>B</var>}</code> green dots</span> and
+                            <span data-if="isSingular(C)"><code>\purple{<var>C</var>}</code> purple dot</span>
+                            <span data-else=""><code>\purple{<var>C</var>}</code> purple dots</span>.
+                        </p>
+                        <div class="graphie">
+                            init({
+                                range: [[-0.5, 16.5], [-1, 3]],
+                                scale: [30, 30]
+                            });
+
+                            var x = 0;
+                            var y = 2;
+
+                            var drawDots = function(n) {
+                                for (var i = 0; i &lt; n; i++) {
+                                    circle([x, y], 0.25);
+                                    x++;
+                                }
+
+                            }
+
+                            style({
+                                stroke: BLUE,
+                                fill: BLUE
+                            });
+                            drawDots(A);
+
+                            style({
+                                stroke: GREEN,
+                                fill: GREEN
+                            });
+                            y--;
+                            x = 0;
+                            drawDots(B);
+
+                            style({
+                                stroke: PURPLE,
+                                fill: PURPLE
+                            });
+                            y--;
+                            x = 0;
+                            drawDots(C);
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>We can arrange the dots to make them easier to count.</p>
+                        <div class="graphie">
+                            init({
+                                range: [[-0.5, 11], [-1, 2]],
+                                scale: [30, 30]
+                            });
+
+                            var x = 0;
+                            var y = 1;
+
+                            var drawDots = function(n) {
+                                for (var i = 0; i &lt; n; i++) {
+                                    circle([x, y], 0.25);
+                                    x++;
+                                    if (x &gt; 9) {
+                                        x = 0;
+                                        y--;
+                                    }
+                                }
+
+                            }
+
+                            style({
+                                stroke: BLUE,
+                                fill: BLUE
+                            });
+                            drawDots(A);
+
+                            style({
+                                stroke: GREEN,
+                                fill: GREEN
+                            });
+                            drawDots(B);
+
+                            style({
+                                stroke: PURPLE,
+                                fill: PURPLE
+                            });
+                            drawDots(C);
+
+                            label([9.5, 1], "10", "right");
+                        </div>
+                        <p>We have <code>10</code> dots in the top row. How many in the second row?</p>
+                    </div>
+
+                    <div>
+                        <p data-if="isSingular(TOTAL - 10)">
+                            There is <code><var>TOTAL - 10</var></code> dot in the second row, so 
+                            <code><var>A</var> + <var>B</var> + <var>C</var> = 10 + <var>TOTAL - 10</var></code>.
+                        </p>
+                        <p data-else="">
+                            There are <code><var>TOTAL - 10</var></code> dots in the second row, so 
+                            <code><var>A</var> + <var>B</var> + <var>C</var> = 10 + <var>TOTAL - 10</var></code>.
+                        </p>
+                        <p>How many dots in total?</p>
+                    </div>
+
+                    <p>
+                        There are <code><var>TOTAL</var></code> dots in total. So the missing numbers are
+                        <code><var>E</var></code> and <code><var>TOTAL</var></code>.
+                    </p>
+                </div>
+            </div>
+            <div id="subtraction">
+                <div class="vars" data-ensure="TOTAL > 11">
+                    <var id="A">randRange(1, 15)</var>
+                    <var id="B">randRange(1, 16 - A)</var>
+                    <var id="C">randRange(1, 17 - A - B)</var>
+                    <var id="TOTAL">A + B + C</var>
+                    <var id="MISSING">randRange(0, 1)</var>
+                    <var id="D,E">MISSING === 0 ? [10, 10 - C] : [10 - C, 10]</var>
+                </div>
+
+                <p class="question">
+                    Fill in the blanks to make the equations true.
+                </p>
+                <div class="graphie" style="z-index: -10">
+                    // Focus the first input
+                    $('.problem-equation input').eq(0).focus()
+                    Khan.scratchpad.disable();
+                </div>
+
+                <div class="problem">
+                    <table class="problem-equation">
+                        <tr data-if="MISSING === 0">
+                            <td><code><var>TOTAL</var></code></td>
+                            <td><code>-</code></td>
+                            <td><code><var>A</var></code></td>
+                            <td><code>-</code></td>
+                            <td><code><var>B</var></code></td>
+                            <td><code>=</code></td>
+                            <td><input type="number"></td>
+                            <td><code>-</code></td>
+                            <td><code><var>E</var></code></td>
+                        </tr>
+                        <tr data-else-if="MISSING === 1">
+                            <td><code><var>TOTAL</var></code></td>
+                            <td><code>-</code></td>
+                            <td><code><var>A</var></code></td>
+                            <td><code>-</code></td>
+                            <td><code><var>B</var></code></td>
+                            <td><code>=</code></td>
+                            <td><code><var>10</var></code></td>
+                            <td><code>-</code></td>
+                            <td><input type="number"></td>
+                        </tr>
+                        <tr>
+                            <td><code><var>TOTAL</var></code></td>
+                            <td><code>-</code></td>
+                            <td><code><var>A</var></code></td>
+                            <td><code>-</code></td>
+                            <td><code><var>B</var></code></td>
+                            <td><code>=</code></td>
+                            <td><input type="number"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Fill in the blanks with the correct numbers.
+                    </div>
+                    <div class="guess">_.map($("div.problem input"), function(el) {
+                        return $(el).val();
+                    })</div>
+                    <div class="validator-function">
+                        if (guess[0] === "" || guess[1] === "") {
+                            return "Fill in both blanks.";
+                        }
+
+                        var validator1 = Khan.answerTypes.number.createValidatorFunctional(D, {});
+                        var validator2 = Khan.answerTypes.number.createValidatorFunctional(C, {});
+                        var result1 = validator1(guess[0]);
+                        var result2 = validator2(guess[1]);
+
+                        if (result1.empty) {
+                            return result1.message || "";
+                        }
+                        if (result2.empty) {
+                            return result2.message || "";
+                        }
+
+                        return result1.correct &amp;&amp; result2.correct;
+                    </div>
+                    <div class="show-guess">
+                        $("div.problem input").val(guess);
+                    </div>
+                </div>
+                <div class="hints">
+                    <div>
+                        <p>First arrange <code><var>TOTAL</var></code> dots into rows of <code>10</code>.</p>
+                        <div class="graphie" id="graph">
+                            init({
+                                range: [[-0.5, 10.5], [-1, 2]],
+                                scale: [30, 30]
+                            });
+
+                            var x = 0;
+                            var y = 1;
+
+                            var drawDots = function(n) {
+                                for (var i = 0; i &lt; n; i++) {
+                                    circle([x, y], 0.25);
+                                    x++;
+                                    if (x &gt; 9) {
+                                        x = 0;
+                                        y--;
+                                    }
+                                }
+
+                            }
+
+                            style({
+                                stroke: BLUE,
+                                fill: BLUE
+                            });
+                            drawDots(TOTAL);
+                        </div>
+                    </div>
+                    
+                    <p>
+                        We need to subtract <code><var>A</var></code> and then subtract another <code><var>B</var></code>,
+                        so in total, we need to subtract <code><var>A + B</var></code>.
+                    </p>
+
+                    <div>
+                        <p>
+                            First subtract enough dots to leave <code>10</code> remaining. How many have we subtracted?
+                        </p>
+                        <div class="graphie" data-update="graph">
+                            var x = 0;
+                            var y = 0;
+
+                            var crossOutDots = function(n) {
+                                for (var i = 0; i &lt; n; i++) {
+                                    path([[x - 0.3, y - 0.3], [x + 0.3, y + 0.3]]);
+                                    path([[x - 0.3, y + 0.3], [x + 0.3, y - 0.3]]);
+                                    x++;
+                                }
+
+                            }
+
+                            style({ stroke: RED });
+                            crossOutDots(TOTAL - 10);
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>
+                            We have subtracted <code><var>TOTAL - 10</var></code>, so we need to subtract another <code><var>[E, D][MISSING]</var></code>.
+                        </p>
+                        <p><code><var>TOTAL</var> - <var>A</var> - <var>B</var> = 10 - <var>[E, D][MISSING]</var></code>.</p>
+                    </div>
+
+                    <div>
+                        <p>After subtracting the remaining <code><var>[E, D][MISSING]</var></code>, we have <code><var>C</var></code> left.</p>
+                        <p><code><var>TOTAL</var> - <var>A</var> - <var>B</var> = <var>C</var></code>.</p>
+                        <div class="graphie" data-update="graph">
+                            var x = 0;
+                            var y = 1;
+
+                            var crossOutDots = function(n) {
+                                for (var i = 0; i &lt; n; i++) {
+                                    path([[x - 0.3, y - 0.3], [x + 0.3, y + 0.3]]);
+                                    path([[x - 0.3, y + 0.3], [x + 0.3, y - 0.3]]);
+                                    x++;
+                                }
+
+                            }
+
+                            style({ stroke: RED });
+                            crossOutDots([E, D][MISSING]);
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

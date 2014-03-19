@@ -973,6 +973,17 @@ span.hover-hint:hover {
     position: absolute;
 }
 
+.problem table.problem-equation td {
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: center;
+}
+.problem table.problem-equation input {
+    width: 25px;
+    margin-right: 5px;
+    vertical-align: super;
+}
+
 #coin-flip-sequence-charts {
     height: 324px;
     position: relative;
