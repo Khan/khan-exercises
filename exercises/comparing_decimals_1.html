@@ -24,7 +24,7 @@
                         }
                     })()
                     </var>
-                    <var id="HUNDREDTHS">$._("hundredths")</var>
+                    <var id="HUNDREDTHS">decimalPlaceNames[2]</var>
                 </div>
 
                 <div class="problem">
@@ -49,7 +49,7 @@
                     <var id="TRAILING1">D1 % 10 === 0 &amp;&amp; rand(2) ? "0" : ""</var>
                     <var id="TRAILING2">D2 % 10 === 0 &amp;&amp; rand(2) ? "0" : ""</var>
                     <var id="SOLUTION">N1 &lt; N2 ? "&lt;" : "&gt;"</var>
-                    <var id="HUNDREDTHS">$._("hundredths")</var>
+                    <var id="HUNDREDTHS">decimalPlaceNames[2]</var>
                 </div>
 
                 <div class="problem">
@@ -83,7 +83,7 @@
                             return N1 &lt; N2 ? "&lt;" : "&gt;";
                         }
                     })()</var>
-                    <var id="HUNDREDTHS">$._("hundredths")</var>
+                    <var id="HUNDREDTHS">decimalPlaceNames[2]</var>
                 </div>
 
                 <div class="problem">
@@ -191,21 +191,19 @@
             </div>
 
             <p data-if="N1 === N2">
-                <code>\large{\blue{<var>D1</var> \text{ <var>HUNDREDTHS</var>}}}</code> is the same as <code>\large{\green{<var>D2</var> \text{ <var>HUNDREDTHS</var>}}}</code>.
+                <code>\large{\blue{<var>D1</var> \text{ <var>plural_form(HUNDREDTHS, D1)</var>}}}</code> is the same as
+                <code>\large{\green{<var>D2</var> \text{ <var>plural_form(HUNDREDTHS, D2)</var>}}}</code>.
             </p>
             <p data-else-if="N1 &gt; N2">
-                <code>\large{\blue{<var>D1</var> \text{ <var>HUNDREDTHS</var>}}}</code> is more than <code>\large{\green{<var>D2</var> \text{ <var>HUNDREDTHS</var>}}}</code>.
+                <code>\large{\blue{<var>D1</var> \text{ <var>plural_form(HUNDREDTHS, D1)</var>}}}</code> is more than
+                <code>\large{\green{<var>D2</var> \text{ <var>plural_form(HUNDREDTHS, D2)</var>}}}</code>.
             </p>
             <p data-else="">
-                <code>\large{\blue{<var>D1</var> \text{ <var>HUNDREDTHS</var>}}}</code> is less than <code>\large{\green{<var>D2</var> \text{ <var>HUNDREDTHS</var>}}}</code>.
+                <code>\large{\blue{<var>D1</var> \text{ <var>plural_form(HUNDREDTHS, D1)</var>}}}</code> is less than
+                <code>\large{\green{<var>D2</var> \text{ <var>plural_form(HUNDREDTHS, D2)</var>}}}</code>.
             </p>
 
-            <p data-if="N1 === N2">Therefore <code>\large{<var>N1</var>}</code> = <code>\large{<var>N2</var>}</code>.</p>
-            <p data-else="">
-                Therefore <code>\large{<var>N1</var>}
-                <span data-if="N1 > N2">&gt;</span><span data-else="">&lt;</span>
-                \large{<var>N2</var>}</code>.
-            </p>
+            <p>Therefore <code>\large{<var>N1</var>} <var>SOLUTION</var> \large{<var>N2</var>}</code>.</p>
         </div>
     </div>
 </body>
