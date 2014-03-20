@@ -226,7 +226,9 @@ $.extend(KhanUtil.Graphie.prototype, {
     // handlers wherever we want.
     addMouseLayer: function(options) {
         var graph = this;
-        options = _.extend({}, options);
+        options = _.extend({
+            allowScratchpad: false
+        }, options);
 
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
         $(graph.mouselayer.canvas).css("z-index", 1);
@@ -251,7 +253,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                 }
             });
         }
-        Khan.scratchpad.disable();
+        if (!options.allowScratchpad) {
+            Khan.scratchpad.disable();
+        }
     },
 
     /**

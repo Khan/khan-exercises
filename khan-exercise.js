@@ -409,6 +409,9 @@ var Khan = {
                         pad = new DrawingScratchpad(
                             $("#scratchpad div")[0]);
                     }
+
+                    // Outline things floating on top of the scratchpad
+                    $(".above-scratchpad").css("border", "1px solid #ccc");
                 };
 
                 makeVisible();
@@ -420,6 +423,8 @@ var Khan = {
                 }
 
                 $("#scratchpad").hide();
+                // Un-outline things floating on top of the scratchpad
+                $(".above-scratchpad").css("border", "");
                 $("#scratchpad-show").text($._("Show scratchpad"));
             },
 
