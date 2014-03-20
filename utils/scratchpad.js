@@ -13,9 +13,9 @@ window.DrawingScratchpad = function(elem) {
         var freq = 0.05;
         var iter = 0;
         return function() {
-            var red   = Math.sin(freq * iter + 0) * 127 + 128;
-            var green = Math.sin(freq * iter + 2) * 127 + 128;
-            var blue  = Math.sin(freq * iter + 4) * 127 + 128;
+            var red   = Math.sin(freq * iter + -3) * 127 + 128;
+            var green = Math.sin(freq * iter + -1) * 127 + 128;
+            var blue  = Math.sin(freq * iter + 1) * 127 + 128;
             iter++;
             return "rgb(" + red + "," + green + "," + blue + ")";
         };
