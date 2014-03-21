@@ -34,8 +34,11 @@
 
             <div id="population" data-calculator="">
                 <div class="problem" data-else="">
-                    <p data-if="isSingular(DATA_POINTS)">You have found the following ages (in years) of all <var>DATA_POINTS</var> <var>animal( 1 )</var> at your local zoo:</p><p data-else="">You have found the following ages (in years) of all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at your local zoo:</p>
-                    <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
+                    <p>
+                        You have found the following ages (in years) of all <code><var>DATA_POINTS</var></code>
+                        <var>plural_form(animal( 1 ), DATA_POINTS)</var> at your local zoo:
+                    </p>
+                    <p><code>\qquad<var>DATA.join(",\\enspace ")</var></code></p>
                 </div>
 
                 <p class="question">
@@ -166,10 +169,10 @@
                         </code>
                     </p>
 
-                    <p><strong>
+                    <p>
                         <span data-if="isSingular(MEAN)">The average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> year old.</span><span data-else="">The average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> years old.</span>
                         <span data-if="isSingular(STDDEV_POP)">There is a standard deviation of <var>STDDEV_POP</var> year.</span><span data-else="">There is a standard deviation of <var>STDDEV_POP</var> years.</span>
-                    </strong></p>
+                    </p>
 
                 </div> <!-- hints -->
             </div> <!-- population -->
@@ -177,8 +180,8 @@
             <div id="sample" data-calculator="">
                 <div class="problem" data-else="">
                     <p>
-                        <span data-if="isSingular(DATA_POINTS)">You have found the following ages (in years) of <var>DATA_POINTS</var> <var>animal( 1 )</var>.</span><span data-else="">You have found the following ages (in years) of <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var>.</span>
-                        <span data-if="isSingular(POPULATION)">Those <var>plural_form(animal( 1 ))</var> were randomly selected from the <var>POPULATION</var> <var>animal( 1 )</var> at your local zoo:</span><span data-else="">Those <var>plural_form(animal( 1 ))</var> were randomly selected from the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> at your local zoo:</span>
+                        Those <var>plural_form(animal(1))</var> were randomly selected from the
+                        <code><var>POPULATION</var></code> <var>animal(1)</var> at your local zoo:
                     </p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
@@ -331,13 +334,12 @@
                         </code>
                     </p>
 
-                    <p><strong>
+                    <p>
                         <span data-if="isSingular(MEAN)">We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> year old.</span><span data-else="">We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> years old.</span>
                         <span data-if="isSingular(STDDEV)">There is also a standard deviation
                         of <var>STDDEV</var> year.</span><span data-else="">There is also a standard deviation
                         of <var>STDDEV</var> years.</span>
-                    </strong></p>
-
+                    </p>
                 </div> <!-- hints -->
             </div> <!-- sample -->
 
