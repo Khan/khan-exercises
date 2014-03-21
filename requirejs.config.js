@@ -60,7 +60,7 @@
         "utils/visualizing-derivatives.js",
         "utils/word-problems.js",
 
-        "main.js",
+        "main.js"
     ],
     optimize: "none",
     out: "genfiles/exercise-content-bundle.js",
@@ -69,8 +69,8 @@
         "utils/calculator.js": true,
         "utils/jquery.adhesion.js": true,
         "third_party/jquery.cursor-position.js": true,
-        "third_party/jquery.mobile.vmouse.js": true,
+        "third_party/jquery.mobile.vmouse.js": true
     },
     wrap: true,
-    wrapShim: true,
-})
+    wrapShim: true
+});
