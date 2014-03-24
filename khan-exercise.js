@@ -763,8 +763,7 @@ var Khan = {
                 $("#issue-throbber").hide();
             };
 
-            gae_bingo.bingo("exercise_submit_issue_count");
-            gae_bingo.bingo("exercise_submit_issue_count");
+            gae_bingo.bingo(["exercise_submit_issue_count", "exercise_submit_issue_count"]);
             Khan.submitIssue(issueInfo, onSuccess, onFailure);
         });
     },
