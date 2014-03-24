@@ -18,15 +18,20 @@
         <var id="OPP_START"> VERTICES[(START + 3) % 6] </var>
         <var id="OPP_END"> VERTICES[(END + 3) % 6] </var>
         <var id="ADJ_ANGLES">(function() {
-            var s = "^\\s*";
-            for (var i = 1; i &lt;= 6 - SIZE; i++) {
-                if (i !== 1) {
-                    s += "|";
-                }
-                var end2 = VERTICES[(END + i) % 6];
-                s += VERTICES[END] + "G" + end2 + "|" + end2 + "G" + VERTICES[END];
-            }
-            return s + "\\s*$";
+            var startName = VERTICES[START];
+            var endName = VERTICES[END];
+            var notStart = "[" + _.without(VERTICES, startName).join("") + "]";
+            var notEnd = "[" + _.without(VERTICES, endName).join("") + "]";
+            var startAsFirst = startName + "G" + notStart;
+            var startAsLast = notStart + "G" + startName;
+
+            var endAsFirst = endName + "G" + notEnd;
+            var endAsLast = notEnd + "G" + endName;
+
+            var sharingStart = startAsFirst + "|" + startAsLast;
+            var sharingEnd = endAsFirst + "|" + endAsLast;
+
+            return "^\\s*" + sharingStart + "|" + sharingEnd + "\\s*$";
         })()</var>
 
         <var id="TILT">rand(-20, 20)</var>
