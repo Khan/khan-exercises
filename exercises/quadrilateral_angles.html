@@ -17,29 +17,37 @@
                     <var id="ANSWER_POS">randRange( 0, 3 )</var>
                     <var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 3 ) % 4 : ( ANSWER_POS + 1 ) % 4</var>
                     <var id="ANG_LABELS">
-                        function(){
-                            var a = [ "", "","" ,"" ];
-                            a[ ANSWER_POS ] = "x";
-                            a[ SHOWN_POS ] = ANGLES[ SHOWN_POS ] + "^{\\circ}";
+                        function() {
+                            var a = ["", "", "", ""];
+                            a[ANSWER_POS] = "x";
+                            a[SHOWN_POS] = ANGLES[SHOWN_POS] + "^{\\circ}";
                             return a;
                         }()
                     </var>
                 </div>
                 <div class="problem">
-                    What is the value of the angle marked with "x" ?
+                    What is the value of the angle marked with <code>x</code>?
                 </div>
                 <div class="question">
                     <div class="graphie">
                         init({
                             range: [ [-1, 12 ], [ -8, -1 ] ]
                         })
-                        var q = new Quadrilateral( [ 2, -7 ],  ANGLES, randRange( 0, 1 ) + 0.5, "" );
+                        var q = new Quadrilateral([2, -7], ANGLES, randRange(0, 1) + 0.5, "");
                         q.boxOut( [ [ [ -0.5, -10 ], [ -0.5, 10 ] ] ], [ 0.1, 0 ] );
                         q.boxOut( [ [ [ 11.5, -10 ], [ 11.5, 10 ] ] ], [ -0.1, 0 ] );
 
                         q.draw();
-                        q.labels = { "angles" : ANG_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return localeToFixed(x, 1); } ) };
+                        q.labels = {
+                            "angles": ANG_LABELS,
+                            "sides": $.map($.map(q.sides, lineLength), function(x) {
+                                return localeToFixed(x, 1);
+                            })
+                        };
                         q.drawLabels();
+
+                        ParallelLineMarkers((q.points[0][0] + q.points[3][0]) / 2, q.points[0][1]);
+                        ParallelLineMarkers((q.points[1][0] + q.points[2][0]) / 2, q.points[1][1]);
                     </div>
                 </div>
                 <div class="solution" data-type="multiple">
@@ -67,7 +75,7 @@
                 <div class="hints">
                     <p>This figure is an isosceles trapezoid.</p>
                     <p>The angles of bases of an isosceles trapezoid are equal.</p>
-                    <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
             </div>
             <div id="parallelogram1" data-type="trapezoid">
@@ -78,7 +86,7 @@
                 <div class="hints">
                     <p>This quadrilateral is a parallelogram.</p>
                     <p>Opposite angles of a parallelogram are equal.</p>
-                    <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
             </div>
             <div id="parallelogram2" data-type="trapezoid">
@@ -115,7 +123,7 @@
                 <div class="hints">
                     <p>This quadrilateral is a rhombus, because it has all sides equal.</p>
                     <p>Opposite angles of a rhombus are equal.</p>
-                    <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
             </div>
             <div id="rhombus2" data-type="rhombus1">
@@ -140,7 +148,7 @@
                 <div class="hints">
                     <p>This quadrilateral is a kite, because it has two pairs of adjacent sides equal.</p>
                     <p>Angles between the non-equal sides of a kite are equal.</p>
-                    <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
             </div>
         </div>
