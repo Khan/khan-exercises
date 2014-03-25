@@ -291,7 +291,7 @@ window.ParallelLineMarkers = function(x, y) {
     var pmarkH = 5 / s[1];
     graph.path([[x - pmarkW, y + pmarkH], [x, y], [x - pmarkW, y - pmarkH]]);
     graph.path([[x2 - pmarkW, y + pmarkH], [x2, y], [x2 - pmarkW, y - pmarkH]]);
-}
+};
 
 window.ParallelLines = function(x1, y1, x2, y2, distance) {
     var lowerIntersection;
