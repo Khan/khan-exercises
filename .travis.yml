@@ -4,5 +4,5 @@ notifications:
   on_failure: always
   hipchat:
     rooms:
-      # Content Tools
-      secure: cFcjPNeDs8jOd0lNB7i7fsjsPQDHAdMSTsv3BlFreMgcO8cbCBK148U/jAT9FzckeqeDLu+wu/mLsqw4zCfK35cOL0iiGRj7OUvu94qjpNVNZmtmo4cC0hIELM/9h5hGeJmNnOGALTHbwV38MwoZcNOBQivlghnhkOrbcsrQQzg=
+      # Exercises
+      secure: Wya8rSE9TFYCgYkjC/IHq9A7PNwTXYuAA2q0FyumjRRfIGpekN3EKb2+ftVtb0Hj3Jpm3/JhwNWY8mnQ/cXmVXpprOcR810hTKY+T0JmVoSH4+qTNAB+YzrMtoLyWY3bl7/edWJD2TGTvfoclN9sFcWkp0gWsVzmZCgRRIkV45w=
