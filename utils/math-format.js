@@ -468,6 +468,7 @@ $.extend(KhanUtil, {
                 var l, r;
                 l = s.indexOf("{", s.indexOf("{") + 1) + 1;
                 r = s.indexOf("}", s.indexOf("}") + 1);
+                p = s.indexOf("\\");
 
                 // if we've encountered \color{blue}{1}\color{xy} somehow
                 if (l !== s.lastIndexOf("{") + 1 && +KhanUtil._plusTrim(s.slice(l, r)) === 1) {
@@ -478,7 +479,11 @@ $.extend(KhanUtil, {
                     }
                 }
 
-                return s.slice(0, l) + KhanUtil._plusTrim(s.slice(l, r)) + s.slice(r);
+                if (p === -1) {
+                    return s.slice(0, l) + KhanUtil._plusTrim(s.slice(l, r)) + s.slice(r);
+                } else {
+                    return KhanUtil._plusTrim(s.slice(0, p + 2)) + s.slice(p + 2, l) + KhanUtil._plusTrim(s.slice(l, r)) + s.slice(r);
+                }
             }
 
             if (s.indexOf("1") === 0 && isNaN(s[1])) {
