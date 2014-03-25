@@ -637,6 +637,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 };
 
                 var interpretedGuess = false;
+                _.each(forms, function(form) {
+                    if(form(guess).length && form(guess)[0].value) {
+                        interpretedGuess = true;
+                    }
+                });
+                if (!interpretedGuess) {
+                    score.empty = true;
+                    score.message = $._("We could not understand your answer. " +
+                        "Please check your answer for extra text or symbols.");
+                    return score;
+                }
 
                 // iterate over all the acceptable forms, and if one of the
                 // answers is correct, return true
@@ -647,9 +658,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         var val = transformed[j].value;
                         var exact = transformed[j].exact;
                         var piApprox = transformed[j].piApprox;
-                        if (val != null) {
-                            interpretedGuess = true;
-                        }
                         // If a string was returned, and it exactly matches,
                         // return true
                         if (predicate(val, options.maxError)) {
@@ -688,11 +696,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         }
                     }
                 });
-                if (!interpretedGuess) {
-                    score.empty = true;
-                    score.message = $._("We could not understand your answer. " +
-                        "Please check your answer for extra text or symbols.");
-                }
 
                 return score;
             };
