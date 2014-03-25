@@ -465,10 +465,9 @@ $.extend(KhanUtil, {
             if (s.indexOf("{") !== -1) {
 
                 // we're expecting something like "\color{blue}{-1}..."
-                var l, r;
-                l = s.indexOf("{", s.indexOf("{") + 1) + 1;
-                r = s.indexOf("}", s.indexOf("}") + 1);
-                p = s.indexOf("\\");
+                var l = s.indexOf("{", s.indexOf("{") + 1) + 1;
+                var r = s.indexOf("}", s.indexOf("}") + 1);
+                var p = s.indexOf("\\");
 
                 // if we've encountered \color{blue}{1}\color{xy} somehow
                 if (l !== s.lastIndexOf("{") + 1 && +KhanUtil._plusTrim(s.slice(l, r)) === 1) {
