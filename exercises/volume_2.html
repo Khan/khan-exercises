@@ -130,12 +130,19 @@
                     }
                 ]</var>
 
+                <var id="FEET">new Plural(function(num) {
+                    return $.ngettext("foot", "feet", num);
+                })</var>
             </div>
-             <p>
-                 A water tank is <code><var>H1</var></code> feet high, <code><var>L1</var></code> feet long, and <code><var>W1</var></code> feet wide.
-                 A solid metal box which is <code><var>H2</var></code> feet high, <code><var>L2</var></code> feet long, and <code><var>W2</var></code> feet wide
-                  is sitting at the bottom of the tank.  The tank is filled with water.
-             </p>
+            <p>
+                A water tank is <code><var>H1</var></code> <var>plural_form(FEET, H1)</var> high,
+                <code><var>L1</var></code> <var>plural_form(FEET, L1)</var> long,
+                and <code><var>W1</var></code> <var>plural_form(FEET, W1)</var> wide.
+                A solid metal box which is <code><var>H2</var></code> <var>plural_form(FEET, H2)</var> high,
+                <code><var>L2</var></code> <var>plural_form(FEET, L2)</var> long,
+                and <code><var>W2</var></code> <var>plural_form(FEET, W2)</var> wide is sitting at the bottom of the tank.
+                The tank is filled with water.
+            </p>
             <p class="question">
                 What is the volume of the water in the tank?
             </p>
