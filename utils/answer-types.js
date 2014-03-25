@@ -636,19 +636,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     guess: guess
                 };
 
-                var interpretedGuess = false;
-                _.each(forms, function(form) {
-                    if(form(guess).length && form(guess)[0].value) {
-                        interpretedGuess = true;
-                    }
-                });
-                if (!interpretedGuess) {
-                    score.empty = true;
-                    score.message = $._("We could not understand your answer. " +
-                        "Please check your answer for extra text or symbols.");
-                    return score;
-                }
-
                 // iterate over all the acceptable forms, and if one of the
                 // answers is correct, return true
                 $.each(acceptableForms, function(i, form) {
@@ -696,6 +683,21 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         }
                     }
                 });
+
+                if (score.correct === false) {
+                    var interpretedGuess = false;
+                    _.each(forms, function(form) {
+                        if(_.any(form(guess), function(t) {return t.value;})) {
+                            interpretedGuess = true;
+                        }
+                    });
+                    if (!interpretedGuess) {
+                        score.empty = true;
+                        score.message = $._("We could not understand your answer. " +
+                            "Please check your answer for extra text or symbols.");
+                        return score;
+                    }
+                }
 
                 return score;
             };
