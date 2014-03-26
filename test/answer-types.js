@@ -82,7 +82,7 @@
         testAnswer(answerData, "-42", "right", "right answer is right");
         testAnswer(answerData, "-84/2", "wrong", "non-integer right answer is wrong");
         testAnswer(answerData, " \u2212 42 ", "right", "weirdly formatted right answer is right");
-        testAnswer(answerData, "- 4 2", "wrong", "crazily formatted answer is wrong");
+        testAnswer(answerData, "- 4 2", "empty-message", "crazily formatted answer is ungraded");
         testAnswer(answerData, "-41.9999999", "wrong", "close decimal is wrong");
         testAnswer(answerData, "-,42", "wrong", "sort of tricky wrong answer is wrong");
 
@@ -103,7 +103,7 @@
         testAnswer(answerData, "12,345,678", "right", "right answer with commas is right");
         testAnswer(answerData, "12.345.678", "right", "right answer with periods is right");
         testAnswer(answerData, "12 345 678", "right", "right answer with spaces is right");
-        testAnswer(answerData, "123 45 678", "wrong", "right answer with wrong commas is wrong");
+        testAnswer(answerData, "123 45 678", "empty-message", "right answer with wrong commas is ungraded");
 
         start();
     });
@@ -285,7 +285,7 @@
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
                 $problem.children(".solution"));
 
-        testAnswer(answerData, "4 5pi/6", "wrong", "wrong answer is wrong");
+        testAnswer(answerData, "4 5pi/6", "empty-message", "mixed number with pi in numerator is ungraded");
         testAnswer(answerData, "-4 5/6pi", "right", "right answer is right");
         testAnswer(answerData, "-29/6pi", "right", "right answer is right");
         testAnswer(answerData, "-2 5/12tau", "right", "right answer is right");
@@ -470,7 +470,7 @@
         testAnswer(answerData, "372", "right", "right answer is right");
         testAnswer(answerData, "0.372", "wrong", "leading zeros are wrong");
         testAnswer(answerData, "00.372", "wrong", "two leading zeros are wrong");
-        testAnswer(answerData, "0.000.372", "wrong", "many leading zeros are wrong");
+        testAnswer(answerData, "0.000.372", "empty-message", "weirdly leading zeros is ungraded");
 
         start();
     });
