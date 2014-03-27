@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-geometry interactive constructions kmatrix">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Compass Constructions 3</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="on-circle">
+            <div class="vars">
+                <var id="SIZE">2</var>
+                <var id="ANGLE">randRange(1, 360)</var>
+                <var id="RAD">ANGLE * Math.PI / 180</var>
+                <var id="P">[SIZE * cos(ANGLE * Math.PI / 180), SIZE * sin(ANGLE * Math.PI / 180)]</var>
+                <var id="Q">[P[0] * 2, P[1] * 2]</var>
+                <var id="POSITION">["right", "above", "left", "below", "right"][round(ANGLE / 90)]</var>
+                <var id="POSITION2">["left", "below", "right", "above", "left"][round(ANGLE / 90)]</var>
+            </div>
+
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a line going through <code>P</code>, tangent to the circle.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-5, 5]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyCircle([0, 0], SIZE);
+                    addDummyPoint([0, 0]);
+                    addDummyPoint(P);
+
+                    label(P, "P", POSITION);
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">Use the compass and straightedge tools to construct a line tangent to the circle.</div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    // Get lines going through P
+                    var lines = _.filter(guess, function(tool) {
+                        if (tool.first != null) {
+                            return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.15);
+                        }
+                    });
+
+                    // Of the lines going through P, does one have the correct angle?
+                    var tangentLine = _.filter(lines, function(tool) {
+                        return angleEqual(tool, (ANGLE + 90) % 180, 4);
+                    });
+
+                    if (tangentLine.length === 0) {
+                        return false;
+                    }
+
+                    // Of the lines going through P, does one go through X too?
+                    var connectingLine = _.filter(lines, function(tool) {
+                        return isPointOnLineSegment([tool.first.coord, tool.second.coord], [0, 0], 0.15);
+                    });
+
+                    if (connectingLine.length === 0) {
+                        return "Make sure you keep the straightedges you used in place.";
+                    }
+
+                    // Test whether there are compasses centered on C and Q with the same radii
+                    var compasses1 = findCompass(guess, {center: [0, 0]});
+                    var compasses2 = findCompass(guess, {center: Q});
+
+                    for (var i = 0; i &lt; compasses1.length; i++) {
+                        for (var j = 0; j &lt; compasses2.length; j++) {
+                            if (abs(compasses1[i].radius - compasses2[j].radius) &lt; 0.1) {
+                                return true;
+                            }
+                        }
+                    }
+
+                    return "Make sure you keep the compasses you used in place.";
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var angle = (ANGLE + 90) * Math.PI / 180;
+                        var dx = 10 * cos(angle);
+                        var dy = 10 * sin(angle);
+
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(line([P[0] - dx, P[1] - dy], [P[0] + dx, P[1] + dy],{
+                            strokeWidth: 1,
+                            stroke: BLUE
+                        })).toBack();
+                    </div>
+                    <p>
+                        We could just draw a line through <code>P</code> and <em>try</em> to get it right,
+                        but then <strong>we have no guarantee</strong> that it's actually perfectly perpendicular.
+                    </p>
+                    <p>How can you guarantee that a line is really perpendicular?</p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var dAngle = 30 * Math.PI / 180;
+                        var d = SIZE / cos(dAngle);
+                        graph.hintLines.push(drawHintLine([0, 0], [d * cos(RAD - dAngle), d * sin(RAD - dAngle)], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], [d * cos(RAD + dAngle), d * sin(RAD + dAngle)], 2)).toBack();
+                        graph.hintLines.push(drawHintLine([0, 0], P)).toBack();
+                    </div>
+                    <p>
+                        If we pick <span class="hint_blue">two points</span> on the tangent line that are an equal
+                        distance from <code>P</code>, they will also be the same distance the center of the circle.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        line([0, 0], [SIZE * 2.5 * cos(RAD), SIZE * 2.5 * sin(RAD)], {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+
+                        label([0, 0], "C", POSITION2);
+                    </div>
+                    <p>
+                        Draw a line that passes through the center of the circle, <code>C</code>, and <code>P</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        circle(P, SIZE, {
+                            fill: "none",
+                            strokeDasharray: "- ",
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        });
+
+                        circle(Q, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        label(Q, "Q", POSITION);
+                    </div>
+                    <p>
+                        Use a compass with the same radius as the original circle to find a point on the line, 
+                        <code>Q</code>, such <code>\overline{PQ} = \overline{PC}</code>.
+                    </p>
+                </div>
+
+                <p>
+                    Point <code>P</code> bisects the line <code>\overline{QC}</code>, so if we construct a 
+                    perpendicular bisector of the line it will pass through point <code>P</code> and be tangent to the circle.
+                </p>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.d = SIZE * 1.6;
+                        circle([0, 0], graph.d, {
+                            fill: "none",
+                            strokeDasharray: "- ",
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        });
+
+                        circle(Q, graph.d, {
+                            fill: "none",
+                            strokeDasharray: "- ",
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        });
+                    </div>
+                    <p>
+                        Create two compasses of the same size, one centered at <code>C</code> and one centered at <code>Q</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var dAngle = acos(SIZE / graph.d);
+                        var p1 = [graph.d * cos(RAD - dAngle), graph.d * sin(RAD - dAngle)];
+                        var p2 = [graph.d * cos(RAD + dAngle), graph.d * sin(RAD + dAngle)];
+
+                        line(p1, p2, {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        });
+
+                        circle(p1, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle(p2, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+                    </div>
+                    <p>Join the points where these two compasses intersect.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="off-circle">
+            <div class="vars">
+                <var id="SIZE">2</var>
+                <var id="ANGLE">randRange(1, 360)</var>
+                <var id="RAD">ANGLE * Math.PI / 180</var>
+                <var id="D">2 * SIZE + randRange(-1, 2)</var>
+                <var id="D1">D * randRange(3, 7) / 10</var>
+                <var id="D2">D1 - D</var>
+                <var id="DP">(D1 + D2) / 2</var>
+                <var id="TANGENT_ANGLES">[
+                    ((RAD - asin(SIZE / D)) * 180 / Math.PI) % 180,
+                    ((RAD + asin(SIZE / D)) * 180 / Math.PI) % 180]
+                </var>
+                <var id="C">[D1 * cos(ANGLE * Math.PI / 180), D1 * sin(ANGLE * Math.PI / 180)]</var>
+                <var id="P">[D2 * cos(ANGLE * Math.PI / 180), D2 * sin(ANGLE * Math.PI / 180)]</var>
+                <var id="X">[DP * cos(ANGLE * Math.PI / 180), DP * sin(ANGLE * Math.PI / 180)]</var>
+                <var id="POSITION">["right", "above", "left", "below", "right"][round(ANGLE / 90)]</var>
+                <var id="POSITION2">["left", "below", "right", "above", "left"][round(ANGLE / 90)]</var>
+            </div>
+
+            <div class="problem">
+                <form>
+                    <input onclick="javascript: KhanUtil.construction.addCompass();" type="button" value="Add Compass">
+                    <input onclick="javascript: KhanUtil.construction.addStraightedge(false);" type="button" value="Add Straightedge">
+                    <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
+                </form>
+                <p class="question">
+                    Construct a line going through <code>P</code>, tangent to the circle.
+                </p>
+                <div class="graphie" id="construction">
+                    init({
+                        range: [[-5, 5], [-5, 5]],
+                        scale: 50
+                    });
+                    addMouseLayer();
+                    addConstruction("construction");
+
+                    addDummyCircle(C, SIZE);
+                    addDummyPoint(C);
+                    addDummyPoint(P);
+
+                    label(P, "P", POSITION);
+                    label(C, "C", POSITION2);
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">Use the compass and straightedge tools to construct a line tangent to the circle.</div>
+                <div class="guess">getToolProperties(construction)</div>
+                <div class="validator-function">
+                    if (guess.length === 0) {
+                        return "";
+                    }
+
+                    // Find tangent line
+                    var tangent = _.filter(guess, function(tool) {
+                        if (tool.first != null) {
+                            if (isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.15)) {
+                                return angleEqual(tool, TANGENT_ANGLES[0], 4) || angleEqual(tool, TANGENT_ANGLES[1], 4);
+                            }
+                        }
+                    });
+
+                    if (tangent.length &lt; 1) {
+                        return false;
+                    }
+
+                    // Get lines going through X
+                    var lines = _.filter(guess, function(tool) {
+                        if (tool.first != null) {
+                            return isPointOnLineSegment([tool.first.coord, tool.second.coord], X, 0.15);
+                        }
+                    });
+
+                    if (lines.length &lt; 2) {
+                        return "Make sure you keep the straightedges you used in place.";
+                    }
+
+                    // Check there is a line going through P and C
+                    var connectingLine = _.filter(lines, function(tool) {
+                        return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.15) &amp;&amp;
+                            isPointOnLineSegment([tool.first.coord, tool.second.coord], C, 0.15);
+                    });
+
+                    // Check there is a perpendicular bisector of the line PC
+                    var bisectingLine = _.filter(lines, function(tool) {
+                        return angleEqual(tool, (ANGLE + 90) % 180, 4);
+                    });
+
+                    if (connectingLine.length * bisectingLine.length === 0) {
+                        return "Make sure you keep the straightedges you used in place.";;
+                    }
+
+                    // Test whether there is a compass centered on X with the correct radius
+                    var compass = findCompass(guess, {center: X, radius: D / 2});
+
+                    if (compass.length === 0) {
+                        return "Make sure you keep the compasses you used in place.";
+                    } else {
+                        return true;
+                    }
+                </div>
+                <div class="show-guess">
+                    showConstructionGuess(guess);
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var angle = TANGENT_ANGLES[0] * Math.PI / 180;
+                        graph.dx = 10 * cos(angle);
+                        graph.dy = 10 * sin(angle);
+
+                        graph.hintLines = raphael.set();
+                        graph.hintLines.push(line([P[0] - graph.dx, P[1] - graph.dy], [P[0] + graph.dx, P[1] + graph.dy],{
+                            strokeWidth: 1,
+                            stroke: BLUE
+                        })).toBack();
+                    </div>
+                    <p>
+                        We could just draw a line through <code>P</code> and <em>try</em> to get it right,
+                        but then <strong>we have no guarantee</strong> that it's actually perfectly perpendicular.
+                    </p>
+                    <p>How can you guarantee that a line is really perpendicular? </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var angle1 = RAD - asin(SIZE / D);
+                        var angle2 = RAD + asin(SIZE / D);
+                        var d = Math.sqrt(D * D - SIZE * SIZE)
+
+                        graph.tangent1 = [P[0] + d * cos(angle1), P[1] + d * sin(angle1)];
+                        graph.tangent2 = [P[0] + d * cos(angle2), P[1] + d * sin(angle2)];
+
+                        graph.hintLines.push(drawHintLine(C, P)).toBack();
+
+                        style({
+                            strokeWidth: 1,
+                            stroke: BLUE
+                        }, function() {
+                            graph.hintLines.push(line(C, graph.tangent1));
+                            graph.hintLines.push(line(C, graph.tangent2));
+                            graph.hintLines.push(line(P, graph.tangent2));
+                        });
+
+                        graph.hintLines.push(circle(X, D / 2, {
+                            stroke: BLUE,
+                            strokeWidth: 1,
+                            fill: "none",
+                            strokeDasharray: "- "
+                        }));
+                        graph.hintLines.push(circle(X, 0.08, {
+                            fill: BLUE,
+                            stroke: null 
+                        }));
+                    </div>
+                    <p>
+                        If we can draw a quadrilateral inscribed in a circle, its opposite sides must sum to <code>180^\circ</code>.
+                        If the two angles are equal, then both must be <code>90^\circ</code>.
+                    </p>
+                    <p>Therefore we need to find a circle for which <code>P</code> and <code>C</code> on are opposite sides.</p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.hintLines.remove();
+
+                        line(C, P, {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }).toBack();
+                    </div>
+                    <p>
+                        First draw a line connecting the center of the circle, <code>C</code>, to <code>P</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        graph.d = D * 0.65;
+                        circle(C, graph.d, {
+                            fill: "none",
+                            strokeDasharray: "- ",
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        });
+
+                        circle(P, graph.d, {
+                            fill: "none",
+                            strokeDasharray: "- ",
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        });
+                    </div>
+                    <p> Now we want to bisect the line <code>CP</code>.
+                        So create two compasses with the same radius, one centered at <code>C</code> and one centered at <code>P</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var dAngle = acos(D / graph.d / 2);
+                        var p1 = [C[0] - graph.d * cos(RAD - dAngle), C[1] - graph.d * sin(RAD - dAngle)];
+                        var p2 = [C[0] - graph.d * cos(RAD + dAngle), C[1] - graph.d * sin(RAD + dAngle)];
+
+                        line(p1, p2, {
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        });
+
+                        circle(p1, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle(p2, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+                    </div>
+                    <p>Join the points where these two compasses intersect to the bisect line <code>CP</code>.</p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        circle(X, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        circle(X, D / 2, {
+                            fill: "none",
+                            strokeDasharray: "- ",
+                            strokeWidth: 1,
+                            stroke: GRAY
+                        });
+                    </div>
+                    <p>Now we can draw a circle halfway between <code>C</code> and <code>P</code> with a radius that goes through both.</p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="construction">
+                        circle(graph.tangent1, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+                        circle(graph.tangent2, 0.08, {
+                            fill: GRAY,
+                            stroke: null
+                        });
+
+                        if (graph.tangent1[1] &gt; C[1]) {
+                            label(graph.tangent1, "A", "above");
+                        } else {
+                            label(graph.tangent1, "A", "below");
+                        }
+
+                        if (graph.tangent2[1] &gt; C[1]) {
+                            label(graph.tangent2, "B", "above");
+                        } else {
+                            label(graph.tangent2, "B", "below");
+                        }
+
+                        path([C, graph.tangent1, P, graph.tangent2, C], {
+                            fill: GREEN,
+                            'fill-opacity': 0.4,
+                            stroke: GREEN,
+                            strokeWidth: 2
+                        }).toBack();
+
+                        var drawRightAngleMarker = function(p, flip) {
+                            var x = p[0];
+                            var y = p[1];
+                            var dx = x - P[0];
+                            var dy = y - P[1];
+                            var norm = sqrt(dx * dx + dy * dy);
+                            dx /= norm * 5;
+                            dy /= norm * 5;
+
+                            //circle([x - dx, y - dy], 0.1);
+
+                            path([[x, y], [x - dx, y - dy], [x - dx - dy * flip, y + dx * flip - dy], [x - dy * flip, y + dx * flip]], {
+                                fill: null,
+                                stroke: BLACK,
+                                strokeWidth: 1
+                            })
+                        }
+
+                        drawRightAngleMarker(graph.tangent1, 1);
+                        drawRightAngleMarker(graph.tangent2, -1);
+                    </div>
+                    <p>
+                        This circle intersects the original circle at points <code>A</code> and <code>B</code>.
+                        <code>\green{PACB}</code> forms a quadrilateral inscribed inside this circle so its opposite angles sum to <code>180^\circ</code>.
+                        <code>\triangle PAC</code> and <code>\triangle PBC</code> are congrugent triangles,
+                        so <code>\angle PAC = \angle PBC</code>. Therefore both angles are <code>90^\circ</code>.
+                    </p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="construction">
+                        var angle = TANGENT_ANGLES[1] * Math.PI / 180;
+                        var dx = 10 * cos(angle);
+                        var dy = 10 * sin(angle);
+                        graph.hintLines.push(line([P[0] - graph.dx, P[1] - graph.dy], [P[0] + graph.dx, P[1] + graph.dy],{
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }))
+                        graph.hintLines.push(line([P[0] - dx, P[1] - dy], [P[0] + dx, P[1] + dy],{
+                            strokeWidth: 2,
+                            stroke: GRAY
+                        }))
+                    </div>
+                    <p>Therefore a line from <code>P</code> to either <code>A</code> or <code>B</code> will be tangent to the original circle.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
