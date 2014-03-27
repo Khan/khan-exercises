@@ -59,34 +59,39 @@
                     <var id="EXP">VALS.exp</var>
                 </div>
 
-                <p class="question"><code>\Large <var>negParens( BASE )</var>^{<var>EXP</var>}</code></p>
+                <p class="question"><code>\Large <var>negParens( BASE )</var>^{<var>EXP</var>} = \text{?}</code></p>
                 <p class="solution" data-forms="integer"><var>round( pow( BASE, EXP ) )</var></p>
 
                 <div class="hints">
 
                     <div data-if="EXP === 0" data-unwrap="">
                         <p>Anything to the 0th power equals... ?</p>
-                        <p>Anything to the 0th power equals <span class="hint_blue">1</span>.</p>
+                        <p>Anything to the 0th power equals one.</p>
+                        <p><code><var>BASE</var>^{0} = 1</code></p>
                     </div>
 
                     <div data-else-if="EXP === 1" data-unwrap="">
                         <p>Anything to the 1st power equals... ?</p>
-                        <p><code>x^{1}=x</code>, no matter what <code>x</code> is.</p>
+                        <p><code>x^{1} = x</code>, no matter what <code>x</code> is.</p>
+                        <p><code><var>negParens(BASE)</var>^{1} = <var>BASE</var></code></p>
                     </div>
 
                     <div data-else-if="BASE === -1" data-unwrap="">
                         <span data-if="isEven(EXP)" data-unwrap>
                             <p>Negative one to any even power equals... ?</p>
-                            <p>Negative one to any even power equals <span class="hint_blue">one</span>.</p>
+                            <p>Negative one to any even power equals one.</p>
+                            <p><code><var>negParens(BASE)</var>^{<var>EXP</var>} = 1</code></p>
                         </span><span data-else data-unwrap>
                             <p>Negative one to any odd power equals... ?</p>
-                            <p>Negative one to any odd power equals <span class="hint_blue">negative one</span>.</p>
+                            <p>Negative one to any odd power equals negative one.</p>
+                            <p><code><var>negParens(BASE)</var>^{<var>EXP</var>} = -1</code></p>
                         </span>
                     </div>
 
                     <div data-else-if="BASE === 0 || BASE === 1" data-unwrap="">
                         <p><var>CardinalThrough20( BASE )</var> to any power equals... ?</p>
-                        <p><var>CardinalThrough20( BASE )</var> to any power equals <span class="hint_blue"><var>cardinalThrough20( round( pow( BASE, EXP ) ) )</var></span>.</p>
+                        <p><var>CardinalThrough20( BASE )</var> to any power equals <var>cardinalThrough20(round(pow(BASE, EXP)))</var></span>.</p>
+                        <p><code><var>BASE</var>^{<var>EXP</var>} = <var>round(pow(BASE, EXP))</var></code></p>
                     </div>
 
                     <div data-else="" data-unwrap="">
