@@ -18,6 +18,8 @@
                     <var id="K">randRange(-MAX_Y, MAX_Y)</var>
                     <var id="F1">X_AXIS &gt; Y_AXIS ? [H + C, K] : [H, K + C]</var>
                     <var id="F2">X_AXIS &gt; Y_AXIS ? [H - C, K] : [H, K - C]</var>
+                    <var id="FOCUS_START">X_AXIS &gt; Y_AXIS ? [[H, K - 1], [H, K + 1]] : [[H - 1, K], [H + 1, K]]</var>
+                    <var id="DUMMY_GRAPH">[]</var>
                 </div>
         
                 <p class="question">
@@ -30,13 +32,13 @@
 
                 <div class="focus-information">
                     <div class="focus-information-column-left">
-                        <div><span>Focus 1: </span><code>(</code>
-                            <span class="focus1-x-label"><code>-1</code></span><code>,\space</code>
-                            <span class="focus1-y-label"><code>1</code></span><code>)</code>
+                        <div><span>Focus 1: </span><code>(
+                            <span class="focus1-x-label"><var>FOCUS_START[0][0]</var></span>,\space
+                            <span class="focus1-y-label"><var>FOCUS_START[0][1]</var></span>)</code>
                         </div>
-                        <div><span>Focus 2: </span><code>(</code>
-                            <span class="focus2-x-label"><code>1</code></span><code>,\space</code>
-                            <span class="focus2-y-label"><code>1</code></span><code>)</code>
+                        <div><span>Focus 2: </span><code>(
+                            <span class="focus2-x-label"><var>FOCUS_START[1][0]</var></span>,\space
+                            <span class="focus2-y-label"><var>FOCUS_START[1][1]</var></span>)</code>
                         </div>
                     </div>
 
@@ -53,13 +55,15 @@
                 <div class="graphie" id="graph">
                     graph.f1 = F1;
                     graph.f2 = F2;
+
+                    DUMMY_GRAPH = graph;
                     
                     initAutoscaledGraph([[-20, 20], [-20, 20]], {});
                     addMouseLayer();
 
                     graph.focus1 = addMovablePoint({
-                        coordX: -2,
-                        coordY: 2,
+                        coordX: FOCUS_START[0][0],
+                        coordY: FOCUS_START[0][1],
                         snapX: 1,
                         snapY: 1
                     });
@@ -69,8 +73,8 @@
                     };
 
                     graph.focus2 = addMovablePoint({
-                        coordX: 2,
-                        coordY: 2,
+                        coordX: FOCUS_START[1][0],
+                        coordY: FOCUS_START[1][1],
                         snapX: 1,
                         snapY: 1
                     });
@@ -101,10 +105,10 @@
 
                 <div class="solution" data-type="multiple">
                     <div class="sol" data-type="custom">
-                        <div class="guess">[graph.focus1.coord, graph.focus2.coord]</div>
+                        <div class="guess">[DUMMY_GRAPH.focus1.coord, DUMMY_GRAPH.focus2.coord]</div>
                         <div class="validator-function">
-                            if (_.isEqual(guess, [[-2, 2], [2, 2]])) {
-                                return "";
+                            if (_.isEqual(guess, FOCUS_START)) {
+                                return "You need to move the foci to the correct position.";
                             }
 
                             return (guess[0][0] === F1[0] &amp;&amp; guess[0][1] === F1[1] &amp;&amp;
@@ -150,14 +154,17 @@
                     <p>
                         For all points on an ellipse, the sum of the distances to each focus is constant.
                         There is only one way to arrange the two foci such that this is true.
-                        <button onclick="javascript:
+                        <!--<button onclick="javascript:
                             graph = KhanUtil.currentGraph.graph;
                             graph.focus1.moveTo(graph.f1[0], graph.f1[1]);
                             graph.focus2.moveTo(graph.f2[0], graph.f2[1]);
-                        ">Show me</button>
+                        ">Show me</button>-->
                     </p>
 
-                    <p>One focus is <code>(<var>H</var>, <var>K + C</var>)</code> and the other is <code>(<var>H</var>, <var>K - C</var>)</code>.</p>
+                    <p>
+                        One focus is <code>(<var>F1[0]</var>, <var>F1[1]</var>)</code>
+                        and the other is <code>(<var>F2[0]</var>, <var>F2[1]</var>)</code>.
+                    </p>
                     <p><code>x_1</code> and <code>y_1</code> are the coordinates of the center of the ellipse.</p>
                     <div>
                         <p>The center of an ellipse is at the midpoint between its two foci.</p>
@@ -282,10 +289,16 @@
                         </div>
                     </div>
 
-                    <p>
-                        So the equation of the ellipse is
-                        <code>\dfrac{(y - <var>K</var>)^2}{<var>Y_AXIS</var>^2} + \dfrac{(x - <var>H</var>)^2}{<var>X_AXIS</var>^2} = 1</code>.
-                    </p>
+                    <div>
+                        <p>
+                            So the equation of the ellipse is
+                            <code>\dfrac{(y - <var>K</var>)^2}{<var>Y_AXIS</var>^2} + \dfrac{(x - <var>H</var>)^2}{<var>X_AXIS</var>^2} = 1</code>.
+                        </p>
+                        <p>
+                            <code>y_1 = <var>K</var></code>, <code>x_1 = <var>H</var></code>,
+                            <code>a = <var>Y_AXIS</var></code>, <code>b = <var>X_AXIS</var></code>.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
