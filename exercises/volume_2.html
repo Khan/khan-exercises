@@ -34,22 +34,29 @@
                 <var id="WIDTH">randRange(2,7)</var>
                 <var id="HEIGHT">randRange(2,7)</var>
                 <var id="VOL">LENGTH * WIDTH * HEIGHT</var>
+                <var id="FACTORIZATION">getPrimeFactorization(VOL)</var>
+                <var id="REMAINING">_.map(FACTORIZATION, function(factor, step){
+                        var remain = VOL;
+                        _.each(FACTORIZATION.slice(0, step), function(n) { remain /= n; })
+                        return remain;
+                    })
+                </var>
             </div>
              <p>
                  <var>person(1)</var> needs to ship a package of flour to a baker.
-                 <span data-if="isMale(1)">He has <code><var>VOL</var></code> cubic meters of flour to send.</span>
-                 <span data-else>She has <code><var>VOL</var></code> cubic meters of flour to send.</span>
-                 The post office will not ship any box which has an edge <code>10</code> meters or longer.
+                 <span data-if="isMale(1)">He has <code><var>VOL</var></code> cubic centimeters of flour to send.</span>
+                 <span data-else>She has <code><var>VOL</var></code> cubic centimeters of flour to send.</span>
+                 The post office will not ship any box which has an edge <code>10</code> centimeters or longer.
              </p>
             <p class="question">
-               What dimensions will hold exactly <code><var>VOL</var></code> cubic meters of flour,
-               but whose edge lengths are all integers less than <code>10</code> meters?
+               What dimensions will hold exactly <code><var>VOL</var></code> cubic centimeters of flour,
+               but whose edge lengths are all integers less than <code>10</code> centimeters?
             </p>
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                   Length <code>=</code> <input id="response1" type="text"/> m <br/>
-                   Width <code>\hphantom{ }=</code> <input id="response2" type="text"/> m <br/>
-                   Height <code> =</code> <input id="response3" type="text"/> m
+                   Length <code>=</code> <input id="response1" type="text"/> cm <br/>
+                   Width <code>\hphantom{ }=</code> <input id="response2" type="text"/> cm <br/>
+                   Height <code> =</code> <input id="response3" type="text"/> cm
                 </div>
                 
                 <div class="guess">[$("input#response1").val(),$("input#response2").val(),$("input#response3").val()]</div>
@@ -60,15 +67,71 @@
             </div>
 
             <div class="hints">
-                <p>
-                    The volume of a box is the product of the length, width and height of the box.
+                <div>
+                    <div class="graphie" id="factor-tree" style="float: left;">
+                        graph.cx = 0;
+                        graph.y = 0;
+                        graph.curr = VOL;
+                        init({
+                            range: [[-1, FACTORIZATION.length + 1], [-2 * FACTORIZATION.length - 0.5, 1]],
+                            scale: [30, 30]
+                        });
+                        label([graph.cx + 1, graph.y], graph.curr);
+                    </div>
+                    <p style="height: 60px">We can use a factor tree to break <code><var>VOL</var></code> into its prime
+                    factorization. Which of the prime numbers divides into <code><var>VOL</var></code>?</p>
+                </div>
+                <div data-each="FACTORIZATION.slice(0, -1) as I, FACTOR">
+                    <div class="graphie" data-update="factor-tree">
+                        path([[graph.cx + 1, graph.y - 0.5], [graph.cx, graph.y - 1.5]]);
+                        path([[graph.cx + 1, graph.y - 0.5], [graph.cx + 2, graph.y - 1.5]]);
+                        graph.y -= 2;
+                        graph.cx += 1;
+                        graph.curr = graph.curr / FACTOR;
+                        label([graph.cx - 1, graph.y], FACTOR, { color: BLUE });
+                        circle([graph.cx - 1, graph.y], 0.5);
+                        graph.lastLabel = label([graph.cx + 1, graph.y], graph.curr);
+                    </div>
+                    <p style="height: 38px">
+                        <code><var>REMAINING[I]</var></code> is divisible by <code>\blue{<var>FACTOR</var>}</code>,
+                        leaving us with <code><var>REMAINING[I] / FACTOR</var></code>.
+                    </p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="factor-tree">
+                        circle([graph.cx + 1, graph.y], 0.5);
+                        graph.lastLabel.remove();
+                        label([graph.cx + 1, graph.y], graph.curr, { color: BLUE });
+                    </div>
+                    <p>
+                        <code>\blue{<var>FACTORIZATION[FACTORIZATION.length - 1]</var>}</code> is prime, so we're done factoring.
+                    </p>
+                </div>
+                <div>
+                    <p>So the prime factors of <code><var>VOL</var></code> are:</p>
+                    <p><code class="hint_blue">
+                        \qquad<var>FACTORIZATION.join("\\space\\color{black}{\\times}\\space")</var>
+                    </code></p>
+                </div>
+                <p data-if="FACTORIZATION.length === 3">
+                    So the dimensions of the package should be
+                    <code><var>FACTORIZATION[0]</var></code>,
+                    <code><var>FACTORIZATION[1]</var></code> and
+                    <code><var>FACTORIZATION[2]</var></code>.
                 </p>
-                <p>
-                    So we need to find <code>3</code> numbers whose product is <code><var>VOL</var></code>, each of which being less than <code>10</code>.  Just play around to try to find these!
-                </p>
-                <p>
-                    For instance, the numbers <code><var>LENGTH</var></code>, <code><var>WIDTH</var></code>, and <code><var>HEIGHT</var></code> work, but there might be other solutions as well!
-                </p>
+                <div data-else="" data-unwrap="">
+                    <p>We can find the dimensions of the package by arranging the factors into three groups of products, all less than <code>10</code>.</p>
+                    <p>
+                        One solution would be:
+                        (<code><var>getPrimeFactorization(WIDTH).join("\\space\\color{black}{\\times}\\space")</var></code>),
+                        (<code><var>getPrimeFactorization(LENGTH).join("\\space\\color{black}{\\times}\\space")</var></code>) and
+                        (<code><var>getPrimeFactorization(HEIGHT).join("\\space\\color{black}{\\times}\\space")</var></code>)
+                    </p>
+                    <p>
+                        So the dimensions of the package could be <code><var>WIDTH</var></code>,
+                        <code><var>LENGTH</var></code> and <code><var>HEIGHT</var></code>.
+                    </p>
+                </div>
             </div>
         </div>
         <div id="box-minus-box" >
