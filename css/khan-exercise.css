@@ -963,6 +963,15 @@ span.hover-hint:hover {
     width: 55%;
 }
 
+#problemarea .reading-tables > span {
+    text-align: center;
+    width: 65px;
+}
+#problemarea .reading-tables > span:first-child {
+    text-align: left;
+    width: 100px;
+}
+
 #solutionarea .intuition-equation td {
     text-align: right;
     padding-left: 5px;
