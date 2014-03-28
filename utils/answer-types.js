@@ -688,7 +688,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     var interpretedGuess = false;
                     _.each(forms, function(form) {
                         if(_.any(form(guess), function(t) {
-                                return t.value && !_.isNaN(t.value);})) {
+                                return t.value != null && !_.isNaN(t.value);})) {
                             interpretedGuess = true;
                         }
                     });
