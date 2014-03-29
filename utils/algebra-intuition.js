@@ -14,13 +14,14 @@ KhanUtil.scale = {
     rightCoef: 0,
     rightConst: 6,
     angle: 0,
+    baseY: -6,
     image: "/images/avatars/mr-pink.png",
     equation: {
         eqLabel: {remove: function() {}},
         leftCoefLabel: {remove: function() {}},
         leftLabel: {remove: function() {}},
         rightLabel: {remove: function() {}},
-        yPos: -4,
+        yPos: -10.5,
 
         init: function(options) {
             this.graphie = KhanUtil.scale.graphie;
@@ -63,7 +64,7 @@ KhanUtil.scale = {
         }
     },
 
-    addWeight: function(xOffset, yOffset, num) {
+    addWeight: function(xOffset, yOffset, num, dish) {
         var weights = [];
         _(10).times(function(n) {
             var weight = {};
@@ -117,8 +118,8 @@ KhanUtil.scale = {
                 "fill": "#fff"
             });
             weights[n] = weight;
-            KhanUtil.scale.scaleItems.push(weight.kgMass);
-            KhanUtil.scale.scaleItems.push(weight.lbl);
+            dish.push(weight.kgMass);
+            dish.push(weight.lbl);
             if (n >= num) {
                 weight.kgMass.attr({opacity: 0, translation: "0 -40"});
                 weight.lbl.attr({opacity: 0, translation: "0 -40"});
@@ -158,6 +159,7 @@ KhanUtil.scale = {
             speed = 500;
         }
         var newAngle = 0;
+        var currentAngle = this.angle;
         this.equation.draw(this.unknown, this.leftCoef,
             this.leftConst, this.rightConst);
 
@@ -169,10 +171,16 @@ KhanUtil.scale = {
         $({r: this.angle}).animate({r: newAngle}, {
             duration: speed,
             step: function(now, fx) {
+                var dist = 5.5 * Math.sin(now * Math.PI / 180) *
+                        KhanUtil.currentGraph.scale[1];
+                var leftPos = KhanUtil.scale.leftDishItems[0].
+                        attr("translation").y;
+                var rightPos = KhanUtil.scale.rightDishItems[0].
+                        attr("translation").y;
                 KhanUtil.scale.angle = now;
-                KhanUtil.scale.scaleItems.rotate(now,
-                    KhanUtil.scale.graphie.scalePoint([0, 0])[0],
-                    KhanUtil.scale.graphie.scalePoint([0, 0])[1]);
+                KhanUtil.scale.beamItems.rotate(now, [0, 0]);
+                KhanUtil.scale.leftDishItems.translate([0, -dist - leftPos]);
+                KhanUtil.scale.rightDishItems.translate([0, dist - rightPos]);
             }
         });
         if (_.isFunction(this.onChange)) {
@@ -266,30 +274,95 @@ KhanUtil.scale = {
 
         Khan.scratchpad.disable();
         this.graphie.init({
-            range: [[-12, 12], [-5.2, 5.5]],
+            range: [[-12, 12], [-12, 1.5]],
             scale: [20, 20]
         });
 
-        this.scaleItems = this.graphie.raphael.set();
+        this.leftWire1 = this.graphie.path(
+            [[-9, this.baseY - 0.1], [-5.5, 0]], {
+                stroke: KhanUtil.BLACK,
+                strokeWidth: 0.5
+            });
+        this.leftWire2 = this.graphie.path(
+            [[-2, this.baseY - 0.1], [-5.5, 0]], {
+                stroke: KhanUtil.BLACK,
+                strokeWidth: 0.5
+            });
+
+        this.rightWire1 = this.graphie.path(
+            [[9, this.baseY - 0.1], [5.5, 0]], {
+                stroke: KhanUtil.BLACK,
+                strokeWidth: 0.5
+            });
+        this.rightWire2 = this.graphie.path(
+            [[2, this.baseY - 0.1], [5.5, 0]], {
+                stroke: KhanUtil.BLACK,
+                strokeWidth: 0.5
+            });
+
+        this.leftDish = this.graphie.path(
+            [[-9, this.baseY], [-2, this.baseY], [-2, this.baseY - 0.2], [-9, this.baseY - 0.2], true], {
+                stroke: null,
+                fill: KhanUtil.BLUE
+            });
+        this.rightDish = this.graphie.path(
+            [[9, this.baseY], [2, this.baseY], [2, this.baseY - 0.2], [9, this.baseY - 0.2], true], {
+                stroke: null,
+                fill: KhanUtil.BLUE
+            });
+
+        this.leftDishItems = this.graphie.raphael.set();
+        this.rightDishItems = this.graphie.raphael.set();
+        this.leftDishItems.push(this.leftWire1);
+        this.leftDishItems.push(this.leftWire2);
+        this.leftDishItems.push(this.leftDish);
+        this.rightDishItems.push(this.rightWire1);
+        this.rightDishItems.push(this.rightWire2);
+        this.rightDishItems.push(this.rightDish);
+
+        this.leftWeight = this.addWeight(-4.5, this.baseY, this.leftConst, this.leftDishItems);
+        this.rightWeight = this.addWeight(5.5, this.baseY, this.rightConst, this.rightDishItems);
+
+        this.leftDishItems.push(this.graphie.raphael.image(this.image,
+            this.graphie.scalePoint([-8.9, this.baseY + 2.40])[0],
+            this.graphie.scalePoint([-8.9, this.baseY + 2.40])[1], 50, 50));
+
+        this.beamItems = this.graphie.raphael.set();
         this.beam = this.graphie.path(
-            [[-9.5, -0.2], [9.5, -0.2], [9.5, 0], [-9.5, 0], true], {
+            [[-5.8, -0.1], [5.8, -0.1], [5.8, 0.1], [-5.8, 0.1], true], {
                 stroke: null,
                 fill: KhanUtil.BLUE
             });
-        this.scaleItems.push(this.beam);
+        this.beamPointer = this.graphie.path(
+            [[-0.1, 0], [0.1, 0], [0.1, 1], [-0.1, 1], true], {
+                stroke: null,
+                fill: KhanUtil.BLUE
+            });
+        this.beamItems.push(this.beam);
+        this.beamItems.push(this.beamPointer);
 
+        this.fulcrumBase = this.graphie.path(
+            [[0, -7], [1.2, -8.5], [-1.2, -8.5], true], {
+                stroke: null,
+                fill: KhanUtil.BLUE
+            });
         this.fulcrum = this.graphie.path(
-            [[0, -0.1], [1.2, -1.5], [-1.2, -1.5], true], {
+            [[-0.2, -8], [0.2, -8], [0.2, 0], [-0.2, 0], true], {
                 stroke: null,
                 fill: KhanUtil.BLUE
             });
 
-        this.leftWeight = this.addWeight(-3.5, 0, this.leftConst);
-        this.rightWeight = this.addWeight(3.5, 0, this.rightConst);
+        this.fulcrumJoint1 = this.graphie.circle(
+            [0, 0], 0.6, {
+                stroke: null,
+                fill: KhanUtil.BLUE
+            });
 
-        this.scaleItems.push(this.graphie.raphael.image(this.image,
-            this.graphie.scalePoint([-8.9, 2.40])[0],
-            this.graphie.scalePoint([-8.9, 2.40])[1], 50, 50));
+        this.fulcrumJoint2 = this.graphie.circle(
+            [0, 0], 0.4, {
+                stroke: null,
+                fill: '#fff'
+            });
 
         this.equation.init();
         this.balance();
