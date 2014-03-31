@@ -528,6 +528,8 @@ $.extend(KhanUtil, {
     toNumericString: function(number, format) {
         if (number == null) {
             return "";
+        } else if (number === 0) {
+            return "0"; // otherwise it ends up as 0pi
         }
 
         if (format === "percent") {
