@@ -12,7 +12,7 @@
             <var id="NUM">randRange(2, 10) * FACTOR</var>
             <var id="DENOM">randRange(2, 10) * FACTOR</var>
             <var id="GCD">getGCD( NUM, DENOM )</var>
-            <var id="GCD_FACTORS">getPrimeFactorization( GCD )</var>
+            <var id="GCD_FACTORS">getPrimeFactorization(GCD)</var>
             <var id="HINT">
                 (function(){
                     var factorValue = 1;
@@ -42,12 +42,18 @@
         <div class="hints">
             <p data-if="GCD_FACTORS.length !== 1">There are several ways to tackle this problem.</p>
 
-            <p>What is the greatest common factor (GCF) of <var>NUM</var> and <var>DENOM</var>?</p>
+            <p>What is the greatest common factor (GCF) of <code><var>NUM</var></code> and <code><var>DENOM</var></code>?</p>
 
             <p><code><var>NUM</var>   = <var>getPrimeFactorization( NUM   ).join( "\\cdot" )</var></code><br>
                <code><var>DENOM</var> = <var>getPrimeFactorization( DENOM ).join( "\\cdot" )</var></code></p>
 
-            <p><code>\mbox{GCD}(<var>NUM</var>, <var>DENOM</var>)<span data-if="!isPrime(GCD)"> = <var>GCD_FACTORS.join( "\\cdot" )</var></span> = <var>GCD</var></code></p>
+            <p data-if="isPrime(GCD)">
+                The only common factor of <code><var>NUM</var></code> and <code><var>DENOM</var></code> is <code><var>GCD</var></code>.
+            </p>
+            <div data-else="">
+                <p>The common factors of <code><var>NUM</var></code> and <code><var>DENOM</var></code> are <var>toSentenceTex(GCD_FACTORS)</var>.</p>
+                <p>So the greatest common factor is <code><var>GCD_FACTORS.join("\\cdot")</var> = <var>GCD</var></code></p>
+            </div>
 
             <p>
                 <code>\dfrac{<var>NUM</var>}{<var>DENOM</var>}
