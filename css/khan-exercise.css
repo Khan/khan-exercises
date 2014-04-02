@@ -951,6 +951,10 @@ span.hover-hint:hover {
     border-top: 1px solid black;
 }
 
+#solutionarea table.rational-exp td.soln-dom {
+    padding-left: 3px;
+}
+
 #problemarea div.focus-information {
     padding-bottom: 12px;
     height: 70px;
