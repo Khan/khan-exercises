@@ -3011,13 +3011,7 @@ _.extend(Num.prototype, {
 
     needsExplicitMul: function() { return true; },
 
-    findGCD: function(factor) {
-        if (factor instanceof Num) {
-            return new Float(Num.findGCD(this.eval(), factor.eval())).collect();
-        } else {
-            return factor.findGCD(this);
-        }
-    },
+    findGCD: abstract,
 
     isPositive: function() {
         return this.eval() > 0;
@@ -3124,6 +3118,23 @@ _.extend(Rational.prototype, {
         return new Rational(Math.abs(this.n), this.d);
     },
 
+    findGCD: function(factor) {
+        // Attempt to factor out common numerators and denominators to return
+        // a Rational instead of a Float
+        if (factor instanceof Rational) {
+            // For more background, see
+            // http://math.stackexchange.com/questions/151081/gcd-of-rationals
+            var numerator = Num.findGCD(this.n * factor.d, factor.n * this.d);
+            var denominator = this.d * factor.d;
+            // Create the rational, then call .collect() to simplify it
+            return new Rational(numerator, denominator).collect();
+        } else if (factor instanceof Int) {
+            return new Rational(Num.findGCD(this.n, factor.n), this.d);
+        } else {
+            return factor.findGCD(this);
+        }
+    },
+
     // for now, assuming that exp is a Num
     raiseToThe: function(exp) {
         if (exp instanceof Int) {
@@ -3160,7 +3171,14 @@ _.extend(Int.prototype, {
     tex: function() { return this.n.toString(); },
     negate: function() { return new Int(-this.n); },
     abs: function() { return new Int(Math.abs(this.n)); },
-    isSimple: function() { return true; }
+    isSimple: function() { return true; },
+    findGCD: function(factor) {
+        if (factor instanceof Int) {
+            return new Int(Num.findGCD(this.n, factor.n));
+        } else {
+            return factor.findGCD(this);
+        }
+    }
 });
 
 _.extend(Int, {
@@ -3214,6 +3232,14 @@ _.extend(Float.prototype, {
 
     negate: function() { return new Float(-this.n); },
     abs: function() { return new Float(Math.abs(this.n)); },
+
+    findGCD: function(factor) {
+        if (factor instanceof Num) {
+            return new Float(Num.findGCD(this.eval(), factor.eval())).collect();
+        } else {
+            return factor.findGCD(this);
+        }
+    },
 
     // for now, assuming that exp is a Num
     raiseToThe: function(exp, options) {
@@ -3271,6 +3297,13 @@ _.extend(Num, {
 
         a = Math.abs(a);
         b = Math.abs(b);
+
+        // Euclid's method doesn't handle non-integers very well. For now
+        // we just say we can't pull out a common factor. It might be
+        // reasonable to do better than this in the future.
+        if (a !== Math.floor(a) || b !== Math.floor(b)) {
+            return 1;
+        }
 
         while (b) {
             mod = a % b;

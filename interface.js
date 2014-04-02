@@ -148,7 +148,7 @@ function newProblem(e, data) {
     enableCheckAnswer();
 
     // Render related videos, unless we're on the final stage of mastery.
-    if (data.userExercise) {
+    if (Exercises.RelatedVideos && data.userExercise) {
         var userExercise = data.userExercise;
         var nearMastery = userExercise.exerciseProgress.level === "mastery2" ||
                 userExercise.exerciseProgress.level === "mastery3";

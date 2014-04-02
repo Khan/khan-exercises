@@ -208,7 +208,7 @@ var Khan = {
         "polynomials": ["math", "expressions"],
         "stat": ["math"],
         "word-problems": ["math"],
-        "interactive": ["graphie"],
+        "interactive": ["graphie", "knumber", "kvector", "kpoint", "kline"],
         "mean-and-median": ["stat"],
         "congruency": ["angles", "interactive"],
         "graphie": ["kpoint"],
