@@ -931,6 +931,12 @@ span.hover-hint:hover {
     cursor: pointer;
 }
 
+.vis-deriv-hint-graph {
+    display: block;
+    float: left;
+    margin-right: 50px;
+}
+
 #solutionarea table.rational-exp td {
     text-align: center;
     vertical-align: middle;
