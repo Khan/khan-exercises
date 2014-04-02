@@ -32,13 +32,13 @@
 
                 <div class="focus-information">
                     <div class="focus-information-column-left">
-                        <div><span>Focus 1: </span><code>(
-                            <span class="focus1-x-label"><var>FOCUS_START[0][0]</var></span>,\space
-                            <span class="focus1-y-label"><var>FOCUS_START[0][1]</var></span>)</code>
+                        <div><span>Focus 1: </span><code>(</code>
+                            <span class="focus1-x-label"><code><var>FOCUS_START[0][0]</var></code></span><code>,\space</code>
+                            <span class="focus1-y-label"><code><var>FOCUS_START[0][1]</var></code></span><code>)</code>
                         </div>
-                        <div><span>Focus 2: </span><code>(
-                            <span class="focus2-x-label"><var>FOCUS_START[1][0]</var></span>,\space
-                            <span class="focus2-y-label"><var>FOCUS_START[1][1]</var></span>)</code>
+                        <div><span>Focus 2: </span><code>(</code>
+                            <span class="focus2-x-label"><code><var>FOCUS_START[1][0]</var></code></span><code>,\space</code>
+                            <span class="focus2-y-label"><code><var>FOCUS_START[1][1]</var></code></span><code>)</code>
                         </div>
                     </div>
 
@@ -61,6 +61,12 @@
                     initAutoscaledGraph([[-20, 20], [-20, 20]], {});
                     addMouseLayer();
 
+                    graph.ellipse = interactiveEllipse({
+                        center: [H, K],
+                        xRadius: X_AXIS,
+                        yRadius: Y_AXIS
+                    });
+
                     graph.focus1 = addMovablePoint({
                         coordX: FOCUS_START[0][0],
                         coordY: FOCUS_START[0][1],
@@ -68,6 +74,7 @@
                         snapY: 1
                     });
                     graph.focus1.onMove = function(coordX, coordY) {
+                        var x = $("#problemarea span.focus1-x-label")
                         $("#problemarea span.focus1-x-label").html("&lt;code&gt;" + coordX + "&lt;/code&gt;").tex();
                         $("#problemarea span.focus1-y-label").html("&lt;code&gt;" + coordY + "&lt;/code&gt;").tex();
                     };
@@ -82,12 +89,6 @@
                         $("#problemarea span.focus2-x-label").html("&lt;code&gt;" + coordX + "&lt;/code&gt;").tex();
                         $("#problemarea span.focus2-y-label").html("&lt;code&gt;" + coordY + "&lt;/code&gt;").tex();
                     };
-
-                    graph.ellipse = interactiveEllipse({
-                        center: [H, K],
-                        xRadius: X_AXIS,
-                        yRadius: Y_AXIS
-                    });
 
                     doEllipseInteraction(graph.ellipse, graph.focus1, graph.focus2);
 
@@ -123,8 +124,8 @@
                         </div>
                     </div>
 
-                    <p>
-                        Equation of the ellipse:<br>
+                    <div>
+                        <p>Equation of the ellipse:</p>
                         <table class="intuition-equation">
                             <tr>
                                 <td><code>y_1 = </code></td>
@@ -143,7 +144,8 @@
                                 <td><span class="sol short40"><var>X_AXIS</var></span></td>
                             </tr>
                         </table>
-                    </p>
+                        <p>The position of the foci is also part of your answer.</p>
+                    </div>
 
                     <p class="example">set the position of the two foci by moving them around the graph</p>
                     <p class="example">for the equation of the ellipse, you may enter integers, fractions, or exact decimals for each term</p>
