@@ -16,7 +16,7 @@
 
         <div class="problems">
             <div id="integer">
-                <div class="vars">
+                <div class="vars" data-ensure="DENOMINATOR.evaluate(FINALCONST / FINALCOEFF)  !== 0">
                     <var id="NUMERCOEFF">NUMERCONST &lt; 1 ? randRange(1, 5) : randRange(0, 5)</var>
                     <div data-ensure="SIGN * NUMERCOEFF !== CONSTANT * DENOMCOEFF">
                         <var id="CONSTANT">randRange(2, 10)</var>
