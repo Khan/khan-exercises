@@ -526,7 +526,7 @@ $.extend(KhanUtil, {
     },
 
     toNumericString: function(number, format) {
-        if (number == null) {
+        if (number == null || number === "") {
             return "";
         } else if (number === 0) {
             return "0"; // otherwise it ends up as 0pi
