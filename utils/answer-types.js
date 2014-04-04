@@ -659,6 +659,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             // return true
                             if (exact || options.simplify === "optional") {
                                 score.correct = true;
+                                score.message = options.message || null;
                                 // If the answer is correct, don't say it's
                                 // empty. This happens, for example, with the
                                 // coefficient type where guess === "" but is
