@@ -1,4 +1,6 @@
-(function() {
+define(function(require) {
+
+require("./graphie.js");
 
 /**
  * Provides a concise API for drawing static versions of the 2D
@@ -294,4 +296,4 @@ $.extend(KhanUtil.Graphie.prototype, {
     // TODO(alex): drawPolyline(), drawSpokes(), labelSegment()
 });
 
-})();
+});
