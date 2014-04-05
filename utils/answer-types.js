@@ -299,7 +299,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 ratio: false,
                 forms: Khan.answerTypes.predicate.defaultForms
             }, options);
-            var acceptableForms = options.forms.split(/\s*,\s*/);
+            var acceptableForms;
+            // this is maintaining backwards compatibility
+            // TODO(merlob) fix all places that depend on this, then delete
+            if (!_.isArray(options.forms)) {
+                acceptableForms = options.forms.split(/\s*,\s*/);
+            } else {
+                acceptableForms = options.forms;
+            }
 
             // TODO(jack): remove options.inexact in favor of options.maxError
             if (options.inexact === undefined) {
