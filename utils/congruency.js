@@ -2,6 +2,7 @@ define(function(require) {
 
 require("./angles.js");
 require("./interactive.js");
+require("./graphie-helpers.js");
 
 $.extend(KhanUtil, {
     // Add a "congruency" object that stores data about the
@@ -273,6 +274,11 @@ $.extend(KhanUtil, {
 
                 // add our line
                 this.line.push(graph.line(this.start, this.end));
+
+                // add parallel line marker to horizontal line
+                if (direction[1] === 0) {
+                    ParallelLineMarkers(this.end[0] - 0.5, this.end[1]);
+                }
 
                 // set the attributes
                 this.line.attr(this.point.normalStyle);

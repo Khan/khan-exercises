@@ -10,7 +10,7 @@
     <div class="problems">
         <div id="parallel-lines">
             <div class="vars">
-                <var id="ANGLE">randRange(40, 140)</var>
+                <var id="ANGLE">90 + randFromArray([1, -1]) * randRange(10, 50)</var>
                 <var id="ANGLES">["AGF", "FGB", "BGE", "EGA",
                                   "EHD", "DHF", "FHC", "CHE"]</var>
                 <var id="GIVEN">randFromArray(ANGLES)</var>
@@ -73,10 +73,8 @@
                     graph.bottom = graph.congruency.addLine({ start: "A", end: "B" });
                     graph.top = graph.congruency.addLine({ start: "C", end: "D" });
 
-                    graph.congruency.intersect(graph.bottom, graph.cross,
-                                               "G", true);
-                    graph.congruency.intersect(graph.top, graph.cross,
-                                               "H", true);
+                    graph.congruency.intersect(graph.bottom, graph.cross, "G", true);
+                    graph.congruency.intersect(graph.top, graph.cross, "H", true);
 
                     graph.congruency.angles[GIVEN].stick();
                     graph.congruency.angles[GIVEN].setState(1);
@@ -104,8 +102,7 @@
                 </div>
                 <div class="validator-function">
                     if (!_.any(ANGLES, function(ang) {
-                        return (guess[ang] !== 0 &amp;&amp;
-                                ang !== GIVEN);
+                        return (guess[ang] !== 0 &amp;&amp; ang !== GIVEN);
                     })) {
                         return "";
                     }
