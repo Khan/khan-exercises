@@ -13,10 +13,10 @@
                 <var id="DENOMINATOR">randFromArray([4, 5, 8, 10, 20, 25, 50])</var>
                 <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
                 <var id="DECIMAL_3">Math.floor(NUMERATOR / DENOMINATOR * 1000) / 1000</var>
-                <var id="DECIMAL">roundTo(2, NUMERATOR / DENOMINATOR)</var>
+                <var id="DECIMAL">roundTo(3, NUMERATOR / DENOMINATOR)</var>
                 <var id="NUMERATOR_10">NUMERATOR * pow(10, 3)</var>
             </div>
-            <p>Express the fraction as a decimal, rounded to the nearest hundredth.</p>
+            <p>Express the fraction as a decimal.</p>
             <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
             <p class="solution" data-type="decimal"><var>DECIMAL</var></p>
             <div class="hints">
@@ -36,7 +36,7 @@
                     graph.divider.showHint();
                 </div>
 
-                <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>DECIMAL</var></code>, rounded to the hundredths place.</p>
+                <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>DECIMAL</var></code></p>
             </div>
         </div>
     </div>
