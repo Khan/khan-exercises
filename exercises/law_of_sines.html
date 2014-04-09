@@ -134,7 +134,6 @@
                 <var id="POSSIBLE_SOLUTION">roundTo(0, asin(sin(KNOWN_ANGLE * PI / 180) * SIDES[UNKNOWN] / SIDES[KNOWN]) * 180 / PI)</var>
                 <var id="SOLUTION">ANGLES[UNKNOWN] &gt; 90 ? 180 - POSSIBLE_SOLUTION : POSSIBLE_SOLUTION</var>
                 <var id="SIN_UNKNOWN">roundTo(2, SIDES[UNKNOWN] / SIDES[KNOWN] * sin(KNOWN_ANGLE * PI / 180))</var>
-                </var>
                 <!-- Limit rotation such that the final triangle fills up more
                 width than height -->
                 <var id="ROTATION">

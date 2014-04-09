@@ -299,7 +299,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 ratio: false,
                 forms: Khan.answerTypes.predicate.defaultForms
             }, options);
-            var acceptableForms = options.forms.split(/\s*,\s*/);
+            var acceptableForms;
+            // this is maintaining backwards compatibility
+            // TODO(merlob) fix all places that depend on this, then delete
+            if (!_.isArray(options.forms)) {
+                acceptableForms = options.forms.split(/\s*,\s*/);
+            } else {
+                acceptableForms = options.forms;
+            }
 
             // TODO(jack): remove options.inexact in favor of options.maxError
             if (options.inexact === undefined) {
@@ -652,6 +659,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             // return true
                             if (exact || options.simplify === "optional") {
                                 score.correct = true;
+                                score.message = options.message || null;
                                 // If the answer is correct, don't say it's
                                 // empty. This happens, for example, with the
                                 // coefficient type where guess === "" but is
