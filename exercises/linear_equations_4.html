@@ -71,7 +71,7 @@
             </div>
 
             <div id="fraction">
-                <div class="vars" data-ensure="!NUMERATOR.divide(DENOMINATOR)">
+                <div class="vars" data-ensure="!NUMERATOR.divide(DENOMINATOR) && abs(DENOMINATOR.evaluate(FINALCONST / FINALCOEFF)) > 0.0001">
                     <var id="NUMERCOEFF">NUMERCONST &lt; 1 ? randRange(1, 5) : randRange(0, 5)</var>
                     <div data-ensure="DENOMCOEFF !== SIGN * NUMERCOEFF * CONSTANT">
                         <var id="CONSTANT">randRange(2, 10)</var>
@@ -123,7 +123,7 @@
                         <p><code><var>new Term(-FINALCOEFF, X)</var> = <var>-FINALCONST</var></code></p>
                     </div>
 
-                    <p><code><var>X</var> = <var>fraction(FINALCONST, FINALCOEFF)</var></code></p>
+                    <p data-if="FINALCOEFF !== -1"><code><var>X</var> = <var>fraction(FINALCONST, FINALCOEFF)</var></code></p>
 
                     <div data-if="FINALCOEFF !== 1 && getGCD(FINALCONST, FINALCOEFF) !== 1">
                         <p>Simplify.</p>
