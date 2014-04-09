@@ -151,7 +151,7 @@
                         if (guess[0] === 0 &amp;&amp; guess[1] === 0 &amp;&amp; guess[2] === 0.25) {
                             return "";
                         }
-                        return guess[0] === X1 &amp;&amp; guess[1] === Y1 &amp;&amp; guess[2] === A;
+                        return (abs(guess[0] - X1) &lt; 0.001) &amp;&amp; (abs(guess[1] - Y1) &lt; 0.001) &amp;&amp; (abs(guess[2] - A) &lt; 0.001);
                     </div>
                 </div>
 
@@ -200,7 +200,7 @@
                     </div>
 
                     <p>
-                        The number in the denominator of <code>a</code> is the reciprocal of twice the distance between the directrix to the focus.
+                        The number in the denominator of <code>a</code> is twice the distance between the directrix to the focus.
                         Therefore, the focus and directrix are separated by <code><var>1 / (2 * abs(A))</var></code> units.
                     </p>
 
