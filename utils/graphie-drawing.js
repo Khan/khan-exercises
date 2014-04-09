@@ -1,5 +1,6 @@
 define(function(require) {
 
+require("./math.js");
 require("./graphie.js");
 
 /**
