@@ -526,7 +526,7 @@ $.extend(KhanUtil, {
     },
 
     toNumericString: function(number, format) {
-        if (number == null || number === "") {
+        if (number == null) {
             return "";
         } else if (number === 0) {
             return "0"; // otherwise it ends up as 0pi
@@ -545,7 +545,6 @@ $.extend(KhanUtil, {
                 return sign + (numerator === 1 ? "" : numerator) + pi +
                     (denominator === 1 ? "" : "/" + denominator);
             }
-            format = "fraction"; // fall through
         }
 
         if (_(["proper", "improper", "mixed", "fraction"]).contains(format)) {
