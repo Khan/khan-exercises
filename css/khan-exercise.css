@@ -921,6 +921,13 @@ table.periodic-table td.element div.weight {
     font-size: 10px;
 }
 
+.plugging_in_values > span {
+    width: 80px;
+}
+table.plugging_in_values_hint td {
+    padding-left: 40px;
+}
+
 span.hover-hint {
     color: #005987;
     border-bottom: 1px dashed #005987;
