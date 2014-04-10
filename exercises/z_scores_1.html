@@ -14,11 +14,12 @@
                     <var id="STDDEV">randRange( 2, 5 ) + randRange( 0, 1 ) * 0.5</var>
                     <var id="GRADE">randRangeWeighted( roundTo( 0, MEAN - STDDEV * 3 ), min( roundTo( 0, MEAN + STDDEV * 3 ), 100 ), MEAN, 0 )</var>
                     <var id="ZSCORE">roundTo( 2, ( GRADE - MEAN ) / STDDEV )</var>
+                    <var id="SOLUTION">localeToFixed(ZSCORE, 2)</var>
                 </div>
 
                 <div class="problem">
                     The grades on a <var>course( 1 )</var> midterm at <var>school( 1 )</var> are normally distributed with <code>\mu = <var>MEAN</var></code> and <code>\sigma = <var>localeToFixed(STDDEV, 1)</var></code>.
-                    <br><var>person( 1 )</var> earned a<span data-if="floorTo( 0, GRADE / 10 ) === 8">n</span> <code><var>GRADE</var></code> on the exam.
+                    <br><var>person( 1 )</var> scored <code><var>GRADE</var></code> on the exam.
                 </div>
 
                 <p class="question">Find the z-score for <var>person( 1 )</var>'s exam grade. Round to two decimal places.</p>
@@ -27,31 +28,26 @@
 
                 <div class="hints">
                     <p>A z-score is defined as the number of <span class="hint_green">standard deviations</span> a specific point is away from the <span class="hint_pink">mean</span>.</p>
+                    <p>
+                        <code>\large{\quad z \quad = \quad
+                        \dfrac{<var>GRADE</var> - \pink{<var>MEAN</var>}}{\green{<var>localeToFixed(STDDEV, 1)</var>}}}</code>
+                    </p>
                     <div>
-                        <p data-if="isMale(1)">We can calculate the z-score for <var>person( 1 )</var>'s exam grade by subtracting the <span class="hint_pink">mean <code>(\mu)</code></span> from
-                        his grade and then dividing by the <span class="hint_green">standard deviation <code>(\sigma)</code></span>.</p><p data-else="">We can calculate the z-score for <var>person( 1 )</var>'s exam grade by subtracting the <span class="hint_pink">mean <code>(\mu)</code></span> from
-                        her grade and then dividing by the <span class="hint_green">standard deviation <code>(\sigma)</code></span>.</p>
+                        <p><code>\large{\quad z \quad \approx \quad <var>SOLUTION</var>}</code></p>
                         <p>
-                            <code>\large{\quad z \quad = \quad \dfrac{x - \pink{\mu}}{\green{\sigma}}}</code>
-                        </p>
-                    </div>
-                    <div>
-                        <p>
-                            <code>
-                                \large{\quad z \quad = \quad
-                                \dfrac{<var>GRADE</var> - \pink{<var>MEAN</var>}}{\green{<var>localeToFixed(STDDEV, 1)</var>}}}
-                            </code>
-                        </p>
-                    </div>
-                    <div>
-                        <p><code>\large{\quad z \quad \approx \quad <var>localeToFixed(ZSCORE, 2)</var>}</code></p>
-                        <p data-if="isSingular(abs( ZSCORE ))">
-                            The z-score is <code><var>localeToFixed(ZSCORE, 2)</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>localeToFixed(abs( ZSCORE ), 2)</var></code> standard deviation
-                            <span data-if="ZSCORE > 0">above</span><span data-else="">below</span> the mean.
-                        </p>
-                        <p data-else="">
-                            The z-score is <code><var>localeToFixed(ZSCORE, 2)</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>localeToFixed(abs( ZSCORE ), 2)</var></code> standard deviations
-                            <span data-if="ZSCORE > 0">above</span><span data-else="">below</span> the mean.
+                            The z-score is <code><var>localeToFixed(ZSCORE, 2)</var></code>.
+                            <span data-if="isSingular(ZSCORE)">
+                                In other words, <var>person(1)</var>'s score was <code><var>SOLUTION</var></code> standard deviation above the mean.
+                            </span>
+                            <span data-else-if="isSingular(-ZSCORE)">
+                                In other words, <var>person(1)</var>'s score was <code><var>SOLUTION</var></code> standard deviation below the mean.
+                            </span>
+                            <span data-else-if="ZSCORE > 0">
+                                In other words, <var>person(1)</var>'s score was <code><var>SOLUTION</var></code> standard deviations above the mean.
+                            </span>
+                            <span data-else="">
+                                In other words, <var>person(1)</var>'s score was <code><var>SOLUTION</var></code> standard deviations below the mean.
+                            </span>
                         </p>
                     </div>
                 </div>
