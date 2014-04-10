@@ -59,7 +59,7 @@
                         return "";
                     }
 
-                    // first determine if there is a perp. line
+                    // first determine if there is a perp. line within 7 degrees
                     perp = null;
                     _.each(guess, function(tool) {
                         if (tool.first != null) {
@@ -329,64 +329,95 @@
                 </div>
                 <div class="guess">getToolProperties(construction)</div>
                 <div class="validator-function">
-                    if (guess.length === 0) {
+					if (guess.length === 0) {
                         return "";
                     }
-
-                    // Ensure there are two lines going through P
+					
+					// Ways to construct a line a given point P that's parallel to a given line L.
+					// 1. Choose two points, A and B, on L and then use A, B, P to create a parallelogram.
+					//		(This can be done using only compasses - no need to draw the unneeded sides.)
+					// 2. Draw a line from P that crosses L. Transfer the angle created to P. 
+					//		(This is the method suggested in hints)
+					// 3. Construct two perpendicular lines. Messy, but ok.
+					// 4. More?
+					// Common requirements to all(?) good parallel constructions. 
+                    // 1) Require that there is one parallel line through P. 
+					//		- i.e., the problem is solved!
+					// 2) There are at least two circles with an intersection point on that line. 
+					//		- Some construction has been used to create the line. 
+					// Note that using the tools given, it is possible to simply draw a line one the given one then parallel transport it to P.
+					// It is also possible to create a "construction" that uses the above parallel transport as part of it.
+					// Q: Are these two conditions too permissive? Will theses checks be gamed or too easily allow false constructions?
+					
+					// Lines that go through P
                     var lines = _.filter(guess, function(tool) {
                         if (tool.first != null) {
                             return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.1);
                         }
                     });
-
-                    if (lines.length &lt; 2) {
-                        return false;
-                    }
-
-                    // Ensure one of the lines is at the correct angle
-                    var angle = null;
-                    var rotated_angle = null;
+					
+					
+                    // Ensure at least one of the lines is at the correct angle **within 5 degrees**
                     var parallel = _.filter(lines, function(tool) {
                         var ang = atan2(
                             tool.second.coord[1] - tool.first.coord[1],
                             tool.second.coord[0] - tool.first.coord[0]);
-
                         // Check angle of line
-                        var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);
+                        var deltaAngle = abs(abs(ang - ROT) * 180 / PI - 90);	
                         if (abs(deltaAngle - 90) &gt; 5) {
-                            angle = ang;
-                            rotated_angle = (90 - deltaAngle) * PI / 180;
                             return false;
                         } else {
                             return true;
                         }
                     });
-
                     if (parallel.length === 0) {
                         return false;
                     }
+					
+					var compasses = _.filter(guess, function(tool) {
+                        if (tool.radius != null) {
+                            return true;
+                        }
+                    });
+					
+					// Find intersections of compasses that lie on the parallel line
+					var compassintersections = [];
+					// Circle intersection code from constructions.js
+					for (var i=0; i&lt;compasses.length; i++) {
+						for (var j=0; j&lt;i; j++) {
 
-                    // Ensure there is a compass centered on P and find its radius
-                    var compass1 = findCompass(guess, { cx: P[0], cy: P[1] });
+						var a = compasses[i].center.coord[0];
+						var b = compasses[i].center.coord[1];
+						var c = compasses[j].center.coord[0];
+						var d = compasses[j].center.coord[1];
+						var r = compasses[i].radius;
+						var s = compasses[j].radius;
 
-                    if (compass1.length !== 1) {
-                        return false;
-                    }
+						var e = c - a;
+						var f = d - b;
+						var p = Math.sqrt(Math.pow(e, 2) + Math.pow(f, 2));
+						var k = (Math.pow(p, 2) + Math.pow(r, 2) - Math.pow(s, 2)) / (2 * p);
 
-                    // Ensure there is a compass centered on the intersection
-                    // between compass 1 and the line AP, with correct radius
-                    var r = compass1[0].radius;
-                    var p1 = [P[0] - r * cos(angle), P[1] - r * sin(angle)];
-                    var p2 = [P[0] + r * cos(angle), P[1] + r * sin(angle)];
+						var x1 = a + e * k / p + (f / p) * Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var y1 = b + f * k / p - (e / p) * Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var x2 = a + e * k / p - (f / p) * Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
+						var y2 = b + f * k / p + (e / p) * Math.sqrt(Math.pow(r, 2) - Math.pow(k, 2));
 
-                    // Radius, r2, will be base of an isosceles with one angle of ROT and two sides of r
-                    var r2 = 2 * r * sin(rotated_angle / 2);
-
-                    var compass2 = findCompass(guess, { cx: p1[0], cy: p1[1], radius: r2 });
-                    var compass3 = findCompass(guess, { cx: p2[0], cy: p2[1], radius: r2 });
-
-                    return compass2.length === 1 || compass3.length === 1;
+						if (!isNaN(x1)) {compassintersections.push([x1, y1]);}
+						if (!isNaN(x2)) {compassintersections.push([x2, y2]);}
+					}}
+					var intersections = _.filter(compassintersections, function(compint) {
+						for (var i=0; i&lt;parallel.length; i++) {
+							var tool = parallel[i];
+							console.debug([tool.first.coord, tool.second.coord], compint);
+							return isPointOnLineSegment([tool.first.coord, tool.second.coord], compint, 0.1);
+						};
+					});
+					
+					if (intersections.length &gt; 0) { return true; }
+					
+					return false;
+					
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
@@ -662,7 +693,7 @@
                         return "";
                     }
 
-                    // first determine if there is a perp. line
+                    // first determine if there is a perp. line within 7 degrees
                     perp = null;
                     _.each(guess, function(tool) {
                         if (tool.first != null) {
