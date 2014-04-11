@@ -33,7 +33,7 @@
         <div class="problems">
 
             <div id="population" data-calculator="">
-                <div class="problem" data-else="">
+                <div class="problem">
                     <p>
                         You have found the following ages (in years) of all <code><var>DATA_POINTS</var></code>
                         <var>plural_form(animal( 1 ), DATA_POINTS)</var> at your local zoo:
@@ -43,17 +43,17 @@
 
                 <p class="question">
                     What is the average age of the <var>plural_form(animal( 1 ))</var> at your zoo? What is the standard deviation?
-                    You may round your answers to the nearest tenth.
+                    <em>Round your answers to the nearest tenth.</em>
                 </p>
 
                 <div class="solution" data-type="multiple">
                     <p>
                         Average age:<br><code>\quad</code>
-                        <span class="sol short40" data-inexact="" data-max-error="0.15" data-type="decimal"><var>mean( DATA )</var></span> years old
+                        <span class="sol short40" data-inexact="" data-max-error="0.15"><var>mean( DATA )</var></span> years old
                     </p>
                     <p>
                         Standard deviation:<br><code>\quad</code>
-                        <span class="sol short40" data-inexact="" data-max-error="0.15" data-type="decimal"><var>stdDevPop( DATA )</var></span> years
+                        <span class="sol short40" data-inexact="" data-max-error="0.15"><var>stdDevPop( DATA )</var></span> years
                     </p>
                     <div class="example">decimals, like <code>7.5</code></div>
                     <div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
@@ -63,13 +63,13 @@
                     <p data-if="isSingular(DATA_POINTS)">
                         Because we have data for all <var>DATA_POINTS</var> <var>animal( 1 )</var> at the zoo, we are able
                         to calculate the <span class="hint_blue">population mean</span>
-                        <code>(\color{<var>BLUE</var>}{\mu})</code> and
-                        <span class="hint_pink">population standard deviation</span> <code>(\color{<var>PINK</var>}{\sigma})</code>.
+                        <code>(\blue{\mu})</code> and
+                        <span class="hint_pink">population standard deviation</span> <code>(\pink{\sigma})</code>.
                     </p><p data-else="">
                         Because we have data for all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at the zoo, we are able
                         to calculate the <span class="hint_blue">population mean</span>
-                        <code>(\color{<var>BLUE</var>}{\mu})</code> and
-                        <span class="hint_pink">population standard deviation</span> <code>(\color{<var>PINK</var>}{\sigma})</code>.
+                        <code>(\blue{\mu})</code> and
+                        <span class="hint_pink">population standard deviation</span> <code>(\pink{\sigma})</code>.
                     </p>
 
                     <div>
@@ -79,18 +79,18 @@
                         </p>
                         <p>
                             <code>
-                                \color{<var>BLUE</var>}{\mu} \quad = \quad
-                                \dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{N}} x_i}{\color{<var>GREEN</var>}{N}} \quad = \quad
-                                \dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}}
+                                \blue{\mu} \quad = \quad
+                                \dfrac{\sum\limits_{i=1}^{\green{N}} x_i}{\green{N}} \quad = \quad
+                                \dfrac{\sum\limits_{i=1}^{\green{<var>DATA_POINTS</var>}} x_i}{\green{<var>DATA_POINTS</var>}}
                             </code>
                         </p>
                     </div>
 
                     <p>
                         <code>
-                                \color{<var>BLUE</var>}{\mu} \quad = \quad
-                                \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>YEARS_OLD</var>}}
+                                \blue{\mu} \quad = \quad
+                                \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\green{<var>DATA_POINTS</var>}} \quad = \quad
+                                \blue{<var>MEAN</var>\text{ <var>YEARS_OLD</var>}}
                         </code>
                     </p>
 
@@ -104,9 +104,9 @@
                                 <code>x_i</code>
                             </span><span style="width: 150px;">
                                 <span class="hint_gray">Distance from the mean</span>
-                                <code>(x_i - \color{<var>BLUE</var>}{\mu})</code>
+                                <code>(x_i - \blue{\mu})</code>
                             </span><span style="width: 150px;">
-                                <code>(x_i - \color{<var>BLUE</var>}{\mu})^2</code>
+                                <code>(x_i - \blue{\mu})^2</code>
                             </span>
                         </div>
                         <div class="fake_row" data-each="DATA as i, POINT">
@@ -122,50 +122,50 @@
 
                     <div>
                         <p>
-                            Because we used the <span class="hint_blue">population mean</span><code>(\color{<var>BLUE</var>}{\mu})</code> to compute the
+                            Because we used the <span class="hint_blue">population mean</span><code>(\blue{\mu})</code> to compute the
                             <span class="hint_purple">squared deviations from the mean</span>, we can find the <span class="hint_red">variance</span>
-                            <code>(\color{red}{\sigma^2})</code>, without introducing any bias, by simply averaging the
+                            <code>(\red{\sigma^2})</code>, without introducing any bias, by simply averaging the
                             <span class="hint_purple">squared deviations from the mean</span>:
                         </p>
                         <p>
                             <code>
-                                \color{red}{\sigma^2} \quad = \quad
-                                \dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{N}} (x_i - \color{<var>BLUE</var>}{\mu})^2}{\color{<var>GREEN</var>}{N}}
+                                \red{\sigma^2} \quad = \quad
+                                \dfrac{\sum\limits_{i=1}^{\green{N}} (x_i - \blue{\mu})^2}{\green{N}}
                             </code>
                         </p>
                     </div>
 
                     <p>
                         <code>
-                            \color{red}{\sigma^2} \quad = \quad
+                            \red{\sigma^2} \quad = \quad
                             \dfrac{<var>plus.apply( KhanUtil, $.map( SQR_DEV, function( x ) { return "\\color{purple}{" + x + "}"; }) )</var>}
-                            {\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}}
+                            {\green{<var>DATA_POINTS</var>}}
                         </code>
                     </p>
 
                     <p>
                         <code>
-                            \color{red}{\sigma^2} \quad = \quad
-                            \dfrac{\color{purple}{<var>roundTo( 2, sum( SQR_DEV ) )</var>}}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                            \color{red}{<var>VARIANCE_POP</var>\text{ <var>plural( "year", VARIANCE_POP )</var>}^2}
+                            \red{\sigma^2} \quad = \quad
+                            \dfrac{\purple{<var>roundTo( 2, sum( SQR_DEV ) )</var>}}{\green{<var>DATA_POINTS</var>}} \quad = \quad
+                            \red{<var>VARIANCE_POP</var>\text{ <var>plural( "year", VARIANCE_POP )</var>}^2}
                         </code>
                     </p>
 
                     <div>
                         <p>
                             As you might guess from the notation, the <span class="hint_pink">population standard deviation</span>
-                            <code>(\color{<var>PINK</var>}{\sigma})</code> is found by taking the square root of the <span class="hint_red">population variance</span>
-                            <code>(\color{red}{\sigma^2})</code>.
+                            <code>(\pink{\sigma})</code> is found by taking the square root of the <span class="hint_red">population variance</span>
+                            <code>(\red{\sigma^2})</code>.
                         </p>
                         <p>
-                            <code>\color{<var>PINK</var>}{\sigma} = \sqrt{\color{red}{\sigma^2}}</code>
+                            <code>\pink{\sigma} = \sqrt{\red{\sigma^2}}</code>
                         </p>
                     </div>
 
                     <p>
                         <code>
-                            \color{<var>PINK</var>}{\sigma} = \sqrt{\color{red}{<var>VARIANCE_POP</var>\text{ <var>plural( "year", VARIANCE_POP )</var>}^2}} =
-                            \color{<var>PINK</var>}{<var>STDDEV_POP</var>\text{ <var>plural( "year", STDDEV_POP )</var>}}
+                            \pink{\sigma} = \sqrt{\red{<var>VARIANCE_POP</var>\text{ <var>plural( "year", VARIANCE_POP )</var>}^2}} =
+                            \pink{<var>STDDEV_POP</var>\text{ <var>plural( "year", STDDEV_POP )</var>}}
                         </code>
                     </p>
 
@@ -178,27 +178,37 @@
             </div> <!-- population -->
 
             <div id="sample" data-calculator="">
-                <div class="problem" data-else="">
+                <div class="problem">
                     <p>
-                        Those <var>plural_form(animal(1))</var> were randomly selected from the
-                        <code><var>POPULATION</var></code> <var>animal(1)</var> at your local zoo:
+                        <span data-if="isSingular(DATA_POINTS)">
+                            You have found the following ages (in years) of <var>DATA_POINTS</var> <var>animal(1)</var>.
+                        </span>
+                        <span data-else="">
+                            You have found the following ages (in years) of <var>DATA_POINTS</var> <var>plural_form(animal(1), DATA_POINTS)</var>.
+                        </span>
+                        <span data-if="isSingular(POPULATION)">
+                            Those <var>plural_form(animal(1))</var> were randomly selected from the <var>POPULATION</var> <var>animal(1)</var> at your local zoo:
+                        </span>
+                        <span data-else="">
+                            Those <var>plural_form(animal(1))</var> were randomly selected from the <var>POPULATION</var> <var>plural_form(animal(1), POPULATION)</var> at your local zoo:
+                        </span>
                     </p>
-                    <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
+                    <p><code>\qquad<var>DATA.join(",\\enspace ")</var></code></p>
                 </div>
 
                 <p class="question">
                     Based on your sample, what is the average age of the <var>plural_form(animal( 1 ))</var>? What is the standard deviation?
-                    You may round your answers to the nearest tenth.
+                    <em>Round your answers to the nearest tenth.</em>
                 </p>
 
                 <div class="solution" data-type="multiple">
                     <p>
                         Average age:<br><code>\quad</code>
-                        <span class="sol short40" data-inexact="" data-max-error="0.15" data-type="decimal"><var>mean( DATA )</var></span> years old
+                        <span class="sol short40" data-inexact="" data-max-error="0.15"><var>mean( DATA )</var></span> years old
                     </p>
                     <p>
                         Standard deviation:<br><code>\quad</code>
-                        <span class="sol short40" data-inexact="" data-max-error="0.15" data-type="decimal"><var>stdDev( DATA )</var></span> years
+                        <span class="sol short40" data-inexact="" data-max-error="0.15"><var>stdDev( DATA )</var></span> years
                     </p>
                     <div class="example">decimals, like <code>0.75</code></div>
                     <div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
@@ -208,13 +218,13 @@
                     <p data-if="isSingular(POPULATION)">
                         Because we only have data for a small sample of the <var>POPULATION</var> <var>animal( 1 )</var>, we are only able
                         to estimate the population mean and standard deviation by finding the <span class="hint_blue">sample mean</span>
-                        <code>(\color{<var>BLUE</var>}{\overline{x}})</code> and
-                        <span class="hint_pink">sample standard deviation</span> <code>(\color{<var>PINK</var>}{s})</code>.
+                        <code>(\blue{\overline{x}})</code> and
+                        <span class="hint_pink">sample standard deviation</span> <code>(\pink{s})</code>.
                     </p><p data-else="">
                         Because we only have data for a small sample of the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var>, we are only able
                         to estimate the population mean and standard deviation by finding the <span class="hint_blue">sample mean</span>
-                        <code>(\color{<var>BLUE</var>}{\overline{x}})</code> and
-                        <span class="hint_pink">sample standard deviation</span> <code>(\color{<var>PINK</var>}{s})</code>.
+                        <code>(\blue{\overline{x}})</code> and
+                        <span class="hint_pink">sample standard deviation</span> <code>(\pink{s})</code>.
                     </p>
 
                     <div>
@@ -224,29 +234,29 @@
                         </p>
                         <p>
                             <code>
-                                \color{<var>BLUE</var>}{\overline{x}} \quad = \quad
-                                \dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{n}} x_i}{\color{<var>GREEN</var>}{n}} \quad = \quad
-                                \dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} x_i}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}}
+                                \blue{\overline{x}} \quad = \quad
+                                \dfrac{\sum\limits_{i=1}^{\green{n}} x_i}{\green{n}} \quad = \quad
+                                \dfrac{\sum\limits_{i=1}^{\green{<var>DATA_POINTS</var>}} x_i}{\green{<var>DATA_POINTS</var>}}
                             </code>
                         </p>
                     </div>
 
                     <p>
                         <code>
-                                \color{<var>BLUE</var>}{\overline{x}} \quad = \quad
-                                \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>YEARS_OLD</var>}}
+                                \blue{\overline{x}} \quad = \quad
+                                \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\green{<var>DATA_POINTS</var>}} \quad = \quad
+                                \blue{<var>MEAN</var>\text{ <var>YEARS_OLD</var>}}
                         </code>
                     </p>
 
                     <p data-if="isSingular(MEAN)">
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>YEAR_TEXT</var>}})</code>.
+                        <code>(\blue{\overline{x}} = \blue{<var>MEAN</var>\text{ <var>YEAR_TEXT</var>}})</code>.
                     </p><p data-else="">
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>YEARS_TEXT</var>}})</code>.
+                        <code>(\blue{\overline{x}} = \blue{<var>MEAN</var>\text{ <var>YEARS_TEXT</var>}})</code>.
                     </p>
 
                     <div>
@@ -256,9 +266,9 @@
                                 <code>x_i</code>
                             </span><span style="width: 150px;">
                                 <span class="hint_gray">Distance from the mean</span>
-                                <code>(x_i - \color{<var>BLUE</var>}{\overline{x}})</code>
+                                <code>(x_i - \blue{\overline{x}})</code>
                             </span><span style="width: 150px;">
-                                <code>(x_i - \color{<var>BLUE</var>}{\overline{x}})^2</code>
+                                <code>(x_i - \blue{\overline{x}})^2</code>
                             </span>
                         </div>
                         <div class="fake_row" data-each="DATA as i, POINT">
@@ -274,19 +284,30 @@
 
                     <div>
                         <p>
-                            Normally we can find the variance <code>(\color{red}{s^2})</code> by averaging the
+                            Normally we can find the variance <code>(\red{s^2})</code> by averaging the
                             <span class="hint_purple">squared deviations from the mean</span>. But remember we don't know the real
                             population mean—we had to estimate it by using the <span class="hint_blue">sample mean</span>.
                         </p>
                         <p>
-                            <span data-if="isSingular(DATA_POINTS)">The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
-                            of the <var>DATA_POINTS</var> <var>animal( 1 )</var> we sampled.</span><span data-else="">The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
-                            of the <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> we sampled.</span>
-                            <span data-if="isSingular(POPULATION)">This is compared to the average age
-                            of all <var>POPULATION</var> <var>animal( 1 )</var> in the zoo.</span><span data-else="">This is compared to the average age
-                            of all <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> in the zoo.</span>
-                            <span>Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
-                            probably underestimate the actual deviations from the population mean.</span>
+                            <span data-if="isSingular(DATA_POINTS)">
+                                The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
+                                of the <var>DATA_POINTS</var> <var>animal( 1 )</var> we sampled.
+                            </span>
+                            <span data-else="">
+                                The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
+                                of the <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> we sampled.
+                            </span>
+                            <span data-if="isSingular(POPULATION)">
+                                This is compared to the average age of all <var>POPULATION</var> <var>animal( 1 )</var> in the zoo.
+                            </span>
+                            <span data-else="">
+                                This is compared to the average age of all <var>POPULATION</var> 
+                                <var>plural_form(animal( 1 ), POPULATION)</var> in the zoo.
+                            </span>
+                            <span>
+                                Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
+                                probably underestimate the actual deviations from the population mean.
+                            </span>
                         </p>
                         <p>
                             To compensate for this underestimation, rather than simply averaging the <span class="hint_purple">squared deviations from the mean</span>,
@@ -294,51 +315,52 @@
                         </p>
                         <p>
                             <code>
-                                \color{red}{s^2} \quad = \quad
-                                \dfrac{\sum\limits_{i=1}^{\color{<var>GREEN</var>}{n}} (x_i - \color{<var>BLUE</var>}{\overline{x}})^2}{\color{<var>GREEN</var>}{n - 1}}
+                                \red{s^2} \quad = \quad
+                                \dfrac{\sum\limits_{i=1}^{\green{n}} (x_i - \blue{\overline{x}})^2}{\green{n - 1}}
                             </code>
                         </p>
                     </div>
 
                     <p>
                         <code>
-                            \color{red}{s^2} \quad = \quad
+                            \red{s^2} \quad = \quad
                             \dfrac{<var>plus.apply( KhanUtil, $.map( SQR_DEV, function( x ) { return "\\color{purple}{" + x + "}"; }) )</var>}
-                            {\color{<var>GREEN</var>}{<var>DATA_POINTS</var> - 1}}
+                            {\green{<var>DATA_POINTS</var> - 1}}
                         </code>
                     </p>
 
                     <p>
                         <code>
-                            \color{red}{s^2} \quad = \quad
-                            \dfrac{\color{purple}{<var>roundTo( 2, sum( SQR_DEV ) )</var>}}{\color{<var>GREEN</var>}{<var>DATA_POINTS - 1</var>}} \quad = \quad
-                            \color{red}{<var>VARIANCE</var>\text{ <var>plural( "year", VARIANCE )</var>}^2}
+                            \red{s^2} \quad = \quad
+                            \dfrac{\purple{<var>roundTo(2, sum( SQR_DEV))</var>}}{\green{<var>DATA_POINTS - 1</var>}} \quad = \quad
+                            \red{<var>VARIANCE</var>\text{ <var>plural("year", VARIANCE)</var>}^2}
                         </code>
                     </p>
 
-
                     <div>
                         <p>
-                            As you might guess from the notation, the sample standard deviation <code>(\color{<var>PINK</var>}{s})</code> is
-                            found by taking the square root of the sample variance <code>(\color{red}{s^2})</code>.
+                            The sample standard deviation <code>(\pink{s})</code> is
+                            found by taking the square root of the sample variance <code>(\red{s^2})</code>.
                         </p>
                         <p>
-                            <code>\color{<var>PINK</var>}{s} = \sqrt{\color{red}{s^2}}</code>
+                            <code>\pink{s} = \sqrt{\red{s^2}}</code>
                         </p>
                     </div>
 
                     <p>
                         <code>
-                            \color{<var>PINK</var>}{s} = \sqrt{\color{red}{<var>VARIANCE</var>\text{ <var>plural( "year", VARIANCE )</var>}^2}} =
-                            \color{<var>PINK</var>}{<var>STDDEV</var>\text{ <var>plural( "year", STDDEV )</var>}}
+                            \pink{s} = \sqrt{\red{<var>VARIANCE</var>\text{ <var>plural("year", VARIANCE)</var>}^2}} =
+                            \pink{<var>STDDEV</var>\text{ <var>plural("year", STDDEV)</var>}}
                         </code>
                     </p>
 
                     <p>
-                        <span data-if="isSingular(MEAN)">We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> year old.</span><span data-else="">We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> years old.</span>
-                        <span data-if="isSingular(STDDEV)">There is also a standard deviation
-                        of <var>STDDEV</var> year.</span><span data-else="">There is also a standard deviation
-                        of <var>STDDEV</var> years.</span>
+                        <span data-if="isSingular(MEAN)">
+                            We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> year old.
+                        </span>
+                        <span data-else="">We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> years old.</span>
+                        <span data-if="isSingular(STDDEV)">There is also a standard deviation of <var>STDDEV</var> year.</span>
+                        <span data-else="">There is also a standard deviation of <var>STDDEV</var> years.</span>
                     </p>
                 </div> <!-- hints -->
             </div> <!-- sample -->
