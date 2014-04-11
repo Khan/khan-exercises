@@ -33,7 +33,7 @@
                     <p><code>
                         \qquad \begin{eqnarray}
                             (x + a)(x + b) \quad&amp;=&amp;\quad xx &amp;+&amp; xb + ax &amp;+&amp; ab \\ \\
-                            &amp;=&amp;\quad x^2 &amp;+&amp; \color{<var>GREEN</var>}{(a + b)}x &amp;+&amp; \color{<var>BLUE</var>}{ab}
+                            &amp;=&amp;\quad x^2 &amp;+&amp; \green{(a + b)}x &amp;+&amp; \blue{ab}
                         \end{eqnarray}
                     </code></p>
                 </div>
@@ -44,9 +44,9 @@
                             \hphantom{(x + a)(x + b) \quad}&amp;\hphantom{=}&amp;\hphantom{\quad xx }&amp;\hphantom{+}&amp;\hphantom{ (a + b)x }&amp;\hphantom{+}&amp; \\
                             &amp;=&amp;\quad x^2 &amp;
                             <var>SIMPLELINEAR &gt;= 0 ? "+" : ""</var>&amp;
-                            <var>plus( "\\color{" + GREEN + "}{" + SIMPLELINEAR + "}x" )</var>&amp;
+                            <var>plus( "\\green{" + SIMPLELINEAR + "}x" )</var>&amp;
                             <var>SIMPLECONSTANT &gt;= 0 ? "+" : ""</var>&amp;
-                            <var>plus( "\\color{" + BLUE + "}{" + SIMPLECONSTANT + "}" )</var>
+                            <var>plus( "\\blue{" + SIMPLECONSTANT + "}" )</var>
                         \end{eqnarray}
                     </code></p>
                     <p>
@@ -58,28 +58,26 @@
                 </div>
 
                 <div>
-                    <p>You can try out different factors of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> to see if you can find two
+                    <p>You can try out different factors of <code>\blue{<var>SIMPLECONSTANT</var>}</code> to see if you can find two
                     that satisfy both conditions. If you're stuck and can't think of any, you can also rewrite the conditions as a system of equations and
-                    try solving for <code class="hint_pink">a</code> and <code class="hint_pink">b</code>:</p>
-                    <p><code>\qquad \color{<var>PINK</var>}{a} + \color{<var>PINK</var>}{b} = \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}</code></p>
-                    <p><code>\qquad \color{<var>PINK</var>}{a} \times \color{<var>PINK</var>}{b} = \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}</code></p>
+                    try solving for <code>\pink{a}</code> and <code>\pink{b}</code>:</p>
+                    <p><code>\qquad \pink{a} + \pink{b} = \green{<var>SIMPLELINEAR</var>}</code></p>
+                    <p><code>\qquad \pink{a} \times \pink{b} = \blue{<var>SIMPLECONSTANT</var>}</code></p>
                 </div>
 
                 <div>
-                    <p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
+                    <p>The two numbers <code>\pink{<var>-A</var>}</code> and <code>\pink{<var>-B</var>}</code> satisfy both conditions:</p>
                     <p><code>
-                        \qquad \color{<var>PINK</var>}{<var>-A</var>} + \color{<var>PINK</var>}{<var>-B</var>} =
-                        \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}
+                        \qquad \pink{<var>-A</var>} + \pink{<var>-B</var>} = \green{<var>SIMPLELINEAR</var>}
                     </code></p>
                     <p><code>
-                        \qquad \color{<var>PINK</var>}{<var>-A</var>} \times \color{<var>PINK</var>}{<var>-B</var>} =
-                        \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
+                        \qquad \pink{<var>-A</var>} \times \pink{<var>-B</var>} = \blue{<var>SIMPLECONSTANT</var>}
                     </code></p>
                 </div>
 
                 <p><b>
                     <span>So we can factor the expression as:</span>
-                    <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})(x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})</code>
+                    <code>(x <var>A &lt; 0 ? "+" : ""</var> \pink{<var>-A</var>})(x <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>})</code>
                 </b></p>
 
             </div>
