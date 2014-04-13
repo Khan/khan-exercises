@@ -921,6 +921,13 @@ table.periodic-table td.element div.weight {
     font-size: 10px;
 }
 
+.plugging_in_values > span {
+    width: 80px;
+}
+table.plugging_in_values_hint td {
+    padding-left: 40px;
+}
+
 span.hover-hint {
     color: #005987;
     border-bottom: 1px dashed #005987;
@@ -929,6 +936,12 @@ span.hover-hint:hover {
     color: #678d00;
     border-bottom: 1px dashed #678d00;
     cursor: pointer;
+}
+
+.vis-deriv-hint-graph {
+    display: block;
+    float: left;
+    margin-right: 50px;
 }
 
 #solutionarea table.rational-exp td {
@@ -943,6 +956,10 @@ span.hover-hint:hover {
 #solutionarea table.rational-exp td.soln-bot {
     padding-top: 1px;
     border-top: 1px solid black;
+}
+
+#solutionarea table.rational-exp td.soln-dom {
+    padding-left: 3px;
 }
 
 #problemarea div.focus-information {
@@ -961,6 +978,15 @@ span.hover-hint:hover {
 #problemarea div.focus-information-column-right {
     float: right;
     width: 55%;
+}
+
+#problemarea .reading-tables > span {
+    text-align: center;
+    width: 65px;
+}
+#problemarea .reading-tables > span:first-child {
+    text-align: left;
+    width: 100px;
 }
 
 #solutionarea .intuition-equation td {

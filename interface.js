@@ -148,7 +148,7 @@ function newProblem(e, data) {
     enableCheckAnswer();
 
     // Render related videos, unless we're on the final stage of mastery.
-    if (data.userExercise) {
+    if (Exercises.RelatedVideos && data.userExercise) {
         var userExercise = data.userExercise;
         var nearMastery = userExercise.exerciseProgress.level === "mastery2" ||
                 userExercise.exerciseProgress.level === "mastery3";
@@ -470,9 +470,6 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         // The answer the user gave
         attempt_content: attemptContent,
 
-        // Whether we are currently working on a topic, as opposed to an exercise
-        topic_mode: Exercises.practiceMode ? 0 : 1,
-
         // If working in the context of a LearningTask (on the new learning
         // dashboard), supply the task ID.
         task_id: Exercises.learningTask && Exercises.learningTask.get("id"),
@@ -482,17 +479,8 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         // The current card data
         card: JSON.stringify(Exercises.currentCard),
 
-        // Unique ID of the cached stack
-        stack_uid: Exercises.completeStack.getUid(),
-
         // The current topic, if any
         topic_slug: Exercises.topic && Exercises.topic.get("slug"),
-
-        // How many cards the user has already done
-        cards_done: Exercises.completeStack.length,
-
-        // How many cards the user has left to do
-        cards_left: Exercises.incompleteStack.length - 1,
 
         // The user assessment key if in assessmentMode
         user_assessment_key: Exercises.userAssessmentKey,

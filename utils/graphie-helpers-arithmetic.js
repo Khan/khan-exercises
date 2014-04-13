@@ -572,8 +572,10 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
     var leadingZeros = [];
     var value = 0;
     var decimals = [];
+
     var hints = 0;
     var hintType = 1;
+    var numHints = Divider.numHintsFor(divisor, dividend, deciDivisor, deciDividend);
 
     if (deciDividend !== 0) {
         digitsDividend = (KhanUtil.padDigitsToNum(digitsDividend.reverse(), deciDividend + 1)).reverse();
@@ -598,6 +600,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             range: [[-1 - paddedDivisor.length, 17], [-2 * nDigitsInAnswer - 3, 2]],
             scale: [20, 40]
         });
+
         graph.style({
             fill: "#000"
         }, function() {
@@ -612,6 +615,12 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                         [digitsDividend.length - deciDividend - 0.5, -0.1],
                         "\\LARGE{" + decimalPointSymbol + "}", "center", true));
             }
+            if (deciDiff !== 0) {
+                decimals = decimals.concat(
+                    graph.label(
+                        [digitsDividend.length - deciDividend - 0.5, 0.9],
+                        "\\LARGE{" + decimalPointSymbol + "}", "center", true));
+            }
         });
 
         drawDigits(paddedDivisor, -0.5 - paddedDivisor.length, 0);
@@ -623,7 +632,13 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
         this.removeHighlights();
         hints++;
 
-        if (index === digitsDividend.length) {
+        if (hints === 1 && deciDivisor > 0) {
+            this.shiftDecimals();
+            return;
+        }
+
+        // End of hints
+        if (hints === numHints || index === digitsDividend.length) {
             while (leadingZeros.length) {
                 leadingZeros.pop().remove();
             }
@@ -669,16 +684,19 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             value += remainder;
             var quotient = Math.floor(value / divisor);
             var diff = value - (quotient * divisor);
-
             remainder = diff * 10;
+
             var quotientLabel = drawDigits([quotient], index, 1);
             highlights = highlights.concat(drawDigits([quotient], index, 1, KhanUtil.GREEN));
 
-            if (quotient === 0 && fOnlyZeros) {
-                if (digitsDividend.length - deciDividend + deciDivisor > index + 1) {
-                    leadingZeros = leadingZeros.concat(quotientLabel);
-                }
+            // If quotient is 0 then don't show the division
+            if (quotient === 0) {
                 index++;
+                if (fOnlyZeros) {
+                    if (digitsDividend.length - deciDividend + deciDivisor > index) {
+                        leadingZeros = leadingZeros.concat(quotientLabel);
+                    }
+                }
                 return;
             }
 
@@ -729,7 +747,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
     };
 
     this.getNumHints = function() {
-        return Divider.numHintsFor(divisor, dividend, deciDivisor, deciDividend);
+        return numHints;
     };
 
     this.removeHighlights = function() {
@@ -791,27 +809,27 @@ Divider.numHintsFor = function(divisor, dividend, deciDivisor, deciDividend) {
     if (deciDividend !== 0) {
         digitsDividend = (KhanUtil.padDigitsToNum(digitsDividend.reverse(), deciDividend + 1)).reverse();
     }
-    var hints = 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
+    var numhints = 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
+    var remainingDecimals = Math.max(deciDividend - deciDivisor, 0);
 
-    if (deciDivisor === 0) {
-        return hints;
+    if (deciDivisor > 0) {
+        numhints++;
     }
 
     // If answer ends in zeros that we don't use
     if (Math.round(dividend / divisor) === dividend / divisor) {
         var digitsAnswer = KhanUtil.integerToDigits(dividend / divisor);
 
-        var i = digitsAnswer.length - 1;
-        if (digitsAnswer[i] === 0) {
-            hints--;
-            while (digitsAnswer[i] === 0) {
-                hints -= 2;
-                i--;
+        for (var i = 0; i < remainingDecimals; i++) {
+            if (digitsAnswer[digitsAnswer.length - 1 - i] === 0) {
+                numhints -= 2;
+            } else {
+                break;
             }
         }
     }
 
-    return hints;
+    return numhints;
 };
 
 KhanUtil.Adder = Adder;

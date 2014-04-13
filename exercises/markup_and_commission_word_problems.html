@@ -112,7 +112,11 @@
 
             </div>
             <div class="question spin">
-                <p data-if="isMale(1)"><var>person(1)</var> earns a base salary of $<var>localeToFixed(BASE_SALARY, 2)</var> every week with an additional <var>COMMISSION_RATE</var>% commission on everything he sells. If <var>person(1)</var> sold $<var>localeToFixed(SALES, 2)</var> worth of items last week, what was his total salary?</p><p data-else=""><var>person(1)</var> earns a base salary of $<var>localeToFixed(BASE_SALARY, 2)</var> every week with an additional <var>COMMISSION_RATE</var>% commission on everything she sells. If <var>person(1)</var> sold $<var>localeToFixed(SALES, 2)</var> worth of items last week, what was her total salary?</p>
+                <p data-if="isMale(1)">
+                    <var>person(1)</var> earns a base salary of $<var>localeToFixed(BASE_SALARY, 2)</var> every week with an additional <var>COMMISSION_RATE</var>% commission on everything he sells. If <var>person(1)</var> sold $<var>localeToFixed(SALES, 2)</var> worth of items last week, what was his total pay?
+                </p>
+                <p data-else=""><var>person(1)</var> earns a base salary of $<var>localeToFixed(BASE_SALARY, 2)</var> every week with an additional <var>COMMISSION_RATE</var>% commission on everything she sells. If <var>person(1)</var> sold $<var>localeToFixed(SALES, 2)</var> worth of items last week, what was her total pay?
+                </p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL_SALARY</var></span></div>
                 <div class="hints">

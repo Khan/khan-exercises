@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-geometry angles">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Law of sines</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="find-side" data-calculator="">
+            <div class="vars" data-ensure="!TRIANGLE.isRight() && TRIANGLE.isScalene() && TRIANGLE.isNotDegenerate()">
+                <var id="UNKNOWN">randRange(0, 2)</var>
+                <var id="UNKNOWN_MEASURE">["BC", "AC", "AB"][UNKNOWN]</var>
+                <var id="UNKNOWN_SIDE">"abc"[UNKNOWN]</var>
+                <var id="KNOWN">(UNKNOWN + randRange(1, 2)) % 3</var>
+                <var id="KNOWN_SIDE">randRange(5, 16)</var>
+                <var id="SIDES">_.map([null, null, null], function (s, i) {
+                    return i === KNOWN ? KNOWN_SIDE : s;
+                })</var>
+                <var id="ANGLES">(function() {
+                    var angles = [null, null, null];
+                    var angle = randRange(20, 140);
+                    angles[UNKNOWN] = angle;
+                    angles[KNOWN] = randRange(20, 160 - angle);
+                    return angles;
+                })()</var>
+                <var id="TRIANGLE">solveTriangle({
+                    sides: SIDES.slice(),
+                    angles: ANGLES.slice(),
+                    sideLabels: SIDES.slice(),
+                    angleLabels: _.map(ANGLES, function(a) {
+                        return a == null ? a : a + "^\\circ";
+                    }),
+                    vertexLabels: ["A", "B", "C"]
+                })</var>
+                <var id="SOLUTION">roundTo(1, KNOWN_SIDE * sin(ANGLES[UNKNOWN] * PI / 180) / sin(ANGLES[KNOWN] * PI / 180))</var>
+                <!-- Limit rotation such that the final triangle fills up more width than height -->
+                <var id="ROTATION">rand(2) ? randRange(-20, 20) : randRange(160, 200)</var>
+            </div>
+
+            <p class="question">
+                Find <code><var>UNKNOWN_MEASURE</var></code>.
+            </p>
+
+            <div class="problem">
+                <p>Round to the nearest tenth.</p>
+                <div class="graphie" id="triangle">
+                    TRIANGLE = addTriangle(_.extend(TRIANGLE, {
+                        xPos: 1,
+                        yPos: 1,
+                        width: 10,
+                        height: 6,
+                        rot: ROTATION
+                    }));
+                    init({ range: [[0, TRIANGLE.width + 2], [0, TRIANGLE.height + 2]] });
+
+                    TRIANGLE.draw();
+                </div>
+            </div>
+            <div class="solution" data-forms="integer, decimal" data-inexact="" data-max-error="0.09"><var>SOLUTION</var>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>We can use the law of sines:</p>
+                    <p><code>\qquad
+                        \blue{\dfrac{<var>UNKNOWN_SIDE</var>}{\sin(<var>"ABC"[UNKNOWN]</var>)}} = 
+                        \green{\dfrac{<var>"abc"[KNOWN]</var>}{\sin(<var>"ABC"[KNOWN]</var>)}}
+                    </code></p>
+                    <div class="graphie" data-update="triangle">
+                        TRIANGLE.sideLabels[KNOWN] = "\\green{" + "abc"[KNOWN] + " = " + KNOWN_SIDE + "}";
+                        TRIANGLE.angleLabels[KNOWN] = "\\green{" + TRIANGLE.angleLabels[KNOWN] + "}";
+                        TRIANGLE.sideLabels[UNKNOWN] = "\\blue{" + "abc"[UNKNOWN] + "}";
+                        TRIANGLE.angleLabels[UNKNOWN] = "\\blue{" + TRIANGLE.angleLabels[UNKNOWN] + "}";
+                        TRIANGLE.color = GRAY;
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+
+                <div>
+                    <p>Multiply both sides by <code>\blue{\sin(<var>"ABC"[UNKNOWN]</var>)}</code>:</p>
+                    <p><code>\qquad
+                        \blue{<var>UNKNOWN_SIDE</var>} = \green{<var>"abc"[KNOWN]</var>}
+                        \dfrac{\blue{\sin(<var>"ABC"[UNKNOWN]</var>)}}{\green{\sin(<var>"ABC"[KNOWN]</var>)}}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Plug in the known values:</p>
+                    <p><code>\qquad
+                        \blue{<var>UNKNOWN_SIDE</var>} = \green{<var>KNOWN_SIDE</var>}
+                        \dfrac{\blue{\sin(<var>ANGLES[UNKNOWN]</var>)}}{\green{\sin(<var>ANGLES[KNOWN]</var>)}}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Evaluate and round to the nearest tenth:</p>
+                    <p><code>
+                        \qquad \blue{<var>UNKNOWN_MEASURE</var>} = \blue{<var>UNKNOWN_SIDE</var>} \approx \blue{<var>SOLUTION</var>}
+                    </code></p>
+                    <div class="graphie" data-update="triangle">
+                        TRIANGLE.sideLabels[UNKNOWN] = "\\blue{" +
+                            UNKNOWN_SIDE + " \\approx " + SOLUTION + "}";
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="find-angle" data-calculator="">
+            <div class="vars" data-ensure="!TRIANGLE.isRight() && TRIANGLE.isScalene() &&
+                TRIANGLE.isNotDegenerate() && SIN_UNKNOWN < 1 && abs(SOLUTION - 90) > 10">
+                <var id="UNKNOWN">randRange(0, 2)</var>
+                <var id="UNKNOWN_ANGLE">"ABC"[UNKNOWN]</var>
+                <var id="KNOWN">(UNKNOWN + randRange(1, 2)) % 3</var>
+                <var id="SIDES" data-ensure="SIDES[1] + SIDES[2] > SIDES[0] && SIDES[0] + SIDES[2] > SIDES[1] && SIDES[0] + SIDES[1] > SIDES[2]">
+                    randRange(5, 15, 3)
+                </var>
+                <var id="SIDE_LABELS">(function() {
+                    var sides = [null, null, null];
+                    sides[UNKNOWN] = SIDES[UNKNOWN];
+                    sides[KNOWN] = SIDES[KNOWN];
+                    return sides;
+                })()</var>
+                <var id="TRIANGLE">solveTriangle({
+                    sides: SIDES.slice(),
+                    angles: [null, null, null],
+                    sideLabels: SIDE_LABELS,
+                    vertexLabels: ["A", "B", "C"]
+                })</var>
+                <var id="ANGLES">TRIANGLE.angles</var>
+                <var id="KNOWN_ANGLE">roundTo(0, ANGLES[KNOWN])</var>
+                <var id="POSSIBLE_SOLUTION">roundTo(0, asin(sin(KNOWN_ANGLE * PI / 180) * SIDES[UNKNOWN] / SIDES[KNOWN]) * 180 / PI)</var>
+                <var id="SOLUTION">ANGLES[UNKNOWN] &gt; 90 ? 180 - POSSIBLE_SOLUTION : POSSIBLE_SOLUTION</var>
+                <var id="SIN_UNKNOWN">roundTo(2, SIDES[UNKNOWN] / SIDES[KNOWN] * sin(KNOWN_ANGLE * PI / 180))</var>
+                <!-- Limit rotation such that the final triangle fills up more
+                width than height -->
+                <var id="ROTATION">
+                    rand(2) ? randRange(-20, 20) : randRange(160, 200)
+                </var>
+            </div>
+
+            <p class="question">
+                Find <code>m\angle <var>UNKNOWN_ANGLE</var></code>.
+            </p>
+
+            <div class="problem">
+                <p>
+                    <span data-if="POSSIBLE_SOLUTION !== SOLUTION">Note that <code>m\angle <var>UNKNOWN_ANGLE</var></code> is obtuse.</span>
+                    <span data-else="">Note that <code>m\angle <var>UNKNOWN_ANGLE</var></code> is acute.</span>
+                    Round to the nearest degree.
+                </p>
+                <div class="graphie" id="triangle">
+                    TRIANGLE = addTriangle(_.extend(TRIANGLE, {
+                        xPos: 1,
+                        yPos: 1,
+                        width: 10,
+                        height: 6,
+                        rot: ROTATION
+                    }));
+                    init({ range: [[0, TRIANGLE.width + 2], [0, TRIANGLE.height + 2]] });
+
+                    TRIANGLE.angleLabels[KNOWN] = KNOWN_ANGLE + "^\\circ";
+                    TRIANGLE.draw();
+                </div>
+            </div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer" data-inexact="" data-max-error="0.5"><var>SOLUTION</var>
+                </span><code>\Large{^\circ}</code>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>We can use the law of sines:</p>
+                    <p><code>\qquad
+                        \blue{\dfrac{\sin(<var>UNKNOWN_ANGLE</var>)}{<var>"abc"[UNKNOWN]</var>}} = 
+                        \green{\dfrac{\sin(<var>"ABC"[KNOWN]</var>)}{<var>"abc"[KNOWN]</var>}}
+                    </code></p>
+                    <div class="graphie" data-update="triangle">
+                        TRIANGLE.sideLabels[KNOWN] = "\\green{" + "abc"[KNOWN] + " = " + SIDES[KNOWN] + "}";
+                        TRIANGLE.angleLabels[KNOWN] = "\\green{" + TRIANGLE.angleLabels[KNOWN] + "}";
+                        TRIANGLE.sideLabels[UNKNOWN] = "\\blue{" + "abc"[UNKNOWN] + " = " + SIDES[UNKNOWN] + "}";
+                        TRIANGLE.vertexLabels[UNKNOWN] = "\\blue{" + UNKNOWN_ANGLE + "}";
+                        TRIANGLE.color = GRAY;
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+
+                <div>
+                    <p>Multiply both sides by <code>\blue{<var>"abc"[UNKNOWN]</var>}</code>:</p>
+                    <p><code>\qquad
+                        \blue{\sin(<var>UNKNOWN_ANGLE</var>)} =
+                        \dfrac{\blue{<var>"abc"[UNKNOWN]</var>}}{\green{<var>"abc"[KNOWN]</var>}}
+                        \green{\sin(<var>"ABC"[KNOWN]</var>)}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Plug in the known values:</p>
+                    <p><code>\qquad
+                        \blue{\sin(<var>UNKNOWN_ANGLE</var>)} =
+                        \dfrac{\blue{<var>SIDES[UNKNOWN]</var>}}{\green{<var>SIDES[KNOWN]</var>}}
+                        \green{\sin(<var>KNOWN_ANGLE</var>)}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Simplify the right side:</p>
+                    <p><code>\qquad \blue{\sin(<var>UNKNOWN_ANGLE</var>)} = \pink{<var>SIN_UNKNOWN</var>}</code></p>
+                </div>
+
+                <div>
+                    <p>
+                        Evaluate the inverse sin to find <code>m\angle <var>UNKNOWN_ANGLE</var></code>
+                        and round to the nearest degree:
+                    </p>
+                    <p><code>\qquad
+                        \blue{m\angle <var>UNKNOWN_ANGLE</var>} = \sin^{-1}\left(\pink{<var>SIN_UNKNOWN</var>}\right)
+                        \approx \blue{<var>POSSIBLE_SOLUTION</var>^\circ}
+                    </code></p>
+                    <div data-if="POSSIBLE_SOLUTION === SOLUTION" class="graphie" data-update="triangle">
+                        TRIANGLE.angleLabels[UNKNOWN] = "\\blue{" + SOLUTION + "^\\circ}";
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+
+                <div data-if="POSSIBLE_SOLUTION !== SOLUTION">
+                    <p>
+                        Since <code>m\angle <var>UNKNOWN_ANGLE</var></code> is obtuse, it can't be <code><var>POSSIBLE_SOLUTION</var>^\circ</code>.
+                        We can find <code>m\angle <var>UNKNOWN_ANGLE</var></code> using the fact that <code>\sin(\theta) = \sin(180^\circ - \theta)</code>.
+                    </p>
+                    <p><code>\qquad
+                        \blue{m\angle <var>UNKNOWN_ANGLE</var>} \approx 180^\circ - \blue{<var>POSSIBLE_SOLUTION</var>^\circ}
+                        \approx \blue{<var>SOLUTION</var>^\circ}
+                    </code></p>
+                    <div class="graphie" data-update="triangle">
+                        TRIANGLE.angleLabels[UNKNOWN] = "\\blue{" + SOLUTION + "^\\circ}";
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

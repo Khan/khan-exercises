@@ -458,16 +458,15 @@ $.extend(KhanUtil, {
     },
 
     _plusTrim: function(s) {
-
+        
         if (typeof s === "string" && isNaN(s)) {
 
             // extract color, so we can handle stripping the 1 out of \color{blue}{1xy}
             if (s.indexOf("{") !== -1) {
 
                 // we're expecting something like "\color{blue}{-1}..."
-                var l, r;
-                l = s.indexOf("{", s.indexOf("{") + 1) + 1;
-                r = s.indexOf("}", s.indexOf("}") + 1);
+                var l = s.indexOf("{", s.indexOf("{") + 1) + 1;
+                var r = s.indexOf("}", s.indexOf("}") + 1);
 
                 // if we've encountered \color{blue}{1}\color{xy} somehow
                 if (l !== s.lastIndexOf("{") + 1 && +KhanUtil._plusTrim(s.slice(l, r)) === 1) {

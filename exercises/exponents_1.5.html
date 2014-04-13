@@ -52,7 +52,7 @@
         <div id="select-exponent">
             <div class="vars">
                 <var id="SOLUTION">BASE &lt; 0 ? "(" + BASE + ")^{" + EXPONENT + "}" : BASE + "^{" + EXPONENT + "}"</var>
-                <var id="FAKE_SOLUTION1">EXPONENT + "^{" + BASE + "}"</var>
+                <var id="FAKE_SOLUTION1">pow(EXPONENT, BASE) === pow(BASE, EXPONENT) ? BASE * EXPONENT : EXPONENT + "^{" + BASE + "}"</var>
                 <var id="FAKE_SOLUTION2">BASE &lt; -1 ? FAKE_FRACTION : EXPONENT + "^{" + EXPONENT + "}"</var>
                 <var id="FAKE_SOLUTION3">BASE &lt; 0 ? "(" + BASE + ")^{" + BASE + "}" : BASE + "^{" + BASE + "}"</var>
                 <var data-if="BASE < 0 && EXPONENT % 2 === 1" id="FAKE_SOLUTION4">"-(" + (-BASE) + ")^{" + EXPONENT + "}"</var>

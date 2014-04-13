@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Test Division</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="DIVISOR">5</var>
+                    <var id="QUOTIENT">200</var>
+                    <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+                    <var id="DIVISOR_DECIMAL">randRange( 0, 2 )</var>
+                    <var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 2 : 5</var>
+                    <var id="DIVIDEND_DECIMAL">randRange( Math.max( DIVISOR_DECIMAL, 1 ), MAX_DIVIDEND_DECIMAL)</var>
+                    <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
+                    <var id="DUMMY">[]</var>
+                </div>
+
+                <div class="graphie" id="numbers">
+                    graph.divider = new Divider(DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL);
+                    graph.divider.show();
+                    DUMMY = Array( graph.divider.getNumHints() );
+                </div>
+                <div class="solution" data-type="decimal"><var>QUOTIENT / round(pow(10, QUOTIENT_DECIMAL))</var></div>
+            </div>
+
+            <div>
+                <div class="vars">
+                    <var id="DIVISOR">5</var>
+                    <var id="QUOTIENT">190</var>
+                    <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+                    <var id="DIVISOR_DECIMAL">randRange( 0, 2 )</var>
+                    <var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 2 : 5</var>
+                    <var id="DIVIDEND_DECIMAL">randRange( Math.max( DIVISOR_DECIMAL, 1 ), MAX_DIVIDEND_DECIMAL)</var>
+                    <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
+                    <var id="DUMMY">[]</var>
+                </div>
+
+                <div class="graphie" id="numbers">
+                    graph.divider = new Divider(DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL);
+                    graph.divider.show();
+                    DUMMY = Array( graph.divider.getNumHints() );
+                </div>
+                <div class="solution" data-type="decimal"><var>QUOTIENT / round(pow(10, QUOTIENT_DECIMAL))</var></div>
+            </div>
+
+            <div>
+                <div class="vars">
+                    <var id="DIVISOR">5</var>
+                    <var id="QUOTIENT">195</var>
+                    <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+                    <var id="DIVISOR_DECIMAL">randRange( 0, 2 )</var>
+                    <var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 2 : 5</var>
+                    <var id="DIVIDEND_DECIMAL">randRange( Math.max( DIVISOR_DECIMAL, 1 ), MAX_DIVIDEND_DECIMAL)</var>
+                    <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
+                    <var id="DUMMY">[]</var>
+                </div>
+
+                <div class="graphie" id="numbers">
+                    graph.divider = new Divider(DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL);
+                    graph.divider.show();
+                    DUMMY = Array( graph.divider.getNumHints() );
+                </div>
+                <div class="solution" data-type="decimal"><var>QUOTIENT / round(pow(10, QUOTIENT_DECIMAL))</var></div>
+            </div>
+        </div>
+        <div class="hints">
+            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
+                graph.divider.showHint();
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -525,6 +525,47 @@ $.extend(KhanUtil, {
         }
     },
 
+    toNumericString: function(number, format) {
+        if (number == null) {
+            return "";
+        } else if (number === 0) {
+            return "0"; // otherwise it ends up as 0pi
+        }
+
+        if (format === "percent") {
+            return number * 100 + "%";
+        }
+
+        if (format === "pi" || format == null) {
+            var fraction = knumber.toFraction(number / Math.PI);
+            var numerator = Math.abs(fraction[0]), denominator = fraction[1];
+            if (knumber.isInteger(numerator)) {
+                var sign = number < 0 ? "-" : "";
+                var pi = "\u03C0";
+                return sign + (numerator === 1 ? "" : numerator) + pi +
+                    (denominator === 1 ? "" : "/" + denominator);
+            }
+        }
+
+        if (_(["proper", "improper", "mixed", "fraction"]).contains(format)) {
+            var fraction = knumber.toFraction(number);
+            var numerator = Math.abs(fraction[0]), denominator = fraction[1];
+            var sign = number < 0 ? "-" : "";
+            if (denominator === 1) {
+                return sign + numerator; // for integers, irrational, d > 1000
+            } else if (format === "mixed") {
+                var modulus = numerator % denominator;
+                var integer = (numerator - modulus) / denominator;
+                return sign + (integer ? integer + " " : "") +
+                        modulus + "/" + denominator;
+            } // otherwise proper, improper, or fraction
+            return sign + numerator + "/" + denominator;
+        }
+
+        // otherwise (decimal, float, long long)
+        return String(number);
+    },
+
     // Shuffle an array using a Fischer-Yates shuffle
     // If count is passed, returns an random sublist of that size
     shuffle: function(array, count) {

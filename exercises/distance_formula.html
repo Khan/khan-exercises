@@ -19,7 +19,11 @@
 
         <div class="problems">
             <div>
-                <p class="question">Find the distance between the points <span class="hint_blue">(<var>X1</var>, <var>Y1</var>)</span> and <span class="hint_green">(<var>X2</var>, <var>Y2</var>)</span>.</p>
+                <p class="question">
+                    Find the distance between the points
+                    <code>\blue{<var>X1</var>, <var>Y1</var>)}</code> and
+                    <code>\green{(<var>X2</var>, <var>Y2</var>)}</code>.
+                </p>
                 <div class="graphie" id="graph">
                     graphInit({
                         range: 11,
@@ -38,21 +42,16 @@
                     circle([ X2, Y2 ], 3 / 20, { stroke: "none", fill: GREEN } );
                 </div>
 
-                <div class="solution" data-type="radical"><var>HYP2</var></div>
+                <div class="solution" data-type="radical" data-simplify="optional"><var>HYP2</var></div>
             </div>
         </div>
 
         <div class="hints">
             <div>
-                <p>
-                    Change in <span class="hint_red"><code>x</code>:</span>
-                    <span data-if="X2 - X1 > 0">
-                        <span class="hint_green"><var>X2</var></span> - <span class="hint_blue"><var>negParens(X1)</var></span>
-                    </span>
-                    <span data-else="">
-                        <span class="hint_blue"><var>X1</var></span> - <span class="hint_green"><var>negParens(X2)</var></span>
-                    </span>
-                    = <span class="hint_red"><var>X_DIST</var></span>
+                <p>Change in <code>\red{x} = 
+                    <span data-if="X2 - X1 > 0">\green{<var>X2</var>} - \blue{<var>negParens(X1)</var>}</span>
+                    <span data-else="">\blue{<var>X1</var>} - \green{<var>negParens(X2)</var>}</span>
+                    = \red{<var>X_DIST</var>}</code>
                 </p>
 
                 <div class="graphie" data-if="X2 - X1 !== 0" data-update="graph">
@@ -68,14 +67,10 @@
 
             <div>
                 <p>
-                Change in <span class="hint_purple"><code>y</code>:</span>
-                    <span data-if="Y2 - Y1 > 0">
-                        <span class="hint_green"><var>Y2</var></span> - <span class="hint_blue"><var>negParens(Y1)</var></span>
-                    </span>
-                    <span data-else="">
-                        <span class="hint_blue"><var>Y1</var></span> - <span class="hint_green"><var>negParens(Y2)</var></span>
-                    </span>
-                    = <span class="hint_purple"><var>Y_DIST</var></span>
+                Change in <code>\purple{y} = 
+                    <span data-if="Y2 - Y1 > 0">\green{<var>Y2</var>} - \blue{<var>negParens(Y1)</var>}</span>
+                    <span data-else="">\blue{<var>Y1</var>} - \green{<var>negParens(Y2)</var>}</span>
+                    = \purple{<var>Y_DIST</var>}</code>
                 </p>
 
                 <div class="graphie" data-if="Y2-Y1 !== 0" data-update="graph">
@@ -104,11 +99,11 @@
             <div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 ">
                 <p>By the Pythagorean Theorem, <span class="hint_pink">that length</span> is equal to:</p>
                 <p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2}</code></p>
-                <p><code>{}= \sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>}</code></p>
-                <p class="hint_pink" data-if="squareRootCanSimplify(HYP2)"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code></p>
+                <p><code>= \sqrt{<var>X_DIST * X_DIST + Y_DIST * Y_DIST</var>}</code></p>
+                <p class="hint_pink" data-if="squareRootCanSimplify(HYP2)"><code>= <var>formattedSquareRootOf(HYP2)</var></code></p>
             </div>
             <div data-else="">
-                  <p>The distance is equal to the length of the side, which is <var>X_DIST+Y_DIST</var></p>
+                <p>The distance is equal to the length of the side, which is <var>X_DIST + Y_DIST</var></p>
             </div>
 
 

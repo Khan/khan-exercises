@@ -992,18 +992,21 @@ $.extend(KhanUtil, {
                 fn = fn.derivative();
 
                 var nCoefs = fn.coefs.length;
-                var inc;
+                var hint;
                 if (nCoefs === 1) {
-                    if (fn.coefs[0] === 0) {
-                        inc = $._("zero");
-                    } else if (fn.coefs[0] > 0) {
-                        inc = $._("constant and positive");
+                    var val = "<code>" + fn.coefs[0] + "</code>";
+                    if (moveDeriv) {
+                        hint = $._("The %(nth)s section of the derivative has a constant " +
+                            "value of %(val)s, so it corresponds to an original function with " +
+                            "a constant <b>slope</b> of %(val)s.", {nth: nth, val: val});
                     } else {
-                        inc = $._("constant and negative");
+                        hint = $._("The %(nth)s section of the antiderivative has a constant " +
+                            "slope of %(val)s, so it corresponds to an original function " +
+                            "that has a constant value of %(val)s.", {nth: nth, val: val});
                     }
                 } else if (nCoefs === 2) {
-                    var val = fn.evalOf(0) +
-                                fn.evalOf(self.INTERVAL_WIDTH);
+                    var inc;
+                    var val = fn.evalOf(0) + fn.evalOf(self.INTERVAL_WIDTH);
                     if (val >= 0) {
                         if (fn.coefs[1] > 0) {
                             inc = $._("increasing and positive");
@@ -1017,18 +1020,18 @@ $.extend(KhanUtil, {
                             inc = $._("decreasing and negative");
                         }
                     }
+
+                    if (moveDeriv) {
+                        hint = $._("The %(nth)s section of the derivative is %(inc)s, " +
+                            "so it corresponds to an original function whose " +
+                            "<b>slope</b> is %(inc)s.", {nth: nth, inc: inc});
+                    } else {
+                        hint = $._("The %(nth)s section of the antiderivative has a " +
+                            "%(inc)s slope, so it corresponds to an original " +
+                            "function that is %(inc)s.", {nth: nth, inc: inc});
+                    }
                 }
 
-                var hint;
-                if (moveDeriv) {
-                    hint = $._("The %(nth)s section of the derivative is %(inc)s, " +
-                        "so it corresponds to an original function whose " +
-                        "<b>slope</b> is %(inc)s.", {nth: nth, inc: inc});
-                } else {
-                    hint = $._("The %(nth)s section of the antiderivative has a " +
-                        "%(inc)s slope, so it corresponds to an original " +
-                        "function that is %(inc)s.", {nth: nth, inc: inc});
-                }
 
                 var hintproblem = self.problem.slice(i, i + 1);
                 hintproblem.calibrate();

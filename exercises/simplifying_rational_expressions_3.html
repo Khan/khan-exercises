@@ -4,24 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying rational expressions 3</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style type="text/css">
-        #solutionarea td {
-            text-align: center;
-            vertical-align: middle;
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-        #solutionarea .soln-top {
-            padding-bottom: 1px;
-        }
-        #solutionarea .soln-bot {
-            padding-top: 1px;
-            border-top: 1px solid black;
-        }
-        #solutionarea .soln-dom {
-            padding-left: 3px;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -31,7 +13,7 @@
                     <var id="X">randVar()</var>
                     <var id="Y" data-ensure="X !== Y">randVar()</var>
                     <var id="A">randRangeNonZero(-10, 10)</var>
-                    <div data-ensure="B !== C && (B !== 0 || C !== 0)">
+                    <div data-ensure="A !== C && B !== C && (B !== 0 || C !== 0)">
                         <var id="B">randRangeWeighted(-10, 10, 0, 0.5)</var>
                         <var id="C">randRangeWeighted(-10, 10, 0, 0.5)</var>
                     </div>
@@ -59,7 +41,7 @@
 
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
-                            <table>
+                            <table class="rational-exp">
                                 <tbody><tr>
                                     <td>
                                         <code><var>Y</var> = </code>

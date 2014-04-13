@@ -161,7 +161,7 @@ function renderReadOnlyProblem(event, args) {
                                   (guess.value != null ? guess.value : guess) +
                                   "</p>").runModules()
                             );
-                            if (validator(guess)) {
+                            if (validator(guess).correct) {
                                 thissolutionarea
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
@@ -170,7 +170,7 @@ function renderReadOnlyProblem(event, args) {
                                 thissolutionarea.attr("title", $._("Incorrect Answer"));
                             }
                         } else if (answerType === "custom") {
-                            if (validator(guess)) {
+                            if (validator(guess).correct) {
                                 thissolutionarea
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
@@ -192,7 +192,7 @@ function renderReadOnlyProblem(event, args) {
 
                             thisAnswerData.showGuess(guess);
 
-                            if (thisAnswerData.validator(guess) === true) {
+                            if (thisAnswerData.validator(guess).correct) {
                                 // If the user didn't get the problem right on the first try, all
                                 // answers are labelled incorrect by default
                                 thissolutionarea

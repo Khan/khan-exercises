@@ -4,14 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading tables 1</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style>
-        .reading > span {
-            width: 80px;
-        }
-        .reading > span:first-child {
-            width: 100px;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -28,7 +20,7 @@
                 <var id="COLUMNS">[
                     [ $._("3rd grade"), $._("4th grade"), $._("5th grade"), $._("Total") ],
                     [ $._("January"), $._("February"), $._("March"), $._("Total") ],
-                    [ $._("1st Quarter"), $._("2nd Quarter"), $._("3rd Quarter"), $._("4th Quarter"), $._("Final") ],
+                    [ $._("1st Quarter"), $._("2nd Quarter"), $._("3rd Quarter"), $._("4th Quarter"), $._("Total") ],
                     [ $._("Q1"), $._("Q2"), $._("Q3"), $._("Q4"), $._("Total") ] ][ INDEX ]</var>
                 <var id="ENROLLMENTS">
                     (function() {
@@ -129,10 +121,10 @@
             </div>
             <p>The table below <var>PROBLEM</var>.</p>
             <p class="question"><var>QUESTION</var></p>
-            <div class="fake_header reading">
+            <div class="fake_header reading-tables">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
             </div>
-            <div class="fake_row reading" data-each="ROWS as i, row">
+            <div class="fake_row reading-tables" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ENROLLMENTS[i] as j, enrollment"><var>enrollment</var></span>
             </div>
             <div class="solution" data-type="multiple">

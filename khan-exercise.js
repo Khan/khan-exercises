@@ -208,7 +208,7 @@ var Khan = {
         "polynomials": ["math", "expressions"],
         "stat": ["math"],
         "word-problems": ["math"],
-        "interactive": ["graphie"],
+        "interactive": ["graphie", "knumber", "kvector", "kpoint", "kline"],
         "mean-and-median": ["stat"],
         "congruency": ["angles", "interactive"],
         "graphie": ["kpoint"],
@@ -626,6 +626,7 @@ var Khan = {
 
         // Submit an issue.
         $("#issue .issue-form input:submit").click(function(e) {
+
             e.preventDefault();
 
             var framework = Exercises.getCurrentFramework();
@@ -762,6 +763,7 @@ var Khan = {
                 $("#issue-throbber").hide();
             };
 
+            gae_bingo.bingo(["exercise_submit_issue_binary", "exercise_submit_issue_count"]);
             Khan.submitIssue(issueInfo, onSuccess, onFailure);
         });
     },

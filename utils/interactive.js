@@ -1411,11 +1411,15 @@ $.extend(KhanUtil.Graphie.prototype, {
                 // shoot a point off into the distance ...
                 var distance = xExtent + yExtent;
                 // we need to scale the point according to the scale of the axes
-                var xDist = distance * Math.cos(angle * Math.PI / 180) *
-                                xExtent / yExtent;
-                var yDist = distance * Math.sin(angle * Math.PI / 180);
-                var farCoord = [coord[0] + xDist, coord[1] + yDist];
-                var scaledAngle = KhanUtil.findAngle(farCoord, coord);
+                var angleVec = graph.unscaleVector(
+                    kvector.cartFromPolarDeg([1, angle])
+                );
+                var distVec = kvector.scale(
+                    kvector.normalize(angleVec),
+                    distance
+                );
+                var farCoord = kvector.add(coord, distVec);
+                var scaledAngle = kvector.polarDegFromCart(angleVec)[1];
                 // ... and then bring it back
                 var clipPoint = graph.constrainToBoundsOnAngle(farCoord, 4,
                                               scaledAngle * Math.PI / 180);

@@ -691,6 +691,7 @@ $.extend(KhanUtil, {
                                 construction.interPoints.push([x2, y2]);
                             }
                         }
+						// two circles
                         else if (tool1.center != null && tool2.center != null) {
                             var a = tool1.center.coord[0];
                             var b = tool1.center.coord[1];
@@ -909,6 +910,19 @@ $.extend(KhanUtil, {
 
     },
 
+    // Find whether a line has a given angle
+    // to a certain precision (in degrees)
+    angleEqual: function(line, angle, precision) {
+        var ang = Math.atan2(line.second.coord[1] - line.first.coord[1],
+                             line.second.coord[0] - line.first.coord[0]);
+
+        ang *= 180 / Math.PI;
+        if (ang < 0) {
+            ang += 180;
+        }
+        return Math.abs(angle - ang) < precision;
+    },
+
     // Given an array of construction tools, return an array
     // with either coordinates of a line and the center and
     // radius of a circle.
@@ -947,33 +961,42 @@ $.extend(KhanUtil, {
     },
 
     findCompass: function (guess, properties) {
-        var radiusFunction = function (r) { return true; };
-        var xFunction = function (cx) { return true; };
-        var yFunction = function (cy) { return true; };
+        var testFunctions = [];
 
         if (properties.radius != null) {
-            radiusFunction = function (r) {
-                return Math.abs(r - properties.radius) < 0.5;
-            };
+            testFunctions.push(function (tool) {
+                return Math.abs(tool.radius - properties.radius) < 0.5;
+            });
         }
 
         if (properties.cx != null) {
-            xFunction = function (p) {
-                return Math.abs(p[0] - properties.cx) < 0.5;
-            };
+            testFunctions.push(function (tool) {
+                return Math.abs(tool.center.coord[0] - properties.cx) < 0.5;
+            });
         }
 
         if (properties.cy != null) {
-            yFunction = function (p) {
-                return Math.abs(p[1] - properties.cy) < 0.5;
-            };
+            testFunctions.push(function (tool) {
+                return Math.abs(tool.center.coord[1] - properties.cy) < 0.5;
+            });
+        }
+
+        if (properties.center != null) {
+            testFunctions.push(function (tool) {
+                return Math.abs(tool.center.coord[0] - properties.center[0]) < 0.5 &&
+                    Math.abs(tool.center.coord[1] - properties.center[1]) < 0.5;
+            });
         }
 
         return _.filter(guess, function(tool) {
-            return tool.center != null &&
-                    radiusFunction(tool.radius) &&
-                    xFunction(tool.center.coord) &&
-                    yFunction(tool.center.coord);
+            if (tool.center != null) {
+                for (var i = 0; i < testFunctions.length; i++) {
+                    if (!testFunctions[i](tool)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
         });
     },
 

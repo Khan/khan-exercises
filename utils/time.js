@@ -108,6 +108,299 @@ $.extend(KhanUtil, {
         return analogClock;
     },
 
+    addInteractiveAnalogClock: function(options) {
+        options = $.extend(true, {
+            minuteSnapPoints: 12,
+            minuteIncrement: 5,
+            minuteStartAngle: 90,
+            hourStartAngle: 60
+        }, options);
+
+        var interactiveAnalogClock = KhanUtil.addAnalogClock(options);
+        var graph = interactiveAnalogClock.graph;
+
+        var hourSnapPoints = 12 * 60 / interactiveAnalogClock.minuteIncrement;
+        var outerPointRadius = interactiveAnalogClock.radius * 1.10;
+        interactiveAnalogClock.minuteRadius = interactiveAnalogClock.radius * 0.65;
+        interactiveAnalogClock.hourRadius = interactiveAnalogClock.radius * 0.45;
+
+        var minuteSnapDegrees = 360 / interactiveAnalogClock.minuteSnapPoints;
+        var hourSnapDegrees = 360 / hourSnapPoints;
+
+        interactiveAnalogClock.draw();
+        graph.addMouseLayer();
+
+        var redStyle = { fill: KhanUtil.RED, stroke: KhanUtil.RED };
+        var blueStyle = { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE };
+
+        var movePartnerPoint = function (options) {
+            var x = options.x;
+            var y = options.y;
+            var point = options.point;
+            var outerPoint = options.outerPoint;
+            var isOuterPoint = options.isOuterPoint;
+
+            var ratio = outerPoint.constraints.fixedDistance.dist / point.constraints.fixedDistance.dist;
+
+            if (isOuterPoint) {
+                ratio = 1 / ratio;
+                point.setCoord([x * ratio , y * ratio]);
+                outerPoint.setCoord([x, y]);
+            } else {
+                point.setCoord([x, y]);
+                outerPoint.setCoord([x * ratio, y * ratio]);
+            }
+
+            point.updateLineEnds();
+            return true;
+        };
+
+        interactiveAnalogClock.minutePoint = graph.addMovablePoint({
+            graph: graph,
+            coord: graph.polar(interactiveAnalogClock.minuteRadius, interactiveAnalogClock.minuteStartAngle),
+            constraints: {
+                fixedDistance: {
+                    dist: interactiveAnalogClock.minuteRadius,
+                    point: [0, 0],
+                    snapPoints: 12
+                }
+            },
+            onMove: function(x, y) {
+                return movePartnerPoint({
+                    x: x,
+                    y: y,
+                    point: this,
+                    outerPoint: interactiveAnalogClock.outerMinutePoint,
+                    isOuterPoint: false
+                });
+            },
+            normalStyle: redStyle,
+            highlightStyle: redStyle
+        });
+
+        interactiveAnalogClock.outerMinutePoint = graph.addMovablePoint({
+            graph: graph,
+            coord: graph.polar(outerPointRadius, interactiveAnalogClock.minuteStartAngle),
+            constraints: {
+                fixedDistance: {
+                    dist: outerPointRadius,
+                    point: [0, 0],
+                    snapPoints: 12
+                }
+            },
+            onMove: function(x, y) {
+                return movePartnerPoint({
+                    x: x,
+                    y: y,
+                    point: interactiveAnalogClock.minutePoint,
+                    outerPoint: this,
+                    isOuterPoint: true
+                });
+            },
+            normalStyle: redStyle,
+            highlightStyle: redStyle
+        });
+
+        interactiveAnalogClock.hourPoint = graph.addMovablePoint({
+            graph: graph,
+            coord: graph.polar(interactiveAnalogClock.hourRadius, interactiveAnalogClock.hourStartAngle),
+            constraints: {
+                fixedDistance: {
+                    dist: interactiveAnalogClock.hourRadius,
+                    point: [0, 0],
+                    snapPoints: hourSnapPoints
+                }
+            },
+            onMove: function(x, y) {
+                return movePartnerPoint({
+                    x: x,
+                    y: y,
+                    point: this,
+                    outerPoint: interactiveAnalogClock.outerHourPoint,
+                    isOuterPoint: false
+                });
+            },
+            normalStyle: blueStyle,
+            highlightStyle: blueStyle
+        });
+
+        interactiveAnalogClock.outerHourPoint = graph.addMovablePoint({
+            graph: graph,
+            coord: graph.polar(outerPointRadius, interactiveAnalogClock.hourStartAngle),
+            constraints: {
+                fixedDistance: {
+                    dist: outerPointRadius,
+                    point: [0, 0],
+                    snapPoints: hourSnapPoints
+                }
+            },
+            onMove: function(x, y) {
+                return movePartnerPoint({
+                    x: x,
+                    y: y,
+                    point: interactiveAnalogClock.hourPoint,
+                    outerPoint: this,
+                    isOuterPoint: true
+                });
+            },
+            normalStyle: blueStyle,
+            highlightStyle: blueStyle
+        });
+
+        interactiveAnalogClock.minuteHand = graph.addMovableLineSegment({
+            graph: graph,
+            pointA: interactiveAnalogClock.minutePoint,
+            coordZ: [0, 0],
+            fixed: true,
+            normalStyle: {
+                stroke: KhanUtil.RED,
+                "stroke-width": 10
+            }
+        });
+
+        interactiveAnalogClock.hourHand = graph.addMovableLineSegment({
+            graph: graph,
+            pointA: interactiveAnalogClock.hourPoint,
+            coordZ: [0, 0],
+            fixed: true,
+            normalStyle: {
+                stroke: KhanUtil.BLUE,
+                "stroke-width": 10
+            }
+        });
+
+        var centerPoint = graph.addMovablePoint({
+            graph: graph,
+            coord: [0, 0],
+            constraints: {
+                fixed: true
+            },
+            normalStyle: {
+                fill: "#fff",
+                stroke: "#000",
+                "stroke-width": 2
+            }
+        });
+
+        // Return the position of the minute and hour hands
+        interactiveAnalogClock.getHandPositions = function() {
+            return [interactiveAnalogClock.minutePoint.coord, interactiveAnalogClock.hourPoint.coord];
+        };
+
+        // Test whether the clock is set to correctMinute and correctHour
+        interactiveAnalogClock.validate = function(guess, correctMinute, correctHour) {
+            var minuteAngle = graph.cartToPolar(guess[0])[1];
+            var hourAngle = graph.cartToPolar(guess[1])[1];
+
+            minuteAngle = KhanUtil.roundToNearest(minuteSnapDegrees, minuteAngle);
+            hourAngle = KhanUtil.roundToNearest(hourSnapDegrees, hourAngle);
+
+            // If hands have not been moved, return `""`
+            if (minuteAngle === interactiveAnalogClock.minuteStartAngle && hourAngle === interactiveAnalogClock.hourStartAngle) {
+                return "";
+            }
+
+            var correctMinuteAngle = KhanUtil.timeToDegrees(correctMinute);
+            var correctHourAngle = KhanUtil.timeToDegrees(5 * (correctHour + correctMinute / 60));
+            correctMinuteAngle = KhanUtil.roundToNearest(minuteSnapDegrees, correctMinuteAngle);
+            correctHourAngle = KhanUtil.roundToNearest(hourSnapDegrees, correctHourAngle);
+
+            if ((minuteAngle !== correctMinuteAngle) || (hourAngle !== correctHourAngle)) {
+                if ((minuteAngle === correctHourAngle) && (hourAngle === correctMinuteAngle)) {
+                    return $._("Remember the hour hand is the short hand and the minute hand is the long hand");
+                }
+                else if ((minuteAngle === correctMinuteAngle) && (hourAngle !== correctHourAngle) &&
+                         (hourAngle === KhanUtil.roundToNearest(hourSnapDegrees, KhanUtil.timeToDegrees(5 * correctHour)))) {
+                    return $._("Remember the hour hand needs to move over the course of the hour");
+                }
+                return false;
+            }
+            return true;
+        };
+
+        // Show semi-transparent hands set at the correct time
+        interactiveAnalogClock.showCorrectTime = function(correctMinute, correctHour) {
+            var correctMinuteAngle = KhanUtil.timeToDegrees(correctMinute);
+            var correctHourAngle = KhanUtil.timeToDegrees(5 * (correctHour + correctMinute / 60));
+            correctMinuteAngle = KhanUtil.roundToNearest(minuteSnapDegrees, correctMinuteAngle);
+            correctHourAngle = KhanUtil.roundToNearest(hourSnapDegrees, correctHourAngle);
+
+            var minuteCoord = graph.polar(interactiveAnalogClock.minuteRadius, correctMinuteAngle);
+            var hourCoord = graph.polar(interactiveAnalogClock.hourRadius, correctHourAngle);
+
+            var dotOpacity = 0.4;
+            var handOpacity = 0.3;
+
+            interactiveAnalogClock.graph.addMovableLineSegment({
+                coordA: minuteCoord,
+                coordZ: [0, 0],
+                fixed: true,
+                normalStyle: {
+                    stroke: KhanUtil.RED,
+                    "stroke-width": 10,
+                    "stroke-dasharray": ".",
+                    "stroke-linecap": "round",
+                    "stroke-opacity": dotOpacity
+                },
+            });
+
+            interactiveAnalogClock.graph.addMovableLineSegment({
+                coordA: minuteCoord,
+                coordZ: [0, 0],
+                fixed: true,
+                normalStyle: {
+                    stroke: KhanUtil.RED,
+                    "stroke-width": 10,
+                    "stroke-linecap": "round",
+                    "stroke-opacity": handOpacity
+                },
+            });
+
+            interactiveAnalogClock.graph.addMovableLineSegment({
+                coordA: hourCoord,
+                coordZ: [0, 0],
+                fixed: true,
+                normalStyle: {
+                    stroke: KhanUtil.BLUE,
+                    "stroke-width": 10,
+                    "stroke-dasharray": ".",
+                    "stroke-linecap": "round",
+                    "stroke-opacity": dotOpacity
+                },
+            });
+
+            interactiveAnalogClock.graph.addMovableLineSegment({
+                coordA: hourCoord,
+                coordZ: [0, 0],
+                fixed: true,
+                normalStyle: {
+                    stroke: KhanUtil.BLUE,
+                    "stroke-width": 10,
+                    "stroke-linecap": "round",
+                    "stroke-opacity": handOpacity
+                },
+            });
+
+            // for some reason this doesn't work, so for now, create another center point
+            // centerPoint.toFront();
+            interactiveAnalogClock.graph.addMovablePoint({
+                coord: [0, 0],
+                constraints: {
+                    fixed: true
+                },
+                normalStyle: {
+                    fill: "#fff",
+                    stroke: "#000",
+                    "stroke-dasharray": "",
+                    "stroke-width": 2,
+                    "stroke-opacity": 1
+                }
+            });
+        };
+
+        return interactiveAnalogClock;
+    },
+
     /* Map time in minutes to angle in degrees
      * - Minutes start at positive y-axis and increase clockwise
      * - Angle starts at positive x-axis and increases counterclockwise
