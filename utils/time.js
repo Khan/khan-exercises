@@ -341,7 +341,7 @@ $.extend(KhanUtil, {
                     "stroke-dasharray": ".",
                     "stroke-linecap": "round",
                     "stroke-opacity": dotOpacity
-                },
+                }
             });
 
             interactiveAnalogClock.graph.addMovableLineSegment({
@@ -353,7 +353,7 @@ $.extend(KhanUtil, {
                     "stroke-width": 10,
                     "stroke-linecap": "round",
                     "stroke-opacity": handOpacity
-                },
+                }
             });
 
             interactiveAnalogClock.graph.addMovableLineSegment({
@@ -366,7 +366,7 @@ $.extend(KhanUtil, {
                     "stroke-dasharray": ".",
                     "stroke-linecap": "round",
                     "stroke-opacity": dotOpacity
-                },
+                }
             });
 
             interactiveAnalogClock.graph.addMovableLineSegment({
@@ -378,7 +378,7 @@ $.extend(KhanUtil, {
                     "stroke-width": 10,
                     "stroke-linecap": "round",
                     "stroke-opacity": handOpacity
-                },
+                }
             });
 
             // for some reason this doesn't work, so for now, create another center point
