@@ -525,18 +525,19 @@ $.extend(KhanUtil, {
         }
     },
 
+    // Returns a string of the number in a specified format
     toNumericString: function(number, format) {
         if (number == null) {
             return "";
         } else if (number === 0) {
-            return "0"; // otherwise it ends up as 0pi
+            return "0"; // otherwise it might end up as 0% or 0pi
         }
 
         if (format === "percent") {
             return number * 100 + "%";
         }
 
-        if (format === "pi" || format == null) {
+        if (format === "pi") {
             var fraction = knumber.toFraction(number / Math.PI);
             var numerator = Math.abs(fraction[0]), denominator = fraction[1];
             if (knumber.isInteger(numerator)) {
