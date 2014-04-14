@@ -541,8 +541,6 @@ $.extend(KhanUtil, {
                     "improper" : "proper";
         } else if (text.replace(/[,. ]/g, "").match(/^\d+$/)) {
             return "decimal";
-        } else if (text.match(/.*%$/)) {
-            return "percent";
         } else if (text.match(/(pi?|\u03c0|t(?:au)?|\u03c4|pau)/)) {
             return "pi";
         } else {
