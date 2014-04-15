@@ -37,8 +37,8 @@
             <div id="letters" data-weight="2">
                 <div class="vars" data-ensure="PERM !== WORD">
                     <var id="INDEX">randRange(0,7)</var>
-                    <var id="WORD">["HATTER", "PRIOR", "POTATO", "SASSY", "CANNON", "PLOP", "ERROR", "THAT"][INDEX]</var>
-                    <var id="REPLETTER">["T","R","O","S","N","P","R","T"][INDEX]</var>
+                    <var id="WORD">["HATTER", "PRIOR", "PRETTY", "SASSY", "CANNON", "PLOP", "ERROR", "THAT"][INDEX]</var>
+                    <var id="REPLETTER">["T","R","T","S","N","P","R","T"][INDEX]</var>
                     <var id="REPTIMES">[2,2,2,3,3,2,3,2][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER, REPTIMES)</var>
