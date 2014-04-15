@@ -12,7 +12,7 @@
                 cp = cp.slice(0,numperms);
                 p = "";
                 _.each(word.split(""), function(l){
-                    p += (l === repletter ? cp.pop() + l + "</span>" : l);      
+                    p += (l === repletter ? cp.pop() + l + "</span>" : l);
                 });
                 perms.push(p);
             });
@@ -37,8 +37,8 @@
             <div id="letters" data-weight="2">
                 <div class="vars" data-ensure="PERM !== WORD">
                     <var id="INDEX">randRange(0,7)</var>
-                    <var id="WORD">["HATTER", "PRIOR", "BETTER", "SASSY", "CANNON", "PLOP", "ERROR", "THAT"][INDEX]</var>
-                    <var id="REPLETTER">["T","R","T","S","N","P","R","T"][INDEX]</var>
+                    <var id="WORD">["HATTER", "PRIOR", "POTATO", "SASSY", "CANNON", "PLOP", "ERROR", "THAT"][INDEX]</var>
+                    <var id="REPLETTER">["T","R","O","S","N","P","R","T"][INDEX]</var>
                     <var id="REPTIMES">[2,2,2,3,3,2,3,2][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER, REPTIMES)</var>
@@ -64,12 +64,12 @@
                         make, until we get to the last letter, and there's only one we can put in.</p>
                     </div>
                     <div>
-                        <p>Using this method, the total number of arrangements is <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(WORD.length)</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>, 
+                        <p>Using this method, the total number of arrangements is <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(WORD.length)</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>,
                         or <code><var>WORD.length</var></code> factorial, but this isn't quite the right answer.</p>
                     </div>
                     <div>
                         <p>Using the above method, we assumed that all the letters were unique. But they're not! There are <code><var>REPTIMES</var></code>
-                        <var>REPLETTER</var>s, so we're counting every permutation multiple times. So every time we have these 
+                        <var>REPLETTER</var>s, so we're counting every permutation multiple times. So every time we have these
                         <code><var>factorial(REPTIMES)</var></code> permutations:</p>
                             <p>
                                 <var>PERM_UNIQUE.join("&lt;/br&gt;")</var>
@@ -117,7 +117,7 @@
                         and we have <code><var>NAMES.length</var></code> different reindeer we can put in the first slot.</p>
                     </div>
                     <p>
-                        Once we fill the first slot, we only have <code><var>NAMES.length-1</var></code> reindeer left, so we only have 
+                        Once we fill the first slot, we only have <code><var>NAMES.length-1</var></code> reindeer left, so we only have
                         <code><var>NAMES.length-1</var></code>
                         choices for the second slot. So far, there are <code><var>NAMES.length</var> \cdot <var>NAMES.length-1</var> = <var>NAMES.length*(NAMES.length-1)</var></code> unique choices we can make.
                     </p>
@@ -126,15 +126,15 @@
                         one reindeer left and so we can only make one choice.
                     </p>
                     <p data-if="FIGHTING">
-                        So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
+                        So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>,
                         or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who can't be together yet.
                     </p><p data-else="">
-                        So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
+                        So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>,
                         or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who have to be together yet.
                     </p>
                     <div data-if="FIGHTING" data-unwrap="">
                         <p>
-                            There are <code><var>factorial(NAMES.length)</var></code> different arrangements of reindeer altogether, 
+                            There are <code><var>factorial(NAMES.length)</var></code> different arrangements of reindeer altogether,
                             so we just need to subtract
                             all the arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together. How many of these are there?
                         </p>
@@ -144,7 +144,7 @@
                         <p>
                             Why? Because you can arrange the double-reindeer with <var>PAIR[0]</var> in front or with
                             <var>PAIR[1]</var> in front, and those are different arrangements! So the actual number of arrangements with <var>PAIR[0]</var>
-                            and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var> \cdot 2 = 
+                            and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var> \cdot 2 =
                             <var>factorial(NAMES.length-1)*2</var></code>
                         </p>
                         <p>
@@ -159,7 +159,7 @@
                         <p>
                             Why? Because you can arrange the double-reindeer with <var>PAIR[0]</var> in front or with
                             <var>PAIR[1]</var> in front, and those are different arrangements! So the actual number of arrangements with <var>PAIR[0]</var>
-                            and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var> \cdot 2 = 
+                            and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var> \cdot 2 =
                             <var>factorial(NAMES.length-1)*2</var></code>
                         </p>
                     </div>
@@ -183,9 +183,9 @@
                 <div class="hints">
                     <div>
                         <p>
-                            There are <code><var>FAC1_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> between <code>1</code> 
-                            and <code>100</code>, and <code><var>FAC2_TIMES</var></code> numbers divisible by 
-                            <code><var>FAC2</var></code> between <code>1</code> and <code>100</code>. 
+                            There are <code><var>FAC1_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> between <code>1</code>
+                            and <code>100</code>, and <code><var>FAC2_TIMES</var></code> numbers divisible by
+                            <code><var>FAC2</var></code> between <code>1</code> and <code>100</code>.
                             [<a href="#" class="show-subhint" data-subhint="divide">Show me why</a>]
                         </p>
                         <div class="subhint" id="divide">
@@ -215,7 +215,7 @@
                         </div>
                     </div>
                     <p>
-                        So, you might think there are <code><var>FAC1_TIMES</var> + <var>FAC2_TIMES</var> = <var>FAC1_TIMES+FAC2_TIMES</var></code> 
+                        So, you might think there are <code><var>FAC1_TIMES</var> + <var>FAC2_TIMES</var> = <var>FAC1_TIMES+FAC2_TIMES</var></code>
                         numbers divisible by one or the other, but this is overcounting something.
                     </p>
                     <p>
@@ -227,11 +227,11 @@
                         and subtract this from what we had before.
                     </p>
                     <p data-if="isSingular(BOTH_TIMES)">
-                        Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by 
-                        <code><var>FAC1*FAC2</var></code>, so there is <code><var>BOTH_TIMES</var></code> number between 1 and 100 divisible by both. 
+                        Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by
+                        <code><var>FAC1*FAC2</var></code>, so there is <code><var>BOTH_TIMES</var></code> number between 1 and 100 divisible by both.
                     </p><p data-else="">
-                        Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by 
-                        <code><var>FAC1*FAC2</var></code>, so there are <code><var>BOTH_TIMES</var></code> numbers between 1 and 100 divisible by both. 
+                        Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by
+                        <code><var>FAC1*FAC2</var></code>, so there are <code><var>BOTH_TIMES</var></code> numbers between 1 and 100 divisible by both.
                     </p>
                     <p>
                         Subtracting, there are <code><var>FAC1_TIMES + FAC2_TIMES</var> - <var>BOTH_TIMES</var> = <var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> or <code><var>FAC2</var></code>.
