@@ -55,6 +55,7 @@ $(Exercises)
     .bind("upcomingExercise", upcomingExercise)
     .bind("gotoNextProblem", gotoNextProblem)
     .bind("updateUserExercise", updateUserExercise)
+    .bind("subhintExpand", subhintExpand)
     .bind("clearExistingProblem", clearExistingProblem)
     .bind("showOptOut", showOptOut);
 
@@ -644,6 +645,16 @@ function disableCheckAnswer() {
     $("#opt-out-button")
         .prop("disabled", true)
         .addClass("buttonDisabled");
+}
+
+function subhintExpand(e, subhintName) {
+    // write to KALOG capturing the subhint-expand
+    // click
+    if (!localMode) {
+        $.post("/api/v1/misc/subhint_expand", {
+            subhintName: subhintName
+        });
+    }
 }
 
 function clearExistingProblem() {

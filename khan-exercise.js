@@ -260,9 +260,10 @@ var Khan = {
         // MathJax is here because Perseus wants it loaded regardless of if
         // we load a khan-exercises problem that needs it. Previously it
         // was a dependency of 'math' so this isn't really any different.
+        // subhints is here to support the intervention experiment.
         mods.push(
             "answer-types", "tmpl", "tex", "jquery.adhesion",
-            "calculator", "scratchpad");
+            "calculator", "scratchpad", "subhints");
 
         return mods;
     },

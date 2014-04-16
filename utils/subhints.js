@@ -19,6 +19,9 @@ $(document).on("click", "a.show-subhint", function(event) {
     if (subhint.is(":visible")) {
         $(this).text(visibleText);
     } else {
+        // write to KALOG capturing the subhint-expand
+        // click
+        $(Exercises).trigger("subhintExpand", [$(this).data("subhint")]);
         $(this).text(hiddenText);
     }
 
