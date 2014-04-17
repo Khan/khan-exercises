@@ -889,7 +889,7 @@ function loadAndRenderExercise(nextUserExercise) {
         }).children(".problems").children();
 
         // Make scratchpad persistent per-user
-        if (user) {
+        if (user && window.LocalStore) {
             var lastScratchpad = LocalStore.get("scratchpad:" + user);
             if (typeof lastScratchpad !== "undefined" && JSON.parse(lastScratchpad)) {
                 Khan.scratchpad.show();
