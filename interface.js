@@ -473,7 +473,10 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
 
         // If working in the context of a LearningTask (on the new learning
         // dashboard), supply the task ID.
-        task_id: Exercises.learningTask && Exercises.learningTask.get("id"),
+        // TODOX(laura): The web view in the iOS app doesn't have a learningTask
+        // object on Exercises. To simplify this line, add getTaskId to
+        // Exercises on the webapp as well.
+        taskId: (Exercises.getTaskId && Exercises.getTaskId()) || (Exercises.learningTask && Exercises.learningTask.get("id")),
 
         user_mission_id: Exercises.userMissionId,
 
