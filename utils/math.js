@@ -528,16 +528,17 @@ $.extend(KhanUtil, {
     // Returns the format (string) of a given numeric string
     // Note: purposively more inclusive than answer-types' predicate.forms
     // That is, it is not necessarily true that interpreted input are numeric
-    getFormat: function(text) {
+    getNumericFormat: function(text) {
         text = $.trim(text);
         text = text.replace(/\u2212/, "-").replace(/([+-])\s+/g, "$1");
         if (text.match(/^[+-]?\d+$/)) {
             return "integer";
         } else if (text.match(/^[+-]?\d+\s+\d+\s*\/\s*\d+$/)) {
             return "mixed";
-        } else if (text.match(/^[+-]?(\d+)\s*\/\s*(\d+)$/)) {
-            text = text.match(/^[+-]?(\d+)\s*\/\s*(\d+)$/);
-            return parseFloat(text[1]) > parseFloat(text[2]) ?
+        }
+        fraction = text.match(/^[+-]?(\d+)\s*\/\s*(\d+)$/);
+        if (fraction) {
+            return parseFloat(fraction[1]) > parseFloat(fraction[2]) ?
                     "improper" : "proper";
         } else if (text.replace(/[,. ]/g, "").match(/^\d+$/)) {
             return "decimal";
