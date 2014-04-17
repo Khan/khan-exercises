@@ -23,6 +23,17 @@ _.extend(Exercises, {
     userActivityLog: undefined
 });
 
+// The iOS app doesn't use cookies, so we need to send this as an oauth request
+// (while letting the webapp send its AJAX request as before).
+$.kaOauthAjax = function (options) {
+    if ($.oauth) {
+        $.extend(options, oauth);
+        return $.oauth(options);
+    } else {
+        return $.ajax(options);
+    }
+};
+
 var PerseusBridge = Exercises.PerseusBridge,
 
     EMPTY_MESSAGE = $._("It looks like you haven't answered all of the " +
@@ -526,7 +537,7 @@ function request(method, data) {
     var deferred = $.Deferred();
 
     attemptHintQueue.queue(function(next) {
-        $.ajax(params).then(function(data, textStatus, jqXHR) {
+        $.kaOauthAjax(params).then(function(data, textStatus, jqXHR) {
             deferred.resolve(data, textStatus, jqXHR);
 
             // Tell any listeners that we now have new userExercise data
