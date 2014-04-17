@@ -27,6 +27,13 @@ _.extend(Exercises, {
 // (while letting the webapp send its AJAX request as before).
 $.kaOauthAjax = function (options) {
     if ($.oauth) {
+        // The iOS app hosts its files locally; make sure any API requests
+        // are going to KA.org
+        if (options && options.url) {
+            if (options.url.indexOf("/api/") === 0) {
+                options.url = "https://www.khanacademy.org" + options.url;
+            }
+        }
         $.extend(options, oauth);
         return $.oauth(options);
     } else {
