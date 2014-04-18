@@ -536,7 +536,7 @@ $.extend(KhanUtil, {
         } else if (text.match(/^[+-]?\d+\s+\d+\s*\/\s*\d+$/)) {
             return "mixed";
         }
-        fraction = text.match(/^[+-]?(\d+)\s*\/\s*(\d+)$/);
+        var fraction = text.match(/^[+-]?(\d+)\s*\/\s*(\d+)$/);
         if (fraction) {
             return parseFloat(fraction[1]) > parseFloat(fraction[2]) ?
                     "improper" : "proper";
