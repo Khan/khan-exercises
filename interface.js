@@ -34,7 +34,8 @@ $.kaOauthAjax = function (options) {
                 options.url = "https://www.khanacademy.org" + options.url;
             }
         }
-        $.extend(options, oauth);
+        var oauthProps = window.oauth || {};
+        $.extend(options, oauthProps);
         return $.oauth(options);
     } else {
         return $.ajax(options);
@@ -285,7 +286,7 @@ function handleAttempt(data) {
         } else {
             nextButtonText = $._("Correct! Next question...");
         }
-                
+
         $("#next-question-button")
             .prop("disabled", false)
             .removeClass("buttonDisabled")
