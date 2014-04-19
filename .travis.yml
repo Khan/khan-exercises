@@ -1,6 +1,5 @@
 script:
  - phantomjs test/runner.js test/index.html
-# - node $TRAVIS_BUILD_DIR/exercises/test/page_load/node_page_load_handler.js $TRAVIS_BUILD_DIR/exercises/ $TRAVIS_BUILD_DIR/exercises/test/moduleDependencies_test.js
  - node exercises/test/page_load/node_page_load_handler.js exercises/ exercises/test/moduleDependencies_test.js
 notifications:
   on_success: change
