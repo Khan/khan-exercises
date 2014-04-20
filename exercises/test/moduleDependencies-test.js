@@ -50,9 +50,10 @@ var testModuleDependencies = function(page) {
         // MathJax is here because Perseus wants it loaded regardless of if
         // we load a khan-exercises problem that needs it. Previously it
         // was a dependency of 'math' so this isn't really any different.
+        // subhints is here to support the intervention experiment.
         mods.push(
             "answer-types", "tmpl", "tex", "jquery.adhesion",
-            "calculator", "scratchpad");
+            "calculator", "scratchpad", "subhints");
 
         return mods;
     }
@@ -114,20 +115,17 @@ var testModuleDependencies = function(page) {
         }
     }
 
+    /**
+    Construct an object identical to Khan.modules such that we can compare
+    the constructed dependencies from this functionality with the modules
+    retrieved from the exercise page.
+    */
     var finalModuleSet = getAllModules(allDeps);
 
-    /**
-    Construct an object identical to Khan.modules such that we can compare the constructed dependencies from this functionality with the modules retrieved from the exercise page.
-    */
-    console.log(_.keys(finalModuleSet).length + " / " + _.keys(modulesSeen).length);
-
-        for (var a in modulesSeen) {
-            var presentInKahn = false;
-            if (modulesSeen[a]) {
-                presentInKahn = true;
-            }
-            console.log(a + " -> " + modulesSeen[a] + " / " + presentInKahn);
-        }
+    console.log("moduleDependencies:");
+    console.log(finalModuleSet);
+    console.log("Khan.modules:");
+    console.log(modulesSeen);
 
     if (_.isEqual(modulesSeen, finalModuleSet)) {
         console.log("PASS");
