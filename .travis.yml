@@ -1,6 +1,6 @@
 script:
  - phantomjs test/runner.js test/index.html
- - node exercises/test/page_load/node_page_load_handler.js exercises/ exercises/test/moduleDependencies_test.js
+ - node exercises/test/page_load/node_page_load_handler.js exercises/ exercises/test/moduleDependencies-test.js
 notifications:
   on_success: change
   on_failure: always
