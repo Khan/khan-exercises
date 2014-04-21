@@ -243,8 +243,8 @@
                         graph.pointB.setCoord([ SLOPE_FRAC_1[1], YINT_1 + SLOPE_FRAC_1[0] ]);
                         graph.pointC.setCoord([ 0, YINT_2 ]);
                         graph.pointD.setCoord([ SLOPE_FRAC_2[1], YINT_2 + SLOPE_FRAC_2[0] ]);
-                        graph.shadetop1 = graph.pointA.coord[0] > graph.pointB.coord[0] ? LESS_THAN_1 : !LESS_THAN_1;
-                        graph.shadetop2 = graph.pointC.coord[0] > graph.pointD.coord[0] ? LESS_THAN_2 : !LESS_THAN_2;
+                        graph.shadetop1 = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? LESS_THAN_1 : !LESS_THAN_1;
+                        graph.shadetop2 = graph.pointC.coord[0] &gt; graph.pointD.coord[0] ? LESS_THAN_2 : !LESS_THAN_2;
                         if ( INCLUSIVE_1 ) {
                             graph.dasharray1 = '';
                             $( 'input[name=dashradio1][value=solid]' ).attr( 'checked', true );
