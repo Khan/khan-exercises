@@ -194,36 +194,6 @@ var Khan = {
 
     imageBase: imageBase,
 
-    // Inter-util dependencies. This map is currently necessary so that we
-    // can expose only the appropriate $.fn["module-nameLoad"] hooks used
-    // by each problem. Dependencies on third-party files need not be
-    // listed here.
-    // TODO(alpert): Now that these deps are now encoded in require()
-    // lines, find a way to remove this map.
-    moduleDependencies: {
-        "math": ["knumber"],
-        "exponents": ["math", "math-format"],
-        "kinematics": ["math"],
-        "math-format": ["math", "expressions"],
-        "polynomials": ["math", "expressions"],
-        "stat": ["math"],
-        "word-problems": ["math"],
-        "interactive": ["graphie", "knumber", "kvector", "kpoint", "kline"],
-        "mean-and-median": ["stat"],
-        "congruency": ["angles", "interactive"],
-        "graphie": ["kpoint"],
-        "graphie-3d": ["graphie", "kmatrix", "kvector"],
-        "graphie-geometry": ["graphie", "kmatrix", "kvector", "kline"],
-        "graphie-helpers": ["math-format"],
-        "kmatrix": ["expressions"],
-        "chemistry": ["math-format"],
-        "kvector": ["knumber"],
-        "kpoint": ["kvector", "knumber"],
-        "kray": ["kpoint", "kvector"],
-        "kline": ["kpoint", "kvector"],
-        "constructions": ["kmatrix"]
-    },
-
     warnTimeout: function() {
         $(Exercises).trigger("warning", [$._("Your internet might be too " +
                 "slow to see an exercise. Refresh the page or " +
@@ -268,29 +238,27 @@ var Khan = {
         return mods;
     },
 
-    resetModules: function(exerciseId) {
-        var modules = Khan.getBaseModules().concat(
-                Khan.exerciseModulesMap[exerciseId]);
+    /**
+    * parses <script> items from the DOM (placed there via require()) for
+    * module names to populate Khan.modules
+    */
+    resetModules: function() {
         var moduleSet = {};
+        //check each <script> in the DOM loaded by require()
+        $.each($("script[src]"), function() {
+            //capture the module name of this form:
+            //../utils/<moduleName>.js
+            var moduleName = $(this).attr('src').
+                match(/^\.\.\/utils\/(.*)\.js$/);
 
-        $.each(modules, function(i, mod) {
-            useModule(mod);
+            //leave out "crc32"
+            //as does not belong in this list of modules and dependencies
+            if ( moduleName && moduleName[1] !== "crc32") {
+                moduleSet[moduleName[1]] = true;
+            }
         });
 
         Khan.modules = moduleSet;
-
-        function useModule(modNameOrObject) {
-            if (typeof modNameOrObject === "string") {
-                moduleSet[modNameOrObject] = true;
-                var deps = Khan.moduleDependencies[modNameOrObject] || [];
-
-                $.each(deps, function(i, mod) {
-                    useModule(mod);
-                });
-            } else if (modNameOrObject.name) {
-                moduleSet[modNameOrObject.name] = true;
-            }
-        }
     },
 
     loadLocalModeSiteWhenReady: function() {
@@ -1132,7 +1100,7 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
     debugLog("added inline styles");
 
     // Reset modules to only those required by the current exercise
-    Khan.resetModules(exerciseId);
+    Khan.resetModules();
 
     // Run the main method of any modules
     problem.runModules(problem, "Load");
