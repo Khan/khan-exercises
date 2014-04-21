@@ -73,7 +73,7 @@ var testModuleDependencies = function(page) {
         "word-problems": ["math"],
         "interactive": ["graphie", "knumber", "kvector", "kpoint", "kline"],
         "mean-and-median": ["stat"],
-        "congruency": ["angles", "interactive"],
+        "congruency": ["angles", "interactive", "graphie-helpers"],
         "graphie": ["kpoint"],
         "graphie-3d": ["graphie", "kmatrix", "kvector"],
         "graphie-geometry": ["graphie", "kmatrix", "kvector", "kline"],
