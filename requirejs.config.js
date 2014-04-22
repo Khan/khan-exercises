@@ -73,4 +73,4 @@
     },
     wrap: true,
     wrapShim: true
-});
+})
