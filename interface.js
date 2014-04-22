@@ -495,7 +495,8 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         // TODOX(laura): The web view in the iOS app doesn't have a learningTask
         // object on Exercises. To simplify this line, add getTaskId to
         // Exercises on the webapp as well.
-        taskId: (Exercises.getTaskId && Exercises.getTaskId()) || (Exercises.learningTask && Exercises.learningTask.get("id")),
+        task_id: (Exercises.getTaskId && Exercises.getTaskId()) ||
+                (Exercises.learningTask && Exercises.learningTask.get("id")),
 
         user_mission_id: Exercises.userMissionId,
 
