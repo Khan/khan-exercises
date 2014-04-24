@@ -1054,11 +1054,6 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         parentType = original.data("type");
     }
 
-    // prepend any motivational text for the growth mindset A/B test
-    var growthHeader = (!localMode && !assessmentMode &&
-            Exercises.currentCard.attributes.growthHeader);
-    $("#workarea").prepend(growthHeader);
-
     // Add any global exercise defined elements
     problem.prepend(exercise.children(":not(.problems)").clone().data("inherited", true));
 
