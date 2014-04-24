@@ -777,6 +777,12 @@ var error = function(message) { throw new Error(message); };
 // reliably detect NaN
 var isNaN = function(object) { return object !== object; };
 
+// return a random float between min (inclusive) and max (exclusive),
+// not that inclusivity means much, probabilistically, on floats
+var randomFloat = function(min, max) {
+    var extent = max - min;
+    return Math.random() * extent + min;
+};
 
 /* constants */
 var ITERATIONS = 12;
@@ -1017,7 +1023,7 @@ _.extend(Expr.prototype, {
             var range = Math.pow(10, 1 + Math.floor(3 * i / ITERATIONS));
 
             _.each(varList, function(v) {
-                vars[v] = _.random(-range, range);
+                vars[v] = randomFloat(-range, range);
             });
 
             var equal;
