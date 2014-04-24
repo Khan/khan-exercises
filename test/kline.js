@@ -39,4 +39,10 @@
         start();
     });
 
+    asyncTest('midpoint of a line', 1, function() {
+        var result = line.midpoint([[-5, 0], [5, 2]]);
+        deepEqual(result, [0, 1]);
+        start();
+    });
+
 })();
