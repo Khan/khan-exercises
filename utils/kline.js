@@ -24,23 +24,44 @@ var kline = KhanUtil.kline = {
         ];
     },
 
+    /**
+    * Tests if two lines are collinear.
+    * https://en.wikipedia.org/wiki/Collinearity
+    */
     equal: function(line1, line2, tolerance) {
-        // TODO (jack): A nicer implementation might just check collinearity of
-        // vectors using underscore magick
-        // Compare the directions of the lines
-        var v1 = kvector.subtract(line1[1],line1[0]);
-        var v2 = kvector.subtract(line2[1],line2[0]);
-        if (!kvector.collinear(v1, v2, tolerance)) {
-            return false;
+        var DEFAULT_TOLERANCE = 1e-9;
+
+        if (!tolerance) {
+            tolerance = DEFAULT_TOLERANCE;
         }
-        // If the start point is the same for the two lines, then they are the same
-        if (kpoint.equal(line1[0], line2[0])) {
-            return true;
-        }
-        // Make sure that the direction to get from line1 to
-        // line2 is the same as the direction of the lines
-        var line1ToLine2Vector = kvector.subtract(line2[0], line1[0]);
-        return kvector.collinear(v1, line1ToLine2Vector, tolerance);
+
+        /**
+        * line1's points are trivially collinear.
+        * So check against each point in line2.
+        * Form a triangle of the points (line1 and a single point from line2)
+        * iff the area of the triangle is zero, are the points collinear
+        * http://mathworld.wolfram.com/Collinear.html
+        */
+        var x1 = line1[0][0];
+        var y1 = line1[0][1];
+        var x2 = line1[1][0];
+        var y2 = line1[1][1];
+        return _.every(line2, function(dim) {
+            var x3 = dim[0];
+            var y3 = dim[1];
+            
+            //calculating area of triangle formed by the three points
+            //https://en.wikipedia.org/wiki/Shoelace_formula#Examples
+            //A = 1/2|x1*y2 + x2*y3 + x3*y1 - x2*y1 - x3*y2 - x1*y3|
+            var area = (1/2)*Math.abs(x1*y2 + x2*y3 + x3*y1 -
+                x2*y1 - x3*y2 - x1*y3);
+            
+            if (area === 0 || area < tolerance) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     },
 
     intersect: function(px, py, rx, ry, qx, qy, sx, sy) {
