@@ -431,7 +431,7 @@ KhanUtil.createGraphie = function(el) {
             return $span;
         },
 
-        plotParametric: function(fn, range) {
+        plotParametric: function(fn, range, shade) {
             currentStyle.strokeLinejoin || (currentStyle.strokeLinejoin = "round");
             currentStyle.strokeLinecap || (currentStyle.strokeLinecap = "round");
 
@@ -440,6 +440,9 @@ KhanUtil.createGraphie = function(el) {
 
             var paths = raphael.set(), points = [], lastVal = fn(min);
 
+            if (shade) {
+                points.push([fn(min)[0], 0]);
+            }
             for (var t = min; t <= max; t += step) {
                 var funcVal = fn(t);
 
@@ -452,9 +455,15 @@ KhanUtil.createGraphie = function(el) {
                     isNaN(funcVal[1])
                    ) {
                     // split the path at this point, and draw it
+                    if (shade) {
+                        points.push([funcVal[0], 0]);
+                    }
                     paths.push(this.path(points));
                     // restart the path, excluding this point
                     points = [];
+                    if (shade) {
+                        points.push([funcVal[0], 0]);
+                    }
 
                 } else {
                     // otherwise, just add the point to the path
@@ -464,6 +473,9 @@ KhanUtil.createGraphie = function(el) {
                 lastVal = funcVal;
             }
 
+            if (shade) {
+                points.push([fn(max)[0], 0]);
+            }
             paths.push(this.path(points));
 
             return paths;
@@ -480,18 +492,18 @@ KhanUtil.createGraphie = function(el) {
             }, range);
         },
 
-        plot: function(fn, range, swapAxes) {
+        plot: function(fn, range, swapAxes, shade) {
             var min = range[0], max = range[1];
             currentStyle["plot-points"] || (currentStyle["plot-points"] = 2 * (max - min) * xScale);
 
             if (swapAxes) {
                 return this.plotParametric(function(y) {
                     return [fn(y), y];
-                }, range);
+                }, range, shade);
             } else {
                 return this.plotParametric(function(x) {
                     return [x, fn(x)];
-                }, range);
+                }, range, shade);
             }
 
         },
