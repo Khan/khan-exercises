@@ -156,6 +156,10 @@ var primes = [197, 3, 193, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
         tests: {}
     },
 
+    // Keeps track of failures in MakeProblem so we don't endlessly try and
+    // re-Make a bad problem
+    failureRetryCount = 0,
+
     // The ul#examples (keep in a global because we need to modify it even when it's out of the DOM)
     examples = null;
 
@@ -1214,10 +1218,17 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
             lastFocusedSolutionInput = this;
         });
     } else {
-        // Making the problem failed, let's try again
+        // Making the problem failed, let's try again (up to 3 times)
         debugLog("validator was falsey");
         problem.remove();
-        makeProblem(exerciseId, currentProblemType, randomSeed);
+        if (failureRetryCount < 3) {
+            failureRetryCount++;
+            makeProblem(exerciseId, currentProblemType, randomSeed);
+        } else {
+            debugLog("Failed making problem too many times");
+            Khan.error("Failed while attempting to MakeProblem too many " +
+                "times in a row");
+        }
         return;
     }
 
