@@ -6,6 +6,7 @@ define(function(require) {
 
 var kpoint = require("./kpoint.js");
 var kvector = require("./kvector.js");
+var knumber = require("./knumber.js");
 
 var kline = KhanUtil.kline = {
 
@@ -29,12 +30,6 @@ var kline = KhanUtil.kline = {
     * https://en.wikipedia.org/wiki/Collinearity
     */
     equal: function(line1, line2, tolerance) {
-        var DEFAULT_TOLERANCE = 1e-9;
-
-        if (!tolerance) {
-            tolerance = DEFAULT_TOLERANCE;
-        }
-
         /**
         * line1's points are trivially collinear.
         * So check against each point in line2.
@@ -46,21 +41,17 @@ var kline = KhanUtil.kline = {
         var y1 = line1[0][1];
         var x2 = line1[1][0];
         var y2 = line1[1][1];
-        return _.every(line2, function(dim) {
-            var x3 = dim[0];
-            var y3 = dim[1];
+        return _.every(line2, function(point) {
+            var x3 = point[0];
+            var y3 = point[1];
             
             //calculating area of triangle formed by the three points
             //https://en.wikipedia.org/wiki/Shoelace_formula#Examples
             //A = 1/2|x1*y2 + x2*y3 + x3*y1 - x2*y1 - x3*y2 - x1*y3|
             var area = (1/2)*Math.abs(x1*y2 + x2*y3 + x3*y1 -
                 x2*y1 - x3*y2 - x1*y3);
-            
-            if (area === 0 || area < tolerance) {
-                return true;
-            } else {
-                return false;
-            }
+
+            return knumber.equal(area, 0, tolerance);
         });
     },
 
