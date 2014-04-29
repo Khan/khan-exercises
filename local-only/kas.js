@@ -898,11 +898,15 @@ _.extend(Expr.prototype, {
             once: false
         }, options);
 
-        var simplified = this.factor().collect().expand().collect();
+        var simplified = this.factor(options)
+                             .collect(options)
+                             .expand(options)
+                             .collect(options);
+
         if (options.once || this.equals(simplified)) {
             return simplified;
         } else {
-            return simplified.simplify();
+            return simplified.simplify(options);
         }
     },
 
@@ -1866,7 +1870,13 @@ _.extend(Mul, {
                     }
                 } else {
                     // e.g. x / 3 -> x*1/3
-                    return [a, new Rational(1, b.eval())];
+                    // e.g. x / -3 -> x*-1/3
+                    var inverse = new Rational(1, b.eval());
+                    if (b.eval() < 0) {
+                        return [a, inverse.addHint("negate")];
+                    } else {
+                        return [a, inverse];
+                    }
                 }
             } else {
                 var pow;
@@ -1915,7 +1925,8 @@ _.extend(Mul, {
     // e.g. -1*x*2  ->  -1*x*2  not simplified
 
     // also fold multiplicative terms into open Trig and Log nodes
-    // e.g. sin(x)*x -> sin(x*x)
+    // e.g. (sin x)*x -> sin(x)*x
+    // e.g. sin(x)*x -> sin(x)*x
     // e.g. sin(x)*(x) -> sin(x)*x
     // e.g. sin(x)*sin(y) -> sin(x)*sin(y)
     fold: function(expr) {
@@ -1928,7 +1939,8 @@ _.extend(Mul, {
 
             if (trigLog) {
                 var last = _.last(expr.terms);
-                if (last.hints.parens || last.has(Trig) || last.has(Log)) {
+                if (trigLog.hints.parens || last.hints.parens ||
+                          last.has(Trig) || last.has(Log)) {
                     trigLog.hints.open = false;
                 } else {
                     var newTrigLog;
@@ -2151,6 +2163,31 @@ _.extend(Pow.prototype, {
         } else if (pow.base instanceof Num &&
             pow.exp instanceof Num) {
 
+            // TODO(alex): Consider encapsualting this logic (and similar logic
+            // elsewhere) into a separate Decimal class for user-entered floats
+            if (options && options.preciseFloats) {
+                // Avoid creating an imprecise float
+                // e.g. 23^1.5 -> 12167^0.5, not ~110.304
+
+                // If you take the root as specified by the denominator and
+                // end up with more digits after the decimal point,
+                // the result is imprecise. This works for rationals as well
+                // as floats, but ideally rationals should be pre-processed
+                // e.g. (1/27)^(1/3) -> 1/3 to avoid most cases.
+                // TODO(alex): Catch such cases and avoid converting to floats.
+                var exp = pow.exp.asRational();
+                var decimalsInBase = pow.base.getDecimalPlaces();
+                var root = new Pow(pow.base, new Rational(1, exp.d));
+                var decimalsInRoot = root.collect().getDecimalPlaces();
+                                        
+                if (decimalsInRoot > decimalsInBase) {
+                    // Collecting over this denominator would result in an
+                    // imprecise float, so avoid doing so.
+                    var newBase = new Pow(pow.base, new Int(exp.n)).collect();
+                    return new Pow(newBase, new Rational(1, exp.d));
+                }
+            }
+            
             // e.g. 4^1.5 -> 8
             return pow.base.raiseToThe(pow.exp, options);
         } else {
@@ -2728,10 +2765,12 @@ _.extend(Eq.prototype, {
 
         // Collect over each term individually to transform simple expressions
         // into numbers that might have denominators, taking into account
-        // float precision...
+        // float precision. We have to be very careful to not introduce any
+        // irrational floats before asExpr() returns, because by definition
+        // they do not have exact denominators...
         terms = _.invoke(terms, "collect", {preciseFloats: true});
 
-        // ...then multiply through by every denominator.
+        // ...and we multiply through by every denominator.
         for (var i = 0; i < terms.length; i++) {
             var denominator = terms[i].getDenominator();
 
@@ -2742,7 +2781,10 @@ _.extend(Eq.prototype, {
 
             if (!denominator.equals(Num.One)) {
                 terms = _.map(terms, function(term) {
-                    return Mul.createOrAppend(term, denominator).simplify({once: true});
+                    return Mul.createOrAppend(term, denominator).simplify({
+                        once: true,
+                        preciseFloats: true
+                    });
                 });
             }
         }
@@ -3059,7 +3101,9 @@ _.extend(Num.prototype, {
         } else {
             return 0;
         }
-    }
+    },
+
+    asRational: abstract
 });
 
 
@@ -3162,7 +3206,9 @@ _.extend(Rational.prototype, {
         return new Int(this.d);
     },
 
-    isSimple: function() { return false; }
+    isSimple: function() { return false; },
+
+    asRational: function() { return this; }
 });
 
 
