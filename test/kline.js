@@ -39,4 +39,10 @@
         start();
     });
 
+    asyncTest('Two line segments that do not inersect and are not collinear, not equal', 1, function() {
+        var result = line.equal([[3, 4], [5, 11]], [[5, 6], [9, 5]]);
+        strictEqual(result, false);
+        start();
+    });
+
 })();
