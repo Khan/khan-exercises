@@ -961,7 +961,8 @@ $.fn.graphie = function(problem) {
             graphie.graph = {};
         }
 
-        code = "(function() {" + code + "})()";
+        // Add newline in case code ends with a // comment
+        code = "(function() {" + code + "\n})()";
 
         // Execute the graph-specific code
         KhanUtil.currentGraph = graphie;
