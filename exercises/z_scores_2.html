@@ -4,18 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Z scores 2</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style>
-        .reading > span {
-            width: 32px;
-            font-size: 11px;
-            padding: 5px;
-        }
-        .reading > span:first-child {
-            font-weight: bold;
-            width: 22px;
-            border-right: 2px solid #CCCCCC;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -58,18 +46,18 @@
             <div class="problem">
                 The scores on a statewide <var>course(1)</var> exam were normally distributed with
                 <code>\mu = <var>MEAN</var></code> and <code>\sigma = <var>STDDEV</var></code>.
-                <br><var>person(1)</var> earned a<span data-if="floorTo(0, GRADE / 10) === 8">n</span>
-                <code><var>GRADE</var></code> on the exam.
+                <br><var>person(1)</var> scored <code><var>GRADE</var></code> on the exam.
             </div>
-            <p class="question"><var>person(1)</var>'s exam grade was higher than what fraction
-            of test-takers? Use the cumulative z-table provided below.</p>
-            <div class="fake_header reading">
+            <p class="question">
+                <var>person(1)</var>'s exam grade was higher than what percentage of test-takers? Use the cumulative z-table provided below.
+            </p>
+            <div class="fake_header z-score-table">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>localeToFixed(column, 2).substr(1)</var></span>
             </div>
-            <div class="fake_row reading" data-each="ROWS as i, row">
+            <div class="fake_row z-score-table" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>localeToFixed(zgrid, 4)</var></span>
             </div>
-            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, percent"><var>roundTo(4, ANSWER)</var></div>
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, percent" data-simplify="optional"><var>roundTo(4, ANSWER)</var></div>
 
             <div class="hints">
                 <p>
@@ -84,19 +72,19 @@
                     <p data-if="isMale(1)">
                         Recall that we can calculate his z-score by subtracting the
                         <span class="hint_pink">mean <code>(\mu)</code></span> from his
-                        grade and then dividing by the <span class="hint_green">standard deviation
+                        grade and then dividing by the <span class="hint_purple">standard deviation
                         <code>(\sigma)</code></span>.
                     </p><p data-else="">
                         Recall that we can calculate her z-score by subtracting the
                         <span class="hint_pink">mean <code>(\mu)</code></span> from her
-                        grade and then dividing by the <span class="hint_green">standard deviation
+                        grade and then dividing by the <span class="hint_purple">standard deviation
                         <code>(\sigma)</code></span>.
                     </p>
                     <p>
                         <code>
                             \large{\quad z \quad = \quad
-                            \dfrac{x - \pink{\mu}}{\green{\sigma}}
-                            \quad = \quad \dfrac{<var>GRADE</var> - \pink{<var>MEAN</var>}}{\green{<var>STDDEV</var>}}
+                            \dfrac{x - \pink{\mu}}{\purple{\sigma}}
+                            \quad = \quad \dfrac{<var>GRADE</var> - \pink{<var>MEAN</var>}}{\purple{<var>STDDEV</var>}}
                             \quad = \quad <var>localeToFixed(ZSCORE, 2)</var>}
                         </code>
                     </p>

@@ -962,6 +962,18 @@ span.hover-hint:hover {
     padding-left: 3px;
 }
 
+#problemarea div.z-score-table > span {
+    width: 32px;
+    font-size: 11px;
+    padding: 5px;
+}
+
+#problemarea div.z-score-table > span:first-child {
+    font-weight: bold;
+    width: 22px;
+    border-right: 2px solid #CCCCCC;
+}
+
 #problemarea div.focus-information {
     padding-bottom: 12px;
     height: 70px;

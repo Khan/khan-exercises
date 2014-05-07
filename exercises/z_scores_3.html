@@ -4,18 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Z scores 3</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style>
-        .reading > span {
-            width: 32px;
-            font-size: 11px;
-            padding: 5px;
-        }
-        .reading > span:first-child {
-            font-weight: bold;
-            width: 22px;
-            border-right: 2px solid #CCCCCC;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -100,10 +88,10 @@
                 and <code><var>GRADES[1]</var></code> on the exam?
                 Use the cumulative z-table provided below.
             </p>
-            <div class="fake_header reading">
+            <div class="fake_header z-score-table">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>localeToFixed(column, 2).substr(1)</var></span>
             </div>
-            <div class="fake_row reading" data-each="ROWS as i, row">
+            <div class="fake_row z-score-table" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>localeToFixed(zgrid, 4)</var></span>
             </div>
             <div class="solution" data-forms="integer, proper, improper, mixed, decimal, percent"><var>roundTo(4, ANSWER)</var></div>
@@ -121,14 +109,14 @@
                     <p>
                         Recall that we can calculate the z-scores by subtracting the
                         <span class="hint_pink">mean <code>(\mu)</code></span> from
-                        each exam grade and then dividing by the <span class="hint_green">standard
+                        each exam grade and then dividing by the <span class="hint_purple">standard
                         deviation <code>(\sigma)</code></span>.
                     </p>
                     <p data-each="GRADES as index, grade">
                         <code>
                             \large{\quad z \quad = \quad
-                            \dfrac{x - \pink{\mu}}{\green{\sigma}}
-                            \quad = \quad \dfrac{<var>grade</var> - \pink{<var>MEAN</var>}}{\green{<var>STDDEV</var>}}
+                            \dfrac{x - \pink{\mu}}{\purple{\sigma}}
+                            \quad = \quad \dfrac{<var>grade</var> - \pink{<var>MEAN</var>}}{\purple{<var>STDDEV</var>}}
                             \quad = \quad <var>localeToFixed(ZSCORES[index], 2)</var>}
                         </code>
                     </p>
@@ -226,19 +214,19 @@
                     <p data-if="ZSCORES[0] < 0">
                         <code>1 - <var>localeToFixed(ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var> =
                         <var>localeToFixed(1 - ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var></code>. This value,
-                        <code class="hint_orange"><var>localeToFixed(1 - ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var></code>,
+                        <code>\green{<var>localeToFixed(1 - ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var>}</code>,
                         represents the portion of the population that scored lower than
                         <code><var>GRADES[0]</var></code> on the exam.
                     </p>
                     <p data-else="">
                         Look up <code><var>localeToFixed(ZSCORES[0], 2)</var></code> on the z-table. This value,
-                        <code class="hint_orange"><var>localeToFixed(ZGRID[ ROW_INDEX_1 ][ COL_INDEX_1 ], 4)</var></code>,
+                        <code>\green{<var>localeToFixed(ZGRID[ ROW_INDEX_1 ][ COL_INDEX_1 ], 4)</var>}</code>,
                         represents the portion of the population that scored lower than
                         <code><var>GRADES[0]</var></code> on the exam.
                     </p>
                     <div class="graphie">
                         var nth = ":nth-child(" + (COL_INDEX_1 + 2) + ")";
-                        $(".fake_row").eq(ROW_INDEX_1).find("span" + nth).css("background", ORANGE);
+                        $(".fake_row").eq(ROW_INDEX_1).find("span" + nth).css("background", GREEN);
                     </div>
                     <div class="graphie" data-update="grid">
                         style({ stroke: "#bbb" }, function() {
@@ -248,20 +236,20 @@
                         graph.zLabel = label([ZSCORES[0], 0], localeToFixed(ZSCORES[0], 2), "below", { color: "#bbb" });
                         var step = 1 / 50;
                         graph.blueShape.remove();
-                        orangeShape = [];
+                        greenShape = [];
 
-                        orangeShape.push([-3.5, 0]);
+                        greenShape.push([-3.5, 0]);
 
                         for (var i = -3.5; i &lt;= ZSCORES[0]; i += step) {
-                            orangeShape.push([i, graph.pdf(i)]);
+                            greenShape.push([i, graph.pdf(i)]);
                         }
 
-                        orangeShape.push([ZSCORES[0], graph.pdf(ZSCORES[0])]);
-                        orangeShape.push([ZSCORES[0], 0]);
-                        orangeShape.push([-3.5, 0]);
+                        greenShape.push([ZSCORES[0], graph.pdf(ZSCORES[0])]);
+                        greenShape.push([ZSCORES[0], 0]);
+                        greenShape.push([-3.5, 0]);
 
-                        style({ stroke: null, fill: ORANGE, opacity: 0.7 }, function() {
-                            graph.orangeShape = path(orangeShape);
+                        style({ stroke: null, fill: GREEN, opacity: 0.7 }, function() {
+                            graph.greenShape = path(greenShape);
                         });
 
                         blueShape = [];
@@ -281,25 +269,23 @@
                         });
                     </div>
                 </div>
+                <p>
+                    Subtract the two cumulative areas:<code>\blue{
+                    <span data-if="ZSCORES[1] < 0"><var>localeToFixed(1 - ZGRID[ROW_INDEX_2][COL_INDEX_2], 4)</var></span>
+                    <span data-else=""><var>localeToFixed(ZGRID[ROW_INDEX_2][COL_INDEX_2], 4)</var></span>
+                    } - \green{
+                    <span data-if="ZSCORES[0] < 0"><var>localeToFixed(1 - ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var></span>
+                    <span data-else=""><var>localeToFixed(ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var></span>
+                    } = \pink{<var>localeToFixed(ANSWER, 4)</var>}</code>
+                </p>
                 <div>
                     <p>
-                        Finally, subtract the two cumulative areas to arrive at our final answer:
-                        <code>\blue{<span data-if="ZSCORES[1] < 0">
-                            <var>localeToFixed(1 - ZGRID[ROW_INDEX_2][COL_INDEX_2], 4)</var>
-                        </span><span data-else="">
-                            <var>localeToFixed(ZGRID[ROW_INDEX_2][COL_INDEX_2], 4)</var>
-                        </span>} - \orange{<span data-if="ZSCORES[0] < 0">
-                            <var>localeToFixed(1 - ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var>
-                        </span><span data-else="">
-                            <var>localeToFixed(ZGRID[ROW_INDEX_1][COL_INDEX_1], 4)</var>
-                        </span>} = <var>localeToFixed(ANSWER, 4)</var></code><br>
-
                         Thus, <code class="hint_pink"><var>localeToFixed(ANSWER * 100, 2)</var>\%</code>
                         of the test-takers scored between <code><var>GRADES[0]</var></code> and
                         <code><var>GRADES[1]</var></code> on the <var>course( 1 )</var> exam.
                     </p>
                     <div class="graphie" data-update="grid">
-                        graph.orangeShape.remove();
+                        graph.greenShape.remove();
                         graph.zLabel.remove();
                     </div>
                 </div>
