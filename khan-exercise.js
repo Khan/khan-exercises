@@ -1317,6 +1317,10 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
     // show all lastCountHints it says we have seen
     _(hintsUsed).times(showHint);
 
+    // Add autocomplete="off" attribute so IE doesn't try to display previous answers
+    $("#problem-and-answer").find("input[type='text'], input[type='number']")
+                            .attr("autocomplete", "off");
+
     // If the textbox is empty disable "Check Answer" button
     // Note: We don't do this for multiple choice, number line, etc.
     if (answerType === "text" || answerType === "number") {
