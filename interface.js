@@ -105,6 +105,9 @@ function problemTemplateRendered() {
     // Hint button
     $("#hint").click(onHintButtonClicked);
 
+    // Worked example button
+    $("#worked-example-button").click(onShowExampleClicked);
+
     // Next question button
     $("#next-question-button").click(function() {
         $(Exercises).trigger("gotoNextProblem");
@@ -403,6 +406,14 @@ function onHintButtonClicked() {
         $(Khan).trigger("showHint");
     }
 }
+
+/**
+ * Handle the even when a user wants to see a worked example.
+ * Currently only works on some Perseus problems.
+ */
+function onShowExampleClicked() {
+    $(PerseusBridge).trigger("showWorkedExample");
+    }
 
 /**
  * Handle the event when a user clicks to use a hint.

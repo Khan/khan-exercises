@@ -862,6 +862,11 @@ html.exercise-browser {
   color: #CE4444;
 }
 
+/*Worked example hints*/
+.example-hint,
+{
+  margin-bottom: 15px;
+}
 /* Fancy matrix input - goes along with matrix-input.js */
 
 #answer_area .matrix-row {
