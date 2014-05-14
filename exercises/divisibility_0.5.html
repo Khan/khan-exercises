@@ -10,8 +10,8 @@
         <div class="problems">
             <div id="factor">
                 <div class="vars">
-                    <var id="B">randRange( 2, 14 )</var>
-                    <var id="FACTOR">floor( randRange( 50, 200 ) / B )</var>
+                    <var id="B">randRange( 2, 9 )</var>
+                    <var id="FACTOR">floor( randRange( B * 2, 100 ) / B )</var>
                     <var id="A">FACTOR * B</var>
                     <var id="FACTORIZATION_A">getPrimeFactorization( A )</var>
                     <var id="FACTORIZATION_B">getPrimeFactorization( B )</var>
@@ -19,7 +19,7 @@
                     (function() {
                         var wrongs = [];
                         var i = 2;
-                        while( i &lt; 15 ) {
+                        while( i &lt; 10 ) {
                             if ( A % i !== 0 ) {
                                 wrongs.push( i );
                             }
@@ -60,8 +60,8 @@
             </div>
             <div id="multiple">
                 <div class="vars">
-                    <var id="B">randRange( 2, 14 )</var>
-                    <var id="FACTOR">floor( randRange( 50, 120 ) / B )</var>
+                    <var id="B">randRange( 2, 9 )</var>
+                    <var id="FACTOR">floor( randRange( B * 2, 100 ) / B )</var>
                     <var id="A">FACTOR * B</var>
                     <var id="FACTORIZATION_A">getPrimeFactorization( A )</var>
                     <var id="FACTORIZATION_B">getPrimeFactorization( B )</var>
@@ -69,7 +69,7 @@
                         (function() {
                             var wrongs = [];
                             while( wrongs.length &lt; 4 ) {
-                                var i = randRange( 40, 120 );
+                                var i = randRange( 1, 100 );
                                 if ( i % B !== 0 ) {
                                     wrongs.push( i );
                                 }
