@@ -47,4 +47,8 @@ $.extend(KhanUtil, {
     getSubHints: getSubHints
 });
 
+$.fn["subhintsLoad"] = function() {
+    Khan.scratchpad.disable();
+};
+
 });
