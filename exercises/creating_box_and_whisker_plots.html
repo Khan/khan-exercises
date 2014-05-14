@@ -4,27 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Creating box and whisker plots</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style>
-        .sortable {
-            background: #f8f8f8;
-            border: 0;
-            border-bottom: 0;
-            box-shadow: 0 0 0;
-            -moz-box-shadow: 0 0 0;
-            -webkit-box-shadow: 0 0 0;
-            padding-right: 0;
-        }
-        .sortable > ul > li {
-            width: 28px;
-            height: 28px;
-            margin-right: 2px;
-            font-size: 1em;
-            border: 1px solid #ddd;
-        }
-        .sortable code {
-            line-height: 32px;
-        }
-    </style>
 </head>
 <body>
 <div class="exercise">
@@ -72,7 +51,7 @@
 
             <p class="question">Represent the following data using a box-and-whiskers plot. Exclude the median when computing the quartiles:</p>
 
-            <div class="problem">
+            <div class="problem box-whisker-sortable">
                 <ul id="sortable">
                     <li data-each="DATA as NUM">
                         <code><var>NUM</var></code>
@@ -85,7 +64,7 @@
 
 
                 <div class="graphie" id="boxplot">
-                    init({ range: [[ -0.5, 15.5 ], [ -3.5, 1.5 ]], scale: [ 30, 30 ] });
+                    init({ range: [[ -0.5, 15.5 ], [ -6, 1.5 ]], scale: [ 30, 30 ] });
 
                     addMouseLayer();
                     line( [ 0, -2 ], [ 15, -2 ] );

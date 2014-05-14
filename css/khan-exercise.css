@@ -826,6 +826,27 @@ html.exercise-browser {
 	filter: alpha(opacity = 80);
 }
 
+.box-whisker-sortable > .sortable {
+    background: #f8f8f8;
+    border: 0;
+    border-bottom: 0;
+    box-shadow: 0 0 0;
+    -moz-box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+    padding-right: 0;
+}
+
+.box-whisker-sortable > .sortable > ul > li {
+    width: 28px;
+    height: 28px;
+    margin-right: 2px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+}
+.box-whisker-sortable > .sortable code {
+    line-height: 32px;
+}
+
 /* Video hints */
 
 .video-hint {

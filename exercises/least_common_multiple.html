@@ -8,13 +8,10 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="C">randRange( 2, 6 )</var>
-            <var id="START_A">randRange( 1, 10 )</var>
-            <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
-            <var id="A">START_A * C</var>
-            <var id="B">START_B * C</var>
-            <var id="BIGGER">Math.max( A, B )</var>
-            <var id="SMALLER">Math.min( A, B )</var>
+            <var id="A">randRange(2, 12)</var>
+            <var id="B" data-ensure="A !== B">randRange(2, 12)</var>
+            <var id="BIGGER">max(A, B)</var>
+            <var id="SMALLER">min(A, B)</var>
             <var id="PRODUCT">A * B</var>
             <var id="GCD">getGCD( A, B )</var>
             <var id="LCM">PRODUCT / GCD</var>
@@ -24,7 +21,7 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p>What is the least common multiple of <var>A</var> and <var>B</var>?</p>
+                    <p>What is the least common multiple of <code><var>A</var></code> and <code><var>B</var></code>?</p>
                     <p>Another way to say this is:</p>
                     <p><code>\lcm(<var>A</var>, <var>B</var>) = {?}</code></p>
                 </div>
@@ -33,12 +30,12 @@
         </div>
 
         <div class="hints">
-            <p>The least common multiple is the smallest number that is a multiple of <var>A</var> and <var>B</var>.</p>
-            <p>We know that <var>A</var> x <var>B</var> (or <var>PRODUCT</var>) is a common multiple,
+            <p>The least common multiple is the smallest number that is a multiple of <code><var>A</var></code> and <code><var>B</var></code>.</p>
+            <p>We know that <code><var>A</var> \times <var>B</var></code> (or <code><var>PRODUCT</var></code>) is a common multiple,
                 but is it the least common multiple?</p>
-            <p>Write out the multiples of <var>BIGGER</var> until we find a number divisible by <var>SMALLER</var>.</p>
-            <span data-each="MULTIPLES as M"> <var>M</var>, </span>
-            <p>So, <var>LCM</var> is the least common multiple of <var>A</var> and <var>B</var>.</p>
+            <p>Write out the multiples of <code><var>BIGGER</var></code> until we find a number divisible by <code><var>SMALLER</var></code>.</p>
+            <span data-each="MULTIPLES as M"> <code><var>M</var></code>, </span>
+            <p>So, the least common multiple of <code><var>A</var></code> and <code><var>B</var></code> is <code><var>LCM</var></code>.</p>
         </div>
     </div>
 </body>
