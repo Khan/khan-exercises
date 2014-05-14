@@ -52,7 +52,7 @@
 
         <div class="problems">
             <div>
-                <p class="problem">Functions <code class="hint_blue">f(x)</code> and <code class="hint_red">g(x)</code> are graphed.</p>
+                <p class="problem">Functions <code>\blue{f}</code> and <code>\red{g}</code> are graphed.</p>
                 <p class="question">
                     Find <code><span data-if="F_COEF !== 1"><var>F_COEF</var> \cdot </span> f(<var>CORRECT_X</var>) + 
                                <span data-if="Math.abs(G_COEF) !== 1"><var>G_COEF</var> \cdot </span>g(<var>CORRECT_GX</var>)</code>
@@ -69,8 +69,8 @@
                         axisArrows: "&lt;-&gt;"
                     });
 
-                    label([10, END_F], "f(x)", "right", {color: BLUE});
-                    label([10, END_G], "g(x)", "right", {color: RED});
+                    label([10, END_F], "y = f(x)", "right", {color: BLUE});
+                    label([10, END_G], "y = g(x)", "right", {color: RED});
                     path(F_PATH, {stroke: BLUE});
                     path(G_PATH, {stroke: RED, "stroke-dasharray": "-"});
                 </div>
