@@ -549,11 +549,15 @@ $.extend(KhanUtil, {
         return equation;
     },
 
+    coefficient: function(n) {
+        return n === 1 ? "" : n === -1 ? "-" : n;
+    },
+
     complexNumber: function(real, imaginary) {
         if (real === 0 && imaginary === 0) {
             return "0";
         } else if (real === 0) {
-            return (imaginary === 1 ? "" : imaginary === -1 ? "-" : imaginary) + "i";
+            return (coefficient(imaginary)) + "i";
         } else if (imaginary === 0) {
             return real;
         } else {
