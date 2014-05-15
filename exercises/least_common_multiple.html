@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="vars">
             <var id="A">randRange(2, 12)</var>
-            <var id="B" data-ensure="A !== B">randRange(2, 12)</var>
+            <var id="B">randRangeExclude(2, 12, [A])</var>
             <var id="BIGGER">max(A, B)</var>
             <var id="SMALLER">min(A, B)</var>
             <var id="PRODUCT">A * B</var>

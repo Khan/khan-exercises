@@ -7,10 +7,10 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="A_START !== B_START">
-            <var id="A_START">randRange( 1, 10 )</var>
-            <var id="B_START">randRange( 1, 10 )</var>
-            <var id="FACTOR">randRange( 1, 10 )</var>
+        <div class="vars">
+            <var id="A_START">randRange(1, 10)</var>
+            <var id="B_START">randRangeExclude(1, 10, [A_START])</var>
+            <var id="FACTOR">randRange(1, 10)</var>
 
             <var id="A">A_START * FACTOR</var>
             <var id="B">B_START * FACTOR</var>
