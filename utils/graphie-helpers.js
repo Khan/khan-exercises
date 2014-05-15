@@ -48,11 +48,13 @@ window.numberLine = function(start, end, step, x, y, denominator) {
     return set;
 };
 
-window.piechart = function(divisions, colors, radius, strokeColor) {
+window.piechart = function(divisions, colors, radius, strokeColor, x, y) {
     var graph = KhanUtil.currentGraph;
     var set = graph.raphael.set();
     var arcColor = strokeColor || "none";
     var lineColor = strokeColor || "#fff";
+    x = x || 0;
+    y = y || 0;
 
     var sum = 0;
     $.each(divisions, function(i, slice) {
@@ -61,15 +63,23 @@ window.piechart = function(divisions, colors, radius, strokeColor) {
 
     var partial = 0;
     $.each(divisions, function(i, slice) {
-        set.push(graph.arc([0, 0], radius, partial * 360 / sum, (partial + slice) * 360 / sum, true, {
-            stroke: arcColor,
-            fill: colors[i]
-        }));
+        if (slice === sum) {
+            set.push(graph.ellipse([x, y], [radius, radius], {
+                stroke: arcColor,
+                fill: colors[i]
+            }));
+        } else {
+            set.push(graph.arc([x, y], radius, partial * 360 / sum, (partial + slice) * 360 / sum, true, {
+                stroke: arcColor,
+                fill: colors[i]
+            }));
+        }
         partial += slice;
     });
 
     for (var i = 0; i < sum; i++) {
-        set.push(graph.line([0, 0], graph.polar(radius, i * 360 / sum), { stroke: lineColor }));
+        var p = graph.polar(radius, i * 360 / sum);
+        set.push(graph.line([x, y], [x + p[0], y + p[1]], { stroke: lineColor }));
     }
 
     return set;
