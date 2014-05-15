@@ -21,7 +21,7 @@
         <div id="select-expanded">
             <div class="vars">
                 <var id="FAKE_SOLUTION1">BASE ? BASE + " \\cdot " + EXPONENT : 1</var>
-                <var id="FAKE_SOLUTION2">BASE &lt; 0 ? FAKE_FRACTION : BASE + "+" + EXPONENT</var>
+                <var id="FAKE_SOLUTION2">BASE &lt; -1 ? FAKE_FRACTION : BASE + "+" + EXPONENT</var>
                 <var id="FAKE_SOLUTION3">BASE ? _(EXPONENT).times(function() { return BASE; }).join("+") : EXPONENT</var>
                 <var id="FAKE_SOLUTION4">_(abs(BASE)).times(function() { return EXPONENT; }).join(" \\cdot ")</var>
             </div>
@@ -36,7 +36,7 @@
                 <li><code><var>FAKE_SOLUTION1</var></code></li>
                 <li><code><var>FAKE_SOLUTION2</var></code></li>
                 <li><code><var>FAKE_SOLUTION3</var></code></li>
-                <li data-if="(BASE > 0 && BASE < 7) && (!(BASE === 4 && EXPONENT === 2) || !(BASE === 4 && EXPONENT === 2))">
+                <li data-if="(BASE > 0 && BASE < 7) && BASE * EXPONENT !== 8">
                     <code><var>FAKE_SOLUTION4</var></code>
                 </li>
             </ul>
@@ -55,7 +55,7 @@
                 <var id="FAKE_SOLUTION1">pow(EXPONENT, BASE) === pow(BASE, EXPONENT) ? BASE * EXPONENT : EXPONENT + "^{" + BASE + "}"</var>
                 <var id="FAKE_SOLUTION2">BASE &lt; -1 ? FAKE_FRACTION : EXPONENT + "^{" + EXPONENT + "}"</var>
                 <var id="FAKE_SOLUTION3">BASE &lt; 0 ? "(" + BASE + ")^{" + BASE + "}" : BASE + "^{" + BASE + "}"</var>
-                <var data-if="BASE < 0 && EXPONENT % 2 === 1" id="FAKE_SOLUTION4">"-(" + (-BASE) + ")^{" + EXPONENT + "}"</var>
+                <var id="FAKE_SOLUTION4" data-if="BASE < 0 && EXPONENT % 2 === 1">"-(" + (-BASE) + ")^{" + EXPONENT + "}"</var>
             </div>
 
             <p class="question"><code>\Large <var>EXPANSION[0]</var> = \; ?</code></p>

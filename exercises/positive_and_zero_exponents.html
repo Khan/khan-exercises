@@ -31,7 +31,7 @@
                 <li><code><var>FAKE_SOLUTION1</var></code></li>
                 <li><code><var>FAKE_SOLUTION2</var></code></li>
                 <li><code><var>FAKE_SOLUTION3</var></code></li>
-                <li data-if="BASE > 0 && BASE < 7"><code><var>FAKE_SOLUTION4</var></code></li>
+                <li data-if="BASE > 0 && BASE < 7 && BASE * EXPONENT !== 8"><code><var>FAKE_SOLUTION4</var></code></li>
             </ul>
 
             <div class="hints">
@@ -45,9 +45,9 @@
         <div id="select-exponent">
             <div class="vars">
                 <var id="SOLUTION">BASE + "^{" + EXPONENT + "}"</var>
-                <var id="FAKE_SOLUTION1">EXPONENT + "^{" + BASE + "}"</var>
+                <var id="FAKE_SOLUTION1">BASE * EXPONENT === 8 ? BASE + " \\cdot " + EXPONENT : EXPONENT + "^{" + BASE + "}"</var>
                 <var id="FAKE_SOLUTION2">EXPONENT + "^{" + EXPONENT + "}"</var>
-                <var id="FAKE_SOLUTION3">BASE === 1 ? BASE * EXPONENT : BASE + "^{" + BASE + "}"</var>
+                <var id="FAKE_SOLUTION3">BASE === 1 || BASE === 0 ? EXPONENT : BASE + "^{" + BASE + "}"</var>
             </div>
 
             <p class="question"><code>\Large <var>EXPANSION[0]</var> = \; ?</code></p>
