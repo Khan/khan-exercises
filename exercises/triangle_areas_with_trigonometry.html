@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-geometry angles">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Triangle areas with trigonometry</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="angle-known" data-calculator="">
+            <div class="vars">
+                <var id="BASE">randRange(5, 12)</var>
+                <var id="HYPOT">randRange(5, 12)</var>
+                <var id="ANGLE" data-ensure="abs(ANGLE - 90) > 5">randRange(20, 140)</var>
+                <var id="APEX_X">HYPOT * cos(ANGLE * PI / 180)</var>
+                <var id="APEX_Y">HYPOT * sin(ANGLE * PI / 180)</var>
+                <var id="SOLUTION">roundTo(1, 0.5 * BASE * HYPOT * sin(ANGLE * PI / 180))</var>
+                <var id="BASE_WORD">$._("base")</var>
+                <var id="HEIGHT_WORD">$._("height")</var>
+            </div>
+
+            <p class="question">Find the area of the triangle.</p>
+
+            <div class="problem">
+                <p>Round to the nearest tenth.</p>
+                <div class="graphie" id="triangle">
+                    var minX = min(0, APEX_X) - 1;
+                    var maxX = max(BASE, APEX_X) + 1;
+                    var scale = floor(min(400 / (maxX - minX), 300 / APEX_Y));
+
+                    init({
+                        range: [[minX, maxX], [-1, APEX_Y + 0.5]],
+                        scale: scale
+                    });
+
+
+                    graph.baseLabel = label([BASE / 2, 0], BASE, "below");
+
+                    path([[BASE, 0], [0, 0], [APEX_X, APEX_Y], [BASE, 0]], { stroke: BLUE });
+                    if (ANGLE &gt; 90) {
+                        graph.hypotPos = "below left";
+                        label([0.6, 0], ANGLE + "^\\circ", "above");
+                    } else {
+                        graph.hypotPos = "above left";
+                        label([0.6 / tan(ANGLE * PI / 180), 0.4], ANGLE + "^\\circ", "right");
+                    }
+                    graph.hypotLabel = label([APEX_X / 2, APEX_Y / 2], HYPOT, graph.hypotPos);
+                </div>
+            </div>
+
+            <div class="solution" data-forms="integer, decimal" data-inexact="" data-max-error="0.09"><var>SOLUTION</var></div>
+
+            <div class="hints">
+                <div>
+                    <p>
+                        The area of a triangle is <code>\dfrac{1}{2} \times \purple{\text{<var>BASE_WORD</var>}}
+                        \times \green{\text{<var>HEIGHT_WORD</var>}}</code>.
+                    </p>
+                    <div class="graphie" data-update="triangle">
+                        graph.baseLabel.remove();
+                        graph.hypotLabel.remove();
+                        label([BASE / 2, 0], "\\purple{" + BASE + "}", "below");
+                        label([APEX_X / 2, APEX_Y / 2], "\\pink{" + HYPOT + "}", graph.hypotPos);
+                    </div>
+                </div>
+                <div>
+                    <p>What is the height of this triangle?</p>
+                    <div class="graphie" data-update="triangle">
+                        var d = 0.4;
+                        if (ANGLE &gt; 90) {
+                            path([[0, 0], [APEX_X, 0]], { stroke: BLACK, 'stroke-width': 1 });
+                            path([[APEX_X, d], [APEX_X + d, d],[APEX_X + d, 0]], { stroke: BLACK, 'stroke-width': 1 });
+                            label([APEX_X, APEX_Y / 2], "\\green{h}", "left");
+                        } else {
+                            label([APEX_X, APEX_Y / 2], "\\green{h}", "right");
+                            if (APEX_X &gt; BASE / 2) {
+                                path([[APEX_X, d], [APEX_X - d, d],[APEX_X - d, 0]], { stroke: BLACK, 'stroke-width': 1 });
+                            } else {
+                                path([[APEX_X, d], [APEX_X + d, d],[APEX_X + d, 0]], { stroke: BLACK, 'stroke-width': 1 });
+                            }
+                        }
+                        path([[APEX_X, 0], [APEX_X, APEX_Y]], { stroke: GREEN });
+                    </div>
+                </div>
+                <p><code>\green{h} = \pink{<var>HYPOT</var>} \times \sin(<var>ANGLE</var>^\circ)</code></p>
+                <p>
+                    Therefore, the area of the triangle is
+                    <code>\dfrac{1}{2} \times \purple{<var>BASE</var>} \times \pink{<var>HYPOT</var>} \times \sin(<var>ANGLE</var>^\circ)</code>.
+                </p>
+                <p>
+                    <code>\qquad \approx <var>fractionReduce(BASE * HYPOT, 2)</var> \times <var>roundTo(3, sin(ANGLE * PI / 180))</var></code>
+                </p>
+                <p><code>\qquad \approx <var>SOLUTION</var></code></p>
+            </div>
+        </div>
+
+        <div id="unknown-angle">
+            <div class="vars">
+                <var id="BASE">randRange(5, 12)</var>
+                <var id="HYPOT">randRange(5, 12)</var>
+                <var id="ANGLE" data-ensure="abs(ANGLE - 90) > 5">randRange(20, 140)</var>
+                <var id="APEX_X">HYPOT * cos(ANGLE * PI / 180)</var>
+                <var id="APEX_Y">HYPOT * sin(ANGLE * PI / 180)</var>
+                <var id="OTHER_SIDE">round(sqrt((APEX_X - BASE) * (APEX_X - BASE) + APEX_Y * APEX_Y))</var>
+                <var id="BASE_WORD">$._("base")</var>
+                <var id="HEIGHT_WORD">$._("height")</var>
+            </div>
+
+            <p class="question">Write an expression for the area of the triangle.</p>
+
+            <div class="problem">
+                <p>Round to the nearest tenth.</p>
+                <div class="graphie" id="triangle">
+                    var minX = min(0, APEX_X) - 1;
+                    var maxX = max(BASE, APEX_X) + 1;
+                    var scale = floor(min(400 / (maxX - minX), 300 / APEX_Y));
+
+                    init({
+                        range: [[minX, maxX], [-1, APEX_Y + 0.5]],
+                        scale: scale
+                    });
+
+                    graph.baseLabel = label([BASE / 2, 0], BASE, "below");
+
+                    path([[BASE, 0], [0, 0], [APEX_X, APEX_Y], [BASE, 0]], { stroke: BLUE });
+                    
+                    if (ANGLE &gt; 90) {
+                        graph.hypotPos = "below left";
+                        label([0.6, 0], "x", "above");
+                    } else {
+                        graph.hypotPos = "above left";
+                        label([0.6 / tan(ANGLE * PI / 180), 0.4], "x", "right");
+                    }
+
+                    if (APEX_X &gt; BASE) {
+                        graph.otherPos = "below right";
+                    } else {
+                        graph.otherPos = "above right";
+                    }
+
+                    graph.hypotLabel = label([APEX_X / 2, APEX_Y / 2], HYPOT, graph.hypotPos);
+                    graph.otherLabel = label([(APEX_X + BASE) / 2, APEX_Y / 2], OTHER_SIDE, graph.otherPos);
+                </div>
+            </div>
+
+            <p class="solution" data-type="expression">1/2 * <var>BASE</var> * <var>HYPOT</var> * sin(x)</p>
+
+            <div class="hints">
+                <div>
+                    <p>
+                        The area of a triangle is <code>\dfrac{1}{2} \times \purple{\text{<var>BASE_WORD</var>}}
+                        \times \green{\text{<var>HEIGHT_WORD</var>}}</code>.
+                    </p>
+                    <div class="graphie" data-update="triangle">
+                        graph.baseLabel.remove();
+                        graph.hypotLabel.remove();
+                        label([BASE / 2, 0], "\\purple{" + BASE + "}", "below");
+                        label([APEX_X / 2, APEX_Y / 2], "\\pink{" + HYPOT + "}", graph.hypotPos);
+                    </div>
+                </div>
+                <div>
+                    <p>What is the height of this triangle?</p>
+                    <div class="graphie" data-update="triangle">
+                        var d = 0.4;
+                        if (ANGLE &gt; 90) {
+                            path([[0, 0], [APEX_X, 0]], { stroke: BLACK, 'stroke-width': 1 });
+                            path([[APEX_X, d], [APEX_X + d, d],[APEX_X + d, 0]], { stroke: BLACK, 'stroke-width': 1 });
+                            label([APEX_X, APEX_Y / 2], "\\green{h}", "left");
+                        } else {
+                            label([APEX_X, APEX_Y / 2], "\\green{h}", "right");
+                            if (APEX_X &gt; BASE / 2) {
+                                path([[APEX_X, d], [APEX_X - d, d],[APEX_X - d, 0]], { stroke: BLACK, 'stroke-width': 1 });
+                            } else {
+                                path([[APEX_X, d], [APEX_X + d, d],[APEX_X + d, 0]], { stroke: BLACK, 'stroke-width': 1 });
+                            }
+                        }
+                        path([[APEX_X, 0], [APEX_X, APEX_Y]], { stroke: GREEN });
+                    </div>
+                </div>
+                <p><code>\green{h} = \pink{<var>HYPOT</var>} \times \sin(x)</code></p>
+                <p>
+                    Therefore, the area of the triangle is
+                    <code>\dfrac{1}{2} \times \purple{<var>BASE</var>} \times \pink{<var>HYPOT</var>} \times \sin(x)</code>.
+                </p>
+                <p>
+                    More simply we can write, <code><var>fractionReduce(BASE * HYPOT, 2)</var> \sin(x)</code>.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

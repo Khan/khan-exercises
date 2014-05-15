@@ -221,7 +221,7 @@ window.Triangle = function(center, angles, scale, labels, points) {
 
     var fromPoints = false;
     if (points) {
-            fromPoints = true;
+        fromPoints = true;
     }
 
     this.labels = labels;
@@ -366,7 +366,7 @@ window.Triangle = function(center, angles, scale, labels, points) {
 
     this.translate = function(amount) {
         this.points = $.map(this.points, function(el, i) {
-                return [movePoint(el, amount)];
+            return [movePoint(el, amount)];
         });
         this.genSides();
         this.findCenterPoints();
@@ -405,7 +405,7 @@ window.Triangle = function(center, angles, scale, labels, points) {
         }
 
         if ("name" in this.labels) {
-                this.labelObjects["name"] = this.createLabel(bisectAngle(reverseLine(this.sides[2]), this.sides[1], 0.3)[1], this.labels.name);
+            this.labelObjects["name"] = this.createLabel(bisectAngle(reverseLine(this.sides[2]), this.sides[1], 0.3)[1], this.labels.name);
         }
 
 
@@ -987,6 +987,22 @@ KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
                 triangle.labels.push(lbl);
             }
         });
+    };
+
+    // Return the points coorresponding to an alitude to angle[n]
+    triangle.findAltitude = function(n) {
+        var p1 = triangle.points[n];
+        var p2 = triangle.points[(n + 1) % 3];
+        var p3 = triangle.points[(n + 2) % 3];
+
+        // Project p1 onto line between p2 and p3
+        // Could use kvector's projection method
+        var v1 = [p1[0] - p2[0], p1[1] - p2[1]];
+        var v2 = [p3[0] - p2[0], p3[1] - p2[1]];
+        var dot1 = v1[0] * v2[0] + v1[1] * v2[1];
+        var dot2 = v2[0] * v2[0] + v2[1] * v2[1];
+        var s = dot1 / dot2;
+        return [p1, [p2[0] + v2[0] * s, p2[1] + v2[1] * s]];
     };
 
     triangle.points[2] = [0, 0];
