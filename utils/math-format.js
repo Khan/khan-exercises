@@ -557,7 +557,7 @@ $.extend(KhanUtil, {
         if (real === 0 && imaginary === 0) {
             return "0";
         } else if (real === 0) {
-            return (coefficient(imaginary)) + "i";
+            return (KhanUtil.coefficient(imaginary)) + "i";
         } else if (imaginary === 0) {
             return real;
         } else {
