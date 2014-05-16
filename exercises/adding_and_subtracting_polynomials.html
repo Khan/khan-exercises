@@ -16,7 +16,7 @@
             <var id="DISTRIBUTE">_.any(SIGNS, function(s) { return s === "-"; })</var>
             <var id="TERMS">_(N).times(function(term) { return randRange(2, 5 - N); })</var>
             <var id="NON_ZERO_INDICES">randRangeUnique(1, MAX_DEGREE, 4)</var>
-            <var id="SORTED_INDICES">NON_ZERO_INDICES.sort(function(a, b) {return b - a; })</var>
+            <var id="SORTED_INDICES">sortNumbers(NON_ZERO_INDICES).reverse()</var>
             <var id="POLYNOMIALS">
                 tabulate(function(p) {
                     var coefs = [];
@@ -56,7 +56,7 @@
                     }
                 }
 
-                toRemove.sort(function(a, b) {return b - a; });
+                toRemove = sortNumbers(toRemove);
 
                 for (var i = 0; i &lt; toRemove.length; i++) {
                     coeffs.splice(toRemove[i], 1);

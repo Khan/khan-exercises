@@ -20,7 +20,7 @@
                 <var id="DATA">$.map( _.range(COUNT), function() {
                     return round( randGaussian() * sqrt( TGT_VARIANCE ) + TGT_MEAN );
                 })</var>
-                <var id="SORTED_DATA">DATA.slice().sort(function(a, b) { return a - b; })</var>
+                <var id="SORTED_DATA">sortNumbers(DATA)</var>
                 <var id="MIN">SORTED_DATA[0]</var>
                 <var id="MAX">SORTED_DATA[COUNT - 1]</var>
                 <var id="MEDIAN">

@@ -29,7 +29,7 @@
                 <var id="FINAL">$.map( new Array( NUM_STUDENTS ), function() { return randRange( 12, 20 ) * 5; } )</var>
                 <var id="IMPROVEMENT">$.map( new Array( NUM_STUDENTS ), function( e, n ) { return FINAL[ n ] - MIDTERM[ n ]; } )</var>
                 <var id="NUM_IMPROVED">$.map( IMPROVEMENT, function( x ) { return x &gt; 0 ? 1 : null; }).length</var>
-                <var id="IMPROVE_TIE">IMPROVEMENT.slice().sort(function(a,b){return a - b;})[4] === IMPROVEMENT.slice().sort(function(a,b){return a - b;})[3]</var>
+                <var id="IMPROVE_TIE">sortNumbers(IMPROVEMENT)[4] === sortNumbers(IMPROVEMENT)[3]</var>
                 <var id="UNBIASED">false</var>
             </div>
         </div>
