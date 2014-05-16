@@ -69,24 +69,23 @@
                         });
                     </div>
                     <p data-if="isSingular(S)">
-                        The length is <var>S</var> <var>UNIT_TEXT</var> and
-                        the width is <var>S</var> <var>UNIT_TEXT</var>, so the
+                        The length is <code><var>S</var></code> <var>UNIT_TEXT</var> and
+                        the width is <code><var>S</var></code> <var>UNIT_TEXT</var>, so the
                         area is <code><var>S</var>\times<var>S</var></code>
                         square <var>plural_form(UNIT_TEXT, S * S)</var>.
                     </p><p data-else="">
-                        The length is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var> and
-                        the width is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var>, so the
+                        The length is <code><var>S</var></code> <var>plural_form(UNIT_TEXT, S)</var> and
+                        the width is <code><var>S</var></code> <var>plural_form(UNIT_TEXT, S)</var>, so the
                         area is <code><var>S</var>\times<var>S</var></code>
                         square <var>plural_form(UNIT_TEXT, S * S)</var>.
                     </p>
                 </div>
                 <div>
                     <p><code>
-                        \qquad\text{<var>AREA</var>} = <var>S</var> \times <var>S</var>
-                        = <var>S*S</var>
+                        \qquad\text{<var>AREA</var>} = <var>S</var> \times <var>S</var> = <var>S*S</var>
                     </code></p>
                     <p>
-                        We can also count <var>S * S</var>
+                        We can also count <code><var>S * S</var></code>
                         square <var>plural_form(UNIT_TEXT, S * S)</var>.
                     </p>
                     <div class="graphie" data-update="area">
@@ -147,14 +146,14 @@
                     </div>
                     <p>
                         <span data-if="isSingular(L)">
-                            The length is <var>L</var> <var>UNIT_TEXT</var>.
+                            The length is <code><var>L</var></code> <var>UNIT_TEXT</var>.
                         </span><span data-else="">
-                            The length is <var>L</var> <var>plural_form(UNIT_TEXT, L)</var>.
+                            The length is <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>.
                         </span>
                         <span data-if="isSingular(W)">
-                            The width is <var>W</var> <var>UNIT_TEXT</var>.
+                            The width is <code><var>W</var></code> <var>UNIT_TEXT</var>.
                         </span><span data-else="">
-                            The width is <var>W</var> <var>plural_form(UNIT_TEXT, W)</var>.
+                            The width is <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>.
                         </span>
                         <span>
                             Thus the area is
@@ -169,7 +168,7 @@
                         = <var>L * W</var>
                     </code></p>
                     <p>
-                        We can also count <var>L * W</var>
+                        We can also count <code><var>L * W</var></code>
                         square <var>plural_form(UNIT_TEXT, L * W)</var>.
                     </p>
                     <div class="graphie" data-update="area">
