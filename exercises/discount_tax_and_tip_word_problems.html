@@ -47,8 +47,9 @@
                 <var id="PRICE">randRange(3, 200)</var>
                 <var id="TOTAL_TAX">roundTo(2, (TAX / 100) * PRICE)</var>
             </div>
-            <div class="question spin">
-                <p>If the sales tax in your city is <code><var>localeToFixed(TAX, 1)</var>\%</code>, how much tax would you pay for an item that costs <code>\$<var>PRICE</var></code> before tax?</p>
+            <div class="question">
+                <p>If the sales tax in your city is <code><var>localeToFixed(TAX, 1)</var>\%</code>, and an item costs
+                    <code>\$<var>PRICE</var></code> before tax, how much tax would you pay on that item?</p>
                 <p><em>Round to the nearest hundredth or cent.</em></p>
             </div>
             <div class="solution" data-type="multiple"><code>\$</code><span class="sol"><var>TOTAL_TAX</var></span></div>
