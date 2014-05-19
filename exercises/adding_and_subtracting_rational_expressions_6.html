@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars">
+                <div class="vars" data-ensure="!CAN_BE_FACTORED">
                     <var id="X">randVar()</var>
                     <var id="SIGN1">randFromArray(["+", "-"])</var>
                     <var id="SIGN2">randFromArray(["+", "-"])</var>
@@ -18,8 +18,8 @@
                     <var id="N3">rand(2) ? new Term(randRange(1, 5)) : new Term(randRange(1, 5), X)</var>
                     <var id="TERM1">new RationalExpression([[1, X], randRangeNonZero(-10, 10)])</var>
                     <var id="TERM2">new RationalExpression([[1, X], randRangeNonZero(-10, 10)])</var>
-                    <var id="F1">randRangeWeighted(1, 5, 1, 0.4)</var>
-                    <var id="F2">randRangeWeighted(1, 5, 1, 0.4)</var>
+                    <var id="F1" data-ensure="getGCD(N1, F1) === 1">randRangeWeighted(1, 5, 1, 0.4)</var>
+                    <var id="F2" data-ensure="getGCD(N2, F2) === 1">randRangeWeighted(1, 5, 1, 0.4)</var>
                     <var id="D1">TERM1.multiply(F1)</var>
                     <var id="D2">TERM2.multiply(F2)</var>
                     <var id="D3">TERM1.multiply(TERM2)</var>
@@ -34,6 +34,9 @@
                     <var id="GCD">DENOMINATOR.getGCD(NUMERATOR)</var>
                     <var id="FINAL_N">NUMERATOR.divide(GCD)</var>
                     <var id="FINAL_D">DENOMINATOR.divide(GCD)</var>
+                    <var id="CAN_BE_FACTORED">
+                        FINAL_D.getCoefficient("") / FINAL_N.getCoefficient("") === FINAL_D.getCoefficient(X + 1) - FINAL_N.getCoefficient("")
+                    </var>
                     <var id="ANSWER">"(" + FINAL_N.toString() + ")/(" + FINAL_D.toString() + ")" </var>
                 </div>
 
