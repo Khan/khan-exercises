@@ -857,7 +857,8 @@ function onjQueryLoaded() {
             type = type || "";
 
             var info = {
-                localMode: localMode
+                localMode: localMode,
+                exerciseId: currentExerciseId
             };
 
             this.each(function(i, elem) {

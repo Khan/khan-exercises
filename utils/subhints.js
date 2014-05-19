@@ -47,8 +47,14 @@ $.extend(KhanUtil, {
     getSubHints: getSubHints
 });
 
-$.fn["subhintsLoad"] = function() {
-    Khan.scratchpad.disable();
+$.fn["subhintsLoad"] = function(problem, info) {
+    // Only disable the scratchpad if the exercise explicitly requires the
+    // subhints module. This check is necessary since subhints are loaded on
+    // all exercises to support the growth mindset intervention experiment.
+    // TODO(eater): Simplify this if/when subhints is no longer a baseModule
+    if (_.contains(Khan.exerciseModulesMap[info.exerciseId], "subhints")) {
+        Khan.scratchpad.disable();
+    }
 };
 
 });
