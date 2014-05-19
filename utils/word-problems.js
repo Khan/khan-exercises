@@ -584,7 +584,7 @@ $.fn["word-problemsLoad"] = function() {
             return $.ngettext("eggplant", "eggplants", num);
         }),
         new Plural(function(num) {
-            return $.ngettext("kiwi", "kiwis", num);
+            return $.ngettext("kiwi fruit", "kiwi fruit", num);
         }),
         new Plural(function(num) {
             return $.ngettext("lemon", "lemons", num);
