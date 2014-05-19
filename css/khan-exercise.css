@@ -27,6 +27,11 @@ div.subhint {
 a.show-subhint {
     font-size: 12px;
     font-style: italic;
+    background-color: #FDFDFD;
+}
+
+a.show-definition {
+    background-color: #FDFDFD;
 }
 
 div.definition {
@@ -156,8 +161,10 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 #answer_area input.simple-button.full-width {
   width: 100%;
 }
-#answer_area #answercontent { position: relative; z-index: 2; }
+#answer_area #answercontent { position: relative; z-index: 2; } /* above-scratchpad */
 #answer_area .hint-box { position: relative; z-index: 1;}
+#problemarea a:link { position: relative; z-index: 3;} /* interactive-content */
+
 #answer_area #examples-show {
   display: none;
   float: right;
