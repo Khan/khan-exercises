@@ -1022,6 +1022,12 @@ span.hover-hint:hover {
     width: 100px;
 }
 
+#problemarea .problem .graph-caption {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
 #solutionarea .intuition-equation td {
     text-align: right;
     padding-left: 5px;
