@@ -156,15 +156,16 @@
             </div>
 
             <p class="question">
-                <span data-if="isSingular(L)">A rectangle is
-                <code><var>L</var></code> <var>UNIT_TEXT</var>
-                long.</span><span data-else="">A rectangle is
-                <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>
-                long.</span> <span data-if="isSingular(W)">The rectangle is also
-                <code><var>W</var></code> <var>UNIT_TEXT</var>
-                wide. What is its perimeter?</span><span data-else="">The rectangle is also
-                <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>
-                wide. What is its perimeter?</span>
+                <span data-if="isSingular(L)">
+                    One side of a rectangle is <code><var>L</var></code> <var>UNIT_TEXT</var>.
+                </span><span data-else="">
+                    One side of a rectangle is <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>.
+                </span><span data-if="isSingular(W)">
+                    The other side is <code><var>W</var></code> <var>UNIT_TEXT</var>.
+                </span><span data-else="">
+                    The other side is <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>.
+                </span>
+                What is its perimeter?
             </p>
 
             <div class="solution" data-type="multiple">
