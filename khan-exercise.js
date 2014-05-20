@@ -1222,9 +1222,9 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         // Making the problem failed, let's try again (up to 3 times)
         debugLog("validator was falsey");
         problem.remove();
-        if (failureRetryCount < 3) {
+        if (failureRetryCount < 100 && seedOverride == null) {
             failureRetryCount++;
-            makeProblem(exerciseId, currentProblemType, randomSeed);
+            makeProblem(exerciseId, typeOverride, seedOverride);
         } else {
             debugLog("Failed making problem too many times");
             Khan.error("Failed while attempting to MakeProblem too many " +
