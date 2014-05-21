@@ -5,6 +5,16 @@
  * Licensed under the MIT (http://raphaeljs.com/license.html) license.
  */
 (function () {
+    var setAttr;
+    if ("".trim) {
+        setAttr = function(node, att, value) {
+            node.setAttribute(att, String(value).trim());
+        };
+    } else {
+        setAttr = function(node, att, value) {
+            node.setAttribute(att, String(value));
+        };
+    }
     function R() {
         if (R.is(arguments[0], array)) {
             var a = arguments[0],
@@ -70,7 +80,6 @@
         isnan = {"NaN": 1, "Infinity": 1, "-Infinity": 1},
         bezierrg = /^(?:cubic-)?bezier\(([^,]+),([^,]+),([^,]+),([^\)]+)\)/,
         round = math.round,
-        setAttribute = "setAttribute",
         toFloat = parseFloat,
         toInt = parseInt,
         ms = " progid:DXImageTransform.Microsoft",
@@ -1091,7 +1100,7 @@
             if (attr) {
                 for (var key in attr) {
                     if (attr[has](key)) {
-                        el[setAttribute](key, Str(attr[key]));
+                        setAttr(el, key, Str(attr[key]));
                     }
                 }
             } else {
@@ -1286,7 +1295,7 @@
                             }
                             break;
                         case "width":
-                            node[setAttribute](att, value);
+                            setAttr(node, att, value);
                             if (attrs.fx) {
                                 att = "x";
                                 value = attrs.x;
@@ -1303,11 +1312,11 @@
                             }
                         case "cx":
                             rotxy && (att == "x" || att == "cx") && (rotxy[1] += value - attrs[att]);
-                            node[setAttribute](att, value);
+                            setAttr(node, att, value);
                             o.pattern && updatePosition(o);
                             break;
                         case "height":
-                            node[setAttribute](att, value);
+                            setAttr(node, att, value);
                             if (attrs.fy) {
                                 att = "y";
                                 value = attrs.y;
@@ -1324,14 +1333,14 @@
                             }
                         case "cy":
                             rotxy && (att == "y" || att == "cy") && (rotxy[2] += value - attrs[att]);
-                            node[setAttribute](att, value);
+                            setAttr(node, att, value);
                             o.pattern && updatePosition(o);
                             break;
                         case "r":
                             if (o.type == "rect") {
                                 $(node, {rx: value, ry: value});
                             } else {
-                                node[setAttribute](att, value);
+                                setAttr(node, att, value);
                             }
                             break;
                         case "src":
@@ -1342,7 +1351,7 @@
                         case "stroke-width":
                             node.style.strokeWidth = value;
                             // Need following line for Firefox
-                            node[setAttribute](att, value);
+                            setAttr(node, att, value);
                             if (attrs["stroke-dasharray"]) {
                                 addDashes(o, attrs["stroke-dasharray"]);
                             }
@@ -1410,7 +1419,7 @@
                             clr[has]("opacity") && $(node, {"fill-opacity": clr.opacity > 1 ? clr.opacity / 100 : clr.opacity});
                         case "stroke":
                             clr = R.getRGB(value);
-                            node[setAttribute](att, clr.hex);
+                            setAttr(node, att, clr.hex);
                             att == "stroke" && clr[has]("opacity") && $(node, {"stroke-opacity": clr.opacity > 1 ? clr.opacity / 100 : clr.opacity});
                             break;
                         case "gradient":
@@ -1426,7 +1435,7 @@
                                 var gradient = doc.getElementById(node.getAttribute(fillString)[rp](/^url\(#|\)$/g, E));
                                 if (gradient) {
                                     var stops = gradient.getElementsByTagName("stop");
-                                    stops[stops[length] - 1][setAttribute]("stop-opacity", value);
+                                    setAttr(stops[stops[length] - 1], "stop-opacity", value);
                                 }
                                 break;
                             }
@@ -1437,7 +1446,7 @@
                             });
                             node.style[cssrule] = value;
                             // Need following line for Firefox
-                            node[setAttribute](att, value);
+                            setAttr(node, att, value);
                             break;
                     }
                 }
@@ -1759,8 +1768,8 @@
         setSize = function (width, height) {
             this.width = width || this.width;
             this.height = height || this.height;
-            this.canvas[setAttribute]("width", this.width);
-            this.canvas[setAttribute]("height", this.height);
+            setAttr(this.canvas, "width", this.width);
+            setAttr(this.canvas, "height", this.height);
             return this;
         },
         create = function () {
@@ -2928,7 +2937,7 @@
             if (this.type in {text: 1, image:1} && (dirx != 1 || diry != 1)) {
                 if (this.transformations) {
                     this.transformations[2] = "scale("[concat](dirx, ",", diry, ")");
-                    this.node[setAttribute]("transform", this.transformations[join](S));
+                    setAttr(this.node, "transform", this.transformations[join](S));
                     dx = (dirx == -1) ? -a.x - (neww || 0) : a.x;
                     dy = (diry == -1) ? -a.y - (newh || 0) : a.y;
                     this.attr({x: dx, y: dy});
@@ -2943,7 +2952,7 @@
             } else {
                 if (this.transformations) {
                     this.transformations[2] = E;
-                    this.node[setAttribute]("transform", this.transformations[join](S));
+                    setAttr(this.node, "transform", this.transformations[join](S));
                     a.fx = 0;
                     a.fy = 0;
                 } else {
