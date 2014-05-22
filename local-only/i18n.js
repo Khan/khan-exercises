@@ -58,7 +58,7 @@
     };
 
     // Create a global Jed instance named 'i18n'
-    window.i18n = new Jed({});
+    var i18n = window.i18n = new Jed({});
 
     // We will set the locale-data lazily, as we need it
     i18n.options.locale_data = {};
