@@ -25,7 +25,7 @@
                     <var id="B_FACTORS">toSentenceTex(getFactors(abs(B)))</var>
                 </div>
                 <p class="question">
-                    Write the following expression in its most factored form:
+                    Factor the expression below completely. All coefficients should be integers.
                 </p>
                 <p class="problem">
                     <code><var>expr(["+", ["*", A, "x"], B])</var></code>
@@ -35,13 +35,12 @@
                 </div>
                 <div class="hints">
                     <p>
-                        To factor a polynomial, you should first try to find
+                        To factor a polynomial, you should first find
                         the greatest common factor of all the terms.
                     </p>
                     <p>
-                        The factors of <code><var>A</var>x</code> are
-                        <var>Ax_FACTORS</var> and the factors of
-                        <code><var>B</var></code> are <var>B_FACTORS</var>.
+                        The factors of <code><var>A</var>x</code> are <var>Ax_FACTORS</var>.<br>
+                        The factors of <code><var>B</var></code> are <var>B_FACTORS</var>.
                     </p>
                     <p>
                         The greatest common factor of <code><var>A</var>x</code>
@@ -59,8 +58,7 @@
                     </p>
 
                     <p data-if="!IS_IRREDUCIBLE">
-                        We can factor out the <code><var>GCD</var></code> and
-                        put it before the parenthesis.
+                        So we can factor out the <code><var>GCD</var></code>.
                     </p>
                     <p data-if="!IS_IRREDUCIBLE">
                         If we divide each of the terms in the original

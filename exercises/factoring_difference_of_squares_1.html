@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math graphie">
 <head>
     <meta charset="UTF-8">
     <title>Factoring difference of squares 1</title>
@@ -13,21 +13,33 @@
                     <var id="A">randRange(2, 9)</var>
                     <var id="CONSTANT">-A * A</var>
                 </div>
-                <div>
-                    <p class="question">Factor the following expression:</p>
-                    <p><code>x^2 + <var>CONSTANT</var></code></p>
-                </div>
+
+                <p class="question">
+                    Factor the expression below completely. All coefficients should be integers.
+                </p>
+
+                <p class="problem">
+                    <span id="question-x"><code>x^2</code></span>
+                    <code><span data-if="CONSTANT > 0">+</span><span data-else="">-</span></code>
+                    <span id="question-c"><code><var>abs(CONSTANT)</var></code></span>
+                </p>
 
                 <div class="solution" data-type="expression" data-same-form>
                     (x + <var>A</var>)(x - <var>A</var>)
                 </div>
 
                 <div class="hints">
-                    <p>
-                        The expression is in the form <code>\pink{a^2} - \blue{b^2}</code>,
-                        which is a difference of two squares so we can factor it as
-                        <code>(\pink{a} + \blue{b})(\pink{a} - \blue{b})</code>.
-                    </p>
+                    <div>
+                        <p>
+                            The expression is in the form <code>\pink{a^2} - \blue{b^2}</code>,
+                            which is a difference of two squares so we can factor it as
+                            <code>(\pink{a} + \blue{b})(\pink{a} - \blue{b})</code>.
+                        </p>
+                        <div class="graphie" style="outline: none;">
+                            $("#question-x").addClass("hint_pink");
+                            $("#question-c").addClass("hint_blue");
+                        </div>
+                    </div>
                     <p>What are the values of <code>\pink{a}</code> and <code>\blue{b}</code>?</p>
                     <div>
                         <p><code>\qquad \pink{a = \sqrt{x^2} = x}</code></p>
