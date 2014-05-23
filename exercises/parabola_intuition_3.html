@@ -99,7 +99,7 @@
                     <p>
                         Equation of the parabola:<br>
                         <span style="font-size: 12px;">
-                        <code>y - </code><span class="sol short30" data-fallback="0"><var>Y1</var></span><code> = </code><span class="sol short30" data-fallback="1"><var>A</var></span><code>(x - </code><span class="sol short30" data-fallback="0"><var>X1</var></span><code>)^2</code>
+                        <code>y - </code><span class="sol short30" data-fallback="0"><var>Y1</var></span><code> = </code><span class="sol short30" data-forms="integer, proper, improper, mixed, decimal, coefficient"><var>A</var></span><code>(x - </code><span class="sol short30" data-fallback="0"><var>X1</var></span><code>)^2</code>
                         </span>
                     </p>
 
@@ -115,12 +115,14 @@
                     <button onclick="javascript:
                         graph = KhanUtil.currentGraph.graph;
                         graph.vertex.moveTo(graph.X1, graph.Y1 + 1 / (4 * graph.A));
+
                         $({ y: graph.directrix.coordA[1] }).animate({ y: graph.Y1 - 1 / (4 * graph.A) }, {
                             duration: Math.abs(graph.directrix.coordA[1] - (graph.Y1 - 1 / (4 * graph.A))) * 300,
                             step: function(now, fx) {
                                 graph.directrix.coordA = [0, now];
                                 graph.directrix.coordZ = [1, now];
                                 graph.directrix.transform();
+                                graph.directrix.onMove(0, now);
                             }
                         });
                     ">Show me</button>
