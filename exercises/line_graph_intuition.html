@@ -10,12 +10,13 @@
     <div class="problems">
         <div id="graph-slope" data-weight="1">
             <div class="vars">
-                <var id="SLOPE,SLOPE_NAME">randFromArray([
-                    [0, $._("a positive")],
-                    [1, $._("a negative")],
-                    [2, $._("a zero")],
-                    [3, $._("an undefined")]
-                ])</var>
+                <var id="SLOPE">rand(4)</var>
+                <var id="SLOPE_NAME">[
+                    $._("a positive"),
+                    $._("a negative"),
+                    $._("a zero"),
+                    $._("an undefined")
+                ][SLOPE]</var>
                 <var id="POINTS">{}</var>
             </div>
 
@@ -332,7 +333,7 @@
         </div>
 
         <div id="find-slope-and-yint" data-weight="1">
-            <div class="vars" data-ensure="!(M === 1 &amp;&amp; B === 0) &amp;&amp;
+            <div class="vars" data-ensure="!(M === 1 &amp;&amp; B === 1) &amp;&amp;
                     abs(M) &lt; 10 &amp;&amp; abs(B) &lt; 10 &amp;&amp; INCR &lt; 6">
                 <var id="X1, X2">randRangeUnique(-8, 8, 2)</var>
                 <var id="Y1, Y2">randRangeUnique(-8, 8, 2)</var>
