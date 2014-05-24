@@ -15,7 +15,7 @@ function LexResult(type, text, position) {
 }
 
 // "normal" types of tokens
-var normals = [
+var mathNormals = [
     [/^[/|@."`0-9]/, "textord"],
     [/^[a-zA-Z]/, "mathord"],
     [/^[*+-]/, "bin"],
@@ -27,20 +27,35 @@ var normals = [
     [/^{/, "{"],
     [/^}/, "}"],
     [/^[(\[]/, "open"],
-    [/^[)\]?!]/, "close"]
+    [/^[)\]?!]/, "close"],
+    [/^~/, "spacing"]
+];
+
+var textNormals = [
+    [/^[a-zA-Z0-9`!@*()-=+\[\]'";:?\/.,]/, "textord"],
+    [/^{/, "{"],
+    [/^}/, "}"],
+    [/^~/, "spacing"]
 ];
 
 // Build a regex to easily parse the functions
 var anyFunc = /^\\(?:[a-zA-Z]+|.)/;
 
-// Lex a single token
-Lexer.prototype.lex = function(pos) {
+Lexer.prototype._innerLex = function(pos, normals, ignoreWhitespace) {
     var input = this._input.slice(pos);
 
     // Get rid of whitespace
-    var whitespace = input.match(/^\s*/)[0];
-    pos += whitespace.length;
-    input = input.slice(whitespace.length);
+    if (ignoreWhitespace) {
+        var whitespace = input.match(/^\s*/)[0];
+        pos += whitespace.length;
+        input = input.slice(whitespace.length);
+    } else {
+        // Do the funky concatenation of whitespace
+        var whitespace = input.match(/^( +|\\  +)/);
+        if (whitespace !== null) {
+            return new LexResult(" ", " ", pos + whitespace[0].length);
+        }
+    }
 
     // If there's no more input to parse, return an EOF token
     if (input.length === 0) {
@@ -67,7 +82,39 @@ Lexer.prototype.lex = function(pos) {
 
     // We didn't match any of the tokens, so throw an error.
     throw new ParseError("Unexpected character: '" + input[0] +
-        "' at position " + pos);
+        "'", this, pos);
+}
+
+// A regex to match a CSS color (like #ffffff or BlueViolet)
+var cssColor = /^(#[a-z0-9]+|[a-z]+)/i;
+
+Lexer.prototype._innerLexColor = function(pos) {
+    var input = this._input.slice(pos);
+
+    // Ignore whitespace
+    var whitespace = input.match(/^\s*/)[0];
+    pos += whitespace.length;
+    input = input.slice(whitespace.length);
+
+    var match;
+    if ((match = input.match(cssColor))) {
+        // If we look like a color, return a color
+        return new LexResult("color", match[0], pos + match[0].length);
+    }
+
+    // We didn't match a color, so throw an error.
+    throw new ParseError("Invalid color", this, pos);
+};
+
+// Lex a single token
+Lexer.prototype.lex = function(pos, mode) {
+    if (mode === "math") {
+        return this._innerLex(pos, mathNormals, true);
+    } else if (mode === "text") {
+        return this._innerLex(pos, textNormals, false);
+    } else if (mode === "color") {
+        return this._innerLexColor(pos);
+    }
 };
 
 module.exports = Lexer;
@@ -115,11 +162,44 @@ Options.prototype.reset = function() {
         this.style, this.size);
 };
 
+var colorMap = {
+    "katex-blue": "#6495ed",
+    "katex-orange": "#ffa500",
+    "katex-pink": "#ff00af",
+    "katex-red": "#df0030",
+    "katex-green": "#28ae7b",
+    "katex-gray": "gray",
+    "katex-purple": "#9d38bd"
+};
+
+Options.prototype.getColor = function() {
+    return colorMap[this.color] || this.color;
+};
+
 module.exports = Options;
 
 },{}],3:[function(require,module,exports){
-function ParseError(message) {
-    var self = new Error("TeX parse error: " + message);
+function ParseError(message, lexer, position) {
+    var error = "KaTeX parse error: " + message;
+
+    if (lexer !== undefined && position !== undefined) {
+        // If we have the input and a position, make the error a bit fancier
+        // Prepend some information
+        error += " at position " + position + ": ";
+
+        // Get the input
+        var input = lexer._input;
+        // Insert a combining underscore at the correct position
+        input = input.slice(0, position) + "\u0332" +
+            input.slice(position);
+
+        // Extract some context from the input and add it to the error
+        var begin = Math.max(0, position - 15);
+        var end = position + 15;
+        error += input.slice(begin, end);
+    }
+
+    var self = new Error(error);
     self.name = "ParseError";
     self.__proto__ = ParseError.prototype;
     return self;
@@ -132,6 +212,7 @@ module.exports = ParseError;
 },{}],4:[function(require,module,exports){
 var Lexer = require("./Lexer");
 var utils = require("./utils");
+var symbols = require("./symbols");
 
 var ParseError = require("./ParseError");
 
@@ -147,17 +228,20 @@ function ParseResult(result, newPosition) {
 }
 
 // The resulting parse tree nodes of the parse tree.
-function ParseNode(type, value) {
+function ParseNode(type, value, mode) {
     this.type = type;
     this.value = value;
+    this.mode = mode;
 }
 
 // Checks a result to make sure it has the right type, and throws an
 // appropriate error otherwise.
-var expect = function(result, type) {
+Parser.prototype.expect = function(result, type) {
     if (result.type !== type) {
         throw new ParseError(
-            "Expected '" + type + "', got '" + result.type + "'");
+            "Expected '" + type + "', got '" + result.type + "'",
+            this.lexer, result.position
+        );
     }
 };
 
@@ -168,27 +252,27 @@ Parser.prototype.parse = function(input) {
     this.lexer = new Lexer(input);
 
     // Try to parse the input
-    var parse = this.parseInput(0);
+    var parse = this.parseInput(0, "math");
     return parse.result;
 };
 
 // Parses an entire input tree
-Parser.prototype.parseInput = function(pos) {
+Parser.prototype.parseInput = function(pos, mode) {
     // Parse an expression
-    var expression = this.parseExpression(pos);
+    var expression = this.parseExpression(pos, mode);
     // If we succeeded, make sure there's an EOF at the end
-    var EOF = this.lexer.lex(expression.position);
-    expect(EOF, "EOF");
+    var EOF = this.lexer.lex(expression.position, mode);
+    this.expect(EOF, "EOF");
     return expression;
 };
 
 // Parses an "expression", which is a list of atoms
-Parser.prototype.parseExpression = function(pos) {
+Parser.prototype.parseExpression = function(pos, mode) {
     // Start with a list of nodes
     var expression = [];
     while (true) {
         // Try to parse atoms
-        var parse = this.parseAtom(pos);
+        var parse = this.parseAtom(pos, mode);
         if (parse) {
             // Copy them into the list
             expression.push(parse.result);
@@ -201,39 +285,51 @@ Parser.prototype.parseExpression = function(pos) {
 };
 
 // Parses a superscript expression, like "^3"
-Parser.prototype.parseSuperscript = function(pos) {
+Parser.prototype.parseSuperscript = function(pos, mode) {
+    if (mode !== "math") {
+        throw new ParseError(
+            "Trying to parse superscript in non-math mode", this.lexer, pos);
+    }
+
     // Try to parse a "^" character
-    var sup = this.lexer.lex(pos);
+    var sup = this.lexer.lex(pos, mode);
     if (sup.type === "^") {
         // If we got one, parse the corresponding group
-        var group = this.parseGroup(sup.position);
+        var group = this.parseGroup(sup.position, mode);
         if (group) {
             return group;
         } else {
             // Throw an error if we didn't find a group
-            throw new ParseError("Couldn't find group after '^'");
+            throw new ParseError(
+                "Couldn't find group after '^'", this.lexer, sup.position);
         }
     } else if (sup.type === "'") {
         var pos = sup.position;
         return new ParseResult(
-            new ParseNode("textord", "\\prime"), sup.position);
+            new ParseNode("textord", "\\prime"), sup.position, mode);
     } else {
         return null;
     }
 };
 
 // Parses a subscript expression, like "_3"
-Parser.prototype.parseSubscript = function(pos) {
+Parser.prototype.parseSubscript = function(pos, mode) {
+    if (mode !== "math") {
+        throw new ParseError(
+            "Trying to parse subscript in non-math mode", this.lexer, pos);
+    }
+
     // Try to parse a "_" character
-    var sub = this.lexer.lex(pos);
+    var sub = this.lexer.lex(pos, mode);
     if (sub.type === "_") {
         // If we got one, parse the corresponding group
-        var group = this.parseGroup(sub.position);
+        var group = this.parseGroup(sub.position, mode);
         if (group) {
             return group;
         } else {
             // Throw an error if we didn't find a group
-            throw new ParseError("Couldn't find group after '_'");
+            throw new ParseError(
+                "Couldn't find group after '_'", this.lexer, sub.position);
         }
     } else {
         return null;
@@ -242,11 +338,17 @@ Parser.prototype.parseSubscript = function(pos) {
 
 // Parses an atom, which consists of a nucleus, and an optional superscript and
 // subscript
-Parser.prototype.parseAtom = function(pos) {
+Parser.prototype.parseAtom = function(pos, mode) {
     // Parse the nucleus
-    var nucleus = this.parseGroup(pos);
+    var nucleus = this.parseGroup(pos, mode);
     var nextPos = pos;
     var nucleusNode;
+
+    // Text mode doesn't have superscripts or subscripts, so we only parse the
+    // nucleus in this case
+    if (mode === "text") {
+        return nucleus;
+    }
 
     if (nucleus) {
         nextPos = nucleus.position;
@@ -260,17 +362,19 @@ Parser.prototype.parseAtom = function(pos) {
     // depending on whether those succeed, we return the correct type.
     while (true) {
         var node;
-        if ((node = this.parseSuperscript(nextPos))) {
+        if ((node = this.parseSuperscript(nextPos, mode))) {
             if (sup) {
-                throw new ParseError("Parse error: Double superscript");
+                throw new ParseError(
+                    "Double superscript", this.lexer, nextPos);
             }
             nextPos = node.position;
             sup = node.result;
             continue;
         }
-        if ((node = this.parseSubscript(nextPos))) {
+        if ((node = this.parseSubscript(nextPos, mode))) {
             if (sub) {
-                throw new ParseError("Parse error: Double subscript");
+                throw new ParseError(
+                    "Double subscript", this.lexer, nextPos);
             }
             nextPos = node.position;
             sub = node.result;
@@ -282,7 +386,7 @@ Parser.prototype.parseAtom = function(pos) {
     if (sup || sub) {
         return new ParseResult(
             new ParseNode("supsub", {base: nucleusNode, sup: sup,
-                    sub: sub}),
+                    sub: sub}, mode),
             nextPos);
     } else {
         return nucleus;
@@ -291,24 +395,45 @@ Parser.prototype.parseAtom = function(pos) {
 
 // Parses a group, which is either a single nucleus (like "x") or an expression
 // in braces (like "{x+y}")
-Parser.prototype.parseGroup = function(pos) {
-    var start = this.lexer.lex(pos);
+Parser.prototype.parseGroup = function(pos, mode) {
+    var start = this.lexer.lex(pos, mode);
     // Try to parse an open brace
     if (start.type === "{") {
         // If we get a brace, parse an expression
-        var expression = this.parseExpression(start.position);
+        var expression = this.parseExpression(start.position, mode);
         // Make sure we get a close brace
-        var closeBrace = this.lexer.lex(expression.position);
-        expect(closeBrace, "}");
+        var closeBrace = this.lexer.lex(expression.position, mode);
+        this.expect(closeBrace, "}");
         return new ParseResult(
-            new ParseNode("ordgroup", expression.result),
+            new ParseNode("ordgroup", expression.result, mode),
             closeBrace.position);
     } else {
         // Otherwise, just return a nucleus
-        return this.parseNucleus(pos);
+        return this.parseNucleus(pos, mode);
     }
 };
 
+// Parses a custom color group, which looks like "{#ffffff}"
+Parser.prototype.parseColorGroup = function(pos, mode) {
+    var start = this.lexer.lex(pos, mode);
+    // Try to parse an open brace
+    if (start.type === "{") {
+        // Parse the color
+        var color = this.lexer.lex(start.position, "color");
+        // Make sure we get a close brace
+        var closeBrace = this.lexer.lex(color.position, mode);
+        this.expect(closeBrace, "}");
+        return new ParseResult(
+            new ParseNode("color", color.text),
+            closeBrace.position);
+    } else {
+        // It has to have an open brace, so if it doesn't we throw
+        throw new ParseError(
+            "There must be braces around colors",
+            this.lexer, pos
+        );
+    }
+};
 
 // A list of 1-argument color functions
 var colorFuncs = [
@@ -321,164 +446,22 @@ var sizeFuncs = [
     "\\large", "\\Large", "\\LARGE", "\\huge", "\\Huge"
 ];
 
-// A map of elements that don't have arguments, and should simply be placed
-// into a group depending on their type. The keys are the groups that items can
-// be placed in, and the values are lists of element types that should be
-// placed in those groups.
-//
-// For example, if the lexer returns something of type "colon", we should
-// return a node of type "punct"
-var copyFuncs = {
-    "textord": [
-        "textord",
-        "\\$",
-        "\\%",
-        "\\angle",
-        "\\infty",
-        "\\prime",
-        "\\triangle",
-        "\\Gamma",
-        "\\Delta",
-        "\\Theta",
-        "\\Lambda",
-        "\\Xi",
-        "\\Pi",
-        "\\Sigma",
-        "\\Upsilon",
-        "\\Phi",
-        "\\Psi",
-        "\\Omega"
-    ],
-    "mathord": [
-        "mathord",
-        "\\alpha",
-        "\\beta",
-        "\\gamma",
-        "\\delta",
-        "\\epsilon",
-        "\\zeta",
-        "\\eta",
-        "\\theta",
-        "\\iota",
-        "\\kappa",
-        "\\lambda",
-        "\\mu",
-        "\\nu",
-        "\\xi",
-        "\\omicron",
-        "\\pi",
-        "\\rho",
-        "\\sigma",
-        "\\tau",
-        "\\upsilon",
-        "\\phi",
-        "\\chi",
-        "\\psi",
-        "\\omega",
-        "\\varepsilon",
-        "\\vartheta",
-        "\\varpi",
-        "\\varrho",
-        "\\varsigma",
-        "\\varphi"
-    ],
-    "bin": [
-        "bin",
-        "\\cdot",
-        "\\circ",
-        "\\div",
-        "\\pm",
-        "\\times"
-    ],
-    "open": [
-        "open",
-        "\\langle",
-        "\\lvert"
-    ],
-    "close": [
-        "close",
-        "\\rangle",
-        "\\rvert"
-    ],
-    "rel": [
-        "rel",
-        "\\approx",
-        "\\cong",
-        "\\ge",
-        "\\geq",
-        "\\gets",
-        "\\in",
-        "\\leftarrow",
-        "\\le",
-        "\\leq",
-        "\\ne",
-        "\\neq",
-        "\\rightarrow",
-        "\\to"
-    ],
-    "amsrel": [
-        "\\ngeq",
-        "\\nleq"
-    ],
-    "spacing": [
-        "\\!",
-        "\\ ",
-        "\\,",
-        "\\:",
-        "\\;",
-        "\\enspace",
-        "\\qquad",
-        "\\quad",
-        "\\space"
-    ],
-    "punct": [
-        "punct",
-        "\\colon"
-    ],
-    "namedfn": [
-        "\\arcsin",
-        "\\arccos",
-        "\\arctan",
-        "\\arg",
-        "\\cos",
-        "\\cosh",
-        "\\cot",
-        "\\coth",
-        "\\csc",
-        "\\deg",
-        "\\dim",
-        "\\exp",
-        "\\hom",
-        "\\ker",
-        "\\lg",
-        "\\ln",
-        "\\log",
-        "\\sec",
-        "\\sin",
-        "\\sinh",
-        "\\tan",
-        "\\tanh"
-    ]
-};
-
-// Build a list of all of the different functions in the copyFuncs list, to
-// quickly check if the function should be interpreted by the map.
-var funcToType = {};
-for (var type in copyFuncs) {
-    for (var i = 0; i < copyFuncs[type].length; i++) {
-        var func = copyFuncs[type][i];
-        funcToType[func] = type;
-    }
-}
+// A list of math functions replaced by their names
+var namedFns = [
+    "\\arcsin", "\\arccos", "\\arctan", "\\arg", "\\cos", "\\cosh",
+    "\\cot", "\\coth", "\\csc", "\\deg", "\\dim", "\\exp", "\\hom",
+    "\\ker", "\\lg", "\\ln", "\\log", "\\sec", "\\sin", "\\sinh",
+    "\\tan","\\tanh"
+];
 
 // Parses a "nucleus", which is either a single token from the tokenizer or a
 // function and its arguments
-Parser.prototype.parseNucleus = function(pos) {
-    var nucleus = this.lexer.lex(pos);
+Parser.prototype.parseNucleus = function(pos, mode) {
+    var nucleus = this.lexer.lex(pos, mode);
 
     if (utils.contains(colorFuncs, nucleus.type)) {
         // If this is a color function, parse its argument and return
-        var group = this.parseGroup(nucleus.position);
+        var group = this.parseGroup(nucleus.position, mode);
         if (group) {
             var atoms;
             if (group.result.type === "ordgroup") {
@@ -488,69 +471,129 @@ Parser.prototype.parseNucleus = function(pos) {
             }
             return new ParseResult(
                 new ParseNode("color",
-                    {color: nucleus.type.slice(1), value: atoms}),
+                    {color: "katex-" + nucleus.type.slice(1), value: atoms},
+                    mode),
                 group.position);
         } else {
             throw new ParseError(
-                "Expected group after '" + nucleus.text + "'");
+                "Expected group after '" + nucleus.text + "'",
+                this.lexer, nucleus.position
+            );
         }
-    } else if (utils.contains(sizeFuncs, nucleus.type)) {
+    } else if (nucleus.type === "\\color") {
+        // If this is a custom color function, parse its first argument as a
+        // custom color and its second argument normally
+        var color = this.parseColorGroup(nucleus.position, mode);
+        if (color) {
+            var inner = this.parseGroup(color.position, mode);
+            if (inner) {
+                var atoms;
+                if (inner.result.type === "ordgroup") {
+                    atoms = inner.result.value;
+                } else {
+                    atoms = [inner.result];
+                }
+                return new ParseResult(
+                    new ParseNode("color",
+                        {color: color.result.value, value: atoms},
+                        mode),
+                    inner.position);
+            } else {
+                throw new ParseError(
+                    "Expected second group after '" + nucleus.text + "'",
+                    this.lexer, color.position
+                );
+            }
+        } else {
+            throw new ParseError(
+                "Expected color after '" + nucleus.text + "'",
+                    this.lexer, nucleus.position
+                );
+        }
+    } else if (mode === "math" && utils.contains(sizeFuncs, nucleus.type)) {
         // If this is a size function, parse its argument and return
-        var group = this.parseGroup(nucleus.position);
+        var group = this.parseGroup(nucleus.position, mode);
         if (group) {
             return new ParseResult(
                 new ParseNode("sizing", {
                     size: "size" + (utils.indexOf(sizeFuncs, nucleus.type) + 1),
                     value: group.result
-                }),
+                }, mode),
                 group.position);
         } else {
             throw new ParseError(
-                "Expected group after '" + nucleus.text + "'");
+                "Expected group after '" + nucleus.text + "'",
+                this.lexer, nucleus.position
+            );
         }
+    } else if (mode === "math" && utils.contains(namedFns, nucleus.type)) {
+        // If this is a named function, just return it plain
+        return new ParseResult(
+            new ParseNode("namedfn", nucleus.text, mode),
+            nucleus.position);
     } else if (nucleus.type === "\\llap" || nucleus.type === "\\rlap") {
         // If this is an llap or rlap, parse its argument and return
-        var group = this.parseGroup(nucleus.position);
+        var group = this.parseGroup(nucleus.position, mode);
         if (group) {
             return new ParseResult(
-                new ParseNode(nucleus.type.slice(1), group.result),
+                new ParseNode(nucleus.type.slice(1), group.result, mode),
                 group.position);
         } else {
             throw new ParseError(
-                "Expected group after '" + nucleus.text + "'");
+                "Expected group after '" + nucleus.text + "'",
+                this.lexer, nucleus.position
+            );
         }
-    } else if (nucleus.type === "\\dfrac" || nucleus.type === "\\frac" ||
-            nucleus.type === "\\tfrac") {
+    } else if (mode === "math" && nucleus.type === "\\text") {
+        var group = this.parseGroup(nucleus.position, "text");
+        if (group) {
+            return new ParseResult(
+                new ParseNode(nucleus.type.slice(1), group.result, mode),
+                group.position);
+        } else {
+            throw new ParseError(
+                "Expected group after '" + nucleus.text + "'",
+                this.lexer, nucleus.position
+            );
+        }
+    } else if (mode === "math" && (nucleus.type === "\\dfrac" ||
+                                   nucleus.type === "\\frac" ||
+                                   nucleus.type === "\\tfrac")) {
         // If this is a frac, parse its two arguments and return
-        var numer = this.parseGroup(nucleus.position);
+        var numer = this.parseGroup(nucleus.position, mode);
         if (numer) {
-            var denom = this.parseGroup(numer.position);
+            var denom = this.parseGroup(numer.position, mode);
             if (denom) {
                 return new ParseResult(
                     new ParseNode("frac", {
                         numer: numer.result,
                         denom: denom.result,
                         size: nucleus.type.slice(1)
-                    }),
+                    }, mode),
                     denom.position);
             } else {
                 throw new ParseError("Expected denominator after '" +
-                    nucleus.type + "'");
+                    nucleus.type + "'",
+                    this.lexer, numer.position
+                );
             }
         } else {
-            throw new ParseError("Parse error: Expected numerator after '" +
-                nucleus.type + "'");
+            throw new ParseError("Expected numerator after '" +
+                nucleus.type + "'",
+                this.lexer, nucleus.position
+            );
         }
-    } else if (nucleus.type === "\\KaTeX") {
+    } else if (mode === "math" && nucleus.type === "\\KaTeX") {
+        // If this is a KaTeX node, return the special katex result
         return new ParseResult(
-            new ParseNode("katex", null),
+            new ParseNode("katex", null, mode),
             nucleus.position
         );
-    } else if (funcToType[nucleus.type]) {
+    } else if (symbols[mode][nucleus.text]) {
         // Otherwise if this is a no-argument function, find the type it
-        // corresponds to in the map and return
+        // corresponds to in the symbols map
         return new ParseResult(
-            new ParseNode(funcToType[nucleus.type], nucleus.text),
+            new ParseNode(symbols[mode][nucleus.text].group, nucleus.text, mode),
             nucleus.position);
     } else {
         // Otherwise, we couldn't parse it
@@ -560,7 +603,7 @@ Parser.prototype.parseNucleus = function(pos) {
 
 module.exports = Parser;
 
-},{"./Lexer":1,"./ParseError":3,"./utils":11}],5:[function(require,module,exports){
+},{"./Lexer":1,"./ParseError":3,"./symbols":11,"./utils":12}],5:[function(require,module,exports){
 function Style(id, size, multiplier, cramped) {
     this.id = id;
     this.size = size;
@@ -647,6 +690,7 @@ var domTree = require("./domTree");
 var fontMetrics = require("./fontMetrics");
 var parseTree = require("./parseTree");
 var utils = require("./utils");
+var symbols = require("./symbols");
 
 var buildExpression = function(expression, options, prev) {
     var groups = [];
@@ -658,7 +702,7 @@ var buildExpression = function(expression, options, prev) {
     return groups;
 };
 
-var makeSpan = function(classes, children) {
+var makeSpan = function(classes, children, color) {
     var height = 0;
     var depth = 0;
 
@@ -673,7 +717,13 @@ var makeSpan = function(classes, children) {
         }
     }
 
-    return new domTree.span(classes, children, height, depth);
+    var span = new domTree.span(classes, children, height, depth);
+
+    if (color) {
+        span.style.color = color;
+    }
+
+    return span;
 };
 
 var groupToType = {
@@ -681,7 +731,7 @@ var groupToType = {
     textord: "mord",
     bin: "mbin",
     rel: "mrel",
-    amsrel: "mrel",
+    text: "mord",
     open: "mopen",
     close: "mclose",
     frac: "minner",
@@ -689,31 +739,59 @@ var groupToType = {
     punct: "mpunct",
     ordgroup: "mord",
     namedfn: "mop",
-    katex: "mord",
+    katex: "mord"
 };
 
 var getTypeOfGroup = function(group) {
     if (group == null) {
         // Like when typesetting $^3$
-        return groupToType.ord;
+        return groupToType.mathord;
     } else if (group.type === "supsub") {
         return getTypeOfGroup(group.value.base);
     } else if (group.type === "llap" || group.type === "rlap") {
         return getTypeOfGroup(group.value);
     } else if (group.type === "color") {
         return getTypeOfGroup(group.value.value);
+    } else if (group.type === "sizing") {
+        return getTypeOfGroup(group.value.value);
     } else {
         return groupToType[group.type];
     }
 };
 
+var isCharacterBox = function(group) {
+    if (group == null) {
+        return false;
+    } else if (group.type === "mathord" ||
+               group.type === "textord" ||
+               group.type === "bin" ||
+               group.type === "rel" ||
+               group.type === "open" ||
+               group.type === "close" ||
+               group.type === "punct") {
+        return true;
+    } else if (group.type === "ordgroup") {
+        return group.value.length === 1 && isCharacterBox(group.value[0]);
+    } else {
+        return false;
+    }
+};
+
 var groupTypes = {
     mathord: function(group, options, prev) {
-        return makeSpan(["mord", options.color], [mathit(group.value)]);
+        return makeSpan(
+            ["mord"],
+            [mathit(group.value, group.mode)],
+            options.getColor()
+        );
     },
 
     textord: function(group, options, prev) {
-        return makeSpan(["mord", options.color], [mathrm(group.value)]);
+        return makeSpan(
+            ["mord"],
+            [mathrm(group.value, group.mode)],
+            options.getColor()
+        );
     },
 
     bin: function(group, options, prev) {
@@ -728,15 +806,25 @@ var groupTypes = {
             group.type = "ord";
             className = "mord";
         }
-        return makeSpan([className, options.color], [mathrm(group.value)]);
+        return makeSpan(
+            [className],
+            [mathrm(group.value, group.mode)],
+            options.getColor()
+        );
     },
 
     rel: function(group, options, prev) {
-        return makeSpan(["mrel", options.color], [mathrm(group.value)]);
+        return makeSpan(
+            ["mrel"],
+            [mathrm(group.value, group.mode)],
+            options.getColor()
+        );
     },
 
-    amsrel: function(group, options, prev) {
-        return makeSpan(["mrel", options.color], [amsrm(group.value)]);
+    text: function(group, options, prev) {
+        return makeSpan(["text mord", options.style.cls()],
+            [buildGroup(group.value, options.reset())]
+        );
     },
 
     supsub: function(group, options, prev) {
@@ -758,8 +846,13 @@ var groupTypes = {
             var subwrap = makeSpan(["msub"], [submid]);
         }
 
-        var u = base.height - fontMetrics.metrics.supDrop;
-        var v = base.depth + fontMetrics.metrics.subDrop;
+        if (isCharacterBox(group.value.base)) {
+            var u = 0;
+            var v = 0;
+        } else {
+            var u = base.height - fontMetrics.metrics.supDrop;
+            var v = base.depth + fontMetrics.metrics.subDrop;
+        }
 
         var p;
         if (options.style === Style.DISPLAY) {
@@ -771,6 +864,7 @@ var groupTypes = {
         }
 
         var supsub;
+        var fixIE = makeSpan(["fix-ie"], []);
 
         if (!group.value.sup) {
             v = Math.max(v, fontMetrics.metrics.sub1,
@@ -781,7 +875,7 @@ var groupTypes = {
             subwrap.depth = subwrap.depth + v;
             subwrap.height = 0;
 
-            supsub = makeSpan(["msupsub"], [subwrap]);
+            supsub = makeSpan(["msupsub"], [subwrap, fixIE]);
         } else if (!group.value.sub) {
             u = Math.max(u, p,
                 sup.depth + 0.25 * fontMetrics.metrics.xHeight);
@@ -791,7 +885,7 @@ var groupTypes = {
             supwrap.height = supwrap.height + u;
             supwrap.depth = 0;
 
-            supsub = makeSpan(["msupsub"], [supwrap]);
+            supsub = makeSpan(["msupsub"], [supwrap, fixIE]);
         } else {
             u = Math.max(u, p,
                 sup.depth + 0.25 * fontMetrics.metrics.xHeight);
@@ -817,18 +911,26 @@ var groupTypes = {
             subwrap.height = 0;
             subwrap.depth = subwrap.depth + v;
 
-            supsub = makeSpan(["msupsub"], [supwrap, subwrap]);
+            supsub = makeSpan(["msupsub"], [supwrap, subwrap, fixIE]);
         }
 
         return makeSpan([getTypeOfGroup(group.value.base)], [base, supsub]);
     },
 
     open: function(group, options, prev) {
-        return makeSpan(["mopen", options.color], [mathrm(group.value)]);
+        return makeSpan(
+            ["mopen"],
+            [mathrm(group.value, group.mode)],
+            options.getColor()
+        );
     },
 
     close: function(group, options, prev) {
-        return makeSpan(["mclose", options.color], [mathrm(group.value)]);
+        return makeSpan(
+            ["mclose"],
+            [mathrm(group.value, group.mode)],
+            options.getColor()
+        );
     },
 
     frac: function(group, options, prev) {
@@ -885,16 +987,18 @@ var groupTypes = {
         denomrow.height = 0;
         denomrow.depth = denomrow.depth + v;
 
-        var frac = makeSpan([], [numerrow, mid, denomrow]);
+        var fixIE = makeSpan(["fix-ie"], []);
+
+        var frac = makeSpan([], [numerrow, mid, denomrow, fixIE]);
 
         frac.height *= fstyle.sizeMultiplier / options.style.sizeMultiplier;
         frac.depth *= fstyle.sizeMultiplier / options.style.sizeMultiplier;
 
         var wrap = makeSpan([options.style.reset(), fstyle.cls()], [frac]);
 
-        return makeSpan(["minner", options.color], [
+        return makeSpan(["minner"], [
             makeSpan(["mfrac"], [wrap])
-        ]);
+        ], options.getColor());
     },
 
     color: function(group, options, prev) {
@@ -920,8 +1024,12 @@ var groupTypes = {
     },
 
     spacing: function(group, options, prev) {
-        if (group.value === "\\ " || group.value === "\\space") {
-            return makeSpan(["mord", "mspace"], [mathrm(group.value)]);
+        if (group.value === "\\ " || group.value === "\\space" ||
+            group.value === " " || group.value === "~") {
+            return makeSpan(
+                ["mord", "mspace"],
+                [mathrm(group.value, group.mode)]
+            );
         } else {
             var spacingClassMap = {
                 "\\qquad": "qquad",
@@ -938,21 +1046,30 @@ var groupTypes = {
     },
 
     llap: function(group, options, prev) {
-        var inner = makeSpan([], [buildGroup(group.value, options.reset())]);
-        return makeSpan(["llap", options.style.cls()], [inner]);
+        var inner = makeSpan(
+            ["inner"], [buildGroup(group.value, options.reset())]);
+        var fix = makeSpan(["fix"], []);
+        return makeSpan(["llap", options.style.cls()], [inner, fix]);
     },
 
     rlap: function(group, options, prev) {
-        var inner = makeSpan([], [buildGroup(group.value, options.reset())]);
-        return makeSpan(["rlap", options.style.cls()], [inner]);
+        var inner = makeSpan(
+            ["inner"], [buildGroup(group.value, options.reset())]);
+        var fix = makeSpan(["fix"], []);
+        return makeSpan(["rlap", options.style.cls()], [inner, fix]);
     },
 
     punct: function(group, options, prev) {
-        return makeSpan(["mpunct", options.color], [mathrm(group.value)]);
+        return makeSpan(
+            ["mpunct"],
+            [mathrm(group.value, group.mode)],
+            options.getColor()
+        );
     },
 
     ordgroup: function(group, options, prev) {
-        return makeSpan(["mord", options.style.cls()],
+        return makeSpan(
+            ["mord", options.style.cls()],
             buildExpression(group.value, options.reset())
         );
     },
@@ -960,28 +1077,28 @@ var groupTypes = {
     namedfn: function(group, options, prev) {
         var chars = [];
         for (var i = 1; i < group.value.length; i++) {
-            chars.push(mathrm(group.value[i]));
+            chars.push(mathrm(group.value[i], group.mode));
         }
 
-        return makeSpan(["mop", options.color], chars);
+        return makeSpan(["mop"], chars, options.getColor());
     },
 
     katex: function(group, options, prev) {
-        var k = makeSpan(["k"], [mathrm("K")]);
-        var a = makeSpan(["a"], [mathrm("A")]);
+        var k = makeSpan(["k"], [mathrm("K", group.mode)]);
+        var a = makeSpan(["a"], [mathrm("A", group.mode)]);
 
         a.height = (a.height + 0.2) * 0.75;
         a.depth = (a.height - 0.2) * 0.75;
 
-        var t = makeSpan(["t"], [mathrm("T")]);
-        var e = makeSpan(["e"], [mathrm("E")]);
+        var t = makeSpan(["t"], [mathrm("T", group.mode)]);
+        var e = makeSpan(["e"], [mathrm("E", group.mode)]);
 
         e.height = (e.height - 0.2155);
         e.depth = (e.depth + 0.2155);
 
-        var x = makeSpan(["x"], [mathrm("X")]);
+        var x = makeSpan(["x"], [mathrm("X", group.mode)]);
 
-        return makeSpan(["katex-logo", options.color], [k, a, t, e, x]);
+        return makeSpan(["katex-logo"], [k, a, t, e, x], options.getColor());
     },
 
     sizing: function(group, options, prev) {
@@ -1020,11 +1137,6 @@ var buildGroup = function(group, options, prev) {
             var multiplier = options.style.sizeMultiplier /
                     options.parentStyle.sizeMultiplier;
 
-            if (multiplier > 1) {
-                throw new ParseError(
-                    "Error: Can't go from small to large style");
-            }
-
             groupNode.height *= multiplier;
             groupNode.depth *= multiplier;
         }
@@ -1033,14 +1145,9 @@ var buildGroup = function(group, options, prev) {
             var multiplier = sizingMultiplier[options.size] /
                     sizingMultiplier[options.parentSize];
 
-            if (multiplier > 1) {
-                throw new ParseError(
-                    "Error: Can't go from small to large size");
-            }
-
             if (options.depth > 1) {
                 throw new ParseError(
-                    "Error: Can't use sizing outside of the root node");
+                    "Can't use sizing outside of the root node");
             }
 
             groupNode.height *= multiplier;
@@ -1050,95 +1157,13 @@ var buildGroup = function(group, options, prev) {
         return groupNode;
     } else {
         throw new ParseError(
-            "Lex error: Got group of unknown type: '" + group.type + "'");
+            "Got group of unknown type: '" + group.type + "'");
     }
 };
 
-var charLookup = {
-    "*": "\u2217",
-    "-": "\u2212",
-    "`": "\u2018",
-    "\\ ": "\u00a0",
-    "\\$": "$",
-    "\\%": "%",
-    "\\angle": "\u2220",
-    "\\approx": "\u2248",
-    "\\cdot": "\u22c5",
-    "\\circ": "\u2218",
-    "\\colon": ":",
-    "\\cong": "\u2245",
-    "\\div": "\u00f7",
-    "\\ge": "\u2265",
-    "\\geq": "\u2265",
-    "\\gets": "\u2190",
-    "\\in": "\u2208",
-    "\\infty": "\u221e",
-    "\\langle": "\u27e8",
-    "\\leftarrow": "\u2190",
-    "\\le": "\u2264",
-    "\\leq": "\u2264",
-    "\\lvert": "|",
-    "\\ne": "\u2260",
-    "\\neq": "\u2260",
-    "\\ngeq": "\u2271",
-    "\\nleq": "\u2270",
-    "\\pm": "\u00b1",
-    "\\prime": "\u2032",
-    "\\rangle": "\u27e9",
-    "\\rightarrow": "\u2192",
-    "\\rvert": "|",
-    "\\space": "\u00a0",
-    "\\times": "\u00d7",
-    "\\to": "\u2192",
-    "\\triangle": "\u25b3",
-
-    "\\alpha": "\u03b1",
-    "\\beta": "\u03b2",
-    "\\gamma": "\u03b3",
-    "\\delta": "\u03b4",
-    "\\epsilon": "\u03f5",
-    "\\zeta": "\u03b6",
-    "\\eta": "\u03b7",
-    "\\theta": "\u03b8",
-    "\\iota": "\u03b9",
-    "\\kappa": "\u03ba",
-    "\\lambda": "\u03bb",
-    "\\mu": "\u03bc",
-    "\\nu": "\u03bd",
-    "\\xi": "\u03be",
-    "\\omicron": "o",
-    "\\pi": "\u03c0",
-    "\\rho": "\u03c1",
-    "\\sigma": "\u03c3",
-    "\\tau": "\u03c4",
-    "\\upsilon": "\u03c5",
-    "\\phi": "\u03d5",
-    "\\chi": "\u03c7",
-    "\\psi": "\u03c8",
-    "\\omega": "\u03c9",
-    "\\varepsilon": "\u03b5",
-    "\\vartheta": "\u03d1",
-    "\\varpi": "\u03d6",
-    "\\varrho": "\u03f1",
-    "\\varsigma": "\u03c2",
-    "\\varphi": "\u03c6",
-
-    "\\Gamma": "\u0393",
-    "\\Delta": "\u0394",
-    "\\Theta": "\u0398",
-    "\\Lambda": "\u039b",
-    "\\Xi": "\u039e",
-    "\\Pi": "\u03a0",
-    "\\Sigma": "\u03a3",
-    "\\Upsilon": "\u03a5",
-    "\\Phi": "\u03a6",
-    "\\Psi": "\u03a8",
-    "\\Omega": "\u03a9"
-};
-
-var makeText = function(value, style) {
-    if (value in charLookup) {
-        value = charLookup[value];
+var makeText = function(value, style, mode) {
+    if (symbols[mode][value].replace) {
+        value = symbols[mode][value].replace;
     }
 
     var metrics = fontMetrics.getCharacterMetrics(value, style);
@@ -1148,7 +1173,7 @@ var makeText = function(value, style) {
             metrics.depth);
         if (metrics.italic > 0) {
             var span = makeSpan([], [textNode]);
-            span.style["margin-right"] = metrics.italic + "em";
+            span.style.marginRight = metrics.italic + "em";
 
             return span;
         } else {
@@ -1161,16 +1186,16 @@ var makeText = function(value, style) {
     }
 };
 
-var mathit = function(value) {
-    return makeSpan(["mathit"], [makeText(value, "math-italic")]);
+var mathit = function(value, mode) {
+    return makeSpan(["mathit"], [makeText(value, "math-italic", mode)]);
 };
 
-var mathrm = function(value) {
-    return makeText(value, "main-regular");
-};
-
-var amsrm = function(value) {
-    return makeSpan(["amsrm"], [makeText(value, "ams-regular")]);
+var mathrm = function(value, mode) {
+    if (symbols[mode][value].font === "main") {
+        return makeText(value, "main-regular", mode);
+    } else {
+        return makeSpan(["amsrm"], [makeText(value, "ams-regular", mode)]);
+    }
 };
 
 var buildTree = function(tree) {
@@ -1184,6 +1209,10 @@ var buildTree = function(tree) {
 
     topStrut.style.height = span.height + "em";
     bottomStrut.style.height = (span.height + span.depth) + "em";
+    // We'd like to use `vertical-align: top` but in IE 9 this lowers the
+    // baseline of the box to the bottom of this strut (instead staying in the
+    // normal place) so we use an absolute value for vertical-align instead
+    bottomStrut.style.verticalAlign = -span.depth + "em";
 
     var katexNode = makeSpan(["katex"], [
         makeSpan(["katex-inner"], [topStrut, bottomStrut, span])
@@ -1194,7 +1223,7 @@ var buildTree = function(tree) {
 
 module.exports = buildTree;
 
-},{"./Options":2,"./ParseError":3,"./Style":5,"./domTree":7,"./fontMetrics":8,"./parseTree":10,"./utils":11}],7:[function(require,module,exports){
+},{"./Options":2,"./ParseError":3,"./Style":5,"./domTree":7,"./fontMetrics":8,"./parseTree":10,"./symbols":11,"./utils":12}],7:[function(require,module,exports){
 // These objects store the data about the DOM nodes we create, as well as some
 // extra data. They can then be transformed into real DOM nodes with the toDOM
 // function. They are useful for both storing extra properties on the nodes, as
@@ -1364,7 +1393,7 @@ module.exports = {
     ParseError: ParseError
 };
 
-},{"./ParseError":3,"./buildTree":6,"./parseTree":10,"./utils":11}],10:[function(require,module,exports){
+},{"./ParseError":3,"./buildTree":6,"./parseTree":10,"./utils":12}],10:[function(require,module,exports){
 var Parser = require("./Parser");
 var parser = new Parser();
 
@@ -1375,6 +1404,621 @@ var parseTree = function(toParse) {
 module.exports = parseTree;
 
 },{"./Parser":4}],11:[function(require,module,exports){
+/* This file holds a list of all no-argument functions and single-character
+ * symbols (like 'a' or ';'). For each of the symbols, there are three
+ * properties they can have:
+ * - font (required): the font to be used for this * symbol. Either "main" (the
+     normal font), or "ams" (the ams fonts)
+ * - group (required): the ParseNode group type the symbol should have (i.e.
+     "textord" or "mathord" or
+ * - replace (optiona): the character that this symbol or function should be
+ *   replaced with (i.e. "\phi" has a replace value of "\u03d5", the phi
+ *   character in the main font)
+ * There outermost map in the table indicates what mode the symbols should be
+ * accepted in (e.g. "math" or "text")
+ */
+
+var symbols = {
+    "math": {
+        "`": {
+            font: "main",
+            group: "textord",
+            replace: "\u2018"
+        },
+        "\\$": {
+            font: "main",
+            group: "textord",
+            replace: "$"
+        },
+        "\\%": {
+            font: "main",
+            group: "textord",
+            replace: "%"
+        },
+        "\\angle": {
+            font: "main",
+            group: "textord",
+            replace: "\u2220"
+        },
+        "\\infty": {
+            font: "main",
+            group: "textord",
+            replace: "\u221e"
+        },
+        "\\prime": {
+            font: "main",
+            group: "textord",
+            replace: "\u2032"
+        },
+        "\\triangle": {
+            font: "main",
+            group: "textord",
+            replace: "\u25b3"
+        },
+        "\\Gamma": {
+            font: "main",
+            group: "textord",
+            replace: "\u0393"
+        },
+        "\\Delta": {
+            font: "main",
+            group: "textord",
+            replace: "\u0394"
+        },
+        "\\Theta": {
+            font: "main",
+            group: "textord",
+            replace: "\u0398"
+        },
+        "\\Lambda": {
+            font: "main",
+            group: "textord",
+            replace: "\u039b"
+        },
+        "\\Xi": {
+            font: "main",
+            group: "textord",
+            replace: "\u039e"
+        },
+        "\\Pi": {
+            font: "main",
+            group: "textord",
+            replace: "\u03a0"
+        },
+        "\\Sigma": {
+            font: "main",
+            group: "textord",
+            replace: "\u03a3"
+        },
+        "\\Upsilon": {
+            font: "main",
+            group: "textord",
+            replace: "\u03a5"
+        },
+        "\\Phi": {
+            font: "main",
+            group: "textord",
+            replace: "\u03a6"
+        },
+        "\\Psi": {
+            font: "main",
+            group: "textord",
+            replace: "\u03a8"
+        },
+        "\\Omega": {
+            font: "main",
+            group: "textord",
+            replace: "\u03a9"
+        },
+        "\\alpha": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b1"
+        },
+        "\\beta": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b2"
+        },
+        "\\gamma": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b3"
+        },
+        "\\delta": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b4"
+        },
+        "\\epsilon": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03f5"
+        },
+        "\\zeta": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b6"
+        },
+        "\\eta": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b7"
+        },
+        "\\theta": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b8"
+        },
+        "\\iota": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b9"
+        },
+        "\\kappa": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03ba"
+        },
+        "\\lambda": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03bb"
+        },
+        "\\mu": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03bc"
+        },
+        "\\nu": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03bd"
+        },
+        "\\xi": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03be"
+        },
+        "\\omicron": {
+            font: "main",
+            group: "mathord",
+            replace: "o"
+        },
+        "\\pi": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c0"
+        },
+        "\\rho": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c1"
+        },
+        "\\sigma": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c3"
+        },
+        "\\tau": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c4"
+        },
+        "\\upsilon": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c5"
+        },
+        "\\phi": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03d5"
+        },
+        "\\chi": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c7"
+        },
+        "\\psi": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c8"
+        },
+        "\\omega": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c9"
+        },
+        "\\varepsilon": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03b5"
+        },
+        "\\vartheta": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03d1"
+        },
+        "\\varpi": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03d6"
+        },
+        "\\varrho": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03f1"
+        },
+        "\\varsigma": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c2"
+        },
+        "\\varphi": {
+            font: "main",
+            group: "mathord",
+            replace: "\u03c6"
+        },
+        "*": {
+            font: "main",
+            group: "bin",
+            replace: "\u2217"
+        },
+        "+": {
+            font: "main",
+            group: "bin"
+        },
+        "-": {
+            font: "main",
+            group: "bin",
+            replace: "\u2212"
+        },
+        "\\cdot": {
+            font: "main",
+            group: "bin",
+            replace: "\u22c5"
+        },
+        "\\circ": {
+            font: "main",
+            group: "bin",
+            replace: "\u2218"
+        },
+        "\\div": {
+            font: "main",
+            group: "bin",
+            replace: "\u00f7"
+        },
+        "\\pm": {
+            font: "main",
+            group: "bin",
+            replace: "\u00b1"
+        },
+        "\\times": {
+            font: "main",
+            group: "bin",
+            replace: "\u00d7"
+        },
+        "(": {
+            font: "main",
+            group: "open"
+        },
+        "[": {
+            font: "main",
+            group: "open"
+        },
+        "\\langle": {
+            font: "main",
+            group: "open",
+            replace: "\u27e8"
+        },
+        "\\lvert": {
+            font: "main",
+            group: "open",
+            replace: "|"
+        },
+        ")": {
+            font: "main",
+            group: "close"
+        },
+        "]": {
+            font: "main",
+            group: "close"
+        },
+        "?": {
+            font: "main",
+            group: "close"
+        },
+        "!": {
+            font: "main",
+            group: "close"
+        },
+        "\\rangle": {
+            font: "main",
+            group: "close",
+            replace: "\u27e9"
+        },
+        "\\rvert": {
+            font: "main",
+            group: "close",
+            replace: "|"
+        },
+        "=": {
+            font: "main",
+            group: "rel"
+        },
+        "<": {
+            font: "main",
+            group: "rel"
+        },
+        ">": {
+            font: "main",
+            group: "rel"
+        },
+        ":": {
+            font: "main",
+            group: "rel"
+        },
+        "\\approx": {
+            font: "main",
+            group: "rel",
+            replace: "\u2248"
+        },
+        "\\cong": {
+            font: "main",
+            group: "rel",
+            replace: "\u2245"
+        },
+        "\\ge": {
+            font: "main",
+            group: "rel",
+            replace: "\u2265"
+        },
+        "\\geq": {
+            font: "main",
+            group: "rel",
+            replace: "\u2265"
+        },
+        "\\gets": {
+            font: "main",
+            group: "rel",
+            replace: "\u2190"
+        },
+        "\\in": {
+            font: "main",
+            group: "rel",
+            replace: "\u2208"
+        },
+        "\\leftarrow": {
+            font: "main",
+            group: "rel",
+            replace: "\u2190"
+        },
+        "\\le": {
+            font: "main",
+            group: "rel",
+            replace: "\u2264"
+        },
+        "\\leq": {
+            font: "main",
+            group: "rel",
+            replace: "\u2264"
+        },
+        "\\ne": {
+            font: "main",
+            group: "rel",
+            replace: "\u2260"
+        },
+        "\\neq": {
+            font: "main",
+            group: "rel",
+            replace: "\u2260"
+        },
+        "\\rightarrow": {
+            font: "main",
+            group: "rel",
+            replace: "\u2192"
+        },
+        "\\to": {
+            font: "main",
+            group: "rel",
+            replace: "\u2192"
+        },
+        "\\ngeq": {
+            font: "ams",
+            group: "rel",
+            replace: "\u2271"
+        },
+        "\\nleq": {
+            font: "ams",
+            group: "rel",
+            replace: "\u2270"
+        },
+        "\\!": {
+            font: "main",
+            group: "spacing"
+        },
+        "\\ ": {
+            font: "main",
+            group: "spacing",
+            replace: "\u00a0"
+        },
+        "~": {
+            font: "main",
+            group: "spacing",
+            replace: "\u00a0"
+        },
+        "\\,": {
+            font: "main",
+            group: "spacing"
+        },
+        "\\:": {
+            font: "main",
+            group: "spacing"
+        },
+        "\\;": {
+            font: "main",
+            group: "spacing"
+        },
+        "\\enspace": {
+            font: "main",
+            group: "spacing"
+        },
+        "\\qquad": {
+            font: "main",
+            group: "spacing"
+        },
+        "\\quad": {
+            font: "main",
+            group: "spacing"
+        },
+        "\\space": {
+            font: "main",
+            group: "spacing",
+            replace: "\u00a0"
+        },
+        ",": {
+            font: "main",
+            group: "punct"
+        },
+        ";": {
+            font: "main",
+            group: "punct"
+        },
+        "\\colon": {
+            font: "main",
+            group: "punct",
+            replace: ":"
+        },
+        "\\barwedge": {
+            font: "ams",
+            group: "textord",
+            replace: "\u22bc"
+        },
+        "\\veebar": {
+            font: "ams",
+            group: "textord",
+            replace: "\u22bb"
+        },
+        "\\odot": {
+            font: "main",
+            group: "textord",
+            replace: "\u2299"
+        },
+        "\\oplus": {
+            font: "main",
+            group: "textord",
+            replace: "\u2295"
+        },
+        "\\otimes": {
+            font: "main",
+            group: "textord",
+            replace: "\u2297"
+        },
+        "\\oslash": {
+            font: "main",
+            group: "textord",
+            replace: "\u2298"
+        },
+        "\\circledcirc": {
+            font: "ams",
+            group: "textord",
+            replace: "\u229a"
+        },
+        "\\boxdot": {
+            font: "ams",
+            group: "textord",
+            replace: "\u22a1"
+        },
+        "\\bigtriangleup": {
+            font: "main",
+            group: "textord",
+            replace: "\u25b3"
+        },
+        "\\bigtriangledown": {
+            font: "main",
+            group: "textord",
+            replace: "\u25bd"
+        },
+        "\\dagger": {
+            font: "main",
+            group: "textord",
+            replace: "\u2020"
+        },
+        "\\diamond": {
+            font: "main",
+            group: "textord",
+            replace: "\u22c4"
+        },
+        "\\star": {
+            font: "main",
+            group: "textord",
+            replace: "\u22c6"
+        },
+        "\\triangleleft": {
+            font: "main",
+            group: "textord",
+            replace: "\u25c3"
+        },
+        "\\triangleright": {
+            font: "main",
+            group: "textord",
+            replace: "\u25b9"
+        }
+    },
+    "text": {
+        "\\ ": {
+            font: "main",
+            group: "spacing",
+            replace: "\u00a0"
+        },
+        " ": {
+            font: "main",
+            group: "spacing",
+            replace: "\u00a0"
+        },
+        "~": {
+            font: "main",
+            group: "spacing",
+            replace: "\u00a0"
+        }
+    }
+};
+
+var mathTextSymbols = "0123456789/|@.\"";
+for (var i = 0; i < mathTextSymbols.length; i++) {
+    var ch = mathTextSymbols.charAt(i);
+    symbols["math"][ch] = {
+        font: "main",
+        group: "textord"
+    };
+}
+
+var textSymbols = "0123456789`!@*()-=+[]'\";:?/.,";
+for (var i = 0; i < textSymbols.length; i++) {
+    var ch = textSymbols.charAt(i);
+    symbols["text"][ch] = {
+        font: "main",
+        group: "textord"
+    };
+}
+
+var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+for (var i = 0; i < letters.length; i++) {
+    var ch = letters.charAt(i);
+    symbols["math"][ch] = {
+        font: "main",
+        group: "mathord"
+    };
+    symbols["text"][ch] = {
+        font: "main",
+        group: "textord"
+    };
+}
+
+module.exports = symbols;
+
+},{}],12:[function(require,module,exports){
 var nativeIndexOf = Array.prototype.indexOf;
 var indexOf = function(list, elem) {
     if (list == null) {

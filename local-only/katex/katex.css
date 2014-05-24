@@ -18,9 +18,6 @@ big parens
 .katex .strut {
   display: inline-block;
 }
-.katex .strut.bottom {
-  vertical-align: top;
-}
 .katex .mathit {
   font-family: katex_math;
   font-style: italic;
@@ -174,27 +171,31 @@ big parens
 }
 .katex .msupsub {
   display: inline-block;
-  vertical-align: top;
   text-align: left;
   margin-left: 0.05em;
 }
 .katex .msupsub .msup,
-.katex .msupsub .msub {
+.katex .msupsub .msub,
+.katex .msupsub .fix-ie {
   display: block;
   height: 0;
   position: relative;
 }
 .katex .msupsub .msup > span,
-.katex .msupsub .msub > span {
+.katex .msupsub .msub > span,
+.katex .msupsub .fix-ie > span {
+  display: inline-block;
+}
+.katex .msupsub .fix-ie {
   display: inline-block;
 }
 .katex .mfrac {
   display: inline-block;
-  vertical-align: top;
 }
 .katex .mfrac .mfracnum,
 .katex .mfrac .mfracmid,
-.katex .mfrac .mfracden {
+.katex .mfrac .mfracden,
+.katex .mfrac .fix-ie {
   display: block;
   height: 0;
   position: relative;
@@ -202,7 +203,11 @@ big parens
 }
 .katex .mfrac .mfracnum > span,
 .katex .mfrac .mfracmid > span,
-.katex .mfrac .mfracden > span {
+.katex .mfrac .mfracden > span,
+.katex .mfrac .fix-ie > span {
+  display: inline-block;
+}
+.katex .mfrac .fix-ie {
   display: inline-block;
 }
 .katex .mfrac .mfracmid > span {
@@ -250,36 +255,19 @@ big parens
   width: 0;
   position: relative;
 }
-.katex .llap > span,
-.katex .rlap > span {
+.katex .llap > .inner,
+.katex .rlap > .inner {
   position: absolute;
 }
-.katex .llap > span {
+.katex .llap > .fix,
+.katex .rlap > .fix {
+  display: inline-block;
+}
+.katex .llap > .inner {
   right: 0;
 }
-.katex .rlap > span {
+.katex .rlap > .inner {
   left: 0;
-}
-.katex .blue {
-  color: #6495ed;
-}
-.katex .orange {
-  color: #ffa500;
-}
-.katex .pink {
-  color: #ff00af;
-}
-.katex .red {
-  color: #df0030;
-}
-.katex .green {
-  color: #28ae7b;
-}
-.katex .gray {
-  color: gray;
-}
-.katex .purple {
-  color: #9d38bd;
 }
 .katex .katex-logo .a {
   font-size: 0.75em;
