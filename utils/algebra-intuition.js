@@ -55,7 +55,7 @@ KhanUtil.scale = {
             }
             if (a !== 0) {
                 this.leftLabel = this.graphie.label([-3.7, this.yPos],
-                    "\\Huge{\\quad+\\quad " + a + "}");
+                    "\\Huge{{} + " + a + "}");
             } else {
                 this.leftLabel = {remove: function() {}};
             }
