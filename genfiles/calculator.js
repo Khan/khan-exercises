@@ -665,7 +665,7 @@ return new Parser;
                 if (ans !== undefined) {
                     return ans;
                 } else {
-                    throw new CalculatorError("Invalid variable ans");
+                    throw new CalculatorError($._("Invalid variable ans"));
                 }
             } else if (tree === "pi") {
                 return Math.PI;
@@ -687,35 +687,35 @@ return new Parser;
                     tan: function(a) {
                         var ans = Math.tan(toRad(a));
                         if (isNaN(ans) || Math.abs(ans) > Math.pow(2, 53)) {
-                            throw new CalculatorError("undefined");
+                            throw new CalculatorError($._("undefined"));
                         }
                         return ans;
                     },
                     asin: function(a) {
                         var ans = fromRad(Math.asin(a));
                         if (isNaN(ans)) {
-                            throw new CalculatorError("undefined");
+                            throw new CalculatorError($._("undefined"));
                         }
                         return ans;
                     },
                     acos: function(a) {
                         var ans = fromRad(Math.acos(a));
                         if (isNaN(ans)) {
-                            throw new CalculatorError("undefined");
+                            throw new CalculatorError($._("undefined"));
                         }
                         return ans;
                     },
                     atan: function(a) {
                         var ans = fromRad(Math.atan(a));
                         if (isNaN(ans)) {
-                            throw new CalculatorError("undefined");
+                            throw new CalculatorError($._("undefined"));
                         }
                         return ans;
                     },
                     ln: function(a) {
                         var ans = Math.log(a);
                         if (isNaN(ans) || !isFinite(ans)) {
-                            throw new CalculatorError("undefined");
+                            throw new CalculatorError($._("undefined"));
                         }
                         return ans;
                     }
@@ -731,7 +731,8 @@ return new Parser;
                 }
             } else {
                 throw new CalculatorError(
-                    "Invalid type " + Object.prototype.toString.call(tree));
+                    $._("Invalid type %(type)s",
+                        {type: Object.prototype.toString.call(tree)}));
             }
         },
 

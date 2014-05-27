@@ -5,10 +5,12 @@
 
         // Base modules used by every problem (matches Khan.getBaseModules())
         "utils/answer-types.js",
-        "utils/calculator.js",
         "utils/tex.js",
         "utils/tmpl.js",
         "utils/jquery.adhesion.js",
+
+        // Loaded separately.
+        "genfiles/calculator.js",
 
         // Utils required asynchronously by khan-exercise.js (when files are
         // required without a callback, r.js will include them automatically)
@@ -66,7 +68,7 @@
     out: "genfiles/exercise-content-bundle.js",
     shim: {
         // Wrap these with a define() wrapper to defer execution until required
-        "utils/calculator.js": true,
+        "genfiles/calculator.js": true,
         "utils/jquery.adhesion.js": true,
         "third_party/jquery.cursor-position.js": true,
         "third_party/jquery.mobile.vmouse.js": true

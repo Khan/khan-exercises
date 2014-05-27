@@ -260,14 +260,12 @@ var Khan = {
     // TODO(alpert): This doesn't need to be in the Khan object.
     getBaseModules: function() {
         var mods = [];
-        // Base modules required for every problem
-        // MathJax is here because Perseus wants it loaded regardless of if
-        // we load a khan-exercises problem that needs it. Previously it
-        // was a dependency of 'math' so this isn't really any different.
+        // Base modules required for every problem.  These are specified
+        // as filenames (minus the .js extension) relative to util/.
         // subhints is here to support the intervention experiment.
         mods.push(
             "answer-types", "tmpl", "tex", "jquery.adhesion",
-            "calculator", "scratchpad", "subhints");
+            "scratchpad", "subhints");
 
         return mods;
     },
@@ -1804,7 +1802,7 @@ function prepareSite() {
         $(".calculator-decimal").html(separator);
     }
 
-    require(["./utils/calculator.js"], initializeCalculator);
+    require(["./genfiles/calculator.js"], initializeCalculator);
     Khan.initReportIssueLink("#extras .report-issue-link");
 
     $("#answer_area").delegate("input.button, select", "keydown", function(e) {

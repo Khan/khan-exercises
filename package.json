@@ -1,0 +1,26 @@
+{
+    "name": "khan-exercises",
+    "version": "1.0.0",
+    "author": "Khan Academy",
+    "keywords": "education exercises khanacademy khan math exercises",
+    "description": "(Some) exercises for Khan Academy",
+    "licenses": [
+    {
+        "type": "MIT",
+        "url": "http://www.opensource.org/licenses/mit-license.php"
+    },
+    {
+        "type": "CC Attribution/Non-Commercial/Share-Alike",
+        "url": "http://creativecommons.org/licenses/by-nc-sa/3.0/"
+    }
+    ],
+
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/Khan/khan-exercises/"
+    },
+
+    "devDependencies": {
+        "jison" : "0.4.13"
+    }
+}

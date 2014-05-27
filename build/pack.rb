@@ -125,7 +125,7 @@ end
 Dir.chdir(File.join(File.dirname(__FILE__), ".."))
 
 @uglifier = Uglifier.new(:copyright => false)  # Discard all comments
-@jshint = ExecJS.compile(File.read("build/jshint.js"))
+@jshint = ExecJS.compile(File.read("build/third_party/jshint.js"))
 
 def uglifier_insane(output)
   $stderr.puts "-- unexpected uglifier output: " + output.inspect

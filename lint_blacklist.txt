@@ -3,13 +3,8 @@
 local-only/**
 genfiles/**
 third_party/**
+build/third_party/**
 test/**
 
 # Config files that don't (and shouldn't) end in a semicolon
 requirejs.config.js
-
-# Third-party code in build/.  TODO(csilvers): move to third_party/?
-build/jshint.js
-
-# TODO(csilvers): fix these
-utils/calculator.js
