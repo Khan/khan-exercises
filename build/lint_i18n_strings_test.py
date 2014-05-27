@@ -26,7 +26,7 @@ TESTS = {
                 'Re-run with --fix to automatically fix them.']
     },
     'plural': {
-        'nodes_changed': 19,
+        'nodes_changed': 16,
         'errors': [
             'Ambiguous plural usage (UNIT_TEXT, S):\n'
                 '<var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>',
@@ -34,9 +34,7 @@ TESTS = {
                 '<var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>',
             'Ambiguous plural usage (UNIT_TEXT, S):\n'
                 '<var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>',
-            'Ambiguous plural usage (UNIT_TEXT, B):\n'
-                '<var>AMBIGUOUS_PLURAL(UNIT_TEXT, B)</var>',
-            '19 nodes need to be fixed. '
+            '16 nodes need to be fixed. '
                 'Re-run with --fix to automatically fix them.']
     },
     'ternary': {

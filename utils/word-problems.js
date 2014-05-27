@@ -200,22 +200,7 @@ $.extend(KhanUtil, {
                 return usePlural ? plural : value;
             }
         };
-    })(),
-
-    // OBSOLETE.  TODO(csilvers): remove from here and tests after I confirm.
-    // Pluralize with a code tag around the number
-    // - pluralTex(NUMBER, singular):
-    //        - if necessary, magically pluralize <singular>
-    //        - return "<code>NUMBER</code> word"
-    // - pluralTex(NUMBER, singular, plural):
-    //        - return "<code>NUMBER</code> word"
-    pluralTex: function(value, arg1, arg2) {
-        if (typeof arg2 === "string") {
-            return "<code>" + value + "</code> " + KhanUtil.plural(arg1, arg2, value);
-        } else {
-            return "<code>" + value + "</code> " + KhanUtil.plural(arg1, value);
-        }
-    }
+    })()
 });
 
 var Plural = KhanUtil.Plural = function(plural_fn) {

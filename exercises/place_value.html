@@ -30,7 +30,9 @@
                         (function() {
                             var maxPower = DIGITS.length - 1;
                             var words = $.map( DIGITS, function( digit, index ) {
-                                return pluralTex( digit, powerToPlace( maxPower - index ) );
+                                var value = powerToPlace( maxPower - index );
+                                return "&lt;code&gt;" + digit + "&lt;/code&gt; " + 
+                                       KhanUtil.plural(value, digit);
                             });
                             return words.join(" &lt;code&gt;+&lt;/code&gt; ");
                         })()
