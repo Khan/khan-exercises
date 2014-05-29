@@ -1220,9 +1220,26 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         // Making the problem failed, let's try again (up to 3 times)
         debugLog("validator was falsey");
         problem.remove();
-        if (failureRetryCount < 100 && seedOverride == null) {
+        if (failureRetryCount < 100) {
             failureRetryCount++;
-            makeProblem(exerciseId, typeOverride, seedOverride);
+            // If this seed didn't work for some reason, just try the next
+            // seed for the same problem type. This probably happens because:
+            //
+            // 1)  Something with a multiple-choice answer requires, say 4
+            //     choices, but this seed was only able to generate three
+            //     choices.
+            // 1a) A multiple choice question doesn't require a specific number
+            //     of choices and therefore requires all choices to be shown,
+            //     but there were duplicates among the generate choices leading
+            //     to fewer than all of them able to be shown, so we give up
+            //     and have to try with a different seed.
+            //
+            // TODO(eater): Handle this case better. Since this leads to
+            // potentially duplicate problems (e.g., when seed 10, 11, and 12
+            // all fall back to seed 12), users see less variety.
+            var newSeed = (currentProblemSeed + 1) % bins;
+
+            makeProblem(exerciseId, typeOverride, newSeed);
         } else {
             debugLog("Failed making problem too many times");
             Khan.error("Failed while attempting to MakeProblem too many " +
