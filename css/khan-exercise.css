@@ -977,6 +977,12 @@ span.hover-hint:hover {
     margin-right: 50px;
 }
 
+#problemarea .quarter-graph {
+    float: left;
+    margin-bottom: 45px;
+    margin-right: 45px;
+}
+
 #solutionarea table.rational-exp td {
     text-align: center;
     vertical-align: middle;

@@ -1,26 +1,19 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
+<html data-require="math math-format word-problems graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Identifying slope of a line</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style type="text/css">
-        .quarter-graph {
-            float: left;
-            margin-bottom: 45px;
-            margin-right: 45px;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
     <div class="problems">
         <div id="give-two-points" data-weight="3">
-            <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) &lt; 36 &amp;&amp; X1 &lt; X2 &amp;&amp; Math.abs(M) !== 1">
-                <var id="X1">randRange(-9, 9)</var>
+            <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) &lt; 36 &amp;&amp; Math.abs(M) !== 1">
+                <var id="X1">randRange(-9, 8)</var>
                 <var id="Y1">randRange(-9, 9)</var>
 
-                <var id="X2">randRange(-9, 9)</var>
+                <var id="X2">randRange(X1 + 1, 9)</var>
                 <var id="Y2">randRange(-9, 9)</var>
 
                 <var id="M">(Y1 - Y2) / (X1 - X2)</var>
@@ -42,7 +35,7 @@
                     line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
                         stroke: "#888"
                     } );
-                    style({ fill: ORANGE, stroke: ORANGE });
+                    style({ fill: PURPLE, stroke: PURPLE });
                     circle( [X1, Y1], 3/20 );
                     style({ fill: BLUE, stroke: BLUE });
                     circle( [X2, Y2], 3/20 );
@@ -51,55 +44,13 @@
 
             <div class="solution"><var>(Y1 - Y2) / (X1 - X2)</var></div>
             <div class="hints">
-              <div>
-                <p>Picture an airplane moving from left to right.  If the airplane is taking off <code>\color{<var>BLUE</var>}{/}</code>, the slope is positive.  If it's landing <code>\color{<var>GREEN</var>}{\backslash}</code>, the slope is negative.  When the plane has reached cruising altitude  <code>\color{<var>ORANGE</var>}{-}</code>, the slope is 0.</p>
-                <div style="height: 200px;">
-                    <div class="graphie" style="float: left; margin: 8px;">
-                            graphInit({
-                            range: 4,
-                            scale: 20,
-                            tickStep: 1,
-                            labelStep: false
-                            });
-                            style({ fill: BLUE, stroke: BLUE });
-                            line( [ -1,-1 ], [ 1,4 ] );
-                            label([0,-4], "\\color{" + BLUE + "}{\\text{" + $._("Airplane Taking  Off") + "}}", "below");
-                    </div>
-                    <div class="graphie" style="float: left; margin: 8px;">
-                            graphInit({
-                            range: 4,
-                            scale: 20,
-                            tickStep: 1,
-                            labelStep: false
-                            });
-                            style({ fill: GREEN, stroke: GREEN });
-                            line( [ 0, 2 ], [ 2, -1 ] );
-                            label([0,-4], "\\color{" + GREEN + "}{\\text{" + $._("Airplane Landing") + "}}", "below");
-                    </div>
+                <p>
+                    The slope of a line is the amount of change in the <code>y</code>-coordinate as the <code>x</code>-coordinate increases by one unit.
+                </p>
+                <div>
+                    <p>The equation for the slope is:</p>
+                    <p><code>\qquad m = \dfrac{\blue{y_2} - \purple{y_1}}{\blue{x_2} - \purple{x_1}}</code></p>
                 </div>
-              </div>
-                <p>The quicker the airplane takes off, the steeper the positive slope, which means the answer will be a higher number than when the airplane takes off slowly. The quicker the airplane lands, the steeper the negative slope, which means the answer will be much more negative than when it lands slowly.</p>
-                <div class="graphie" id="slope" data-if="!GRAPH_IN_QUESTION">
-                    graphInit({
-                        range: 10,
-                        scale: 20,
-                        tickStep: 1,
-                        labelStep: 1,
-                        unityLabels: false,
-                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "&lt;-&gt;"
-                    });
-
-                    line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
-                        stroke: "#888"
-                    } );
-
-                    style({ fill: ORANGE, stroke: ORANGE });
-                    circle( [X1, Y1], 3/20 );
-                    style({ fill: BLUE, stroke: BLUE });
-                    circle( [X2, Y2], 3/20 );
-                </div>
-                <p>The equation for the slope is <code>m = \dfrac{\color{<var>BLUE</var>}{y_2} - \color{<var>ORANGE</var>}{y_1}}{\color{<var>BLUE</var>}{x_2} - \color{<var>ORANGE</var>}{x_1}}</code> for points <code>(\color{<var>ORANGE</var>}{<var>X1</var>}, \color{<var>ORANGE</var>}{<var>Y1</var>})</code> and <code>(\color{<var>BLUE</var>}{<var>X2</var>}, \color{<var>BLUE</var>}{<var>Y2</var>})</code>.</p>
                 <div>
                     <div class="graphie" data-update="slope">
                         style({ fill: "", stroke: PINK });
@@ -107,20 +58,25 @@
                         style({ stroke: GREEN });
                         line( [ X1, Y1 ], [ X1, Y2 ] );
                     </div>
-                    <p>Substituting in, we get <code>m = \dfrac{\color{<var>BLUE</var>}{<var>Y2</var>} - \color{<var>ORANGE</var>}{<var>negParens(Y1)</var>}}{\color{<var>BLUE</var>}{<var>X2</var>} - \color{<var>ORANGE</var>}{<var>negParens(X1)</var>}} =
-                        \dfrac{\color{<var>GREEN</var>}{<var>Y2 - Y1</var>}}{\color{<var>PINK</var>}{<var>X2 - X1</var>}}</code></p>
+                    <div>
+                        <p>
+                            Substitute the values for
+                            <code>(\purple{<var>X1</var>}, \purple{<var>Y1</var>})</code> and
+                            <code>(\blue{<var>X2</var>}, \blue{<var>Y2</var>})</code>:
+                        </p>
+                        <p>
+                            <code>\qquad m = \dfrac{\blue{<var>Y2</var>} - \purple{<var>negParens(Y1)</var>}}
+                            {\blue{<var>X2</var>} - \purple{<var>negParens(X1)</var>}} =
+                            \dfrac{\green{<var>Y2 - Y1</var>}}{\pink{<var>X2 - X1</var>}}</code>
+                        </p>
+                    </div>
                 </div>
                 <p>So, the slope <code>m</code> is <code><var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code>.</p>
             </div>
         </div>
         <div id="show-four-graphs" data-weight="2">
             <div class="vars">
-              <var id="COLORS">[
-                { name: $._("Blue"), hex: KhanUtil.BLUE },
-                { name: $._("Orange"), hex: KhanUtil.ORANGE },
-                { name: $._("Green"), hex: KhanUtil.GREEN },
-                { name: $._("Pink"), hex: KhanUtil.PINK }
-                ]</var>
+                <var id="B">randRange( -3, 3 )</var>
                 <var id="M_INIT">randRange( 2, 5 )</var>
                 <var id="SLOPES">[
                     { value: M_INIT, display: M_INIT },
@@ -128,14 +84,19 @@
                     { value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" },
                     { value: -1 / M_INIT, display: "-\\dfrac{1}{" + M_INIT + "}" }
                 ]</var>
-                <var id="B">randRange( -3, 3 )</var>
+                <var id="COLORS">shuffle([
+                    { name: $._("Blue"), hex: KhanUtil.BLUE },
+                    { name: $._("Purple"), hex: KhanUtil.PURPLE },
+                    { name: $._("Green"), hex: KhanUtil.GREEN },
+                    { name: $._("Pink"), hex: KhanUtil.PINK }
+                ])</var>
                 <var id="WHICH">randRange( 0, 3 )</var>
                 <var id="DUMMY">[ 0, 1, 2, 3 ]</var>
+                <var id="OTHERS">_.filter(DUMMY, function(n) { return n !== WHICH; })</var>
+                <var id="OTHER_SLOPES">_.map(OTHERS, function(i) {
+                    return "&lt;code&gt;\\color{" + COLORS[i].hex + "}{" + SLOPES[i].display + "}&lt;/code&gt;";
+                })</var>
                 <var id="M">SLOPES[WHICH]</var>
-                <var id="ORANGE_TEXT">$._("orange")</var>
-                <var id="PINK_TEXT">$._("pink")</var>
-                <var id="BLUE_TEXT">$._("blue")</var>
-                <var id="GREEN_TEXT">$._("green")</var>
             </div>
             <p class="question">Which graph best depicts a slope of <code><var>M.display</var></code>?</p>
             <div data-each="DUMMY as index">
@@ -162,17 +123,17 @@
                 <li data-each="DUMMY as index"><code>\quad \color{<var>COLORS[index].hex</var>}{\text{<var>COLORS[index].name</var>}}</code></li>
             </ol>
             <div class="hints">
-                <p style="clear: both">Remember that the slope corresponds to which direction the line slants, and how much it slants.</p>
-                <div data-if="M.value < 0">
-                    <p>Because <code><var>M.display</var></code> is negative, the line should slant downwards as we follow it to the right.</p>
-                    <p>The answer is either the <code class="hint_orange">\text{<var>ORANGE_TEXT</var>}</code> or <code class="hint_pink">\text{<var>PINK_TEXT</var>}</code> graph.</p>
+                <p style="clear: both">
+                    A slope of <code><var>M.display</var></code> means that the <code>y</code>-coordinate changes by <code><var>M.display</var></code>
+                    as the <code>x</code>-coordinate increases by one unit.
+                </p>
+                <div>
+                    <p>
+                        The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code>
+                        graph has a slope of <code><var>M.display</var></code>.
+                        The other graphs have slopes of <var>toSentence(OTHER_SLOPES)</var>.
+                    </p>
                 </div>
-                <div data-else="">
-                    <p>Because <code><var>M.display</var></code> is positive, the line should slant upwards as we follow it to the right.</p>
-                    <p>The answer is either the <code class="hint_blue">\text{<var>BLUE_TEXT</var>}</code> or <code class="hint_green">\text{<var>GREEN_TEXT</var>}</code> graph.</p>
-                </div>
-                <p>In which graph does the y value change by <code><var>M.display</var></code> if the x value changes by <code>1</code>?</p>
-                <p>The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a slope of <code><var>M.display</var></code>.</p>
             </div>
         </div>
         <div id="slopes-zero-infinity" data-type="show-four-graphs" data-weight="1">
@@ -183,19 +144,31 @@
                     { value: 999, display: "undefined" },
                     { value: 1 / M_INIT, display: "\\dfrac{1}{" + M_INIT + "}" }
                     ]</var>
-                <var id="WHICH">randRange( 1, 2 )</var>
+                <var id="WHICH">randRange(1, 2)</var>
                 <var id="M">SLOPES[WHICH]</var>
             </div>
-            <p class="question"><span data-if="WHICH ===1">Which graph best depicts a slope of <code><var>M.display</var></code>?</span><span data-else="">Which graph best depicts an undefined slope?</span></p>
+            <p class="question">
+                <span data-if="WHICH ===1">Which graph best depicts a slope of <code><var>M.display</var></code>?</span>
+                <span data-else="">Which graph best depicts an undefined slope?</span>
+            </p>
             <div class="hints">
-                <p style="clear: both">Remember that the slope corresponds to how steep the line is.</p>
-                <p>Imagine walking up a hill represented by a line. A larger slope means a steeper hill.</p>
-                <p data-if="M.value === 0">A slope of <code><var>M.display</var></code> means there is no hill at all, and the graph should be flat.</p>
-                <p data-if="M.value === Number.POSITIVE_INFINITY">An <var>M.display</var> slope corresponds to a vertical line, which is like an impossibly steep hill.</p>
+                <p style="clear: both" data-if="WHICH === 1">
+                    A slope of <code><var>M.display</var></code> means the
+                    <code>y</code>-coordinate doesn't change at all as the <code>x</code>-coordinate changes.
+                </p>
+                <p style="clear: both" data-else="">
+                    A vertical line has an undefined slope.
+                    The <code>x</code>-coordinate doesn't change,
+                    so if we try to calculate the slope between two points with
+                    <code>m = \dfrac{\blue{y_2} - \purple{y_1}}{\blue{x_2} - \purple{x_1}}</code>,
+                    we'll have to divide by zero!
+                </p>
                 <p data-if="WHICH === 2">
-                    The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts an undefined slope.
+                    The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code>
+                    graph depicts an undefined slope.
                 </p><p data-else>
-                    The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a slope of <code><var>M.display</var></code>.
+                    The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code>
+                    graph depicts a slope of <code><var>M.display</var></code>.
                 </p>
             </div>
         </div>
