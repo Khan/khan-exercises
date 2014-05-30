@@ -96,7 +96,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         setupFunctional: function(solutionarea, solutionText, solutionData) {
             // Add a text box
             var input;
-            if (window.Modernizr && Modernizr.touch) {
+            if (window.Modernizr && Modernizr.touchevents) {
                 // special flag for iOS devices
                 input = $('<input type="text" autocapitalize="off">');
             } else {
@@ -206,7 +206,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             options.maxError = +options.maxError + MAXERROR_EPSILON;
 
             var input;
-            if (window.Modernizr && Modernizr.touch) {
+            if (window.Modernizr && Modernizr.touchevents) {
                 // Use special HTML5 input element for touch devices, so we can
                 // take advantage of special numeric keyboards...
                 var inputMarkup = '<input type="number" step="any">';
@@ -762,7 +762,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
     regex: {
         setupFunctional: function(solutionarea, solutionText, solutionData) {
             var input;
-            if (window.Modernizr && Modernizr.touch) {
+            if (window.Modernizr && Modernizr.touchevents) {
                 // special flag for iOS devices
                 input = $('<input type="text" autocapitalize="off">');
             } else {
@@ -818,7 +818,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // Add two input boxes
             var inte, rad;
-            if (window.Modernizr && Modernizr.touch) {
+            if (window.Modernizr && Modernizr.touchevents) {
                 inte = $('<input type="number" step="any">');
                 rad = $('<input type="number" step="any">');
             } else {
@@ -917,7 +917,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // Add two input boxes
             var inte, rad;
-            if (window.Modernizr && Modernizr.touch) {
+            if (window.Modernizr && Modernizr.touchevents) {
                 inte = $('<input type="number" step="any">');
                 rad = $('<input type="number" step="any">');
             } else {
@@ -1841,7 +1841,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         // TODO(alpert): Use predicate or something like that?
         setupFunctional: function(solutionarea, solutionText, solutionData) {
             var input;
-            if (window.Modernizr && Modernizr.touch) {
+            if (window.Modernizr && Modernizr.touchevents) {
                 // special flag for iOS devices
                 input = $('<input type="text" autocapitalize="off">');
             } else {
