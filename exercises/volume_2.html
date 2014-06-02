@@ -193,17 +193,15 @@
                     }
                 ]</var>
 
-                <var id="FEET">new Plural(function(num) {
-                    return $.ngettext("foot", "feet", num);
-                })</var>
+                <var id="UNIT, METERS">metricUnits[0]</var>
             </div>
             <p>
-                A water tank is <code><var>H1</var></code> <var>plural_form(FEET, H1)</var> high,
-                <code><var>L1</var></code> <var>plural_form(FEET, L1)</var> long,
-                and <code><var>W1</var></code> <var>plural_form(FEET, W1)</var> wide.
-                A solid metal box which is <code><var>H2</var></code> <var>plural_form(FEET, H2)</var> high,
-                <code><var>L2</var></code> <var>plural_form(FEET, L2)</var> long,
-                and <code><var>W2</var></code> <var>plural_form(FEET, W2)</var> wide is sitting inside the tank.
+                A water tank is <code><var>H1</var></code> <var>plural_form(METERS, H1)</var> high,
+                <code><var>L1</var></code> <var>plural_form(METERS, L1)</var> long,
+                and <code><var>W1</var></code> <var>plural_form(METERS, W1)</var> wide.
+                A solid metal box which is <code><var>H2</var></code> <var>plural_form(METERS, H2)</var> high,
+                <code><var>L2</var></code> <var>plural_form(METERS, L2)</var> long,
+                and <code><var>W2</var></code> <var>plural_form(METERS, W2)</var> wide is sitting inside the tank.
                 The tank is filled with water.
             </p>
             <p class="question">
@@ -302,52 +300,39 @@
                         });
                     </div>
                     <p>
-                        The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = <var>H1*L1*W1</var></code> cubic feet,
-                        and the metal box has a volume of <code><var>H2</var> \times <var>L2</var> \times <var>W2</var> = <var>H2*W2*L2</var></code> cubic feet.
+                        The tank has a volume of <code><var>H1</var> \times <var>L1</var> \times <var>W1</var> = 
+                        <var>H1 * L1 * W1</var></code> cubic <var>plural_form(METERS, H1 * L1 * W1)</var>,
+                        and the metal box has a volume of <code><var>H2</var> \times <var>L2</var> \times <var>W2</var> = 
+                        <var>H2 * W2 * L2</var></code> cubic <var>plural_form(METERS, H2 * L2 * W2)</var.
                     </p>
                 </div>
                 <p>
                     Since there is no water in the box, the volume of the water in the tank is the volume of the tank minus the volume of the metal box.
                 </p>
                 <p>
-                    The volume of the water in the tank is <code><var>H1*L1*W1</var> \text{ft}^3 - <var>H2*L2*W2</var> \text{ft}^3 = <var>H1*L1*W1 - H2*L2*W2</var>\text{ft}^3</code>
+                    The volume of the water in the tank is 
+                    <code>
+                        <var>H1 * L1 * W1</var> \text{<var>UNIT</var>}^3 -
+                        <var>H2 * L2 * W2</var> \text{<var>UNIT</var>}^3 = 
+                        <var>H1 * L1 * W1 - H2 * L2 * W2</var>\text{<var>UNIT</var>}^3
+                    </code>
                 </p>
             </div>
         </div>
         <div id="big-to-small-unit-conversion" >
             <div class="vars">
-                <var id="FROM,TO,FROM_TEXT,TO_TEXT,CONVERSION">randFromArray([
-                    [
-                        new Plural(function(num) {
-                            return $.ngettext("foot", "feet", num);
-                        }),
-                        new Plural(function(num) {
-                            return $.ngettext("inch", "inches", num);
-                        }), $._("ft"), $._("in"), 12
-                    ],
-                    [
-                        new Plural(function(num) {
-                            return $.ngettext("yard", "yards", num);
-                        }),
-                        new Plural(function(num) {
-                            return $.ngettext("foot", "feet", num);
-                        }), $._("yd"), $._("ft"), 3
-                    ],
-                    [
-                        new Plural(function(num) {
-                            return $.ngettext("meter", "meters", num);
-                        }), new Plural(function(num) {
-                            return $.ngettext("decimeter", "decimeters", num);
-                        }), $._("m"), $._("dm"), 10
-                    ],
-                    [
-                        new Plural(function(num) {
-                            return $.ngettext("centimeter", "centimeters", num);
-                        }), new Plural(function(num) {
-                            return $.ngettext("millimeter", "millimeters", num);
-                        }), $._("cm"), $._("mm"), 10
-                    ]
-                ])</var>
+                <var id="CONVERSION">10</var>
+                <var id="CONVERSION_CUBED">CONVERSION * CONVERSION * CONVERSION</var>
+                <var id="UNITS">rand(2)</var>
+                <var id="FROM_TEXT, FROM">metricUnits[UNITS]</var>
+                <var id="TO_TEXT,TO">[
+                    [$._("dm"), new Plural(function(num) {
+                        return $.ngettext("decimeter", "decimeters", num);
+                    })],
+                    [$._("mm"), new Plural(function(num) {
+                        return $.ngettext("millimeter", "millimeters", num);
+                    })]
+                ][UNITS]</var>
                 <var id="VOL">randRangeExclude(2, 11,[3,10])</var>
                 <var id="LENGTH">CONVERSION</var>
                 <var id="WIDTH">CONVERSION</var>
@@ -407,7 +392,7 @@
                 How many cubic <var>plural_form(TO)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>?
             </p>
 
-            <div class="solution"><var>VOL * CONVERSION * CONVERSION * CONVERSION</var></div>
+            <div class="solution"><var>VOL * CONVERSION_CUBED</var></div>
 
             <div class="hints">
                 <p>First we will figure out how many cubic <var>plural_form(TO)</var> fit in one cubic <var>FROM</var>.</p>
@@ -519,19 +504,19 @@
 
                <p>
                    There are <code><var>CONVERSION</var> \times <var>CONVERSION</var>
-                    \times <var>CONVERSION</var> = <var>CONVERSION * CONVERSION * CONVERSION</var> \text{ <var>TO_TEXT</var>}^3</code>
+                    \times <var>CONVERSION</var> = <var>CONVERSION_CUBED</var> \text{ <var>TO_TEXT</var>}^3</code>
                    in each cubic <var>FROM</var>, by the volume formula.
                </p>
                <p>
-                   Since we have <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>, and each cubic <var>FROM</var> holds
-                   <code><var>CONVERSION * CONVERSION * CONVERSION</var></code> cubic
-                   <var>plural_form(TO, CONVERSION * CONVERSION * CONVERSION)</var>, we have a total of
-                   <code><var>VOL</var> \times <var>CONVERSION * CONVERSION * CONVERSION</var></code>
-                   cubic <var>plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var>.
+                   Since we have <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>,
+                   and each cubic <var>FROM</var> holds <code><var>CONVERSION_CUBED</var></code> cubic
+                   <var>plural_form(TO, CONVERSION_CUBED)</var>, we have a total of
+                   <code><var>VOL</var> \times <var>CONVERSION_CUBED</var></code>
+                   cubic <var>plural_form(TO, VOL * CONVERSION_CUBED)</var>.
                </p>
                <p>
-                    So <code><var>VOL * CONVERSION * CONVERSION * CONVERSION</var></code> cubic <var>
-                    plural_form(TO, VOL * CONVERSION * CONVERSION * CONVERSION)</var> fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>.
+                    So <code><var>VOL * CONVERSION_CUBED</var></code> cubic <var> plural_form(TO, VOL * CONVERSION_CUBED)</var>
+                    fit in <code><var>VOL</var></code> cubic <var>plural_form(FROM, VOL)</var>.
                </p>
             </div>
         </div>

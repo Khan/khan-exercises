@@ -8,23 +8,7 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="UNIT,UNIT_TEXT">randFromArray([
-                ["in", new Plural(function(num) {
-                    return $.ngettext("inch", "inches", num);
-                })],
-                ["ft", new Plural(function(num) {
-                    return $.ngettext("foot", "feet", num);
-                })],
-                ["m", new Plural(function(num) {
-                    return $.ngettext("meter", "meters", num);
-                })],
-                ["cm", new Plural(function(num) {
-                    return $.ngettext("centimeter", "centimeters", num);
-                })],
-                ["", new Plural(function(num) {
-                    return $.ngettext("unit", "units", num);
-                })]
-            ])</var>
+            <var id="UNIT,UNIT_TEXT">randFromArray(metricUnits.concat([genericUnit]))</var>
         </div>
 
         <div class="problems">

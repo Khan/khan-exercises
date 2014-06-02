@@ -259,6 +259,28 @@ KhanUtil.decimalPlaceNames = [
     })
 ];
 
+KhanUtil.metricUnits = [
+    [$._("m"), new Plural(function(num) {
+        return $.ngettext("meter", "meters", num);
+    })],
+    [$._("cm"), new Plural(function(num) {
+        return $.ngettext("centimeter", "centimeters", num);
+    })]
+];
+
+KhanUtil.imperialUnits = [
+    ["in", new Plural(function(num) {
+        return $.ngettext("inch", "inches", num);
+    })],
+    ["ft", new Plural(function(num) {
+        return $.ngettext("foot", "feet", num);
+    })]
+];
+
+KhanUtil.genericUnit = ["", new Plural(function(num) {
+    return $.ngettext("unit", "units", num);
+})];
+
 $.fn["word-problemsLoad"] = function() {
 
     var IncrementalShuffler = function(array) {

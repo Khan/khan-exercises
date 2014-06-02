@@ -28,20 +28,8 @@
 <body>
 <div class="exercise">
     <div class="vars">
-        <var id="UNIT_TEXT,UNIT">randFromArray([
-            ["\\text{ " + $._("cm") + "}", new Plural(function(num) {
-            return $.ngettext("centimeter", "centimeters", num);
-            })],
-            ["\\text{ " + $._("m") + "}", new Plural(function(num) {
-            return $.ngettext("meter", "meters", num);
-            })],
-            ["\\text{ " + $._("in") + "}", new Plural(function(num) {
-            return $.ngettext("inch", "inches", num);
-            })],
-            ["\\text{ " + $._("ft") + "}", new Plural(function(num) {
-            return $.ngettext("foot", "feet", num);
-            })]
-        ])</var>
+        <var id="UNIT_SMALL,UNIT">randFromArray(metricUnits)</var>
+        <var id="UNIT_TEXT">"\\text{ " + UNIT_SMALL + "}"</var>
     </div>
     <div class="problems">
         <div id="find-volume-count">

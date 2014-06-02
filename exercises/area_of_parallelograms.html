@@ -6,7 +6,7 @@
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
 
     <script type="text/javascript">
-        KhanUtil.parallelogram = function(B, H, UNIT, SH) {
+        parallelogram = function(B, H, UNIT, SH) {
             var graph = KhanUtil.currentGraph;
 
             graph.init({
@@ -73,29 +73,10 @@
 <body>
     <div class="exercise">
         <div class="vars" data-ensure="Math.abs(SH) &lt;= B">
-            <var id="UNIT,UNIT_TEXT">randFromArray([
-                ["in", new Plural(function(num) {
-                    return $.ngettext("inch", "inches", num);
-                })],
-                ["ft", new Plural(function(num) {
-                    return $.ngettext("foot", "feet", num);
-                })],
-                ["m", new Plural(function(num) {
-                    return $.ngettext("meter", "meters", num);
-                })],
-                ["cm", new Plural(function(num) {
-                    return $.ngettext("centimeter", "centimeters", num);
-                })],
-                ["", new Plural(function(num) {
-                    return $.ngettext("unit", "units", num);
-                })]
-            ])</var>
-
+            <var id="UNIT,UNIT_TEXT">randFromArray(metricUnits.concat([genericUnit]))</var>
             <var id="B">randRange(1, 8)</var>
             <var id="H">randRange(1, 8)</var>
-
             <var id="SH">randRangeNonZero(-2, 2)</var>
-
             <var id="K">B * H</var>
         </div>
 
