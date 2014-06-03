@@ -3767,8 +3767,52 @@ function Ruler(graphie, options) {
         }
     });
 
-    // Add a movable point for translating and being the center of rotation
-    var movablePoint = graphie.addMovablePoint({
+    // Add a mouse target
+    var mouseTarget = graphie.mouselayer.path(KhanUtil.svgPath([
+        leftBottom, [left, top], rightTop, [right, bottom], /* closed */ true
+    ]));
+    mouseTarget.attr({
+        fill: "#000",
+        opacity: 0,
+        stroke: "#000",
+        "stroke-width": 2
+    });
+    set.push(mouseTarget);
+
+    var setNodes = $.map(set, function(el) { return el.node; });
+    $(setNodes).css("cursor", "move");
+
+    $(setNodes).bind("vmousedown", function(event) {
+        event.preventDefault();
+        var startx = event.pageX - $(graphie.raphael.canvas.parentNode).offset().left;
+        var starty = event.pageY - $(graphie.raphael.canvas.parentNode).offset().top;
+
+        $(document).bind("vmousemove", function(event) {
+            // mouse{X|Y} are in pixels relative to the SVG
+            var mouseX = event.pageX - $(graphie.raphael.canvas.parentNode).offset().left;
+            var mouseY = event.pageY - $(graphie.raphael.canvas.parentNode).offset().top;
+            // can't go beyond 10 pixels from the edge
+            mouseX = Math.max(10, Math.min(graphie.xpixels - 10, mouseX));
+            mouseY = Math.max(10, Math.min(graphie.ypixels - 10, mouseY));
+
+            var dx = mouseX - startx;
+            var dy = mouseY - starty;
+
+            set.translate(dx, dy);
+            leftBottomHandle.setCoord([leftBottomHandle.coord[0] + dx / graphie.scale[0], leftBottomHandle.coord[1] - dy / graphie.scale[1]]);
+            rightBottomHandle.setCoord([rightBottomHandle.coord[0] + dx / graphie.scale[0], rightBottomHandle.coord[1] - dy / graphie.scale[1]]);
+
+            startx = mouseX;
+            starty = mouseY;
+        });
+
+        $(document).one("vmouseup", function(event) {
+            $(document).unbind("vmousemove");
+        });
+    });
+
+    // Handles for rotation
+    var leftBottomHandle = graphie.addMovablePoint({
         coord: leftBottom,
         normalStyle: {
             fill: KhanUtil.ORANGE,
@@ -3782,44 +3826,55 @@ function Ruler(graphie, options) {
         },
         pointSize: 6, // or 8 maybe?
         onMove: function(x, y) {
-            var moveVector = graphie.scaleVector(
-                kvector.subtract([x, y], movablePoint.coord)
-            );
-            set.translate(moveVector[0], -moveVector[1]);
+            var dy = rightBottomHandle.coord[1] - y;
+            var dx = rightBottomHandle.coord[0] - x;
+            var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            var center = kvector.scale(kvector.add([x, y], rightBottomHandle.coord), 0.5);
+            var scaledCenter = graphie.scalePoint(center);
+            var oldCenter = kvector.scale(kvector.add(leftBottomHandle.coord, rightBottomHandle.coord), 0.5);
+            var scaledOldCenter = graphie.scalePoint(oldCenter);
+            var diff = kvector.subtract(scaledCenter, scaledOldCenter);
+            set.rotate(-angle, scaledOldCenter[0], scaledOldCenter[1]);
+            set.translate(diff[0], diff[1]);
+        }
+    });
+    var rightBottomHandle = graphie.addMovablePoint({
+        coord: [right, bottom],
+        normalStyle: {
+            fill: KhanUtil.ORANGE,
+            "fill-opacity": 0,
+            stroke: KhanUtil.ORANGE
+        },
+        highlightStyle: {
+            fill: KhanUtil.ORANGE,
+            "fill-opacity": 0.1,
+            stroke: KhanUtil.ORANGE
+        },
+        pointSize: 6, // or 8 maybe?
+        onMove: function(x, y) {
+            var dy = y - leftBottomHandle.coord[1];
+            var dx = x - leftBottomHandle.coord[0];
+            var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            var center = kvector.scale(kvector.add([x, y], leftBottomHandle.coord), 0.5);
+            var scaledCenter = graphie.scalePoint(center);
+            var oldCenter = kvector.scale(kvector.add(leftBottomHandle.coord, rightBottomHandle.coord), 0.5);
+            var scaledOldCenter = graphie.scalePoint(oldCenter);
+            var diff = kvector.subtract(scaledCenter, scaledOldCenter);
+            set.rotate(-angle, scaledOldCenter[0], scaledOldCenter[1]);
+            set.translate(diff[0], diff[1]);
         }
     });
 
-    // Add a mouse target
-    var mouseTarget = graphie.mouselayer.path(KhanUtil.svgPath([
-        leftBottom, [left, top], rightTop, [right, bottom], /* closed */ true
-    ]));
-    mouseTarget.attr({
-        fill: "#000",
-        opacity: 0,
-        stroke: "#000",
-        "stroke-width": 2
-    });
-    set.push(mouseTarget);
-
-    // Add a rotate handle
-    var rotateHandleAngleDeg = 6;   // sin(6) * width <= height of 50 (pixels)
-                                    // for width in [0, 480] (pixels)
-    var rotateHandle = graphie.addRotateHandle({
-        center: movablePoint,
-        mouseTarget: mouseTarget,
-        hideArrow: true,
-        radius: options.units * graphieUnitsPerUnit,
-        angleDeg: rotateHandleAngleDeg,
-        onMove: function(newAngle, oldAngle) {
-            var center = graphie.scalePoint(movablePoint.coord);
-            set.rotate(rotateHandleAngleDeg - newAngle, center[0], center[1]);
-        }
-    });
+    // Make each handle rotate the ruler about the other one
+    leftBottomHandle.constraints.fixedDistance.dist = width / graphie.scale[0];
+    leftBottomHandle.constraints.fixedDistance.point = rightBottomHandle;
+    rightBottomHandle.constraints.fixedDistance.dist = width / graphie.scale[0];
+    rightBottomHandle.constraints.fixedDistance.point = leftBottomHandle;
 
     this.remove = function() {
         set.remove();
-        movablePoint.remove();
-        rotateHandle.remove();
+        leftBottomHandle.remove();
+        rightBottomHandle.remove();
     };
 
     return this;
