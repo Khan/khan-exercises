@@ -130,6 +130,8 @@
                 <var id="ALL">random() &lt; 0.5</var>
                 <var id="PLAYER,PR">randFromArray(FREE_THROWS)</var>
                 <var id="PROB">ALL ? PR : roundTo(2, 1-PR)</var>
+                <var id="PROB10">PROB * 10</var>
+                <var id="PROB_CUBED">pow(PROB, 3)</var>
                 <var id="STREAK">randRange(4,9)</var>
                 <var id="SINGLE_PCT">localeToFixed(PROB * 100, 0)</var>
                 <var id="TWO_PCT">localeToFixed(pow(PROB,2) * 100, 0)</var>
@@ -165,13 +167,13 @@
                 <var>STREAK</var> free throw attempts?
             </span></p>
 
-            <div class="solution"><code><var>ANS</var></code></div>
+            <div class="solution"><code>\large{<var>ANS</var>}</code></div>
 
             <ul class="choices" data-show="4">
-                <li><code><var>OPTIONS[0]</var></code></li>
-                <li><code><var>OPTIONS[1]</var></code></li>
-                <li><code><var>OPTIONS[2]</var></code></li>
-                <li><code><var>OPTIONS[3]</var></code></li>
+                <li><code>\large{<var>OPTIONS[0]</var>}</code></li>
+                <li><code>\large{<var>OPTIONS[1]</var>}</code></li>
+                <li><code>\large{<var>OPTIONS[2]</var>}</code></li>
+                <li><code>\large{<var>OPTIONS[3]</var>}</code></li>
             </ul>
 
             <div class="hints">
@@ -186,12 +188,12 @@
 
                         line([0, 0], [10, 0]);
                         line([10,-0.2], [10,0.2]);
-                        label([PROB*10,-0.53], SINGLE_PCT + "\\%", "center");
+                        label([PROB10,-0.53], SINGLE_PCT + "\\%", "center");
 
                         style({ stroke: "BLUE", strokeWidth: 3 });
                         line([0,-0.2], [0,0.2]);
-                        line([0,0], [PROB*10,0]);
-                        line([PROB*10,-0.2], [PROB*10,0.2]);
+                        line([0,0], [PROB10,0]);
+                        line([PROB10,-0.2], [PROB10,0.2]);
                     </div>
                     <p>Then <code><var>SINGLE_PCT</var> \%</code> of
                     the time he makes his first shot, he will also make his second shot, and
@@ -205,16 +207,16 @@
                         line([0, 0], [10, 0]);
 
                         line([10,-0.2], [10,0.2]);
-                        label([PROB*10, -0.53], SINGLE_PCT + "\\%", "center");
+                        label([PROB10, -0.53], SINGLE_PCT + "\\%", "center");
 
-                        style({ stroke: "ORANGE", strokeWidth: 3 });
+                        style({ stroke: "#888", strokeWidth: 3 });
+                        line([PROB * PROB10,0], [PROB10,0]);
+                        line([PROB10,-0.2], [PROB10,0.2]);
+
+                        style({ stroke: "PURPLE", strokeWidth: 3 });
                         line([0,-0.2], [0,0.2]);
-                        line([0,0], [PROB*PROB*10,0]);
-                        line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
-
-                        style({ stroke: "PINK", strokeWidth: 3 });
-                        line([PROB*PROB*10,0], [PROB*10,0]);
-                        line([PROB*10,-0.2], [PROB*10,0.2]);
+                        line([0,0], [PROB * PROB10,0]);
+                        line([PROB * PROB10,-0.2], [PROB * PROB10,0.2]);
                     </div>
                 </div>
                 <p>
@@ -228,9 +230,11 @@
                     <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB, 2)</var> \approx <var>localeToFixed(PROB*PROB, 3)</var></code>.
                 </p>
                 <div>
-                    <p>We can repeat this process again to get the probability of making <b>three</b> free throws in a row. We simply take
-                    <code><var>SINGLE_PCT</var>\%</code> of probability that he makes two in a row, which we know from the previous step is
-                    <code><var>localeToFixed(PROB*PROB, 3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.</p>
+                    <p>
+                        We can repeat this process again to get the probability of making <b>three</b> free throws in a row. We simply take
+                        <code><var>SINGLE_PCT</var>\%</code> of probability that he makes two in a row, which we know from the previous step is
+                        <code><var>localeToFixed(PROB*PROB, 3)</var> \approx \purple{<var>TWO_PCT</var>\%}</code>.
+                    </p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -238,18 +242,21 @@
 
                         line([0, 0], [10, 0]);
                         line([10,-0.2], [10,0.2]);
-                        label([PROB*10, -0.53], SINGLE_PCT + "\\%", "center");
-                        line([PROB*10,-0.2], [PROB*10,0.2]);
-                        label([PROB*PROB*10, -0.53], TWO_PCT + "\\%", "center");
+                        label([PROB10, -0.53], SINGLE_PCT + "\\%", "center");
+                        line([PROB10,-0.2], [PROB10,0.2]);
+                        label([PROB * PROB10, -0.53], TWO_PCT + "\\%", "center");
 
-                        style({ stroke: "ORANGE", strokeWidth: 3 });
+                        style({ stroke: "PURPLE", strokeWidth: 3 });
                         line([0,-0.2], [0,0.2]);
-                        line([0,0], [PROB*PROB*10,0]);
-                        line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
+                        line([0,0], [PROB * PROB10,0]);
+                        line([PROB * PROB10,-0.2], [PROB * PROB10,0.2]);
                     </div>
-                    <p><code><var>SINGLE_PCT</var>\%</code> of <code>\orange{<var>TWO_PCT</var>\%}</code> is
-                    <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB*PROB, 3)</var> \approx <var>localeToFixed(Math.pow(PROB,3), 3)</var></code>, or
-                    about <code>\green{<var>THREE_PCT</var>\%}</code>:</p>
+                    <p>
+                        <code><var>SINGLE_PCT</var>\%</code> of <code>\purple{<var>TWO_PCT</var>\%}</code> is
+                        <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB * PROB, 3)</var> \approx 
+                        <var>localeToFixed(PROB_CUBED, 3)</var></code>, or
+                        about <code>\green{<var>THREE_PCT</var>\%}</code>:
+                    </p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -257,25 +264,25 @@
 
                         line([0, 0], [10, 0]);
                         line([10,-0.2], [10,0.2]);
-                        label([PROB*10, -0.53], SINGLE_PCT + "\\%", "center");
-                        line([PROB*10,-0.2], [PROB*10,0.2]);
-                        label([PROB*PROB*10, -0.53], TWO_PCT + "\\%", "center");
-                        label([Math.pow(PROB,3)*10, -0.53], THREE_PCT + "\\%", "center");
+                        label([PROB10, -0.53], SINGLE_PCT + "\\%", "center");
+                        line([PROB10,-0.2], [PROB10,0.2]);
+                        label([PROB*PROB10, -0.53], TWO_PCT + "\\%", "center");
+                        label([PROB_CUBED*10, -0.53], THREE_PCT + "\\%", "center");
+
+                        style({ stroke: "#888", strokeWidth: 3 });
+                        line([PROB_CUBED * 10,0], [PROB * PROB10,0]);
+                        line([PROB * PROB10,-0.2], [PROB * PROB10,0.2]);
 
                         style({ stroke: "GREEN", strokeWidth: 3 });
                         line([0,-0.2], [0,0.2]);
-                        line([0,0], [Math.pow(PROB,3)*10,0]);
-                        line([Math.pow(PROB,3)*10,-0.2], [Math.pow(PROB,3)*10,0.2]);
-
-                        style({ stroke: "PINK", strokeWidth: 3 });
-                        line([Math.pow(PROB,3)*10,0], [PROB*PROB*10,0]);
-                        line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
+                        line([0,0], [PROB_CUBED*10,0]);
+                        line([PROB_CUBED*10,-0.2], [PROB_CUBED*10,0.2]);
                     </div>
                 </div>
                 <p>
                     There is a pattern here: the chance of making two free throws in a row was
                     <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB, 2)</var></code>, and the probability of making
-                    three in a row was <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB*PROB, 3)</var> =
+                    three in a row was <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB * PROB, 3)</var> =
                     <var>localeToFixed(PROB, 2)</var> \cdot (<var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB, 2)</var>)
                     = <var>localeToFixed(PROB, 2)</var>^3</code>.
                 </p>
@@ -298,17 +305,19 @@
 
                         line([0, 0], [10, 0]);
                         line([10,-0.2], [10,0.2]);
-                        label([PROB*10,-0.53], SINGLE_PCT + "\\%", "center");
+                        label([PROB10,-0.53], SINGLE_PCT + "\\%", "center");
 
                         style({ stroke: "BLUE", strokeWidth: 3 });
                         line([0,-0.2], [0,0.2]);
-                        line([0,0], [PROB*10,0]);
-                        line([PROB*10,-0.2], [PROB*10,0.2]);
+                        line([0,0], [PROB10,0]);
+                        line([PROB10,-0.2], [PROB10,0.2]);
                     </div>
-                    <p>Then <code><var>SINGLE_PCT</var> \%</code> of
-                    the time he misses his first shot, he will also miss his second shot, and
-                    <code><var>localeToFixed((1-PROB)*100, 0)</var> \%</code> of the time he misses his
-                    first shot, he will make his second shot.</p>
+                    <p>
+                        Then <code><var>SINGLE_PCT</var> \%</code> of
+                        the time he misses his first shot, he will also miss his second shot, and
+                        <code><var>localeToFixed((1-PROB)*100, 0)</var> \%</code> of the time he misses his
+                        first shot, he will make his second shot.
+                    </p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -317,16 +326,16 @@
                         line([0, 0], [10, 0]);
 
                         line([10,-0.2], [10,0.2]);
-                        label([PROB*10, -0.53], SINGLE_PCT + "\\%", "center");
+                        label([PROB10, -0.53], SINGLE_PCT + "\\%", "center");
 
-                        style({ stroke: "ORANGE", strokeWidth: 3 });
+                        style({ stroke: "#888", strokeWidth: 3 });
+                        line([PROB * PROB10,0], [PROB10,0]);
+                        line([PROB10,-0.2], [PROB10,0.2]);
+
+                        style({ stroke: "PURPLE", strokeWidth: 3 });
                         line([0,-0.2], [0,0.2]);
-                        line([0,0], [PROB*PROB*10,0]);
-                        line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
-
-                        style({ stroke: "PINK", strokeWidth: 3 });
-                        line([PROB*PROB*10,0], [PROB*10,0]);
-                        line([PROB*10,-0.2], [PROB*10,0.2]);
+                        line([0,0], [PROB * PROB10,0]);
+                        line([PROB * PROB10,-0.2], [PROB * PROB10,0.2]);
                     </div>
                 </div>
                 <p>
@@ -337,12 +346,15 @@
                 </p>
                 <p>
                     This is <code><var>SINGLE_PCT</var>\% \cdot <var>SINGLE_PCT</var>\%</code>, or
-                    <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB, 2)</var> \approx <var>localeToFixed(PROB*PROB, 3)</var></code>.
+                    <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB, 2)</var> \approx
+                    <var>localeToFixed(PROB * PROB, 3)</var></code>.
                 </p>
                 <div>
-                    <p>We can repeat this process again to get the probability of missing <b>three</b> free throws in a row. We simply take
-                    <code><var>SINGLE_PCT</var>\%</code> of probability that he misses two in a row, which we know from the previous step is
-                    <code><var>localeToFixed(PROB*PROB, 3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.</p>
+                    <p>
+                        We can repeat this process again to get the probability of missing <b>three</b> free throws in a row. We simply take
+                        <code><var>SINGLE_PCT</var>\%</code> of probability that he misses two in a row, which we know from the previous step is
+                        <code><var>localeToFixed(PROB*PROB, 3)</var> \approx \purple{<var>TWO_PCT</var>\%}</code>.
+                    </p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -350,17 +362,17 @@
 
                         line([0, 0], [10, 0]);
                         line([10,-0.2], [10,0.2]);
-                        label([PROB*10, -0.53], SINGLE_PCT + "\\%", "center");
-                        line([PROB*10,-0.2], [PROB*10,0.2]);
-                        label([PROB*PROB*10, -0.53], TWO_PCT + "\\%", "center");
+                        label([PROB10, -0.53], SINGLE_PCT + "\\%", "center");
+                        line([PROB10,-0.2], [PROB10,0.2]);
+                        label([PROB * PROB10, -0.53], TWO_PCT + "\\%", "center");
 
-                        style({ stroke: "ORANGE", strokeWidth: 3 });
+                        style({ stroke: "PURPLE", strokeWidth: 3 });
                         line([0,-0.2], [0,0.2]);
-                        line([0,0], [PROB*PROB*10,0]);
-                        line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
+                        line([0,0], [PROB * PROB10,0]);
+                        line([PROB * PROB10,-0.2], [PROB*PROB10,0.2]);
                     </div>
-                    <p><code><var>SINGLE_PCT</var>\%</code> of <code>\orange{<var>TWO_PCT</var>\%}</code> is
-                    <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB*PROB, 3)</var> \approx <var>localeToFixed(Math.pow(PROB,3), 3)</var></code>, or
+                    <p><code><var>SINGLE_PCT</var>\%</code> of <code>\purple{<var>TWO_PCT</var>\%}</code> is
+                    <code><var>localeToFixed(PROB, 2)</var> \cdot <var>localeToFixed(PROB*PROB, 3)</var> \approx <var>localeToFixed(PROB_CUBED, 3)</var></code>, or
                     about <code>\green{<var>THREE_PCT</var>\%}</code>:</p>
                     <div class="graphie">
                         init({
@@ -369,18 +381,18 @@
 
                         line([0, 0], [10, 0]);
                         line([10,-0.2], [10,0.2]);
-                        label([PROB*10, -0.53], SINGLE_PCT + "\\%", "center");
-                        line([PROB*10,-0.2], [PROB*10,0.2]);
-                        label([PROB*PROB*10, -0.53], TWO_PCT + "\\%", "center");
+                        label([PROB10, -0.53], SINGLE_PCT + "\\%", "center");
+                        line([PROB10,-0.2], [PROB10,0.2]);
+                        label([PROB * PROB10, -0.53], TWO_PCT + "\\%", "center");
+
+                        style({ stroke: "#888", strokeWidth: 3 });
+                        line([PROB_CUBED * 10,0], [PROB * PROB10,0]);
+                        line([PROB * PROB10,-0.2], [PROB * PROB10,0.2]);
 
                         style({ stroke: "GREEN", strokeWidth: 3 });
                         line([0,-0.2], [0,0.2]);
-                        line([0,0], [Math.pow(PROB,3)*10,0]);
-                        line([Math.pow(PROB,3)*10,-0.2], [Math.pow(PROB,3)*10,0.2]);
-
-                        style({ stroke: "PINK", strokeWidth: 3 });
-                        line([Math.pow(PROB,3)*10,0], [PROB*PROB*10,0]);
-                        line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
+                        line([0,0], [PROB_CUBED * 10,0]);
+                        line([PROB_CUBED * 10,-0.2], [PROB_CUBED * 10,0.2]);
                     </div>
                 </div>
                 <p>
