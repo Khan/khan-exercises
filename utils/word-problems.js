@@ -483,7 +483,7 @@ $.fn["word-problemsLoad"] = function() {
                     return $.ngettext("loaf of bread", "loaves of bread", num);
                 }),
                 new Plural(function(num) {
-                    return $.ngettext("gallon of milk", "gallons of milk", num);
+                    return $.ngettext("liter of milk", "liters of milk", num);
                 }),
                 new Plural(function(num) {
                     return $.ngettext("potato", "potatoes", num);
