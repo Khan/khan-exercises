@@ -1040,6 +1040,22 @@ span.hover-hint:hover {
     width: 100px;
 }
 
+#problemarea .reading > span {
+    width: 32px;
+    font-size: 11px;
+    padding: 5px;
+}
+
+#problemarea .reading.fake_header > span {
+    text-align: center;
+}
+
+#problemarea .reading > span:first-child {
+    font-weight: bold;
+    width: 22px;
+    border-right: 2px solid #CCCCCC;
+}
+
 #problemarea .problem .graph-caption {
     display: block;
     margin-top: 10px;
