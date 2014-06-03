@@ -48,10 +48,12 @@ function Adder(a, b, digitsA, digitsB) {
         var sum;
 
         var x = pos.max - index;
+        var power = Math.pow(10, index);
+        var zeros = new Array(index + 1).join("0");
 
         if (prevCarry !== 0) {
-            highlights.push(graph.label([x, pos.carry], "\\color{#6495ED}{" + prevCarry + "}", "below"));
-            prevCarryStr = "\\color{#6495ED}{" + prevCarry + "} + ";
+            highlights.push(graph.label([x, pos.carry], "\\blue{" + prevCarry + "}", "below"));
+            prevCarryStr = "\\blue{" + (prevCarry * power) + "} + ";
         }
 
         sum = digitsA[index] + carry;
@@ -59,7 +61,7 @@ function Adder(a, b, digitsA, digitsB) {
 
         if (index < digitsB.length) {
             highlights = highlights.concat(drawDigits([digitsB[index]], x, pos.second, KhanUtil.BLUE));
-            addendStr = " + \\color{#6495ED}{" + digitsB[index] + "}";
+            addendStr = " + \\blue{" + (digitsB[index] * power) + "}";
             sum += digitsB[index];
         }
 
@@ -68,18 +70,18 @@ function Adder(a, b, digitsA, digitsB) {
 
         carry = Math.floor(sum / 10);
         if (carry !== 0) {
-            highlights.push(graph.label([x - 1, pos.carry],
-                "\\color{#FFA500}{" + carry + "}", "below"));
-            carryStr = "\\color{#FFA500}{" + carry + "}";
+            highlights.push(graph.label([x - 1, pos.carry], "\\orange{" + carry + "}", "below"));
+            carryStr = "\\orange{" + carry + "}";
         }
 
         this.showSideLabel("\\Large{" +
             prevCarryStr +
-            "\\color{#6495ED}{" + digitsA[index] + "}" +
+            "\\blue{" + (digitsA[index] * power) + "}" +
             addendStr +
             " = " +
             carryStr +
-            "\\color{#28AE7B}{" + sum % 10 + "}" +
+            "\\green{" + sum % 10 + "}" +
+            zeros +
             "}");
 
         index++;
@@ -87,13 +89,13 @@ function Adder(a, b, digitsA, digitsB) {
 
     this.showFinalCarry = function() {
         highlights.push(graph.label([pos.max - index, pos.carry],
-            "\\color{#6495ED}{" + carry + "}", "below"));
+            "\\blue{" + carry + "}", "below"));
         graph.label([pos.max - index, pos.sum], "\\LARGE{" + carry + "}");
         highlights.push(graph.label([pos.max - index, pos.sum],
             "\\LARGE{\\color{#28AE7B}{" + carry + "}}"));
 
         this.showSideLabel("\\Large{" +
-            "\\color{#6495ED}{" + carry + "}" +
+            "\\blue{" + carry + "}" +
             " = " +
             "\\color{#28AE7B}{" + carry + "}" +
             "}");
@@ -174,11 +176,11 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
         var depth = borrowedIdx - idx - 1;
 
         highlights[idx].push(graph.label([pos.max - idx, pos.carry + (0.5 * depth)],
-                                             "\\color{#6495ED}{" + workingDigitsA[idx] + "}", "below"));
+                                             "\\blue{" + workingDigitsA[idx] + "}", "below"));
         highlights[idx].push(graph.path([[pos.max - 0.3 - idx, pos.first - 0.4], [pos.max + 0.3 - idx, pos.first + 0.4]]));
 
         highlights[idx + 1].push(graph.label([pos.max - 1 - idx, pos.carry + (0.5 * depth)],
-                                                 "\\color{#FFA500}{" + workingDigitsA[idx + 1] + "}", "below"));
+                                                 "\\orange{" + workingDigitsA[idx + 1] + "}", "below"));
         highlights[idx + 1].push(graph.path([[pos.max - 1.3 - idx, pos.first - 0.4], [pos.max - 0.7 - idx, pos.first + 0.4]]));
         if (depth !== 0) {
             highlights[idx + 1].push(graph.path([[pos.max - 1.3 - idx, pos.carry - 1 + (0.5 * depth)], [pos.max - 0.7 - idx, pos.carry - 0.7 + (0.5 * depth)]]));
@@ -200,21 +202,23 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
         var withinB = index < workingDigitsB.length;
         var subtrahend = withinB ? workingDigitsB[index] : 0;
         var subStr = "";
+        var power = Math.pow(10, index);
+        var zeros = new Array(index + 1).join("0");
 
         if (value < subtrahend) {
             this.borrow(index);
         } else if (workingDigitsA[index] === digitsA[index]) {
             highlights[index].push(graph.label([pos.max - index, pos.first],
-                "\\LARGE{\\color{#6495ED}{" + workingDigitsA[index] + "}}"));
+                "\\LARGE{\\blue{" + workingDigitsA[index] + "}}"));
         } else {
             highlights[index].push(graph.label([pos.max - index, pos.carry],
-                "\\color{#6495ED}{" + workingDigitsA[index] + "}", "below"));
+                "\\blue{" + workingDigitsA[index] + "}", "below"));
         }
 
         if (withinB) {
             highlights[index].push(graph.label([pos.max - index, pos.second],
-                "\\LARGE{\\color{#6495ED}{" + workingDigitsB[index] + "}}"));
-            subStr = " - \\color{#6495ED}{" + subtrahend + "}";
+                "\\LARGE{\\blue{" + workingDigitsB[index] + "}}"));
+            subStr = " - \\blue{" + (subtrahend * power) + "}";
         }
 
         var diff = workingDigitsA[index] - subtrahend;
@@ -222,16 +226,18 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
             graph.label([pos.max - index, pos.diff], "\\LARGE{" + diff + "}");
         }
 
-        highlights[index].push(graph.label([pos.max - index, pos.diff], "\\LARGE{\\color{#28AE7B}{" + diff + "}}"));
+        highlights[index].push(graph.label([pos.max - index, pos.diff], "\\LARGE{\\green{" + diff + "}}"));
         if (subStr === "") {
-            subStr = "- \\color{#6495ED}{ 0 }";
+            subStr = "- \\blue{ 0 }";
         }
 
         this.showSideLabel("\\Large{" +
-            "\\color{#6495ED}{" + workingDigitsA[index] + "}" +
+            "\\blue{" + (workingDigitsA[index] * power) + "}" +
             subStr +
             " = " +
-            "\\color{#28AE7B}{" + diff + "}}");
+            "\\green{" + diff + "}" + 
+            zeros +
+            "}");
 
         index++;
     };
@@ -466,13 +472,13 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         highlights = highlights.concat(drawDigits([bigDigit], -indexA, 2, KhanUtil.BLUE));
         highlights = highlights.concat(drawDigits([smallDigit], -indexB, 1, KhanUtil.PINK));
         if (carry) {
-            highlights = highlights.concat(graph.label([-indexA, 3], "\\color{#FFA500}{" + carry + "}", "below"));
+            highlights = highlights.concat(graph.label([-indexA, 3], "\\orange{" + carry + "}", "below"));
         }
         graph.label([2, -indexB * digitsA.length - indexA + 2],
-            "\\color{#6495ED}{" + bigDigit + "}" +
+            "\\blue{" + bigDigit + "}" +
             "\\times" +
             "\\color{#FF00AF}{" + smallDigit + "}" +
-            (carry ? "+\\color{#FFA500}{" + carry + "}" : "") +
+            (carry ? "+\\orange{" + carry + "}" : "") +
             "=" +
             "\\color{#28AE7B}{" + product + "}", "right");
 
