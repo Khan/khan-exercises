@@ -3,21 +3,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting rational expressions 3</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style type="text/css">
-        #solutionarea td {
-            text-align: center;
-            vertical-align: middle;
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-        #solutionarea .soln-top {
-            padding-bottom: 1px;
-        }
-        #solutionarea .soln-bot {
-            padding-top: 1px;
-            border-top: 1px solid black;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -53,7 +38,7 @@
             </div>
 
             <div id="expr-top">
-                <div class="vars">
+                <div class="vars" data-ensure="D1.getGCD(D2).isOne()">
                     <var id="TERM3">rand(2) ? new Term(randRangeExclude(-10, 10, [-1, 0, 1])) : new Term(randRangeExclude(-10, 10, [-1, 0, 1]), X)</var>
                     <var id="N1">ORDER ? EXPR1 : TERM1</var>
                     <var id="D1">ORDER ? TERM3: TERM2</var>
@@ -107,9 +92,9 @@
 
             <div class="input-format">
                 <div class="entry" data-type="multiple">
-                    <table><tbody>
+                    <table class="rational-exp"><tbody>
                         <tr>
-                            <td class="soln-name" rowspan="2"><code><var>Y</var> = </code></td>
+                            <td rowspan="2"><code><var>Y</var> = </code></td>
                             <td class="soln-top"><span class="sol short50">a</span></td>
                         </tr>
                         <tr>
