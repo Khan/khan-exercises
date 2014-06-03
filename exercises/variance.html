@@ -37,8 +37,8 @@
                 </div>
 
                 <p class="question">
-                    What is the average age of the <var>plural_form(animal( 1 ))</var> at your zoo? What is the variance?
-                    You may round your answers to the nearest tenth.
+                    What is the average age of the <var>plural_form(animal( 1 ))</var> at your zoo? What is the variance?<br>
+                    <em>Round your answers to the nearest tenth.</em>
                 </p>
 
                 <div class="solution" data-type="multiple">
@@ -56,9 +56,9 @@
 
                 <div class="hints">
                     <p>
-                        Because we have data for all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at the zoo,
+                        Because we have data for all <code><var>DATA_POINTS</var></code> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at the zoo,
                         we are able to calculate the <span class="hint_blue">population mean</span> <code>(\blue{\mu})</code> and
-                        <span class="hint_pink">population variance</span> <code>(\pink{\sigma^2})</code>.
+                        <span class="hint_red">population variance</span> <code>(\red{\sigma^2})</code>.
                     </p>
 
                     <div>
@@ -112,8 +112,9 @@
 
                     <div>
                         <p>
-                            Because we used the <span class="hint_blue">population mean</span><code>(\blue{\mu})</code> to compute the
-                            <span class="hint_purple">squared deviations from the mean</span>, we can find the <span class="hint_red">variance</span>
+                            Because we used the <span class="hint_blue">population mean</span> <code>(\blue{\mu})</code> to compute the
+                            <span class="hint_purple">squared deviations from the mean</span>, we can find the
+                            <span class="hint_red">population variance</span>
                             <code>(\color{red}{\sigma^2})</code>, without introducing any bias, by simply averaging the
                             <span class="hint_purple">squared deviations from the mean</span>:
                         </p>
@@ -142,10 +143,16 @@
                     </p>
 
                     <p>
-                        <span data-if="isSingular(MEAN)">The average <var>animal( 1 )</var> at the zoo is <var>roundTo(1, MEAN)</var> year old.</span>
-                        <span data-else="">The average <var>animal( 1 )</var> at the zoo is <var>roundTo(1, MEAN)</var> years old.</span>
-                        <span data-if="isSingular(VARIANCE_POP)">The population variance is <var>roundTo(1, VARIANCE_POP)</var> year<code>^2</code>.</span>
-                        <span data-else="">The population variance is <var>roundTo(1, VARIANCE_POP)</var> years<code>^2</code>.</span>
+                        <span data-if="isSingular(MEAN)">
+                            The average <var>animal( 1 )</var> at the zoo is <code><var>roundTo(1, MEAN)</var></code> year old.
+                        </span><span data-else="">
+                            The average <var>animal( 1 )</var> at the zoo is <code><var>roundTo(1, MEAN)</var></code> years old.
+                        </span>
+                        <span data-if="isSingular(VARIANCE_POP)">
+                            The population variance is <code><var>roundTo(1, VARIANCE_POP)</var></code> year<code>^2</code>.
+                        </span><span data-else="">
+                            The population variance is <code><var>roundTo(1, VARIANCE_POP)</var></code> years<code>^2</code>.
+                        </span>
                     </p>
 
                 </div>
@@ -154,15 +161,18 @@
             <div id="sample" data-calculator="">
                 <div class="problem" data-else="">
                     <p>
-                        You have found the following ages (in years) of <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var>.
-                        The <var>plural_form(animal( 1 ))</var> are randomly selected from the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> at your local zoo:
+                        You have found the following ages (in years) of <code><var>DATA_POINTS</var></code> 
+                        <var>plural_form(animal( 1 ), DATA_POINTS)</var>.
+                        The <var>plural_form(animal( 1 ))</var> are randomly selected from the
+                        <code><var>POPULATION</var></code> <var>plural_form(animal( 1 ), POPULATION)</var> at your local zoo:
                     </p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
 
                 <p class="question">
-                    Based on your sample, what is the average age of the <var>plural_form(animal( 1 ))</var>? What is the variance?
-                    You may round your answers to the nearest tenth.
+                    Based on your sample, what is the average age of the <var>plural_form(animal( 1 ))</var>?
+                    What is the estimated variance of the ages?<br>
+                    <em>You may round your answers to the nearest tenth.</em>
                 </p>
 
                 <div class="solution" data-type="multiple">
@@ -180,9 +190,10 @@
 
                 <div class="hints">
                     <p>
-                        Because we only have data for a small sample of the <var>POPULATION</var> <var>plural_form(animal(1), POPULATION)</var>,
+                        Because we only have data for a small sample of the
+                        <code><var>POPULATION</var></code> <var>plural_form(animal(1), POPULATION)</var>,
                         we are only able to estimate the population mean and variance by finding the <span class="hint_blue">sample mean</span>
-                        <code>(\blue{\overline{x}})</code> and <span class="hint_pink">sample variance</span> <code>(\pink{s^2})</code>.
+                        <code>(\blue{\overline{x}})</code> and <span class="hint_red">sample variance</span> <code>(\red{s^2})</code>.
                     </p>
 
                     <div>
@@ -210,11 +221,11 @@
                     <p data-if="isSingular(MEAN)">
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\blue{\overline{x}} = \blue{<var>roundTo(1, MEAN)</var>\text{ <var>YEAR_TEXT</var>}})</code>.
+                        <code>(\blue{\overline{x}} = \blue{<var>MEAN</var>\text{ <var>YEAR_TEXT</var>}})</code>.
                     </p><p data-else="">
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\blue{\overline{x}} = \blue{<var>roundTo(1, MEAN)</var>\text{ <var>YEARS_TEXT</var>}})</code>.
+                        <code>(\blue{\overline{x}} = \blue{<var>MEAN</var>\text{ <var>YEARS_TEXT</var>}})</code>.
                     </p>
 
                     <div>
@@ -248,7 +259,7 @@
                         </p>
                         <p>
                             The age of any <var>animal( 1 )</var> in our sample is likely to be closer to the average
-                            of the <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> we looked at
+                            of the <code><var>DATA_POINTS</var></code> <var>plural_form(animal( 1 ), DATA_POINTS)</var> we looked at
                             instead of the average of all the <var>plural_form(animal( 1 ), POPULATION)</var> in the zoo.
                             Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
                             probably underestimate the actual deviations from the population mean.
@@ -283,10 +294,18 @@
                     </p>
 
                     <p>
-                        <span data-if="isSingular(MEAN)">We can estimate that the average <var>animal(1)</var> at the zoo is <var>roundTo(1, MEAN)</var> year old.</span>
-                        <span data-else="">We can estimate that the average <var>animal(1)</var> at the zoo is <var>roundTo(1, MEAN)</var> years old.</span>
-                        <span data-if="isSingular(VARIANCE)">There is a variance of <var>roundTo(1, VARIANCE)</var> year<code>^2</code>.</span>
-                        <span data-else="">There is a variance of <var>roundTo(1, VARIANCE)</var> years<code>^2</code>.</span>
+                        <span data-if="isSingular(MEAN)">
+                            We can estimate that the average <var>animal(1)</var> at the zoo is <code><var>roundTo(1, MEAN)</var></code> year old.
+                        </span><span data-else="">
+                            We can estimate that the average <var>animal(1)</var> at the zoo is <code><var>roundTo(1, MEAN)</var></code> years old.
+                        </span>
+                        <span data-if="isSingular(VARIANCE)">
+                            The estimated variance of the <var>plural_form(animal( 1 ), DATA_POINTS)</var> is
+                            <code><var>roundTo(1, VARIANCE)</var></code> year<code>^2</code>.
+                        </span><span data-else="">
+                            The estimated variance of the <var>plural_form(animal( 1 ), DATA_POINTS)</var> is
+                            <code><var>roundTo(1, VARIANCE)</var></code> years<code>^2</code>.
+                        </span>
                     </p>
 
                 </div>
