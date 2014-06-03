@@ -695,7 +695,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
         graph.label([dx, 1.2], $._("\\text{Bring the decimal up into the}"), "right");
         graph.label([dx, 0.8], $._("\\text{answer (the quotient).}"), "right");
         this.addDecimals([[digitsDividend.length + deciDiff - 0.5, 0.9]]);
-    }
+    };
 
     this.showDivisionStep = function(division) {
         // Write question
@@ -771,7 +771,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
         }
 
         index++;
-    }
+    };
 
     this.addDecimalRemainder = function() {
         digitsDividend = KhanUtil.integerToDigits(dividend * 10);
@@ -796,7 +796,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
         }
 
         graph.label([dx, dy], txt, "right");
-    }
+    };
 
     this.getNumHints = function() {
         return numHints;
@@ -897,14 +897,14 @@ Divider.getNumberOfHints = function(divisor, dividend, deciDivisor, deciDividend
     deciDividend = Divider.processDividend(digitsDividend, deciDividend);
     var hints = Divider.getHints(divisor, digitsDividend, deciDivisor, deciDividend, decimalRemainder);
     return hints.length;
-}
+};
 
 Divider.processDividend = function(dividendDigits, deciDividend) {
     // Trim unnecessary zeros after the decimal point
     var end = dividendDigits.length - 1;
     for (var i = 0; i < deciDividend; i++) {
         if (dividendDigits[end - i] === 0) {
-            dividendDigits.splice(end - i)
+            dividendDigits.splice(end - i);
             deciDividend--;
         } else {
             break;
@@ -918,7 +918,7 @@ Divider.processDividend = function(dividendDigits, deciDividend) {
     }
 
     return deciDividend;
-}
+};
 
 KhanUtil.Adder = Adder;
 KhanUtil.Subtractor = Subtractor;
