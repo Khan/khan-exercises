@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Division test</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="DIVISOR_DECIMAL">0</var>
+            <var id="DIVIDEND_DECIMAL">0</var>
+            <var id="DECIMAL_REMAINDER">0</var>
+        </div>
+
+        <div class="problems">
+            <div id="simple">
+                <div class="vars">
+                    <var id="DIVISOR">4</var>
+                    <var id="DIVIDEND">48</var>
+                </div>
+            </div>
+
+            <div id="zero-in-dividend" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">24</var>
+                    <var id="DIVIDEND">4800</var>
+                </div>
+            </div>
+
+            <div id="zero-in-divisor" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">10</var>
+                    <var id="DIVIDEND">1000</var>
+                </div>
+            </div>
+
+            <div id="zero-in-middle" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">4</var>
+                    <var id="DIVIDEND">408</var>
+                </div>
+            </div>
+
+            <div id="two-digit-divisor" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">24</var>
+                    <var id="DIVIDEND">312</var>
+                </div>
+            </div>
+
+            <div id="two-leading-zeros" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">18</var>
+                    <var id="DIVIDEND">1458</var>
+                </div>
+            </div>
+
+            <div id="two-digit-divisor-middle-zero" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">18</var>
+                    <var id="DIVIDEND">1962</var>
+                </div>
+            </div>
+
+            <div id="remainder" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">4</var>
+                    <var id="DIVIDEND">50</var>
+                </div>
+            </div>
+
+            <div id="remainder-end-in-zero" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">4</var>
+                    <var id="DIVIDEND">1922</var>
+                </div>
+            </div>
+
+            <div id="big-remainder" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">80</var>
+                    <var id="DIVIDEND">6928</var>
+                </div>
+            </div>
+
+            <div id="same-decimal" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">4</var>
+                    <var id="DIVIDEND">48</var>
+                    <var id="DIVISOR_DECIMAL">1</var>
+                    <var id="DIVIDEND_DECIMAL">1</var>
+                </div>
+            </div>
+
+            <div id="more-decimals-in-divisor" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">13</var>
+                    <var id="DIVIDEND">858</var>
+                    <var id="DIVISOR_DECIMAL">2</var>
+                    <var id="DIVIDEND_DECIMAL">1</var>
+                </div>
+            </div>
+
+            <div id="more-decimals-in-dividend" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">62</var>
+                    <var id="DIVIDEND">21452</var>
+                    <var id="DIVISOR_DECIMAL">2</var>
+                    <var id="DIVIDEND_DECIMAL">3</var>
+                </div>
+            </div>
+
+            <div id="decimals-in-dividend-only" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">2</var>
+                    <var id="DIVIDEND">246</var>
+                    <var id="DIVISOR_DECIMAL">0</var>
+                    <var id="DIVIDEND_DECIMAL">1</var>
+                </div>
+            </div>
+
+            <div id="decimals-in-divisor-only" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">5</var>
+                    <var id="DIVIDEND">18</var>
+                    <var id="DIVISOR_DECIMAL">2</var>
+                    <var id="DIVIDEND_DECIMAL">0</var>
+                </div>
+            </div>
+
+            <div id="decimal-remainder-one-place" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">70</var>
+                    <var id="DIVIDEND">49</var>
+                    <var id="DECIMAL_REMAINDER">1</var>
+                </div>
+            </div>
+
+            <div id="decimal-remainder-three-places" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">8</var>
+                    <var id="DIVIDEND">3</var>
+                    <var id="DECIMAL_REMAINDER">true</var>
+                </div>
+            </div>
+
+            <div id="decimal-remainder-two-digits" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">25</var>
+                    <var id="DIVIDEND">24</var>
+                    <var id="DECIMAL_REMAINDER">true</var>
+                </div>
+            </div>
+
+            <div id="decimal-remainder-infinite-places" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">3</var>
+                    <var id="DIVIDEND">10</var>
+                    <var id="DECIMAL_REMAINDER">true</var>
+                </div>
+            </div>
+
+            <div id="decimal-end-zero" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">4</var>
+                    <var id="DIVIDEND">480</var>
+                    <var id="DIVISOR_DECIMAL">0</var>
+                    <var id="DIVIDEND_DECIMAL">1</var>
+                    <var id="DECIMAL_REMAINDER">true</var>
+                </div>
+            </div>
+
+            <div id="dividend-leading-zero" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">4</var>
+                    <var id="DIVIDEND">48</var>
+                    <var id="DIVISOR_DECIMAL">0</var>
+                    <var id="DIVIDEND_DECIMAL">3</var>
+                    <var id="DECIMAL_REMAINDER">true</var>
+                </div>
+            </div>
+
+            <div id="decimal-zeros-in-answer" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">24</var>
+                    <var id="DIVIDEND">48</var>
+                    <var id="DIVIDEND_DECIMAL">2</var>
+                    <var id="DECIMAL_REMAINDER">true</var>
+                </div>
+            </div>
+
+             <div id="dividend-leading-and-end-zero" data-type="simple">
+                <div class="vars">
+                    <var id="DIVISOR">4</var>
+                    <var id="DIVIDEND">480</var>
+                    <var id="DIVISOR_DECIMAL">0</var>
+                    <var id="DIVIDEND_DECIMAL">3</var>
+                    <var id="DECIMAL_REMAINDER">true</var>
+                </div>
+            </div>
+        </div>
+
+        <div class="problem">
+            <div class="graphie" id="numbers">
+                graph.divider = new Divider(DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL, DECIMAL_REMAINDER);
+                graph.divider.show();
+                DUMMY = Array(graph.divider.getNumHints());
+            </div>
+        </div>
+        <div class="solution" data-type="decimal">1</div>
+
+        <div class="hints">
+            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
+                graph.divider.showHint();
+            </div>
+        </div>
+    </div>
+</body>
+</html>

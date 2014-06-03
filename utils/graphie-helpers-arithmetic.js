@@ -557,47 +557,50 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     };
 }
 
-function Divider(divisor, dividend, deciDivisor, deciDividend) {
+function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder) {
     var graph = KhanUtil.currentGraph;
     var digitsDivisor = KhanUtil.integerToDigits(divisor);
     var digitsDividend = KhanUtil.integerToDigits(dividend);
     deciDivisor = deciDivisor || 0;
     deciDividend = deciDividend || 0;
+
+    deciDividend = Divider.processDividend(digitsDividend, deciDividend);
     var deciDiff = deciDivisor - deciDividend;
+    var hints = Divider.getHints(divisor, digitsDividend, deciDivisor, deciDividend, decimalRemainder);
+    var numHints = hints.length;
+
     var highlights = [];
-    var index = 0;
-    var dy = 0;
-    var remainder = 0;
-    var fOnlyZeros = true;
     var leadingZeros = [];
-    var value = 0;
     var decimals = [];
-
-    var hints = 0;
-    var hintType = 1;
-    var numHints = Divider.numHintsFor(divisor, dividend, deciDivisor, deciDividend);
-
-    if (deciDividend !== 0) {
-        digitsDividend = (KhanUtil.padDigitsToNum(digitsDividend.reverse(), deciDividend + 1)).reverse();
-    }
+    var temporaryLabel = false;
+    var index = 0;
+    var dx = 0;
+    var dy = 0;
+    var currentValue = 0;
+    var fOnlyZeros = true;
 
     this.show = function() {
-        var paddedDivisor = digitsDivisor;
-        var nDigitsInAnswer = Math.floor(Math.log(dividend / divisor) / Math.log(10)) + 1;
-        var answerAsDigits = KhanUtil.integerToDigits(Math.round(dividend / divisor));
-
-        // Since we stop dividing once we get a remainder of 0
-        var i = answerAsDigits.length - 1;
-        while (answerAsDigits[i] === 0) {
-            nDigitsInAnswer--;
-            i--;
+        // Count number of subdivisions shown and find how many decimals have been added
+        var steps = 0;
+        var decimalsAdded = 0;
+        for (var i = 0; i < hints.length; i++) {
+            if (hints[i][0] === 'result' && hints[i][1] !== 0) {
+                steps++;
+            } else if (hints[i][0] === 'decimal-remainder') {
+                decimalsAdded = hints[i][1];
+            }
         }
 
+        // Calculate the x-coordinate for the hints
+        dx = digitsDividend.length + decimalsAdded + Math.max(0, deciDiff) + 0.5;
+
+        var paddedDivisor = digitsDivisor;
         if (deciDivisor !== 0) {
             paddedDivisor = (KhanUtil.padDigitsToNum(digitsDivisor.reverse(), deciDivisor + 1)).reverse();
         }
+
         graph.init({
-            range: [[-1 - paddedDivisor.length, 17], [-2 * nDigitsInAnswer - 3, 2]],
+            range: [[-1 - paddedDivisor.length, 17], [-2 * steps - 1, 2]],
             scale: [20, 40]
         });
 
@@ -615,222 +618,301 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                         [digitsDividend.length - deciDividend - 0.5, -0.1],
                         "\\LARGE{" + decimalPointSymbol + "}", "center", true));
             }
-            if (deciDiff !== 0) {
-                decimals = decimals.concat(
-                    graph.label(
-                        [digitsDividend.length - deciDividend - 0.5, 0.9],
-                        "\\LARGE{" + decimalPointSymbol + "}", "center", true));
-            }
         });
 
         drawDigits(paddedDivisor, -0.5 - paddedDivisor.length, 0);
         drawDigits(digitsDividend, 0, 0);
-        graph.path([[-0.75, -0.5], [-0.75, 0.5], [digitsDividend.length + (deciDiff > 0 ? deciDiff : 0), 0.5]]);
+        graph.path([[-0.75, -0.5], [-0.75, 0.5], [dx - 0.8, 0.5]]);
     };
 
     this.showHint = function() {
-        this.removeHighlights();
-        hints++;
+        this.clearArray(highlights);
+        var hint = hints.shift();
 
-        if (hints === 1 && deciDivisor > 0) {
-            this.shiftDecimals();
-            return;
+        // For the last hint, remove leading zero in the answer
+        if (hints.length === 0) {
+            this.clearArray(leadingZeros);
         }
 
-        // End of hints
-        if (hints === numHints || index === digitsDividend.length) {
-            while (leadingZeros.length) {
-                leadingZeros.pop().remove();
-            }
-
-            if (remainder === 0) {
-                 graph.label([digitsDividend.length + 0.5, dy], "\\text{" +
-                    $._("The remainder is 0 so we have our answer.") + "}", "right");
-            }
-            return;
-        }
-
-        if (hintType === 1) {
-            hintType = 0;
-            value = digitsDividend[index];
-            var quotient = value / divisor;
-            var total = value + remainder;
-            highlights = highlights.concat(drawDigits([value], index, 0, KhanUtil.BLUE));
-
-            if (!fOnlyZeros) {
-                graph.style({
-                    arrows: "->"
-                }, function() {
-                    highlights.push(graph.path([[index, -0.5], [index, dy + 0.5]]));
-                });
-            }
-
-            var totalDigits = KhanUtil.integerToDigits(total);
-            highlights = highlights.concat(drawDigits(totalDigits, index - totalDigits.length + 1, dy, KhanUtil.BLUE));
-
-            var question = $._("\\text{How many times does }%(divisor)s" +
-                              " \\text{ go into }\\color{#6495ED}{%(total)s}\\text{?}",
-                                {divisor: divisor, total: total});
-
-            if (total >= divisor) {
-                graph.label([digitsDividend.length + 0.5, dy], question, "right");
-            } else {
-                highlights = highlights.concat(graph.label([digitsDividend.length + 0.5, dy], question, "right"));
-            }
-
-        } else {
-            hintType = 1;
-
-            value += remainder;
-            var quotient = Math.floor(value / divisor);
-            var diff = value - (quotient * divisor);
-            remainder = diff * 10;
-
-            var quotientLabel = drawDigits([quotient], index, 1);
-            highlights = highlights.concat(drawDigits([quotient], index, 1, KhanUtil.GREEN));
-
-            // If quotient is 0 then don't show the division
-            if (quotient === 0) {
-                index++;
-                if (fOnlyZeros) {
-                    if (digitsDividend.length - deciDividend + deciDivisor > index) {
-                        leadingZeros = leadingZeros.concat(quotientLabel);
-                    }
-                }
-                return;
-            }
-
-            var digits = KhanUtil.integerToDigits(value);
-            if (fOnlyZeros) {
-                drawDigits(digits, index - digits.length + 1, dy);
-                fOnlyZeros = false;
-            } else {
-                drawDigits([digitsDividend[index]], index, dy);
-            }
-
-            var product = KhanUtil.integerToDigits(divisor * quotient);
-            drawDigits(product, index - product.length + 1, dy - 1);
-            highlights = highlights.concat(drawDigits(product, index - product.length + 1, dy - 1, KhanUtil.ORANGE));
-
-            var diffDigits = KhanUtil.integerToDigits(diff);
-            drawDigits(diffDigits, index - diffDigits.length + 1, dy - 2);
-            graph.path([[index - product.length - 0.25, dy - 1.5], [index + 0.5, dy - 1.5]]);
-            graph.label([index - digits.length, dy - 1] , "-");
-
-            graph.label([digitsDividend.length + 0.5, dy - 1],
-                "\\color{#6495ED}{" + value + "}" +
-                "\\div" +
-                divisor + "=" +
-                "\\color{#28AE7B}{" + quotient + "}" +
-                "\\text{ " + $._("or") + " }" +
-                divisor +
-                "\\times" +
-                "\\color{#28AE7B}{" + quotient + "}" +
-                " = " +
-                "\\color{#FFA500}{" + (divisor * quotient) + "}", "right");
-            index++;
-            dy -= 2;
+        switch (hint[0]) {
+            case 'shift':
+                this.shiftDecimals();
+                break;
+            case 'bring-up-decimal':
+                this.bringUpDecimal();
+                break;
+            case 'division':
+                currentValue = hint[1];
+                this.showDivisionStep();
+                break;
+            case 'result':
+                this.showDivisionStepResult(hint[1], hint[2], hint[3]);
+                break;
+            case 'decimal-remainder':
+                this.addDecimalRemainder();
+                break;
+            case 'remainder':
+                this.showRemainder(hint[1]);
+                break;
         }
     };
 
+    this.shiftDecimals = function() {
+        this.clearArray(decimals);
+
+        temporaryLabel = graph.label([dx, 1],
+            $.ngettext("\\text{Shift the decimal 1 to the right.}",
+                       "\\text{Shift the decimal %(num)s to the right.}",
+                       deciDivisor),
+            "right");
+
+        this.addDecimals([[-1, -0.1], [digitsDividend.length + deciDiff - 0.5, -0.1]]);
+
+        // Draw extra zeros in the dividend
+        if (deciDiff > 0) {
+            var orig = digitsDividend;
+            digitsDividend = KhanUtil.padDigitsToNum(digitsDividend, digitsDividend.length + deciDiff);
+            var x = digitsDividend.length - deciDiff;
+            var zeros = digitsDividend.slice(x);
+            drawDigits(zeros, x, 0);
+            highlights = highlights.concat(drawDigits(zeros, x, 0, KhanUtil.PINK));
+        }
+    };
+
+    this.bringUpDecimal = function() {
+        if (temporaryLabel) {
+            temporaryLabel.remove();
+            temporaryLabel = false;
+        }
+
+        // TODO(jeresig): i18n: This probably won't work in multiple langs
+        graph.label([dx, 1.2], $._("\\text{Bring the decimal up into the}"), "right");
+        graph.label([dx, 0.8], $._("\\text{answer (the quotient).}"), "right");
+        this.addDecimals([[digitsDividend.length + deciDiff - 0.5, 0.9]]);
+    }
+
+    this.showDivisionStep = function(division) {
+        // Write question
+        var question = $._("\\text{How many times does }%(divisor)s" +
+                           "\\text{ go into }\\color{#6495ED}{%(value)s}\\text{?}",
+                            {divisor: divisor, value: currentValue});
+
+        if (currentValue >= divisor) {
+            graph.label([dx, dy], question, "right");
+        } else {
+            highlights = highlights.concat(graph.label([dx, dy], question, "right"));
+        }
+
+        // Bring down another number
+        if (!fOnlyZeros) {
+            graph.style({
+                arrows: "->"
+            }, function() {
+                highlights.push(graph.path([[index, -0.5], [index, dy + 0.5]]));
+            });
+
+            if (digitsDividend[index]) {
+                drawDigits([digitsDividend[index]], index, dy);
+            } else {
+                // Add a zero in the dividend and bring that down
+                drawDigits([0], index, 0);
+                drawDigits([0], index, dy);
+            }
+        }
+
+        // Highlight current dividend
+        var digits = KhanUtil.integerToDigits(currentValue);
+        highlights = highlights.concat(drawDigits(digits, index - digits.length + 1, dy, KhanUtil.BLUE));
+    };
+
+    this.showDivisionStepResult = function(result, remainder) {
+        if (result !== 0) {
+            fOnlyZeros = false;
+        }
+
+        // Leading zeros except one before a decimal point and those after
+        // are stored separately so they can be removed later.
+        if (fOnlyZeros && index < digitsDividend.length + deciDiff - 1) {
+            leadingZeros = leadingZeros.concat(drawDigits([0], index, 1));
+        } else { 
+            drawDigits([result], index, 1);
+        }
+
+        // Highlight result
+        highlights = highlights.concat(drawDigits([result], index, 1, KhanUtil.GREEN));
+
+        if (result !== 0) {
+            dy -= 2;
+            var productDigits = KhanUtil.integerToDigits(result * divisor);
+            var productLength = productDigits.length;
+            drawDigits(productDigits, index - productLength + 1, dy + 1);
+
+            graph.path([[index - productLength - 0.25, dy + 0.5], [index + 0.5, dy + 0.5]]);
+            graph.label([index - productLength, dy + 1] , "-");
+
+            var remainderDigits = KhanUtil.integerToDigits(remainder);
+            var remainderX = index - remainderDigits.length + 1;
+            drawDigits(remainderDigits, remainderX, dy);
+            highlights = highlights.concat(drawDigits(remainderDigits, remainderX, dy, KhanUtil.PINK));
+
+            graph.label([dx, dy + 1],
+                "\\blue{" + currentValue + "}" +
+                "\\div" + divisor + "=" +
+                "\\green{" + result + "}" +
+                "\\text{" + $._(" with a remainder of ") + " }" +
+                "\\pink{" + remainder + "}",
+                "right");
+        }
+
+        index++;
+    }
+
     this.addDecimalRemainder = function() {
-        dividend = dividend * 10;
-        digitsDividend = KhanUtil.integerToDigits(dividend);
+        digitsDividend = KhanUtil.integerToDigits(dividend * 10);
         deciDividend = 1;
         deciDiff = deciDivisor - deciDividend;
 
-        this.addDecimal();
-        this.show();
-        graph.label([digitsDividend.length, 1],
-            $._("\\text{Write in a decimal and a zero and continue dividing.}"),
-            "right");
+        drawDigits([0], index, 0);
+        this.addDecimals([[index - 0.5, 0.9], [index - 0.5, -0.1]]);
+
+        graph.label([dx, 1], $._("\\text{Write in a decimal and a zero.}"), "right");
     };
+
+    this.showRemainder = function(remainder) {
+        var txt;
+        if (remainder === 0) {
+            txt = "\\text{" + $._("The remainder is 0 so we have our answer.") + "}";
+        } else {
+            txt = $._("\\text{Since } %(remainder)s \\text{ is less than } %(divisor)s \\text{, it is left as our remainder.}",
+                    { remainder: remainder, divisor: divisor });
+
+            drawDigits(["\\text{R}"].concat(KhanUtil.integerToDigits(remainder)), digitsDividend.length, 1);
+        }
+
+        graph.label([dx, dy], txt, "right");
+    }
 
     this.getNumHints = function() {
         return numHints;
     };
 
-    this.removeHighlights = function() {
-        while (highlights.length) {
-            highlights.pop().remove();
+    this.clearArray = function(arr) {
+        while (arr.length) {
+            arr.pop().remove();
         }
     };
 
-    this.addDecimal = function() {
+    this.addDecimals = function(coords) {
         graph.style({
                 fill: "#000"
             }, function() {
-                graph.label([digitsDividend.length + deciDiff - 0.5, -0.1],
-                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
-                graph.label([digitsDividend.length + deciDiff - 0.5, 0.9],
-                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
+                for (var i = 0; i < coords.length; i++) {
+                    graph.label(coords[i], "\\LARGE{" + decimalPointSymbol + "}", "center", true);
+                }
             });
     };
 
-    this.shiftDecimals = function() {
-        while (decimals.length) {
-            decimals.pop().remove();
-        }
-
-        if (deciDivisor !== 0) {
-            graph.label([digitsDividend.length + 1 + (deciDiff > 0 ? deciDiff : 0), 1],
-                        $.ngettext("\\text{Shift the decimal 1 to the right.}",
-                                   "\\text{Shift the decimal %(num)s to the right.}",
-                                   deciDivisor),
-                        "right");
-            graph.style({
-                fill: "#000"
-            }, function() {
-                graph.label([-1, -0.1],
-                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
-            });
-        } else {
-            // TODO(jeresig): i18n: This probably won't work in multiple langs
-            graph.label([digitsDividend.length + 0.5, 1.2],
-                $._("\\text{Bring the decimal up into the}"), "right");
-            graph.label([digitsDividend.length + 0.5, 0.8],
-                $._("\\text{answer (the quotient).}"), "right");
-        }
-
-        this.addDecimal();
-
-        if (deciDiff > 0) {
-            var orig = digitsDividend;
-            digitsDividend = KhanUtil.padDigitsToNum(digitsDividend, digitsDividend.length + deciDiff);
-            drawDigits(digitsDividend, 0, 0);
-            highlights = highlights.concat(drawDigits(digitsDividend, 0, 0, KhanUtil.PINK));
-            highlights = highlights.concat(drawDigits(orig, 0, 0));
-        }
-    };
 }
 
-Divider.numHintsFor = function(divisor, dividend, deciDivisor, deciDividend) {
-    var digitsDividend = KhanUtil.integerToDigits(dividend);
-    if (deciDividend !== 0) {
-        digitsDividend = (KhanUtil.padDigitsToNum(digitsDividend.reverse(), deciDividend + 1)).reverse();
-    }
-    var numhints = 1 + (digitsDividend.length + Math.max(deciDivisor - deciDividend, 0)) * 2;
-    var remainingDecimals = Math.max(deciDividend - deciDivisor, 0);
+// Go through the division step-by-step
+// Return steps as an array of arrays,
+// where the first item is the type of hint and following items are parameters.
+// The hint types are:
+// ['shift']                        The divisor is a decimal, so shift the decimal to make it an integer.
+// ['bring-up-decimal']             The dividend is a decimal, so bring up decimal point into the quotient.
+// ['decimal-remainder', param1]    decimalRemainder is true and we need to add decimals to the dividend to continue.
+//                                  Param1 is the number of zeros added (to a maximum of 4).
+//                                  e.g. for 1 / 8, we add a decimal and 3 zeros so 1 becomes 1.000.
+// ['division', param1]             Show a sub-division step, dividing param1 by the divisor.
+//                                  e.g. For 58 / 2, the first step is to divide 5 (param1) by 2.
+// ['result', param1, param2]       Show the result of a sub-division step. The result is param1 remainder param2.
+//                                  e.g. For 5 / 2, param1 is 2 and param2 is 1.
+// ['remainder', param1]            Show the remainder of param1 (Usually 0 showing we have finished).
+// Appended to the end of the hints is the number of decimals added as part of the decimal-remainder step
+
+Divider.getHints = function(divisor, digitsDividend, deciDivisor, deciDividend, decimalRemainder) {
+    var hints = [];
+    //var digitsDividend = KhanUtil.integerToDigits(dividend);
+    var dividend = 0;
 
     if (deciDivisor > 0) {
-        numhints++;
-    }
-
-    // If answer ends in zeros that we don't use
-    if (Math.round(dividend / divisor) === dividend / divisor) {
-        var digitsAnswer = KhanUtil.integerToDigits(dividend / divisor);
-
-        for (var i = 0; i < remainingDecimals; i++) {
-            if (digitsAnswer[digitsAnswer.length - 1 - i] === 0) {
-                numhints -= 2;
-            } else {
-                break;
-            }
+        hints.push(['shift']);
+        if (deciDivisor > deciDividend) {
+            digitsDividend = KhanUtil.padDigitsToNum(digitsDividend, digitsDividend.length + deciDivisor - deciDividend);
         }
     }
 
-    return numhints;
+    if (deciDividend > deciDivisor) {
+        hints.push(['bring-up-decimal']);
+    }
+
+    // If we want a decimal remainder, add up to 4 extra places
+    var numPlaces = digitsDividend.length + (decimalRemainder ? 4 : 0);
+    var digits = KhanUtil.padDigitsToNum(digitsDividend, numPlaces);
+    var decimalsAdded = 0;
+    var decimalsRemainder = ['decimal-remainder', 0];
+
+    for (var i = 0; i < digits.length; i++) {
+        if (i >= digitsDividend.length) {
+            if (dividend === 0) {
+                // No need to add more decimals
+                break;
+            } else {
+                decimalsAdded++;
+            }
+
+            if (i === digitsDividend.length) {
+                hints.push(decimalsRemainder);
+            }
+        }
+
+        if (decimalsAdded > 0) {
+            decimalsRemainder[1] = decimalsAdded;
+        }
+
+        dividend = dividend * 10 + digits[i];
+        hints.push(['division', dividend]);
+
+        var quotient = Math.floor(dividend / divisor);
+        var product = divisor * quotient;
+        dividend -= product;
+        hints.push(['result', quotient, dividend]);
+    }
+
+    if (dividend === 0 || decimalsAdded !== 4) {
+        hints.push(['remainder', dividend]);
+    }
+
+    return hints;
 };
+
+Divider.getNumberOfHints = function(divisor, dividend, deciDivisor, deciDividend, decimalRemainder) {
+    var digitsDividend = KhanUtil.integerToDigits(dividend);
+    deciDividend = Divider.processDividend(digitsDividend, deciDividend);
+    var hints = Divider.getHints(divisor, digitsDividend, deciDivisor, deciDividend, decimalRemainder);
+    return hints.length;
+}
+
+Divider.processDividend = function(dividendDigits, deciDividend) {
+    // Trim unnecessary zeros after the decimal point
+    var end = dividendDigits.length - 1;
+    for (var i = 0; i < deciDividend; i++) {
+        if (dividendDigits[end - i] === 0) {
+            dividendDigits.splice(end - i)
+            deciDividend--;
+        } else {
+            break;
+        }
+    }
+
+    // Add zeros before the decimal point
+    var extraZeros = deciDividend - dividendDigits.length + 1;
+    for (var i = 0; i < extraZeros; i++) {
+        dividendDigits.splice(0, 0, 0);
+    }
+
+    return deciDividend;
+}
 
 KhanUtil.Adder = Adder;
 KhanUtil.Subtractor = Subtractor;

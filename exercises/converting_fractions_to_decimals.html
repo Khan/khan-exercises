@@ -12,9 +12,7 @@
             <div class="vars" data-ensure="getGCD(NUMERATOR, DENOMINATOR) === 1">
                 <var id="DENOMINATOR">randFromArray([4, 5, 8, 10, 20, 25, 50])</var>
                 <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
-                <var id="DECIMAL_3">Math.floor(NUMERATOR / DENOMINATOR * 1000) / 1000</var>
                 <var id="DECIMAL">roundTo(3, NUMERATOR / DENOMINATOR)</var>
-                <var id="NUMERATOR_10">NUMERATOR * pow(10, 3)</var>
             </div>
             <p>Express the fraction as a decimal.</p>
             <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
@@ -22,17 +20,12 @@
             <div class="hints">
                 <p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
 
-                <div class="graphie" id="nmbrs">
-                    graph.divider = new Divider(DENOMINATOR, NUMERATOR_10, 0, 3);
+                <div class="graphie" id="numbers">
+                    graph.divider = new Divider(DENOMINATOR, NUMERATOR, 0, 0, true);
                     graph.divider.show();
-                    DUMMY = Array(graph.divider.getNumHints());
                 </div>
 
-                <div class="graphie" data-update="nmbrs">
-                    graph.divider.shiftDecimals();
-                </div>
-
-                <div class="graphie" data-each="Divider.numHintsFor(DENOMINATOR, NUMERATOR_10, 0, 3) times" data-update="nmbrs">
+                <div class="graphie" data-each="Divider.getNumberOfHints(DENOMINATOR, NUMERATOR, 0, 0, true) times" data-update="numbers">
                     graph.divider.showHint();
                 </div>
 

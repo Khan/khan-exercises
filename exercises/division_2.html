@@ -8,13 +8,14 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="DIVISOR">randRange( 2, 9 )</var>
-            <var id="QUOTIENT">randRange( 10, 999 )</var>
-            <var id="FINAL_REMAINDER">randRange( 1, DIVISOR - 1 )</var>
-            <var id="DIVIDEND">DIVISOR * QUOTIENT + FINAL_REMAINDER</var>
-            <var id="DIVIDEND_DIGITS">integerToDigits( DIVIDEND )</var>
+            <var id="DIVISOR">randRange(2, 9)</var>
+            <var id="PRE_DIVIDEND">rand(2) ? randRange(100, 999) : randRange(1000, 9999)</var>
+            <var id="QUOTIENT">floor(PRE_DIVIDEND / DIVISOR)</var>
+            <var id="REMAINDER">randRange(1, DIVISOR - 1)</var>
+            <var id="DIVIDEND">DIVISOR * QUOTIENT + REMAINDER</var>
             <var id="DUMMY">[]</var>
         </div>
+
         <div class="problems">
             <div>
                 <div class="graphie" id="numbers">
@@ -25,20 +26,17 @@
                 <div class="solution" data-type="multiple">
                     <div>
                         <span class="sol short40" data-forms="integer"><var>QUOTIENT</var></span><code>\text{ R }</code>
-                        <span class="sol short40" data-forms="integer" data-fallback="0"><var>FINAL_REMAINDER</var></span>
+                        <span class="sol short40" data-forms="integer" data-fallback="0"><var>REMAINDER</var></span>
                     </div>
                     <div>Write your answer as a whole number and remainder.</div>
                     <p class="example">a quotient and remainder, like <code>5 \text{ R } 3</code></p>
                 </div>
-            </div>
-        </div>
-        <div class="hints">
-            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
-                graph.divider.showHint();
-            </div>
 
-            <div class="graphie" data-update="numbers">
-                drawDigits( [ "\\text{R}" ].concat( integerToDigits( FINAL_REMAINDER ) ), DIVIDEND_DIGITS.length, 1 );
+                <div class="hints">
+                    <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
+                        graph.divider.showHint();
+                    </div>
+                </div>
             </div>
         </div>
     </div>

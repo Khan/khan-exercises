@@ -7,12 +7,12 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-            <var id="DIVISOR">randRange( 10, 99 )</var>
-            <var id="QUOTIENT">randRange(ceil(100 / DIVISOR), floor(9999 / DIVISOR))</var>
-            <var id="FINAL_REMAINDER">randRange( 1, DIVISOR - 1 )</var>
-            <var id="DIVIDEND">DIVISOR * QUOTIENT + FINAL_REMAINDER</var>
-            <var id="DIVIDEND_DIGITS">integerToDigits( DIVIDEND )</var>
+        <div class="vars" data-ensure="QUOTIENT > 10">
+            <var id="DIVISOR">rand(2) ? randRange(10, 99) : randRange(100, 999)</var>
+            <var id="PRE_DIVIDEND">rand(2) ? randRange(100, 999) : randRange(1000, 9999)</var>
+            <var id="QUOTIENT">floor(PRE_DIVIDEND / DIVISOR)</var>
+            <var id="REMAINDER">randRange(1, DIVISOR - 1)</var>
+            <var id="DIVIDEND">DIVISOR * QUOTIENT + REMAINDER</var>
         </div>
         <div class="problems">
             <div>
@@ -24,7 +24,7 @@
                 <div class="solution" data-type="multiple">
                     <div>
                         <span class="sol short40" data-forms="integer"><var>QUOTIENT</var></span><code>\text{ R }</code>
-                        <span class="sol short40" data-forms="integer" data-fallback="0"><var>FINAL_REMAINDER</var></span>
+                        <span class="sol short40" data-forms="integer" data-fallback="0"><var>REMAINDER</var></span>
                     </div>
                     <div>Write your answer as a whole number and remainder.</div>
                     <p class="example">a quotient and remainder, like <code>5 \text{ R } 3</code></p>
@@ -34,10 +34,6 @@
         <div class="hints">
             <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                 graph.divider.showHint();
-            </div>
-
-            <div class="graphie" data-update="numbers">
-                drawDigits( [ "\\text{R}" ].concat( integerToDigits( FINAL_REMAINDER ) ), DIVIDEND_DIGITS.length, 1 );
             </div>
         </div>
     </div>
