@@ -9,1380 +9,736 @@
 <div class="exercise">
     <div class="vars">
         <var id="X">randVar()</var>
+        <var id="DENOMS">[2, 3, 4, 5]</var>
+        <var id="ORDER">rand(2)</var>
+        <var id="SOL_NUM">randRangeNonZero(-8, 8)</var>
+        <var id="SOL_DEN">randRangeNonZero(-8, 8)</var>
+        <var id="SOLUTION">SOL_NUM / SOL_DEN</var>
     </div>
 
     <div class="problems">
-        <div id="prob1"> <!-- A = Bx + C(Dx + E) -->
-            <div class="vars" data-ensure="(B + C * D !== 0) &amp;&amp;
-                    (A - C * E !== 0) &amp;&amp; (B + C * D !== 1)">
-                <var id="A">randRangeNonZero(-10, 10)</var>
-                <var id="B">randRangeNonZero(-10, 10)</var>
-                <var id="C">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
+        <div id="fractions-1"> <!-- A = Bx + C(Dx + E) -->
+            <div class="vars" data-ensure="B !== 0">
+                <var id="C">randRangeWeightedExclude(-4, 4, -1, 0.4, [0, 1])</var>
                 <var id="D">randRangeNonZero(-10, 10)</var>
-                <var id="E">randRange(1, 3)</var>
-                <var id="SOLUTION">(A - C * E) / (B + C * D)</var>
+                <var id="E">randRangeNonZero(-4, 4)</var>
+                <var id="C_DENOM, D_DENOM, E_DENOM">rand(2) ?
+                    [randFromArray(DENOMS), 1, 1]:
+                    [1, randFromArray(DENOMS), randFromArray(DENOMS)]
+                </var>
+
+                <var id="A_DENOM">C_DENOM * E_DENOM</var>
+                <var id="B_DENOM">C_DENOM * D_DENOM</var>
+                <var id="A">A_DENOM * SOL_NUM + C * E</var>
+                <var id="B">B_DENOM * SOL_DEN - C * D</var>
+
+                <var id="A_GCD">getGCD(A, A_DENOM)</var>
+                <var id="B_GCD">getGCD(B, B_DENOM)</var>
+                <var id="D_GCD">getGCD(C * D, B_DENOM)</var>
+                <var id="E_GCD">getGCD(C * E, A_DENOM)</var>
+
+                <var id="A1">fractionReduce(A, A_DENOM)</var>
+                <var id="B1">fractionVariable(B, B_DENOM, X)</var>
+                <var id="C1">fractionReduce(C, C_DENOM)</var>
+                <var id="D1">fractionVariable(D, D_DENOM, X)</var>
+                <var id="E1">fractionReduce(E, E_DENOM)</var>
+
+                <var id="CD">fractionVariable(C * D, B_DENOM, X)</var>
+                <var id="CE">fractionReduce(C * E, A_DENOM)</var>
+                <var id="BD">fractionReduce(B + C * D, B_DENOM)</var>
+                <var id="AE">fractionReduce(A - C * E, A_DENOM)</var>
             </div>
 
             <p class="question">Solve for <code><var>X</var></code>:</p>
             <p class="problem"><code>\qquad
-                <var>A</var> = <var>expr(["+", ["*", B, X], ["*", C, ["+",
-                ["*", D, X], E]]])</var>
+                <span data-if="ORDER">
+                    <var>A1</var> = <var>B1</var> + <var>coefficient(C1)</var>\left(<var>D1</var> + <var>E1</var>\right)
+                </span><span data-else="">
+                    <var>B1</var> + <var>coefficient(C1)</var>\left(<var>E1</var> + <var>D1</var>\right) = <var>A1</var>
+                </span>
             </code></p>
 
             <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
+                <p><code><var>X</var> = </code> <span class="sol" data-simplify="optional"><var>SOLUTION</var></span></p>
             </div>
 
             <div class="hints">
-                <p>
-                    Try simplifying the right side of the equation before
-                    solving it.
-                </p>
                 <div>
-                    <p data-if="C === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="C &lt; 0">
-                        Distribute the <code>\pink{<var>C</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
+                    <p data-if="C / C_DENOM === -1">
+                        Distribute the negative in front of the parentheses. Be careful!
+                        The negative sign in front of the parentheses means we're multiplying by <code>\pink{-1}</code>:
                     </p><p data-else="">
-                        Distribute the <code>\pink{<var>C</var>}</code>:
+                        Distribute the <code>\pink{<var>fractionReduce(C, C_DENOM)</var>}</code>:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A</var> &amp;=&amp; <var>expr(["*", B, X])</var> +
-                        \pink{<var>C</var>}\blue{(<var>expr(["+", ["*", D, X], E])</var>)} \\ \\
-                        <var>A</var> &amp;=&amp; <var>expr(["*", B, X])</var> +
-                        \pink{(<var>C</var>)}\blue{(<var>expr(["*", D, X])</var>)} +
-                        \pink{(<var>C</var>)}\blue{(<var>E</var>)}
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A1</var> &amp;=&amp; <var>B1</var> + \pink{<var>C1</var>} \blue{\left(<var>D1</var> + <var>E1</var>\right)} \\ \\
+                        <var>A1</var> &amp;=&amp; <var>B1</var> +
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>D1</var>\right)} +
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>E1</var>\right)} \\ \\
+                        <var>A1</var> &amp;=&amp; <var>B1</var> + <var>CD</var> + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>B1</var> + \pink{<var>C1</var>} \blue{\left(<var>E1</var> + <var>D1</var>\right)} &amp;=&amp; <var>A1</var> \\ \\
+                        <var>B1</var> +
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>E1</var>\right)} + 
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>D1</var>\right)} &amp;=&amp; <var>A1</var> \\ \\
+                        <var>B1</var> + <var>CE</var> + <var>CD</var> &amp;=&amp; <var>A1</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
+
                 <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>A</var> =
-                        <var>expr(["+", ["*", B, X], ["*", C * D, X], C * E])</var>
+                    <p>Combine the <span class="hint_blue"><code><var>X</var></code> terms</span>:</p>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A1</var> &amp;=&amp; \blue{<var>B1</var> + <var>CD</var>} + <var>CE</var> \\ \\
+                        <span data-if="B_DENOM / D_GCD !== 1">
+                            <var>A1</var> &amp;=&amp;
+                            \blue{\dfrac{<var>coefficient(B / B_GCD)</var><var>X</var> + <var>coefficient((C * D) / D_GCD)</var><var>X</var>}
+                            {<var>B_DENOM / D_GCD</var>}} + <var>CE</var> \\ \\
+                            <var>A1</var> &amp;=&amp;
+                            \blue{\dfrac{<var>coefficient((B / B_GCD) + (C * D) / D_GCD)</var><var>X</var>}
+                            {<var>B_DENOM / D_GCD</var>}} + <var>CE</var> \\ \\
+                        </span>
+                        <var>A1</var> &amp;=&amp; \blue{<var>coefficient(BD)</var><var>X</var>} + <var>CE</var>
+                        \end{eqnarray}
                     </code></p>
-                </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A</var> &amp;=&amp;
-                        \blue{<var>expr(["+", ["*", B, X], ["*", C * D, X]])</var>} + <var>C * E</var> \\ \\
-                        <var>A</var> &amp;=&amp;
-                        \blue{<var>expr(["*", B + C * D, X])</var>} + <var>C * E</var>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        \blue{<var>B1</var>} + <var>CE</var> + \blue{<var>CD</var>} &amp;=&amp; <var>A1</var> \\ \\
+                        <span data-if="B_DENOM / D_GCD !== 1">
+                            \blue{\dfrac{<var>coefficient(B / B_GCD)</var><var>X</var> + <var>coefficient((C * D) / D_GCD)</var><var>X</var>}
+                            {<var>B_DENOM / D_GCD</var>}} + <var>CE</var> &amp;=&amp; <var>A1</var> \\ \\
+                            \blue{\dfrac{<var>coefficient((B / B_GCD) + (C * D) / D_GCD)</var><var>X</var>}
+                            {<var>B_DENOM / D_GCD</var>}} + <var>CE</var> &amp;=&amp; <var>A1</var> \\ \\
+                        </span>
+                        \blue{<var>coefficient(BD)</var><var>X</var>} + <var>CE</var> &amp;=&amp; <var>A1</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
+
                 <div>
                     <p data-if="C * E < 0">
-                        Add
-                        <code>\green{<var>abs(C * E)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        right side:
+                        Add <code>\purple{<var>fractionReduce(-C * E, A_DENOM)</var>}</code> to both sides:
                     </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(C * E)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        right side:
+                        Subtract <code>\purple{<var>CE</var>}</code> from both sides:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A</var> &amp;=&amp;
-                        <var>expr(["*", B + C * D, X])</var> \green{{} + <var>C * E</var>} \\ \\
-                        \green{{}+<var>-C * E</var>} &amp;&amp;
-                        \green{{}+<var>-C * E</var>} \\ \\
-                        <var>A - C * E</var> &amp;=&amp;
-                        <var>expr(["*", B + C * D, X])</var>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A1</var> + \purple{<var>fractionReduce(-C * E, A_DENOM)</var>} &amp;=&amp; <var>coefficient(BD)</var><var>X</var> \\ \\
+                        <span data-if="A_DENOM / E_GCD !== 1">
+                            \dfrac{<var>A / A_GCD</var> + \purple{<var>(-C * E) / E_GCD</var>}}
+                            {<var>A_DENOM / E_GCD</var>} &amp;=&amp; <var>coefficient(BD)</var><var>X</var> \\ \\
+                            \dfrac{<var>(A - C * E) / E_GCD</var>}{<var>A_DENOM / E_GCD</var>} &amp;=&amp; <var>coefficient(BD)</var><var>X</var> \\ \\
+                        </span>
+                        <var>AE</var> &amp;=&amp; <var>coefficient(BD)</var><var>X</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>coefficient(BD)</var><var>X</var> &amp;=&amp; <var>A1</var> + \purple{<var>fractionReduce(-C * E, A_DENOM)</var>} \\ \\
+                        <span data-if="A_DENOM / E_GCD !== 1">
+                            <var>coefficient(BD)</var><var>X</var> &amp;=&amp;
+                            \dfrac{<var>A / A_GCD</var> + \purple{<var>(-C * E) / E_GCD</var>}}{<var>A_DENOM / E_GCD</var>} \\ \\
+                            <var>coefficient(BD)</var><var>X</var> &amp;=&amp; \dfrac{<var>(A - C * E) / E_GCD</var>}{<var>A_DENOM / E_GCD</var>} \\ \\
+                        </span>
+                        <var>coefficient(BD)</var><var>X</var> &amp;=&amp; <var>AE</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
-                <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>B + C * D</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A - C * E</var> &amp;=&amp;
-                        <var>expr(["*", B + C * D, X])</var> \\ \\
-                        \dfrac{<var>A - C * E</var>}
-                        {\green{<var>B + C * D</var>}} &amp;=&amp;
-                        \dfrac{\green{\cancel{<var>B + C * D</var>}}
-                        <var>X</var>}{\green{\cancel{<var>B + C * D</var>}}}
-                        \end{eqnarray}
+
+                <div data-if="BD !== '1'">
+                    <p>Divide both sides by <code>\green{<var>BD</var>}</code> to isolate <code><var>X</var></code>:</p>
+                    <p data-if="ORDER"><code>\qquad
+                        \dfrac{<var>AE</var>}{\green{<var>BD</var>}} =
+                        \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}}
+                    </code></p>
+                    <p data-else=""><code>\qquad
+                        \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}} =
+                        \dfrac{<var>AE</var>}{\green{<var>BD</var>}}
                     </code></p>
                 </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>fractionReduce(A - C * E, B + C * D)</var>
-                        = <var>X</var>
-                    </code></p>
-                </div>
+
+                <p><code>\qquad <var>X</var> = <var>fractionReduce(SOL_NUM, SOL_DEN)</var></code></p>
             </div>
         </div>
 
-        <div id="prob2"> <!-- A = B(C + Dx) + Ex -->
-            <div class="vars" data-ensure="(B * D + E !== 0) &amp;&amp;
-                    (A - B * C) &amp;&amp; (B * D + E)">
-                <var id="A">randRangeNonZero(-10, 10)</var>
-                <var id="B">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
+        <div id="fractions-2" data-type="fractions-1"> <!-- A - Bx = C(Dx + E) -->
+            <p class="problem"><code>\qquad
+                <span data-if="ORDER">
+                    <var>A1</var> - <var>B1</var> = <var>coefficient(C1)</var>\left(<var>D1</var> + <var>E1</var>\right)
+                </span><span data-else="">
+                    <var>coefficient(C1)</var>\left(<var>E1</var> + <var>D1</var>\right) = <var>A1</var> - <var>B1</var>
+                </span>
+            </code></p>
+
+            <div class="hints">
+                <div>
+                    <p data-if="C / C_DENOM === -1">
+                        Distribute the negative in front of the parentheses. Be careful!
+                        The negative sign in front of the parentheses means we're multiplying by <code>\pink{-1}</code>:
+                    </p><p data-else="">
+                        Distribute the <code>\pink{<var>fractionReduce(C, C_DENOM)</var>}</code>:
+                    </p>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A1</var> - <var>B1</var> &amp;=&amp; \pink{<var>C1</var>} \blue{\left(<var>D1</var> + <var>E1</var>\right)} \\ \\
+                        <var>A1</var> - <var>B1</var> &amp;=&amp;
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>D1</var>\right)} +
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>E1</var>\right)} \\ \\
+                        <var>A1</var> - <var>B1</var> &amp;=&amp; <var>CD</var> + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        \pink{<var>C1</var>} \blue{\left(<var>E1</var> + <var>D1</var>\right)} &amp;=&amp; <var>A1</var> - <var>B1</var> \\ \\
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>E1</var>\right)} + 
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>D1</var>\right)} &amp;=&amp; <var>A1</var> - <var>B1</var> \\ \\
+                        <var>CE</var> + <var>CD</var> &amp;=&amp; <var>A1</var> - <var>B1</var>
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p data-if="B > 0">Add <code>\blue{<var>B1</var>}</code> to both sides:</p>
+                    <p data-else="">Subtract <code>\blue{<var>fractionVariable(-B, B_DENOM, X)</var>}</code> from both sides:</p>
+
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A1</var> &amp;=&amp; \blue{<var>B1</var>} + <var>CD</var> + <var>CE</var> \\ \\
+                        <span data-if="B_DENOM / D_GCD !== 1">
+                            <var>A1</var> &amp;=&amp;
+                            \dfrac{\blue{<var>coefficient(B / B_GCD)</var><var>X</var>} + <var>coefficient((C * D) / D_GCD)</var><var>X</var>}
+                            {<var>B_DENOM / D_GCD</var>} + <var>CE</var> \\ \\
+                            <var>A1</var> &amp;=&amp;
+                            \dfrac{<var>coefficient((B / B_GCD) + (C * D) / D_GCD)</var><var>X</var>}
+                            {<var>B_DENOM / D_GCD</var>} + <var>CE</var> \\ \\
+                        </span>
+                        <var>A1</var> &amp;=&amp; <var>coefficient(BD)</var><var>X</var> + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        \blue{<var>B1</var>} + <var>CE</var> + <var>CD</var> &amp;=&amp; <var>A1</var> \\ \\
+                        <span data-if="B_DENOM / D_GCD !== 1">
+                            \dfrac{\blue{<var>coefficient(B / B_GCD)</var><var>X</var>} + <var>coefficient((C * D) / D_GCD)</var><var>X</var>}
+                            {<var>B_DENOM / D_GCD</var>} + <var>CE</var> &amp;=&amp; <var>A1</var> \\ \\
+                            \dfrac{<var>coefficient((B / B_GCD) + (C * D) / D_GCD)</var><var>X</var>}
+                            {<var>B_DENOM / D_GCD</var>} + <var>CE</var> &amp;=&amp; <var>A1</var> \\ \\
+                        </span>
+                        \blue{<var>coefficient(BD)</var><var>X</var>} + <var>CE</var> &amp;=&amp; <var>A1</var>
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p data-if="C * E < 0">
+                        Add <code>\purple{<var>fractionReduce(-C * E, A_DENOM)</var>}</code> to both sides:
+                    </p><p data-else="">
+                        Subtract <code>\purple{<var>CE</var>}</code> from both sides:
+                    </p>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A1</var> + \purple{<var>fractionReduce(-C * E, A_DENOM)</var>} &amp;=&amp; <var>coefficient(BD)</var><var>X</var> \\ \\
+                        <span data-if="A_DENOM / E_GCD !== 1">
+                            \dfrac{<var>A / A_GCD</var> + \purple{<var>(-C * E) / E_GCD</var>}}
+                            {<var>A_DENOM / E_GCD</var>} &amp;=&amp; <var>coefficient(BD)</var><var>X</var> \\ \\
+                            \dfrac{<var>(A - C * E) / E_GCD</var>}{<var>A_DENOM / E_GCD</var>} &amp;=&amp; <var>coefficient(BD)</var><var>X</var> \\ \\
+                        </span>
+                        <var>AE</var> &amp;=&amp; <var>coefficient(BD)</var><var>X</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>coefficient(BD)</var><var>X</var> &amp;=&amp; <var>A1</var> + \purple{<var>fractionReduce(-C * E, A_DENOM)</var>} \\ \\
+                        <span data-if="A_DENOM / E_GCD !== 1">
+                            <var>coefficient(BD)</var><var>X</var> &amp;=&amp;
+                            \dfrac{<var>A / A_GCD</var> + \purple{<var>(-C * E) / E_GCD</var>}}{<var>A_DENOM / E_GCD</var>} \\ \\
+                            <var>coefficient(BD)</var><var>X</var> &amp;=&amp; \dfrac{<var>(A - C * E) / E_GCD</var>}{<var>A_DENOM / E_GCD</var>} \\ \\
+                        </span>
+                        <var>coefficient(BD)</var><var>X</var> &amp;=&amp; <var>AE</var>
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+
+                <div data-if="BD !== '1'">
+                    <p>Divide both sides by <code>\green{<var>BD</var>}</code> to isolate <code><var>X</var></code>:</p>
+                    <p data-if="ORDER"><code>\qquad
+                        \dfrac{<var>AE</var>}{\green{<var>BD</var>}} =
+                        \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}}
+                    </code></p>
+                    <p data-else=""><code>\qquad
+                        \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}} =
+                        \dfrac{<var>AE</var>}{\green{<var>BD</var>}}
+                    </code></p>
+                </div>
+
+                <p><code>\qquad <var>X</var> = <var>fractionReduce(SOL_NUM, SOL_DEN)</var></code></p>
+            </div>
+        </div>
+
+        <div id="decimal-1"> <!-- A = Bx + C(Dx + E) -->
+            <div class="vars" data-ensure="B !== 0 && A !== 0">
+                <var id="C_DENOM, D_DENOM, E_DENOM">rand(2) ?
+                    [rand(3) ? 1 : 10, 1, 1]:
+                    [1, rand(2) ? 1 : 10, rand(2) ? 1 : 10]
                 </var>
-                <var id="C">randRange(1, 3)</var>
-                <var id="D">randRangeNonZero(-10, 10)</var>
-                <var id="E">randRangeNonZero(-10, 10)</var>
-                <var id="SOLUTION">(A - B * C) / (B * D + E)</var>
+                <var id="C">randRangeWeightedExclude(-4 * C_DENOM, 4 * C_DENOM, -1 * C_DENOM, 0.4, [0, 1]) / C_DENOM</var>
+                <var id="D">randRangeNonZero(-10 * D_DENOM, 10 * D_DENOM) / D_DENOM</var>
+                <var id="E">randRangeNonZero(-4 * E_DENOM, 4 * E_DENOM) / E_DENOM</var>
+                
+                <var id="MULTIPLE">randFromArray([0.1, 0.2, 0.5, 1, 2, 3, 4])</var>
+                <var id="A">roundTo(2, MULTIPLE * SOL_NUM + C * E)</var>
+                <var id="B">roundTo(2, MULTIPLE * SOL_DEN - C * D)</var>
+
+                <var id="BX">coefficient(B) + X</var>
+                <var id="DX">coefficient(D) + X</var>
+                <var id="CC">coefficient(C)</var>
+                <var id="CE">roundTo(2, C * E)</var>
+                <var id="CDX">coefficient(roundTo(2, C * D)) + X</var>
+                <var id="BD">roundTo(2, B + C * D)</var>
+                <var id="BDX">coefficient(BD) + X</var>
             </div>
 
             <p class="question">Solve for <code><var>X</var></code>:</p>
             <p class="problem"><code>\qquad
-                <var>A</var> = <var>expr(["+", ["*", B, ["+", C, ["*", D, X]]],
-                ["*", E, X]])</var>
+                <span data-if="ORDER">
+                    <var>A</var> = <var>BX</var> + <var>CC</var>(<var>DX</var> + <var>E</var>)
+                </span><span data-else="">
+                    <var>BX</var> + <var>CC</var>(<var>E</var> + <var>DX</var>) = <var>A</var>
+                </span>
             </code></p>
 
             <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
+                <p><code><var>X</var> = </code> <span class="sol" data-simplify="optional"><var>SOLUTION</var></span></p>
             </div>
 
             <div class="hints">
-                <p>
-                    Try simplifying the right side of the equation before
-                    solving it.
-                </p>
-                <div>
-                    <p data-if="B === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="B &lt; 0">
-                        Distribute the <code>\pink{<var>B</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
-                    </p><p data-else="">
-                        Distribute the <code>\pink{<var>B</var>}</code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A</var> &amp;=&amp;
-                        \pink{<var>B</var>}\blue{(<var>expr(["+", C, ["*", D, X]])</var>)} +
-                        <var>expr(["*", E, X])</var> \\ \\
-                        <var>A</var> &amp;=&amp;
-                        \pink{(<var>B</var>)}\blue{(<var>C</var>)} +
-                        \pink{(<var>B</var>)}\blue{(<var>expr(["*", D, X])</var>)} +
-                        <var>expr(["*", E, X])</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>A</var> =
-                        <var>expr(["+", B * C, ["*", B * D, X], ["*", E, X]])</var>
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A</var> &amp;=&amp;
-                        <var>B * C</var> \blue{{} + <var>expr(["*", B * D, X])</var>}
-                        \blue{{} + <var>expr(["*", E, X])</var>} \\ \\
-                        <var>A</var> &amp;=&amp;
-                        <var>B * C</var> \blue{{} + <var>expr(["*", B * D + E, X])</var>}
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="B * C < 0">
-                        Add
-                        <code>\green{<var>abs(B * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(B * C)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        right side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A</var> &amp;=&amp;
-                        \green{<var>B * C</var>} + <var>expr(["*", B * D + E, X])</var> \\ \\
-                        \green{{}+<var>-B * C</var>} &amp;&amp;
-                        \green{{}+<var>-B * C</var>} \\ \\
-                        <var>A - B * C</var> &amp;=&amp;
-                        <var>expr(["*", B * D + E, X])</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>B * D + E</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A - B * C</var> &amp;=&amp;
-                        <var>expr(["*", B * D + E, X])</var> \\ \\
-                        \dfrac{<var>A - B * C</var>}
-                        {\green{<var>B * D + E</var>}} &amp;=&amp;
-                        \dfrac{\green{\cancel{<var>B * D + E</var>}}
-                        <var>X</var>}{\green{\cancel{<var>B * D + E</var>}}}
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>fractionReduce(A - B * C, B * D + E)</var>
-                        = <var>X</var>
-                    </code></p>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="prob3"> <!-- A(Bx + C) = D(E − Fx) + Gx -->
-            <div class="vars" data-ensure="D * F + G !== 0 &amp;&amp;
-                    ((A * B) - (D * F + G)) !== 0 &amp;&amp;
-                    ((A * B) - (D * F + G)) !== 1">
-                <var id="A">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
-                <var id="B">randRangeNonZero(-10, 10)</var>
-                <var id="C">randRange(1, 3)</var>
-                <var id="D">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
-                <var id="E">randRangeNonZero(-10, 10)</var>
-                <var id="F">randRangeNonZero(-10, 10)</var>
-                <var id="G">randRangeNonZero(-10, 10)</var>
-                <var id="SOLUTION">(D * E - A * C) / ((A * B) - (D * F + G))</var>
-            </div>
-
-            <p class="question">Solve for <code><var>X</var></code>:</p>
-            <p class="problem"><code>\qquad
-                <var>expr(["*", A, ["+", ["*", B, X], C]])</var> =
-                <var>expr(["+", ["*", D, ["+", E, ["*", F, X]]],
-                ["*", G, X]])</var>
-            </code></p>
-
-            <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
-            </div>
-
-            <div class="hints">
-                <p>
-                    Try simplifying each side of the equation before
-                    solving it.
-                </p>
-                <div>
-                    <p data-if="A === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="A &lt; 0">
-                        Distribute the <code>\pink{<var>A</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
-                    </p><p data-else="">
-                        Distribute the <code>\pink{<var>A</var>}</code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \pink{<var>A</var>}\blue{(<var>expr(["+", ["*", B, X], C])</var>)} &amp;=&amp;
-                        <var>expr(["+", ["*", D, ["+", E, ["*", F, X]]], ["*", G, X]])</var> \\ \\
-                        \pink{(<var>A</var>)}\blue{(<var>expr(["*", B, X])</var>)}  +
-                        \pink{(<var>A</var>)}\blue{(<var>C</var>)} &amp;=&amp;
-                        <var>expr(["+", ["*", D, ["+", E, ["*", F, X]]], ["*", G, X]])</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> =
-                        <var>expr(["+", ["*", D, ["+", E, ["*", F, X]]], ["*", G, X]])</var>
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="D === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="D &lt; 0">
-                        Distribute the <code>\pink{<var>D</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
-                    </p><p data-else="">
-                        Distribute the <code>\pink{<var>D</var>}</code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        \pink{(<var>D</var>)}\blue{(<var>expr(["+", E, ["*", F, X]])</var>)} +
-                        <var>expr(["*", G, X])</var> \\ \\
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        \pink{(<var>D</var>)} \blue{(<var>E</var>)} +
-                        \pink{(<var>D</var>)}
-                        \blue{(<var>expr(["*", F, X])</var>)} +
-                        <var>expr(["*", G, X])</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> =
-                        <var>expr(["+", D * E, ["*", D * F, X], ["*", G, X]])</var>
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        <var>D * E</var> \blue{{} + <var>expr(["+", ["*", D * F, X], ["*", G, X]])</var>} \\ \\
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        <var>D * E</var> \blue{{} + <var>expr(["*", D * F + G, X])</var>}
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="D * F + G < 0">
-                        Add
-                        <code>\green{<var>expr(["*", abs(D * F + G), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(D * F + G), X])</var>}
-                        </code> from both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        <var>D * E</var> \green{{} + <var>expr(["*", D * F + G, X])</var>} \\ \\
-
-                        \green{{}+<var>expr(["*", -(D * F + G), X])</var>}
-                        &amp;&amp; \green{{} +
-                        <var>expr(["*", -(D * F + G), X])</var>} \\ \\
-
-                        <var>expr(["+", ["*", A * B, X], A * C])</var>
-                        \green{+<var>expr(["*", -(D * F + G), X])</var>} &amp;=&amp;
-                        <var>D * E</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \blue{<var>expr(["*", A * B, X])</var>} + <var>A * C</var>
-                        \blue{+<var>expr(["*", -(D * F + G), X])</var>} &amp;=&amp;
-                        <var>D * E</var> \\ \\
-                        \blue{<var>expr(["*", (A * B) - (D * F + G), X])</var>} + <var>A * C</var> &amp;=&amp;
-                        <var>D * E</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="A * C < 0">
-                        Add
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", (A * B) - (D * F + G), X])</var> \green{{} + <var>A * C</var>} &amp;=&amp;
-                        <var>D * E</var> \\ \\
-
-                        \green{{}+<var>-A * C</var>} &amp;&amp;
-                        \green{{}+<var>-A * C</var>} \\ \\
-                        <var>expr(["*", (A * B) - (D * F + G), X])</var>
-                        &amp;=&amp; <var>D * E - A * C</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>(A * B) - (D * F + G)</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", (A * B) - (D * F + G), X])</var>
-                        &amp;=&amp; <var>D * E - A * C</var> \\ \\
-                        \dfrac{\green{\cancel{<var>(A * B) - (D * F + G)</var>}}
-                        <var>X</var>}{\green{\cancel{<var>(A * B) - (D * F + G)</var>}}}
-                        &amp;=&amp; \dfrac{<var>D * E - A * C</var>}
-                        {\green{<var>(A * B) - (D * F + G)</var>}} \\ \\
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>X</var>
-                        = <var>fractionReduce(D * E - A * C, (A * B) - (D * F + G))</var>
-                    </code></p>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="prob4"> <!-- Ax + B(Cx + D) = Ex + F -->
-            <div class="vars" data-ensure="(F - B * D !== 0) &amp;&amp;
-                    (A + B * C - E !== 0) &amp;&amp;
-                    (A + B * C - E !== 1)">
-                <var id="A">randRangeNonZero(-8, 8)</var>
-                <var id="B">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
-                <var id="C">randRange(1, 3)</var>
-                <var id="D">randRangeNonZero(-10, 10)</var>
-                <var id="E">randRangeNonZero(-6, 6)</var>
-                <var id="F">randRangeNonZero(-10, 10)</var>
-                <var id="SOLUTION">(F - B * D) / (A + B * C - E)</var>
-            </div>
-
-            <p class="question">Solve for <code><var>X</var></code>:</p>
-            <p class="problem"><code>\qquad
-                <var>expr(["+", ["*", A, X], ["*", B, ["+",
-                ["*", C, X], D]]])</var> =
-                <var>expr(["+", ["*", E, X], F])</var>
-            </code></p>
-
-            <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
-            </div>
-
-            <div class="hints">
-                <p>
-                    Try simplifying the left side of the equation before
-                    solving it.
-                </p>
-                <div>
-                    <p data-if="B === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="B &lt; 0">
-                        Distribute the <code>\pink{<var>B</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
-                    </p><p data-else="">
-                        Distribute the <code>\pink{<var>B</var>}</code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", A, X])</var> +
-                        \pink{<var>B</var>}
-                        \blue{(<var>expr(["+", ["*", C, X], D])</var>)}
-                        &amp;=&amp;
-                        <var>expr(["+", ["*", E, X], F])</var> \\ \\
-                        <var>expr(["*", A, X])</var> +
-                        \pink{(<var>B</var>)}
-                        \blue{(<var>expr(["*", C, X])</var>)} +
-                        \pink{(<var>B</var>)}
-                        \blue{(<var>D</var>)} &amp;=&amp;
-                        <var>expr(["+", ["*", E, X], F])</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", ["*", A, X], ["*", B * C, X],
-                        B * D])</var> = <var>expr(["+", ["*", E, X],
-                        F])</var>
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="E < 0">
-                        Add
-                        <code>\green{<var>expr(["*", abs(E), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(E), X])</var>}
-                        </code> from both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", ["*", A, X], ["*", B * C, X],
-                        B * D])</var> &amp;=&amp;
-                        \green{<var>expr(["*", E, X])</var>} +
-                        <var>F</var> \\ \\
-                        \green{{}+<var>expr(["*", -E, X])</var>}
-                        &amp;=&amp; \green{{} +
-                        <var>expr(["*", -E, X])</var>} \\ \\
-                        <var>expr(["+", ["*", A, X], ["*", B * C, X],
-                        B * D])</var> \green{
-                        +<var>expr(["*", -E, X])</var>} &amp;=&amp;
-                        <var>F</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \blue{<var>expr(["+", ["*", A, X],
-                        ["*", B * C, X]])</var>} + <var>B * D</var>
-                        \blue{+<var>expr(["*", -E, X])</var>} &amp;=&amp;
-                        <var>F</var> \\ \\
-                        \blue{<var>expr(["*", A + B * C - E, X])</var>} +
-                        <var>B * D</var> &amp; = &amp; <var>F</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="B * D < 0">
-                        Add
-                        <code>\green{<var>abs(B * D)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(B * D)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", A + B * C - E, X])</var>
-                        \green{+ <var>B * D</var>} &amp; = &amp;
-                        <var>F</var> \\ \\
-                        \green{{}+<var>-B * D</var>} &amp;&amp;
-                        \green{{}+<var>-B * D</var>} \\ \\
-                        <var>expr(["*", A + B * C - E, X])</var>
-                        &amp;=&amp; <var>F - B * D</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>A + B * C - E</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \green{<var>A + B * C - E</var>}<var>X</var> &amp;=&amp;
-                        <var>F - B * D</var> \\ \\
-                        \dfrac{\green{\cancel{<var>A + B * C - E</var>}}
-                        <var>X</var>}{\green{\cancel{<var>A + B * C - E</var>}}}
-                        &amp;=&amp; \dfrac{<var>F - B * D</var>}
-                        {\green{<var>A + B * C - E</var>}} \\ \\
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>X</var>
-                        = <var>fractionReduce(F - B * D, A + B * C - E)</var>
-                    </code></p>
-                </div>
-            </div>
-        </div>
-
-        <div id="prob5"> <!-- A + Bx = C(Dx + E) -->
-            <div class="vars" data-ensure="(B - C * D !== 0) &amp;&amp; (B - C * D !== 1)">
-                <var id="A">randRangeNonZero(-8, 8)</var>
-                <var id="B">randRangeNonZero(-10, 10)</var>
-                <var id="C">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
-                <var id="D">randRange(1, 3)</var>
-                <var id="E">randRangeNonZero(-6, 6)</var>
-                <var id="SOLUTION">(C * E - A) / (B - C * D)</var>
-            </div>
-
-            <p class="question">Solve for <code><var>X</var></code>:</p>
-            <p class="problem"><code>\qquad
-                <var>expr(["+", A, ["*", B, X]])</var> =
-                <var>expr(["*", C, ["+", ["*", D, X], E]])</var>
-            </code></p>
-
-            <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
-            </div>
-
-            <div class="hints">
-                <p>
-                    Try simplifying the right side of the equation before
-                    solving it.
-                </p>
                 <div>
                     <p data-if="C === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="C &lt; 0">
-                        Distribute the <code>\pink{<var>C</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
+                        Distribute the negative in front of the parentheses. Be careful!
+                        The negative sign in front of the parentheses means we're multiplying by <code>\pink{-1}</code>:
                     </p><p data-else="">
                         Distribute the <code>\pink{<var>C</var>}</code>:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", A, ["*", B, X]])</var> &amp;=&amp;
-                        \pink{<var>C</var>}\blue{(<var>expr(["+", ["*", D, X], E])</var>)} \\ \\
-                        <var>expr(["+", A, ["*", B, X]])</var> &amp;=&amp;
-                        \pink{(<var>C</var>)}\blue{(<var>expr(["*", D, X])</var>)} +
-                        \pink{(<var>C</var>)}\blue{(<var>E</var>)}
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> &amp;=&amp; <var>BX</var> + \pink{<var>C</var>}\blue{(<var>DX</var> + <var>E</var>)} \\ \\
+                        <var>A</var> &amp;=&amp; <var>BX</var> + \pink{(<var>C</var>)}\blue{(<var>DX</var>)} +
+                        \pink{(<var>C</var>)}\blue{(<var>E</var>)} \\ \\
+                        <var>A</var> &amp;=&amp; <var>BX</var> + <var>CDX</var> + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>BX</var> + \pink{<var>C</var>} \blue{(<var>E</var> + <var>DX</var>)} &amp;=&amp; <var>A</var> \\ \\
+                        <var>BX</var> + \pink{(<var>C</var>)}\blue{(<var>E</var>)} + \pink{(<var>C</var>)}\blue{(<var>DX</var>)}
+                        &amp;=&amp; <var>A</var> \\ \\
+                        <var>BX</var> + <var>CE</var> + <var>CDX</var> &amp;=&amp; <var>A</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
+
                 <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", A, ["*", B, X]])</var> =
-                        <var>expr(["+", ["*", C * D, X], C * E])</var>
+                    <p>Combine the <span class="hint_blue"><code><var>X</var></code> terms</span>:</p>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> &amp;=&amp; \blue{<var>BX</var> + <var>CDX</var>} + <var>CE</var> \\ \\
+                        <var>A</var> &amp;=&amp; \blue{<var>BDX</var>} + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        \blue{<var>BX</var>} + <var>CE</var> + \blue{<var>CDX</var>} &amp;=&amp; <var>A</var> \\ \\
+                        \blue{<var>BDX</var>} + <var>CE</var> &amp;=&amp; <var>A</var>
+                        \end{eqnarray}
                     </code></p>
                 </div>
+
                 <div>
-                    <p data-if="C * D < 0">
-                        Add
-                        <code>\green{<var>expr(["*", abs(C * D), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
+                    <p data-if="C * E < 0">
+                        Add <code>\purple{<var>roundTo(2, -C * E)</var>}</code> to both sides:
                     </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(C * D), X])</var>}
-                        </code> from both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
+                        Subtract <code>\purple{<var>CE</var>}</code> from both sides:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", A, ["*", B, X]])</var> &amp;=&amp;
-                        \green{<var>expr(["*", C * D, X])</var>} + <var>C * E</var> \\ \\
-                        \green{{}+<var>expr(["*", -C * D, X])</var>}
-                        &amp;&amp; \green{{} +
-                        <var>expr(["*", -C * D, X])</var>} \\ \\
-                        <var>expr(["+", A, ["*", B, X]])</var>
-                        \green{{} + <var>expr(["*", -C * D, X])</var>} &amp;=&amp;
-                        <var>C * E</var>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> + \purple{<var>roundTo(2, -C * E)</var>} &amp;=&amp; <var>BDX</var> \\ \\
+                        <var>SOL_NUM * MULTIPLE</var> &amp;=&amp; <var>BDX</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>BDX</var> &amp;=&amp; <var>A</var> + \purple{<var>roundTo(2, -C * E)</var>} \\ \\
+                        <var>BDX</var> &amp;=&amp; <var>SOL_NUM * MULTIPLE</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>A</var> \blue{{} + <var>expr(["+", ["*", B, X], ["*", -C * D, X]])</var>}
-                        &amp;=&amp; <var>C * E</var> \\ \\
-                        <var>A</var> \blue{{} + <var>expr(["*", B - C * D, X])</var>} &amp;=&amp; <var>C * E</var>
-                        \end{eqnarray}
+
+                <div data-if="BD !== 1">
+                    <p>Divide both sides by <code>\green{<var>BD</var>}</code> to isolate <code><var>X</var></code>:</p>
+                    <p data-if="ORDER"><code>\qquad
+                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BD</var>}} =
+                        \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}}
+                    </code></p>
+                    <p data-else=""><code>\qquad
+                        \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}} =
+                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BD</var>}}
                     </code></p>
                 </div>
-                <div>
-                    <p data-if="A < 0">
-                        Add
-                        <code>\green{<var>abs(A)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \green{<var>A</var>} + <var>expr(["*", B - C * D, X])</var> &amp;=&amp; <var>C * E</var> \\ \\
-                        \green{{}+<var>-A</var>} &amp;&amp;
-                        \green{{}+<var>-A</var>} \\ \\
-                        <var>expr(["*", B - C * D, X])</var> &amp;=&amp; <var>C * E - A</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>B - C * D</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \green{<var>B - C * D</var>}<var>X</var> &amp;=&amp;
-                        <var>C * E - A</var> \\ \\
-                        \dfrac{\green{\cancel{<var>B - C * D</var>}}
-                        <var>X</var>}{\green{\cancel{<var>B - C * D</var>}}}
-                        &amp;=&amp; \dfrac{<var>C * E - A</var>}
-                        {\green{<var>B - C * D</var>}} \\ \\
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>X</var> = <var>fractionReduce(C * E - A, B - C * D)</var>
-                    </code></p>
-                </div>
+
+                <p><code>\qquad <var>X</var> = <var>fractionReduce(SOL_NUM, SOL_DEN)</var></code></p>
             </div>
         </div>
 
-        <div id="prob6"> <!-- Ax + B(C + Dx) = E -->
-            <div class="vars" data-ensure="(A + B * D !== 0) &amp;&amp;
-                    (E - B * C !== 0) &amp;&amp; (A + B * D !== 1)">
-                <var id="A">randRangeNonZero(-8, 8)</var>
-                <var id="B">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
-                <var id="C">randRangeNonZero(-10, 10)</var>
-                <var id="D">randRangeNonZero(-6, 6)</var>
-                <var id="E">randRangeNonZero(-10, 10)</var>
-                <var id="SOLUTION">(E - B * C) / (A + B * D)</var>
-            </div>
-
+        <div id="decimal-2" data-type="decimal-1"> <!-- A - Bx = C(Dx + E) -->
             <p class="question">Solve for <code><var>X</var></code>:</p>
             <p class="problem"><code>\qquad
-                <var>expr(["+", ["*", A, X], ["*", B, ["+", C, ["*", D, X]]]])</var> = <var>E</var>
+                <span data-if="ORDER">
+                    <var>A</var> - <var>BX</var> = <var>CC</var>(<var>DX</var> + <var>E</var>)
+                </span><span data-else="">
+                    <var>CC</var>(<var>E</var> + <var>DX</var>) = <var>A</var> - <var>BX</var>
+                </span>
             </code></p>
 
-            <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
-            </div>
-
             <div class="hints">
-                <p>
-                    Try simplifying the left side of the equation before
-                    solving it.
-                </p>
                 <div>
-                    <p data-if="B === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="B &lt; 0">
-                        Distribute the <code>\pink{<var>B</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
+                    <p data-if="C === -1">
+                        Distribute the negative in front of the parentheses. Be careful!
+                        The negative sign in front of the parentheses means we're multiplying by <code>\pink{-1}</code>:
                     </p><p data-else="">
-                        Distribute the <code>\pink{<var>B</var>}</code>:
+                        Distribute the <code>\pink{<var>C</var>}</code>:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", A, X])</var> +
-                        \pink{<var>B</var>}\blue{(<var>expr(["+", C, ["*", D, X]])</var>)} &amp;=&amp;
-                        <var>E</var> \\ \\
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> - <var>BX</var> &amp;=&amp; \pink{<var>C</var>}\blue{(<var>DX</var> + <var>E</var>)} \\ \\
+                        <var>A</var> - <var>BX</var> &amp;=&amp; \pink{(<var>C</var>)}\blue{(<var>DX</var>)} +
+                        \pink{(<var>C</var>)}\blue{(<var>E</var>)} \\ \\
+                        <var>A</var> - <var>BX</var> &amp;=&amp; <var>CDX</var> + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        \pink{<var>C</var>} \blue{(<var>E</var> + <var>DX</var>)} &amp;=&amp; <var>A</var> \\ \\
+                        \pink{(<var>C</var>)}\blue{(<var>E</var>)} + \pink{(<var>C</var>)}\blue{(<var>DX</var>)} &amp;=&amp;
+                        <var>A</var> - <var>BX</var> \\ \\
+                        <var>CE</var> + <var>CDX</var> &amp;=&amp; <var>A</var> - <var>BX</var>
+                        \end{eqnarray}
+                    </code></p>
+                </div>
 
-                        <var>expr(["*", A, X])</var> +
-                        \pink{(<var>B</var>)}\blue{(<var>C</var>)} +
-                        \pink{(<var>B</var>)}\blue{(<var>expr(["*", D, X])</var>)} &amp;=&amp;
-                        <var>E</var>
+                <div>
+                    <p data-if="B > 0">Add <code>\purple{<var>BX</var>}</code> to both sides:</p>
+                    <p data-else="">Subtract <code>\purple{<var>coefficient(-B) + X</var>}</code> from both sides:</p>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> &amp;=&amp; <var>CDX</var> + <var>CE</var> + \purple{<var>BX</var>} \\ \\
+                        <var>A</var> &amp;=&amp; <var>BDX</var> + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>CE</var> + <var>CDX</var> + \purple{<var>BX</var>} &amp;=&amp; <var>A</var>\\ \\
+                        <var>CE</var> + <var>BDX</var> &amp;=&amp; <var>A</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
+
                 <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", ["*", A, X], B * C, ["*", B * D, X]])</var> =
-                        <var>E</var>
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \blue{<var>expr(["*", A, X])</var>} + <var>B * C</var> \blue{{}+ <var>expr(["*", B * D, X])</var>} &amp;=&amp; <var>E</var> \\ \\
-                        \blue{<var>expr(["*", A + B * D, X])</var>} + <var>B * C</var> &amp;=&amp; <var>E</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="B * C < 0">
-                        Add
-                        <code>\green{<var>abs(B * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
+                    <p data-if="C * E < 0">
+                        Add <code>\purple{<var>roundTo(2, -C * E)</var>}</code> to both sides:
                     </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(B * C)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
+                        Subtract <code>\purple{<var>CE</var>}</code> from both sides:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", A + B * D, X])</var> \green{{} + <var>B * C</var>} &amp;=&amp; <var>E</var> \\ \\
-                        \green{{}+<var>-B * C</var>} &amp;&amp;
-                        \green{{}+<var>-B * C</var>} \\ \\
-                        <var>expr(["*", A + B * D, X])</var> &amp;=&amp; <var>E - B * C</var>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> + \purple{<var>roundTo(2, -C * E)</var>} &amp;=&amp; <var>BDX</var> \\ \\
+                        <var>SOL_NUM * MULTIPLE</var> &amp;=&amp; <var>BDX</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>BDX</var> &amp;=&amp; <var>A</var> + \purple{<var>roundTo(2, -C * E)</var>} \\ \\
+                        <var>BDX</var> &amp;=&amp; <var>SOL_NUM * MULTIPLE</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
-                <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>A + B * D</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \green{<var>A + B * D</var>}<var>X</var> &amp;=&amp;
-                        <var>E - B * C</var> \\ \\
-                        \dfrac{\green{\cancel{<var>A + B * D</var>}}
-                        <var>X</var>}{\green{\cancel{<var>A + B * D</var>}}}
-                        &amp;=&amp; \dfrac{<var>E - B * C</var>}
-                        {\green{<var>A + B * D</var>}} \\ \\
-                        \end{eqnarray}
+
+                <div data-if="BD !== 1">
+                    <p>Divide both sides by <code>\green{<var>BD</var>}</code> to isolate <code><var>X</var></code>:</p>
+                    <p data-if="ORDER"><code>\qquad
+                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BD</var>}} =
+                        \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}}
+                    </code></p>
+                    <p data-else=""><code>\qquad
+                        \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}} =
+                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BD</var>}}
                     </code></p>
                 </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>X</var> = <var>fractionReduce(E - B * C, A + B * D)</var>
-                    </code></p>
-                </div>
+
+                <p><code>\qquad <var>X</var> = <var>fractionReduce(SOL_NUM, SOL_DEN)</var></code></p>
             </div>
         </div>
 
-        <div id="prob7"> <!-- A(Bx + C) = Dx + E -->
-            <div class="vars" data-ensure="(A * B - D !== 0) &amp;&amp; (A * B - D !== 1)">
-                <var id="A">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
-                <var id="B">randRangeNonZero(-10, 10)</var>
-                <var id="C">randRange(1, 3)</var>
+        <div id="fractions-3"> <!-- A + Bx = Fx + C(Dx + E) -->
+            <div class="vars" data-ensure="B !== 0">
+                <var id="C">randRangeWeightedExclude(-4, 4, -1, 0.4, [0, 1])</var>
                 <var id="D">randRangeNonZero(-10, 10)</var>
-                <var id="E">randRangeNonZero(-10, 10)</var>
-                <var id="SOLUTION">(E - A * C) / (A * B - D)</var>
+                <var id="E">randRangeNonZero(-4, 4)</var>
+                <var id="F">randRangeNonZero(-8, 8)</var>
+                <var id="C_DENOM, D_DENOM, E_DENOM">rand(2) ?
+                    [randFromArray(DENOMS), 1, 1]:
+                    [1, randFromArray(DENOMS), randFromArray(DENOMS)]
+                </var>
+
+                <var id="A_DENOM">C_DENOM * E_DENOM</var>
+                <var id="B_DENOM">C_DENOM * D_DENOM</var>
+                <var id="A">A_DENOM * SOL_NUM + C * E</var>
+                <var id="B">B_DENOM * SOL_DEN - C * D - F</var>
+
+                <var id="A_GCD">getGCD(A, A_DENOM)</var>
+                <var id="B_GCD">getGCD(B, B_DENOM)</var>
+                <var id="D_GCD">getGCD(C * D, B_DENOM)</var>
+                <var id="E_GCD">getGCD(C * E, A_DENOM)</var>
+
+                <var id="COMMON_DENOM">getLCM(
+                    A_DENOM / A_GCD,
+                    B_DENOM / B_GCD,
+                    B_DENOM / D_GCD,
+                    A_DENOM / E_GCD
+                )</var>
+
+                <var id="A1">fractionReduce(A, A_DENOM)</var>
+                <var id="B1">fractionVariable(B, B_DENOM, X)</var>
+                <var id="C1">fractionReduce(C, C_DENOM)</var>
+                <var id="D1">fractionVariable(D, D_DENOM, X)</var>
+                <var id="E1">fractionReduce(E, E_DENOM)</var>
+                <var id="F1">fractionVariable(F, B_DENOM, X)</var>
+
+                <var id="CD">fractionVariable(C * D, B_DENOM, X)</var>
+                <var id="CE">fractionReduce(C * E, A_DENOM)</var>
+
+                <var id="A2">A * COMMON_DENOM / A_DENOM</var>
+                <var id="B2">coefficient(B * COMMON_DENOM / B_DENOM) + X</var>
+                <var id="CD2">coefficient(C * D * COMMON_DENOM / B_DENOM) +  X</var>
+                <var id="CE2">C * E * COMMON_DENOM / A_DENOM</var>
+                <var id="F2">coefficient(F * COMMON_DENOM / B_DENOM) + X</var>
+
+                <var id="AE">(A - C * E) * COMMON_DENOM / A_DENOM</var>
+                <var id="FBD">(B + C * D + F) * COMMON_DENOM / B_DENOM</var>
+                <var id="FBDX">coefficient(FBD) + X</var>
             </div>
 
             <p class="question">Solve for <code><var>X</var></code>:</p>
             <p class="problem"><code>\qquad
-                <var>expr(["*", A, ["+", ["*", B, X], C]])</var> =
-                <var>expr(["+", ["*", D, X], E])</var>
+                <span data-if="ORDER">
+                    <var>A1</var> - <var>B1</var> = <var>F1</var> + <var>coefficient(C1)</var>\left(<var>D1</var> + <var>E1</var>\right)
+                </span><span data-else="">
+                    <var>F1</var> + <var>coefficient(C1)</var>\left(<var>E1</var> + <var>D1</var>\right) = <var>A1</var> - <var>B1</var>
+                </span>
             </code></p>
 
             <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
+                <p><code><var>X</var> = </code> <span class="sol" data-simplify="optional"><var>SOLUTION</var></span></p>
             </div>
 
             <div class="hints">
-                <p>
-                    Try simplifying the left side of the equation before
-                    solving it.
-                </p>
                 <div>
-                    <p data-if="A === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="A &lt; 0">
-                        Distribute the <code>\pink{<var>A</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
+                    <p data-if="C / C_DENOM === -1">
+                        Distribute the negative in front of the parentheses. Be careful!
+                        The negative sign in front of the parentheses means we're multiplying by <code>\pink{-1}</code>:
                     </p><p data-else="">
-                        Distribute the <code>\pink{<var>A</var>}</code>:
+                        Distribute the <code>\pink{<var>fractionReduce(C, C_DENOM)</var>}</code>:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \pink{<var>A</var>}\blue{(<var>expr(["+", ["*", B, X], C])</var>)} &amp;=&amp;
-                        <var>expr(["+", ["*", D, X], E])</var> \\ \\
-                        \pink{(<var>A</var>)}\blue{(<var>expr(["*", B, X])</var>)}  +
-                        \pink{(<var>A</var>)}\blue{(<var>C</var>)} &amp;=&amp;
-                        <var>expr(["+", ["*", D, X], E])</var>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A1</var> - <var>B1</var> &amp;=&amp;
+                        <var>F1</var> + \pink{<var>C1</var>} \blue{\left(<var>D1</var> + <var>E1</var>\right)} \\ \\
+                        <var>A1</var> - <var>B1</var> &amp;=&amp;
+                        <var>F1</var> +
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>D1</var>\right)} +
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>E1</var>\right)} \\ \\
+                        <var>A1</var> - <var>B1</var> &amp;=&amp;
+                        <var>F1</var> + <var>fractionVariable(C * D, B_DENOM, X)</var> + <var>fractionReduce(C * E, A_DENOM)</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>F1</var> + \pink{<var>C1</var>} \blue{\left(<var>E1</var> + <var>D1</var>\right)} &amp;=&amp;
+                        <var>A1</var> - <var>B1</var> \\ \\
+                        <var>F1</var> + 
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>E1</var>\right)} + 
+                        \pink{\left(<var>C1</var>\right)}\blue{\left(<var>D1</var>\right)} &amp;=&amp;
+                        <var>A1</var> - <var>B1</var> \\ \\
+                        <var>F1</var> + <var>fractionReduce(C * E, A_DENOM)</var> + <var>fractionVariable(C * D, B_DENOM, X)</var> &amp;=&amp;
+                        <var>A1</var> - <var>B1</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
-                <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> =
-                        <var>expr(["+", ["*", D, X], E])</var>
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="D < 0">
-                        Add
-                        <code>\green{<var>expr(["*", abs(D), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
+
+                <div data-if="COMMON_DENOM !==1">
+                    <p>Multiply each term by a common denominator of <code><var>COMMON_DENOM</var></code></p>
+                    <p data-if="ORDER">
+                        <code>\qquad <var>A2</var> - <var>B2</var> = <var>F2</var> + <var>CD2</var> + <var>CE2</var></code>
                     </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(D), X])</var>}
-                        </code> from both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
+                        <code>\qquad <var>F2</var> + <var>CE2</var> + <var>CD2</var> = <var>A2</var> - <var>B2</var></code>
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        \green{<var>expr(["*", D, X])</var>} + <var>E</var> \\ \\
-                        \green{{}+<var>expr(["*", -D, X])</var>}
-                        &amp;&amp; \green{{} +
-                        <var>expr(["*", -D, X])</var>} \\ \\
-                        <var>expr(["+", ["*", A * B, X], A * C])</var>
-                        \green{{} + <var>expr(["*", -D, X])</var>} &amp;=&amp;
-                        <var>E</var>
-                        \end{eqnarray}
-                    </code></p>
                 </div>
+
                 <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \blue{<var>expr(["*", A * B, X])</var>} + <var>A * C</var>
-                        \blue{{}+ <var>expr(["*", -D, X])</var>}
-                        &amp;=&amp; <var>E</var> \\ \\
-                        \blue{<var>expr(["*", A * B - D, X])</var>} + <var>A * C</var> &amp;=&amp; <var>E</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="A * C < 0">
-                        Add
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
+                    <p data-if="B > 0">Add <code>\blue{<var>B2</var>}</code> to both sides:</p>
+                    <p data-else="">Subtract <code>\blue{<var>fractionVariable(-B * COMMON_DENOM, B_DENOM, X)</var>}</code> from both sides:</p>
+
+                    <p data-if="ORDER">
+                        <code>\qquad<var>A2</var> = <var>F2</var> + <var>CD2</var> + <var>CE2</var> + \blue{<var>B2</var>}</code>
                     </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
+                        <code>\qquad<var>F2</var> + <var>CE2</var> + <var>CD2</var> + \blue{<var>B2</var>} = <var>A2</var></code>
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", A * B - D, X])</var> \green{{} + <var>A * C</var>} &amp;=&amp; <var>E</var> \\ \\
-                        \green{{}+<var>-A * C</var>} &amp;&amp;
-                        \green{{}+<var>-A * C</var>} \\ \\
-                        <var>expr(["*", A * B - D, X])</var> &amp;=&amp; <var>E - A * C</var>
+                </div>
+
+                <div>
+                    <p>Combine the <span class="hint_blue"><code><var>X</var></code> terms</span>:</p>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A2</var> &amp;=&amp; \blue{<var>F2</var> + <var>CD2</var>} + <var>CE2</var> + \blue{<var>B2</var>} \\ \\
+                        <var>A2</var> &amp;=&amp; \blue{<var>FBDX</var>} + <var>CE2</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        \blue{<var>F2</var>} + <var>CE2</var> + \blue{<var>CD2</var> + <var>B2</var>} &amp;=&amp; <var>A2</var> \\ \\
+                        \blue{<var>FBDX</var>} + <var>CE2</var> &amp;=&amp; <var>A2</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
+
                 <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>A * B - D</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \green{<var>A * B - D</var>}<var>X</var> &amp;=&amp;
-                        <var>E - A * C</var> \\ \\
-                        \dfrac{\green{\cancel{<var>A * B - D</var>}}
-                        <var>X</var>}{\green{\cancel{<var>A * B - D</var>}}}
-                        &amp;=&amp; \dfrac{<var>E - A * C</var>}
-                        {\green{<var>A * B - D</var>}} \\ \\
+                    <p data-if="C * E < 0">Add <code>\purple{<var>-CE2</var>}</code> to both sides:</p>
+                    <p data-else="">Subtract <code>\purple{<var>CE2</var>}</code> from both sides:</p>
+
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A2</var> + \purple{<var>-CE2</var>} &amp;=&amp; <var>FBDX</var> \\ \\
+                        <var>AE</var> &amp;=&amp; <var>FBDX</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>FBDX</var> &amp;=&amp; <var>A2</var> + \purple{<var>-CE2</var>} \\ \\
+                        <var>FBDX</var> &amp;=&amp; <var>AE</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>X</var> = <var>fractionReduce(E - A * C, A * B - D)</var>
+
+                <div data-if="FBD !== 1">
+                    <p>Divide both sides by <code>\green{<var>FBD</var>}</code> to isolate <code><var>X</var></code>:</p>
+                    <p data-if="ORDER"><code>\qquad
+                        \dfrac{<var>AE</var>}{\green{<var>FBD</var>}} =
+                        \dfrac{\green{\cancel{<var>FBD</var>}}<var>X</var>}{\green{\cancel{<var>FBD</var>}}}
+                    </code></p>
+                    <p data-else=""><code>\qquad
+                        \dfrac{\green{\cancel{<var>FBD</var>}}<var>X</var>}{\green{\cancel{<var>FBD</var>}}} =
+                        \dfrac{<var>AE</var>}{\green{<var>FBD</var>}}
                     </code></p>
                 </div>
+
+                <p><code>\qquad <var>X</var> = <var>fractionReduce(SOL_NUM, SOL_DEN)</var></code></p>
             </div>
         </div>
 
-        <div id="prob8"> <!-- A(B + Cx) + D = E + Fx -->
-            <div class="vars" data-ensure="(A * B - F !== 0) &amp;&amp;
-                    (A * C + D !== 0) &amp;&amp; (E - A * C - D !== 0) &amp;&amp; (A * B - F !== 1)">
-                <var id="A">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
+        <div id="decimal-3"> <!-- A + Bx = Fx + C(Dx + E) -->
+            <div class="vars" data-ensure="B !== 0 && A !== 0">
+                <var id="C_DENOM, D_DENOM, E_DENOM">rand(2) ?
+                    [rand(3) ? 1 : 10, 1, 1]:
+                    [1, rand(2) ? 1 : 10, rand(2) ? 1 : 10]
                 </var>
-                <var id="B">randRangeNonZero(-10, 10)</var>
-                <var id="C">randRange(1, 3)</var>
-                <var id="D">randRangeNonZero(-10, 10)</var>
-                <var id="E">randRangeNonZero(-10, 10)</var>
-                <var id="F">randRangeNonZero(-10, 10)</var>
-                <var id="SOLUTION">(E - A * C - D) / (A * B - F)</var>
+                <var id="C">randRangeWeightedExclude(-4 * C_DENOM, 4 * C_DENOM, -1 * C_DENOM, 0.4, [0, 1]) / C_DENOM</var>
+                <var id="D">randRangeNonZero(-10 * D_DENOM, 10 * D_DENOM) / D_DENOM</var>
+                <var id="E">randRangeNonZero(-4 * E_DENOM, 4 * E_DENOM) / E_DENOM</var>
+
+                <var id="F_DENOM">rand(2) ? 1 : 10</var>
+                <var id="F">randRangeNonZero(-8 * F_DENOM, 8 * F_DENOM) / F_DENOM</var>
+                
+                <var id="MULTIPLE">randFromArray([0.1, 0.2, 0.5, 1, 2, 3, 4])</var>
+                <var id="A">roundTo(2, MULTIPLE * SOL_NUM + C * E)</var>
+                <var id="B">roundTo(2, MULTIPLE * SOL_DEN - C * D - F)</var>
+
+                <var id="BX">coefficient(B) + X</var>
+                <var id="DX">coefficient(D) + X</var>
+                <var id="FX">coefficient(F) + X</var>
+                <var id="CC">coefficient(C)</var>
+                <var id="CE">roundTo(2, C * E)</var>
+                <var id="CDX">coefficient(roundTo(2, C * D)) + X</var>
+                <var id="BDF">roundTo(2, B + F + C * D)</var>
+                <var id="BDFX">coefficient(BDF) + X</var>
             </div>
 
             <p class="question">Solve for <code><var>X</var></code>:</p>
             <p class="problem"><code>\qquad
-                <var>expr(["+", ["*", A, ["+", ["*", B, X], C]], D])</var> =
-                <var>expr(["+", E, ["*", F, X]])</var>
+                <span data-if="ORDER">
+                    <var>A</var> - <var>BX</var> = <var>FX</var> + <var>CC</var>(<var>DX</var> + <var>E</var>)
+                </span><span data-else="">
+                    <var>FX</var> + <var>CC</var>(<var>E</var> + <var>DX</var>) = <var>A</var> - <var>BX</var>
+                </span>
             </code></p>
 
             <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
+                <p><code><var>X</var> = </code> <span class="sol" data-simplify="optional"><var>SOLUTION</var></span></p>
             </div>
 
             <div class="hints">
-                <p>
-                    Try simplifying the left side of the equation before
-                    solving it.
-                </p>
                 <div>
-                    <p data-if="A === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="A &lt; 0">
-                        Distribute the <code>\pink{<var>A</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
+                    <p data-if="C === -1">
+                        Distribute the negative in front of the parentheses. Be careful!
+                        The negative sign in front of the parentheses means we're multiplying by <code>\pink{-1}</code>:
                     </p><p data-else="">
-                        Distribute the <code>\pink{<var>A</var>}</code>:
+                        Distribute the <code>\pink{<var>C</var>}</code>:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \pink{<var>A</var>}\blue{(<var>expr(["+", ["*", B, X], C])</var>)} + <var>D</var> &amp;=&amp;
-                        <var>expr(["+", E, ["*", F, X]])</var> \\ \\
-                        \pink{(<var>A</var>)}\blue{(<var>expr(["*", B, X])</var>)}  +
-                        \pink{(<var>A</var>)}\blue{(<var>C</var>)} + <var>D</var> &amp;=&amp;
-                        <var>expr(["+", E, ["*", F, X]])</var>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> - <var>BX</var> &amp;=&amp; <var>FX</var> + \pink{<var>C</var>}\blue{(<var>DX</var> + <var>E</var>)} \\ \\
+                        <var>A</var> - <var>BX</var> &amp;=&amp; <var>FX</var> + \pink{(<var>C</var>)}\blue{(<var>DX</var>)} +
+                        \pink{(<var>C</var>)}\blue{(<var>E</var>)} \\ \\
+                        <var>A</var> - <var>BX</var> &amp;=&amp; <var>FX</var> + <var>CDX</var> + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>FX</var> + \pink{<var>C</var>} \blue{(<var>E</var> + <var>DX</var>)} &amp;=&amp; <var>A</var> \\ \\
+                        <var>FX</var> + \pink{(<var>C</var>)}\blue{(<var>E</var>)} + \pink{(<var>C</var>)}\blue{(<var>DX</var>)}
+                        &amp;=&amp; <var>A</var> - <var>BX</var> \\ \\
+                        <var>FX</var> + <var>CE</var> + <var>CDX</var> &amp;=&amp; <var>A</var> - <var>BX</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
+
                 <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", ["*", A * B, X], A * C, D])</var> =
-                        <var>expr(["+", E, ["*", F, X]])</var>
+                    <p data-if="B > 0">Add <code>\blue{<var>BX</var>}</code> to both sides:</p>
+                    <p data-else="">Subtract <code>\blue{<var>coefficient(-B) + X</var>}</code> from both sides:</p>
+                    <p data-if="ORDER"><code>\qquad
+                        <var>A</var> = <var>FX</var> + <var>CDX</var> + <var>CE</var> + \blue{<var>BX</var>}
+                    </code></p>
+                    <p data-else=""><code>\qquad
+                        <var>FX</var> + <var>CE</var> + <var>CDX</var> + \blue{<var>BX</var>} = <var>A</var>
                     </code></p>
                 </div>
+
                 <div>
-                    <p data-if="F < 0">
-                        Add
-                        <code>\green{<var>expr(["*", abs(F), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
+                    <p>Combine the <span class="hint_blue"><code><var>X</var></code> terms</span>:</p>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> &amp;=&amp; \blue{<var>FX</var> + <var>CDX</var>} + <var>CE</var> + \blue{<var>BX</var>} \\ \\
+                        <var>A</var> &amp;=&amp; \blue{<var>BDFX</var>} + <var>CE</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        \blue{<var>FX</var>} + <var>CE</var> + \blue{<var>CDX</var> + <var>BX</var>} &amp;=&amp; <var>A</var> \\ \\
+                        \blue{<var>BDFX</var>} + <var>CE</var> &amp;=&amp; <var>A</var>
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p data-if="C * E < 0">
+                        Add <code>\purple{<var>-CE</var>}</code> to both sides:
                     </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(F), X])</var>}
-                        </code> from both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
+                        Subtract <code>\purple{<var>CE</var>}</code> from both sides:
                     </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", ["*", A * B, X], A * C, D])</var> &amp;=&amp;
-                        <var>E</var> \green{{} + <var>expr(["*", F, X])</var>} \\ \\
-                        \green{{}+<var>expr(["*", -F, X])</var>}
-                        &amp;&amp; \green{{} +
-                        <var>expr(["*", -F, X])</var>} \\ \\
-                        <var>expr(["+", ["*", A * B, X], A * C, D])</var>
-                        \green{{}+<var>expr(["*", -F, X])</var>} &amp;=&amp;
-                        <var>E</var>
+                    <p data-if="ORDER"><code>\qquad\begin{eqnarray}
+                        <var>A</var> + \purple{<var>-CE</var>} &amp;=&amp; <var>BDFX</var> \\ \\
+                        <var>SOL_NUM * MULTIPLE</var> &amp;=&amp; <var>BDFX</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p data-else=""><code>\qquad\begin{eqnarray}
+                        <var>BDFX</var> &amp;=&amp; <var>A</var> + \purple{<var>-CE</var>} \\ \\
+                        <var>BDFX</var> &amp;=&amp; <var>SOL_NUM * MULTIPLE</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \blue{<var>expr(["*", A * B, X])</var>} +
-                        <var>expr(["+", A * C, D])</var>
-                        \blue{{} + <var>expr(["*", -F, X])</var>} &amp;=&amp; <var>E</var> \\ \\
-                        <var>expr(["+", A * C, D])</var>
-                        \blue{{} + <var>expr(["*", A * B - F, X])</var>} &amp;=&amp; <var>E</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue"> numeric terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \blue{<var>expr(["+", A * C, D])</var>} +
-                        <var>expr(["*", A * B - F, X])</var> &amp;=&amp; <var>E</var> \\ \\
-                        \blue{<var>A * C + D</var>} +
-                        <var>expr(["*", A * B - F, X])</var> &amp;=&amp; <var>E</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="A * C + D < 0">
-                        Add
-                        <code>\green{<var>abs(A * C + D)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A * C + D)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \green{<var>A * C + D</var>} + <var>expr(["*", A * B - F, X])</var> &amp;=&amp; <var>E</var> \\ \\
-                        \green{{}+<var>-(A * C + D)</var>} &amp;&amp;
-                        \green{{}+<var>-(A * C + D)</var>} \\ \\
-                        <var>expr(["*", A * B - F, X])</var> &amp;=&amp; <var>E - A * C - D</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>A * B - F</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \green{<var>A * B - F</var>}<var>X</var> &amp;=&amp;
-                        <var>E - A * C - D</var> \\ \\
-                        \dfrac{\green{\cancel{<var>A * B - F</var>}}
-                        <var>X</var>}{\green{\cancel{<var>A * B - F</var>}}}
-                        &amp;=&amp; \dfrac{<var>E - A * C - D</var>}
-                        {\green{<var>A * B - F</var>}} \\ \\
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>X</var> = <var>fractionReduce(E - A * C - D, A * B - F)</var>
-                    </code></p>
-                </div>
-            </div>
-        </div>
 
-        <div id="prob9"> <!-- A(Bx + C) = D(E + Fx) -->
-            <div class="vars" data-ensure="(A * B - D * F !== 0) &amp;&amp; (A * B - D * F !== 1)">
-                <var id="A">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
-                <var id="B">randRangeNonZero(-10, 10)</var>
-                <var id="C">randRange(1, 3)</var>
-                <var id="D">
-                    randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
-                </var>
-                <var id="E">randRangeNonZero(-10, 10)</var>
-                <var id="F">randRangeNonZero(-10, 10)</var>
-                <var id="SOLUTION">(D * E - A * C) / (A * B - D * F)</var>
-            </div>
+                <div data-if="BDF !== 1">
+                    <p>Divide both sides by <code>\green{<var>BDF</var>}</code> to isolate <code><var>X</var></code>:</p>
+                    <p data-if="ORDER"><code>\qquad
+                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BDF</var>}} =
+                        \dfrac{\green{\cancel{<var>BDF</var>}}<var>X</var>}{\green{\cancel{<var>BDF</var>}}}
+                    </code></p>
+                    <p data-else=""><code>\qquad
+                        \dfrac{\green{\cancel{<var>BDF</var>}}<var>X</var>}{\green{\cancel{<var>BDF</var>}}} =
+                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BDF</var>}}
+                    </code></p>
+                </div>
 
-            <p class="question">Solve for <code><var>X</var></code>:</p>
-            <p class="problem"><code>\qquad
-                <var>expr(["*", A, ["+", ["*", B, X], C]])</var> =
-                <var>expr(["*", D, ["+", E, ["*", F, X]]])</var>
-            </code></p>
-
-            <div class="solution" data-type="multiple">
-                <p>
-                    <code><var>X</var> =</code>
-                    <span class="sol"><var>SOLUTION</var></span>
-                </p>
-            </div>
-
-            <div class="hints">
-                <p>
-                    Try simplifying each side of the equation before
-                    solving it.
-                </p>
-                <div>
-                    <p data-if="A === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="A &lt; 0">
-                        Distribute the <code>\pink{<var>A</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
-                    </p><p data-else="">
-                        Distribute the <code>\pink{<var>A</var>}</code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \pink{<var>A</var>}\blue{(<var>expr(["+", ["*", B, X], C])</var>)} &amp;=&amp;
-                        <var>expr(["*", D, ["+", E, ["*", F, X]]])</var> \\ \\
-                        \pink{(<var>A</var>)}\blue{(<var>expr(["*", B, X])</var>)}  +
-                        \pink{(<var>A</var>)}\blue{(<var>C</var>)} &amp;=&amp;
-                        <var>expr(["*", D, ["+", E, ["*", F, X]]])</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> =
-                        <var>expr(["*", D, ["+", E, ["*", F, X]]])</var>
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="D === -1">
-                        Distribute the negative in front of the parentheses.
-                        Be careful! The negative sign in front of the
-                        parentheses means we're multiplying by
-                        <code>\pink{-1}</code>:
-                    </p><p data-else-if="D &lt; 0">
-                        Distribute the <code>\pink{<var>D</var>}</code>.
-                        Be careful to pay attention to the negative sign
-                        when you distribute:
-                    </p><p data-else="">
-                        Distribute the <code>\pink{<var>D</var>}</code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        \pink{(<var>D</var>)}\blue{(<var>expr(["+", E, ["*", F, X]])</var>)} \\ \\
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        \pink{(<var>D</var>)} \blue{(<var>E</var>)} +
-                        \pink{(<var>D</var>)}
-                        \blue{(<var>expr(["*", F, X])</var>)}
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Multiply:</p>
-                    <p><code>\qquad
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> =
-                        <var>expr(["+", D * E, ["*", D * F, X]])</var>
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="D * F < 0">
-                        Add
-                        <code>\green{<var>expr(["*", abs(D * F), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(D * F), X])</var>}
-                        </code> from both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
-                        <var>D * E</var> \green{{} + <var>expr(["*", D * F, X])</var>} \\ \\
-
-                        \green{{}+<var>expr(["*", -(D * F), X])</var>}
-                        &amp;&amp; \green{{} +
-                        <var>expr(["*", -(D * F), X])</var>} \\ \\
-
-                        <var>expr(["+", ["*", A * B, X], A * C])</var>
-                        \green{+<var>expr(["*", -(D * F), X])</var>} &amp;=&amp;
-                        <var>D * E</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Combine the <span class="hint_blue">
-                        <code><var>X</var></code> terms</span>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        \blue{<var>expr(["*", A * B, X])</var>} + <var>A * C</var>
-                        \blue{+<var>expr(["*", -(D * F), X])</var>} &amp;=&amp;
-                        <var>D * E</var> \\ \\
-                        \blue{<var>expr(["*", A * B - D * F, X])</var>} + <var>A * C</var> &amp;=&amp;
-                        <var>D * E</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p data-if="A * C < 0">
-                        Add
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        from both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", A * B - D * F, X])</var> + \green{<var>A * C</var>} &amp;=&amp;
-                        <var>D * E</var> \\ \\
-
-                        \green{{}+<var>-A * C</var>} &amp;&amp;
-                        \green{{}+<var>-A * C</var>} \\ \\
-                        <var>expr(["*", A * B - D * F, X])</var>
-                        &amp;=&amp; <var>D * E - A * C</var>
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Divide both sides by
-                        <code>\green{<var>A * B - D * F</var>}</code>
-                        to isolate <code><var>X</var></code>:
-                    </p>
-                    <p><code>\qquad\begin{eqnarray}
-                        <var>expr(["*", A * B - D * F, X])</var>
-                        &amp;=&amp; <var>D * E - A * C</var> \\ \\
-                        \dfrac{\green{\cancel{<var>A * B - D * F</var>}}
-                        <var>X</var>}{\green{\cancel{<var>A * B - D * F</var>}}}
-                        &amp;=&amp; \dfrac{<var>D * E - A * C</var>}
-                        {\green{<var>A * B - D * F</var>}} \\ \\
-                        \end{eqnarray}
-                    </code></p>
-                </div>
-                <div>
-                    <p>Simplify:</p>
-                    <p><code>\qquad
-                        <var>X</var>
-                        = <var>fractionReduce(D * E - A * C, A * B - D * F)</var>
-                    </code></p>
-                </div>
+                <p><code>\qquad <var>X</var> = <var>fractionReduce(SOL_NUM, SOL_DEN)</var></code></p>
             </div>
         </div>
 

@@ -550,7 +550,42 @@ $.extend(KhanUtil, {
     },
 
     coefficient: function(n) {
-        return n === 1 ? "" : n === -1 ? "-" : n;
+        if (n === 1 || n === "1") {
+            return "";
+        } else if (n === -1 || n === "-1") {
+            return "-";
+        } else {
+            return n;
+        }
+    },
+
+    fractionVariable: function(numerator, denominator, variable) {
+        if (denominator === 0) {
+            return "\\text{undefined}";
+        }
+
+        if (numerator === 0) {
+            return 0;
+        }
+
+        if (denominator < 0) {
+            numerator *= -1;
+            denominator *= -1;
+        }
+
+        var GCD = KhanUtil.getGCD(numerator, denominator);
+        numerator /= GCD;
+        denominator /= GCD;
+
+        if (denominator === 1) {
+            return KhanUtil.coefficient(numerator) + variable;
+        }
+
+        if (numerator < 0) {
+            return "-\\dfrac{" + KhanUtil.coefficient(-numerator) + variable + "}{" + denominator + "}";
+        } else {
+            return "\\dfrac{" + KhanUtil.coefficient(numerator) + variable + "}{" + denominator + "}";
+        }
     },
 
     complexNumber: function(real, imaginary) {
