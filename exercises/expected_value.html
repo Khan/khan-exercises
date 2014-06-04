@@ -12,52 +12,48 @@
         <div id="game" data-weight="2">
             <div class="vars">
                 <var id="RESULT_DESC, MAKE_COUNT">randFromArray([
-                    ["a 1", 1],
-                    ["a 2", 1],
-                    ["a 3", 1],
-                    ["a 4", 1],
-                    ["a 5", 1],
-                    ["a 6", 1],
-                    ["a 7", 1],
-                    ["an 8", 1],
-                    ["a 9", 1],
-                    ["a 10", 1],
-                    ["at least a 2", 9],
-                    ["at least a 5", 6],
-                    ["at least a 7", 4],
-                    ["more than a 2", 8],
-                    ["more than a 6", 4],
-                    ["more than an 8", 2],
-                    ["less than a 4", 3],
-                    ["less than a 7", 6],
-                    ["less than an 8", 7],
+                    ["a &lt;code&gt;1&lt;/code&gt;", 1],
+                    ["a &lt;code&gt;2&lt;/code&gt;", 1],
+                    ["a &lt;code&gt;3&lt;/code&gt;", 1],
+                    ["a &lt;code&gt;4&lt;/code&gt;", 1],
+                    ["a &lt;code&gt;5&lt;/code&gt;", 1],
+                    ["a &lt;code&gt;6&lt;/code&gt;", 1],
+                    ["a &lt;code&gt;7&lt;/code&gt;", 1],
+                    ["an &lt;code&gt;8&lt;/code&gt;", 1],
+                    ["a &lt;code&gt;9&lt;/code&gt;", 1],
+                    ["a &lt;code&gt;10&lt;/code&gt;", 1],
+                    ["at least a &lt;code&gt;2&lt;/code&gt;", 9],
+                    ["at least a &lt;code&gt;5&lt;/code&gt;", 6],
+                    ["at least a &lt;code&gt;7&lt;/code&gt;", 4],
+                    ["more than a &lt;code&gt;2&lt;/code&gt;", 8],
+                    ["more than a &lt;code&gt;6&lt;/code&gt;", 4],
+                    ["more than an &lt;code&gt;8&lt;/code&gt;", 2],
+                    ["less than a &lt;code&gt;4&lt;/code&gt;", 3],
+                    ["less than a &lt;code&gt;7&lt;/code&gt;", 6],
+                    ["less than an &lt;code&gt;8&lt;/code&gt;", 7],
                     ["an even number", 5],
                     ["an even number", 5],
                     ["an odd number", 5],
                     ["an odd number", 5]
                 ])</var>
                 <var id="LOSE_COUNT">10 - MAKE_COUNT</var>
-                <var id="MAKE_FR">fraction(MAKE_COUNT,10,true,false)</var>
-                <var id="LOSE_FR">fraction(LOSE_COUNT,10,true,false)</var>
-                <var id="MAKE">randRange(5,10)</var>
-                <var id="LOSE">randRange(5,10)</var>
-                <var id="PROFIT">MAKE_COUNT*MAKE - LOSE_COUNT*LOSE</var>
-                <var id="ANS_F,ANS">
-                    [fraction(PROFIT,10,true,false), PROFIT/10]
-                </var>
+                <var id="MAKE_FR">fraction(MAKE_COUNT, 10, true, false)</var>
+                <var id="LOSE_FR">fraction(LOSE_COUNT, 10, true, false)</var>
+                <var id="MAKE">randRange(5, 10)</var>
+                <var id="LOSE">randRange(5, 10)</var>
+                <var id="PROFIT">MAKE_COUNT * MAKE - LOSE_COUNT * LOSE</var>
+                <var id="ANS_F">fraction(PROFIT, 10, true, false)</var>
+                <var id="ANS">PROFIT / 10</var>
             </div>
 
             <p>
-                A game at the carnival offers these odds: you get to roll a
-                ten-sided die, and if you roll <var>RESULT_DESC</var>,
-                you make <code><var>MAKE</var></code> dollars. Unfortunately,
-                if you roll anything else, you lose
-                <code><var>LOSE</var></code> dollars.
+                For a game at the carnival you get to roll a ten-sided die, numbered from <code>1</code> to <code>10</code>.
+                If you roll <var>RESULT_DESC</var>, you win <code>$<var>MAKE</var></code>.
+                Unfortunately, if you roll anything else, you lose <code>$<var>LOSE</var></code>.
             </p>
 
             <p class="question">
-                How much money do you expect to make (or lose)
-                playing this game?
+                How much money do you expect to make (or lose) per game?
             </p>
 
             <div class="solution" data-type="multiple">
@@ -67,12 +63,9 @@
 
             <div class="hints">
                 <p>
-                    The expected value of an event (like playing this game)
-                    is the average of the values of each outcome. Since some
-                    outcomes are more likely than others (sometimes), we
-                    weight the value of each outcome according to its
-                    probability to get an accurate idea of what value
-                    to expect.
+                    The expected value of an event is the average of the values
+                    of each outcome. We weight the value of each outcome according
+                    to its probability to get an accurate idea of what value to expect.
                 </p>
                 <p>
                     There are two events that can happen in this game: either
@@ -89,8 +82,7 @@
                     (probability of not rolling <var>RESULT_DESC</var>).
                 </p>
                 <p>
-                    The money you gain when you win
-                    is <code>$<var>MAKE</var></code>.
+                    The money you gain when you win is <code>$<var>MAKE</var></code>.
                     The probability of winning is the probability
                     that you roll <var>RESULT_DESC</var>.
                 </p>
@@ -100,8 +92,7 @@
                     outcomes, <code><var>MAKE_FR</var></code>.
                 </p>
                 <p>
-                    The money you gain when you lose is
-                    <code>$ -<var>LOSE</var></code>
+                    The money you gain when you lose is <code>-$<var>LOSE</var></code>
                     (since you actually lose money). The probability that
                     you lose is the probability that you don't roll
                     <var>RESULT_DESC</var>.
@@ -213,13 +204,9 @@
                 <code><var>ODD_F</var></code>.
             </p>
 
-            <p class="question">
-                Should you buy a ticket for this lottery?
-            </p>
+            <p class="question">Should you buy a ticket for this lottery?</p>
 
-            <div class="solution">
-                <var>ANS</var>
-            </div>
+            <div class="solution"><var>ANS</var></div>
 
             <ul class="choices" data-category="true">
                 <li>Yes, the expected value is positive.</li>
@@ -228,12 +215,9 @@
 
             <div class="hints">
                 <p>
-                    The expected value of an event (like buying a lottery
-                    ticket) is the average of the values of each outcome.
-                    In this case, the outcome where you win is much less likely
-                    than the outcome that you lose. So, to get an accurate idea
-                    of how much money you expect to win or lose, we have to
-                    take an average weighted by the probability of each outcome.
+                    The expected value of an event is the average of the values
+                    of each outcome. We weight the value of each outcome according
+                    to its probability to get an accurate idea of what value to expect.
                 </p>
                 <p>
                     This means the expected value, considering both the price
@@ -241,8 +225,7 @@
                     <code>E = </code> (money gained when you win)
                     <code>\cdot</code> (probability of winning) <code>+</code>
                     (money gained when you lose)
-                    <code>\cdot</code> (probability of losing)
-                    .
+                    <code>\cdot</code> (probability of losing).
                 </p>
                 <p>
                     Let's figure out each of these terms one at a time. The
@@ -265,15 +248,13 @@
                 </p>
                 <p data-if="PRIZE/ODDS - COST > 0">
                     <code>$<var>fraction(PRIZE,ODDS,true,true)</var> -
-                    $<var>COST</var></code> is
-                    positive.
+                    $<var>COST</var></code> is positive.
                     <br><br>
                     So, we expect to make money by buying a lottery ticket, because
                     the expected value is positive.
                 </p><p data-else="">
                     <code>$<var>fraction(PRIZE,ODDS,true,true)</var> -
-                    $<var>COST</var></code> is
-                    negative.
+                    $<var>COST</var></code> is negative.
                     <br><br>
                     So, we expect to lose money by buying a lottery ticket, because
                     the expected value is negative.
