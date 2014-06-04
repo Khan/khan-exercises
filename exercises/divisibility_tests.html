@@ -35,10 +35,10 @@
                 <var id="FACTOR">2</var>
             </div>
 
-            <div class="hints">
+            <div class="hints" data-apply="appendContents">
                 <p>Any even number is divisible by <code>2</code>.</p>
                 <p class="final_answer" data-if="DIVISIBLE">
-                    <code><var>NUMBER</var></code> is even, so yes, it is
+                    <code><var>NUMBER</var></code> is even, so it is
                     divisible by <code>2</code>.
                 </p>
                 <p class="final_answer" data-else="">
@@ -76,7 +76,7 @@
                 })()</var>
             </div>
 
-            <div class="hints">
+            <div class="hints" data-apply="appendContents">
                 <div>
                     <p>
                         A number is divisible by <code><var>FACTOR</var></code>
@@ -190,7 +190,7 @@
                 <var id="FACTOR">4</var>
             </div>
 
-            <div class="hints">
+            <div class="hints" data-apply="appendContents">
                 <div>
                     <p>
                         A number is divisible by <code>4</code> if the last
@@ -248,7 +248,7 @@
                 <var id="FACTOR">5</var>
             </div>
 
-            <div class="hints">
+            <div class="hints" data-apply="appendContents">
                 <p>
                     A number is divisible by <code>5</code> if the last
                     digit is a <code>0</code> or a <code>5</code>.
@@ -279,7 +279,7 @@
                 <var id="FACTOR">10</var>
             </div>
 
-            <div class="hints">
+            <div class="hints" data-apply="appendContents">
                 <p>
                     A number is divisible by <code>10</code> if the last
                     digit is a <code>0</code>.
@@ -298,6 +298,14 @@
                 </p>
             </div>
         </div>
+    </div>
+
+    <div class="hints">
+        <p>
+            <code><var>NUMBER</var></code> is divisible by
+            <code><var>FACTOR</var></code> if it can be divided by
+            <code><var>FACTOR</var></code> without leaving a remainder.
+        </p>
     </div>
 </div>
 </body>
