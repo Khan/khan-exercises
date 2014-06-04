@@ -12,51 +12,76 @@
     -->
     <div class="exercise">
         <div class="vars">
-            <var id="NUM_1">randRange(1, 8)</var>
-            <var id="DEN_1">randRange(NUM_1 + 1, 9)</var>
-
-            <var id="RED_SLICES">$._("Red Slices")</var>
-            <var id="GRAY_SLICES">$._("Gray Slices")</var>
-            <var id="SLICES">$._("Slices")</var>
-            <var id="RED_BLOCKS">$._("Red Blocks")</var>
-            <var id="GRAY_BLOCKS">$._("Gray Blocks")</var>
-            <var id="BLOCKS">$._("Blocks")</var>
+            <var id="NUM_1">randRange(1, 9)</var>
+            <var id="DEN_1">randRange(3, 9)</var>
+            <var id="WHOLES">ceil(NUM_1 / DEN_1)</var>
+            <var id="FINAL">NUM_1 - (WHOLES - 1) * DEN_1</var>
         </div>
         <div class="problems">
             <div id="pie-chart">
                 <div class="question">
-                        <p>What fraction of this circle is shaded red?</p>
+                        <p data-if="WHOLES === 1">What fraction of the circle is shaded red?</p>
+                        <p data-else="">What fraction of a circle is shaded red?</p>
+
                         <div class="graphie">
-                            init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                            piechart([NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2);
+                            init({
+                                range: [[0, 6 * WHOLES], [-3, 3]],
+                                scale: 25
+                            });
+
+                            for (var i = 0; i &lt; WHOLES; i++) {
+                                if (i === 0) {
+                                    piechart([FINAL, DEN_1 - FINAL], [RED, "#999"], 2, false, (i + 1) * 3, 0);
+                                } else {
+                                    piechart([DEN_1, 0], [RED, "#999"], 2, false, i * 6 + 3, 0);
+                                }
+                            }
                         </div>
                 </div>
                 <p class="solution" data-simplify="optional"><var>NUM_1 / DEN_1</var></p>
                 <div class="hints">
-                    <p>Count the red slices for the numerator.</p>
-                    <p data-if="isSingular(NUM_1)">There is <var>NUM_1</var> red slice.</p><p data-else="">There are <var>NUM_1</var> red slices.</p>
-                    <p>Count the total slices <code>\left(\color{#e00}{\text{<var>RED_SLICES</var>}} + \color{#999}{\text{<var>GRAY_SLICES</var>}}\right)</code> for the denominator.</p>
-                    <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ <var>SLICES</var>}}</code> in total.</p>
-                    <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#000}{\text{<var>DEN_1</var>}}}</code>.</p>
+                    <p>To find the numerator, count the red slices.</p>
+                    <p data-if="isSingular(NUM_1)">There is <code><var>NUM_1</var></code> red slice.</p>
+                    <p data-else="">There are <code><var>NUM_1</var></code> red slices.</p>
+                    <p data-if="WHOLES === 1">To find the denominator, count the total number of slices in the circle.</p>
+                    <p data-else="">To find the denominator, count the total number of slices in a circle.</p>
+                    <p data-if="WHOLES === 1">There are <code><var>DEN_1</var></code> slices in the circle.</p>
+                    <p data-else="">There are <code><var>DEN_1</var></code> slices in a circle.</p>
+                    <p>So the answer is <code>\dfrac{\red{<var>NUM_1</var>}}{<var>DEN_1</var>}</code>.</p>
                 </div>
             </div>
 
             <div id="rectangle-area">
                 <div class="question">
-                    <p>What fraction of the bar is shaded red?</p>
+                    <p data-if="WHOLES === 1">What fraction of the rectangle is shaded red?</p>
+                    <p data-else="">What fraction of a rectangle is shaded red?</p>
+
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
-                        rectchart([NUM_1, DEN_1-NUM_1], ["#e00", "#999"]);
+                        init({
+                            range: [[0, 1], [0, 2 * WHOLES]],
+                            scale: [250, 25]
+                        });
+
+                        for (var i = 0; i &lt; WHOLES; i++) {
+                            if (i === 0) {
+                                rectchart([FINAL, DEN_1 - FINAL], [RED, "#999"], i * 2);
+                            } else {
+                                rectchart([DEN_1, 0], [RED, "#999"], i * 2);
+                            }
+                        }
                     </div>
                 </div>
                 <p class="solution" data-simplify="optional"><var>NUM_1 / DEN_1</var></p>
 
                 <div class="hints">
-                    <p>Count the red blocks for the numerator.</p>
-                    <p data-if="isSingular(NUM_1)">There is <var>NUM_1</var> red block.</p><p data-else="">There are <var>NUM_1</var> red blocks.</p>
-                    <p>Count the total slices <code>\left(\color{#e00}{\text{<var>RED_BLOCKS</var>}} + \color{#999}{\text{<var>GRAY_BLOCKS</var>}}\right)</code> for the denominator.</p>
-                    <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ <var>BLOCKS</var>}}</code> in total.</p>
-                    <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#000}{\text{<var>DEN_1</var>}}}</code>.</p>
+                    <p>To find the numerator, count the red blocks.</p>
+                    <p data-if="isSingular(NUM_1)">There is <code><var>NUM_1</var></code> red block.</p>
+                    <p data-else="">There are <code><var>NUM_1</var></code> red blocks.</p>
+                    <p data-if="WHOLES === 1">To find the denominator, count the total slices in the rectangle.</p>
+                    <p data-else="">To find the denominator, count the total slices in a rectangle.</p>
+                    <p data-if="WHOLES === 1">There are <code><var>DEN_1</var></code> blocks in the rectangle.</p>
+                    <p data-else="">There are <code><var>DEN_1</var></code> blocks in a rectangle.</p>
+                    <p>So the answer is <code>\dfrac{\red{<var>NUM_1</var>}}{<var>DEN_1</var>}</code>.</p>
                 </div>
             </div>
         </div>
