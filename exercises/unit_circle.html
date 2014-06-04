@@ -12,8 +12,8 @@
             <div id="degrees">
                 <div class="vars">
                     <var id="DEGREES">true</var>
-                    <var id="ANGLE">randRangeNonZero( -90, 90 ) * 5</var>
-                    <var id="ANGLE_RADIANS">ANGLE*2*PI/360</var>
+                    <var id="ANGLE">randRangeNonZero(-90, 90) * 5</var>
+                    <var id="ANGLE_RADIANS">ANGLE * PI / 180</var>
                     <var id="PRETTY_ANGLE">ANGLE + "^{\\circ}"</var>
                     <var id="FN">randFromArray( [ "cos", "sin" ] )</var>
                     <var id="FNNAME">{ "cos": $._("cosine"), "sin": $._("sine")}[FN]</var>
@@ -22,9 +22,21 @@
                     </var>
                 </div>
 
-                <p class="question">
-                    <code>\<var>FN</var>\left(<var>PRETTY_ANGLE</var>\right) = \text{?}</code>
-                </p>
+                <div class="question">
+                    <p><code>\<var>FN</var>\left(<var>PRETTY_ANGLE</var>\right) = \text{?}</code></p>
+                    <p><b>
+                        Move the orange point around the unit circle to the angle 
+                        <code><var>PRETTY_ANGLE</var></code><span data-if="DEGREES">.</span><span data-else=""> radians.</span><br>
+                        Indicate the <var>FNNAME</var> value in the answer box.<br></b>
+                        <em>Round to the nearest thousandth.</em>
+                    </p>
+                </div>
+
+                <div class="problem">
+                    <div class="graphie" id="unitcircle">
+                        initUnitCircle(DEGREES);
+                    </div>
+                </div>
 
                 <div class="solution" data-type="multiple">
                     <div class="sol" data-inexact="" data-max-error="0.001"><var>SOLUTION</var></div>
@@ -35,37 +47,33 @@
                         <div class="example">A decimal rounded to three decimal places</div>
 
                         <div class="validator-function">
-                            // Convert guess to an angle between 0 and 2*PI for comparison
-                            var revolutions = floor(guess / (2 * PI));
-                            var modified_guess = guess - revolutions*2*PI;
-
-                            // Convert answer to an angle between 0 and 2*PI
-                            revolutions = floor(ANGLE_RADIANS / (2 * PI));
-                            var modified_angle = ANGLE_RADIANS - revolutions*2*PI;
-
-                            // If the angle is at zero, assume that it was not set.
-                            // If the student knows the answer be memory, don't require
-                            // them to set the angle.
-                            if (abs(guess) &lt; 0.001) return true;
+                            if (abs(guess) &lt; 0.001) {
+                                return "Move the orange point around the unit circle to the correct position.";
+                            }
 
                             // Verify that the angles match
-                            return abs( modified_angle - modified_guess ) &lt; 0.001;
+                            if (abs(guess - ANGLE_RADIANS) &lt; 0.001) {
+                                return true;
+                            }
+
+                            // Convert guess to an angle between 0 and 2 * PI for comparison
+                            var revolutions = floor(guess / (2 * PI));
+                            var modified_guess = guess - revolutions * 2 * PI;
+
+                            // Convert answer to an angle between 0 and 2 * PI
+                            revolutions = floor(ANGLE_RADIANS / (2 * PI));
+                            var modified_angle = ANGLE_RADIANS - revolutions * 2 * PI;
+
+                            if (abs(modified_angle - modified_guess) &lt; 0.001) {
+                                return "The orange point is in the correct position, but must measure the correct angle.";
+                            } else {
+                                return false;
+                            }
                         </div>
 
                         <div class="show-guess">
                             KhanUtil.setAngle( guess );
                         </div>
-                    </div>
-                </div>
-
-                <div class="problem">
-                    <p>
-                        Move the orange point around the unit circle to the angle <code><var>PRETTY_ANGLE</var></code>.<br>
-                        Indicate the <var>FNNAME</var> value in the answer field.<br>
-                        <em>Round to the nearest thousandth.</em>
-                    </p>
-                    <div class="graphie" id="unitcircle">
-                        initUnitCircle( DEGREES );
                     </div>
                 </div>
 
@@ -77,7 +85,7 @@
                     <div>
                         <p>
                             The correct angle is selected. Remember, the <var>FNNAME</var> of an angle is represented by the
-                            <code><var>COORD</var></code> coordinate of a point on the unit circle.
+                            <code><var>COORD</var></code> coordinate of its corresponding point on the unit circle.
                         </p>
                         <div class="graphie" data-update="unitcircle">
                             goToAngle( ANGLE );
@@ -85,12 +93,12 @@
                     </div>
                     <div>
                         <p>
-                            The <code><var>COORD</var></code> coordinate of the point is <code><var>SOLUTION</var></code>,
-                            so <code>\<var>FN</var>(<var>PRETTY_ANGLE</var>) = <var>SOLUTION</var></code>.
+                            The <code><var>COORD</var></code> coordinate of the point is <code>\pink{<var>SOLUTION</var>}</code>,
+                            so <code>\<var>FN</var>\left(<var>PRETTY_ANGLE</var>\right) = <var>SOLUTION</var></code>.
                         </p>
                         <div class="graphie" data-update="unitcircle">
-                            goToAngle( ANGLE );
-                            showCoordinates( ANGLE );
+                            goToAngle(ANGLE);
+                            showCoordinates(ANGLE, COORD);
                         </div>
                     </div>
                 </div>
