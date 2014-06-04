@@ -203,7 +203,6 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
         var subtrahend = withinB ? workingDigitsB[index] : 0;
         var subStr = "";
         var power = Math.pow(10, index);
-        var zeros = new Array(index + 1).join("0");
 
         if (value < subtrahend) {
             this.borrow(index);
@@ -225,6 +224,7 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
         if (((a - b) / Math.pow(10, index)) > 1 || index < decimalPlaces) {
             graph.label([pos.max - index, pos.diff], "\\LARGE{" + diff + "}");
         }
+        var zeros = diff ? new Array(index + 1).join("0") :  "";
 
         highlights[index].push(graph.label([pos.max - index, pos.diff], "\\LARGE{\\green{" + diff + "}}"));
         if (subStr === "") {
