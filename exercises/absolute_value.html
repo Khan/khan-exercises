@@ -11,14 +11,16 @@
         <var id="INT">rand(5) &gt; 0 ? randRange( 1, 9 ) : 0</var>
         <var id="FRAC">rand(3) &gt; 0 ? "." + randRange(1, 9) : ""</var>
         <var id="SIGN">randFromArray(["", "-"])</var>
+        <var id="NUMBER">Number(SIGN + INT + FRAC)</var>
+        <var id="ABSOLUTE_NUMBER">abs(NUMBER)</var>
     </div>
 
     <div class="problems">
         <div>
             <div class="question">
-                <p>What is <code>\lvert <var>SIGN + INT + FRAC</var> \rvert</code>?</p>
+                <p>What is <code>\lvert <var>commafy(NUMBER)</var> \rvert</code>?</p>
             </div>
-            <div class="solution"><var>INT + FRAC</var></div>
+            <div class="solution"><var>ABSOLUTE_NUMBER</var></div>
         </div>
     </div>
 
@@ -30,7 +32,7 @@
             var start = 0;
             var end = 10;
             var originX = 0;
-            var x = abs( INT ) + FRAC;
+            var x = ABSOLUTE_NUMBER;
             if ( SIGN === "-" ) {
                 start = -10;
                 end = 0;
@@ -38,15 +40,15 @@
                 x = 10 - x;
             }
             numberLine( start, end );
-            style({ stroke: "#6495ED", fill: "#6495ED" });
+            style({ stroke: BLUE, fill: BLUE });
             graph.pt = circle( [ x, 0 ], 0.15 );
-            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "-&gt;" });
+            style({ stroke: ORANGE, fill: ORANGE, strokeWidth: 3.5, arrows: "-&gt;" });
             path( [ [ originX, 0 ], [ x, 0 ] ] );
             circle( [ originX, 0 ], 0.10 );
             graph.pt.toFront();
         </div>
-        <p>The distance from <code>0</code> to <code><var>SIGN + INT + FRAC</var></code> is <code><var>INT + FRAC</var></code>, which equals the absolute value.</p>
-        <p data-if='SIGN !== ""'>In other words, <code><var>INT + FRAC</var></code> is the non-negative version of <code><var>SIGN + INT + FRAC</var></code>.</p>
+        <p>The distance from <code>0</code> to <code><var>commafy(NUMBER)</var></code> is <code><var>commafy(ABSOLUTE_NUMBER)</var></code>, which equals the absolute value.</p>
+        <p data-if='SIGN !== ""'>In other words, <code><var>commafy(ABSOLUTE_NUMBER)</var></code> is the non-negative version of <code><var>commafy(NUMBER)</var></code>.</p>
     </div>
     </div>
 </body>
