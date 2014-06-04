@@ -206,18 +206,19 @@
                 </div>
 
                 <div>
-                    <p>Simplify the right side:</p>
-                    <p><code>\qquad \blue{\sin(<var>UNKNOWN_ANGLE</var>)} = \pink{<var>SIN_UNKNOWN</var>}</code></p>
+                    <p>
+                        Evaluate the inverse sin to find <code><var>UNKNOWN_ANGLE</var></code>:
+                    </p>
+                    <p><code>\qquad
+                        \blue{<var>UNKNOWN_ANGLE</var>} =\sin^{-1}\left(
+                        \dfrac{\blue{<var>SIDES[UNKNOWN]</var>}}{\green{<var>SIDES[KNOWN]</var>}}
+                        \green{\sin(<var>KNOWN_ANGLE</var>)}\right)
+                    </code></p>
                 </div>
 
                 <div>
-                    <p>
-                        Evaluate the inverse sin to find <code>m\angle <var>UNKNOWN_ANGLE</var></code>
-                        and round to the nearest degree:
-                    </p>
                     <p><code>\qquad
-                        \blue{m\angle <var>UNKNOWN_ANGLE</var>} = \sin^{-1}\left(\pink{<var>SIN_UNKNOWN</var>}\right)
-                        \approx \blue{<var>POSSIBLE_SOLUTION</var>^\circ}
+                        \blue{<var>UNKNOWN_ANGLE</var>} \approx \blue{<var>POSSIBLE_SOLUTION</var>^\circ}
                     </code></p>
                     <div data-if="POSSIBLE_SOLUTION === SOLUTION" class="graphie" data-update="triangle">
                         TRIANGLE.angleLabels[UNKNOWN] = "\\blue{" + SOLUTION + "^\\circ}";
@@ -231,7 +232,7 @@
                         We can find <code>m\angle <var>UNKNOWN_ANGLE</var></code> using the fact that <code>\sin(\theta) = \sin(180^\circ - \theta)</code>.
                     </p>
                     <p><code>\qquad
-                        \blue{m\angle <var>UNKNOWN_ANGLE</var>} \approx 180^\circ - \blue{<var>POSSIBLE_SOLUTION</var>^\circ}
+                        \blue{<var>UNKNOWN_ANGLE</var>} \approx 180^\circ - \blue{<var>POSSIBLE_SOLUTION</var>^\circ}
                         \approx \blue{<var>SOLUTION</var>^\circ}
                     </code></p>
                     <div class="graphie" data-update="triangle">
