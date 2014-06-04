@@ -409,7 +409,6 @@
 					var intersections = _.filter(compassintersections, function(compint) {
 						for (var i=0; i&lt;parallel.length; i++) {
 							var tool = parallel[i];
-							console.debug([tool.first.coord, tool.second.coord], compint);
 							return isPointOnLineSegment([tool.first.coord, tool.second.coord], compint, 0.1);
 						};
 					});
