@@ -999,6 +999,10 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         return $.data(this, "name") === exerciseId;
     }).children(".problems").children();
 
+    if (!problems.length) {
+        Khan.error("No problem matching exerciseId " + exerciseId);
+    }
+
     if (typeof typeOverride !== "undefined") {
         problem = /^\d+$/.test(typeOverride) ?
             // Access a problem by number
