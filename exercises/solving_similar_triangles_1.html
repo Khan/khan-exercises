@@ -43,11 +43,10 @@
             return labels;
         }
 
-        function pickLabels (index) {
-            nameArray = ["ABC", "DEF", "GHI", "JKL", "XYZ"];
-            pointsArray = [["A", "B", "C"], ["D", "E", "F"], ["G", "H", "I"], ["J", "K", "L"], ["X", "Y", "Z"]];
-
-            return [nameArray[index[0]], pointsArray[index[0]], nameArray[index[1]], pointsArray[index[1]]];
+        function pickLabels() {
+            var pointsArray = [["A", "B", "C"], ["D", "E", "F"], ["F", "G", "H"], ["J", "K", "L"], ["P", "Q", "R"], ["X", "Y", "Z"]];
+            var index = KhanUtil.randRangeUnique(0, pointsArray.length - 1, 2);
+            return [pointsArray[index[0]], pointsArray[index[1]]];
         }
 
     </script>
@@ -55,13 +54,12 @@
 <body>
     <div class="exercise">
         <div class="vars">
-
-            <var id="LETTERS">"abcdefghijklmnpqrstuvwxyz"</var>
-            <var id="LETTER">randRange( 0, LETTERS.length - 1 )</var>
-            <var id="X">LETTERS[ LETTER ]</var>
-
-            <var id="POINT_LABELS">randRangeUnique(0, 4, 2)</var>
-            <var id="A_NAME, A_POINTS, B_NAME, B_POINTS">pickLabels(POINT_LABELS)</var>
+            <div data-ensure="A_POINTS.indexOf(X.toUpperCase()) === -1 && B_POINTS.indexOf(X.toUpperCase()) === -1">
+                <var id="X">randVar()</var>
+                <var id="A_POINTS, B_POINTS">pickLabels()</var>
+            </div>
+            <var id="A_NAME">A_POINTS.join("")</var>
+            <var id="B_NAME">B_POINTS.join("")</var>
 
             <div data-ensure="SCALE_A !== SCALE_B">
                 <var id="SCALE_A">randRange(1, 5)/2</var>
@@ -150,7 +148,7 @@
             <div class="solution" data-type="set">
                 <div class="set-sol"><var>SOLUTION</var></div>
                 <div class="input-format">
-                    <p><code><var>X</var> = \quad</code><span class="entry" data-forms="integer, decimal"></span></p>
+                    <p><code><var>X</var> =</code> <span class="entry" data-forms="integer, decimal"></span></p>
                 </div>
             </div>
 
