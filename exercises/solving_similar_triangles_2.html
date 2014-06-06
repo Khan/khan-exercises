@@ -26,6 +26,20 @@
                     </var>
                 </div>
 
+                <div class="problem">
+                    <p>
+                        Given that:<br>
+                        <code>
+                            \quad\begin{eqnarray}
+                            \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\ 
+                            \overline{BD} &amp;=&amp; <var>SIDE_B</var> \\ 
+                            \overline{DE} &amp;=&amp; <var>HEIGHT_B</var>
+                            \end{eqnarray}
+                        </code>
+                    </p>
+                    <p>What is the value of <code>x</code>?</p>
+                </div>
+
                 <div class="solution"><var>SIDE_A</var></div>
 
                 <div class="hints" data-apply="appendContents">
@@ -39,13 +53,11 @@
                     </code></p>
 
                     <p><code>
-                        <var>HEIGHT_B</var>x =
-                        <span data-if="HEIGHT_A !== 1"><var>HEIGHT_A</var>(x + <var>SIDE_B</var>)</span>
-                        <span data-else="">x + <var>SIDE_B</var></span>
+                        <var>HEIGHT_B</var> \times x = <var>HEIGHT_A</var> \times (x + <var>SIDE_B</var>)
                     </code></p>
 
-                    <p data-if="HEIGHT_A !== 1"><code>
-                        <var>HEIGHT_B</var>x = <var>HEIGHT_A</var>x + <var>HEIGHT_A * SIDE_B</var>
+                    <p><code>
+                        <var>HEIGHT_B</var>x = <var>coefficient(HEIGHT_A)</var>x + <var>HEIGHT_A * SIDE_B</var>
                     </code></p>
 
                     <p><code><var>plus(HEIGHT_B - HEIGHT_A + "x")</var> = <var>HEIGHT_A * SIDE_B</var></code></p>
@@ -74,6 +86,20 @@
                     </var>
                 </div>
 
+                <div class="problem">
+                    <p>
+                        Given that:<br>
+                        <code>
+                            \quad\begin{eqnarray}
+                            \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\ 
+                            \overline{BD} &amp;=&amp; <var>SIDE_B</var> \\ 
+                            \overline{DE} &amp;=&amp; <var>HEIGHT_B</var>
+                            \end{eqnarray}
+                        </code>
+                    </p>
+                    <p>What is the value of <code>x</code>?</p>
+                </div>
+
                 <div class="solution"><var>HEIGHT_A</var></div>
 
                 <div class="hints" data-apply="appendContents">
@@ -87,6 +113,7 @@
                         \dfrac{<var>SIDE_A</var>}{x} = \dfrac{<var>SIDE_A + SIDE_B</var>}{<var>HEIGHT_B</var>}
                     </code></p>
 
+                    <p><code><var>SIDE_A</var> \times <var>HEIGHT_B</var> = <var>SIDE_A + SIDE_B</var> \times x</code></p>
                     <p><code><var>SIDE_A * HEIGHT_B</var> = <var>SIDE_A + SIDE_B</var>x</code></p>
                     <p><code>x = <var>fractionReduce(SIDE_A * HEIGHT_B, SIDE_A + SIDE_B)</var></code></p>
                 </div>
@@ -110,6 +137,20 @@
                     </var>
                 </div>
 
+                <div class="problem">
+                    <p>
+                        Given that:<br>
+                        <code>
+                            \quad\begin{eqnarray}
+                            \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\ 
+                            \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\ 
+                            \overline{DE} &amp;=&amp; <var>HEIGHT_B</var>
+                            \end{eqnarray}
+                        </code>
+                    </p>
+                    <p>What is the value of <code>x</code>?</p>
+                </div>
+
                 <div class="solution"><var>SIDE_B</var></div>
 
                 <div class="hints" data-apply="appendContents">
@@ -123,13 +164,11 @@
                     </code></p>
 
                     <p><code>
-                        <span data-if="HEIGHT_A !== 1"><var>HEIGHT_A</var>(<var>SIDE_A</var> + x)</span>
-                        <span data-else=""><var>SIDE_A</var> + x</span>
-                        = <var>HEIGHT_B * SIDE_A</var> 
+                        <var>HEIGHT_A</var> \times (<var>SIDE_A</var> + x) = <var>HEIGHT_B</var> \times <var>SIDE_A</var> 
                     </code></p>
 
-                    <p data-if="HEIGHT_A !== 1"><code>
-                        <var>HEIGHT_A * SIDE_A</var> + <var>HEIGHT_A</var>x = <var>HEIGHT_B * SIDE_A</var>
+                    <p><code>
+                        <var>HEIGHT_A * SIDE_A</var> + <var>coefficient(HEIGHT_A)</var>x = <var>HEIGHT_B * SIDE_A</var>
                     </code></p>
 
                     <p><code><var>plus(HEIGHT_A + "x")</var> = <var>HEIGHT_B * SIDE_A - HEIGHT_A * SIDE_A</var></code></p>
@@ -156,6 +195,20 @@
                     </var>
                 </div>
 
+                <div class="problem">
+                    <p>
+                        Given that:<br>
+                        <code>
+                            \quad\begin{eqnarray}
+                            \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\ 
+                            \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\ 
+                            \overline{BD} &amp;=&amp; <var>SIDE_B</var>
+                            \end{eqnarray}
+                        </code>
+                    </p>
+                    <p>What is the value of <code>x</code>?</p>
+                </div>
+
                 <div class="solution"><var>HEIGHT_B</var></div>
 
                 <div class="hints" data-apply="appendContents">
@@ -169,7 +222,11 @@
                     <p><code><var>fraction(SIDE_A, HEIGHT_A)</var> = \dfrac{<var>SIDE_A + SIDE_B</var>}{x}</code></p>
 
                     <p><code>
-                        <var>plus(SIDE_A + "x")</var> = <var>HEIGHT_A * (SIDE_A + SIDE_B)</var>
+                        <var>SIDE_A</var> \times x = <var>HEIGHT_A</var> \times <var>SIDE_A + SIDE_B</var>
+                    </code></p>
+
+                    <p><code>
+                        <var>coefficient(SIDE_A)</var>x = <var>HEIGHT_A * (SIDE_A + SIDE_B)</var>
                     </code></p>
 
                     <p data-ensure="SIDE_A !== 1"><code>
@@ -183,14 +240,13 @@
 
         </div>
 
-        <div class="problem"><p>What is the value of <code>x</code>?</p></div>
         <div class="question">
             <div class="graphie" id="triangles">
                 var tri_range = TRI_B.boundingRange(1);
 
                 init({
                     range: [[tri_range[0][0], tri_range[0][1]],
-                            [tri_range[1][0], tri_range[1][1]]],
+                            [tri_range[1][0] - 0.2, tri_range[1][1]]],
                     scale: 400 / (tri_range[0][1] - tri_range[0][0])
                 })
 
