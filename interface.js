@@ -161,6 +161,15 @@ function newProblem(e, data) {
     $("#hint").attr("disabled", hintsUsed >= numHints);
     enableCheckAnswer();
 
+    if (typeof KA !== "undefined" && KA.language === "en-PT" &&
+            previewingItem) {
+        // On translate.ka.org when previewing the exercise, we want to open up
+        // all the hints to make it easy to translate immediately.
+        while (hintsUsed < numHints) {
+            onHintButtonClicked();
+        }
+    }
+
     // Render related videos, unless we're on the final stage of mastery.
     if (Exercises.RelatedVideos && data.userExercise) {
         var userExercise = data.userExercise;
