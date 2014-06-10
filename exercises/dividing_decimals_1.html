@@ -14,16 +14,11 @@
                     <var id="DIVISOR">randRange(1, 9) / 10</var>
                     <var id="QUOTIENT">DIVIDEND / DIVISOR</var>
                     <var id="GCD">getGCD(DIVISOR * 10, 10)</var>
+                    <var id="N">10</var>
                 </div>
 
                 <p class="question"><code>\large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = {?}}</code></p>
                 <div class="solution" data-type="number"><var>QUOTIENT</var></div>
-
-                <div class="hints" data-apply="prependContents">
-                    <p><code>
-                        \large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = <var>DIVIDEND</var> \div \dfrac{<var>DIVISOR * 10</var>}{10}}
-                    </code></p>
-                </div>
             </div>
 
             <div id="quarters">
@@ -32,21 +27,19 @@
                     <var id="DIVISOR">randRange(1, 3) / 4</var>
                     <var id="QUOTIENT">DIVIDEND / DIVISOR</var>
                     <var id="GCD">getGCD(DIVISOR * 10, 10)</var>
+                    <var id="N">DIVISOR === 0.5 ? 10 : 100</var>
                 </div>
 
                 <p class="question"><code>\large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = {?}}</code></p>
                 <div class="solution" data-type="number"><var>QUOTIENT</var></div>
-
-                <div class="hints" data-apply="prependContents">
-                    <p><code>
-                        \large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = <var>DIVIDEND</var> \div \dfrac{<var>DIVISOR * 100</var>}{100}}
-                    </code></p>
-                </div>
             </div>
         </div>
 
         <div class="hints">
-            
+            <p><code>
+                \large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = <var>DIVIDEND</var> \div \dfrac{<var>DIVISOR * N</var>}{<var>N</var>}}
+            </code></p>
+
             <p data-if="GCD !== 1"><code>
                 \large{\phantom{<var>DIVIDEND</var> \div <var>DIVISOR</var>} = <var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}}
             </code></p>
