@@ -207,23 +207,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             var input;
             if (window.Modernizr && Modernizr.touchevents) {
-                // Use special HTML5 input element for touch devices, so we can
-                // take advantage of special numeric keyboards...
-                var inputMarkup = '<input type="number" step="any">';
-                var numberForms = ["integer", "decimal"];
-                // ...except if the answer can be represented as a fraction,
-                // pi, log, percent, or anything else that isn't a
-                // "floating point number".
-                $.each(acceptableForms, function (i,form) {
-                    if (numberForms.indexOf(form) < 0) {
-                        inputMarkup = '<input type="text"' +
-                                      ' autocapitalize="off">';
-                    }
-                });
-                input = $(inputMarkup);
+                input = $('<input type="text" autocapitalize="off">');
             } else {
-                // people don't always set their locale right, so use a text
-                // box to allow for alternative radix points
                 input = $('<input type="text">');
             }
             $(solutionarea).append(input);
@@ -819,8 +804,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // Add two input boxes
             var inte, rad;
             if (window.Modernizr && Modernizr.touchevents) {
-                inte = $('<input type="number" step="any">');
-                rad = $('<input type="number" step="any">');
+                inte = $('<input type="text" autocapitalize="off">');
+                rad = $('<input type="text" autocapitalize="off">');
             } else {
                 inte = $('<input type="text">');
                 rad = $('<input type="text">');
@@ -918,8 +903,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // Add two input boxes
             var inte, rad;
             if (window.Modernizr && Modernizr.touchevents) {
-                inte = $('<input type="number" step="any">');
-                rad = $('<input type="number" step="any">');
+                inte = $('<input type="text" autocapitalize="off">');
+                rad = $('<input type="text" autocapitalize="off">');
             } else {
                 inte = $('<input type="text">');
                 rad = $('<input type="text">');
