@@ -232,24 +232,46 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
         $(graph.mouselayer.canvas).css("z-index", 1);
-        if (options.onClick) {
+        if (options.onClick || options.onMouseDown || options.onMouseMove) {
             var canvasClickTarget = graph.mouselayer.rect(
                     0, 0, graph.xpixels, graph.ypixels).attr({
                 fill: "#000",
                 opacity: 0
             });
             var isClickingCanvas = false;
+
             $(graph.mouselayer.canvas).on("vmousedown", function(e) {
                 if (e.target === canvasClickTarget[0]) {
+                    if (options.onMouseDown) {
+                        options.onMouseDown(graph.getMouseCoord(e));
+                    }
                     isClickingCanvas = true;
-                }
-            });
-            $(graph.mouselayer.canvas).on("vmouseup", function(e) {
-                // Only register clicks that started on the canvas, and not
-                // on another mouseLayer target
-                if (e.target === canvasClickTarget[0] && isClickingCanvas) {
-                    options.onClick(graph.getMouseCoord(e));
-                    isClickingCanvas = false;
+
+                    var moveHandler;
+                    if (options.onMouseMove) {
+                        moveHandler = $(document).bind("vmousemove", function(e) {
+                            if (isClickingCanvas) {
+                                e.preventDefault();
+                                options.onMouseMove(graph.getMouseCoord(e));
+                            }
+                        });
+                    } else {
+                        moveHandler = undefined;
+                    }
+
+                    var upHandler = $(document).bind("vmouseup", function(e) {
+                        if (moveHandler) {
+                            $(document).unbind("vmousemove", moveHandler);
+                        }
+                        $(document).unbind("vmouseup", upHandler);
+
+                        // Only register clicks that started on the canvas, and not
+                        // on another mouseLayer target
+                        if (isClickingCanvas && options.onClick) {
+                            options.onClick(graph.getMouseCoord(e));
+                        }
+                        isClickingCanvas = false;
+                    });
                 }
             });
         }
@@ -869,6 +891,81 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         movablePoint.drawLabel();
 
+        movablePoint.grab = function() {
+            $(document).bind("vmousemove vmouseup", function(event) {
+                event.preventDefault();
+                movablePoint.dragging = true;
+                KhanUtil.dragging = true;
+
+                var coord = graph.getMouseCoord(event);
+
+                coord = applySnapAndConstraints(coord);
+                var coordX = coord[0];
+                var coordY = coord[1];
+                var mouseX;
+                var mouseY;
+
+                if (event.type === "vmousemove") {
+                    var doMove = true;
+                    // The caller has the option of adding an onMove() method to the
+                    // movablePoint object we return as a sort of event handler
+                    // By returning false from onMove(), the move can be vetoed,
+                    // providing custom constraints on where the point can be moved.
+                    // By returning array [x, y], the move can be overridden
+                    if (_.isFunction(movablePoint.onMove)) {
+                        var result = movablePoint.onMove(coordX, coordY);
+                        if (result === false) {
+                            doMove = false;
+                        }
+                        if (_.isArray(result)) {
+                            coordX = result[0];
+                            coordY = result[1];
+                        }
+                    }
+                    // coord{X|Y} may have been modified by constraints or onMove handler; adjust mouse{X|Y} to match
+                    mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
+                    mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
+
+                    if (doMove) {
+                        movablePoint.visibleShape.attr("cx", mouseX);
+                        movablePoint.mouseTarget.attr("cx", mouseX);
+                        movablePoint.visibleShape.attr("cy", mouseY);
+                        movablePoint.mouseTarget.attr("cy", mouseY);
+                        movablePoint.coord = [coordX, coordY];
+                        movablePoint.updateLineEnds();
+                        $(movablePoint).trigger("move");
+                    }
+
+                    movablePoint.drawLabel();
+
+                } else if (event.type === "vmouseup") {
+                    $(document).unbind("vmousemove vmouseup");
+                    movablePoint.dragging = false;
+                    KhanUtil.dragging = false;
+                    if (_.isFunction(movablePoint.onMoveEnd)) {
+                        var result = movablePoint.onMoveEnd(coordX, coordY);
+                        if (_.isArray(result)) {
+                            coordX = result[0];
+                            coordY = result[1];
+                            mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
+                            mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
+                            movablePoint.visibleShape.attr("cx", mouseX);
+                            movablePoint.mouseTarget.attr("cx", mouseX);
+                            movablePoint.visibleShape.attr("cy", mouseY);
+                            movablePoint.mouseTarget.attr("cy", mouseY);
+                            movablePoint.coord = [coordX, coordY];
+                        }
+                    }
+                    // FIXME: check is commented out since firefox isn't always sending mouseout for some reason
+                    //if (!movablePoint.highlight) {
+                        movablePoint.visibleShape.animate(movablePoint.normalStyle, 50);
+                        if (movablePoint.onUnhighlight) {
+                            movablePoint.onUnhighlight();
+                        }
+                    //}
+                }
+            });
+        };
 
         if (movablePoint.visible && !movablePoint.constraints.fixed) {
             // the invisible shape in front of the point that gets mouse events
@@ -904,79 +1001,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                 } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
                     event.preventDefault();
 
-                    $(document).bind("vmousemove vmouseup", function(event) {
-                        event.preventDefault();
-                        movablePoint.dragging = true;
-                        KhanUtil.dragging = true;
-
-                        var coord = graph.getMouseCoord(event);
-
-                        coord = applySnapAndConstraints(coord);
-                        var coordX = coord[0];
-                        var coordY = coord[1];
-                        var mouseX;
-                        var mouseY;
-
-                        if (event.type === "vmousemove") {
-                            var doMove = true;
-                            // The caller has the option of adding an onMove() method to the
-                            // movablePoint object we return as a sort of event handler
-                            // By returning false from onMove(), the move can be vetoed,
-                            // providing custom constraints on where the point can be moved.
-                            // By returning array [x, y], the move can be overridden
-                            if (_.isFunction(movablePoint.onMove)) {
-                                var result = movablePoint.onMove(coordX, coordY);
-                                if (result === false) {
-                                    doMove = false;
-                                }
-                                if (_.isArray(result)) {
-                                    coordX = result[0];
-                                    coordY = result[1];
-                                }
-                            }
-                            // coord{X|Y} may have been modified by constraints or onMove handler; adjust mouse{X|Y} to match
-                            mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
-                            mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
-
-                            if (doMove) {
-                                movablePoint.visibleShape.attr("cx", mouseX);
-                                movablePoint.mouseTarget.attr("cx", mouseX);
-                                movablePoint.visibleShape.attr("cy", mouseY);
-                                movablePoint.mouseTarget.attr("cy", mouseY);
-                                movablePoint.coord = [coordX, coordY];
-                                movablePoint.updateLineEnds();
-                                $(movablePoint).trigger("move");
-                            }
-
-                            movablePoint.drawLabel();
-
-                        } else if (event.type === "vmouseup") {
-                            $(document).unbind("vmousemove vmouseup");
-                            movablePoint.dragging = false;
-                            KhanUtil.dragging = false;
-                            if (_.isFunction(movablePoint.onMoveEnd)) {
-                                var result = movablePoint.onMoveEnd(coordX, coordY);
-                                if (_.isArray(result)) {
-                                    coordX = result[0];
-                                    coordY = result[1];
-                                    mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
-                                    mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
-                                    movablePoint.visibleShape.attr("cx", mouseX);
-                                    movablePoint.mouseTarget.attr("cx", mouseX);
-                                    movablePoint.visibleShape.attr("cy", mouseY);
-                                    movablePoint.mouseTarget.attr("cy", mouseY);
-                                    movablePoint.coord = [coordX, coordY];
-                                }
-                            }
-                            // FIXME: check is commented out since firefox isn't always sending mouseout for some reason
-                            //if (!movablePoint.highlight) {
-                                movablePoint.visibleShape.animate(movablePoint.normalStyle, 50);
-                                if (movablePoint.onUnhighlight) {
-                                    movablePoint.onUnhighlight();
-                                }
-                            //}
-                        }
-                    });
+                    movablePoint.grab();
                 }
             });
         }
@@ -1050,6 +1075,11 @@ $.extend(KhanUtil.Graphie.prototype, {
                 }
             }
             this.coord = coord.slice();
+        };
+
+        // Put the point at the new position, checking that it is within the graph's bounds
+        movablePoint.setCoordConstrainted = function(coord) {
+            this.setCoord(applySnapAndConstraints(coord));
         };
 
         // Change z-order to back
@@ -2128,7 +2158,7 @@ $.extend(KhanUtil.Graphie.prototype, {
     },
 
     // MovableAngle is an angle that can be dragged around the screen.
-    // By attaching a smartPoint to the vertex and ray control points, the 
+    // By attaching a smartPoint to the vertex and ray control points, the
     // rays can be manipulated individually.
     //
     // Use only with smartPoints; add the smartPoints first, then:
@@ -3694,7 +3724,7 @@ function Ruler(graphie, options) {
     }
 
     var tickFrequencies = _.keys(tickHeightMap).sort(function(a, b) {
-        return b - a; 
+        return b - a;
     });
 
     function getTickHeight(i) {
