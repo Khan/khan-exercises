@@ -205,12 +205,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // 2.45 with maxError=0.15).
             options.maxError = +options.maxError + MAXERROR_EPSILON;
 
-            var input;
-            if (window.Modernizr && Modernizr.touchevents) {
-                input = $('<input type="text" autocapitalize="off">');
-            } else {
-                input = $('<input type="text">');
-            }
+            var input = $('<input type="text" autocapitalize="off">');
             $(solutionarea).append(input);
 
             // retrieve the example texts from the different forms
@@ -802,14 +797,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, solutionData);
 
             // Add two input boxes
-            var inte, rad;
-            if (window.Modernizr && Modernizr.touchevents) {
-                inte = $('<input type="text" autocapitalize="off">');
-                rad = $('<input type="text" autocapitalize="off">');
-            } else {
-                inte = $('<input type="text">');
-                rad = $('<input type="text">');
-            }
+            var inte = $('<input type="text" autocapitalize="off">');
+            var rad = $('<input type="text" autocapitalize="off">');
+
             // Make them look pretty
             $("<div class='radical'>")
                 .append($("<span>").append(inte))
@@ -901,14 +891,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, solutionData);
 
             // Add two input boxes
-            var inte, rad;
-            if (window.Modernizr && Modernizr.touchevents) {
-                inte = $('<input type="text" autocapitalize="off">');
-                rad = $('<input type="text" autocapitalize="off">');
-            } else {
-                inte = $('<input type="text">');
-                rad = $('<input type="text">');
-            }
+            var inte = $('<input type="text" autocapitalize="off">');
+            var rad = $('<input type="text" autocapitalize="off">');
+
             // Make them look pretty
             $("<div class='radical'>")
                 .append($("<span>").append(inte))
