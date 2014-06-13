@@ -1078,7 +1078,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         };
 
         // Put the point at the new position, checking that it is within the graph's bounds
-        movablePoint.setCoordConstrainted = function(coord) {
+        movablePoint.setCoordConstrained = function(coord) {
             this.setCoord(applySnapAndConstraints(coord));
         };
 
