@@ -231,7 +231,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         }, options);
 
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
-        $(graph.mouselayer.canvas).css("z-index", 1);
+        $(graph.mouselayer.canvas).css("z-index", 2);
         if (options.onClick || options.onMouseDown || options.onMouseMove ||
                 options.onMouseOver || options.onMouseOut) {
             var canvasClickTarget = graph.mouselayer.rect(
