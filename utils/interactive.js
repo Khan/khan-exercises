@@ -232,7 +232,8 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
         $(graph.mouselayer.canvas).css("z-index", 1);
-        if (options.onClick || options.onMouseDown || options.onMouseMove) {
+        if (options.onClick || options.onMouseDown || options.onMouseMove ||
+                options.onMouseOver || options.onMouseOut) {
             var canvasClickTarget = graph.mouselayer.rect(
                     0, 0, graph.xpixels, graph.ypixels).attr({
                 fill: "#000",
@@ -274,6 +275,16 @@ $.extend(KhanUtil.Graphie.prototype, {
                     });
                 }
             });
+            if (options.onMouseOver) {
+                $(graph.mouselayer.canvas).on("vmouseover", function(e) {
+                    options.onMouseOver(graph.getMouseCoord(e));
+                });
+            }
+            if (options.onMouseOut) {
+                $(graph.mouselayer.canvas).on("vmouseout", function(e) {
+                    options.onMouseOut(graph.getMouseCoord(e));
+                });
+            }
         }
         if (!options.allowScratchpad) {
             Khan.scratchpad.disable();
