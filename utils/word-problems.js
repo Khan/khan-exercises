@@ -771,7 +771,7 @@ $.fn["word-problemsLoad"] = function() {
             return $.ngettext("pair of glasses", "pairs of glasses", num);
         }),
         new Plural(function(num) {
-            return $.ngettext("pair of boots", "pair of boots", num);
+            return $.ngettext("pair of boots", "pairs of boots", num);
         }),
         new Plural(function(num) {
             return $.ngettext("backpack", "backpacks", num);
