@@ -205,27 +205,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // 2.45 with maxError=0.15).
             options.maxError = +options.maxError + MAXERROR_EPSILON;
 
-            var input;
-            if (window.Modernizr && Modernizr.touchevents) {
-                // Use special HTML5 input element for touch devices, so we can
-                // take advantage of special numeric keyboards...
-                var inputMarkup = '<input type="number" step="any">';
-                var numberForms = ["integer", "decimal"];
-                // ...except if the answer can be represented as a fraction,
-                // pi, log, percent, or anything else that isn't a
-                // "floating point number".
-                $.each(acceptableForms, function (i,form) {
-                    if (numberForms.indexOf(form) < 0) {
-                        inputMarkup = '<input type="text"' +
-                                      ' autocapitalize="off">';
-                    }
-                });
-                input = $(inputMarkup);
-            } else {
-                // people don't always set their locale right, so use a text
-                // box to allow for alternative radix points
-                input = $('<input type="text">');
-            }
+            var input = $('<input type="text" autocapitalize="off">');
             $(solutionarea).append(input);
 
             // retrieve the example texts from the different forms
@@ -817,14 +797,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, solutionData);
 
             // Add two input boxes
-            var inte, rad;
-            if (window.Modernizr && Modernizr.touchevents) {
-                inte = $('<input type="number" step="any">');
-                rad = $('<input type="number" step="any">');
-            } else {
-                inte = $('<input type="text">');
-                rad = $('<input type="text">');
-            }
+            var inte = $('<input type="text" autocapitalize="off">');
+            var rad = $('<input type="text" autocapitalize="off">');
+
             // Make them look pretty
             $("<div class='radical'>")
                 .append($("<span>").append(inte))
@@ -916,14 +891,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, solutionData);
 
             // Add two input boxes
-            var inte, rad;
-            if (window.Modernizr && Modernizr.touchevents) {
-                inte = $('<input type="number" step="any">');
-                rad = $('<input type="number" step="any">');
-            } else {
-                inte = $('<input type="text">');
-                rad = $('<input type="text">');
-            }
+            var inte = $('<input type="text" autocapitalize="off">');
+            var rad = $('<input type="text" autocapitalize="off">');
+
             // Make them look pretty
             $("<div class='radical'>")
                 .append($("<span>").append(inte))

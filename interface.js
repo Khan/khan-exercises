@@ -397,24 +397,15 @@ function handleAttempt(data) {
     return false;
 }
 
-function onHintButtonClicked() {
-    var framework = Exercises.getCurrentFramework();
-
-    if (framework === "perseus") {
-        $(PerseusBridge).trigger("showHint");
-    } else if (framework === "khan-exercises") {
-        $(Khan).trigger("showHint");
-    }
-}
-
 /**
  * Handle the even when a user wants to see a worked example.
  * Currently only works on some Perseus problems.
  */
 function onShowExampleClicked() {
     $(PerseusBridge).trigger("showWorkedExample");
-    }
+}
 
+var waitingOnHintRequest = false;
 /**
  * Handle the event when a user clicks to use a hint.
  *
@@ -423,6 +414,81 @@ function onShowExampleClicked() {
  * other parts of the UI may update first. It's separated into two events so
  * that the XHR can be sent after the other items have a chance to respond.
  */
+function onHintButtonClicked() {
+    if (waitingOnHintRequest) {
+        return;
+    }
+    waitingOnHintRequest = true;
+
+    var curTime = new Date().getTime();
+    var prevLastAttemptOrHint = lastAttemptOrHint;
+    var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
+    lastAttemptOrHint = curTime;
+    var logEntry = ["hint-activity", "0", timeTaken];
+    Exercises.userActivityLog.push(logEntry);
+
+    var hintRequest;
+    if (!previewingItem && !localMode && !userExercise.readOnly &&
+            !Exercises.currentCard.get("preview") && canAttempt) {
+
+        hintRequest = request("problems/" + problemNum + "/hint",
+                buildAttemptData(false, attempts, "hint", timeTaken, false, false));
+    } else {
+        // We don't send a request to the server, so just assume immediate
+        // success
+        hintRequest = $.when();
+    }
+
+    // If the hint request fails within TIMEOUT_MS, it probably means that the
+    // student's internet is offline and that maybe they're trying to cheat. To
+    // prevent this, we always wait TIMEOUT_MS before showing a hint; if the
+    // network request fails before the timeout we don't show the hint and
+    // pretend that nothing happened.
+    var TIMEOUT_MS = 50;
+    var showHintD = $.Deferred();
+
+    hintRequest.then(function() {
+        if (showHintD.state() === "pending") {
+            showHintD.resolve();
+        }
+    }, function() {
+        if (showHintD.state() === "pending") {
+            showHintD.reject();
+        }
+    });
+
+    // Always show the hint after TIMEOUT_MS
+    setTimeout(function() {
+        if (showHintD.state() === "pending") {
+            showHintD.resolve();
+        }
+    }, TIMEOUT_MS);
+
+    showHintD.always(function() {
+        waitingOnHintRequest = false;
+    }).done(function() {
+        var framework = Exercises.getCurrentFramework();
+        if (framework === "perseus") {
+            $(PerseusBridge).trigger("showHint");
+        } else if (framework === "khan-exercises") {
+            $(Khan).trigger("showHint");
+        }
+    }).fail(function() {
+        KhanUtil.debugLog("Hint network request failed; not showing hint");
+        // Set global state back to how it was
+        // TODO(alpert): Really we should store this in a snapshottable way
+        // (e.g., with persistent data structures) so that this is easy...
+        lastAttemptOrHint = prevLastAttemptOrHint;
+        // Filter out the hint activity entry in place
+        var ual = Exercises.userActivityLog;
+        for (var i = ual.length; i-- > 0;) {
+            if (ual[i] === logEntry) {
+                ual.splice(i, 1);
+            }
+        }
+    });
+}
+
 function onHintShown(e, data) {
     // Grow the scratchpad to cover the new hint
     Khan.scratchpad.resize();
@@ -436,24 +502,11 @@ function onHintShown(e, data) {
         $("#hint").attr("disabled", true);
     }
 
-    var curTime = new Date().getTime();
-    var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
-    lastAttemptOrHint = curTime;
-
     // When a hint is shown, clear the "last attempt content" that is used to
     // detect duplicate, repeated attempts. Once the user clicks on a hint, we
     // consider their next attempt to be unique and legitimate even if it's the
     // same answer they attempted previously.
     lastAttemptContent = null;
-
-    Exercises.userActivityLog.push(["hint-activity", "0", timeTaken]);
-
-    if (!previewingItem && !localMode && !userExercise.readOnly &&
-            !Exercises.currentCard.get("preview") && canAttempt) {
-        // Don't do anything on success or failure; silently failing is ok here
-        request("problems/" + problemNum + "/hint",
-                buildAttemptData(false, attempts, "hint", timeTaken, false, false));
-    }
 }
 
 function updateHintButtonText() {

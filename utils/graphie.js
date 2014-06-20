@@ -431,50 +431,70 @@ KhanUtil.createGraphie = function(el) {
             return $span;
         },
 
-        plotParametric: function(fn, range, shade) {
+        plotParametric: function(fn, range, shade, fn2) {
+            // Note: fn2 should only be set if 'shade' is true, as it denotes
+            // the function between which fn should have its area shaded.
+            // In general, plotParametric shouldn't be used to shade the area
+            // between two arbitrary parametrics functions over an interval,
+            // as the method assumes that fn and fn2 are both of the form
+            // fn(t) = (t, fn'(t)) for some initial fn'.
+            fn2 = fn2 || function(t) { return [t, 0]; };
+
             currentStyle.strokeLinejoin || (currentStyle.strokeLinejoin = "round");
             currentStyle.strokeLinecap || (currentStyle.strokeLinecap = "round");
 
             var min = range[0], max = range[1];
             var step = (max - min) / (currentStyle["plot-points"] || 800);
 
-            var paths = raphael.set(), points = [], lastVal = fn(min);
+            var paths = raphael.set();
+            var points = [];
+            var lastDiff = KhanUtil.coordDiff(fn(min), fn2(min));
 
-            if (shade) {
-                points.push([fn(min)[0], 0]);
-            }
+            var lastFlip = min;
             for (var t = min; t <= max; t += step) {
-                var funcVal = fn(t);
+                var top = fn(t);
+                var bottom = fn2(t);
+                var diff = KhanUtil.coordDiff(top, bottom);
 
+                // Find points where it flips
+                // Create path that sketches area between the two functions
                 if (
                     // if there is an asymptote here, meaning that the graph switches signs and has a large difference
-                    ((funcVal[1] < 0) !== (lastVal[1] < 0)) && Math.abs(funcVal[1] - lastVal[1]) > 2 * yScale ||
+                    ((diff[1] < 0) !== (lastDiff[1] < 0)) && Math.abs(diff[1] - lastDiff[1]) > 2 * yScale ||
                     // or the function value gets really high (which breaks raphael)
-                    Math.abs(funcVal[1]) > 1e7 ||
+                    Math.abs(diff[1]) > 1e7 ||
                     // or the function is undefined
-                    isNaN(funcVal[1])
+                    isNaN(diff[1])
                    ) {
                     // split the path at this point, and draw it
                     if (shade) {
-                        points.push([funcVal[0], 0]);
+                        points.push(top);
+
+                        // backtrack to draw paired function
+                        for (var u = t - step; u >= lastFlip; u -= step) {
+                            points.push(fn2(u));
+                        }
+                        lastFlip = t;
                     }
                     paths.push(this.path(points));
                     // restart the path, excluding this point
                     points = [];
                     if (shade) {
-                        points.push([funcVal[0], 0]);
+                        points.push(top);
                     }
-
                 } else {
                     // otherwise, just add the point to the path
-                    points.push(funcVal);
+                    points.push(top);
                 }
 
-                lastVal = funcVal;
+                lastDiff = diff;
             }
 
             if (shade) {
-                points.push([fn(max)[0], 0]);
+                // backtrack to draw paired function
+                for (var u = max - step; u >= lastFlip; u -= step) {
+                    points.push(fn2(u));
+                }
             }
             paths.push(this.path(points));
 
@@ -492,20 +512,38 @@ KhanUtil.createGraphie = function(el) {
             }, range);
         },
 
-        plot: function(fn, range, swapAxes, shade) {
+        plot: function(fn, range, swapAxes, shade, fn2) {
             var min = range[0], max = range[1];
             currentStyle["plot-points"] || (currentStyle["plot-points"] = 2 * (max - min) * xScale);
 
             if (swapAxes) {
+                if (fn2) {
+                    // TODO(charlie): support swapped axis area shading
+                    throw new Error(
+                        "Can't shade area between functions with swapped axes."
+                    );
+                }
                 return this.plotParametric(function(y) {
                     return [fn(y), y];
                 }, range, shade);
             } else {
+                if (fn2) {
+                    if (shade) {
+                        return this.plotParametric(function(x) {
+                            return [x, fn(x)];
+                        }, range, shade, function(x) {
+                            return [x, fn2(x)];
+                        });
+                    } else {
+                        throw new Error(
+                            "fn2 should only be set when 'shade' is True."
+                        );
+                    }
+                }
                 return this.plotParametric(function(x) {
                     return [x, fn(x)];
                 }, range, shade);
             }
-
         },
 
         /**
