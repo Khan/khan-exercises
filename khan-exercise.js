@@ -53,6 +53,9 @@
 
     * showGuess -- when a guess is populated in the answer area in problem
       history mode
+
+    * attemptMessageShown -- when a user attempts a problem and a message is
+      shown in response, e.g. "We don't understand your answer."
 */
 define(function(require) {
 

@@ -219,12 +219,18 @@ function handleAttempt(data) {
     }
 
     var isAnswerEmpty = score.empty && !skipped;
+    var attemptMessage = null;
 
-    // Is this a message to be shown?
+    // Is there a message to be shown?
     if (score.message != null) {
-        $("#check-answer-results > p").html(score.message).show().tex();
+        attemptMessage = score.message;
     } else if (isAnswerEmpty) {
-        $("#check-answer-results > p").html(EMPTY_MESSAGE).show().tex();
+        attemptMessage = EMPTY_MESSAGE;
+    }
+
+    if (attemptMessage) {
+        $("#check-answer-results > p").html(attemptMessage).show().tex();
+        $(Exercises).trigger("attemptMessageShown", attemptMessage);
     } else {
         $("#check-answer-results > p").hide();
     }
