@@ -92,6 +92,13 @@ window.Calculator = (function(parser) {
                             throw new CalculatorError($._("undefined"));
                         }
                         return ans;
+                    },
+                    log: function(a) {
+                        var ans = Math.log(a) / Math.LN10;
+                        if (isNaN(ans) || !isFinite(ans)) {
+                            throw new CalculatorError($._("undefined"));
+                        }
+                        return ans;
                     }
                 };
 
