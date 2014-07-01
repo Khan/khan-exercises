@@ -53,6 +53,9 @@
 
     * showGuess -- when a guess is populated in the answer area in problem
       history mode
+
+    * attemptMessageShown -- when a user attempts a problem and a message is
+      shown in response, e.g. "We don't understand your answer."
 */
 define(function(require) {
 
@@ -149,12 +152,6 @@ var primes = [197, 3, 193, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
     imageBase = localMode ? urlBase + "images/" : "/images/",
 
     lastFocusedSolutionInput = null,
-
-    gae_bingo = window.gae_bingo || {
-        ab_test: function() {},
-        bingo: function() {},
-        tests: {}
-    },
 
     // Keeps track of failures in MakeProblem so we don't endlessly try and
     // re-Make a bad problem
@@ -766,7 +763,10 @@ var Khan = {
                 $("#issue-throbber").hide();
             };
 
-            gae_bingo.bingo(["exercise_submit_issue_binary", "exercise_submit_issue_count"]);
+            $.post("/api/v1/bigbingo/mark_conversions", {
+                conversion_ids: "exercise_submit_issue"
+            });
+
             Khan.submitIssue(issueInfo, onSuccess, onFailure);
         });
     },

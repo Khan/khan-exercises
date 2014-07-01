@@ -54,13 +54,16 @@
     });
 
 
-    asyncTest("pi, euler and natural logarithm", 6, function() {
+    asyncTest("pi, euler and logarithms", 9, function() {
         calculateStartsWith('pi', 3.1415);
         calculateStartsWith('2*pi', 6.2831);
         calculateStartsWith('e', 2.7182);
         calculateStrictEqual('ln(e^2)', 2);
         checkError('ln(-1)', /undefined/, 'ln for x < 0 is undefined (for x=-1)');
         checkError('ln(0)', /undefined/, 'ln for 0 is -infinity (undefined?)');
+        calculateStrictEqual('log(10000)', 4);
+        checkError('log(-1)', /undefined/, 'log for x < 0 is undefined (for x=-1)');
+        checkError('log(0)', /undefined/, 'log for 0 is -infinity (undefined?)');
         start();
     });
 
