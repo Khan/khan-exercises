@@ -242,10 +242,16 @@
                         since the denominator tells us how many equal segments there are in the whole.
                     </p>
                     <div>
-                        <p>
-                            <code><var>NUMERATOR</var></code> copies of <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code>
-                             segments are <em>larger</em> than
-                             <code><var>NUMERATOR</var></code> copies of <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code> segments.
+                        <p data-if="DENOMINATOR_1 < DENOMINATOR_2">
+                            <code><var>NUMERATOR</var></code> copies of
+                            <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> segments are <em>larger</em> than
+                            <code><var>NUMERATOR</var></code> copies of
+                            <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code> segments.
+                        </p><p data-else="">
+                            <code><var>NUMERATOR</var></code> copies of
+                            <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> segments are <em>smaller</em> than
+                            <code><var>NUMERATOR</var></code> copies of
+                            <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code> segments.
                         </p>
                         <p>
                             <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> <var>COMPARISON</var>
