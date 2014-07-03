@@ -9,14 +9,13 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars">
+                <div class="vars" data-ensure="C - D !== 0">
                     <var id="B2">randRangeNonZero(-10, 10)</var>
                     <var id="B">B2 * 2</var>
                     <var id="C">randRangeNonZero(-100, 100)</var>
                     <var id="D">pow(B2, 2)</var>
                     <var id="POLY">new Polynomial(0, 2, [C, B, 1], "x")</var>
                     <var id="POLY_TEXT">POLY.text()</var>
-                    <var id="OR">$._("or")</var>
                 </div>
 
                 <p class="question">
@@ -49,12 +48,11 @@
             <div>
                 <p>This looks just like the given expression if</p>
                 <p><code>\qquad <var>D</var> + b = <var>C</var></code></p>
-                <p>So <code>b</code> must be <code><var>C- D</var></code></p>
+                <p>So <code>b</code> must be <code><var>C- D</var></code>.</p>
             </div>
             <div>
                 <p><code><var>POLY_TEXT</var></code> can be rewritten as:</p>
                 <p><code>\qquad (x + <var>B2</var>)^2 + <var>C - D</var></code></p>
-                <p>Now it's just a square minus another number! We have completed the square.</p>
             </div>
         </div>
     </div>
