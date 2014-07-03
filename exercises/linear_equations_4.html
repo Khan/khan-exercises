@@ -44,7 +44,10 @@
                         </code></p>
                     </div>
 
-                    <p><code><var>NUMERATOR.multiply(SIGN)</var> = <var>PRODUCT</var></code></p>
+                    <div>
+                        <p data-if="SIGN === -1"><code>-(<var>NUMERATOR</var>) = <var>PRODUCT</var></code></p>
+                        <p><code><var>NUMERATOR.multiply(SIGN)</var> = <var>PRODUCT</var></code></p>
+                    </div>
 
                     <div data-if="SIGN * NUMERCOEFF - CONSTANT * DENOMCOEFF > 0">
                         <p><code><var>new RationalExpression([[FINALCOEFF, X], SIGN * NUMERCONST])</var> = <var>DENOMCONST * CONSTANT</var></code></p>
@@ -134,7 +137,9 @@
             </div>
         </div>
 
-        <div class="solution"><var>FINALCONST / FINALCOEFF</var></div>
+        <div class="solution" data-type="multiple">
+            <p><code><var>X</var> =</code> <span class="sol"><var>FINALCONST / FINALCOEFF</var></span>
+        </div>
 
         <div class="hints">
             <p>Multiply both sides of the equation by <code><var>DENOMINATOR</var></code>.</p>
