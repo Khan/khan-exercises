@@ -668,4 +668,11 @@ $.extend(KhanUtil, {
     _BACKGROUND: "#FDFDFD"  // TODO(eater): Get rid of this altogether.
 });
 
+// For consistent coloring throughout Perseus
+$.extend(KhanUtil, {
+    INTERACTING: KhanUtil.PINK,
+    INTERACTIVE: KhanUtil.ORANGE,
+    DYNAMIC: KhanUtil.BLUE
+});
+
 });
