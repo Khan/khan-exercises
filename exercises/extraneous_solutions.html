@@ -49,7 +49,7 @@
 
         <div class="problems">
             <div id="ignore-extraneous">
-                <p class="problem">Solve for <code>x</code>, ignoring any extraneous solutions:</p>
+                <p class="problem">Solve for <code>x</code>.</p>
                 <p class="question">
                     <code>\dfrac{<var>TERM1</var>}{x - <var>NUMERATOR</var>}
                         = \dfrac{<var>TERM2</var>}{x - <var>NUMERATOR</var>}</code>
@@ -60,6 +60,7 @@
                     <span class="set-sol" data-type="number" data-if="NUMERATOR !== B &amp;&amp; A !== B"><var>B</var></span>
 
                     <div class="input-format">
+                        <div>Fill in the blanks with the solution(s) of the equation. If there is only one solution, leave the second box empty.</div>
                         <div><code>x = </code> <span class="entry short50">a</span></div>
                         <div><code>x = </code> <span class="entry short50">a</span></div>
                     </div>
@@ -98,7 +99,7 @@
 
                 <div class="hints" data-apply="appendContents">
                     <div data-if="NUMERATOR === A || NUMERATOR === B" data-unwrap="">
-                        <p>At <code>x = <var>NUMERATOR</var></code>, the denominator of the original expression is 0.</p>
+                        <p>At <code>x = <var>NUMERATOR</var></code>, the denominator of the original expression is <code>0</code>.</p>
                         <p>Since the expression is undefined at <code>x = <var>NUMERATOR</var></code>, it is an extraneous solution.</p>
                     </div>
                     <div data-else="">The original expression is defined at <code>x = <var>A</var></code> and <code>x = <var>B</var></code>, so there are no extraneous solutions.</div>
