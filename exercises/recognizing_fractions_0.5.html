@@ -21,11 +21,21 @@
             <div id="pie-chart">
                 <div class="question">
                         <p data-if="WHOLES === 1">What fraction of the circle is shaded red?</p>
-                        <p data-else="">What fraction of a circle is shaded red?</p>
+                        <div data-else="">
+                            <p>This circle represents one whole.</p>
+                            <div class="graphie">
+                                init({
+                                    range: [[0, 6], [-2.1, 2.1]],
+                                    scale: 25
+                                });
+                                piechart([0, DEN_1], [RED, "#999"], 2, false, 3, 0);
+                            </div>
+                            <p>What fraction is shaded red below?</p>
+                        </div>
 
                         <div class="graphie">
                             init({
-                                range: [[0, 6 * WHOLES], [-3, 3]],
+                                range: [[0, 6 * WHOLES], [-2.1, 2.1]],
                                 scale: 25
                             });
 
@@ -54,11 +64,21 @@
             <div id="rectangle-area">
                 <div class="question">
                     <p data-if="WHOLES === 1">What fraction of the rectangle is shaded red?</p>
-                    <p data-else="">What fraction of a rectangle is shaded red?</p>
+                    <div data-else="">
+                        <p>This rectangle represents one whole.</p>
+                        <div class="graphie">
+                            init({
+                                range: [[0, 1], [0, 1]],
+                                scale: [250, 25]
+                            });
+                            rectchart([0, DEN_1], [RED, "#999"], 0);
+                        </div>
+                        <p>What fraction is shaded red below?</p>
+                    </div>
 
                     <div class="graphie">
                         init({
-                            range: [[0, 1], [0, 2 * WHOLES]],
+                            range: [[0, 1], [0, 2 * WHOLES - 1]],
                             scale: [250, 25]
                         });
 
@@ -77,8 +97,8 @@
                     <p>To find the numerator, count the red blocks.</p>
                     <p data-if="isSingular(NUM_1)">There is <code><var>NUM_1</var></code> red block.</p>
                     <p data-else="">There are <code><var>NUM_1</var></code> red blocks.</p>
-                    <p data-if="WHOLES === 1">To find the denominator, count the total slices in the rectangle.</p>
-                    <p data-else="">To find the denominator, count the total slices in a rectangle.</p>
+                    <p data-if="WHOLES === 1">To find the denominator, count the total blocks in the rectangle.</p>
+                    <p data-else="">To find the denominator, count the total blocks in a rectangle.</p>
                     <p data-if="WHOLES === 1">There are <code><var>DEN_1</var></code> blocks in the rectangle.</p>
                     <p data-else="">There are <code><var>DEN_1</var></code> blocks in a rectangle.</p>
                     <p>So the answer is <code>\dfrac{\red{<var>NUM_1</var>}}{<var>DEN_1</var>}</code>.</p>
