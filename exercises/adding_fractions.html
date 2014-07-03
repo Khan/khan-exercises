@@ -10,8 +10,10 @@
         <div class="problems">
             <div>
                 <div class="vars">
-                    <var id="D1">randFromArray(smallDenominators)</var>
-                    <var id="D2">randFromArray(smallDenominators)</var>
+                    <div data-ensure="D1 !== D2">
+                        <var id="D1">randFromArray(smallDenominators)</var>
+                        <var id="D2">randFromArray(smallDenominators)</var>
+                    </div>
                     <var id="N1">randRange(1, D1 - 1)</var>
                     <var id="N2">randRange(1, D2 - 1)</var>
                     <var id="LCM">getLCM(D1, D2)</var>
