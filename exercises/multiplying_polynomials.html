@@ -62,8 +62,8 @@
 
         <div class="problems">
             <div id="multiply">
-                <p class="question">Simplify the expression.</p>
-                <p class="problem"><code><span data-each="[ POL_1, POL_2 ] as POL" data-unwrap="">(<var>POL</var>)</span></code></p>
+                <p class="question">Expand the expression.</p>
+                <p class="problem"><code>\large{<span data-each="[ POL_1, POL_2 ] as POL" data-unwrap="">(<var>POL</var>)</span>}</code></p>
                 <p class="solution" data-type="expression" data-simplify><var>SOLUTION.parsableText()</var></p>
             </div>
         </div>
@@ -85,17 +85,17 @@
             </div>
             <div>
                 <p>Simplify.</p>
-                <p><code data-if="LIKE_TERMS">
+                <p data-if="LIKE_TERMS"><code>
                     <span data-each="NON_ZERO_INDICES[0] as n1, index1">
                         <span data-each="NON_ZERO_INDICES[1] as n2, index2">
                             <var>(POL_1.coefs[index1] * POL_2.coefs[index2] &lt; 0) ? "-" : (n1 === 0 &amp;&amp; n2 === 0) ? "" : "+"</var>
-                            <var>abs(POL_1.coefs[index1] * POL_2.coefs[index2])</var><var>X</var>^{<var>index1 + index2</var>}
+                            <var>coefficient(abs(POL_1.coefs[index1] * POL_2.coefs[index2]))</var><var>X</var>^{<var>index1 + index2</var>}
                         </span>
                     </span>
                 </code></p>
                 <p data-else=""><code><var>SOLUTION</var></code></p>
             </div>
-            <div data-if="LIKE_TERMS">
+            <div data-if="LIKE_TERMS" data-unwrap="">
                 <div>
                     <p>Identify like terms.</p>
                     <p><code>
@@ -103,7 +103,7 @@
                             <span data-each="NON_ZERO_INDICES[1] as n2, index2">
                                 \color{<var>LIKE_TERMS[index1 + index2 ]</var>}
                                 {<var>(POL_1.coefs[index1] * POL_2.coefs[index2] &lt; 0) ? "-" : (n1 === 0 &amp;&amp; n2 === 0) ? "" : "+"</var>
-                                <var>abs(POL_1.coefs[index1] * POL_2.coefs[index2])</var><var>X</var>^{<var>index1 + index2</var>}}
+                                <var>coefficient(abs(POL_1.coefs[index1] * POL_2.coefs[index2]))</var><var>X</var>^{<var>index1 + index2</var>}}
                             </span>
                         </span>
                     </code></p>
