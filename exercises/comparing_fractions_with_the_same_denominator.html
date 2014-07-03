@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="problem">
-                    <p>Fill in the blank.</p>
+                    <p>Compare.</p>
                     <p>
                         <code>\dfrac{<var>NUMERATOR_1</var>}{<var>DENOMINATOR</var>}</code> ____
                         <code>\dfrac{<var>NUMERATOR_2</var>}{<var>DENOMINATOR</var>}</code>
@@ -88,11 +88,13 @@
                 <ul class="choices" data-category="true">
                     <li><code>&lt;</code></li>
                     <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
                 </ul>
                 <div class="hints">
                     <div>
                         <div><code>\large{&lt;}</code> means "less than".</div>
                         <div><code>\large{&gt;}</code> means "greater than".</div>
+                        <div><code>\large{=}</code> means "equal to".</div>
                     </div>
                     <div>
                         <p>We can draw a picture to compare the fractions.</p>
@@ -197,20 +199,20 @@
                     </div>
                     <div>
                         <p data-if="isSingular(NUMERATOR_1)">
-                            Count <code>\blue{<var>NUMERATOR_1</var>}</code> tick along to add
-                            <code>\blue{\dfrac{<var>NUMERATOR_1</var>}{<var>DENOMINATOR</var>}}</code> to the number line.
+                            Count <code>\blue{<var>NUMERATOR_1</var>}</code> tick along to locate
+                            <code>\blue{\dfrac{<var>NUMERATOR_1</var>}{<var>DENOMINATOR</var>}}</code> on the number line.
                         </p>
                         <p data-else="">
-                            Count <code>\blue{<var>NUMERATOR_1</var>}</code> ticks along to add
-                            <code>\blue{\dfrac{<var>NUMERATOR_1</var>}{<var>DENOMINATOR</var>}}</code> to the number line.
+                            Count <code>\blue{<var>NUMERATOR_1</var>}</code> ticks along to locate
+                            <code>\blue{\dfrac{<var>NUMERATOR_1</var>}{<var>DENOMINATOR</var>}}</code> on the number line.
                         </p>
                         <p data-if="isSingular(NUMERATOR_2)">
-                            Count <code>\red{<var>NUMERATOR_2</var>}</code> tick along to add
-                            <code>\red{\dfrac{<var>NUMERATOR_2</var>}{<var>DENOMINATOR</var>}}</code> to the number line.
+                            Count <code>\red{<var>NUMERATOR_2</var>}</code> tick along to locate
+                            <code>\red{\dfrac{<var>NUMERATOR_2</var>}{<var>DENOMINATOR</var>}}</code> on the number line.
                         </p>
                         <p data-else="">
-                            Count <code>\red{<var>NUMERATOR_2</var>}</code> ticks along to add
-                            <code>\red{\dfrac{<var>NUMERATOR_2</var>}{<var>DENOMINATOR</var>}}</code> to the number line.
+                            Count <code>\red{<var>NUMERATOR_2</var>}</code> ticks along to locate
+                            <code>\red{\dfrac{<var>NUMERATOR_2</var>}{<var>DENOMINATOR</var>}}</code> on the number line.
                         </p>
                         <div class="graphie" data-update="hint-line">
                             label(
