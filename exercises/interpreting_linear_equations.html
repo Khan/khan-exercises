@@ -21,8 +21,8 @@
                         "X"
                     ][ INDEX ]</var>
                     <var id="Y_AXIS_LABEL">[
-                        $._("Price of %(unit)s", {unit: plural_form( UNIT )}),
-                        $._("Price of %(unit)s", {unit: plural_form( UNIT )}),
+                        $._("Cost of producing %(unit)s", {unit: plural_form( UNIT )}),
+                        $._("Cost of producing %(unit)s", {unit: plural_form( UNIT )}),
                         "Y"
                     ][ INDEX ]</var>
 
@@ -31,7 +31,7 @@
                 </div>
                 <div class="question">
                     <p data-if="INDEX === 2"><b>How does <code>Y</code> change as <code>X</code> increases?</b></p>
-                    <p data-else><b>How does the price of <var>plural_form(UNIT)</var> change as the number of <var>plural_form(UNIT)</var> increases?</b></p>
+                    <p data-else><b>How does the cost of producing <var>plural_form(UNIT)</var> change as the number of <var>plural_form(UNIT)</var> increases?</b></p>
                     <div class="graphie" id="grid">
                         init({
                             range: [[-3, 10], [-1, 10]],
@@ -52,7 +52,7 @@
 
                         style({
 
-                            stroke: "#000000",
+                            stroke: BLACK,
                             strokeWidth: 0.9,
                             arrows: "-&gt;"
                         });
@@ -61,7 +61,7 @@
                         label( [ 8.5, 0], "\\text{" + X_AXIS_LABEL + "}", "below");
 
                         style({
-                            stroke: "#6495ED",
+                            stroke: BLUE,
                             strokeWidth: 2,
                             arrows: "-&gt;"
                         });
@@ -81,12 +81,12 @@
                 <div class="hints">
                     <div>
                         <div class="graphie" data-update="grid">
-                            style({ fill: "", stroke: "#000000" });
+                            style({ fill: "", stroke: BLACK });
                             line( [ 4, 4 * M + B ], [ 7, 4 * M + B ] );
-                            style({ stroke: "#40a020" });
+                            style({ stroke: GREEN });
                             line( [ 7, 4 * M + B ], [ 7, 7 * M + B ] );
                         </div>
-                        <p>Looking at the graph, we see that as <code>x</code> increases (<code>\color{#000000}{\text{<var>BLACK_ARROW</var>}}</code>), <code>y</code> also increases (<code>\color{#40a020}{\text{<var>GREEN_ARROW</var>}}</code>).</p>
+                        <p>Looking at the graph, we see that as <code>x</code> increases (<code>\text{<var>BLACK_ARROW</var>}</code>), <code>y</code> also increases (<code>\green{\text{<var>GREEN_ARROW</var>}}</code>).</p>
                     </div>
                     <p>We can say that the slope of the line is positive, or that the variables have a direct relationship.</p>
                     <p data-if="INDEX === 2">Thus, as <code>X</code> increases, <code>Y</code> also <b>increases</b>.</p>
@@ -109,7 +109,7 @@
                             style({ stroke: "#ff0000" });
                             line( [ 7, 4 * M + B ], [ 7, 7 * M + B ] );
                         </div>
-                        <p>Looking at the graph, we see that as <code>x</code> increases (<code>\color{#000000}{\text{<var>BLACK_ARROW</var>}}</code>), <code>y</code> decreases (<code>\color{#ff0000}{\text{<var>RED_ARROW</var>}}</code>).</p>
+                        <p>Looking at the graph, we see that as <code>x</code> increases (<code>\text{<var>BLACK_ARROW</var>}</code>), <code>y</code> decreases (<code>\red{\text{<var>RED_ARROW</var>}}</code>).</p>
                     </div>
                     <p>We can say that the slope of the line is negative, or that the variables have an inverse relationship.</p>
                     <p data-if="INDEX === 2">Thus, as <code>X</code> increases, <code>Y</code> <b>decreases</b>.</p>
