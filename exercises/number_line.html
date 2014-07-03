@@ -8,10 +8,10 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <var id="SCALE">randRange(1, 4)</var>
+        <var id="SCALE">randRange(1, 10)</var>
         <var id="LOWER_BOUND">0</var>
         <var id="UPPER_BOUND">10 * SCALE</var>
-        <var id="NUMBER">randRangeNonZero(3, 10) * SCALE</var>
+        <var id="NUMBER">randRange(2, 10) * SCALE</var>
     </div>
     <div class="problems">
         <div>
@@ -29,7 +29,7 @@
                     for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
                         line([x, -0.2], [x, 0.2 ]);
                     }
-                    style({ stroke: "#6495ED", strokeWidth: 3.5 });
+                    style({ stroke: BLUE, strokeWidth: 3.5 });
                     line( [ 0, -0.2], [0, 0.2]);
                     label( [ 0, -0.53 ],  "0", "center");
                     label( [ SCALE, -0.53 ],  SCALE, "center");
@@ -65,15 +65,20 @@
                 <div>
                     <p>Label the rest of the number line.</p>
                     <div class="graphie" data-update="number-line">
-                        for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
-                            label([x, -0.53], ("" + x).replace(/-/, "\\llap{-}"), "center");
+                        for (var x = LOWER_BOUND + 2 * SCALE; x &lt;= UPPER_BOUND; x += SCALE) {
+                            if (x !== NUMBER) {
+                               label([x, -0.53], x, "center");
+                            } else {
+                                graph.num = label([x, -0.53], x, "center");
+                            }
                         }
                     </div>
                 </div>
                 <div>
-                    <p>The orange number shows where <var>NUMBER</var> is on the number line.</p>
+                    <p>The orange number shows where <code><var>NUMBER</var></code> is on the number line.</p>
                     <div class="graphie" data-update="number-line">
-                        label([ NUMBER, -0.53], ("" + NUMBER).replace(/-/, "\\llap{-}"), "center", { color: ORANGE });
+                        graph.num.remove();
+                        label([ NUMBER, -0.53], NUMBER, "center", { color: ORANGE });
                         graph.movablePoint.moveTo(NUMBER, 0);
                     </div>
                 </div>
