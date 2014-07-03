@@ -19,7 +19,7 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code><var>A</var>x + <var>B</var> = <var>D</var></code></div>
                 <div class="solution" data-type="multiple">
-                    <p><code>x =</code> <span class="sol"><var>( D - B ) /  A </var></span></p>
+                    <p><code>x =</code> <span class="sol" data-simplify="optional"><var>(D - B) /  A</var></span></p>
                 </div>
 
             </div>
@@ -27,17 +27,17 @@
 
         <div class="hints">
             <div>
-                <p data-if="B > 0">Subtract <code><var>abs(B)</var></code> from both sides:</p><p data-else="">Add <code><var>abs(B)</var></code> to both sides:</p>
+                <p data-if="B > 0">Subtract <code><var>abs(B)</var></code> from both sides:</p>
+                <p data-else="">Add <code><var>abs(B)</var></code> to both sides:</p>
                 <p><code>(<var>A</var>x + <var>B</var>) + <var>-B</var> = <var>D</var> + <var>-B</var></code></p>
                 <p><code><var>A</var>x = <var>D - B</var></code></p>
             </div>
             <div>
                 <p>Divide both sides by <code><var>A</var></code>.</p>
-                <p><code>\dfrac{<var>A</var>x}{<var>A</var>} = \dfrac{<var>D - B</var>}{<var>A</var>}</code></p>
-            </div>
-            <div>
-                <p>Simplify.</p>
-                <p><code>x = <var>SOLUTION</var></code></p>
+                <p><code>
+                    \dfrac{<var>A</var>x}{<var>A</var>} = \dfrac{<var>D - B</var>}{<var>A</var>}
+                    <span data-if="getGCD(D - B, A) !== 1 || D - B &lt; 0"> = <var>SOLUTION</var></span>
+                </code></p>
             </div>
         </div>
     </div>
