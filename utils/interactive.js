@@ -95,7 +95,7 @@ $.extend(KhanUtil, {
                             top: offset.top
                         });
 
-                        $(document).bind("vmousemove vmouseup", function(event) {
+                        $(document).bind("vmousemove.tile vmouseup.tile", function(event) {
                             event.preventDefault();
                             if (event.type === "vmousemove") {
                                 sorter.hasAttempted = true;
@@ -130,7 +130,7 @@ $.extend(KhanUtil, {
                                     }
                                 }
                             } else if (event.type === "vmouseup") {
-                                $(document).unbind("vmousemove vmouseup");
+                                $(document).unbind(".tile");
                                 var position = $(tile).offset();
                                 $(position).animate(placeholder.offset(), {
                                     duration: 150,
@@ -248,23 +248,17 @@ $.extend(KhanUtil.Graphie.prototype, {
                     }
                     isClickingCanvas = true;
 
-                    var moveHandler;
                     if (options.onMouseMove) {
-                        moveHandler = $(document).bind("vmousemove", function(e) {
+                        $(document).bind("vmousemove.mouseLayer", function(e) {
                             if (isClickingCanvas) {
                                 e.preventDefault();
                                 options.onMouseMove(graph.getMouseCoord(e));
                             }
                         });
-                    } else {
-                        moveHandler = undefined;
                     }
 
-                    var upHandler = $(document).bind("vmouseup", function(e) {
-                        if (moveHandler) {
-                            $(document).unbind("vmousemove", moveHandler);
-                        }
-                        $(document).unbind("vmouseup", upHandler);
+                    $(document).bind("vmouseup.mouseLayer", function(e) {
+                        $(document).unbind(".mouseLayer");
 
                         // Only register clicks that started on the canvas, and not
                         // on another mouseLayer target
@@ -908,7 +902,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         movablePoint.drawLabel();
 
         movablePoint.grab = function() {
-            $(document).bind("vmousemove vmouseup", function(event) {
+            $(document).bind("vmousemove.point vmouseup.point", function(event) {
                 event.preventDefault();
                 movablePoint.dragging = true;
                 KhanUtil.dragging = true;
@@ -955,8 +949,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     movablePoint.drawLabel();
 
                 } else if (event.type === "vmouseup") {
-                    $(document).unbind("vmousemove vmouseup");
-
+                    $(document).unbind(".point");
                     movablePoint.dragging = false;
                     KhanUtil.dragging = false;
                     if (_.isFunction(movablePoint.onMoveEnd)) {
@@ -1642,7 +1635,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     var offsetTop = Math.max(graph.scaleVector(mouseOffsetA)[1], graph.scaleVector(mouseOffsetZ)[1]);
                     var offsetBottom = -Math.min(graph.scaleVector(mouseOffsetA)[1], graph.scaleVector(mouseOffsetZ)[1]);
 
-                    $(document).bind("vmousemove vmouseup", function(event) {
+                    $(document).bind("vmousemove.lineSegment vmouseup.lineSegment", function(event) {
                         event.preventDefault();
                         lineSegment.dragging = true;
                         KhanUtil.dragging = true;
@@ -1700,7 +1693,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             }
 
                         } else if (event.type === "vmouseup") {
-                            $(document).unbind("vmousemove vmouseup");
+                            $(document).unbind(".lineSegment");
                             lineSegment.dragging = false;
                             KhanUtil.dragging = false;
                             if (!lineSegment.highlight) {
@@ -2043,7 +2036,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     var offsetTop = (polygon.top - startY) * graphie.scale[1];
                     var offsetBottom = (startY - polygon.bottom) * graphie.scale[1];
 
-                    $(document).bind("vmousemove vmouseup", function(event) {
+                    $(document).bind("vmousemove.polygon vmouseup.polygon", function(event) {
                         event.preventDefault();
 
                         polygon.dragging = true;
@@ -2130,7 +2123,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             }
 
                         } else if (event.type === "vmouseup") {
-                            $(document).unbind("vmousemove vmouseup");
+                            $(document).unbind(".polygon");
 
                             var points = _.filter(polygon.points, isPoint);
                             _.each(points, function(point) {
@@ -3577,14 +3570,14 @@ function Protractor(graph, center) {
         isDragging = true;
         arrow.animate({ scale: 1.5, fill: KhanUtil.INTERACTING }, 50);
 
-        var mouseUpHandler = $(document).bind("vmouseup", function(event) {
+        $(document).bind("vmouseup.rotateHandle", function(event) {
             isDragging = false;
 
             if (!isHighlight()) {
                 arrow.animate({ scale: 1.0, fill: KhanUtil.INTERACTIVE }, 50);
             }
 
-            $(document).unbind("vmouseup", mouseUpHandler);
+            $(document).unbind("vmouseup.rotateHandle");
         });
     });
 
@@ -3608,7 +3601,7 @@ function Protractor(graph, center) {
             var startx = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
             var starty = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
 
-            var mouseMoveHandler = $(document).bind("vmousemove", function(event) {
+            $(document).bind("vmousemove.protractor", function(event) {
                 // mouse{X|Y} are in pixels relative to the SVG
                 var mouseX = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
                 var mouseY = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
@@ -3629,7 +3622,7 @@ function Protractor(graph, center) {
             });
 
             $(document).one("vmouseup", function(event) {
-                $(document).unbind("vmousemove", mouseMoveHandler);
+                $(document).unbind("vmousemove.protractor");
             });
         });
     };
@@ -3851,7 +3844,7 @@ function Ruler(graphie, options) {
         var startx = event.pageX - $(graphie.raphael.canvas.parentNode).offset().left;
         var starty = event.pageY - $(graphie.raphael.canvas.parentNode).offset().top;
 
-        $(document).bind("vmousemove", function(event) {
+        $(document).bind("vmousemove.ruler", function(event) {
             // mouse{X|Y} are in pixels relative to the SVG
             var mouseX = event.pageX - $(graphie.raphael.canvas.parentNode).offset().left;
             var mouseY = event.pageY - $(graphie.raphael.canvas.parentNode).offset().top;
@@ -3871,7 +3864,7 @@ function Ruler(graphie, options) {
         });
 
         $(document).one("vmouseup", function(event) {
-            $(document).unbind("vmousemove");
+            $(document).unbind("vmousemove.ruler");
         });
     });
 
