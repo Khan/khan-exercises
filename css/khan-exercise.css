@@ -937,6 +937,15 @@ html.exercise-browser {
     border-right: 2px solid #888;
 }
 
+.matrix-input:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    overflow: hidden;
+    height: 0;
+}
+
 table.periodic-table td.element {
     border: 1px solid;
     min-width: 37px;
