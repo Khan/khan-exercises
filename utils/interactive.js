@@ -2784,10 +2784,11 @@ $.extend(KhanUtil.Graphie.prototype, {
         var normalColor = (circle.centerConstraints.fixed) ?
                                   KhanUtil.DYNAMIC
                                 : KhanUtil.INTERACTIVE;
+        var centerNormalStyle = (options) ? options.centerNormalStyle : null;
         circle.centerNormalStyle = _.extend({}, {
             "fill": normalColor,
             "stroke": normalColor
-        }, options.centerNormalStyle);
+        }, centerNormalStyle);
 
         circle.centerPoint = graphie.addMovablePoint({
             graph: graphie,
