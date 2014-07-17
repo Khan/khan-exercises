@@ -32,4 +32,4 @@ This framework supports over 450 of our current math exercises including updated
 
 ## More
 
-If you're passionate about providing a free world-class education for anyone, anywhere and want to apply to be a full-time or intern software developer at Khan Academy, [please do so](http://hire.jobvite.com/CompanyJobs/Careers.aspx?c=qd69Vfw7&page=Job%20Description&j=ohjSVfw7).
+If you're passionate about providing a free world-class education for anyone, anywhere and want to apply to be a full-time or intern software developer at Khan Academy, [please do so](https://www.khanacademy.org/careers).
