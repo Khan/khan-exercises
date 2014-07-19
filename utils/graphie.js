@@ -445,6 +445,9 @@ KhanUtil.createGraphie = function(el) {
 
             var min = range[0], max = range[1];
             var step = (max - min) / (currentStyle["plot-points"] || 800);
+            if (step === 0) {
+                step = 1;
+            }
 
             var paths = raphael.set();
             var points = [];
