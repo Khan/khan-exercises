@@ -777,6 +777,11 @@ var Khan = {
 };
 // see line 178. this ends the main Khan module
 
+// Assign these here so that when we load the base modules, `Khan` is already
+// defined on the global namespace
+window.Khan = Khan;
+window.KhanUtil = Khan.Util;
+
 // Load query string params
 Khan.query = Khan.queryString();
 
@@ -2166,9 +2171,5 @@ function injectLocalModeSite(html, htmlExercise) {
     // Generate the initial problem when dependencies are done being loaded
     makeProblem(currentExerciseId);
 }
-
-// Make these publicly accessible
-window.Khan = Khan;
-window.KhanUtil = Khan.Util;
 
 });
