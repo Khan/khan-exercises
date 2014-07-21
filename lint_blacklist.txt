@@ -5,6 +5,3 @@ genfiles/**
 third_party/**
 build/third_party/**
 test/**
-
-# Config files that don't (and shouldn't) end in a semicolon
-requirejs.config.js

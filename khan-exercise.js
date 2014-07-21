@@ -71,7 +71,7 @@ var primes = [197, 3, 193, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
     userExercise,
 
     // Check to see if we're in local mode
-    localMode = typeof Exercises === "undefined",
+    localMode = Exercises.localMode,
 
     // Set in prepareSite when Exercises.init() has already been called
     assessmentMode,
@@ -796,20 +796,7 @@ if (localMode && Khan.query.seed) {
     randomSeed = userCRC32 || (new Date().getTime() & 0xffffffff);
 }
 
-if (localMode) {
-    // Load in jQuery and underscore, as well as the interface glue code
-    // TODO(cbhl): Don't load history.js if we aren't in readOnly mode.
-    require([
-        "./exercises-stub.js",
-        "./history.js",
-        "./interface.js",
-        "./related-videos.js"
-    ], function() {
-        onjQueryLoaded();
-    });
-} else {
-    onjQueryLoaded();
-}
+onjQueryLoaded();
 
 function onjQueryLoaded() {
     initEvents();

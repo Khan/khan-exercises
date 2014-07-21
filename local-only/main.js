@@ -24,8 +24,15 @@ requirejs([
         "../local-only/jquery.qtip.js",
         "../local-only/i18n.js"
     ], function() {
-        requirejs(["../khan-exercise.js"], function() {
-            Khan.loadLocalModeSiteWhenReady();
+        requirejs([
+            "../exercises-stub.js",
+            "../history.js",
+            "../interface.js",
+            "../related-videos.js"
+        ], function() {
+            requirejs(["../khan-exercise.js"], function() {
+                Khan.loadLocalModeSiteWhenReady();
+            });
         });
     });
 });
