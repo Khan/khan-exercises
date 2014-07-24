@@ -39,6 +39,8 @@ $.extend(KhanUtil, {
 
         eventsAttached: false,
 
+        eventNamespace: "matrix-input",
+
         containerEl: null,
         bracketEls: null,
         cells: null,
@@ -80,7 +82,6 @@ $.extend(KhanUtil, {
             });
 
             this.addBrackets();
-
             this.bindInputEvents();
             this.resetAllMaxVals();
             this.render();
@@ -123,10 +124,17 @@ $.extend(KhanUtil, {
             // the user will get to change the value.
             var self = this;
 
+            // Track whether or not a click originated in an input to avoid
+            // calling the global matrix sizing reset that we append to <body>
+            var clickedInput = false;
+
             // case #1
-            $("body").click(function() {
-                self.resetMaxToContentMax();
-                self.render();
+            $("body").on("click." + self.eventNamespace, function() {
+                if (!clickedInput) {
+                    self.resetMaxToContentMax();
+                    self.render();
+                }
+                clickedInput = false;
             });
 
             _.each(this.cells, function(cell) {
@@ -142,11 +150,10 @@ $.extend(KhanUtil, {
                         self.setMaxVals(cell);
                     },
 
-                    // case #1 (prevent from performing a redundant
-                    // reevaluation when clicking on a cell, since focus event
-                    // is triggered on both tabs and clicks)
+                    // case #1 (track whether or not a click originated in an
+                    // input to avoid calling the click event bound to <body>)
                     click: function(e) {
-                        e.stopPropagation();
+                        clickedInput = true;
                     },
 
                     keydown: function(e) {
@@ -319,6 +326,7 @@ $.extend(KhanUtil, {
         },
 
         cleanup: function() {
+            $("body").off("." + this.eventNamespace);
             this.removeBrackets();
         }
     }
