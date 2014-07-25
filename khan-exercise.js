@@ -1806,7 +1806,7 @@ function prepareSite() {
 
         $(Exercises).on("gotoNextProblem", function() {
             input.val("");
-            history.children().not(inputRow).remove();
+            output.children().not(inputRow).remove();
         });
 
         updateAngleMode();
