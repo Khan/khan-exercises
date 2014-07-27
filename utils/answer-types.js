@@ -1983,6 +1983,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var options = {
                 form: solutionData.sameForm != null,
                 simplify: solutionData.simplify != null,
+                clues: solutionData.clues,
                 times: solutionData.times != null
             };
 
@@ -2156,6 +2157,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     empty: false,
                     correct: false,
                     message: null,
+                    clues: options.clues,                    
                     guess: guess
                 };
                 // Don't bother parsing an empty input
@@ -2172,11 +2174,18 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return score;
                 }
 
+                var clue = _.find(options.clues, function(message, condition) {
+                	return guess == condition;
+                });
+
                 var result = KAS.compare(answer.expr, solution, options);
 
                 if (result.equal) {
                     // Correct answer
                     score.correct = true;
+                } else if (clue) {
+                	score.message = _.isArray(clue) ? clue[0] : clue;
+                	score.empty = _.isArray(clue) ? clue[1] : false;
                 } else if (result.message) {
                     // Nearly correct answer
                     score.message = result.message;
