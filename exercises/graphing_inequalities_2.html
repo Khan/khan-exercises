@@ -13,7 +13,7 @@
                 <var id="SLOPE_FRAC">reduce( randRangeNonZero( -5, 5 ), randRange( 1, 5 ) )</var>
                 <var id="YINT">randRangeNonZero( max( -10, -10 - SLOPE_FRAC[0] ), min( 10, 10 - SLOPE_FRAC[0] ) )</var>
                 <var id="SLOPE">SLOPE_FRAC[0] / SLOPE_FRAC[1]</var>
-                <var id="PRETTY_SLOPE">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( SLOPE_FRAC[0], SLOPE_FRAC[1], true, true ) )</var>
+                <var id="PRETTY_SLOPE">fractionVariable(SLOPE_FRAC[0], SLOPE_FRAC[1], "x")</var>
                 <var id="MULT">randRangeNonZero( -3, 3 )</var>
                 <var id="A">SLOPE_FRAC[0] * -MULT</var>
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
@@ -23,20 +23,35 @@
                 <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP ] : COMP</var>
                 <var id="LESS_THAN">COMP === "&lt;" || COMP === "≤"</var>
                 <var id="INCLUSIVE">COMP === "≥" || COMP === "≤"</var>
-                <div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) &gt; 4">
-                    <var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
-                    <var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
-                    <var id="POINT_1_SOLUTION">
-                            (((COMP === "&lt;") &amp;&amp; ( POINT_1[1] &lt;  SLOPE * POINT_1[0] + YINT ))
-                        || ((COMP === "≤") &amp;&amp; ( POINT_1[1] &lt;= SLOPE * POINT_1[0] + YINT ))
-                        || ((COMP === "&gt;") &amp;&amp; ( POINT_1[1] &gt;  SLOPE * POINT_1[0] + YINT ))
-                        || ((COMP === "≥") &amp;&amp; ( POINT_1[1] &gt;= SLOPE * POINT_1[0] + YINT )))
+                <div data-ensure="getDistance(POINT_1, POINT_2) &gt; 4">
+                    <var id="EDGE_POINT" data-ensure="abs(EDGE_POINT[0]) < 10 && abs(EDGE_POINT[1]) < 10">(function() {
+                        // Create a point on the line
+                        var minN = floor(9 / abs(SLOPE_FRAC[1]));
+                        var n = randRange(-minN, minN);
+                        return [n * SLOPE_FRAC[1], YINT+ n * SLOPE_FRAC[0]];
+                    })()</var>
+                    <!-- !/3 of the time one of the points should be on the line -->
+                    <var id="POINT_1, POINT_2" data-ensure="getDistance(POINT_1, POINT_2) &gt; 4">shuffle([
+                        [randRangeExclude(-9, 9, [-3, -2, -1, 0]), randRangeExclude(-9, 9, [-1, -2])],
+                        [randRangeExclude(-9, 9, [-3, -2, -1, 0]), randRangeExclude(-9, 9, [-1, -2])],
+                        rand(2) &lt;1 ? EDGE_POINT : [randRangeExclude(-9, 9, [-3, -2, -1, 0]), randRangeExclude(-9, 9, [-1, -2])]
+                    ]).slice(1)
                     </var>
-                    <var id="POINT_2_SOLUTION">
-                            (((COMP === "&lt;") &amp;&amp; ( POINT_2[1] &lt;  SLOPE * POINT_2[0] + YINT ))
-                        || ((COMP === "≤") &amp;&amp; ( POINT_2[1] &lt;= SLOPE * POINT_2[0] + YINT ))
-                        || ((COMP === "&gt;") &amp;&amp; ( POINT_2[1] &gt;  SLOPE * POINT_2[0] + YINT ))
-                        || ((COMP === "≥") &amp;&amp; ( POINT_2[1] &gt;= SLOPE * POINT_2[0] + YINT )))
+                    <var id="POINT_1_ON_LINE">POINT_1[1] === SLOPE * POINT_1[0] + YINT</var>
+                    <var id="POINT_2_ON_LINE">POINT_2[1] === SLOPE * POINT_2[0] + YINT</var>
+                    <var id="POINT_1_SOLUTION">(function() {
+                        if (POINT_1_ON_LINE && INCLUSIVE) {
+                            return true;
+                        }
+                        return (POINT_1[1] &lt; SLOPE * POINT_1[0] + YINT) ? LESS_THAN : !LESS_THAN;
+                    })()
+                    </var>
+                    <var id="POINT_2_SOLUTION">(function() {
+                        if (POINT_2_ON_LINE && INCLUSIVE) {
+                            return true;
+                        }
+                        return (POINT_2[1] &lt; SLOPE * POINT_2[0] + YINT) ? LESS_THAN : !LESS_THAN;
+                    })()
                     </var>
                 </div>
             </div>
@@ -52,7 +67,7 @@
                     <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 </p>
                 <p class="hint_blue" data-else="">
-                    <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
+                    <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> + <var>YINT</var></code>
                 </p>
 
                 <form>
@@ -140,6 +155,20 @@
                         }
                         graph.pointA.toFront();
                         graph.pointB.toFront();
+                    };
+
+                    graph.showCorrect = function() {
+                        graph.pointA.setCoord([0, YINT]);
+                        graph.pointB.setCoord([SLOPE_FRAC[1], YINT + SLOPE_FRAC[0]]);
+                        graph.shadetop = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? LESS_THAN : !LESS_THAN;
+                        if (INCLUSIVE) {
+                            graph.dasharray = '';
+                            $('input[name=dashradio][value=solid]').attr('checked', true);
+                        } else {
+                            graph.dasharray = '- ';
+                            $('input[name=dashradio][value=dashed]').attr('checked', true);
+                        }
+                        graph.update();
                     };
 
                     // A and B can't be in the same place
@@ -240,7 +269,7 @@
         </div>
         <div>
             <p>
-                <code>\qquad y <var>COMP</var> \color{purple}{<var>PRETTY_SLOPE</var>} x \color{<var>GREEN</var>}{+ <var>YINT</var>}</code>
+                <code>\qquad y <var>COMP</var> \purple{<var>PRETTY_SLOPE</var>} \green{+ <var>YINT</var>}</code>
             </p><p>
                 The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
                 Since the y-intercept is <code class="hint_green"><var>YINT</var></code>, the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
@@ -315,10 +344,13 @@
             </span></p>
         </div>
         <div>
+            <input onclick="javascript:KhanUtil.currentGraph.graph.showCorrect();" type="button" value="Show me the correct graph">
+        </div>
+        <div>
             <p>
                 Plot each of the points to determine which are solutions:
-                <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> and
-                <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code>
+                <code>\pink{(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)}</code> and
+                <code>\pink{(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)}</code>.
             </p>
             <div class="graphie" data-update="grid">
                 style({ stroke: PINK, fill: PINK }, function() {
@@ -328,22 +360,56 @@
             </div>
         </div>
         <div>
-            <p data-if="POINT_1_SOLUTION && !POINT_2_SOLUTION">
-                <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution because it's inside the shaded area, but
-                <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is not.
-            </p>
-            <p data-else-if="POINT_2_SOLUTION &amp;&amp; !POINT_1_SOLUTION">
-                <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is outside the shaded area, so it's not a solution, but
-                <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution.
-            </p>
-            <p data-else-if="POINT_1_SOLUTION &amp;&amp; POINT_2_SOLUTION"> Both
-                <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> and
-                <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> are solutions because they're inside the shaded area.
-            </p>
-            <p data-else=""> Neither
-                <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> nor
-                <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> are solutions because they are not within the shaded area.
-            </p>
+            <div data-if="POINT_1_ON_LINE">
+                <p>
+                    <code>\pink{(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)}</code> is on the line so it satisfies
+                    <code>y = <var>PRETTY_SLOPE</var> + <var>YINT</var></code>.
+                </p>
+                <p data-if="INCLUSIVE">
+                    Since <code><var>COMP</var></code> is inclusive,
+                    <code>\pink{(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)}</code>
+                    is a solution.
+                </p>
+                <p data-else="">
+                    Since <code><var>COMP</var></code> is not inclusive,
+                    <code>\pink{(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)}</code>
+                    is not a solution.
+                </p>
+            </div>
+            <div data-else="">
+                <p data-if="POINT_1_SOLUTION">
+                    <code>\pink{(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)}</code> is a solution because it's inside the shaded area.
+                </p>
+                <p data-else="">
+                    <code>\pink{(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)}</code> is not a solution because it's outside the shaded area.
+                </p>
+            </div>
+
+            <div data-if="POINT_2_ON_LINE">
+                <p>
+                    <code>\pink{(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)}</code> is on the line so it satisfies
+                    <code>y = <var>PRETTY_SLOPE</var> + <var>YINT</var></code>.
+                </p>
+                <p data-if="INCLUSIVE">
+                    Since <code><var>COMP</var></code> is inclusive,
+                    <code>\pink{(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)}</code>
+                    is a solution.
+                </p>
+                <p data-else="">
+                    Since <code><var>COMP</var></code> is not inclusive,
+                    <code>\pink{(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)}</code>
+                    is not a solution.
+                </p>
+            </div>
+            <div data-else="">
+                <p data-if="POINT_2_SOLUTION">
+                    <code>\pink{(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)}</code> is a solution because it's inside the shaded area.
+                </p>
+                <p data-else="">
+                    <code>\pink{(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)}</code> is not a solution because it's outside the shaded area.
+                </p>
+            </div>
+
         </div>
     </div>
 

@@ -13,17 +13,16 @@
                 <var id="SLOPE_FRAC">reduce( randRangeNonZero( -5, 5 ), randRange( 1, 5 ) )</var>
                 <var id="YINT">randRangeNonZero( max( -10, -10 - SLOPE_FRAC[0] ), min( 10, 10 - SLOPE_FRAC[0] ) )</var>
                 <var id="SLOPE">SLOPE_FRAC[0] / SLOPE_FRAC[1]</var>
-                <var id="PRETTY_SLOPE">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( SLOPE_FRAC[0], SLOPE_FRAC[1], true, true ) )</var>
+                <var id="PRETTY_SLOPE">fractionVariable(SLOPE_FRAC[0], SLOPE_FRAC[1], "x")</var>
                 <var id="MULT">randRangeNonZero( -3, 3 )</var>
                 <var id="A">SLOPE_FRAC[0] * -MULT</var>
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
                 <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
-                <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP ] : COMP</var>
+                <var id="STD_FORM">randFromArray([true, false])</var>
+                <var id="COMP">randFromArray(["&lt;", "&gt;", "≤", "≥"])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[COMP] : COMP</var>
                 <var id="LESS_THAN">COMP === "&lt;" || COMP === "≤"</var>
                 <var id="INCLUSIVE">COMP === "≥" || COMP === "≤"</var>
-
             </div>
 
             <p class="question">Graph the following inequality:</p>
@@ -33,7 +32,7 @@
                     <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 </p>
                 <p class="hint_blue" data-else="">
-                    <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
+                    <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> + <var>YINT</var></code>
                 </p>
 
                 <form>
@@ -121,6 +120,20 @@
                         }
                         graph.pointA.toFront();
                         graph.pointB.toFront();
+                    };
+
+                    graph.showCorrect = function() {
+                        graph.pointA.setCoord([0, YINT]);
+                        graph.pointB.setCoord([SLOPE_FRAC[1], YINT + SLOPE_FRAC[0]]);
+                        graph.shadetop = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? LESS_THAN : !LESS_THAN;
+                        if (INCLUSIVE) {
+                            graph.dasharray = '';
+                            $('input[name=dashradio][value=solid]').attr('checked', true);
+                        } else {
+                            graph.dasharray = '- ';
+                            $('input[name=dashradio][value=dashed]').attr('checked', true);
+                        }
+                        graph.update();
                     };
 
                     // A and B can't be in the same place
@@ -213,7 +226,7 @@
         </div>
         <div>
             <p>
-                <code>\qquad y <var>COMP</var> \color{purple}{<var>PRETTY_SLOPE</var>} x \color{<var>GREEN</var>}{+ <var>YINT</var>}</code>
+                <code>\qquad y <var>COMP</var> \purple{<var>PRETTY_SLOPE</var>} \green{+ <var>YINT</var>}</code>
             </p><p>
                 The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
                 Since the y-intercept is <code class="hint_green"><var>YINT</var></code>, the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
@@ -285,6 +298,9 @@
                 Note that since the sign is greater-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </span></p>
+        </div>
+        <div>
+            <input onclick="javascript:KhanUtil.currentGraph.graph.showCorrect();" type="button" value="Show me the correct graph">
         </div>
     </div>
 

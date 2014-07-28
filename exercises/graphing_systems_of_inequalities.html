@@ -10,20 +10,20 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <div data-ensure="( YINT_1 + SLOPE_FRAC_1[0] &lt;= 10 ) &amp;&amp; ( YINT_2 + SLOPE_FRAC_2[0] &lt;= 10 ) &amp;&amp; ( YINT_1 + SLOPE_FRAC_1[0] &gt;= -10 ) &amp;&amp; ( YINT_2 + SLOPE_FRAC_2[0] &gt;= -10 )">
-                    <var id="X">randRangeNonZero( -5, 5 )</var>
-                    <var id="Y">randRange( -5, 5 )</var>
-                    <div data-ensure="( abs(YINT_1 - YINT_2) &gt; 3 ) &amp;&amp; ( YINT_1 !== Y ) &amp;&amp; ( YINT_2 !== Y )">
-                        <var id="YINT_1">randRangeNonZero( -5, 5 )</var>
-                        <var id="YINT_2">randRangeNonZero( -5, 5 )</var>
+                <div data-ensure="abs(YINT_1 + SLOPE_FRAC_1[0]) &lt;= 10 &amp;&amp; abs(YINT_2 + SLOPE_FRAC_2[0]) &lt;= 10">
+                    <var id="X">randRangeNonZero(-5, 5)</var>
+                    <var id="Y">randRange(-5, 5)</var>
+                    <div data-ensure="abs(YINT_1 - YINT_2) &gt; 3">
+                        <var id="YINT_1">randRangeExclude(-5, 5, [0, Y])</var>
+                        <var id="YINT_2">randRangeExclude(-5, 5, [0, Y])</var>
                     </div>
                     <var id="SLOPE_1">(Y - YINT_1) / X</var>
                     <var id="SLOPE_2">(Y - YINT_2) / X</var>
-                    <var id="SLOPE_FRAC_1">toFraction( SLOPE_1, 0.001 )</var>
-                    <var id="SLOPE_FRAC_2">toFraction( SLOPE_2, 0.001 )</var>
+                    <var id="SLOPE_FRAC_1">toFraction(SLOPE_1, 0.001)</var>
+                    <var id="SLOPE_FRAC_2">toFraction(SLOPE_2, 0.001)</var>
                 </div>
-                <var id="PRETTY_SLOPE_1">SLOPE_1 === 1 ? "" : ( SLOPE_1 === -1 ? "-" : fraction( SLOPE_FRAC_1[0], SLOPE_FRAC_1[1], true, true ) )</var>
-                <var id="PRETTY_SLOPE_2">SLOPE_2 === 1 ? "" : ( SLOPE_2 === -1 ? "-" : fraction( SLOPE_FRAC_2[0], SLOPE_FRAC_2[1], true, true ) )</var>
+                <var id="PRETTY_SLOPE_1">fractionVariable(SLOPE_FRAC_1[0], SLOPE_FRAC_1[1], "x")</var>
+                <var id="PRETTY_SLOPE_2">fractionVariable(SLOPE_FRAC_2[0], SLOPE_FRAC_2[1], "x")</var>
                 <var id="MULT_1">randRangeNonZero( -3, 3 )</var>
                 <var id="MULT_2">randRangeNonZero( -3, 3 )</var>
                 <var id="A_1">SLOPE_FRAC_1[0] * -MULT_1</var>
@@ -53,13 +53,13 @@
                     <code><var>expr([ "+", [ "*", A_1, "x" ], [ "*", B_1, "y" ] ])</var> <var>STD_FORM_COMP_1</var> <var>C_1</var></code>
                 </p>
                 <p class="hint_blue" data-else="">
-                    <code>y <var>COMP_1</var> <var>PRETTY_SLOPE_1</var> x + <var>YINT_1</var></code>
+                    <code>y <var>COMP_1</var> <var>PRETTY_SLOPE_1</var> + <var>YINT_1</var></code>
                 </p>
                 <p class="hint_green" data-if="STD_FORM_2">
                     <code><var>expr([ "+", [ "*", A_2, "x" ], [ "*", B_2, "y" ] ])</var> <var>STD_FORM_COMP_2</var> <var>C_2</var></code>
                 </p>
                 <p class="hint_green" data-else="">
-                    <code>y <var>COMP_2</var> <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code>
+                    <code>y <var>COMP_2</var> <var>PRETTY_SLOPE_2</var> + <var>YINT_2</var></code>
                 </p>
 
                 <form>
@@ -210,6 +210,30 @@
                         graph.set.toBack();
                     };
 
+                    graph.showCorrect = function() {
+                        graph.pointA.setCoord([ 0, YINT_1 ]);
+                        graph.pointB.setCoord([ SLOPE_FRAC_1[1], YINT_1 + SLOPE_FRAC_1[0] ]);
+                        graph.pointC.setCoord([ 0, YINT_2 ]);
+                        graph.pointD.setCoord([ SLOPE_FRAC_2[1], YINT_2 + SLOPE_FRAC_2[0] ]);
+                        graph.shadetop1 = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? LESS_THAN_1 : !LESS_THAN_1;
+                        graph.shadetop2 = graph.pointC.coord[0] &gt; graph.pointD.coord[0] ? LESS_THAN_2 : !LESS_THAN_2;
+                        if ( INCLUSIVE_1 ) {
+                            graph.dasharray1 = '';
+                            $( 'input[name=dashradio1][value=solid]' ).attr( 'checked', true );
+                        } else {
+                            graph.dasharray1 = '- ';
+                            $( 'input[name=dashradio1][value=dashed]' ).attr( 'checked', true );
+                        }
+                        if ( INCLUSIVE_2 ) {
+                            graph.dasharray2 = '';
+                            $( 'input[name=dashradio2][value=solid]' ).attr( 'checked', true );
+                        } else {
+                            graph.dasharray2 = '- ';
+                            $( 'input[name=dashradio2][value=dashed]' ).attr( 'checked', true );
+                        }
+                        graph.update();
+                    };
+
                     // A and B can't be in the same place
                     graph.pointA.onMove = function( x, y ) {
                         if ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] ) {
@@ -351,10 +375,10 @@
         </div>
         <div class="hint_blue">
             <p>
-                <code>\qquad y <var>COMP_1</var> \color{purple}{<var>PRETTY_SLOPE_1</var>} x \color{gray}{+ <var>YINT_1</var>}</code>
+                <code>\qquad y <var>COMP_1</var> \color{purple}{<var>PRETTY_SLOPE_1</var>} \red{+ <var>YINT_1</var>}</code>
             </p><p>
-                The y-intercept is <code class="hint_gray"><var>YINT_1</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE_1, true, true )</var></code>.
-                Since the y-intercept is <code class="hint_gray"><var>YINT_1</var></code>, the line must pass through the point <code class="hint_gray">(0, <var>YINT_1</var>)</code>.
+                The y-intercept is <code class="hint_red"><var>YINT_1</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE_1, true, true )</var></code>.
+                Since the y-intercept is <code class="hint_red"><var>YINT_1</var></code>, the line must pass through the point <code class="hint_red">(0, <var>YINT_1</var>)</code>.
             </p>
         </div>
         <div class="hint_blue">
@@ -432,10 +456,10 @@
         </div>
         <div class="hint_green">
             <p>
-                <code>\qquad y <var>COMP_2</var> \color{purple}{<var>PRETTY_SLOPE_2</var>} x \color{gray}{+ <var>YINT_2</var>}</code>
+                <code>\qquad y <var>COMP_2</var> \color{purple}{<var>PRETTY_SLOPE_2</var>} \red{+ <var>YINT_2</var>}</code>
             </p><p>
-                The y-intercept is <code class="hint_gray"><var>YINT_2</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE_2, true, true )</var></code>.
-                Since the y-intercept is <code class="hint_gray"><var>YINT_2</var></code>, the line must pass through the point <code class="hint_gray">(0, <var>YINT_2</var>)</code>.
+                The y-intercept is <code class="hint_red"><var>YINT_2</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE_2, true, true )</var></code>.
+                Since the y-intercept is <code class="hint_red"><var>YINT_2</var></code>, the line must pass through the point <code class="hint_red">(0, <var>YINT_2</var>)</code>.
             </p>
         </div>
         <div class="hint_green">
@@ -486,6 +510,9 @@
                 Note that since the sign is greater-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </span></p>
+        </div>
+        <div>
+            <input onclick="javascript:KhanUtil.currentGraph.graph.showCorrect();" type="button" value="Show me the correct graphs">
         </div>
     </div>
 </div>
