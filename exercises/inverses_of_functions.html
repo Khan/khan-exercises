@@ -1,70 +1,34 @@
 <!DOCTYPE html>
 <!-- TODO: label coloring -->
-<html data-require="math math-format graphie expressions">
+<html data-require="math math-format graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inverses of functions</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
     <script type="text/javascript">
-        // Formats a fraction when there might be a variable (a string) as the
-        // numerator or the denominator. Also handles cases when both the numerator
-        // and denominator are strings and when both are numbers.
-        function varFraction( n, m ) {
-            var pre = "";
-
-            if ( typeof n === "number" && typeof m === "number" ) {
-                return KhanUtil.fractionReduce( n, m );
-            } else if ( typeof n === "string" && typeof m === "number" ) {
-                if ( m < 0 ) pre = "-";
-                m = Math.abs( m );
-                if ( m === 1 ) return pre + n;
-            } else if ( typeof n === "number" && typeof m === "string" ) {
-                if ( n < 0 ) pre = "-";
-                n = Math.abs( n );
+        function labelPos(f) {
+            var x = 0;
+            while (x < 9 && f(x) > -10 && f(x) < 10) {
+                x += 0.1;
             }
-
-            return pre + KhanUtil.expr([ "frac", n, m ]);
-        }
-
-        // Places the correct prefix for subtracting a fraction
-        function subFraction( f ) {
-            return f.indexOf( "-" ) === 0 ? "+" + f.slice( 1 ) : "-" + f;
-        }
-
-        // Places the correct prefix for adding a fraction
-        function addFraction( f ) {
-            return f.indexOf( "-" ) === 0 ? f : "+" + f;
-        }
-
-        function largestOnGrid( f, xRange, yRange ) {
-            for ( var x = xRange[0]; x < xRange[1] - 1 && f(x) > yRange[0] && f(x) < yRange[1]; x += .1 ) { }
-            return x - 1;
-        }
-
-        function labelPos( f ) {
-            var x = largestOnGrid( f, [ 0, 10 ], [ -10, 10 ] );
-            return [ x, f(x) ];
+            return [x - 1, f(x - 1)];
         }
     </script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="M">randRangeNonZero( -3, 3 )</var>
-            <var id="B">randRangeNonZero( -5, 5 )</var>
+            <var id="M">randRangeNonZero(-3, 3)</var>
+            <var id="B">randRangeNonZero(-5, 5)</var>
 
-            <var id="M_X">expr([ "*", M, "x" ])</var>
-            <var id="B_X">expr([ "*", B, "x" ])</var>
-
-            <var id="X_OVER_M">varFraction( "x", M )</var>
-            <var id="X_OVER_NEG_M">varFraction( "x", -M )</var>
-            <var id="M_OVER_X">varFraction( M, "x" )</var>
-            <var id="B_OVER_M">varFraction( B, M )</var>
-            <var id="M_OVER_B">varFraction( M, B )</var>
-            <var id="Y_OVER_M">varFraction( "y", M )</var>
-            <var id="MINUS_B_OVER_M">subFraction( B_OVER_M )</var>
-            <var id="MINUS_M_OVER_B">subFraction( M_OVER_B )</var>
-            <var id="PLUS_B_OVER_M">addFraction( B_OVER_M )</var>
+            <var id="M_X">coefficient(M) + "x"</var>
+            <var id="B_X">coefficient(B) + "x"</var>
+            <var id="X_OVER_M">fractionVariable(1, M, "x")</var>
+            <var id="X_OVER_NEG_M">fractionVariable(-1, M, "x")</var>
+            <var id="M_OVER_X">M &lt; 0 ? "-\\dfrac{" + (-M) + "}{x}" : "\\dfrac{" + M + "}{x}"</var>
+            <var id="Y_OVER_M">fractionVariable(1, M, "y")</var>
+            <var id="B_OVER_M">fractionReduce(B, M)</var>
+            <var id="M_OVER_B">fractionReduce(M, B)</var>
 
             <var id="F">function( x ) { return M * x + B; }</var>
             <var id="F_INV">function( x ) { return ( x - B ) / M; }</var>
@@ -96,18 +60,18 @@
 
                 </div>
 
-                <p class="solution"><code><var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
+                <p class="solution"><code><var>X_OVER_M</var> - <var>B_OVER_M</var></code></p>
                 <ul class="choices" data-none="true" data-show="4">
-                    <li><code><var>expr([ "+", M_X, -B ])</var></code></li>
-                    <li><code><var>expr([ "+", M_X, B ])</var></code></li>
-                    <li><code><var>expr([ "+", B_X, M ])</var></code></li>
-                    <li><code><var>expr([ "+", M_OVER_X, B ])</var></code></li>
-                    <li><code><var>expr([ "+", X_OVER_M, B ])</var></code></li>
-                    <li><code><var>expr([ "+", X_OVER_M, -B ])</var></code></li>
-                    <li><code><var>X_OVER_M + MINUS_M_OVER_B</var></code></li>
-                    <li><code><var>X_OVER_M + PLUS_B_OVER_M</var></code></li>
-                    <li><code><var>X_OVER_NEG_M + MINUS_B_OVER_M</var></code></li>
-                    <li><code><var>X_OVER_NEG_M + PLUS_B_OVER_M</var></code></li>
+                    <li><code><var>M_X</var> - <var>B</var></code></li>
+                    <li><code><var>M_X</var> + <var>B</var></code></li>
+                    <li><code><var>B_X</var> + <var>M</var></code></li>
+                    <li><code><var>M_OVER_X</var> + <var>B</var></code></li>
+                    <li><code><var>X_OVER_M</var> + <var>B</var></code></li>
+                    <li><code><var>X_OVER_M</var> - <var>B</var></code></li>
+                    <li><code><var>X_OVER_M</var> - <var>M_OVER_B</var></code></li>
+                    <li><code><var>X_OVER_M</var> + <var>B_OVER_M</var></code></li>
+                    <li><code><var>X_OVER_NEG_M</var> - <var>B_OVER_M</var></code></li>
+                    <li><code><var>X_OVER_NEG_M</var> + <var>B_OVER_M</var></code></li>
                 </ul>
             </div>
 
@@ -136,17 +100,22 @@
 
                 </div>
 
-                <div class="solution" data-type="expression">x / <var>M</var> - <var>B</var> / <var>M</var></div>
+                <div class="solution" data-type="multiple">
+                    <p>
+                        <span><code>f^{-1} = </code></span>
+                        <span class="sol" data-type="expression">x / <var>M</var> - <var>B</var> / <var>M</var></span>
+                    </p>
+                </div>
             </div>
         </div>
 
         <div class="hints">
             <p><code>y = f(x)</code>, so solving for <code>x</code> in terms of <code>y</code> gives <code>x=f^{-1}(y)</code></p>
-            <p><code>f(x) = y = <var>expr([ "+", M_X, B ])</var></code></p>
-            <p><code><var>expr([ "+", "y", -B ])</var> = <var>M_X</var></code></p>
-            <p data-if="M !== 1"><code><var>Y_OVER_M + MINUS_B_OVER_M</var> = x</code></p>
-            <p><code>x = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
-            <p>So we know: <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
+            <p><code>f(x) = y = <var>M_X</var> + <var>B</var></code></p>
+            <p><code>y + <var>-B</var> = <var>M_X</var></code></p>
+            <p data-if="M !== 1"><code><var>Y_OVER_M</var> - <var>B_OVER_M</var> = x</code></p>
+            <p><code>x = <var>Y_OVER_M</var> - <var>B_OVER_M</var></code></p>
+            <p>So we know: <code>f^{-1}(y) = <var>Y_OVER_M</var> - <var>B_OVER_M</var></code></p>
             <div>
                 <div class="graphie" data-update="G">
                     var pos = function( n ) {
@@ -199,7 +168,7 @@
                         });
                     }
                 </div>
-                <p>Rename <code>y</code> to <code>x</code>: <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
+                <p>Rename <code>y</code> to <code>x</code>: <code>f^{-1}(x) = <var>X_OVER_M</var> - <var>B_OVER_M</var></code></p>
                 <p>Notice that <code>f^{-1}(x)</code> is just <code>f(x)</code> reflected across the line <code>y = x</code>.</p>
             </div>
         </div>

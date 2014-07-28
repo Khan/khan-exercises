@@ -560,6 +560,8 @@ $.extend(KhanUtil, {
     },
 
     fractionVariable: function(numerator, denominator, variable) {
+        variable = variable || "";
+        
         if (denominator === 0) {
             return "\\text{undefined}";
         }
@@ -568,17 +570,19 @@ $.extend(KhanUtil, {
             return 0;
         }
 
-        if (denominator < 0) {
-            numerator *= -1;
-            denominator *= -1;
-        }
+        if (typeof denominator === "number") {
+            if (denominator < 0) {
+                numerator *= -1;
+                denominator *= -1;
+            }
 
-        var GCD = KhanUtil.getGCD(numerator, denominator);
-        numerator /= GCD;
-        denominator /= GCD;
+            var GCD = KhanUtil.getGCD(numerator, denominator);
+            numerator /= GCD;
+            denominator /= GCD;
 
-        if (denominator === 1) {
-            return KhanUtil.coefficient(numerator) + variable;
+            if (denominator === 1) {
+                return KhanUtil.coefficient(numerator) + variable;
+            }
         }
 
         if (numerator < 0) {

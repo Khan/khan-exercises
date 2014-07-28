@@ -1015,6 +1015,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 // perform setup on each of the areas
                 var answerData = Khan.answerTypes[type].setup(solarea, sol);
+
                 // Store the returned data, for use later
                 answerDataArray.push(answerData);
             });
@@ -1977,8 +1978,21 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      *     but with "times":    2 * 3^x -> 2 \times 3^{x}
      */
     expression: {
-        setupFunctional: function(solutionarea, solutionText, solutionData) {
+        parseSolution: function(solutionString, options) {
+            var solution = KAS.parse(solutionString, options);
+            if (!solution.parsed) {
+                throw new Error("The provided solution (" + solutionString +
+                    ") didn't parse.");
+            } else if (options.simplified && !solution.expr.isSimplified()) {
+                throw new Error("The provided solution (" + solutionString +
+                    ") isn't fully expanded and simplified.");
+            } else {
+                solution = solution.expr;
+            }
+            return solution;
+        },
 
+        setupFunctional: function(solutionarea, solutionText, solutionData) {
             // Convert options to a form KAS can understand
             var options = {
                 form: solutionData.sameForm != null,
@@ -1991,17 +2005,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     solutionData.functions.split(/[ ,]+/));
             }
 
-            // Check immediately if the provided solution is valid
-            var solution = KAS.parse(solutionText, options);
-            if (!solution.parsed) {
-                throw new Error("The provided solution (" + solutionText +
-                    ") didn't parse.");
-            } else if (options.simplified && !solution.expr.isSimplified()) {
-                throw new Error("The provided solution (" + solutionText +
-                    ") isn't fully expanded and simplified.");
-            } else {
-                solution = solution.expr;
-            }
+            var solution = Khan.answerTypes.expression.parseSolution(solutionText, options);
 
             // Assemble the solution area
             var $input = $('<input type="text">');
@@ -2130,8 +2134,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
 
             return {
-                validator: Khan.answerTypes.expression.createValidatorFunctional(
-                        solution, options),
+                validator: Khan.answerTypes.expression.createValidatorFunctional(solution, options),
                 answer: function() { return $input.val(); },
                 solution: solution.print(),
                 examples: [
@@ -2170,6 +2173,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 if (!answer.parsed) {
                     score.empty = true;
                     return score;
+                }
+
+                // Solution will need to be parsed again if we're creating
+                // this from a multiple question type
+                if (typeof solution === 'string') {
+                    solution = Khan.answerTypes.expression.parseSolution(solution, options);
                 }
 
                 var result = KAS.compare(answer.expr, solution, options);
