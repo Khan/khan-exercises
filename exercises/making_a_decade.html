@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Making a decade</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="one-digit">
+                <div class="vars">
+                    <var id="A">randRange(1, 9)</var>
+                    <var id="B">randRange(1, 9)</var>
+                    <var id="C">10 - B</var>
+                    <var id="ORDER">rand(2)</var>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>A * 10 + B + C</var></div>
+            
+                <p class="question">
+                    <code>\Large{
+                        <span data-if="ORDER"><var>A * 10 + B</var> + <var>C</var></span>
+                        <span data-else=""><var>C</var> + <var>A * 10 + B</var></span>
+                    = ?}</code>
+                </p>
+
+                <div class="hints">
+                    <div data-if="ORDER">
+                        <p><code>\Large{= \pink{<var>A</var>}\blue{<var>B</var>} + \blue{<var>C</var>}}</code></p>
+                        <p><code>\Large{= \pink{<var>A * 10</var>} + \blue{<var>B</var>} + \blue{<var>C</var>}}</code></p>
+                    </div>
+                    <div data-else="" data-unwrap="">
+                        <div>
+                            <p><code>\Large{= \blue{<var>C</var>} + \pink{<var>A</var>}\blue{<var>B</var>}}</code></p>
+                            <p><code>\Large{= \blue{<var>C</var>} + \pink{<var>A * 10</var>} + \blue{<var>B</var>}}</code></p>
+                        </div>
+                        <p><code>\Large{= \pink{<var>A * 10</var>} + \blue{<var>B</var>} + \blue{<var>C</var>}}</code></p>
+                    </div>
+                    <p><code>\Large{= \pink{<var>A * 10</var>} + \blue{<var>B + C</var>}}</code></p>
+                    <p><code>\Large{= <var>A * 10 + B + C</var>}</code></p>
+                </div>
+            </div>
+
+            <div id="two-digit">
+                <div class="vars">
+                    <var id="A">randRange(1, 8)</var>
+                    <var id="B">randRange(1, 9)</var>
+                    <var id="C">randRange(1, 9 - A)</var>
+                    <var id="D">10 - B</var>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>A * 10 + B + C * 10 + D</var></div>
+            
+                <p class="question">
+                    <code>\Large{<var>A * 10 + B</var> + <var>C * 10 + D</var> = ?}</code>
+                </p>
+
+                <div class="hints">
+                    <div>
+                        <p><code>\Large{= \pink{<var>A</var>}\blue{<var>B</var>} + \pink{<var>C</var>}\blue{<var>D</var>}}</code></p>
+                        <p><code>\Large{= \pink{<var>A * 10</var>} + \blue{<var>B</var>} + \pink{<var>C * 10</var>} + \blue{<var>D</var>}}</code></p>
+                    </div>
+                    <p><code>\Large{= \pink{<var>A * 10</var>} + \pink{<var>C * 10</var>} + \blue{<var>B</var>} + \blue{<var>D</var>}}</code></p>
+                    <p><code>\Large{= \pink{<var>A * 10 + C * 10</var>} + \blue{<var>B + D</var>}}</code></p>
+                    <p><code>\Large{= <var>A * 10 + C * 10 + B + D</var>}</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Subtract within 100</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="units">
+                <div class="vars">
+                    <var id="A">randRange(1, 9)</var>
+                    <var id="B">randRange(2, 9)</var>
+                    <var id="C">randRange(1, B - 1)</var>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>A * 10 + B - C</var></div>
+            
+                <p class="question">
+                    <code>\Large{<var>A * 10 + B</var> - <var>C</var> = ?}</code>
+                </p>
+
+                <div class="hints">
+                    <div>
+                        <p><code>\Large{= \pink{<var>A</var>}\blue{<var>B</var>} - \blue{<var>C</var>}}</code></p>
+                        <p><code>\Large{= \pink{<var>A * 10</var>} + \blue{<var>B</var>} - \blue{<var>C</var>}}</code></p>
+                    </div>
+                    <p><code>\Large{= \pink{<var>A * 10</var>} + \blue{<var>B - C</var>}}</code></p>
+                    <p><code>\Large{= \pink{<var>A</var>}\blue{<var>B - C</var>}}</code></p>
+                </div>
+            </div>
+
+            <div id="tens">
+                <div class="vars">
+                    <var id="A">randRange(2, 9)</var>
+                    <var id="B">randRange(1, 9)</var>
+                    <var id="C">randRange(1, A - 1)</var>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>A * 10 + B - C * 10</var></div>
+            
+                <p class="question">
+                    <code>\Large{<var>A * 10 + B</var> - <var>C * 10</var> = ?}</code>
+                </p>
+
+                <div class="hints">
+                    <div>
+                        <p><code>\Large{= \pink{<var>A</var>}\blue{<var>B</var>} - \pink{<var>C * 10</var>}}</code></p>
+                        <p><code>\Large{= \pink{<var>A * 10</var>} + \blue{<var>B</var>} - \pink{<var>C * 10</var>}}</code></p>
+                    </div>
+                    <p><code>\Large{= \pink{<var>A * 10</var>} - \pink{<var>C * 10</var>} + \blue{<var>B</var>}}</code></p>
+                    <p><code>\Large{= \pink{<var>A * 10 - C * 10</var>} + \blue{<var>B</var>}}</code></p>
+                    <p><code>\Large{= \pink{<var>A - C</var>}\blue{<var>B</var>}}</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

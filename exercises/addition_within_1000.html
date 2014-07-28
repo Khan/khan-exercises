@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Add within 1000</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="units">
+                <div class="vars">
+                    <var id="A">randRange(1, 9)</var>
+                    <var id="B">randRange(1, 9)</var>
+                    <var id="C">randRange(1, 8)</var>
+                    <var id="D">randRange(1, 9 - C)</var>
+                    <var id="ORDER">rand(2)</var>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>A * 100 + B * 10 + C + D</var></div>
+            
+                <p class="question">
+                    <code>\Large{
+                        <span data-if="ORDER"><var>A * 100 + B * 10 + C</var> + <var>D</var></span>
+                        <span data-else=""><var>D</var> + <var>A * 100 + B * 10 + C</var></span>
+                    = ?}</code>
+                </p>
+
+                <div class="hints">
+                    <div data-if="ORDER">
+                        <p><code>\Large{= \green{<var>A</var>}\pink{<var>B</var>}\blue{<var>C</var>} + \blue{<var>D</var>}}</code></p>
+                        <p><code>\Large{= \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C</var>} + \blue{<var>D</var>}}</code></p>
+                    </div>
+                    <div data-else="" data-unwrap="">
+                        <div>
+                            <p><code>\Large{= \blue{<var>D</var>} + \green{<var>A</var>}\pink{<var>B</var>}\blue{<var>C</var>}}</code></p>
+                            <p><code>\Large{= \blue{<var>D</var>} + \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C</var>}}</code></p>
+                        </div>
+                        <p><code>\Large{= \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C</var>} + \blue{<var>D</var>}}</code></p>
+                    </div>
+                    <p><code>\Large{= \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C + D</var>}}</code></p>
+                    <p><code>\Large{= \green{<var>A</var>}\pink{<var>B</var>}\blue{<var>C + D</var>}}</code></p>
+                </div>
+            </div>
+
+            <div id="tens">
+                <div class="vars">
+                    <var id="A">randRange(1, 9)</var>
+                    <var id="B">randRange(1, 8)</var>
+                    <var id="C">randRange(1, 9)</var>
+                    <var id="D">randRange(1, 9 - B)</var>
+                    <var id="ORDER">rand(2)</var>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>A * 100 + B * 10 + C + D * 10</var></div>
+            
+                <p class="question">
+                    <code>\Large{
+                        <span data-if="ORDER"><var>A * 100 + B * 10 + C</var> + <var>D * 10</var></span>
+                        <span data-else=""><var>D * 10</var> + <var>A * 100 + B * 10 + C</var></span>
+                    = ?}</code>
+                </p>
+
+                <div class="hints">
+                    <div data-if="ORDER">
+                        <p><code>\Large{= \green{<var>A</var>}\pink{<var>B</var>}\blue{<var>C</var>} + \pink{<var>D * 10</var>}}</code></p>
+                        <p><code>\Large{= \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C</var>} + \pink{<var>D * 10</var>}}</code></p>
+                    </div>
+                    <div data-else="">
+                        <p><code>\Large{= \pink{<var>D * 10</var>} + \green{<var>A</var>}\pink{<var>B</var>}\blue{<var>C</var>}}</code></p>
+                        <p><code>\Large{= \pink{<var>D * 10</var>} + \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C</var>}}</code></p>
+                    </div>
+                    <p><code>\Large{= \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \pink{<var>D * 10</var>} + \blue{<var>C</var>}}</code></p>
+                    <p><code>\Large{= \green{<var>A * 100</var>} + \pink{<var>B * 10 + D * 10</var>} + \blue{<var>C</var>}}</code></p>
+                    <p><code>\Large{= \green{<var>A</var>}\pink{<var>B + D</var>}\blue{<var>C</var>}}</code></p>
+                </div>
+            </div>
+
+            <div id="hundreds">
+                <div class="vars">
+                    <var id="A">randRange(1, 8)</var>
+                    <var id="B">randRange(1, 9)</var>
+                    <var id="C">randRange(1, 9)</var>
+                    <var id="D">randRange(1, 9 - A)</var>
+                    <var id="ORDER">rand(2)</var>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>A * 100 + B * 10 + C + D * 100</var></div>
+            
+                <p class="question">
+                    <code>\Large{
+                        <span data-if="ORDER"><var>A * 100 + B * 10 + C</var> + <var>D * 100</var></span>
+                        <span data-else=""><var>D * 100</var> + <var>A * 100 + B * 10 + C</var></span>
+                    = ?}</code>
+                </p>
+
+                <div class="hints">
+                    <div data-if="ORDER" data-unwrap="">
+                        <div>
+                            <p><code>\Large{= \green{<var>A</var>}\pink{<var>B</var>}\blue{<var>C</var>} + \green{<var>D * 100</var>}}</code></p>
+                            <p><code>
+                                \Large{= \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C</var>} + \green{<var>D * 100</var>}}
+                            </code></p>
+                        </div>
+                        <p><code>\Large{= \green{<var>A * 100</var>} + \green{<var>D * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C</var>}}</code></p>
+                    </div>
+                    <div data-else="">
+                        <p><code>\Large{= \green{<var>D * 100</var>} + \green{<var>A</var>}\pink{<var>B</var>}\blue{<var>C</var>}}</code></p>
+                        <p><code>\Large{= \green{<var>D * 100</var>} + \green{<var>A * 100</var>} + \pink{<var>B * 10</var>} + \blue{<var>C</var>}}</code></p>
+                    </div>
+                    <p><code>\Large{= \green{<var>A * 100 + D * 100</var>} + \pink{<var>B</var>} + \blue{<var>C</var>}}</code></p>
+                    <p><code>\Large{= \green{<var>A + D</var>}\pink{<var>B</var>}\blue{<var>C</var>}}</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
