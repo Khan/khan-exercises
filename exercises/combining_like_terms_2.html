@@ -15,53 +15,16 @@
         <var id="D" data-ensure="abs( C ) !== abs( D )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="E" data-ensure="E !== 1">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 10))</var>
         <var id="F" data-ensure="F !== 1">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 10))</var>
-        <var id="TERM_AX">
-            "(?:" + (A &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(A)
-            + (A === 1 ? "|" : "" ) + (A === -1 ?
-            "|[-\\u2212]\\s*" : "") + ")\\s*" + X
-        </var>
-        <var id="TERM_FBX">
-            "(?:" + ((F * B) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(F * B)
-            + (F * B === 1 ? "|" : "" ) + (F * B === -1 ?
-            "|[-\\u2212]\\s*" : "") + ")\\s*" + X
-        </var>
-        <var id="TERM_AX_BX">
-            "(?:" + ((A + B) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(A + B)
-            + (A + B === 1 ? "|" : "" ) + (A + B === -1 ?
-            "|[-\\u2212]\\s*" : "") + ")\\s*" + X
-        </var>
-        <var id="TERM_AX_FBX">
-            "(?:" + ((A + F * B) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(A + F * B)
-            + (A + F * B === 1 ? "|" : "" ) + (A + F * B === -1 ?
-            "|[-\\u2212]\\s*" : "") + ")\\s*" + X
-        </var>
-        <var id="TERM_EAX_FBX">
-            "(?:" + ((E * A + F * B) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(E * A + F * B)
-            + (E * A + F * B === 1 ? "|" : "" ) + (E * A + F * B === -1 ?
-            "|[-\\u2212]\\s*" : "") + ")\\s*" + X
-        </var>
-        <var id="TERM_C">C === 0 ? "" : ((C &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C))</var>
-        <var id="TERM_C_D">(C + D) === 0 ? "" : ((C + D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C + D)</var>
-        <var id="TERM_FD">(F * D) === 0 ? "" : ((F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(F * D)</var>
-        <var id="TERM_C_FD">(C + F * D) === 0 ? "" : ((C + F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C + F * D)</var>
-        <var id="TERM_EC_FD">(E * C + F * D) === 0 ? "" : ((E * C + F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(E * C + F * D)</var>
     </div>
     <p class="question">
-        Simplify the following expression:
+        Expand the expression and combine the like terms:
     </p>
-    <div class="solution" data-type="set">
-        <span class="set-sol" data-each="SOLUTIONS as SOL" data-type="regex">^\s*<var>SOL</var>\s*$</span>
-        <div class="input-format"><span class="entry"></span></div>
-        <span class="example">an expression, like <b>-2x + 4</b></span>
-    </div>
+    <div class="solution" data-type="expression" data-simplify=""><var>SOLUTION</var></div>
 
     <div class="problems">
         <div id="ax_fbx_fd">
             <div class="vars">
-                <var id="SOLUTIONS">[
-                    TERM_AX_FBX + ((F * D) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_FD,
-                    TERM_FD + ((A + F * B) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_AX_FBX
-                ]</var>
+                <var id="SOLUTION">(A + F * B) + X + "+" + (F * D)</var>
             </div>
             <p class="problem">
                 <code>\large{<var>expr(["+", ["*", A, X], ["*", F, ["+", ["*", B, X], D]]])</var>}</code>
@@ -105,10 +68,7 @@
 
         <div id="c_fd_fbx">
             <div class="vars">
-                <var id="SOLUTIONS">[
-                    TERM_FBX + ((C + F * D) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_C_FD,
-                    TERM_C_FD + ((F * B) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_FBX
-                ]</var>
+                <var id="SOLUTION">(F * B) + X + "+" + (C + F * D)</var>
             </div>
             <p class="problem">
                 <code>\large{<var>expr(["+", C, ["*", F, ["+", ["*", B, X], D]]])</var>}</code>
@@ -162,10 +122,9 @@
 
         <div id="ec_eax_fbx_fd">
             <div class="vars">
-                <var id="SOLUTIONS">[
-                    TERM_EAX_FBX + ((E * C + F * D) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_EC_FD,
-                    TERM_EC_FD + ((E * A + F * B) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_EAX_FBX
-                ]</var>
+                <div class="vars">
+                <var id="SOLUTION">(E * A + F * B) + X + "+" + (E * C + F * D)</var>
+            </div>
             </div>
             <p class="problem">
                 <code>\large{<var>expr(["+", ["*", E, ["+", C, ["*", A, X]]], ["*", F, ["+", ["*", B, X], D]]])</var>}</code>
