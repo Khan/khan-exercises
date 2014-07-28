@@ -287,13 +287,14 @@ window.Triangle = function(center, angles, scale, labels, points) {
     };
 
     this.draw = function() {
-        this.set = KhanUtil.currentGraph.raphael.set();
+        this.set = this.set || KhanUtil.currentGraph.raphael.set();
         this.set.push(KhanUtil.currentGraph.path(this.points.concat([this.points[0]])));
         return this.set;
     };
 
     this.color = "black";
     this.createLabel = function(p, v) {
+        this.set = this.set || KhanUtil.currentGraph.raphael.set();
         this.set.push(KhanUtil.currentGraph.label(p, v, "center", { color: this.color }));
     };
 

@@ -854,6 +854,12 @@ html.exercise-browser {
     line-height: 32px;
 }
 
+#problemarea div#congruent-triangles {
+    outline-color: #999;
+    outline-style: dashed;
+    outline-width: 1px;
+}
+
 /* Video hints */
 
 .video-hint {

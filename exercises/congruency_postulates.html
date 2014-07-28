@@ -4,13 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Congruency postulates</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style>
-        div#triangles {
-            outline-color: #999;
-            outline-style: dashed;
-            outline-width: 1px;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -58,7 +51,7 @@
                 <div class="question">
                     <em>Your triangle can be anywhere. There is no need to line
                         up the two triangles.</em>
-                    <div class="graphie" id="triangles">
+                    <div class="graphie" id="congruent-triangles">
                         init({
                             range: [ [ -6.2, 6.2 ], [ -5.9, 6.5 ] ]
                         });
@@ -163,7 +156,7 @@
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
                             path( [ kline.midpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], kline.midpoint( triangle.sides[ 2 ] ) ] );
                             addTriangleDecorations( triangle, TYPE );
-                            KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
+                            KhanUtil.currentGraph = $( "div#congruent-triangles" ).data().graphie
                         </div>
                         <div class="graphie">
                             var points = [
@@ -180,7 +173,7 @@
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
                             path( [ kline.midpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], kline.midpoint( triangle.sides[ 2 ] ) ] );
                             addTriangleDecorations( triangle, TYPE );
-                            KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
+                            KhanUtil.currentGraph = $( "div#congruent-triangles" ).data().graphie
                         </div>
                     </div>
                     <p data-if="TYPE === 'SSA'">
@@ -200,7 +193,7 @@
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
                             path( [ kline.midpoint( TRIANGLE.sides[ 2 ] ), TRIANGLE.points[2], TRIANGLE.points[1], TRIANGLE.points[0], kline.midpoint( TRIANGLE.sides[ 2 ] ) ] );
                             addTriangleDecorations( TRIANGLE, TYPE );
-                            KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
+                            KhanUtil.currentGraph = $( "div#congruent-triangles" ).data().graphie
                         </div>
                         <div class="graphie" style="float: left">
                             var triangle = new Triangle( [ 0, 0 ], ANGLES, SCALE - 4, {} );
@@ -211,7 +204,7 @@
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
                             path( [ kline.midpoint( triangle.sides[ 2 ] ), triangle.points[2], triangle.points[1], triangle.points[0], kline.midpoint( triangle.sides[ 2 ] ) ] );
                             addTriangleDecorations( triangle, TYPE );
-                            KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
+                            KhanUtil.currentGraph = $( "div#congruent-triangles" ).data().graphie
                         </div>
                     </div>
                     <p data-if="TYPE === 'AAA'" style="clear: left">

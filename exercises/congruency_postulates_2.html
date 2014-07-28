@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive triangle-congruence kline">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Congruency postulates</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <!--
+        All angles should be at least 10 degrees different from each other so the
+        effect of rotating and reflecting is more apparent. For SSA, the second
+        side must be longer than first and first angle must not be close to 90 to
+        ensure the resulting shape can make two visually distinct triangles
+        -->
+        <div class="vars" data-ensure="
+                (abs(ANGLES[0] - ANGLES[1]) &gt; 10) &amp;&amp;
+                (abs(ANGLES[1] - ANGLES[2]) &gt; 10) &amp;&amp;
+                (abs(ANGLES[0] - ANGLES[2]) &gt; 10) &amp;&amp;
+                ((TYPE !== 'SSA') || ((TRIANGLE.niceSideLengths[0] + 1) &lt; TRIANGLE.niceSideLengths[1] &amp;&amp; abs(ANGLES[0] - 90) &gt; 10))">
+            <var id="ANGLES">randomTriangleAngles.triangle()</var>
+            <var id="SCALE">5 + random() * 2</var>
+            <var id="REFLECTED">randRange( 0, 1 ) === 1 ? true : false</var>
+            <var id="TRIANGLE">new Triangle([0, 0], ANGLES, SCALE, { points: ["A", "B", "C"] })</var>
+            <var id="ROTATION">randRange( 0, 360 )</var>
+            <var id="FAINT_BLUE">"#b1c9f5"</var>
+        </div>
+
+        <p class="problem">
+            By clicking and dragging the points below, is it possible to make a triangle with lengths/angles different from the lengths/angles in <code>\triangle{ABC}?</code>.<br>
+            <em>Your triangle can be anywhere. There is no need to line up the two triangles.</em>
+        </p>
+
+        <div class="question">
+            <div class="graphie" id="congruent-triangles">
+                init({
+                    range: [[-6.2, 6.2], [-2, 10]]
+                });
+                addMouseLayer();
+                initCongruence({ triangle: TRIANGLE, type: TYPE, reflected: REFLECTED });
+
+                TRIANGLE.rotate( ROTATION );
+                style({ stroke: FAINT_BLUE, "stroke-width": 5 });
+                TRIANGLE.translate([
+                    -5 - Math.min(TRIANGLE.points[0][0], TRIANGLE.points[1][0], TRIANGLE.points[2][0]),
+                    9 - Math.max(TRIANGLE.points[0][1], TRIANGLE.points[1][1], TRIANGLE.points[2][1])
+                ]);
+
+                path([
+                    kline.midpoint(TRIANGLE.sides[2]),
+                    TRIANGLE.points[2],
+                    TRIANGLE.points[1],
+                    TRIANGLE.points[0],
+                    kline.midpoint(TRIANGLE.sides[2])
+                ]);
+                addTriangleDecorations( TRIANGLE, TYPE );
+
+                TRIANGLE.color = FAINT_BLUE;
+                TRIANGLE.drawLabels();
+            </div>
+        </div>
+
+        <p class="solution"><var>ANSWER</var></p>
+        <ul class="choices">
+            <li data-if="ANSWER === 'No'">Yes</li>
+            <li data-else="">No</li>
+        </ul>
+
+        <div class="problems">
+            <div id="SSS">
+                <div class="vars">
+                    <var id="TYPE">"SSS"</var>
+                    <var id="ANSWER">"No"</var>
+                </div>
+            </div>
+
+            <div id="SAS">
+                <div class="vars">
+                    <var id="TYPE">"SAS"</var>
+                    <var id="ANSWER">"No"</var>
+                </div>
+            </div>
+
+            <div id="SAA">
+                <div class="vars">
+                    <var id="TYPE">"SAA"</var>
+                    <var id="ANSWER">"No"</var>
+                </div>
+            </div>
+
+            <div id="ASA">
+                <div class="vars">
+                    <var id="TYPE">"ASA"</var>
+                    <var id="ANSWER">"No"</var>
+                </div>
+            </div>
+
+            <div id="SSA">
+                <div class="vars">
+                    <var id="TYPE">"SSA"</var>
+                    <var id="ANSWER">"Yes"</var>
+                </div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p>
+                        With these constraints, there are two ways to construct a triangle. See if you can find both ways.
+                    </p>
+                    <div>
+                        <p>
+                            Both of these triangles have sides with lengths <code>\overline{AB}</code> and <code>\overline{BC}</code>,
+                            and an angle with the same measure as <code>\angle C</code>.
+                            However, angles <code>\angle A</code> and <code>\angle B</code> are not the same.
+                        </p>
+                        <div class="graphie">
+                            var triangle = new Triangle([0, 0], ANGLES, SCALE, { points: ["A", "B", "C"] });
+                            triangle.rotate( -ANGLES[1] );
+                            init({ range: triangle.boundingRange(1) });
+                            addMouseLayer();
+                            style({ stroke: FAINT_BLUE, "stroke-width": 5 });
+                            path([
+                                kline.midpoint(triangle.sides[2]),
+                                triangle.points[2],
+                                triangle.points[1],
+                                triangle.points[0],
+                                kline.midpoint(triangle.sides[2])
+                            ]);
+                            addTriangleDecorations(triangle, TYPE);
+                            triangle.color = FAINT_BLUE;
+                            triangle.drawLabels();
+                            KhanUtil.currentGraph = $("div#congruent-triangles").data().graphie
+                        </div>
+                        <div class="graphie">
+                            var angle = (180 - (180 - ANGLES[0]) - ANGLES[2]) * PI / 180;
+                            var points = [
+                                [TRIANGLE.sideLengths[1] - cos(angle) * TRIANGLE.sideLengths[0], -sin(angle) * TRIANGLE.sideLengths[0]],
+                                [TRIANGLE.sideLengths[ 1 ], 0],
+                                [0, 0]
+                            ];
+                            var triangle = new Triangle( [], [], 0, { points: ["A", "B", "C"] }, points );
+                            init({ range: triangle.boundingRange(1) });
+                            addMouseLayer();
+                            style({ stroke: FAINT_BLUE, "stroke-width": 5 });
+                            path([
+                                kline.midpoint(triangle.sides[2]),
+                                triangle.points[2],
+                                triangle.points[1],
+                                triangle.points[0],
+                                kline.midpoint(triangle.sides[2])
+                            ]);
+                            addTriangleDecorations(triangle, TYPE);
+                            triangle.color = FAINT_BLUE;
+                            triangle.drawLabels();
+                            KhanUtil.currentGraph = $("div#congruent-triangles").data().graphie
+                        </div>
+                    </div>
+                    <p>
+                        So, yes, we can construct a triangle with the same angles as <code>\triangle ABC</code> but different side lengths.
+                    </p>
+                </div>
+            </div>
+
+            <div id="AAA">
+                <div class="vars">
+                    <var id="TYPE">"AAA"</var>
+                    <var id="ANSWER">"Yes"</var>
+                </div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p>
+                        With these constraints, there is more than one way to construct a triangle. See if you can find some different ways.
+                    </p>
+                    <div>
+                        <p>Both of these triangles have the same three angles, but they have different side lengths:
+                        </p><div class="graphie" style="float: left">
+                            style({ stroke: FAINT_BLUE, "stroke-width": 5 });
+                            init({ range: TRIANGLE.boundingRange(1) });
+                            addMouseLayer();
+                            style({ stroke: FAINT_BLUE, "stroke-width": 5 });
+                            path([
+                                kline.midpoint(TRIANGLE.sides[2]),
+                                TRIANGLE.points[2],
+                                TRIANGLE.points[1],
+                                TRIANGLE.points[0],
+                                kline.midpoint(TRIANGLE.sides[2])
+                            ]);
+                            addTriangleDecorations( TRIANGLE, TYPE );
+                            KhanUtil.currentGraph = $("div#congruent-triangles").data().graphie
+                        </div>
+                        <div class="graphie" style="float: left">
+                            var triangle = new Triangle([0, 0], ANGLES, SCALE - 4, {});
+                            triangle.rotate( ROTATION );
+                            style({ stroke: FAINT_BLUE, "stroke-width": 5 });
+                            init({ range: triangle.boundingRange(1) });
+                            addMouseLayer();
+                            style({ stroke: FAINT_BLUE, "stroke-width": 5 });
+                            path([
+                                kline.midpoint(triangle.sides[2]),
+                                triangle.points[2],
+                                triangle.points[1],
+                                triangle.points[0],
+                                kline.midpoint(triangle.sides[2])
+                            ]);
+                            addTriangleDecorations(triangle, TYPE);
+                            KhanUtil.currentGraph = $("div#congruent-triangles").data().graphie
+                        </div>
+                    </div>
+                    <p style="clear: left">
+                        So, yes, we can construct a triangle different from <code>\triangle ABC</code> with these constraints.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p data-if="ANSWER === 'No'">
+                No, with these constraints, it is not possible to make a triangle with different lengths or angles from <code>\triangle ABC</code>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
