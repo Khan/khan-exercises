@@ -8,28 +8,89 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div>
+        <div id="non-repeating">
             <div class="vars" data-ensure="getGCD(NUMERATOR, DENOMINATOR) === 1">
-                <var id="DENOMINATOR">randFromArray([4, 5, 8, 10, 20, 25, 50])</var>
-                <var id="NUMERATOR">randRange(1, DENOMINATOR - 1)</var>
-                <var id="DECIMAL">roundTo(3, NUMERATOR / DENOMINATOR)</var>
+                <var id="DENOMINATOR">randFromArray([4, 5, 8, 10, 20, 25, 50]) * (rand(5) &lt; 2 ? -1 : 1)</var>
+                <var id="NUMERATOR">randRange(1, 99) * (rand(5) &lt; 2 ? -1 : 1)</var>
+                <var id="DECIMAL">roundTo(4, NUMERATOR / DENOMINATOR)</var>
             </div>
             <p>Express the fraction as a decimal.</p>
             <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
             <p class="solution" data-type="decimal"><var>DECIMAL</var></p>
             <div class="hints">
-                <p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+                <p><code>
+                    \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> represents <code><var>NUMERATOR</var> \div <var>DENOMINATOR</var>
+                </code>.</p>
+                <p data-if="NUMERATOR < 0 && DENOMINATOR < 0">
+                    A negative number divided by a negative number equals a positive number,
+                    so <code><var>NUMERATOR</var> \div <var>DENOMINATOR</var> = <var>-NUMERATOR</var> \div <var>-DENOMINATOR</var>
+                </code></p>
+                <p data-else-if="NUMERATOR < 0"><code>
+                    \begin{eqnarray}
+                    <var>NUMERATOR</var> \div <var>DENOMINATOR</var>
+                    &amp;=&amp; (-1 \times <var>-NUMERATOR</var>) \div <var>DENOMINATOR</var> \\
+                    &amp;=&amp; -1 \times (<var>-NUMERATOR</var> \div <var>DENOMINATOR</var>)
+                    \end{eqnarray}
+                </code></p>
+                <p data-else-if="DENOMINATOR < 0"><code>
+                    \begin{eqnarray}
+                    <var>NUMERATOR</var> \div <var>DENOMINATOR</var>
+                    &amp;=&amp; <var>NUMERATOR</var> \div (-1 \times <var>-DENOMINATOR</var>) \\
+                    &amp;=&amp; -1 \times (<var>NUMERATOR</var> \div <var>-DENOMINATOR</var>)
+                    \end{eqnarray}
+                </code></p>
 
                 <div class="graphie" id="numbers">
-                    graph.divider = new Divider(DENOMINATOR, NUMERATOR, 0, 0, true);
+                    graph.divider = new Divider(abs(DENOMINATOR), abs(NUMERATOR), 0, 0, true);
                     graph.divider.show();
                 </div>
 
-                <div class="graphie" data-each="Divider.getNumberOfHints(DENOMINATOR, NUMERATOR, 0, 0, true) times" data-update="numbers">
+                <div class="graphie" data-each="Divider.getNumberOfHints(abs(DENOMINATOR), abs(NUMERATOR), 0, 0, true) times" data-update="numbers">
                     graph.divider.showHint();
                 </div>
 
-                <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>DECIMAL</var></code></p>
+                <p data-if="DECIMAL < 0"><code>\begin{eqnarray}
+                    \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
+                    &amp;=&amp; -1 \times (<var>abs(NUMERATOR)</var> \div <var>abs(DENOMINATOR)</var>) \\
+                    &amp;=&amp; -1 \times <var>-DECIMAL</var> \\
+                    &amp;=&amp; <var>DECIMAL</var>
+                    \end{eqnarray}
+                </code></p>
+                <p data-else=""><code>
+                    \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>DECIMAL</var>
+                </code></p>
+            </div>
+        </div>
+
+        <div id="repeating">
+            <div class="vars" data-ensure="getGCD(NUMERATOR, DENOMINATOR) === 1">
+                <var id="DENOMINATOR">randFromArray([3, 6, 9, 30])</var>
+                <var id="NUMERATOR">randRange(1, 98)</var>
+                <var id="DECIMAL">roundTo(4, NUMERATOR / DENOMINATOR)</var>
+            </div>
+            <p>Express the fraction as a decimal.</p>
+            <p><em>Round to <code>4</code> decimal places if necessary.</em></p>
+            <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+            <p class="solution" data-type="decimal" data-inexact="" data-max-error="0.00005"><var>DECIMAL</var></p>
+            <div class="hints">
+                <p><code>
+                    \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> represents <code><var>NUMERATOR</var> \div <var>DENOMINATOR</var>
+                </code>.</p>
+
+                <div class="graphie" id="numbers">
+                    graph.divider = new Divider(abs(DENOMINATOR), abs(NUMERATOR), 0, 0, true);
+                    graph.divider.show();
+                </div>
+
+                <div class="graphie" data-each="Divider.getNumberOfHints(abs(DENOMINATOR), abs(NUMERATOR), 0, 0, true) times" data-update="numbers">
+                    graph.divider.showHint();
+                </div>
+
+                <p>
+                    Notice how the decimal is repeating and will continue to repeat as we bring down more zeros.
+                </p>
+
+                <p>So the answer is <code><var>DECIMAL</var></code> to <code>4</code> decimal places.</p>
             </div>
         </div>
     </div>

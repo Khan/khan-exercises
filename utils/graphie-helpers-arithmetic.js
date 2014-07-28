@@ -852,8 +852,8 @@ Divider.getHints = function(divisor, digitsDividend, deciDivisor, deciDividend, 
         hints.push(['bring-up-decimal']);
     }
 
-    // If we want a decimal remainder, add up to 4 extra places
-    var numPlaces = digitsDividend.length + (decimalRemainder ? 4 : 0);
+    // If we want a decimal remainder, add up to 5 extra places
+    var numPlaces = digitsDividend.length + (decimalRemainder ? 5 : 0);
     var digits = KhanUtil.padDigitsToNum(digitsDividend, numPlaces);
     var decimalsAdded = 0;
     var decimalsRemainder = ['decimal-remainder', 0];
@@ -885,7 +885,7 @@ Divider.getHints = function(divisor, digitsDividend, deciDivisor, deciDividend, 
         hints.push(['result', quotient, dividend]);
     }
 
-    if (dividend === 0 || decimalsAdded !== 4) {
+    if (dividend === 0 || decimalsAdded !== 5) {
         hints.push(['remainder', dividend]);
     }
 
