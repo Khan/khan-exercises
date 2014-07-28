@@ -380,16 +380,22 @@ window.Triangle = function(center, angles, scale, labels, points) {
 
     this.drawLabels = function() {
         var i = 0;
+        var s = KhanUtil.currentGraph.scaleVector([1, 1])[0];
+
         if ("points" in this.labels) {
             //Need to change the position of placement into label objects
             for (i = this.angles.length - 1; i >= 0; i--) {
-                this.labelObjects.points.push(this.createLabel(bisectAngle(reverseLine(this.sides[(i + 1) % this.angles.length]), this.sides[i], 0.3)[1], this.labels.points[(i + 1) % this.angles.length]));
+                var n = (i + 1) % this.angles.length;
+                var coord = bisectAngle(reverseLine(this.sides[n]), this.sides[i], 12 / s)[1];
+                this.labelObjects.points.push(this.createLabel(coord, this.labels.points[n]));
             }
         }
 
         if ("angles" in this.labels) {
             for (i = this.angles.length - 1; i >= 0; i--) {
-                this.labelObjects.angles.push(this.createLabel(bisectAngle(this.sides[(i + 1) % this.angles.length], reverseLine(this.sides[i]), this.angleScale(this.angles[(i + 1) % this.angles.length]))[1], this.labels.angles[(i + 1) % this.angles.length]));
+                var n = (i + 1) % this.angles.length;
+                var coord = bisectAngle(this.sides[n], reverseLine(this.sides[i]), this.angleScale(this.angles[n]) * 45 / s)[1];
+                this.labelObjects.angles.push(this.createLabel(coord, this.labels.angles[n]));
             }
         }
 
@@ -398,7 +404,7 @@ window.Triangle = function(center, angles, scale, labels, points) {
                 //http://www.mathworks.com/matlabcentral/newsreader/view_thread/142201
                 var midPoint = kline.midpoint(this.sides[i]);
                 var t = lineLength([this.sides[i][1], midPoint]);
-                var d = 0.5;
+                var d = 15 / s;
                 var x3 = midPoint[0] + (this.sides[i][1][1] - midPoint[1]) / t * d;
                 var y3 = midPoint[1] - (this.sides[i][1][0] - midPoint[0]) / t * d;
                 this.labelObjects.sides.push(this.createLabel([x3, y3], this.labels.sides[i]));
@@ -528,12 +534,8 @@ window.randomTriangleAngles = {
 
         triangle: function() {
             var a, b, c;
-            a = KhanUtil.randRange(35, 150);
-            b = KhanUtil.randRange(35, 180 - a);
-            if (a + b > 160) {
-                a = Math.max(30, a - 15);
-                b = Math.max(30, b - 15);
-            }
+            a = KhanUtil.randRange(30, 120);
+            b = KhanUtil.randRange(30, 150 - a);
             c = 180 - a - b;
             return [a, b, c];
         },
@@ -541,12 +543,8 @@ window.randomTriangleAngles = {
         scalene: function() {
             var a, b, c;
             do {
-                a = KhanUtil.randRange(25, 150);
-                b = KhanUtil.randRange(25, 180 - a);
-                if (a + b > 170) {
-                    a = Math.max(30, a - 15);
-                    b = Math.max(30, b - 15);
-                }
+                a = KhanUtil.randRange(30, 120);
+                b = KhanUtil.randRange(30, 150 - a);
                 c = 180 - a - b;
             } while (a === b || a === c || b === c);
             return [a, b, c];
