@@ -17,19 +17,22 @@
 
     <div class="problems">
         <div>
-            <p class="question">If we know that the <span class="hint_blue">blue angle is <var>MEASURE</var> degrees</span>, what is the <span class="hint_green">measure of the green angle</span>?</p>
+            <p class="question">
+                If we know that the <span class="hint_blue">blue angle is <code><var>MEASURE</var>^\circ</code></span>,
+                what is the measure of <span class="hint_green">angle <code>x</code></span>?</p>
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>MEASURE</var></span> <code>\Large{^\circ}</code>
             </div>
             <div class="graphie" id="lines">
                 init({
-                    range: [ [ -1, 5 ], [-1, 1] ]
+                    range: [[-4, 4], [-1, 1]],
+                    scale: 60
                 });
-                graph.pl = new ParallelLines( 0, 0, 4, 0, 0 );
+                graph.pl = new ParallelLines(0, 0, 4, 0, 0);
                 graph.pl.draw();
-                graph.pl.drawTransverse( ANCHOR );
-                graph.pl.drawAngle( KNOWN_INDEX, true );
-                graph.pl.drawAngle( UNKNOWN_INDEX, false, GREEN );
+                graph.pl.drawTransverse(ANCHOR);
+                graph.pl.drawAngle(KNOWN_INDEX, true);
+                graph.pl.drawAngle(UNKNOWN_INDEX, "x", GREEN);
             </div>
         </div>
     </div>
@@ -38,7 +41,7 @@
         <div>
             <p>What is the measure of the pink angle?</p>
             <div class="graphie" data-update="lines">
-                graph.pl.drawAngle( KNOWN_INDEX + 1, false, PINK );
+                graph.pl.drawAngle(KNOWN_INDEX + 1, false, PINK);
             </div>
         </div>
         <div>
@@ -47,7 +50,7 @@
                 \pink{\text{<var>PINK_ANGLE</var>}} = 180^{\circ} - \blue{<var>MEASURE</var>^{\circ}} = \green{<var>180 - MEASURE</var>^{\circ}}
             </code></p>
             <div class="graphie" data-update="lines">
-                graph.pl.drawAngle( KNOWN_INDEX + 1, true, PINK );
+                graph.pl.drawAngle(KNOWN_INDEX + 1, true, PINK);
             </div>
         </div>
         <div>
@@ -55,7 +58,7 @@
             <p><code>
                 \green{\text{<var>GREEN_ANGLE</var>}}= 180^{\circ} - \pink{<var>180 - MEASURE</var>^{\circ}} = \green{<var>MEASURE</var>^{\circ}}</code></p>
             <div class="graphie" data-update="lines">
-                graph.pl.drawAngle( UNKNOWN_INDEX, true, GREEN );
+                graph.pl.drawAngle(UNKNOWN_INDEX, true, GREEN);
             </div>
         </div>
     </div>

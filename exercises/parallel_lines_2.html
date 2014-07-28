@@ -7,11 +7,14 @@
 </head>
 <body>
 <div class="exercise">
+    <div class="vars">
+        <var id="ROTATION">randRange(0, 8) * Math.PI / 8</var>
+    </div>
+
     <div class="problems">
         <div id="corresponding-angles-2">
-
             <div class="vars">
-                <div data-ensure="A * SOLUTION + B &gt; 0 &amp;&amp; A * SOLUTION + B &lt; 180">
+                <div data-ensure="A * SOLUTION + B > 0 && A * SOLUTION + B < 180">
                     <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
                     <var id="DIFFERENCE">randRange(2, 6)</var>
                     <var id="A">randRangeNonZero(2, 8 - DIFFERENCE) + DIFFERENCE</var>
@@ -19,88 +22,50 @@
                 </div>
                 <var id="C">A - DIFFERENCE</var>
                 <var id="D">A * SOLUTION + B - C * SOLUTION</var>
-
                 <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
-                <var id="KNOWN_INDEX">(randRange(0, 3) * 2) + ((ANGLE &lt; 50) ? 1 : ((ANGLE &gt; 130) ? 0 : randRange(0, 1)))</var>
-                <var id="DRAW_ANGLE">KNOWN_INDEX % 2 === 0 ? ANGLE : 180 - ANGLE</var>
+                <var id="KNOWN_INDEX">randRange(0, 3) * 2 + ((ANGLE &lt; 50) ? 1 : ((ANGLE &gt; 130) ? 0 : randRange(0, 1)))</var>
                 <var id="UNKNOWN_INDEX">(KNOWN_INDEX + 4) % 8</var>
-                <var id="BLUE_ANGLE">$._("blue angle")</var>
-                <var id="ORANGE_ANGLE">$._("orange angle")</var>
-            </div>
-
-            <p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
-            <p class="question">Solve for <code>x</code>:</p>
-            <p class="solution"><var>SOLUTION</var></p>
-            <div class="graphie" id="parallel-lines">
-
-                var eq1 = A + "x + " + B + "^\\circ";
-                var eq2 = C + "x + " + D + "^\\circ";
-
-                init({
-                    range: [[-1, 11], [-1, 4]]
-                });
-                graph.pl = new ParallelLines(0, 0, 10, 0, 3);
-                graph.pl.draw();
-                graph.pl.drawMarkers(DRAW_ANGLE);
-                graph.pl.drawTransverse(DRAW_ANGLE);
-                graph.pl.drawAngle(KNOWN_INDEX, eq1);
-                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, ORANGE);
             </div>
 
             <div class="hints">
                 <p>Corresponding angles are equal to one another. <a href="/video/angles-formed-by-parallel-lines-and-transversals" class="related-video" data-youtube-id="H-E5rlpCVu4">Watch this video</a> to understand why.</p>
                 <div>
-                    <p>The <code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}}</code> and the <code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}}</code> are corresponding angles. Therefore, we can set them equal to one another.</p>
-                    <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
+                    <p>
+                        <code>\blue{\angle A}</code> and <code>\green{\angle B}</code> are corresponding angles.
+                        Therefore, we can set them equal to one another.
+                    </p>
+                    <p><code>\blue{<var>A</var>x + <var>B</var>^\circ} = \green{<var>C</var>x + <var>D</var>^\circ}</code></p>
                 </div>
-
-                <div data-if="A > C" data-unwrap="">
-                    <div>
-                        <p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
-                        <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
-                        <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
-                    </div>
-                    <div>
-                        <p data-if="B > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> to both sides.</p>
-                        <p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
-                        <p><code><var>A - C</var>x = <var>D - B</var></code></p>
-                    </div>
-                    <div>
-                        <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>A - C</var>}</code>.</p>
-                        <p><code>\dfrac{<var>A - C</var>x}{\color{<var>PINK</var>}{<var>A - C</var>}} = \dfrac{<var>D - B</var>}{\color{<var>PINK</var>}{<var>A - C</var>}}</code></p>
-                    </div>
-                    <div>
-                        <p>Simplify.</p>
-                        <p><code>x = <var>SOLUTION</var></code></p>
-                    </div>
+                <div>
+                    <p>Subtract <code>\pink{<var>C</var>x}</code> from both sides.</p>
+                    <p><code>
+                        (<var>A</var>x + <var>B</var>^\circ) \pink{- <var>C</var>x} =
+                        (<var>C</var>x + <var>D</var>^\circ) \pink{- <var>C</var>x}
+                    </code></p>
+                    <p><code><var>A - C</var>x + <var>B</var>^\circ = <var>D</var>^\circ</code></p>
                 </div>
-                <div data-else="" data-unwrap="">
-                    <div>
-                        <p>Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
-                        <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>A</var>x}</code></p>
-                        <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
-                    </div>
-                    <div>
-                        <p data-if="D > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> to both sides.</p>
-                        <p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
-                        <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
-                    </div>
-                    <div>
-                        <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>C - A</var>}</code>.</p>
-                        <p><code>\dfrac{<var>B - D</var>}{\color{<var>PINK</var>}{<var>C - A</var>}} = \dfrac{<var>C - A</var>x}{\color{<var>PINK</var>}{<var>C - A</var>}}</code></p>
-                    </div>
-                    <div>
-                        <p>Simplify.</p>
-                        <p><code><var>SOLUTION</var> = x</code></p>
-                    </div>
+                <div>
+                    <p data-if="B > 0">Subtract <code>\pink{<var>abs(B)</var>^\circ}</code> from both sides.</p>
+                    <p data-else="">Add <code>\pink{<var>abs(B)</var>^\circ}</code> to both sides.</p>
+                    <p><code>
+                        (<var>A - C</var>x + <var>B</var>^\circ) \pink{+ <var>-B</var>^\circ} = <var>D</var>^\circ \pink{+ <var>-B</var>^\circ}
+                    </code></p>
+                    <p><code><var>A - C</var>x = <var>D - B</var>^\circ</code></p>
+                </div>
+                <div>
+                    <p>Divide both sides by <code>\pink{<var>A - C</var>}</code>.</p>
+                    <p><code>\dfrac{<var>A - C</var>x}{\pink{<var>A - C</var>}} = \dfrac{<var>D - B</var>^\circ}{\pink{<var>A - C</var>}}</code></p>
+                </div>
+                <div>
+                    <p>Simplify.</p>
+                    <p><code>x = <var>SOLUTION</var>^\circ</code></p>
                 </div>
             </div>
         </div>
 
         <div id="alternate-interior-angles-2">
-
             <div class="vars">
-                <div data-ensure="A * SOLUTION + B &gt; 0 &amp;&amp; A * SOLUTION + B &lt; 180">
+                <div data-ensure="A * SOLUTION + B > 0 && A * SOLUTION + B < 180">
                     <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
                     <var id="DIFFERENCE">randRange(2, 6)</var>
                     <var id="A">randRangeNonZero(2, 8 - DIFFERENCE) + DIFFERENCE</var>
@@ -108,86 +73,48 @@
                 </div>
                 <var id="C">A - DIFFERENCE</var>
                 <var id="D">A * SOLUTION + B - C * SOLUTION</var>
-
                 <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
                 <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle(randFromArray([[0, 6], [1, 7]]))</var>
-                <var id="DRAW_ANGLE">KNOWN_INDEX % 2 === 0 ? ANGLE : 180 - ANGLE</var>
-                <var id="BLUE_ANGLE">$._("blue angle")</var>
-                <var id="ORANGE_ANGLE">$._("orange angle")</var>
-            </div>
-
-            <p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
-            <p class="question">Solve for <code>x</code>:</p>
-            <p class="solution"><var>SOLUTION</var></p>
-            <div class="graphie" id="parallel-lines">
-
-                var eq1 = A + "x + " + B + "^\\circ";
-                var eq2 = C + "x + " + D + "^\\circ";
-
-                init({
-                    range: [[-1, 11], [-1, 4]]
-                });
-                graph.pl = new ParallelLines(0, 0, 10, 0, 3);
-                graph.pl.draw();
-                graph.pl.drawMarkers(DRAW_ANGLE);
-                graph.pl.drawTransverse(DRAW_ANGLE);
-                graph.pl.drawAngle(KNOWN_INDEX, eq1);
-                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, ORANGE);
             </div>
 
             <div class="hints">
                 <p>Alternate interior angles are equal to one another. <a href="/video/angles-formed-by-parallel-lines-and-transversals?playlist=Geometry" class="related-video" data-youtube-id="gRKZaojKeP0">Watch this video</a> to understand why.</p>
                 <div>
-                    <p>The <code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}}</code> and the <code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}}</code> are alternate interior angles. Therefore, we can set them equal to one another.</p>
-                    <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
+                    <p><code>\blue{\angle A}</code> and <code>\green{\angle B}</code> are alternate interior angles.
+                        Therefore, we can set them equal to one another.
+                    </p>
+                    <p><code>\blue{<var>A</var>x + <var>B</var>^\circ} = \green{<var>C</var>x + <var>D</var>^\circ}</code></p>
                 </div>
-
-                <div data-if="A > C" data-unwrap="">
-                    <div>
-                        <p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
-                        <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
-                        <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
-                    </div>
-                    <div>
-                        <p data-if="B > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> to both sides.</p>
-                        <p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
-                        <p><code><var>A - C</var>x = <var>D - B</var></code></p>
-                    </div>
-                    <div>
-                        <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>A - C</var>}</code>.</p>
-                        <p><code>\dfrac{<var>A - C</var>x}{\color{<var>PINK</var>}{<var>A - C</var>}} = \dfrac{<var>D - B</var>}{\color{<var>PINK</var>}{<var>A - C</var>}}</code></p>
-                    </div>
-                    <div>
-                        <p>Simplify.</p>
-                        <p><code>x = <var>SOLUTION</var></code></p>
-                    </div>
+                <div>
+                    <p>Subtract <code>\pink{<var>C</var>x}</code> from both sides.</p>
+                    <p><code>
+                        (<var>A</var>x + <var>B</var>^\circ) \pink{- <var>C</var>x} = 
+                        (<var>C</var>x + <var>D</var>^\circ) \pink{- <var>C</var>x}</code>
+                    </p>
+                    <p><code><var>A - C</var>x + <var>B</var>^\circ = <var>D</var>^\circ</code></p>
                 </div>
-                <div data-else="" data-unwrap="">
-                    <div>
-                        <p>Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
-                        <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>A</var>x}</code></p>
-                        <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
-                    </div>
-                    <div>
-                        <p data-if="D > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> to both sides.</p>
-                        <p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
-                        <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
-                    </div>
-                    <div>
-                        <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>C - A</var>}</code>.</p>
-                        <p><code>\dfrac{<var>B - D</var>}{\color{<var>PINK</var>}{<var>C - A</var>}} = \dfrac{<var>C - A</var>x}{\color{<var>PINK</var>}{<var>C - A</var>}}</code></p>
-                    </div>
-                    <div>
-                        <p>Simplify.</p>
-                        <p><code><var>SOLUTION</var> = x</code></p>
-                    </div>
+                <div>
+                    <p data-if="B > 0">Subtract <code>\pink{<var>abs(B)</var>^\circ}</code> from both sides.</p>
+                    <p data-else="">Add <code>\pink{<var>abs(B)</var>^\circ}</code> to both sides.</p>
+                    <p><code>
+                        (<var>A - C</var>x + <var>B</var>^\circ) \pink{+ <var>-B</var>^\circ} =
+                        <var>D</var>^\circ \pink{+ <var>-B</var>^\circ}</code></p>
+                    <p><code><var>A - C</var>x = <var>D - B</var>^\circ</code></p>
+                </div>
+                <div>
+                    <p>Divide both sides by <code>\pink{<var>A - C</var>}</code>.</p>
+                    <p><code>\dfrac{<var>A - C</var>x}{\pink{<var>A - C</var>}} = \dfrac{<var>D - B</var>^\circ}{\pink{<var>A - C</var>}}</code></p>
+                </div>
+                <div>
+                    <p>Simplify.</p>
+                    <p><code>x = <var>SOLUTION</var>^\circ</code></p>
                 </div>
             </div>
         </div>
 
         <div id="alternate-exterior-angles-2">
             <div class="vars">
-                <div data-ensure="A * SOLUTION + B &gt; 0 &amp;&amp; A * SOLUTION + B &lt; 180">
+                <div data-ensure="A * SOLUTION + B > 0 && A * SOLUTION + B < 180">
                     <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
                     <var id="DIFFERENCE">randRange(2, 6)</var>
                     <var id="A">randRangeNonZero(2, 8 - DIFFERENCE) + DIFFERENCE</var>
@@ -195,74 +122,61 @@
                 </div>
                 <var id="C">A - DIFFERENCE</var>
                 <var id="D">A * SOLUTION + B - C * SOLUTION</var>
-
                 <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
                 <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle(randFromArray([[2, 4], [3, 5]]))</var>
-                <var id="DRAW_ANGLE">KNOWN_INDEX % 2 === 0 ? ANGLE : 180 - ANGLE</var>
-                <var id="BLUE_ANGLE">$._("blue angle")</var>
-                <var id="ORANGE_ANGLE">$._("orange angle")</var>
-            </div>
-
-            <p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
-            <p class="question">Solve for <code>x</code>:</p>
-            <p class="solution"><var>SOLUTION</var></p>
-            <div class="graphie" id="parallel-lines">
-
-                var eq1 = A + "x + " + B + "^\\circ";
-                var eq2 = C + "x + " + D + "^\\circ";
-
-                init({
-                    range: [[-1, 11], [-1, 4]]
-                });
-                graph.pl = new ParallelLines(0, 0, 10, 0, 3);
-                graph.pl.draw();
-                graph.pl.drawMarkers(DRAW_ANGLE);
-                graph.pl.drawTransverse(DRAW_ANGLE);
-                graph.pl.drawAngle(KNOWN_INDEX, eq1);
-                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, ORANGE);
             </div>
 
             <div class="hints">
                 <p>Alternate exterior angles are equal to one another. <a href="/video/angles-formed-by-parallel-lines-and-transversals?playlist=Geometry" class="related-video" data-youtube-id="gRKZaojKeP0">Watch this video</a> to understand why.</p>
                 <div>
-                    <p>The <code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}}</code> and the <code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}}</code> are alternate exterior angles. Therefore, we can set them equal to one another.</p>
-                    <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
+                    <p>
+                        <code>\blue{\angle A}</code> and <code>\green{\angle B}</code> are alternate exterior angles.
+                        Therefore, we can set them equal to one another.
+                    </p>
+                    <p><code>\blue{<var>A</var>x + <var>B</var>^\circ} = \green{<var>C</var>x + <var>D</var>^\circ}</code></p>
                 </div>
 
                 <div data-if="A > C" data-unwrap="">
                     <div>
-                        <p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
-                        <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
-                        <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
+                        <p>Subtract <code>\pink{<var>C</var>x}</code> from both sides.</p>
+                        <p><code>
+                            (<var>A</var>x + <var>B</var>^\circ) \pink{- <var>C</var>x} =
+                            (<var>C</var>x + <var>D</var>^\circ) \pink{- <var>C</var>x}</code></p>
+                        <p><code><var>A - C</var>x + <var>B</var>^\circ = <var>D</var>^\circ</code></p>
                     </div>
                     <div>
-                        <p data-if="B > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> to both sides.</p>
-                        <p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
-                        <p><code><var>A - C</var>x = <var>D - B</var></code></p>
+                        <p data-if="B > 0">Subtract <code>\pink{<var>abs(B)</var>^\circ}</code> from both sides.</p>
+                        <p data-else="">Add <code>\pink{<var>abs(B)</var>^\circ}</code> to both sides.</p>
+                        <p><code>
+                            (<var>A - C</var>x + <var>B</var>^\circ) \pink{+ <var>-B</var>^\circ} =
+                            <var>D</var>^\circ \pink{+ <var>-B</var>^\circ}
+                        </code></p>
+                        <p><code><var>A - C</var>x = <var>D - B</var>^\circ</code></p>
                     </div>
                     <div>
-                        <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>A - C</var>}</code>.</p>
-                        <p><code>\dfrac{<var>A - C</var>x}{\color{<var>PINK</var>}{<var>A - C</var>}} = \dfrac{<var>D - B</var>}{\color{<var>PINK</var>}{<var>A - C</var>}}</code></p>
+                        <p>Divide both sides by <code>\pink{<var>A - C</var>}</code>.</p>
+                        <p><code>\dfrac{<var>A - C</var>x}{\pink{<var>A - C</var>}} = \dfrac{<var>D - B</var>^\circ}{\pink{<var>A - C</var>}}</code></p>
                     </div>
                     <div>
                         <p>Simplify.</p>
-                        <p><code>x = <var>SOLUTION</var></code></p>
+                        <p><code>x = <var>SOLUTION</var>^\circ</code></p>
                     </div>
                 </div>
                 <div data-else="" data-unwrap="">
                     <div>
-                        <p>Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
-                        <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>A</var>x}</code></p>
+                        <p>Subtract <code>\pink{<var>A</var>x}</code> from both sides.</p>
+                        <p><code>(<var>A</var>x + <var>B</var>) \pink{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \pink{- <var>A</var>x}</code></p>
                         <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
                     </div>
                     <div>
-                        <p data-if="D > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> to both sides.</p>
-                        <p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
+                        <p data-if="D > 0">Subtract <code>\pink{<var>abs(D)</var>}</code> from both sides.</p>
+                        <p data-else="">Add <code>\pink{<var>abs(D)</var>}</code> to both sides.</p>
+                        <p><code><var>B</var> \pink{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \pink{+ <var>-D</var>}</code></p>
                         <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
                     </div>
                     <div>
-                        <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>C - A</var>}</code>.</p>
-                        <p><code>\dfrac{<var>B - D</var>}{\color{<var>PINK</var>}{<var>C - A</var>}} = \dfrac{<var>C - A</var>x}{\color{<var>PINK</var>}{<var>C - A</var>}}</code></p>
+                        <p>Divide both sides by <code>\pink{<var>C - A</var>}</code>.</p>
+                        <p><code>\dfrac{<var>B - D</var>}{\pink{<var>C - A</var>}} = \dfrac{<var>C - A</var>x}{\pink{<var>C - A</var>}}</code></p>
                     </div>
                     <div>
                         <p>Simplify.</p>
@@ -273,76 +187,60 @@
         </div>
 
         <div id="same-side-interior-angles-2">
-
             <div class="vars">
-                <div data-ensure="A * SOLUTION + B &gt; 30 &amp;&amp; A * SOLUTION + B &lt; 150 &amp;&amp; C !== A &amp;&amp; abs( A - C ) &lt; 6 &amp;&amp; abs( A - C ) &gt; 1 &amp;&amp; 180 - (A + C) * SOLUTION - B !== 0">
-                    <var id="SOLUTION" data-ensure="abs(SOLUTION) &gt; 5">randRangeNonZero( -20, 20 )</var>
-                    <var id="A">randRange( 2, 8 )</var>
-                    <var id="B">randRangeNonZero( -200, 200 )</var>
-                    <var id="C">randRange( 2, 9 )</var>
+                <div data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && abs(A - C) < 6 && 180 - (A + C) * SOLUTION - B !== 0">
+                    <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
+                    <var id="A">randRange(2, 8)</var>
+                    <var id="B">randRangeNonZero(-200, 200)</var>
+                    <var id="C">randRangeExclude(2, 9, [A, A - 1, A + 1])</var>
                 </div>
                 <var id="D">180 - (A + C) * SOLUTION - B</var>
-
-                <var id="ANCHOR">A*SOLUTION + B</var>
-                <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 1, 6 ], [ 0, 7 ] ] ) )</var>
-                <var id="DRAW_ANCHOR">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
-                <var id="VERTICAL_ANGLES">$._("vertical angles")</var>
-                <var id="ALTERNATE_INTERIOR_ANGLE">$._("alternate interior angle")</var>
-            </div>
-
-            <p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
-            <p class="question">Solve for <code>x</code>:</p>
-            <p class="solution"><var>SOLUTION</var></p>
-            <div class="graphie" id="parallel-lines">
-
-                var eq1 = A + "x + " + B + "^\\circ";
-                var eq2 = C + "x + " + D + "^\\circ";
-
-                init({
-                    range: [ [ -1, 11 ], [-1, 4] ]
-                });
-                graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
-                graph.pl.draw();
-                graph.pl.drawMarkers( DRAW_ANCHOR );
-                graph.pl.drawTransverse( DRAW_ANCHOR );
-                graph.pl.drawAngle( KNOWN_INDEX, eq1 );
-                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, ORANGE );
+                <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
+                <var id="ANCHOR">A * SOLUTION + B</var>
+                <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle(randFromArray([[1, 6], [0, 7]]))</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <p>The pink angles are adjacent to the blue angle and form a straight line, so we know that:</p>
-                    <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} + \color{<var>PINK</var>}{y} = 180</code></p>
-                    <p>The pink angles equal each other because they are <code>\color{<var>GREEN</var>}{\text{<var>VERTICAL_ANGLES</var>}}</code>.</p>
+                    <p>The pink angles are adjacent to <code>\blue{\angle A}</code> and form a straight line, so we know that:</p>
+                    <p><code>\blue{<var>A</var>x + <var>B</var>^\circ} + \pink{C} = 180^\circ</code></p>
+                    <p>The pink angles equal each other because they are vertical angles.</p>
                     <div class="graphie" data-update="parallel-lines">
-                        graph.pl.drawAdjacentAngles( KNOWN_INDEX, "y^\\circ", PINK );
+                        graph.pl.drawAdjacentAngles( KNOWN_INDEX, "C", PINK );
                     </div>
                 </div>
                 <div>
-                    <p>One of the pink angles <code>\color{<var>GREEN</var>}{corresponds}</code> with the orange angle, and the other pink angle forms an <code>\color{<var>GREEN</var>}{\text{<var>ALTERNATE_INTERIOR_ANGLE</var>}}</code>. Therefore, the orange angle measure equals the pink angle measure.</p>
-                    <p><code>\color{<var>PINK</var>}{y} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
+                    <p>
+                        One of the pink angles corresponds with <code>\green{\angle B}</code>,
+                        and the other pink angle forms an alternative interior angle.
+                        Therefore, <code>\green{\angle B}</code> equals the pink angle measure.</p>
+                    <p><code>\pink{C} = \green{<var>C</var>x + <var>D</var>^\circ}</code></p>
                 </div>
                 <div>
-                    <p>Substitute <code>\color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code> for <code>\color{<var>PINK</var>}{y}</code> in our first equation.</p>
-                    <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} + \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>} = 180</code></p>
+                    <p>Substitute <code>\green{<var>C</var>x + <var>D</var>^\circ}</code> for <code>\pink{C}</code> in our first equation.</p>
+                    <p><code>\blue{<var>A</var>x + <var>B</var>^\circ} + \green{<var>C</var>x + <var>D</var>^\circ} = 180^\circ</code></p>
                 </div>
                 <div>
                     <p>Combine like terms.</p>
-                    <p><code><var>A + C</var>x + <var>B + D</var> = 180</code></p>
+                    <p><code><var>A + C</var>x + <var>B + D</var>^\circ = 180^\circ</code></p>
                 </div>
                 <div>
-                    <p data-if="B + D > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> to both sides.</p>
-                    <p><code>(<var>A + C</var>x + <var>B + D</var>) \color{<var>PINK</var>}{+ <var>-(B + D)</var>} = 180 \color{<var>PINK</var>}{+ <var>-(B + D)</var>}</code></p>
-                    <p><code><var>A + C</var>x = <var>180 - B - D</var></code></p>
+                    <p data-if="B + D > 0">Subtract <code>\pink{<var>abs(B + D)</var>^\circ}</code> from both sides.</p>
+                    <p data-else="">Add <code>\pink{<var>abs(B + D)</var>^\circ}</code> to both sides.</p>
+                    <p><code>
+                        (<var>A + C</var>x + <var>B + D</var>^\circ) \pink{+ <var>-(B + D)</var>^\circ} =
+                        180^\circ \pink{+ <var>-(B + D)</var>^\circ}
+                    </code></p>
+                    <p><code><var>A + C</var>x = <var>180 - B - D</var>^\circ</code></p>
                 </div>
                 <div>
-                <p>Divide by <code>\color{<var>PINK</var>}{<var>A + C</var>}</code>.</p>
-                <p><code>\dfrac{<var>A + C</var>x}{\color{<var>PINK</var>}{<var>A + C</var>}} = \dfrac{<var>180 - B - D</var>}{\color{<var>PINK</var>}{<var>A + C</var>}}</code></p>
+                    <p>Divide by <code>\pink{<var>A + C</var>}</code>.</p>
+                    <p><code>\dfrac{<var>A + C</var>x}{\pink{<var>A + C</var>}} = \dfrac{<var>180 - B - D</var>^\circ}{\pink{<var>A + C</var>}}</code></p>
                 </div>
                 <div>
-                <p>Simplify.</p>
-                <p><code>x = <var>(180 - B - D) / (A + C)</var></code></p>
-                <p>Note that the blue and orange angles are <code>\color{<var>GREEN</var>}{supplementary}</code>.</p>
+                    <p>Simplify.</p>
+                    <p><code>x = <var>(180 - B - D) / (A + C)</var>^\circ</code></p>
+                    <p>Note that the pinks angles are supplementary to <code>\blue{\angle A}</code>.</p>
                 </div>
             </div>
         </div>
@@ -350,79 +248,90 @@
         <div id="same-side-exterior-angles-2">
 
             <div class="vars">
-                <div data-ensure="A * SOLUTION + B &gt; 30 &amp;&amp; A * SOLUTION + B &lt; 150 &amp;&amp; C !== A &amp;&amp; abs( A - C ) &lt; 6 &amp;&amp; abs( A - C ) &gt; 1 &amp;&amp; 180 - (A + C) * SOLUTION - B !== 0">
-                    <var id="SOLUTION" data-ensure="abs(SOLUTION) &gt; 5">randRangeNonZero( -20, 20 )</var>
-                    <var id="A">randRange( 2, 8 )</var>
-                    <var id="B">randRangeNonZero( -200, 200 )</var>
-                    <var id="C">randRange( 2, 9 )</var>
+                <div data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && abs(A - C) < 6 && 180 - (A + C) * SOLUTION - B !== 0">
+                    <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
+                    <var id="A">randRange(2, 8)</var>
+                    <var id="B">randRangeNonZero(-200, 200)</var>
+                    <var id="C">randRangeExclude(2, 9, [A, A - 1, A + 1])</var>
                 </div>
                 <var id="D">180 - (A + C) * SOLUTION - B</var>
-
-                <var id="ANCHOR">A*SOLUTION + B</var>
-                <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 3, 4 ], [ 2, 5 ] ] ) )</var>
-                <var id="DRAW_ANCHOR">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
-                <var id="VERTICAL_ANGLES">$._("vertical angles")</var>
-                <var id="ALTERNATE_INTERIOR_ANGLE">$._("alternate interior angle")</var>
-            </div>
-
-            <p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
-            <p class="question">Solve for <code>x</code>:</p>
-            <p class="solution"><var>SOLUTION</var></p>
-            <div class="graphie" id="parallel-lines">
-
-                var eq1 = A + "x + " + B + "^\\circ";
-                var eq2 = C + "x + " + D + "^\\circ";
-
-                init({
-                    range: [ [ -1, 11 ], [-1, 4] ]
-                });
-
-                graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
-                graph.pl.draw();
-                graph.pl.drawMarkers( DRAW_ANCHOR );
-                graph.pl.drawTransverse( DRAW_ANCHOR );
-                graph.pl.drawAngle( KNOWN_INDEX, eq1 );
-                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, ORANGE );
+                <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
+                <var id="ANCHOR">A * SOLUTION + B</var>
+                <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle(randFromArray([[3, 4], [2, 5]]))</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <p>The pink angles are adjacent to the blue angle and form a straight line, so we know that:</p>
-                    <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} + \color{<var>PINK</var>}{y} = 180</code></p>
-                    <p>The pink angles equal each other because they are <code>\color{<var>GREEN</var>}{\text{<var>VERTICAL_ANGLES</var>}}</code>.</p>
+                    <p>The pink angles are adjacent to <code>\blue{\angle A}</code> and form a straight line, so we know that:</p>
+                    <p><code>\blue{<var>A</var>x + <var>B</var>^\circ} + \pink{C} = 180^\circ</code></p>
+                    <p>The pink angles equal each other because they are vertical angles.</p>
                     <div class="graphie" data-update="parallel-lines">
-                        graph.pl.drawAdjacentAngles( KNOWN_INDEX, "y^\\circ", PINK );
+                        graph.pl.drawAdjacentAngles(KNOWN_INDEX, "C", PINK);
                     </div>
                 </div>
                 <div>
-                    <p>One of the pink angles <code>\color{<var>GREEN</var>}{corresponds}</code> with the orange angle, and the other pink angle forms an <code>\color{<var>GREEN</var>}{\text{<var>ALTERNATE_INTERIOR_ANGLE</var>}}</code>. Therefore, the orange angle measure equals the pink angle measure.</p>
-                    <p><code>\color{<var>PINK</var>}{y} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
+                    <p>
+                        One of the pink angles corresponds with <code>\green{\angle B}</code>,
+                        and the other pink angle forms an alternative interior angle.
+                        Therefore, <code>\green{\angle B}</code> equals the pink angle measure.
+                    </p>
+                    <p><code>\pink{C} = \green{<var>C</var>x + <var>D</var>^\circ}</code></p>
                 </div>
                 <div>
-                    <p>Substitute <code>\color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code> for <code>\color{<var>PINK</var>}{y}</code> in our first equation.</p>
-                    <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} + \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>} = 180</code></p>
+                    <p>Substitute <code>\green{<var>C</var>x + <var>D</var>^\circ}</code> for <code>\pink{C}</code> in our first equation.</p>
+                    <p><code>\blue{<var>A</var>x + <var>B</var>^\circ} + \green{<var>C</var>x + <var>D</var>^\circ} = 180^\circ</code></p>
                 </div>
                 <div>
                     <p>Combine like terms.</p>
-                    <p><code><var>A + C</var>x + <var>B + D</var> = 180</code></p>
+                    <p><code><var>A + C</var>x + <var>B + D</var>^\circ = 180^\circ</code></p>
                 </div>
                 <div>
-                    <p data-if="B + D > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> to both sides.</p>
-                    <p><code>(<var>A + C</var>x + <var>B + D</var>) \color{<var>PINK</var>}{+ <var>-(B + D)</var>} = 180 \color{<var>PINK</var>}{+ <var>-(B + D)</var>}</code></p>
-                    <p><code><var>A + C</var>x = <var>180 - B - D</var></code></p>
+                    <p data-if="B + D > 0">Subtract <code>\pink{<var>abs(B + D)</var>^\circ}</code> from both sides.</p>
+                    <p data-else="">Add <code>\pink{<var>abs(B + D)</var>^\circ}</code> to both sides.</p>
+                    <p><code>
+                        (<var>A + C</var>x + <var>B + D</var>^\circ) \pink{+ <var>-(B + D)</var>^\circ} =
+                        180^\circ \pink{+ <var>-(B + D)</var>^\circ}
+                    </code></p>
+                    <p><code><var>A + C</var>x = <var>180 - B - D</var>^\circ</code></p>
                 </div>
                 <div>
-                <p>Divide by <code>\color{<var>PINK</var>}{<var>A + C</var>}</code>.</p>
-                <p><code>\dfrac{<var>A + C</var>x}{\color{<var>PINK</var>}{<var>A + C</var>}} = \dfrac{<var>180 - B - D</var>}{\color{<var>PINK</var>}{<var>A + C</var>}}</code></p>
+                    <p>Divide by <code>\pink{<var>A + C</var>}</code>.</p>
+                    <p><code>\dfrac{<var>A + C</var>x}{\pink{<var>A + C</var>}} = \dfrac{<var>180 - B - D</var>^\circ}{\pink{<var>A + C</var>}}</code></p>
                 </div>
                 <div>
-                <p>Simplify.</p>
-                <p><code>x = <var>(180 - B - D) / (A + C)</var></code></p>
-                <p>Note that the blue and orange angles are <code>\color{<var>GREEN</var>}{supplementary}</code>.</p>
+                    <p>Simplify.</p>
+                    <p><code>x = <var>(180 - B - D) / (A + C)</var>^\circ</code></p>
+                    <p>Note that the pinks angles are supplementary to <code>\blue{\angle A}</code>.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <p>Below are two parallel lines with a third line intersecting them.</p>
+    <p><code>\qquad \begin{eqnarray}
+        \blue{\angle A} &amp;=&amp; \blue{<var>A</var>x + <var>B</var>^\circ} \\
+        \green{\angle B} &amp;=&amp; \green{<var>C</var>x + <var>D</var>^\circ}
+        \end{eqnarray}
+    </code></p>
+    <p class="question">Solve for <code>x</code>:</p>
+    <div class="graphie" id="parallel-lines">
+        init({
+            range: [[-4, 4], [-3, 3]],
+            scale: 60
+        });
+        graph.pl = new ParallelLines(0, 0, 6, 2.5, ROTATION);
+        graph.pl.draw();
+
+        var drawAnchor = KNOWN_INDEX % 2 === 0 ? ANGLE : 180 - ANGLE;
+        graph.pl.drawMarkers(drawAnchor);
+        graph.pl.drawTransverse(drawAnchor);
+        graph.pl.drawAngle(KNOWN_INDEX, "A");
+        graph.pl.drawAngle(UNKNOWN_INDEX, "B", GREEN);
+    </div>
+
+    <p class="solution" data-type="multiple">
+        <code>x = </code> <span class="sol short40" data-forms="integer"><var>SOLUTION</var></span> <code>^\circ</code>
+    </p>
 </div>
 </body>
 </html>

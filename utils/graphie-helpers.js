@@ -293,130 +293,146 @@ window.updateFocusDirectrix = function(deltaX, deltaY, deltaK) {
     redrawParabola(true);
 };
 
-window.ParallelLineMarkers = function(x, y) {
+window.ParallelLineMarkers = function(x, y, rotation) {
     var graph = KhanUtil.currentGraph;
-    var s = graph.scaleVector([1, 1]);
-    var x2 = x + 5 / s[0];
-    var pmarkW = 5 / s[0];
-    var pmarkH = 5 / s[1];
-    graph.path([[x - pmarkW, y + pmarkH], [x, y], [x - pmarkW, y - pmarkH]]);
-    graph.path([[x2 - pmarkW, y + pmarkH], [x2, y], [x2 - pmarkW, y - pmarkH]]);
+    rotation = rotation || 0;
+
+    var s = 8 / graph.scaleVector([1, 1])[0];
+    var x2 = x + 0.75 * s * Math.cos(rotation);
+    var y2 = y + 0.75 * s * Math.sin(rotation);
+    var dx1 = s * Math.cos(rotation + Math.PI / 4);
+    var dy1 = s * Math.sin(rotation + Math.PI / 4);
+    var dx2 = s * Math.cos(rotation - Math.PI / 4);
+    var dy2 = s * Math.sin(rotation - Math.PI / 4);
+
+    graph.path([[x - dx1, y - dy1], [x, y], [x - dx2, y - dy2]]);
+    graph.path([[x2 - dx1, y2 - dy1], [x2, y2], [x2 - dx2, y2 - dy2]]);
 };
 
-window.ParallelLines = function(x1, y1, x2, y2, distance) {
+// A pair of parallel lines with a line traversing them.
+// Lines are centered on x, y, with a given length and a given distance apart.
+window.ParallelLines = function(x, y, length, distance, rotation) {
     var lowerIntersection;
     var upperIntersection;
     var anchorAngle;
 
-    function stretch(coordArr, dy) {
-        return $.map(coordArr, function(coord, index) {
-            if (index === 0) {
-                var dx = dy / Math.tan(KhanUtil.toRadians(anchorAngle));
-                coord += dx;
-            }
-            if (index === 1) {
-                coord += dy;
-            }
-            return coord;
-        });
-    }
-
-    function labelAngle(coordArr, angles, color, label) {
-        var graph = KhanUtil.currentGraph;
-        var measure = (angles[1] - angles[0]);
-        var bisect = (angles[0] + angles[1]) / 2;
-
-        var radius = 0.6;
-
-        if (measure < 60) { // control for angle label getting squeezed between intersecting lines
-            radius /= Math.sin(KhanUtil.toRadians(measure));
-        }
-
-        var coords = $.map(coordArr, function(coord, index) {
-            if (index === 0) { // x-coordinate
-                return coord + radius * Math.cos(KhanUtil.toRadians(bisect));
-            } else { // y-coordinate
-                return coord + radius * Math.sin(KhanUtil.toRadians(bisect));
-            }
-        });
-
-        graph.label(coords, label.text, label.placement, { color: color });
-    }
+    var dx1 = distance / 2 * Math.cos(rotation + Math.PI / 2);
+    var dy1 = distance / 2 * Math.sin(rotation + Math.PI / 2);
+    var dx2 = length / 2 * Math.cos(rotation);
+    var dy2 = length / 2 * Math.sin(rotation);
+    var labels = {};
 
     this.draw = function() {
         var graph = KhanUtil.currentGraph;
-        graph.line([x1, y1], [x2, y2]);
-        graph.line([x1, y1 + distance], [x2, y2 + distance]);
+        graph.line([x + dx1 + dx2, y + dy1 + dy2], [x + dx1 - dx2, y + dy1 - dy2]);
+        graph.line([x - dx1 + dx2, y - dy1 + dy2], [x - dx1 - dx2, y - dy1 - dy2]);
     };
 
     this.drawMarkers = function(position) {
         var graph = KhanUtil.currentGraph;
-        var pmarkX = (x2 - x1) / 2 + x1;
+        var pmarkX = 0;
+        var pmarkY = 0;
+        var s = 120 / graph.scaleVector([1, 1])[0];
+
         if (position === "right" || (position >= 40 && position <= 140)) {
-            pmarkX = x2 - 55 / graph.scaleVector([1, 1])[0];
+            pmarkX += s * Math.cos(rotation);
+            pmarkY += s * Math.sin(rotation);
         } else if (position === "left") {
-            pmarkX = x1 + 50 / graph.scaleVector([1, 1])[0];
+            pmarkX -= s * Math.cos(rotation);
+            pmarkY -= s * Math.sin(rotation);
         }
-        ParallelLineMarkers(pmarkX, y1);
-        ParallelLineMarkers(pmarkX, y1 + distance);
+        ParallelLineMarkers(x + dx1 + pmarkX, y + dy1 + pmarkY, rotation);
+        ParallelLineMarkers(x - dx1 + pmarkX, y - dy1 + pmarkY, rotation);
     };
 
     this.drawTransverse = function(angleDeg) {
-        anchorAngle = angleDeg;
         var graph = KhanUtil.currentGraph;
-        var width = distance / Math.tan(KhanUtil.toRadians(anchorAngle));
-        var lowerX = x1 + ((x2 - x1) - width) / 2;
-        var upperX = lowerX + width;
-        lowerIntersection = [lowerX, y1];
-        upperIntersection = [upperX, y1 + distance];
-        graph.line(stretch(lowerIntersection, -0.8), stretch(upperIntersection, 0.8));
+        var angleRad = KhanUtil.toRadians(angleDeg);
+
+        var cosAngle = Math.cos(rotation + angleRad);
+        var sinAngle = Math.sin(rotation + angleRad);
+        var dx3 = 0.5 * length * cosAngle;
+        var dy3 = 0.5 * length * sinAngle; 
+        graph.line([x + dx3, y + dy3], [x - dx3, y - dy3]);
+
+        // Find intersections
+        var hypot = 0.5 * distance / Math.cos(Math.PI / 2 - angleRad);
+        var dx4 = hypot * cosAngle;
+        var dy4 = hypot * sinAngle;
+
+        upperIntersection = [x + dx4, y + dy4];
+        lowerIntersection = [x - dx4, y - dy4];
+        anchorAngle = angleDeg;
     };
 
-    this.drawAngle = function(index, label, color) {
+    function labelAngle(index, coords, angles, color, text) {
+        var graph = KhanUtil.currentGraph;
+        var measure = (angles[1] - angles[0]);
+        var bisect = KhanUtil.toRadians(angles[0] + measure / 2);
+        var radius = 0.7;
 
-        var graph = KhanUtil.currentGraph,
-            radius = 0.5,
-            args, angles;
+        if (measure < 70) { // control for angle label getting squeezed between intersecting lines
+            radius /= Math.cos(KhanUtil.toRadians(70 - measure));
+        }
+
+        var dx = radius * Math.cos(bisect);
+        var dy = radius * Math.sin(bisect);
+        var placement = "center";
+
+        if (typeof text === "boolean") {
+            text = (angles[1] - angles[0]) + "^\\circ";
+        }
+
+        // Slightly hacky way to align the equations in vertical_angles_2
+        if (text.length > 10 && Math.abs(dx) > 0.25) {
+            dx *= 0.6;
+            dy *= 0.8;
+            placement = dx > 0 ? "right" : "left";
+        }
+
+        // Remove old label
+        if (labels[index]) {
+            labels[index].remove();
+        }
+
+        labels[index] = graph.label([coords[0] + dx, coords[1] + dy], text, placement, { color: color });
+    }
+
+    this.drawAngle = function(index, label, color) {
+        var graph = KhanUtil.currentGraph;
+        var radius = 0.4;
 
         color = color || KhanUtil.BLUE;
         index = (index + 8) % 8;
-        if (index < 4) {
-            args = [lowerIntersection, radius];
-        } else {
-            args = [upperIntersection, radius];
-        }
+        var args = index < 4 ? [lowerIntersection, radius] : [upperIntersection, radius];
 
-        var labelPlacement;
+        var angles = [KhanUtil.toDegrees(rotation), KhanUtil.toDegrees(rotation)];
         switch (index % 4) {
             case 0: // Quadrant 1
-                angles = [0, anchorAngle];
-                labelPlacement = "right";
+                angles[1] += anchorAngle;
                 break;
             case 1: // Quadrant 2
-                angles = [anchorAngle, 180];
-                labelPlacement = "left";
+                angles[0] += anchorAngle;
+                angles[1] += 180;
                 break;
             case 2: // Quadrant 3
-                angles = [180, 180 + anchorAngle];
-                labelPlacement = "left";
+                angles[0] += 180;
+                angles[1] += 180 + anchorAngle;
                 break;
             case 3: // Quadrant 4
-                angles = [180 + anchorAngle, 360];
-                labelPlacement = "right";
+                angles[0] += 180 + anchorAngle;
+                angles[1] += 360;
                 break;
         }
         $.merge(args, angles);
 
         graph.style({ stroke: color}, function() {
-            graph.arc.apply(graph, args);
+            if (!labels[index]) {
+                graph.arc.apply(graph, args);
+            }
+
             if (label) {
-                var labelOptions = { text: label, placement: labelPlacement};
-
-                if (typeof label === "boolean") {
-                    labelOptions.text = (angles[1] - angles[0]) + "^\\circ";
-                }
-
-                labelAngle(args[0], angles, color, labelOptions);
+                labelAngle(index, args[0], angles, color, label);
             }
         });
     };
