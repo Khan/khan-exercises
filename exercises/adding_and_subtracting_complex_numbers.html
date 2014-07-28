@@ -7,60 +7,79 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="ANSWER_IMAG !== -1 &amp;&amp; (A_IMAG !== 0 || B_IMAG !== 0)">
-        <var id="A_REAL">randRange(-5, 5)</var>
-        <var id="A_IMAG">randRange(-5, 5)</var>
-        <var id="B_REAL">randRange(-5, 5)</var>
-        <var id="B_IMAG">randRange(-5, 5)</var>
-        <var id="OPERATION">randFromArray([ "add", "subtract" ])</var>
-        <var id="OPERATOR">(OPERATION === "add" ? "+" : "-" )</var>
-        <var id="ANSWER_REAL">(OPERATION === "add" ? (A_REAL + B_REAL) : (A_REAL - B_REAL))</var>
-        <var id="ANSWER_IMAG">(OPERATION === "add" ? (A_IMAG + B_IMAG) : (A_IMAG - B_IMAG))</var>
-        <var id="A_REP">complexNumber(A_REAL, A_IMAG)</var>
-        <var id="B_REP">complexNumber(B_REAL, B_IMAG)</var>
-        <var id="A_REP_COLORED">"\\color{" + ORANGE + "}{" + A_REP + "}"</var>
-        <var id="B_REP_COLORED">"\\color{" + BLUE + "}{" + B_REP + "}"</var>
-        <var id="A_REAL_COLORED">"\\color{" + ORANGE + "}{" + A_REAL + "}"</var>
-        <var id="A_IMAG_COLORED">"\\color{" + ORANGE + "}{" + A_IMAG + "}"</var>
-        <var id="B_REAL_COLORED">"\\color{" + BLUE + "}{" + B_REAL + "}"</var>
-        <var id="B_IMAG_COLORED">"\\color{" + BLUE + "}{" + B_IMAG + "}"</var>
+    <div class="vars" data-ensure="ANSWER_IMAG !== 0">
+        <var id="A_REAL">randRangeNonZero(-5, 5)</var>
+        <var id="A_IMAG">randRangeNonZero(-5, 5)</var>
+        <var id="B_REAL">randRangeNonZero(-5, 5)</var>
+        <var id="B_IMAG">randRangeNonZero(-5, 5)</var>
+        <var id="A">complexNumber(A_REAL, A_IMAG)</var>
+        <var id="B">complexNumber(B_REAL, B_IMAG)</var>
+        <var id="F1">randRangeWeighted(1, 5, 1, 0.7) * randFromArray([1, -1])</var>
+        <var id="F2">randRangeWeighted(1, 5, 1, 0.7) * randFromArray([1, -1])</var>
+
+        <var id="FA_REAL">F1 * A_REAL</var>
+        <var id="FB_REAL">F2 * B_REAL</var>
+        <var id="FA_IMAG">F1 * A_IMAG</var>
+        <var id="FB_IMAG">F2 * B_IMAG</var>
+        <var id="ANSWER_REAL">FA_REAL + FB_REAL</var>
+        <var id="ANSWER_IMAG">FA_IMAG + FB_IMAG</var>
     </div>
 
     <div class="problems">
         <div>
-            <p class="question">
-                <span data-if="OPERATION === 'add'">Add the following complex numbers:</span>
-                <span data-else-if="OPERATION === 'subtract'">Subtract the following complex numbers:</span>
+            <p class="problem">
+                <code><var>coefficient(F1)</var>(\pink{<var>A</var>}) + <var>coefficient(F2)</var>(\blue{<var>B</var>}) = ?</code>
             </p>
-            <p><code>(<var>A_REP_COLORED</var>) <var>OPERATOR</var> (<var>B_REP_COLORED</var>)</code></p>
             <div class="solution" data-type="expression" data-simplify><var>ANSWER_REAL</var> + <var>ANSWER_IMAG</var>i</div>
+
             <div class="hints">
-                <p>
-                    <span data-if="OPERATION === 'add'">
-                        Complex numbers can be added by separately adding their
-                        real and imaginary components.
-                    </span><span data-else-if="OPERATION === 'subtract'">
-                        Complex numbers can be subtracted by separately
-                        subtracting their real and imaginary components.
-                    </span>
-                </p>
-                <p>
-                    The real components of the two complex numbers are <code class="hint_orange"><var>A_REAL</var></code> and <code class="hint_blue"><var>B_REAL</var></code>, respectively, so the real component of the result will be
-                    <code>
-                        <var>A_REAL_COLORED</var> <var>OPERATOR</var> \color{<var>BLUE</var>}{<var>negParens(B_REAL)</var>}
-                    </code>,
-                    which equals <code><var>ANSWER_REAL</var></code>.
-                </p>
-                <p>
-                    The imaginary components of the two complex numbers are <code class="hint_orange"><var>A_IMAG</var></code> and <code class="hint_blue"><var>B_IMAG</var></code>, respectively, so the imaginary component of the result will be
-                    <code>
-                        <var>A_IMAG_COLORED</var> <var>OPERATOR</var>  \color{<var>BLUE</var>}{<var>negParens(B_IMAG)</var>}
-                    </code>,
-                    which equals <code><var>ANSWER_IMAG</var></code>.
-                </p>
-                <p>
-                    The result is <code><var>complexNumber(ANSWER_REAL, ANSWER_IMAG)</var></code>.
-                </p>
+                <p>Complex numbers can be added by separately adding their real and imaginary components.</p>
+
+                <div data-if="F1 !== 1">
+                    <p data-if="F1 === -1">Distribute the negative sign onto the first complex number:</p>
+                    <p data-else="">Distribute the <code><var>F1</var></code> onto the first complex number:</p>
+                    <p><code>
+                        \qquad \begin{eqnarray}
+                        <var>coefficient(F1)</var>(\pink{<var>complexNumber(A_REAL, A_IMAG)</var>})
+                        &amp;=&amp; (<var>F1</var> \cdot \pink{<var>A_REAL</var>}) + (<var>F1</var> \cdot \pink{<var>A_IMAG</var>}) \\
+                        &amp;=&amp; \pink{<var>complexNumber(FA_REAL, FA_IMAG)</var>}
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+
+                <div data-if="F2 !== 1">
+                    <p data-if="F2 === -1">Distribute the negative sign onto the second complex number:</p>
+                    <p data-else="">Distribute the <code><var>F1</var></code> onto the second complex number:</p>
+                    <p><code>
+                       \qquad \begin{eqnarray}
+                        <var>coefficient(F2)</var>(\blue{<var>complexNumber(B_REAL, B_IMAG)</var>})
+                        &amp;=&amp; (<var>F2</var> \cdot \blue{<var>B_REAL</var>}) + (<var>F2</var> \cdot \blue{<var>B_IMAG</var>}) \\
+                        &amp;=&amp; \blue{<var>complexNumber(FB_REAL, FB_IMAG)</var>}
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+
+                <div data-if="F1 !== 1 || F2 !== 1">
+                    <p>Now we have:</p>
+                    <p><code>\pink{<var>complexNumber(FA_REAL, FA_IMAG)</var>} + \blue{<var>complexNumber(FB_REAL, FB_IMAG)</var>}</code></p>
+                </div>
+
+                <div>
+                    <p>The real components are <code>\pink{<var>FA_REAL</var>}</code> and <code>\blue{<var>FB_REAL</var>}</code></p>
+                    <p>The imaginary components are <code>\pink{<var>FA_IMAG</var>i}</code> and <code>\blue{<var>FB_IMAG</var>i}</code></p>
+                </div>
+
+                <div>
+                    <p>
+                        Adding real components, we get
+                        <code>\pink{<var>FA_REAL</var>} + \blue{<var>FB_REAL</var>} = <var>FA_REAL + FB_REAL</var></code>
+                    </p>
+                    <p>
+                        Adding imaginary components, we get
+                        <code>\pink{<var>FA_IMAG</var>i} + \blue{<var>FB_IMAG</var>i} = <var>FA_IMAG + FB_IMAG</var>i</code></p>
+                </div>
+
+                <p>So the answer is <code><var>complexNumber(ANSWER_REAL, ANSWER_IMAG)</var></code>.</p>
             </div>
         </div>
     </div>
