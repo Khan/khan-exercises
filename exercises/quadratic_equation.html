@@ -7,42 +7,34 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="( (B*B) - 4*A*C ) &gt;= 0">
-            <var id="A">randRangeNonZero(-10, 10)</var>
-            <var id="B">randRangeNonZero(-10, 10)</var>
-            <var id="C">randRangeNonZero(-10, 10)</var>
-
-            <var id="OUT_REDUCE">splitRadical(B*B - 4*A*C)[0]</var>
-            <var id="UNDER_ROOT">splitRadical(B*B - 4*A*C)[1]</var>
-
-            <var id="F">new Polynomial( 0, 2, [C, B, A], "x" )</var>
-            <var id="F_TEXT">F.text()</var>
-
-            <var id="DISC_FACTOR">splitRadical(B*B - 4*A*C)</var>
-            <var id="DIVISOR">getGCD( B, 2 * A, Math.sqrt( DISC_FACTOR[0] ) )</var>
-
+        <div class="vars">
+            <div data-ensure="RADICAND &gt;= 0">
+                <var id="A">randRangeNonZero(-10, 10)</var>
+                <var id="B">randRangeNonZero(-10, 10)</var>
+                <var id="C">randRangeNonZero(-10, 10)</var>
+                <var id="RADICAND">B * B - 4 * A * C</var>
+            </div>
+            <var id="F">new Polynomial(0, 2, [C, B, A], "x")</var>
+            <var id="EQUATION">F.text()</var>
             <var id="WRONGS">
                 (function() {
                     var wrongs = [];
-                    for ( var i = 0; i &lt; 5; i++ ) {
+                    var good_gcd = getGCD(A, B, C);
+
+                    for (var i = 0; i &lt; 5; i++) {
                         var bad_a = randRangeNonZero(-10, 10);
                         var bad_b = randRangeNonZero(-10, 10);
                         var bad_c = randRangeNonZero(-10, 10);
-
-                        var good_gcd = getGCD( A, B, C );
                         var bad_gcd = getGCD( bad_a, bad_b, bad_c );
 
                         while ((    abs(A*bad_gcd) === abs(bad_a*good_gcd) &amp;&amp;
                                     abs(B*bad_gcd) === abs(bad_b*good_gcd) &amp;&amp;
                                     abs(C*bad_gcd) === abs(bad_c*good_gcd) ) ||
-
                                     (( (bad_b * bad_b) - (4 * bad_a * bad_c) ) &lt; 0))
                         {
                             bad_a = randRangeNonZero(-10, 10);
                             bad_b = randRangeNonZero(-10, 10);
                             bad_c = randRangeNonZero(-10, 10);
-
-                            good_gcd = getGCD( A, B, C );
                             bad_gcd = getGCD( bad_a, bad_b, bad_c );
                         }
                         wrongs.push(quadraticRoots(bad_a, bad_b, bad_c));
@@ -53,9 +45,9 @@
         </div>
 
         <div class="problems">
-            <div>
-                <p class="problem">Let <code>f(x) = <var>F_TEXT</var></code>.</p>
-                <p class="question">Where does this function intersect the <code>x</code>-axis (i.e. what are the roots or zeroes of <code>f(x)</code>)?</p>
+            <div id="standard-form">
+                <p class="question">Solve for <code>x</code>.</p>
+                <p class="problem"><code><var>EQUATION</var> = 0</code></p>
                 <p class="solution"><code><var>quadraticRoots(A, B, C)</var></code></p>
 
                 <ul class="choices" data-none="true" data-show="5">
@@ -66,26 +58,134 @@
                     <li><code><var>WRONGS[4]</var></code></li>
                 </ul>
             </div>
+
+            <div id="rearrange" data-type="standard-form">
+                <div class="vars">
+                    <var id="EQUATION">shuffle([coefficient(A) + "x^2", coefficient(B) + "x", C]).join("+")</var>
+                    <var id="ORIGINAL">coefficient(A) + "x^2+"+ coefficient(B) + "x+" + C</var>
+                </div>
+
+                <div class="hints" data-apply="prependContents">
+                    <div data-if="EQUATION !== ORIGINAL">
+                        <p>Get the equation into the form <code>ax^2 + bx + c = 0</code>:</p>
+                        <p><code>\qquad<var>F.text()</var> = 0</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rearrange2" data-type="standard-form">
+                <div class="vars">
+                    <var id="N1, N2, N3">shuffle([0, 1, 2])</var>
+                    <var id="TERMS">[coefficient(A) + "x^2", coefficient(B) + "x", C]</var>
+                    <var id="NEGTERMS">[coefficient(-A) + "x^2", coefficient(-B) + "x", -C]</var>
+                    <var id="ORIGINAL">TERMS.join("+")</var>
+                </div>
+
+                <p class="problem"><code><var>TERMS[N1]</var> + <var>TERMS[N2]</var> = <var>NEGTERMS[N3]</var></code></p>
+
+                <div class="hints" data-apply="prependContents">
+                    <div>
+                        <p>Get the equation into the form <code>ax^2 + bx + c = 0</code>:</p>
+                        <p><code>\qquad<var>TERMS[N1]</var> + <var>TERMS[N2]</var> + <var>TERMS[N3]</var> = 0</code></p>
+                        <p data-if="[TERMS[N1], TERMS[N2], TERMS[N3]].join('+') !== ORIGINAL"><code>\qquad<var>F.text()</var> = 0</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rearrange3" data-type="standard-form">
+                <div class="vars">
+                    <var id="N1, N2, N3">shuffle([0, 1, 2])</var>
+                    <var id="TERMS">[coefficient(A) + "x^2", coefficient(B) + "x", C]</var>
+                    <var id="NEGTERMS">[coefficient(-A) + "x^2", coefficient(-B) + "x", -C]</var>
+                    <var id="ORIGINAL">TERMS.join("+")</var>
+                </div>
+
+                <p class="problem"><code><var>TERMS[N1]</var> = <var>NEGTERMS[N2]</var> + <var>NEGTERMS[N3]</var></code></p>
+
+                <div class="hints" data-apply="prependContents">
+                    <div>
+                        <p>Get the equation into the form <code>ax^2 + bx + c = 0</code>:</p>
+                        <p><code>\qquad \begin{eqnarray}
+                            <var>TERMS[N1]</var> + <var>TERMS[N2]</var> &amp;=&amp; <var>NEGTERMS[N3]</var> \\
+                            <var>TERMS[N1]</var> + <var>TERMS[N2]</var> + <var>TERMS[N3]</var> &amp;=&amp; 0 \\
+                            <span data-if="[TERMS[N1], TERMS[N2], TERMS[N3]].join('+') !== ORIGINAL"><var>F.text()</var> &amp;=&amp; 0
+                            \end{eqnarray}
+                        </code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="split_A" data-type="standard-form">
+                <div class="vars">
+                    <var id="A1">randRangeExclude(-10, 10, [0, A])</var>
+                    <var id="B1">B</var>
+                    <var id="C1">C</var>
+                    <var id="A2">A1 - A</var>
+                    <var id="N1, N2, N3">shuffle([0, 1, 2])</var>
+                    <var id="TERMS1">[coefficient(A1) + "x^2", coefficient(B) + "x", C]</var>
+                    <var id="TERMS2">[coefficient(A) + "x^2", coefficient(B) + "x", C]</var>
+                </div>
+
+                <p class="problem">
+                    <code><var>TERMS1[N1]</var> + <var>TERMS1[N2]</var> + <var>TERMS1[N3]</var> = <var>coefficient(A2) + "x^2"</var></code>
+                </p>
+
+                <div class="hints" data-apply="prependContents">
+                    <div>
+                        <p>Get the equation into the form <code>ax^2 + bx + c = 0</code>:</p>
+                        <p><code>\qquad \begin{eqnarray}
+                            <var>TERMS2[N1]</var> + <var>TERMS2[N2]</var> + <var>TERMS2[N3]</var> &amp;=&amp; 0 \\
+                            <span data-if="N1 !== 0 || N2 !== 1"><var>F.text()</var> &amp;=&amp; 0</span>
+                            \end{eqnarray}
+                        </code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="split_B" data-type="split_A">
+                <div class="vars">
+                    <var id="B1">randRangeExclude(-10, 10, [0, B])</var>
+                    <var id="B2">B1 - B</var>
+                    <var id="N1, N2, N3">shuffle([0, 1, 2])</var>
+                    <var id="TERMS1">[coefficient(A) + "x^2", coefficient(B1) + "x", C]</var>
+                    <var id="TERMS2">[coefficient(A) + "x^2", coefficient(B) + "x", C]</var>
+                </div>
+
+                <p class="problem">
+                    <code><var>TERMS1[N1]</var> + <var>TERMS1[N2]</var> + <var>TERMS1[N3]</var> = <var>coefficient(B2) + "x"</var></code>
+                </p>
+            </div>
+
+            <div id="split_C" data-type="split_A">
+                <div class="vars">
+                    <var id="C1">randRangeExclude(-10, 10, [0, C])</var>
+                    <var id="C2">C1 - C</var>
+                    <var id="N1, N2, N3">shuffle([0, 1, 2])</var>
+                    <var id="TERMS1">[coefficient(A) + "x^2", coefficient(B) + "x", C1]</var>
+                    <var id="TERMS2">[coefficient(A) + "x^2", coefficient(B) + "x", C]</var>
+                </div>
+
+                <p class="problem">
+                    <code><var>TERMS1[N1]</var> + <var>TERMS1[N2]</var> + <var>TERMS1[N3]</var> = <var>C2</var></code>
+                </p>
+            </div>
         </div>
 
         <div class="hints">
             <div>
-                <p>The function intersects the x-axis when <code>f(x) = 0</code>, so you need to solve the equation:</p>
-                <p><code><var>F_TEXT</var> = 0</code></p>
-            </div>
-
-            <div>
                 <p>Use the quadratic formula to solve <code>ax^2 + bx + c = 0</code>:</p>
-                <p><code>x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}</code></p>
+                <p><code>\qquad x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}</code></p>
             </div>
 
-            <p><code>a = <var>A</var>, b = <var>B</var>, c = <var>C</var></code></p>
-            <p><code> x = \dfrac{-<var>B</var> \pm \sqrt{<var>expr(["^", B, 2])</var> - 4 \cdot <var>A</var> \cdot <var>C</var>}}{2 \cdot <var>A</var>}</code></p>
+            <p><code>\qquad a = <var>A</var>, b = <var>B</var>, c = <var>C</var></code></p>
+            <p><code>
+                \qquad x = \dfrac{-<var>negParens(B)</var> \pm \sqrt{<var>expr(["^", B, 2])</var> -
+                4 \cdot <var>A</var> \cdot <var>C</var>}}{2 \cdot <var>A</var>}
+            </code></p>
 
-            <p><code> x = \dfrac{<var>-1*B</var> \pm \sqrt{<var>B*B - 4*A*C</var>}}{<var>2*A</var>}</code></p>
-
-            <p><code> x = \dfrac{<var>-1*B</var> \pm <var>formattedSquareRootOf(B*B-4*A*C)</var>}{<var>2*A</var>}</code></p>
-            <p><code><var>quadraticRoots(A, B, C)</var></code></p>
+            <p><code>\qquad x = \dfrac{<var>-B</var> \pm \sqrt{<var>RADICAND</var>}}{<var>2 * A</var>}</code></p>
+            <p><code>\qquad x = \dfrac{<var>-B</var> \pm <var>formattedSquareRootOf(RADICAND)</var>}{<var>2 * A</var>}</code></p>
+            <p><code>\qquad <var>quadraticRoots(A, B, C)</var></code></p>
 
         </div>
     </div>
