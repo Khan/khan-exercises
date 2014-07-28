@@ -177,12 +177,34 @@ function newProblem(e, data) {
                 userExercise.exerciseProgress.level === "mastery3";
         var task = Exercises.learningTask;
         var hideRelatedVideos = task && task.isMasteryTask() && nearMastery;
+        var relatedVideos = data.userExercise.exerciseModel.relatedVideos;
+
+        // We have per-problem-type related videos for Perseus
+        if (framework === "perseus") {
+            var problemTypeName = PerseusBridge.getSeedInfo().problem_type;
+
+            // Filter out related videos that correspond to other problem types
+            var problemTypes = data.userExercise.exerciseModel.problemTypes;
+            var otherProblemTypes = _.filter(problemTypes, function(type) {
+                return type.name !== problemTypeName;
+            });
+            relatedVideos = _.filter(relatedVideos, function(video) {
+                return _.all(otherProblemTypes, function(problemType) {
+                    // Note: we have to cast IDs to strings for backwards
+                    // compatability as older videos have pure integer IDs.
+                    var stringIDs = _.map(problemType.relatedVideos,
+                        function(id) {
+                            return "" + id;
+                        });
+                    return !_.contains(stringIDs, "" + video.id);
+                });
+            });
+        }
 
         if (hideRelatedVideos) {
             Exercises.RelatedVideos.render([]);
         } else {
-            Exercises.RelatedVideos.render(
-                    data.userExercise.exerciseModel.relatedVideos);
+            Exercises.RelatedVideos.render(relatedVideos);
         }
     }
 }
