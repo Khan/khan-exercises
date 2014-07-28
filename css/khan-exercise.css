@@ -1177,6 +1177,19 @@ body.debug span.error {
     color: inherit;
 }
 
+#answer_area .info-box .mini-button {
+    margin: 0px 10px 0px 0px;
+    padding: 0px 5px;
+    width: 25px;
+    height: 18px;
+}
+
+#answer_area #number-label {
+    clear: both;
+    margin: 0px 0px;
+    padding: 14px 0px 0px 0px;
+}
+
 /* Expression/equation input (see "expression" answer type) */
 #answer_area .expression {
     display: block;

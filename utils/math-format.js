@@ -536,11 +536,11 @@ $.extend(KhanUtil, {
                 equation = radius;
             } else {
                 var angleRep = KhanUtil.piFraction(angle, true);
-                var cis = "\\cos(" + angleRep + ") + i \\sin(" + angleRep + ")";
+                var cis = "\\cos \\left(" + angleRep + "\\right) + i \\sin \\left(" + angleRep + "\\right)";
 
                 // Special case to circumvent ugly "*1* (sin(...) + i cos(...))"
                 if (radius !== 1) {
-                    equation = KhanUtil.expr(["*", radius, cis]);
+                    equation = radius + "\\left(" + cis + "\\right)";
                 } else {
                     equation = cis;
                 }
