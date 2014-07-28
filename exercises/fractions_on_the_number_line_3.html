@@ -11,116 +11,226 @@
         <var id="LOWER_BOUND">-3</var>
         <var id="UPPER_BOUND">3</var>
 
-        <var id="DENOMINATOR" data-ensure="abs(DENOMINATOR) &gt; 1">randRangeNonZero(-6, 6)</var>
+        <var id="DENOMINATOR">randRangeExclude(-6, 6, [-1, 0, 1])</var>
         <var id="NUMERATOR" data-ensure="abs(NUMERATOR / DENOMINATOR) &lt;= 3 &amp;&amp; !reduces(NUMERATOR, DENOMINATOR)">randRange(2, 18)</var>
-
         <var id="SOLUTION">NUMERATOR / DENOMINATOR</var>
+
+        <var id="START">LOWER_BOUND * abs(DENOMINATOR)</var>
+        <var id="STOP">UPPER_BOUND * abs(DENOMINATOR)</var>
 
         <var id="M_NUMERATOR">NUMERATOR % DENOMINATOR</var>
         <var id="M_WHOLE">(NUMERATOR - M_NUMERATOR) / DENOMINATOR</var>
-        <var id="M_NUMBER">(abs(SOLUTION) &gt; 1 ? M_WHOLE + (SOLUTION &lt; 0 ? fraction(M_NUMERATOR, -DENOMINATOR) : fraction(M_NUMERATOR, DENOMINATOR)) : fraction(NUMERATOR, DENOMINATOR))</var>
-        <var id="IS_MIXED">0</var>
-        <var id="NUMBER">IS_MIXED === 1 &amp;&amp; abs(SOLUTION) &gt; 1  ? M_NUMBER : fraction(NUMERATOR, DENOMINATOR)</var>
+        <var id="M_NUMBER">(abs(SOLUTION) &gt; 1 ?
+            M_WHOLE + (SOLUTION &lt; 0 ? fraction(M_NUMERATOR, -DENOMINATOR) : fraction(M_NUMERATOR, DENOMINATOR)) :
+            fraction(NUMERATOR, DENOMINATOR))
+        </var>
+        <var id="NEXT_NUM">M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>
+        <var id="NUMBER">fraction(NUMERATOR, DENOMINATOR)</var>
         <var id="ORANGE_DOT">$._("orange dot")</var>
     </div>
 
     <div class="problems">
-        <div>
+        <div id="horizontal">
+            <div class="vars">
+                <var id="ORIENTATION">0</var>
+            </div>
+
             <div class="question">
-                <p>Move the <strong><code>\color{orange}{\text{<var>ORANGE_DOT</var>}}</code></strong> to
-                <strong><code>\color{orange}{<var>NUMBER</var>}</code></strong> on the number line.</p>
+                <p>Move the <strong><code>\orange{\text{<var>ORANGE_DOT</var>}}</code></strong> to
+                <strong><code>\orange{<var>NUMBER</var>}</code></strong> on the number line.</p>
 
                 <div class="graphie" id="number-line">
+                    graph.d = abs(DENOMINATOR);
                     init({
-                        range: [ [(LOWER_BOUND - 0.5) * abs(DENOMINATOR), (UPPER_BOUND + 0.5) * abs(DENOMINATOR)], [-1, 1] ],
-                        scale: [70 / abs(DENOMINATOR), 40]
+                        range: [[START - 0.5 * graph.d, STOP + 0.5 * graph.d], [-1, 1]],
+                        scale: [70 / graph.d, 40]
                     });
 
-                    style({arrows: "&gt;"});
-                    line( [ 0, 0 ], [ (UPPER_BOUND + 0.25) * abs(DENOMINATOR), 0 ] );
+                    line([0, 0], [STOP + 1, 0 ], { arrows: "&gt;" });                    
+                    line([0, 0], [START - 1, 0 ], { arrows: "-&gt;" });
 
-                    style({arrows: "-&gt;"});
-                    line( [ 0, 0 ], [ (LOWER_BOUND - 0.25) * abs(DENOMINATOR), 0 ] );
-
-                    style({arrows: ""});
-                    for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
-                        line( [ x * abs(DENOMINATOR), -0.2 ], [ x * abs(DENOMINATOR), 0.2 ] );
+                    for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++) {
+                        line([x * graph.d, -0.2], [x * graph.d, 0.2]);
                     }
+
                     style({ stroke: GREEN, strokeWidth: 3.5 });
-                    line( [ LOWER_BOUND * abs(DENOMINATOR), -0.2], [LOWER_BOUND * abs(DENOMINATOR), 0.2]);
-                    label( [ LOWER_BOUND * abs(DENOMINATOR), -0.53 ],  LOWER_BOUND, "center", { color: GREEN });
-
-                    line( [ UPPER_BOUND * abs(DENOMINATOR), -0.2], [UPPER_BOUND * abs(DENOMINATOR), 0.2]);
-                    label( [ UPPER_BOUND * abs(DENOMINATOR), -0.53 ],  UPPER_BOUND, "center", { color: GREEN });
-
-                    line( [ 0, -0.2], [0, 0.2]);
-                    label( [ 0, -0.53 ],  "0", "center", { color: GREEN });
+                    line([START, -0.2], [START, 0.2]);
+                    line([STOP, -0.2], [STOP, 0.2]);
+                    line([0, -0.2], [0, 0.2]);
+                    label([START, -0.53], LOWER_BOUND, "center", { color: GREEN });
+                    label([STOP, -0.53], UPPER_BOUND, "center", { color: GREEN });
+                    label([0, -0.53], "0", "center", { color: GREEN });
 
                     addMouseLayer();
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 1 });
-                    graph.movablePoint.onMove = function( x, y ) {
-                        return [ min( max( LOWER_BOUND * abs(DENOMINATOR), x ), UPPER_BOUND * abs(DENOMINATOR) ), y ];
+                    graph.movablePoint.onMove = function(x, y) {
+                        return [min(max(START, x), STOP), y];
                     };
                 </div>
             </div>
 
             <div class="solution" data-type="custom">
-                <span class="instruction"> Move the orange dot to select your answer. </span>
-                <div class="guess"> graph.movablePoint.coord[0] / abs(DENOMINATOR) </div>
+                <span class="instruction">Move the orange dot to select your answer.</span>
+                <div class="guess">graph.movablePoint.coord[0] / abs(DENOMINATOR)</div>
                 <div class="validator-function">
-                    if ( guess === 0 ) {
+                    if (guess === 0) {
                         return "";
                     }
-                    return abs( SOLUTION - guess ) &lt; 0.001;
+                    return abs(SOLUTION - guess) &lt; 0.001;
                 </div>
                 <div class="show-guess">
-                    graph.movablePoint.setCoord( [ guess, 0 ] );
+                    graph.movablePoint.setCoord([guess, 0]);
+                </div>
+            </div>
+        </div>
+
+        <div id="vertical">
+            <div class="vars">
+                <var id="ORIENTATION">1</var>
+            </div>
+            
+            <div class="question">
+                <p>Move the <strong><code>\orange{\text{<var>ORANGE_DOT</var>}}</code></strong> to
+                <strong><code>\orange{<var>NUMBER</var>}</code></strong> on the number line.</p>
+
+                <div class="graphie" id="number-line">
+                    graph.d = abs(DENOMINATOR);
+                    init({
+                        range: [[-5, 5], [START - 0.5 * graph.d, STOP + 0.5 * graph.d]],
+                        scale: [40, 60 / graph.d]
+                    });
+
+                    line([0, 0], [0, STOP + 1], { arrows: "&gt;" });                    
+                    line([0, 0], [0, START - 1], { arrows: "-&gt;" });
+
+                    for (var y = LOWER_BOUND; y &lt;= UPPER_BOUND; y++) {
+                        line([-0.2, y * graph.d], [0.2, y * graph.d]);
+                    }
+
+                    style({ stroke: GREEN, strokeWidth: 3.5 });
+                    line([-0.2, START], [0.2, START]);
+                    line([0.2, STOP], [0.2, STOP]);
+                    line([-0.2, 0], [0.2, 0]);
+                    label([-0.2, START], LOWER_BOUND, "left", { color: GREEN });
+                    label([-0.2, STOP], UPPER_BOUND, "left", { color: GREEN });
+                    label([-0.2, 0], "0", "left", { color: GREEN });
+
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainX: true }, snapY: 1 });
+                    graph.movablePoint.onMove = function(x, y) {
+                        return [x, min(max(START, y), STOP)];
+                    };
                 </div>
             </div>
 
-            <div class="hints">
-                <p> Because <code>\color{orange}{<var>NUMBER</var>}</code> is <span data-if="SOLUTION > 0">positive</span>
-                <span data-else="">negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span>
-                <span data-else="">left</span> of 0.</p>
-
-                <div data-if="IS_MIXED < 1 && abs(SOLUTION) > 1">
-                    <p>Let's convert the improper fraction <code>\color{orange}{<var>NUMBER</var>}</code> to a mixed number:</p>
-                    <p><code>\color{orange}{<var>NUMBER</var>}</code> = <code>\color{blue}{<var>M_NUMBER</var>}</code></p>
+            <div class="solution" data-type="custom">
+                <span class="instruction">Move the orange dot to select your answer.</span>
+                <div class="guess">graph.movablePoint.coord[1] / abs(DENOMINATOR)</div>
+                <div class="validator-function">
+                    if (guess === 0) {
+                        return "";
+                    }
+                    return abs(SOLUTION - guess) &lt; 0.001;
                 </div>
-
-                <div>
-                    <p>Therefore, we know <code>\color{blue}{<var>M_NUMBER</var>}</code> lies between <code>\color{green}{<var>M_WHOLE</var>}</code>
-                    and <code>\color{green}{<var>M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>}</code> on the number line.</p>
-                    <div class="graphie" data-update="number-line">
-                        style({ stroke: "#FFA500", strokeWidth: 3.5 });
-                        line( [M_WHOLE * abs(DENOMINATOR), -0.2], [M_WHOLE * abs(DENOMINATOR), 0.2]);
-                        line( [(M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)) * abs(DENOMINATOR), -0.2], [(M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)) * abs(DENOMINATOR), 0.2]);
-                    </div>
-                </div>
-
-                <div>
-                    <p><code>\color{blue}{<var>M_NUMBER</var>}</code> is <code>\color{green}{<var>fraction(M_NUMERATOR, DENOMINATOR)</var>}</code>
-                    to the <span data-if="SOLUTION > 0">right</span><span data-else="">left</span> of <code>\color{green}{<var>M_WHOLE</var>}</code>
-                    on the number line.</p>
-                    <div class="graphie" data-update="number-line">
-                        style({ stroke: GREEN, fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
-                        line( [ M_WHOLE * abs(DENOMINATOR), 0 ], [ SOLUTION * abs(DENOMINATOR), 0 ] );
-                        graph.movablePoint.visibleShape.toFront();
-
-                        style({ stroke: "#FFA500", strokeWidth: 3.5, arrows: "" });
-                        line( [M_WHOLE * abs(DENOMINATOR), -0.2], [M_WHOLE * abs(DENOMINATOR), 0.2]);
-                        line( [(M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)) * abs(DENOMINATOR), -0.2], [(M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)) * abs(DENOMINATOR), 0.2]);
-                    </div>
-                </div>
-
-                <div>
-                    <div class="graphie" data-update="number-line">
-                        label( [ SOLUTION * abs(DENOMINATOR), -0.83 ],  NUMBER, "center", { color: "#FFA500" });
-                        graph.movablePoint.moveTo( SOLUTION * abs(DENOMINATOR), 0 );
-                    </div>
-                    <p>The orange number shows where <code>\color{orange}{<var>NUMBER</var>}</code> is on the number line.</p>
+                <div class="show-guess">
+                    graph.movablePoint.setCoord([0, guess]);
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div data-if="SOLUTION > 0">
+            <p data-if="ORIENTATION === 0">
+                Because <code>\orange{<var>NUMBER</var>}</code> is positive the orange dot will be to the right of <code>0</code>.
+            </p><p data-else="">
+                Because <code>\orange{<var>NUMBER</var>}</code> is positive the orange dot will be above <code>0</code>.
+            </p>
+        </div><div data-else="">
+            <p data-if="ORIENTATION === 0">
+                Because <code>\orange{<var>NUMBER</var>}</code> is negative the orange dot will be to the left of <code>0</code>.
+            </p><p data-else="">
+                Because <code>\orange{<var>NUMBER</var>}</code> is negative the orange dot will be below <code>0</code>.
+            </p>
+        </div>
+
+        <div data-if="abs(SOLUTION) > 1">
+            <p>Let's convert the improper fraction <code>\orange{<var>NUMBER</var>}</code> to a mixed number:</p>
+            <p><code>\orange{<var>NUMBER</var>} = \green{<var>M_NUMBER</var>}</code></p>
+        </div>
+
+        <div>
+            <p data-if="abs(SOLUTION) > 1">
+                <code>\green{<var>M_NUMBER</var>}</code> is between
+                <code>\blue{<var>M_WHOLE</var>}</code> and <code>\blue{<var>NEXT_NUM</var>}</code> on the number line.
+            </p>
+            <p data-else-if="SOLUTION > 0">
+                <code>\green{<var>M_NUMBER</var>}</code> is less than <code>1</code> so lies between
+                <code>\blue{<var>M_WHOLE</var>}</code> and <code>\blue{<var>NEXT_NUM</var>}</code> on the number line.
+            </p>
+            <p data-else="">
+                <code>\green{\dfrac{<var>NUMERATOR</var>}{<var>-DENOMINATOR</var>}}</code> is less than <code>1</code>
+                so <code>\green{<var>M_NUMBER</var>}</code> lies between <code>\blue{<var>M_WHOLE</var>}</code>
+                and <code>\blue{<var>NEXT_NUM</var>}</code> on the number line.
+            </p>
+
+            <div class="graphie" data-update="number-line">
+                style({ stroke: BLUE, strokeWidth: 3.5 });
+                if (ORIENTATION === 0) {
+                    line([M_WHOLE * graph.d, -0.2], [M_WHOLE * graph.d, 0.2]);
+                    line([NEXT_NUM * graph.d, -0.2], [NEXT_NUM * graph.d, 0.2]);
+                    label([M_WHOLE * graph.d, -0.53], M_WHOLE, "center", { color: BLUE });
+                    label([NEXT_NUM * graph.d, -0.53], NEXT_NUM, "center", { color: BLUE });
+                } else {
+                    line([-0.2, M_WHOLE * graph.d], [0.2, M_WHOLE * graph.d]);
+                    line([-0.2, NEXT_NUM * graph.d], [0.2, NEXT_NUM * graph.d]);
+                    label([-0.2, M_WHOLE * graph.d], M_WHOLE, "left", { color: BLUE });
+                    label([-0.2, NEXT_NUM * graph.d], NEXT_NUM, "left", { color: BLUE });
+                }
+                graph.movablePoint.toFront();
+            </div>
+        </div>
+
+        <div data-if="ORIENTATION === 0">
+            <p data-if="SOLUTION > 0">
+                <code>\green{<var>M_NUMBER</var>}</code> is <code>\green{<var>fraction(M_NUMERATOR, DENOMINATOR)</var>}</code>
+                to the right of <code>\blue{<var>M_WHOLE</var>}</code> on the number line.
+            </p><p data-else="">
+                <code>\green{<var>M_NUMBER</var>}</code> is <code>\green{<var>fraction(-M_NUMERATOR, DENOMINATOR)</var>}</code>
+                to the left of <code>\blue{<var>M_WHOLE</var>}</code> on the number line.
+            </p>
+
+            <div class="graphie" data-update="number-line">
+                style({ stroke: GREEN, fill: GREEN, strokeWidth: 3.5, arrows: "-&gt;" });
+                line([M_WHOLE * graph.d, 0], [SOLUTION * graph.d, 0]);
+                graph.movablePoint.visibleShape.toFront();
+            </div>
+        </div><div data-else="">
+            <p data-if="SOLUTION > 0">
+                    <code>\green{<var>M_NUMBER</var>}</code> is <code>\green{<var>fraction(M_NUMERATOR, DENOMINATOR)</var>}</code>
+                    above <code>\blue{<var>M_WHOLE</var>}</code> on the number line.
+                </p><p data-else="">
+                    <code>\green{<var>M_NUMBER</var>}</code> is <code>\green{<var>fraction(-M_NUMERATOR, DENOMINATOR)</var>}</code>
+                    below <code>\blue{<var>M_WHOLE</var>}</code> on the number line.
+                </p>
+
+                <div class="graphie" data-update="number-line">
+                    style({ stroke: GREEN, fill: GREEN, strokeWidth: 3.5, arrows: "-&gt;" });
+                    line([0, M_WHOLE * graph.d], [0, SOLUTION * graph.d]);
+                    graph.movablePoint.visibleShape.toFront();
+                </div>
+            </div>
+        <div>
+            <div class="graphie" data-update="number-line">
+                if (ORIENTATION === 0) {
+                    label([SOLUTION * graph.d, -0.83],  NUMBER, "center", { color: ORANGE });
+                    graph.movablePoint.moveTo(SOLUTION * graph.d, 0);
+                } else {
+                    label([0.2, SOLUTION * graph.d],  NUMBER, "right", { color: ORANGE });
+                    graph.movablePoint.moveTo(0, SOLUTION * graph.d);
+                }
+            </div>
+            <p>The orange number shows where <code>\orange{<var>NUMBER</var>}</code> is on the number line.</p>
         </div>
     </div>
     </div>

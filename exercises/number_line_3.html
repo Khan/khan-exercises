@@ -16,36 +16,35 @@
             MIDPOINT - SCALE * 5, MIDPOINT - SCALE * 4, MIDPOINT - SCALE * 3,
             MIDPOINT + SCALE * 3, MIDPOINT + SCALE * 4, MIDPOINT + SCALE * 5
         ])</var>
+        <var id="START">LOWER_BOUND - SCALE * 0.6</var>
+        <var id="STOP">UPPER_BOUND + SCALE * 0.6</var>
     </div>
     <div class="problems">
-        <div>
+        <div id="horizontal">
             <div class="question">
-                <p data-else="">Where is the blue dot on the number line?</p>
+                <p>Where is the blue dot on the number line?</p>
                 <div class="graphie" id="number-line">
-                    var scale = 40 / SCALE;
                     init({
-                        range: [[LOWER_BOUND - (30 / scale), UPPER_BOUND + (30 / scale)], [-1, 1]],
+                        range: [[LOWER_BOUND - SCALE * 0.75, UPPER_BOUND + SCALE * 0.75], [-1, 1]],
                         scale: [40 / SCALE, 40]
                     });
 
-                    line([LOWER_BOUND - (25 / scale), 0], [UPPER_BOUND + (25 / scale), 0], { arrows: "-&gt;" });
-                    line([UPPER_BOUND + (25 / scale), 0], [LOWER_BOUND - (25 / scale), 0], { arrows: "-&gt;" });
+                    line([START + 1, 0], [STOP, 0], { arrows: "-&gt;" });
+                    line([STOP - 1, 0], [START, 0], { arrows: "-&gt;" });
+
                     for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
                         line([x, -0.2], [x, 0.2 ]);
                     }
-                    label( [ MIDPOINT - SCALE, -0.53 ], ("" + (MIDPOINT - SCALE)).replace(/-/, "\\llap{-}"), "center");
-                    label( [ MIDPOINT + SCALE, -0.53 ], ("" + (MIDPOINT + SCALE)).replace(/-/, "\\llap{-}"), "center");
+
+                    label([MIDPOINT - SCALE, -0.53], ("" + (MIDPOINT - SCALE)).replace(/-/, "\\llap{-}"), "center");
+                    label([MIDPOINT + SCALE, -0.53], ("" + (MIDPOINT + SCALE)).replace(/-/, "\\llap{-}"), "center");
                     style({ stroke: BLUE, fill: BLUE });
-                    graph.blueDot = ellipse( [ NUMBER, 0 ], [4 / scale, 4/40] );
-                    graph.questionLabel = label( [ NUMBER, -0.53 ], "{?}", "center", { color: BLUE });
+                    graph.blueDot = ellipse([NUMBER, 0], [SCALE * 0.1, 0.1]);
+                    graph.questionLabel = label([NUMBER, -0.53], "{?}", "center", { color: BLUE });
                 </div>
             </div>
-            <div class="solution" data-forms="integer"><var>NUMBER</var></div>
 
-            <div class="hints">
-                <p>Two tick marks are labeled.</p>
-                <p>The distance between the two labeled tick marks is <code><var>2 * SCALE</var></code>.</p>
-                <p>Therefore, the space between each pair of tick marks is <code><var>2 * SCALE</var> / 2 = <var>SCALE</var></code></p>
+            <div class="hints" data-apply="appendContents">
                 <div>
                     <p>Label the other tick marks on the number line.</p>
                     <div class="graphie" data-update="number-line">
@@ -60,11 +59,64 @@
                     <p>The blue dot represents the number <code><var>NUMBER</var></code>.</p>
                     <div class="graphie" data-update="number-line">
                         graph.questionLabel.remove();
-                        label([ NUMBER, -0.53], ("" + NUMBER).replace(/-/, "\\llap{-}"), "center", { color: BLUE });
+                        label([NUMBER, -0.53], ("" + NUMBER).replace(/-/, "\\llap{-}"), "center", { color: BLUE });
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="vertical">
+            <div class="question">
+                <p>Where is the blue dot on the number line?</p>
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [[-5, 5], [LOWER_BOUND - SCALE * 0.75, UPPER_BOUND + SCALE * 0.75]],
+                        scale: [32, 32 / SCALE]
+                    });
+
+                    line([0, START + 1], [0, STOP], { arrows: "-&gt;" });
+                    line([0, STOP - 1], [0, START], { arrows: "-&gt;" });
+
+                    for (var y = LOWER_BOUND; y &lt;= UPPER_BOUND; y += SCALE) {
+                        line([-0.2, y], [0.2, y]);
+                    }
+
+                    label([-0.2, MIDPOINT - SCALE], ("" + (MIDPOINT - SCALE)).replace(/-/, "\\llap{-}"), "left");
+                    label([-0.2, MIDPOINT + SCALE], ("" + (MIDPOINT + SCALE)).replace(/-/, "\\llap{-}"), "left");
+                    style({ stroke: BLUE, fill: BLUE });
+                    graph.blueDot = ellipse([0, NUMBER], [0.1, 0.1 * SCALE]);
+                    graph.questionLabel = label([-0.2, NUMBER], "{?}", "left", { color: BLUE });
+                </div>
+            </div>
+
+            <div class="hints" data-apply="appendContents">
+                <div>
+                    <p>Label the other tick marks on the number line.</p>
+                    <div class="graphie" data-update="number-line">
+                        for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
+                            if (x !== MIDPOINT - SCALE &amp;&amp; x !== MIDPOINT + SCALE &amp;&amp; x !== NUMBER) {
+                                label([-0.2, x], ("" + x).replace(/-/, "\\llap{-}"), "left");
+                            }
+                        }
+                    </div>
+                </div>
+                <div>
+                    <p>The blue dot represents the number <code><var>NUMBER</var></code>.</p>
+                    <div class="graphie" data-update="number-line">
+                        graph.questionLabel.remove();
+                        label([-0.2, NUMBER], ("" + NUMBER).replace(/-/, "\\llap{-}"), "left", { color: BLUE });
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="solution" data-forms="integer"><var>NUMBER</var></div>
+
+    <div class="hints">
+        <p>Two tick marks are labeled.</p>
+        <p>The distance between the two labeled tick marks is <code><var>2 * SCALE</var></code>.</p>
+        <p>Therefore, the space between each pair of tick marks is <code><var>2 * SCALE</var> / 2 = <var>SCALE</var></code></p>
     </div>
     </div>
 </body>

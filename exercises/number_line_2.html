@@ -12,28 +12,35 @@
         <var id="LOWER_BOUND">-5 * SCALE</var>
         <var id="UPPER_BOUND">-1 * LOWER_BOUND</var>
         <var id="NUMBER">randRangeExclude(-5, 5, [-1, 0, 1]) * SCALE</var>
+        <var id="START">LOWER_BOUND - SCALE * 0.6</var>
+        <var id="STOP">UPPER_BOUND + SCALE * 0.6</var>
+        <var id="ORANGE_DOT">$._("orange dot")</var>
     </div>
     <div class="problems">
-        <div id="where-is-point">
+        <div id="where-is-point-horizontal">
             <div class="question">
-                <p>Where is <code><var>NUMBER</var></code> on the number line?</p>
+                <p>
+                    Move the <strong><code>\orange{\text{<var>ORANGE_DOT</var>}}</code></strong> to
+                    <strong><code>\orange{<var>NUMBER</var>}</code></strong> on the number line.
+                </p>
+
                 <div class="graphie" id="number-line">
-                    var scale = 40 / SCALE;
                     init({
-                        range: [[LOWER_BOUND - (30 / scale), UPPER_BOUND + (30 / scale)], [-1, 1]],
+                        range: [[LOWER_BOUND - SCALE * 0.75, UPPER_BOUND + SCALE * 0.75], [-1, 1]],
                         scale: [40 / SCALE, 40]
                     });
 
-                    line([LOWER_BOUND - (25 / scale), 0], [UPPER_BOUND + (25 / scale), 0], { arrows: "-&gt;" });
-                    line([UPPER_BOUND + (25 / scale), 0], [LOWER_BOUND - (25 / scale), 0], { arrows: "-&gt;" });
+                    line([START + 1, 0], [STOP, 0], { arrows: "-&gt;" });
+                    line([STOP - 1, 0], [START, 0], { arrows: "-&gt;" });
                     for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
-                        line([x, -0.2], [x, 0.2 ]);
+                        line([x, -0.2], [x, 0.2]);
                     }
-                    style({ stroke: "#6495ED", strokeWidth: 3.5 });
-                    line( [ 0, -0.2], [0, 0.2]);
-                    label( [ 0, -0.53 ],  "0", "center");
-                    label( [ -SCALE, -0.53 ],  "\\llap{-}" + SCALE, "center");
-                    label( [ SCALE, -0.53 ],  SCALE, "center");
+                    style({ stroke: BLUE, strokeWidth: 3.5 });
+                    line([0, -0.2], [0, 0.2]);
+
+                    label([0, -0.53],  "0", "center");
+                    label([-SCALE, -0.53],  "\\llap{-}" + SCALE, "center");
+                    label([SCALE, -0.53],  SCALE, "center");
 
                     addMouseLayer();
                     var snap = SCALE / 4;
@@ -41,8 +48,8 @@
                         snap = SCALE / 3;
                     }
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: snap });
-                    graph.movablePoint.onMove = function( x, y ) {
-                        return [ min( max( LOWER_BOUND, x ), UPPER_BOUND ), y ];
+                    graph.movablePoint.onMove = function(x, y) {
+                        return [min(max(LOWER_BOUND, x), UPPER_BOUND), y];
                     };
                 </div>
             </div>
@@ -68,7 +75,7 @@
                 <p data-else="">Because <code><var>NUMBER</var></code> is positive, it will be to the right of <code>0</code>.</p>
                 <div>
                     <div class="graphie" data-update="number-line">
-                        style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
+                        style({ stroke: BLUE, fill: BLUE, strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ NUMBER, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
                     </div>
@@ -86,36 +93,123 @@
                 </div>
                 <div>
                     <div class="graphie" data-update="number-line">
-                        label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
-                        graph.movablePoint.moveTo( NUMBER, 0 );
+                        label([NUMBER, -0.53],  NUMBER, "center", { color: ORANGE });
+                        graph.movablePoint.moveTo(NUMBER, 0);
                     </div>
                     <p>The orange number shows where <code><var>NUMBER</var></code> is on the number line.</p>
                 </div>
             </div>
         </div>
 
-        <div id="what-is-point">
+        <div id="where-is-point-vertical">
+            <div class="question">
+                <p>
+                    Move the <strong><code>\color{orange}{\text{<var>ORANGE_DOT</var>}}</code></strong> to
+                    <strong><code>\color{orange}{<var>NUMBER</var>}</code></strong> on the number line.
+                </p>
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [[-5, 5], [LOWER_BOUND - SCALE * 0.75, UPPER_BOUND + SCALE * 0.75]],
+                        scale: [32, 32 / SCALE]
+                    });
+
+                    line([0, START + 1], [0, STOP], { arrows: "-&gt;" });
+                    line([0, STOP - 1], [0, START], { arrows: "-&gt;" });
+                    for (var y = LOWER_BOUND; y &lt;= UPPER_BOUND; y += SCALE) {
+                        line([-0.2, y], [0.2, y]);
+                    }
+                    style({ stroke: BLUE, strokeWidth: 3.5 });
+                    line([-0.2, 0], [0.2, 0]);
+
+                    label([-0.2, 0],  "0", "left");
+                    label([-0.2, -SCALE],  "\\llap{-}" + SCALE, "left");
+                    label([-0.2, SCALE],  SCALE, "left");
+
+                    addMouseLayer();
+                    var snap = SCALE / 4;
+                    if (SCALE === 3) {
+                        snap = SCALE / 3;
+                    }
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainX: true }, snapY: snap });
+                    graph.movablePoint.onMove = function(x, y) {
+                        return [x, min(max(LOWER_BOUND, y), UPPER_BOUND)];
+                    };
+
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <span class="instruction">Move the orange dot to select your answer.</span>
+                <div class="guess">graph.movablePoint.coord[1]</div>
+                <div class="validator-function">
+                    if (guess === 0) {
+                        return "";
+                    }
+                    return abs(NUMBER - guess) &lt; 0.001;
+                </div>
+                <div class="show-guess">
+                    graph.movablePoint.setCoord([0, guess]);
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>We know where <code>0</code> is on the number line because it is labeled.</p>
+                <p>We know each tick mark represents <code><var>SCALE</var></code> because <code><var>-SCALE</var></code> and <code><var>SCALE</var></code> are labeled.</p>
+                <p data-if="NUMBER < 0">Because <code><var>NUMBER</var></code> is negative, it will be to the left of <code>0</code>.</p>
+                <p data-else="">Because <code><var>NUMBER</var></code> is positive, it will be to the right of <code>0</code>.</p>
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        style({ stroke: BLUE, fill: BLUE, strokeWidth: 3.5, arrows: "-&gt;" });
+                        line([0, 0], [0, NUMBER] );
+                        graph.movablePoint.visibleShape.toFront();
+                    </div>
+                    <p data-if="NUMBER < 0">
+                        Each tick mark represents <code><var>SCALE</var></code>,
+                        so <code><var>NUMBER</var></code> will be
+                        <code><var>abs(round(NUMBER / SCALE))</var></code> tick marks
+                        to the left of <code>0</code>.
+                    </p><p data-else="">
+                        Each tick mark represents <code><var>SCALE</var></code>,
+                        so <code><var>NUMBER</var></code> will be
+                        <code><var>abs(round(NUMBER / SCALE))</var></code> tick marks
+                        to the right of <code>0</code>.
+                    </p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        label([-0.2, NUMBER],  NUMBER, "left", { color: ORANGE });
+                        graph.movablePoint.moveTo(0, NUMBER);
+                    </div>
+                    <p>The orange number shows where <code><var>NUMBER</var></code> is on the number line.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="what-is-point-horizontal">
             <div class="question">
                 <p>Where is the blue dot on the number line?</p>
                 <div class="graphie" id="number-line-2">
-                    var scale = 40 / SCALE;
                     init({
-                        range: [[LOWER_BOUND - (30 / scale), UPPER_BOUND + (30 / scale)], [-1, 1]],
+                        range: [[LOWER_BOUND - SCALE * 0.75, UPPER_BOUND + SCALE * 0.75], [-1, 1]],
                         scale: [40 / SCALE, 40]
                     });
 
-                    line([LOWER_BOUND - (25 / scale), 0], [UPPER_BOUND + (25 / scale), 0], { arrows: "-&gt;" });
-                    line([UPPER_BOUND + (25 / scale), 0], [LOWER_BOUND - (25 / scale), 0], { arrows: "-&gt;" });
+                    line([START + 1, 0], [STOP, 0], { arrows: "-&gt;" });
+                    line([STOP - 1, 0], [START, 0], { arrows: "-&gt;" });
+
                     for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
-                        line([x, -0.2], [x, 0.2 ]);
+                        line([x, -0.2], [x, 0.2]);
                     }
+
                     style({ strokeWidth: 3.5 });
-                    line( [ 0, -0.2], [0, 0.2]);
-                    label( [ 0, -0.53 ],  "0", "center");
-                    label( [ -SCALE, -0.53 ],  "\\llap{-}" + SCALE, "center");
-                    label( [ SCALE, -0.53 ],  SCALE, "center");
+                    line([0, -0.2], [0, 0.2]);
+
+                    label([0, -0.53],  "0", "center");
+                    label([-SCALE, -0.53],  "\\llap{-}" + SCALE, "center");
+                    label([SCALE, -0.53],  SCALE, "center");
                     style({ stroke: BLUE, fill: BLUE });
-                    graph.blueDot = ellipse( [ NUMBER, 0 ], [4 / scale, 4/40] );
+                    graph.blueDot = ellipse([NUMBER, 0], [SCALE * 0.1, 0.1]);
+                    graph.questionLabel = label([NUMBER, -0.53], "{?}", "center", { color: BLUE });
                 </div>
             </div>
             <div class="solution" data-forms="integer"><var>NUMBER</var></div>
@@ -127,10 +221,60 @@
                 <p data-else="">Because the blue dot is to the right of <code>0</code>, the number will be positive.</p>
                 <div>
                     <div class="graphie" data-update="number-line-2">
-                        for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
-                            label([x, -0.53], ("" + x).replace(/-/, "\\llap{-}"), "center");
+                        for (var x = SCALE * 2; x &lt;= UPPER_BOUND; x += SCALE) {
+                            label([x, -0.53], x, "center");
+                            label([-x, -0.53], "\\llap{-}" + x, "center");
                         }
-                        label([ NUMBER, -0.53], ("" + NUMBER).replace(/-/, "\\llap{-}"), "center", { color: BLUE });
+                        graph.questionLabel.remove();
+                        label([NUMBER, -0.53], ("" + NUMBER).replace(/-/, "\\llap{-}"), "center", { color: BLUE });
+                    </div>
+                    <p>The blue dot represents the number <code><var>NUMBER</var></code>.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="what-is-point-vertical">
+            <div class="question">
+                <p>Where is the blue dot on the number line?</p>
+                <div class="graphie" id="number-line-2">
+                    init({
+                        range: [[-5, 5], [LOWER_BOUND - SCALE * 0.75, UPPER_BOUND + SCALE * 0.75]],
+                        scale: [32, 32 / SCALE]
+                    });
+
+                    line([0, START + 1], [0, STOP], { arrows: "-&gt;" });
+                    line([0, STOP - 1], [0, START], { arrows: "-&gt;" });
+
+                    for (var y = LOWER_BOUND; y &lt;= UPPER_BOUND; y += SCALE) {
+                        line([-0.2, y], [0.2, y]);
+                    }
+
+                    style({ strokeWidth: 3.5 });
+                    line([-0.2, 0], [0.2, 0]);
+
+                    label([-0.2, 0],  "0", "left");
+                    label([-0.2, -SCALE],  "\\llap{-}" + SCALE, "left");
+                    label([-0.2, SCALE],  SCALE, "left");
+                    style({ stroke: BLUE, fill: BLUE });
+                    graph.blueDot = ellipse([0, NUMBER], [0.1, 0.1 * SCALE]);
+                    graph.questionLabel = label([-0.2, NUMBER], "{?}", "left", { color: BLUE });;
+                </div>
+            </div>
+            <div class="solution" data-forms="integer"><var>NUMBER</var></div>
+
+            <div class="hints">
+                <p>We know where <code>0</code> is on the number line because it is labeled.</p>
+                <p>We know each tick mark represents <code><var>SCALE</var></code> because <code><var>-SCALE</var></code> and <code><var>SCALE</var></code> are labeled.</p>
+                <p data-if="NUMBER < 0">Because the blue dot is to the left of <code>0</code>, the number will be negative.</p>
+                <p data-else="">Because the blue dot is to the right of <code>0</code>, the number will be positive.</p>
+                <div>
+                    <div class="graphie" data-update="number-line-2">
+                        for (var x = SCALE * 2; x &lt;= UPPER_BOUND; x += SCALE) {
+                            label([-0.2 ,x], x, "left");
+                            label([-0.2, -x], "\\llap{-}" + x, "left");
+                        }
+                        graph.questionLabel.remove();
+                        label([-0.2, NUMBER], ("" + NUMBER).replace(/-/, "\\llap{-}"), "left", { color: BLUE });
                     </div>
                     <p>The blue dot represents the number <code><var>NUMBER</var></code>.</p>
                 </div>
