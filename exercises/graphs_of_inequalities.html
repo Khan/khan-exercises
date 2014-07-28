@@ -13,7 +13,7 @@
                 <var id="SLOPE_FRAC">reduce( randRangeNonZero( -5, 5 ), randRange( 1, 5 ) )</var>
                 <var id="YINT">randRangeNonZero( max( -10, -10 - SLOPE_FRAC[0] ), min( 10, 10 - SLOPE_FRAC[0] ) )</var>
                 <var id="SLOPE">SLOPE_FRAC[0] / SLOPE_FRAC[1]</var>
-                <var id="PRETTY_SLOPE">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( SLOPE_FRAC[0], SLOPE_FRAC[1], true, true ) )</var>
+                <var id="PRETTY_SLOPE">coefficient(fractionReduce(SLOPE_FRAC[0], SLOPE_FRAC[1])) + "x"</var>
                 <var id="MULT">randRangeNonZero( -3, 3 )</var>
                 <var id="A">SLOPE_FRAC[0] * -MULT</var>
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
@@ -23,10 +23,14 @@
                 <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP ] : COMP</var>
                 <var id="LESS_THAN">COMP === "&lt;" || COMP === "≤"</var>
                 <var id="INCLUSIVE">COMP === "≥" || COMP === "≤"</var>
-                <var id="X1">SLOPE_FRAC[1]</var>
-                <var id="Y1">YINT + SLOPE_FRAC[0]</var>
-                <var id="X2">-SLOPE_FRAC[1]</var>
-                <var id="Y2">YINT - SLOPE_FRAC[0]</var>
+                <var id="X1, Y1">abs(YINT + SLOPE_FRAC[0]) &lt; 10 ?
+                    [SLOPE_FRAC[1], YINT + SLOPE_FRAC[0]] :
+                    [-2 * SLOPE_FRAC[1], YINT - 2 * SLOPE_FRAC[0]]
+                </var>
+                <var id="X2, Y2">abs(YINT - SLOPE_FRAC[0]) &lt; 10 ?
+                    [-SLOPE_FRAC[1], YINT - SLOPE_FRAC[0]] :
+                    [2 * SLOPE_FRAC[1], YINT + 2 * SLOPE_FRAC[0]]
+                </var>
                 <var id="ORI_IN">(YINT &lt; 0 &amp;&amp; !LESS_THAN) || (YINT &gt; 0 &amp;&amp; LESS_THAN)</var>
             </div>
 
@@ -63,8 +67,8 @@
             </div>
             <div class="solution" data-type="multiple">
                 <p class="short"><code>y</code><span class="sol" data-choices="['', '&lt;', '≤', '&gt;', '≥']" data-type="list"><var>COMP</var></span>
-                <span class="sol short30" data-fallback="1"><var>SLOPE</var></span><code>\space x + </code>
-                <span class="sol short30"><var>YINT</var></span></p>
+                <span class="sol short30" data-forms="integer, proper, improper, mixed, decimal, coefficient"><var>SLOPE</var></span>
+                <code>\space x + </code><span class="sol short30"><var>YINT</var></span></p>
             </div>
 
             <div class="hints">
@@ -94,30 +98,30 @@
                 </p>
                 <p data-if="LESS_THAN">
                     If we pick a point on the line, let's say <code>(<var>X1</var>,<var>Y1</var>)</code>, we can see that points below that point are all shaded in. These are the points where <code>x = <var>X1</var> </code> but <code>y</code> is
-                    less than <var> Y1 </var>. So we should use a &lt; or ≤ sign.
+                    less than <code><var>Y1</var></code>. So we should use a <code>&lt;</code> or <code>≤</code> sign.
                 </p><p data-else="">
                     If we pick a point on the line, let's say <code>(<var>X1</var>,<var>Y1</var>)</code>, we can see that points above that point are all shaded in. These are the points where <code>x = <var>X1</var> </code> but <code>y</code> is
-                    greater than <var> Y1 </var>. So we should use a &gt; or ≥ sign.
+                    greater than <code><var>Y1</var></code>. So we should use a <code>&gt;</code> or <code>≥</code> sign.
                 </p>
                 <div>
                     <p>Another way to see this is to try plugging in a point. The easiest point to plug in is <code>(0,0)</code>:</p>
-                    <p><code>y \; ? \; <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
-                    <p><code>0 \; ? \; <var>( SLOPE === -1 ? "-1*" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 ) + "*"))</var> 0 + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
+                    <p><code>y \; ? \; <var>coefficient(fractionReduce(Y2 - Y1, X2 - X1))</var>x + <var>fractionReduce(Y1 * (X2 - X1) - X1 * (Y2 - Y1), X2 - X1)</var></code></p>
+                    <p><code>0 \; ? \; <var>( SLOPE === -1 ? "-1 \\times" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 ) + "\\times"))</var> 0 + <var>fractionReduce(Y1 * (X2 - X1) - X1 * (Y2 - Y1), X2 - X1)</var></code></p>
                     <p>
-                        <span data-if="ORI_IN">Since <code>(0,0)</code> is  in the shaded area, this expression must be true.</span><span data-else="">Since <code>(0,0)</code> is not in the shaded area, this expression must be false.</span>
-                        <span data-if="LESS_THAN">So, the ? must be either &lt; or ≤.</span><span data-else="">So, the ? must be either &gt; or ≥.</span>
+                        <span data-if="ORI_IN">Since <code>(0, 0)</code> is  in the shaded area, this expression must be true.</span>
+                        <span data-else="">Since <code>(0, 0)</code> is not in the shaded area, this expression must be false.</span>
+                        <span data-if="LESS_THAN">So, the <code>?</code> must be either <code>&lt;</code> or <code>≤</code>.</span>
+                        <span data-else="">So, the <code>?</code> must be either <code>&gt;</code> or <code>≥</code>.</span>
                     </p>
                 </div>
                 <p data-if="INCLUSIVE">
-                    The line of the graph is solid, so the points on the boundary are 
-                    in the set of solutions for this inequality.
+                    The line of the graph is solid, so the points on the boundary are in the set of solutions for this inequality.
                 </p><p data-else="">
-                    The line of the graph is dashed, so the points on the boundary are not
-                    in the set of solutions for this inequality.
+                    The line of the graph is dashed, so the points on the boundary are not in the set of solutions for this inequality.
                 </p>
                 <p>
                     So, we choose the <var>COMP</var> sign, and the final inequality is
-                    <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>.
+                    <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> + <var>YINT</var></code>.
                 </p>
             </div>
         </div>
