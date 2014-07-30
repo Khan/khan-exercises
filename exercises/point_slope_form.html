@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="y-as-function-of-x" data-weight="2">
-                <div class="vars" data-ensure="X1 !== X2">
+                <div class="vars" data-ensure="X1 !== X2 &amp;&amp; SLOPE !== 0">
                     <var id="X1">randRangeNonZero( -5, 5 )</var>
                     <var id="Y1">randRangeNonZero( -5, 5 )</var>
                     <var id="X2">randRangeNonZero( -5, 5 )</var>
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div id="two-points" data-weight="3">
-                <div class="vars" data-ensure="X1 !== X2">
+                <div class="vars" data-ensure="X1 !== X2 &amp;&amp; SLOPE !== 0">
                     <var id="X1">randRangeNonZero( -5, 5 )</var>
                     <var id="Y1">randRangeNonZero( -5, 5 )</var>
                     <var id="X2">randRangeNonZero( -5, 5 )</var>
@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div id="slope-intercept" data-weight="1">
-                <div class="vars" data-ensure="X1 !== X2">
+                <div class="vars" data-ensure="X1 !== X2 &amp;&amp; SLOPE !== 0">
                     <var id="X1">0</var>
                     <var id="Y1">randRangeNonZero( -5, 5 )</var>
                     <var id="X2">randRangeNonZero( -5, 5 )</var>
