@@ -670,7 +670,7 @@ $.extend(KhanUtil, {
 
 // For consistent coloring throughout Perseus
 $.extend(KhanUtil, {
-    INTERACTING: KhanUtil.PINK,
+    INTERACTING: KhanUtil.ORANGE,
     INTERACTIVE: KhanUtil.ORANGE,
     DYNAMIC: KhanUtil.BLUE
 });
