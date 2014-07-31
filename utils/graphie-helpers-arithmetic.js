@@ -405,7 +405,7 @@ function drawRow(num, y, color, startCount) {
     var set = graph.raphael.set();
     for (var x = 0; x < num; x++) {
         set.push(graph.label([x, y], "\\small{\\color{" + color + "}{" + (startCount + x) + "}}"));
-        set.push(graph.circle([x, y], 0.25));
+        set.push(graph.circle([x, y], 0.35));
     }
 
     return set;

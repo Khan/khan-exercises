@@ -8,55 +8,147 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="A">randRange( 1, 10 )</var>
-            <var id="B">randRange( 1, 10 )</var>
+            <var id="A">randRange(1, 10)</var>
+            <var id="B">randRange(1, 10)</var>
             <var id="C">A * B</var>
         </div>
 
         <div class="problems">
-            <div>
+            <div id="missing-quotient">
                 <div class="graphie" id="numbers">
-                    var bottomBoundary = ( B === 1 ) ? A - 1 : -1;
+                    var bottomBoundary = ( B === 1 ) ? A - 0.5 : -0.5;
                     init({
-                        range: [ [ -1, 10 ], [ bottomBoundary, A + 1 ] ],
-                        scale: [ 50, 50 ]
+                        range: [[-1, 10], [bottomBoundary, A + 1]],
+                        scale: [40, 40]
                     });
 
                     KhanUtil.currentGraph.labelHolder = label( [ 0, A ],
-                        "\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = {?}}", "right" );
+                        "\\Huge{\\blue{" + C + "} \\div \\green{" + B + "} = \\pink{?}}", "right" );
                 </div>
+
                 <div class="solution" data-forms="integer"><var>A</var></div>
-            </div>
-        </div>
-        <div class="hints">
-            <div data-if="B > 1" data-unwrap="">
-                <div>
+
+                <div class="hints">
+                    <div data-if="B > 1" data-unwrap="">
+                        <div>
+                            <div class="graphie" data-update="numbers">
+                                for (var i = 0; i &lt; A; i++) {
+                                    drawRow(B, A - 1 - i, BLUE, B * i + 1);
+                                }
+                            </div>
+                            <p>Draw <code>\blue{<var>C</var>}</code> circles, with <code>\green{<var>B</var>}</code> to each row.</p>
+                        </div>
+                        <div>
+                            <div class="graphie" data-update="numbers">
+                                style({
+                                    stroke: GREEN,
+                                    'stroke-width': 3
+                                });
+                                for (var i = 1; i &lt; A; i++) {
+                                    path ([[-0.5 , i - 0.5], [B - 0.5, i - 0.5]]);
+                                }
+                            </div>
+                            <p>How many rows are there?</p>
+                        </div>
+                    </div>
+                    <p data-else="">
+                        Dividing any number by <code>1</code> equals itself.
+                    </p>
                     <div class="graphie" data-update="numbers">
-                        for ( var i = 0; i &lt; A; i++ ) {
-                            drawRow( B, A - 1 - i, "#6495ED", B * i + 1 );
+                        KhanUtil.currentGraph.labelHolder.remove();
+                        label([0, A], "\\Huge{\\blue{" + C + "} \\div \\green{" + B + "} = \\pink{" + A + "}}", "right");
+                    </div>
+                </div>
+            </div>
+
+            <div id="missing-dividend">
+                <div class="graphie" id="numbers">
+                    var bottomBoundary = ( B === 1 ) ? A - 0.5 : -1.5;
+                    init({
+                        range: [[-2, 10], [bottomBoundary, A + 2]],
+                        scale: [40, 40]
+                    });
+
+                    KhanUtil.currentGraph.labelHolder = label([0, A + 1],
+                        "\\Huge{\\blue{?} \\div \\green{" + B + "} = \\pink{" + A + "}}", "right" );
+                </div>
+
+                <div class="solution" data-forms="integer"><var>C</var></div>
+
+
+                <div class="hints">
+                    <div data-if="B > 1" data-unwrap="">
+                        <div>
+                            <div class="graphie" data-update="numbers">
+                                if (B === 1) {
+                                    label([0, A], "We can make a row of 1 circle.", "right", false);
+                                } else {
+                                    label([0, A], "We can make a row of " + B + " circles.", "right", false);
+                                }
+
+                                drawRow(B, A - 2, GREEN, 1);
+                            </div>
+                        </div>
+                        <div>
+                            <div class="graphie" data-update="numbers">
+                                if (A === 1) {
+                                    label([0, A - 1], "How many rows to do we need to get 1 circle?", "right", false);
+                                } else {
+                                    label([0, A - 1], "How many rows to do we need to get " + A + " circles?", "right", false);
+                                }
+
+                                for (var i = 1; i &lt; A; i++) {
+                                    drawRow(B, A - 2 - i, BLUE, B * i + 1);
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <p data-else="">
+                        Dividing any number by <code>1</code> equals itself.
+                    </p>
+                    <div class="graphie" data-update="numbers">
+                        KhanUtil.currentGraph.labelHolder.remove();
+                        label([0, A + 1], "\\Huge{\\blue{" + C + "} \\div \\green{" + B + "} = \\pink{" + A + "}}", "right");
+
+                        for (var i = 0; i &lt; A; i++) {
+                            label([-1, i - 1], A - i, { color: PINK });
                         }
                     </div>
-                    <p>Draw <var>C</var> circles, with <var>B</var> to each row.</p>
-                </div>
-                <div>
-                    <div class="graphie" data-update="numbers">
-                        style({
-                            stroke: "#FFA500"
-                        });
-                        for ( var i = 1; i &lt; A; i++ ) {
-                            path ( [ [ - 0.5 , i - 0.5 ], [ B - 0.5 , i - 0.5 ] ]);
-                        }
-                    </div>
-                    <p>How many rows are there?</p>
                 </div>
             </div>
-            <p data-else="">
-                Dividing any number by 1 equals itself.
-            </p>
-            <div class="graphie" data-update="numbers">
-                KhanUtil.currentGraph.labelHolder.remove();
-                label( [ 0, A ],
-                    "\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = " + A + "}", "right" );
+
+            <div id="missing-divisor">
+                <div class="graphie" id="numbers">
+                    init({
+                        range: [[-2, 10], [-0.5, A + 1]],
+                        scale: [40, 40]
+                    });
+
+                    KhanUtil.currentGraph.labelHolder = label([-1, A],
+                        "\\Huge{\\blue{" + C + "} \\div \\green{?} = \\pink{" + A + "}}", "right" );
+                </div>
+
+                <div class="solution" data-forms="integer"><var>B</var></div>
+                
+                <div class="hints">
+                    <div>
+                        <div class="graphie" data-update="numbers">
+                            for (var i = 0; i &lt; A; i++) {
+                                drawRow(B, A - 1 - i, BLUE, B * i + 1);
+                                label([-1, i], A - i, { color: PINK });
+                                if (i &gt; 0) {
+                                    path ([[-0.5 , i - 0.5], [B - 0.5, i - 0.5]], { stroke: GREEN, 'stroke-width': 3 });
+                                }
+                            }
+                        </div>
+                        <p>Draw <code>\blue{<var>C</var>}</code> circles in <code>\pink{<var>A</var>}</code> equal-sized row.</p>
+                    </div>
+                    <p>How circles are in each row?</p>
+                    <div class="graphie" data-update="numbers">
+                        KhanUtil.currentGraph.labelHolder.remove();
+                        label([-1, A], "\\Huge{\\blue{" + C + "} \\div \\green{" + B + "} = \\pink{" + A + "}}", "right");
+                    </div>
+                </div>
             </div>
         </div>
     </div>
