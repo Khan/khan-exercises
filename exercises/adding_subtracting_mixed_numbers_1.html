@@ -36,7 +36,7 @@
                 <var id="GCD">getGCD(SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2 , LCM)</var>
             </div>
 
-            <p class="problem">Express your answer as a <em>simplified mixed number</em>.</p>
+            <p class="problem">Express your answer as a <em>mixed number simplified to lowest terms</em>.</p>
             <p class="question"><code>
                 <var>W1</var><var>fraction(N1, D1)</var> <var>SIGN</var> <var>abs(W2)</var><var>fraction(N2, D2)</var> = {?}
             </code></p>
@@ -44,7 +44,6 @@
 
             <div class="hints">
                 <div data-if="GCD1 !== 1 || GCD2 !== 1">
-                    <p>Simplify the fractions:</p>
                     <p><code>\qquad =
                         \blue{<var>W1</var><var>fraction(SIMP_N1, SIMP_D1)</var>} <var>SIGN</var>
                         \pink{<var>abs(W2)</var><var>fraction(SIMP_N2, SIMP_D2)</var>}
@@ -62,7 +61,6 @@
                 </code></p>
 
                 <div>
-                    <p>Add the whole numbers:</p>
                     <p><code>\qquad =
                         \blue{<var>W1</var>} <var>SIGN</var> \pink{<var>abs(W2)</var>} +
                         \blue{<var>fraction(SIMP_N1, SIMP_D1)</var>} <var>SIGN</var>
@@ -75,7 +73,6 @@
                 </div>
 
                 <div data-if="LCM !== 1">
-                    <p>Put the fractions over a common denominator:</p>
                     <p><code>\qquad =
                         <var>W1 + W2</var> + \blue{<var>fraction(SIMP_N1 * LCM / SIMP_D1, LCM)</var>} <var>SIGN</var>
                         \pink{<var>fraction(SIMP_N2 * LCM / SIMP_D2, LCM)</var>}
@@ -83,7 +80,6 @@
                 </div>
 
                 <div>
-                    <p>Add the fractions and simplify:</p>
                     <p><code>\qquad = <var>W1 + W2</var> + <var>fraction(SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM)</var></code></p>
                     <p><code>\qquad = <var>W1 + W2 + fraction(SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM)</var></code></p>
                     <p data-if="GCD > 1"><code>\qquad =
@@ -116,12 +112,11 @@
                 <var id="LCM">getLCM(SIMP_D1, SIMP_D2)</var>
                 <var id="GCD">getGCD(SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2 , LCM)</var>
             </div>
-            <p class="problem">Express your answer as a <em>simplified mixed number</em>.</p>
+            <p class="problem">Express your answer as a <em>mixed number simplified to lowest terms</em>.</p>
             <p class="question"><code><var>W1 + 1</var><var>fraction(N1, D1)</var> + <var>W2</var><var>fraction(N2, D2)</var> = {?}</code></p>
             <div class="solution" data-type="mixed"><var>W1 + 1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
             <div class="hints">
                 <div data-if="GCD1 !== 1 || GCD2 !== 1">
-                    <p>Simplify the fractions:</p>
                     <p><code>\qquad =
                         \blue{<var>W1 + 1</var><var>fraction(SIMP_N1, SIMP_D1)</var>} <var>SIGN</var>
                         \pink{<var>abs(W2)</var><var>fraction(SIMP_N2, SIMP_D2)</var>}
@@ -129,7 +124,6 @@
                 </div>
 
                 <div data-if="LCM !== 1">
-                    <p>Put the fractions over a common denominator:</p>
                     <p><code>\qquad =
                         \blue{<var>W1 + 1</var><var>fraction(SIMP_N1 * LCM / SIMP_D1, LCM)</var>} <var>SIGN</var>
                         \pink{<var>abs(W2)</var><var>fraction(SIMP_N2 * LCM / SIMP_D2, LCM)</var>}
@@ -157,7 +151,6 @@
                 </code></p>
 
                 <div>
-                    <p>Add the whole numbers:</p>
                     <p><code>\qquad =
                         \blue{<var>W1</var>} <var>SIGN</var> \pink{<var>abs(W2)</var>} +
                         \blue{<var>fraction(LCM + SIMP_N1 * LCM / SIMP_D1, LCM)</var>}<var>SIGN</var> \pink{<var>fraction(SIMP_N2 * LCM / SIMP_D2, LCM)</var>}
@@ -169,7 +162,6 @@
                 </div>
 
                 <div>
-                    <p>Add the fractions and simplify:</p>
                     <p><code>\qquad =
                         <var>W1 + W2</var> + <var>fraction((LCM + SIMP_N1 * LCM / SIMP_D1) + (PM * SIMP_N2 * LCM / SIMP_D2), LCM)</var>
                     </code></p>

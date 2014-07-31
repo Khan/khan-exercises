@@ -9,24 +9,21 @@
 <div class="exercise">
     <div class="problems">
         <div id="two-numbers">
-            <div class="vars">
-                <var id="PM">randRangeNonZero( -1, 1 )</var>
-                <var id="SIGN">( PM === 1 ? "+" : "-")</var>
-                <var id="W1">randRange( 2, 19 )</var>
-                <var id="W2">( PM === 1 ? randRange( 1, 19 ) : randRange( -W1 + 1, -1 ))</var>
-
-                <div data-ensure="getLCM( D1, D2 ) &lt; 61 &amp;&amp; D1 === D2">
-                    <var id="D1">randRange( 3, 20 )</var>
-                    <var id="D2">randRange( 3, 20 )</var>
-                </div>
-                <div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) &lt; 1 : (N1 / D1) + PM * (N2 / D2) &gt; 0)">
-                    <var id="N1">randRange( 1, D1 - 1 )</var>
-                    <var id="N2">randRange( 1, D2 - 1 )</var>
-                </div>
+            <div class="vars" data-ensure="PM === 1 ? (N1 / D1) + (N2 / D2) &lt; 1 : (N1 / D1) + PM * (N2 / D2) &gt; 0">
+                <var id="PM">randRangeNonZero(-1, 1)</var>
+                <var id="SIGN">PM === 1 ? "+" : "-"</var>
+                <var id="W1">randRange(2, 9)</var>
+                <var id="W2">PM === 1 ? randRange(1, 9) : randRange(-W1 + 1, -1)</var>
+                <var id="D1">randFromArray(smallDenominators)</var>
+                <var id="D2">D1</var>
+                <var id="N1">randRange(1, D1 - 1)</var>
+                <var id="N2">randRange(1, D2 - 1)</var>
             </div>
 
             <p class="problem">Express your answer as a <em>mixed number</em>.</p>
-            <p class="question"><code><var>expr(["+", W1 + fraction( N1, D1 ), W2 + fraction( N2, D2 )])</var> = {?}</code></p>
+            <p class="question">
+                <code><var>W1</var><var>fraction(N1, D1)</var> + <var>W2</var><var>fraction(N2, D2)</var> = {?}</code>
+            </p>
             <div class="solution" data-type="mixed" data-simplify="optional"><var>W1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
 
             <div class="hints">
@@ -46,7 +43,7 @@
                 </code></p>
 
                 <p><code>=<var>W1 + W2</var> + \blue{<var>fraction(N1, D1)</var>} <var>SIGN</var> \pink{<var>fraction(N2, D2)</var>}</code></p>
-                <p><code>= <var>expr(["+", W1 + W2, fraction(N1 + PM * N2, D2)])</var></code></p>
+                <p><code>= <var>W1 + W2</var> + <var>fraction(N1 + PM * N2, D2)</var></code></p>
                 <p><code>= <var>W1 + W2 + fraction(N1 + PM * N2, D2)</var></code></p>
             </div>
         </div>
