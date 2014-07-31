@@ -122,10 +122,10 @@
 
         <div id="twinWeight">
             <div class="vars">
-                <var id="weight_1_integer">randRange(100, 250)</var>
+                <var id="weight_1_integer">randRange(250, 500)</var>
                 <var id="weight_1_decimal">2</var>
                 <var id="weight_1">truncate_to_max(weight_1_integer * pow(10, -weight_1_decimal), 2)</var>
-                <var id="weight_2_integer">randRange(100, 250)</var>
+                <var id="weight_2_integer">randRange(250, 500)</var>
                 <var id="weight_2_decimal">2</var>
                 <var id="weight_2">truncate_to_max(weight_2_integer * pow(10, -weight_2_decimal), 2)</var>
                 <var id="height_1">randRange(90, 110) / 2</var>
@@ -267,7 +267,7 @@
                     graph.subtractor.showHint();
                 </div>
                 <p class="final_answer">
-                    <var>person(2)</var>'s town received <code><var>solution</var></code> inches more rain than <var>person(1)</var>'s town.
+                    <var>person(2)</var>'s town received <code><var>solution</var></code> centimeters more rain than <var>person(1)</var>'s town.
                 </p>
             </div>
         </div>
