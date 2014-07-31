@@ -4,14 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Estimation with decimals</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style>
-        .estimation span {
-            width: 100px;
-        }
-        .estimation span:first-child {
-            width: 50px;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -57,8 +49,20 @@
                     })()
                 </var>
             </div>
-            <p><var>person(1)</var> has been <var>TYPES[0]</var> every day for the last <var>VALUES.length</var> days.</p>
-            <p class="question" data-if="isMale(1)">Given that <var>person(1)</var> <var>TYPES[1]</var> the following amounts (in <var>plural_form(TYPES[2])</var>) each day, estimate how much he <var>TYPES[1]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p><p class="question" data-else="">Given that <var>person(1)</var> <var>TYPES[1]</var> the following amounts (in <var>plural_form(TYPES[2])</var>) each day, estimate how much she <var>TYPES[1]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p>
+            <p>
+                <var>person(1)</var> has been <var>TYPES[0]</var> every day for the last <code><var>VALUES.length</var></code> days.
+                <span data-if="isMale(1)">The table below shows the amount he <var>TYPES[1]</var> in <var>plural_form(TYPES[2])</var> each day.</span>
+                <span data-else="">The table below shows the amount she <var>TYPES[1]</var> in <var>plural_form(TYPES[2])</var> each day.</span>
+            </p>
+            <p class="question" data-if="isMale(1)">
+                Estimate how much he <var>TYPES[1]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.
+            </p><p class="question" data-else="">
+                Estimate how much she <var>TYPES[1]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.
+            </p>
+            <p>
+                Note that if you sum the exact amounts (<code><var>localeToFixed(SUM, 2)</var></code>) and then round, you'll get <code><var>round(SUM)</var></code>. For fun, pay attention to how this number compares with your estimate.
+            </p>
+
             <div class="fake_header estimation">
                 <span>Day<br> <span style="color:white">" "</span></span>
                 <span>Amount <br><font size="2">(in <var>plural_form(TYPES[2])</var>)</font></span>
@@ -67,7 +71,6 @@
                 <span><var>i+1</var></span>
                 <span><var>localeToFixed(pair[0], pair[1])</var></span>
             </div>
-            <p><br>Note that if you first sum the exact amounts (<var>localeToFixed(SUM, 2)</var>) and then round, you'll get <var>round(SUM)</var>. For fun, pay attention to how this number compares with your estimate.</p>
             <p class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural_form(TYPES[2], ANSWER)</var>
             </p>

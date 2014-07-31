@@ -998,6 +998,13 @@ span.hover-hint:hover {
     margin-right: 45px;
 }
 
+#problemarea .estimation span {
+    width: 100px;
+}
+#problemarea .estimation span:first-child {
+    width: 50px;
+}
+
 #solutionarea table.rational-exp td {
     text-align: center;
     vertical-align: middle;
