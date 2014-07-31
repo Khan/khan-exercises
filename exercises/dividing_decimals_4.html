@@ -15,6 +15,7 @@
             <var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 4 : 5</var>
             <var id="DIVIDEND_DECIMAL">randRange( Math.max( DIVISOR_DECIMAL, 1 ), MAX_DIVIDEND_DECIMAL)</var>
             <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
+            <var id="SOLUTION">QUOTIENT * pow(10, -QUOTIENT_DECIMAL)</var>
             <var id="DUMMY">[]</var>
         </div>
 
@@ -25,13 +26,18 @@
                     graph.divider.show();
                     DUMMY = Array( graph.divider.getNumHints() );
                 </div>
-                <div class="solution" data-type="decimal"><var>QUOTIENT  / round( pow( 10, QUOTIENT_DECIMAL ) )</var></div>
+                <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
             </div>
         </div>
         <div class="hints">
             <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                 graph.divider.showHint();
             </div>
+            <p><code>
+                <var>localeToFixed(DIVIDEND * pow(10, -DIVIDEND_DECIMAL), DIVIDEND_DECIMAL)</var> \div
+                <var>localeToFixed(DIVISOR * pow(10, -DIVISOR_DECIMAL), DIVISOR_DECIMAL)</var> =
+                <var>localeToFixed(SOLUTION, QUOTIENT_DECIMAL)</var>
+            </code></p>
         </div>
     </div>
 </body>

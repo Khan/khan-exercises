@@ -22,6 +22,7 @@
             <var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
             <var id="SMALL_FACTOR_DIGITS">padDigitsToNum( digits( SMALL_FACTOR ), SMALL_FACTOR_DECIMAL + 1 )</var>
             <var id="BIG_FACTOR_DIGITS">padDigitsToNum( digits( BIG_FACTOR ), BIG_FACTOR_DECIMAL + 1 )</var>
+            <var id="ANSWER">localeToFixed(PRODUCT * pow(10, -(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL)), BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL)</var>
             <var id="DUMMY">[]</var>
         </div>
 
@@ -34,9 +35,7 @@
                     graph.multiplier.showDecimals();
                     DUMMY = Array( graph.multiplier.getNumHints() );
                 </div>
-                <div class="solution" data-type="decimal">
-                    <var>(PRODUCT * pow(10, -(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL))).toFixed(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL)</var>
-                </div>
+                <div class="solution" data-type="decimal"><var>ANSWER</var></div>
             </div>
         </div>
         <div class="hints">
@@ -46,6 +45,11 @@
             <div class="graphie" data-update="numbers">
                 graph.multiplier.showDecimalsInProduct();
             </div>
+            <p><code>
+                <var>localeToFixed(BIG_FACTOR * pow(10, -BIG_FACTOR_DECIMAL), BIG_FACTOR_DECIMAL)</var> \times
+                <var>localeToFixed(SMALL_FACTOR * pow(10, -SMALL_FACTOR_DECIMAL), SMALL_FACTOR_DECIMAL)</var> =
+                <var>ANSWER</var>
+            </code></p>
         </div>
     </div>
 </body>
