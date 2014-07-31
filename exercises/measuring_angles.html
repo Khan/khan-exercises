@@ -18,16 +18,21 @@
                     </div>
                     <div class="question">
                         <div class="graphie" id="angle">
+                            var LENGTH = 9;
                             var ANGLE_TWO = ANGLE_ONE + DIFF;
                             var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
                             var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
 
                             init({
-                                range: [ [-11, 31], [-10, 10] ],
+                                range: [ [-11, 15], [-10, 10] ],
                                 scale: 20
                             });
-                            path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
-                            arc( [0, 0], 1, ANGLE_ONE, ANGLE_TWO );
+
+                            style({ stroke: BLUE, arrows: "--&gt;" });
+                            line([0, 0], [LENGTH * cos(ANGLE_ONE_R), LENGTH * sin(ANGLE_ONE_R)]);
+                            line([0, 0], [LENGTH * cos(ANGLE_TWO_R), LENGTH * sin(ANGLE_TWO_R)]);
+                            style({ stroke: BLUE, arrows: null });
+                            arc([0, 0], 1, ANGLE_ONE, ANGLE_TWO);
 
                             addMouseLayer();
                             graph.protractor = protractor([14, -8]);
@@ -64,7 +69,7 @@
                 <div>
                     <div class="graphie" data-update="angle">
                         graph.showCorrect();
-                        label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                        label([10 * cos(toRadians(ANGLE_ONE)), 10 * sin(toRadians(ANGLE_ONE))], "\\pink{" + DIFF + "^{\\circ}}" );
                     </div>
                     <p>The angle is <code><var>DIFF</var></code> degrees.</p>
                 </div>
