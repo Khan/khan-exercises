@@ -114,7 +114,7 @@
                             line(
                                 TARGET[i],
                                 TARGET[(i + 1) % TARGET.length],
-                                { stroke: ORANGE }
+                                { stroke: BLUE }
                             );
                         }
                     };
@@ -123,7 +123,7 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    Drag the blue polygon to its image under the given translation.
+                    Drag the orange polygon to its image under the given translation.
                 </div>
                 <div class="guess"> KhanUtil.currentGraph.graph.curPoints </div>
                 <div class="validator-function">
@@ -177,12 +177,12 @@
                     <code>(<var>HULL[0][0]</var>,<var>HULL[0][1]</var>)</code>
                     to
                     <code>(<var>TARGET[0][0]</var>,<var>TARGET[0][1]</var>)</code>,
-                    we changed the x-coordinate by <var>DX</var> and the
-                    y-coordinate by <var>DY</var>. To translate the whole
-                    polygon, we need to do the same thing to all of its points.
+                    we changed the <code>x</code>-coordinate by <code><var>DX</var></code>
+                    and the <code>y</code>-coordinate by <code><var>DY</var></code>.
+                    To translate the whole polygon, we need to do the same thing to all of its points.
                 </p>
                 <div>
-                    <p>The orange outline shows where the polygon ends up after
+                    <p>The blue outline shows where the polygon ends up after
                     the translation.</p>
 
                     <div class="graphie" data-update="grid">
@@ -288,8 +288,8 @@
                     <code>(<var>HULL[0][0]</var>,<var>HULL[0][1]</var>)</code>
                     to
                     <code>(<var>TARGET[0][0]</var>,<var>TARGET[0][1]</var>)</code>,
-                    we changed the x-coordinate by <var>DX</var> and the
-                    y-coordinate by <var>DY</var>.
+                    we changed the <code>x</code>-coordinate by <code><var>DX</var></code>
+                    and the <code>y</code>-coordinate by <code><var>DY</var></code>.
                 </p>
                 <div>
                     The translation used was
