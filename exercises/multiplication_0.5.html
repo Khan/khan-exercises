@@ -7,65 +7,143 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-            <var id="A">randRange(0, 10)</var>
-            <var id="B">randRange(0, 10)</var>
-        </div>
-
         <div class="problems">
-            <div>
+            <div id="missing-C">
+                <div class="vars" data-ensure="A !== 0 || B !== 0">
+                    <var id="A">randRange(0, 10)</var>
+                    <var id="B">randRange(0, 10)</var>
+                    <var id="C">A * B</var>
+                </div>
+
                 <div class="graphie" id="numbers">
                     init({
-                        range: [ [ -1, 12 ], [ -3, B + 1 ] ],
-                        scale: [ 50, 50 ]
+                        range: [[ -1, 12], [-3, B + 1]],
+                        scale: [45, 45]
                     });
-                    KhanUtil.currentGraph.labelHolder = label( [ 0, B ],
-                        "\\Huge{\\color{#6495ED}{" + A + "} \\times \\color{#28AE7B}{" + B + "} = {?}}", "right" );
+                    graph.question = label([0, B], "\\Huge{\\blue{" + A + "} \\times \\green{" + B + "} = ?}", "right");
                 </div>
-                <div class="solution" data-forms="integer"><var>A * B</var></div>
-            </div>
-        </div>
-        <div class="hints">
-            <div data-if="B > 0" data-unwrap="">
-                <div>
-                    <div class="graphie" data-update="numbers">
-                        label( [ 0, B - 1 ],
-                            $.ngettext("Draw %(num)s circle.", "Draw %(num)s circles.", A),
-                            "right", false );
-                        drawRow( A, B - 3, "#6495ED", 1 );
-                    </div>
-                </div>
-                <div>
-                    <div class="graphie" data-update="numbers">
-                        if (isSingular(A)) {
-                            label( [ 0, B - 2 ],
-                                $.ngettext(
-                                    "If there is %(num)s row with %(a)s circle, &lt;br&gt; there are a total of how many circles?",
-                                    "If there are %(num)s rows with %(a)s circle each, &lt;br&gt;there are a total of how many circles?",
-                                    B, {a: A}), "right", false );
-                        } else {
-                            label( [ 0, B - 2 ],
-                                $.ngettext(
-                                    "If there is %(num)s row with %(a)s circles, &lt;br&gt; there are a total of how many circles?",
-                                    "If there are %(num)s rows with %(a)s circles each, &lt;br&gt;there are a total of how many circles?",
-                                    B, {a: A}), "right", false );
+                <div class="solution" data-forms="integer"><var>C</var></div>
 
-                        }
-                        for ( var i = 1; i &lt; B; i++ ) {
-                            drawRow( A, B - 3 - i, "#28AE7B", A * i + 1 );
-                        }
+                <div class="hints">
+                    <div data-if="C !== 0" data-unwrap="">
+                        <div>
+                            <div class="graphie" data-update="numbers">
+                                label([0, B - 1], $.ngettext("Draw %(num)s circle.", "Draw %(num)s circles.", A), "right", false);
+                                drawRow(A, B - 3, BLUE, 1);
+                            </div>
+                        </div>
+                        <div>
+                            <div class="graphie" data-update="numbers">
+                                if (isSingular(A)) {
+                                    label([0, B - 2],
+                                        $.ngettext(
+                                            "If there is %(num)s row with %(a)s circle, &lt;br&gt;how many circles are there in total?",
+                                            "If there are %(num)s rows with %(a)s circle each, &lt;br&gt;how many circles are there in total?",
+                                            B, {a: A}), "right", false);
+                                } else {
+                                    label([0, B - 2],
+                                        $.ngettext(
+                                            "If there is %(num)s row with %(a)s circles, &lt;br&gt;how many circles are there in total?",
+                                            "If there are %(num)s rows with %(a)s circles each, &lt;br&gt;how many circles are there in total?",
+                                            B, {a: A}), "right", false);
+
+                                }
+                                for (var i = 0; i &lt; B; i++) {
+                                    label([-0.3, B - 3 - i], "\\green{" + (i + 1) + "}", "left");
+                                    if (i &gt; 0) {
+                                        drawRow(A, B - 3 - i, GREEN, A * i + 1);
+                                        path([[-0.7, B - 3 - i + 0.5], [A - 0.7, B - 3 - i + 0.5]], { stroke: GREEN });
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div data-else="">
+                        <div class="graphie" data-update="numbers">
+                            var nonzero = A || B;
+                            label([0, B - 1],
+                                $.ngettext(
+                                    "If we have %(num)s zero, how much do we have in total?",
+                                    "If we have %(num)s zeros, how much do we have in total?",
+                                nonzero), "right", false);
+                            var zeros = _(nonzero).times(function() { return 0; });
+                            label([0, B - 2], "\\large{" + zeros.join("+") + " = {?}}", "right");
+                        </div>
+                    </div>
+                    <div class="graphie" data-update="numbers">
+                        graph.question.remove();
+                        label([0, B], "\\Huge{\\blue{" + A + "} \\times \\green{" + B + "} = \\pink{" + C + "}}", "right");
                     </div>
                 </div>
             </div>
-            <div data-else="">
-                <div class="graphie" data-update="numbers">
-                    label( [ 0, B - 1 ], "\\large{\\text{" + $._("Multiplying any number by 0 equals 0.") + "}}", "right" );
+            <div id="missing-A">
+                <div class="vars">
+                    <var id="A">randRange(1, 10)</var>
+                    <var id="B">randRange(0, 10)</var>
+                    <var id="C">A * B</var>
+                    <var id="ORDER">rand(2)</var>
                 </div>
-            </div>
-            <div class="graphie" data-update="numbers">
-                KhanUtil.currentGraph.labelHolder.remove();
-                label( [ 0, B ],
-                    "\\Huge{\\color{#6495ED}{" + A + "} \\times \\color{#28AE7B}{" + B + "} = " + ( A  * B ) + "}", "right" );
+
+                <div class="graphie" id="numbers">
+                    init({
+                        range: [[-1, 12], [-3, B + 1]],
+                        scale: [45, 45]
+                    });
+                    if (rand === 0) {
+                        graph.question = label([0, B], "\\Huge{? \\times \\green{" + A + "} = \\pink{" + C + "}}", "right");
+                    } else {
+                        graph.question = label([0, B], "\\Huge{\\green{" + A + "} \\times ? = \\pink{" + C + "}}", "right");
+                    }
+                </div>
+                <div class="solution" data-forms="integer"><var>B</var></div>
+
+                <div class="hints">
+                    <div data-if="C !== 0" data-unwrap="">
+                        <div>
+                            <div class="graphie" data-update="numbers">
+                                label([0, B - 1], $.ngettext("Draw %(num)s circle.", "Draw %(num)s circles.", A), "right", false);
+                                drawRow(A, B - 3, GREEN, 1);
+                            </div>
+                        </div>
+                        <div>
+                            <div class="graphie" data-update="numbers">
+                                label([0, B - 2],
+                                    $.ngettext(
+                                        "If we draw %(c)s circles, &lt;br&gt;how many rows of %(num)s circle do we need?",
+                                        "If we draw %(c)s circles, &lt;br&gt;how many rows of %(num)s circles do we need?",
+                                        A, { c: C }), "right", false );
+
+                                for (var i = 0; i &lt; B; i++) {
+                                    label([-0.3, B - 3 - i], "\\blue{" + (i + 1) + "}", "left");
+                                    if (i &gt; 0) {
+                                        path([[-0.7, B - 3 - i + 0.5], [A - 0.7, B - 3 - i + 0.5]], { stroke: BLUE });
+                                        drawRow(A, B - 3 - i, GREEN, A * i + 1);
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div data-else="">
+                        <div class="graphie" data-update="numbers">
+                            var nonzero = A || B;
+                            label([0, B - 1],
+                                $.ngettext(
+                                    "If we have %(num)s zero, how much do we have in total?",
+                                    "If we have %(num)s zeros, how much do we have in total?",
+                                nonzero), "right", false);
+                            var zeros = _(nonzero).times(function() { return 0; });
+                            label([0, B - 2], "\\large{" + zeros.join("+") + " = ?}", "right");
+                        </div>
+                    </div>
+                    <div class="graphie" data-update="numbers">
+                        graph.question.remove();
+                        if (rand === 0) {
+                            label([0, B], "\\Huge{\\blue{" + B + "} \\times \\green{" + A + "} = \\pink{" + C + "}}", "right");
+                        } else {
+                            label([0, B], "\\Huge{\\green{" + A + "} \\times \\blue{" + B + "} = \\pink{" + C + "}}", "right");
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
