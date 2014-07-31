@@ -56,20 +56,34 @@
                           <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
                 </p>
 
-                <div class="solution" data-type="multiple">
-                    <table>
-                        <tbody><tr>
-                            <td class="soln-name" rowspan="2"><code><var>Y</var>=</code></td>
-                            <td class="soln-top">
-                                <span class="sol short50" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="soln-bot">
-                                <span class="sol short50" data-type="regex"><var>DENOMSOL.regex(true)</var></span>
-                            </td>
-                        </tr>
-                    </tbody></table>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMSOL.regex(true)</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(true)</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex(true)</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table class="rational-exp">
+                                <tbody><tr>
+                                    <td class="soln-name" rowspan="2">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
