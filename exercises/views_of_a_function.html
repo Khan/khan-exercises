@@ -104,9 +104,10 @@
                 <var id="CORRECTOFFSET">0.5</var>
             </div>
             <p class="question">
-                Create a table of values for the function in the graph below.
-                Use at least 5 different points. Enter the values in the table
-                as decimals.
+                Graphed below is a function of <code>x</code>.
+                Create a table of values for the function,
+                estimating their values to the nearest <code><var>CORRECTOFFSET</var></code>.
+                Enter at least <code>5</code> different points.
             </p>
             <div class="problem">
                 <div class="graphie" id="main">
@@ -218,11 +219,13 @@
             </div>
 
             <div class="hints">
-                <p>You can look at function in many different ways, including a
-                    graph and a table. Here, we have a function modeled in a
-                    graph, and we want to store some information about it at a
-                    couple points by modeling it as a table.</p>
-                <p>To represent it as a table, take any five points on the
+                <p>
+                    You can look at a function in many different ways,
+                    including by its equation, its graph, and by a table.
+                    Here, we have the graph of a function,
+                    and we want to identify some input-output pairs to write in a table.
+                </p>
+                <p>To represent the function as a table, take any five points on the
                     graph, and list them in the table.</p>
                 <p>For example, we can look at the point with an
                     <code>x</code>-value of
@@ -246,7 +249,8 @@
                     in the <code>y</code> column.
                 </p>
                 <p>
-                    We can do this with 4 other <code>x</code>-values, such as
+                    We can do this with <code>4</code> other <code>x</code>-values,
+                    such as
                     <code><var>EXAMPLES[1]</var></code>,
                     <code><var>EXAMPLES[2]</var></code>,
                     <code><var>EXAMPLES[3]</var></code>,
@@ -276,8 +280,7 @@
         </div>
 
         <div id="table-to-graph">
-            <p class="question">Create a graph for the function that is modeled
-                below by plotting the points on the graph.</p>
+            <p class="question">Graph the function that is defined by the table below.</p>
 
             <div class="problem">
                 <table class="ttable">
@@ -407,14 +410,18 @@
                 </div>
             </div>
             <div class="hints">
-                <p>We can look at a function in many different ways, including
-                    a table and a graph. Here, we have information about a
-                    function at a few points, and we are trying to gain a more
-                    general view of the function by plotting those points in a
-                    graph.</p>
                 <p>
-                    To represent it as a graph, take all the points listed in
-                    the table, and plot them on the graph.</p>
+                    You can look at a function in many different ways,
+                    including by its equation, its graph, and by a table.
+                    Here the input-output pairs are given in a table,
+                    and we can draw the graph of the function by plotting
+                    the corresponding points.
+                </p>
+                <p>
+                    To represent the function as a graph,
+                    take all the points listed in the table,
+                    and plot them on the coordinate plane.
+                </p>
                     <p>For example, let's look at the point
                     <code>
                         (<var>EXAMPLES[0]</var>,
@@ -436,7 +443,7 @@
                 </div>
                 <div>
                     <p>Now, plot the remaining four points by placing the
-                        remaining points on the given 'X's.</p>
+                        remaining points on the pink crosses.</p>
                     <div class="graphie" data-update="main">
                         for (var i = 1; i &lt; 5; ++i) {
                             var x = EXAMPLES[i];
@@ -484,11 +491,13 @@
             </p>
             <p class="problem"><code>y = <var>FUNCSHOW</var></code></p>
             <div class="hints">
-                <p>You can look at a function in many different ways,
-                    including an equation and a table. We have an equation,
-                    and in order to see more clearly how the function acts at
-                    few points, we are going to record information about it in
-                    a table.</p>
+                <p>
+                    You can look at a function in many different ways,
+                    including by its equation, its graph, and by a table.
+                    Here, we have an equation, and in order to see more
+                    clearly how the function acts at few points,
+                    we are going to record information about it in a table.
+                </p>
                 <p>To represent it as a table, pick some <code>x</code> values
                     to plug into the equation, and record that <code>x</code>
                     and the result of plugging it into the equation
@@ -496,8 +505,8 @@
                 <p>For example, try plugging in
                     <code><var>EXAMPLES[0]</var></code> to the equation.</p>
                 <p>
-                    The result of <code>f(<var>EXAMPLES[0]</var>)</code> is
-                    <code><var>roundToNearest(0.1, FUNC(EXAMPLES[0]))</var></code>.
+                    When <code>x = <var>EXAMPLES[0]</var></code>, 
+                    <code>y = <var>roundToNearest(0.1, FUNC(EXAMPLES[0]))</var></code>.
                     Record this in the table by putting
                     <code><var>EXAMPLES[0]</var></code> in the <code>x</code>
                     column, and
@@ -513,10 +522,9 @@
                     and <code><var>EXAMPLES[4]</var></code>.
                 </p>
                 <div>
-                    <p>By plugging into the equation, we get:</p>
+                    <p>By plugging these values into the equation, we get:</p>
                     <p data-each="EXAMPLES.slice(1) as x">
-                        <code>f(<var>x</var>) =
-                            <var>roundToNearest(0.1, FUNC(x))</var></code>
+                        <code>x = <var>x</var>, y = <var>roundToNearest(0.1, FUNC(x))</var></code>
                     </p>
                 </div>
             </div>
