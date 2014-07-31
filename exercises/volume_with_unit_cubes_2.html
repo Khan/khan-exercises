@@ -29,7 +29,7 @@
 <div class="exercise">
     <div class="vars">
         <var id="UNIT_SMALL,UNIT">randFromArray(metricUnits)</var>
-        <var id="UNIT_TEXT">"\\text{ " + UNIT_SMALL + "}"</var>
+        <var id="UNIT_TEXT">$._("cubic ") + plural_form(UNIT)</var>
     </div>
     <div class="problems">
         <div id="find-volume-count">
@@ -79,9 +79,9 @@
                 ]</var>
             </div>
 
-            <p class="question">What is the volume of this box?</p>
+            <p class="question">What is the volume of this rectangular prism?</p>
             <p>Each cube has <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var> sides.</p>
-            <div class="graphie" id = "box">
+            <div class="graphie" id="box">
                 init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                 addMouseLayer();
 
@@ -159,7 +159,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="number"><var>N * NUMERATOR3 / DENOMINATOR3</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+                <p><span class="sol short40" data-type="number"><var>N * NUMERATOR3 / DENOMINATOR3</var></span> <var>UNIT_TEXT</var></p>
             </div>
 
             <div class="hints">
@@ -174,7 +174,7 @@
                 <p>There are a total of <code><var>N</var></code> cubes.</p>
                 <p>
                     The volume is <code><var>N</var> \times <var>fraction(NUMERATOR3, DENOMINATOR3)</var> = 
-                    <var>fractionReduce(N * NUMERATOR3, DENOMINATOR3)</var> <var>UNIT_TEXT</var>^3</code>.
+                    <var>fractionReduce(N * NUMERATOR3, DENOMINATOR3)</var></code> <var>UNIT_TEXT</var>.
                 </p>
             </div>
         </div>
@@ -199,9 +199,8 @@
             <p class="question">What is the volume of this shape?</p>
             <p>
                 Each cube has <code><var>fraction(NUMERATOR, DENOMINATOR)</var></code> <var>UNIT</var> sides.
-            </p><p>
-                You can click and drag to rotate the shape.
             </p>
+            <p>You can click and drag to rotate the shape.</p>
             <div class="graphie" id = "box">
                 init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                 addMouseLayer();
@@ -380,7 +379,7 @@
                 });
             </div>
             <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="number"><var>N * NUMERATOR3 / DENOMINATOR3</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+                <p><span class="sol short40" data-type="number"><var>N * NUMERATOR3 / DENOMINATOR3</var></span> <code><var>UNIT_TEXT</var></code></p>
             </div>
             <div class="hints">
                 <p>The volume of a cube is equal to its side length cubed.</p>
@@ -394,7 +393,7 @@
                 <p>There are a total of <code><var>N</var></code> cubes.</p>
                 <p>
                     The volume is <code><var>N</var> \times <var>fraction(NUMERATOR3, DENOMINATOR3)</var> = 
-                    <var>fractionReduce(N * NUMERATOR3, DENOMINATOR3)</var> <var>UNIT_TEXT</var>^3</code>.
+                    <var>fractionReduce(N * NUMERATOR3, DENOMINATOR3)</var></code> <var>UNIT_TEXT</var>.
                 </p>
             </div>
         </div>

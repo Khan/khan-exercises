@@ -29,15 +29,16 @@
 <div class="exercise">
     <div class="vars">
         <var id="UNIT_SMALL,UNIT">randFromArray(metricUnits)</var>
-        <var id="UNIT_TEXT">"\\text{ " + UNIT_SMALL + "}"</var>
+        <var id="UNIT_TEXT">$._("cubic ") + plural_form(UNIT)</var>
     </div>
     <div class="problems">
         <div id="find-volume-count">
-            <div class="vars" data-ensure="DIMENSIONS[0]*DIMENSIONS[1]*DIMENSIONS[2]&lt;33&amp;&amp;DIMENSIONS[0]*DIMENSIONS[1]*DIMENSIONS[2]&gt;1">
+            <div class="vars" data-ensure="VOL &lt; 33 &amp;&amp; VOL &gt; 1">
                 <var id="DIMENSIONS" >randRange(1,4,3)</var>
                 <var id="LENGTH">DIMENSIONS[0]</var>
                 <var id="WIDTH">DIMENSIONS[1]</var>
                 <var id="HEIGHT">DIMENSIONS[2]</var>
+                <var id="VOL">LENGTH * WIDTH * HEIGHT</var>
                 <var id="MAX">max(max(LENGTH, WIDTH), HEIGHT)</var>
                 <var id="XBORD">LENGTH/MAX</var>
                 <var id="YBORD">WIDTH/MAX</var>
@@ -71,13 +72,9 @@
                 ]</var>
             </div>
 
-            <p class="question">
-                What is the volume of this box?
-            </p>
+            <p class="question">What is the volume of this rectangular prism?</p>
+            <p>Note: Each cube is a cubic <var>UNIT</var></p>
 
-            <p>
-                Note:  Each cube is a cubic <var>UNIT</var>
-            </p>
             <div class="graphie" id = "box">
                 init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
                 addMouseLayer();
@@ -146,7 +143,7 @@
 
                 graph.obj.setPos([0, 0, 5]);
 
-                graph.obj.rotate(1,0 , 0, PI/3);
+                graph.obj.rotate(1, 0, 0, PI/3);
                 graph.obj.rotate(0, 1, 0, 0);
                 graph.obj.rotate(0, 0, 1, PI/6);
 
@@ -156,18 +153,15 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="rational"><var>LENGTH*WIDTH*HEIGHT</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+                <p><span class="sol short40" data-type="rational"><var>VOL</var></span> <var>UNIT_TEXT</var></p>
             </div>
 
-            <div class="hints">
+            <div class="hints" data-apply="prependContents">
                 <p>
                     The volume is measured by counting the number of cubic <var>plural_form(UNIT)</var>.
                 </p>
                 <p>
-                    Carefully count the cubes.  Some of the cubes might be hidden behind other cubes.  Try to visualize all of the cubes.
-                </p>
-                <p>
-                    There are a total of <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubes.
+                    Carefully count the cubes. Some of the cubes might be hidden behind other cubes. Try to visualize all of the cubes.
                 </p>
             </div>
         </div>
@@ -184,11 +178,9 @@
                 <var id="surfaceArea">0</var>
             </div>
 
-            <p class="question">
-                What is the volume of this shape?
-            </p>
+            <p class="question">What is the volume of this shape?</p>
             <p>
-                Each cube has side lengths of one <var>UNIT</var>.  You can click and drag to rotate the shape.
+                Each cube has side lengths of one <var>UNIT</var>. You can click and drag to rotate the shape.
             </p>
             <div class="graphie" id = "box">
                 init({range: [[-2, 2], [-2, 2]], scale: [100, 100]});
@@ -368,21 +360,18 @@
                 });
             </div>
             <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="rational"><var>VOL</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+                <p><span class="sol short40" data-type="rational"><var>VOL</var></span> <var>UNIT_TEXT</var></p>
             </div>
-            <div class="hints">
+            <div class="hints" data-apply="prependContents">
                 <p>
                     The volume of a shape can measured by the number of cubic <var>plural_form(UNIT)</var> which make up the shape.
                 </p>
-                <p>
-                    There are <code><var>VOL</var></code> cubes.
-                </p>
-                <p>
-                    The volume is <code><var>VOL</var> <var>UNIT_TEXT</var>^3</code>
-                </p>
             </div>
         </div>
-
+    </div>
+    <div class="hints">
+        <p>There are <code><var>VOL</var></code> cubes.</p>
+        <p>The volume is <code><var>VOL</var></code> <var>UNIT_TEXT</var>.</p>
     </div>
 </div>
 </body>
