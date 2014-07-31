@@ -156,8 +156,11 @@ $.extend(KhanUtil, {
             var hints = [];
             hints.push("<p><code>" + this.name + "(" + val + ") = " +
                 this.hintEvalOf(val) + "</code></p>");
-            hints.push("<p><code>" + this.name + "(" + val + ") = " +
-                this.evalOf(val) + "</code></p>");
+            // We don't need to evalate the expression if it's just a constant
+            if (this.findMaxDegree(this.coefs) > 0) {
+                hints.push("<p><code>" + this.name + "(" + val + ") = " +
+                    this.evalOf(val) + "</code></p>");
+            }
 
             return hints;
         };
