@@ -8,17 +8,235 @@
 
     <body>
         <div class="exercise">
-            <div class="vars" data-ensure="X !== 0 || Y !== 0">
-                <var id="X">randRange( 0, 10 )</var>
-                <var id="Y">randRange( 0, 10 )</var>
-            </div>
             <div class="problems">
-                <div>
-                    <p class="question">
-                        Plot <code>(<var>X</var>, <var>Y</var>)</code>
-                    </p>
+                <div id="plot-point" data-weight="2">
+                    <div class="vars">
+                        <var id="ORIGIN">rand(3) === 0</var>
+                        <var id="X, Y">ORIGIN ? [0, 0] : [randRange(0, 10), randRange(0, 10)]</var>
+                    </div>
+
+                    <div class="question">
+                        <p data-if="ORIGIN">Plot a point on the origin by clicking on the graph.</p>
+                        <p data-else="">Plot <code>(<var>X</var>, <var>Y</var>)</code> by clicking on the graph.</p>
+                    </div>
+
                     <div class="problem">
-                        <br>
+                        <div class="graphie" id="grid">
+                            graphInit({
+                                range: [ [-1, 11], [-1, 11] ],
+                                scale: 30,
+                                axisArrows: "&lt;-&gt;",
+                                tickStep: 1,
+                                labelStep: 1,
+                                gridOpacity: 0.05,
+                                axisOpacity: 0.2,
+                                tickOpacity: 0.4,
+                                labelOpacity: 0.5
+                            });
+
+                            //label( [ 0, 11 ], "y", "above" );
+                            //label( [ 11, 0 ], "x", "right" );
+
+                            graph.guess = [-1, -1];
+
+                            graph.addPoint = function(coord) {
+                                if (graph.point) {
+                                    graph.point.remove();
+                                }
+                                var pos = _.map(coord, function(i) { return round(max(0, i) * 2) * 0.5; })
+                                graph.point = circle(pos, 0.2, { fill: ORANGE, stroke: null });
+                                graph.guess = pos;
+                            }
+
+                            addMouseLayer({ onClick: graph.addPoint });
+
+                            graph.showCorrect = function() {
+                                graph.addPoint([X, Y]);
+                            };
+                        </div>
+                    </div>
+
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            Click on the graph to plot a point.
+                        </div>
+                        <div class="guess">graph.guess</div>
+                        <div class="validator-function">
+                            if (guess[0] === -1 &amp;&amp; guess[1] === -1) {
+                                return "You need to click on the graph.";
+                            }
+                            return (guess[0] === X &amp;&amp; guess[1] === Y);
+                        </div>
+                        <div class="show-guess">
+                            graph.addPoint(guess);
+                        </div>
+                    </div>
+
+                    <div class="hints">
+                        <p data-if="ORIGIN">
+                            The origin is at point <code>(0, 0)</code>, where the <code>x</code>-axis and <code>y</code>-axis intersect.
+                        </p>
+
+                        <div data-else="" data-unwrap="">
+                            <p>Coordinates are listed as <code>(\blue{x},\green{y})</code>.</p>
+                            <p>
+                                So, for <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> our
+                                <span class="hint_blue"><code>x</code>-coordinate</span> is <code class="hint_blue"><var>X</var></code> and our
+                                <span class="hint_green"><code>y</code>-coordinate</span> is <code class="hint_green"><var>Y</var></code>.</p>
+
+                            <p>
+                                The <span class="hint_blue"><code>x</code>-coordinate</span> tells how far we move to the right from the origin and
+                                the <span class="hint_green"><code>y</code>-coordinate</span> tells us how far we move up from the origin.
+                            </p>
+
+                            <div>
+                                <div data-if="X === 0">
+                                    Since our <span class="hint_blue"><code>x</code>-coordinate</span>
+                                    is equal to <code class="hint_blue">0</code>, we don't need to move to the right of the origin.
+                                </div>
+                                <div data-else="">
+                                    <p>
+                                        Since our <span class="hint_blue"><code>x</code>-coordinate</span>
+                                        is equal to <code class="hint_blue"><var>X</var></code>,
+                                        we move <code class="hint_blue"><var>X</var></code> to the right of the origin.
+                                    </p>
+                                    <div class="graphie" data-update="grid">
+                                        style({
+                                            stroke: BLUE,
+                                            strokeWidth: 3,
+                                            arrows: "-&gt;"
+                                        }, function() {
+                                            line( [ 0, 0 ], [ X, 0 ]);
+                                        });
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div data-if="Y === 0">
+                                    Since our <span class="hint_green"><code>y</code>-coordinate</span>
+                                    is equal to <code class="hint_green">0</code>, we don't need to move up from the origin.
+                                </div>
+                                <div data-else="">
+                                    <p>
+                                        Since our <span class="hint_green"><code>y</code>-coordinate</span>
+                                        is equal to <code class="hint_green"><var>Y</var></code>,
+                                        we move up <code class="hint_green"><var>Y</var></code> from the origin.
+                                    </p>
+                                    <div class="graphie" data-update="grid">
+                                        style({
+                                            stroke: GREEN,
+                                            strokeWidth: 3,
+                                            arrows: "-&gt;"
+                                        }, function() {
+                                            line( [ X, 0 ], [ X, Y ] );
+                                        });
+                                        graph.movablePoint.toFront();
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p>
+                                Plot a point at <code>(\blue{<var>X</var>}, \green{<var>Y</var>})</code>, marked above.
+                                <input onclick="javascript:KhanUtil.currentGraph.graph.showCorrect();" type="button" value="Show me">
+                            </p>
+                            <div class="graphie" data-update="grid">
+                                style({
+                                    stroke: PINK,
+                                    strokeWidth: 3
+                                }, function() {
+                                    line( [ X - 0.25, Y - 0.25 ], [ X + 0.25, Y + 0.25 ] );
+                                    line( [ X + 0.25, Y - 0.25 ], [ X - 0.25, Y + 0.25 ] );
+                                });
+                                graph.movablePoint.toFront();
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="plot-axis" data-type="plot-point" data-weight="1">
+                    <div class="vars">
+                        <var id="X, Y">shuffle([0, randRange(1, 10)])</var>
+                        <var id="X_AXIS">Y === 0</var>
+                    </div>
+
+                    <div class="question">
+                        <p data-if="X_AXIS">Plot a point on the <code>x</code>-axis by clicking on the graph.</p>
+                        <p data-else="">Plot a point on the <code>y</code>-axis by clicking on the graph.</p>
+                    </div>
+
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            Click on the graph to plot a point.
+                        </div>
+                        <div class="guess">graph.guess</div>
+                        <div class="validator-function">
+                            if (guess[0] === -1 &amp;&amp; guess[1] === -1) {
+                                return "You need to click on the graph.";
+                            }
+                            return (X_AXIS  &amp;&amp; guess[1] === 0) || (!X_AXIS  &amp;&amp; guess[0] === 0);
+                        </div>
+                        <div class="show-guess">
+                            graph.addPoint(guess);
+                        </div>
+                    </div>
+
+                    <div class="hints">
+                        <div data-if="X_AXIS" data-unwrap="">
+                            <p>The <code>x</code>-axis is the horizontal axis.</p>
+                            <div>
+                                <p>The <code>x</code>-axis includes all the points where <code>y = 0</code>.</p>
+                                <div class="graphie" data-update="grid">
+                                    style({
+                                        stroke: BLUE,
+                                        strokeWidth: 3,
+                                        arrows: "-&gt;"
+                                    }, function() {
+                                        line([-0.8, 0], [11, 0]);
+                                        line([10.8, 0], [-1, 0]);
+                                    });
+                                </div>
+                            </div>
+                        </div>
+                        <div data-else="" data-unwrap="">
+                            <p>The <code>y</code>-axis is the vertical axis.</p>
+                            <div>
+                                <p>The <code>y</code>-axis includes all the points where <code>x = 0</code>.</p>
+                                <div class="graphie" data-update="grid">
+                                    style({
+                                        stroke: BLUE,
+                                        strokeWidth: 3,
+                                        arrows: "-&gt;"
+                                    }, function() {
+                                        line([0, -0.8], [0, 11]);
+                                        line([0, 10.8], [0, -1]);
+                                    });
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>
+                            Plot a point to anywhere on the blue line.
+                            <input onclick="javascript:KhanUtil.currentGraph.graph.showCorrect();" type="button" value="Show me">
+                        </p>
+                    </div>
+                </div>
+
+                <div id="give-coord">
+                    <div class="vars">
+                        <var id="X">randRange(0, 10)</var>
+                        <var id="Y">randRange(0, 10)</var>
+                        <var id="COORD">randFromArray(["x", "y"])</var>
+                        <var id="ANSWER">COORD === "x" ? X : Y</var>
+                    </div>
+
+                    <div class="question">
+                        <p>What is the <code><var>COORD</var></code>-coordinate of the point plotted below?</p>
+                    </div>
+
+                    <div class="problem">
                         <div class="graphie" id="grid">
                             graphInit({
                                 range: [ [-1, 11], [-1, 11] ],
@@ -34,109 +252,115 @@
 
                             label( [ 0, 11 ], "y", "above" );
                             label( [ 11, 0 ], "x", "right" );
-
-                            addMouseLayer();
-                            graph.movablePoint = addMovablePoint({coord: [0,0], snapY: 1, snapX: 1 });
-
-                            graph.movablePoint.onMove = function( x, y ) {
-                                return [ max( 0, min( x, 10 ) ), max( 0, min( y, 10 ) ) ];
-                            };
-
-                            graph.showCorrect = function() {
-                                graph.movablePoint.moveTo(X, Y);
-                            };
-                        </div>
-                    </div>
-                    <div class="solution" data-type="custom">
-                        <div class="instruction">
-                            Drag the orange dot to graph the point.
-                        </div>
-                        <div class="guess">graph.movablePoint.coord</div>
-                        <div class="validator-function">
-                            if ( guess[0] === 0 &amp;&amp; guess[1] === 0 ) {
-                                return "";
-                            }
-                            return ( guess[0] === X &amp;&amp; guess[1] === Y );
-                        </div>
-                        <div class="show-guess">
-                            graph.movablePoint.setCoord( guess );
+                            graph.point = circle([X, Y], 0.2, { fill: BLUE, stroke: null });
                         </div>
                     </div>
 
-
+                    <div class="solution" data-form="integer"><var>ANSWER</var></div>
 
                     <div class="hints">
-                        <p>Coordinates are listed as <code>(\blue{x},\green{y})</code>. </p>
-                        <p>
-                            So, for <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> our
-                            <span class="hint_blue"><code>x</code>-coordinate</span> is <code class="hint_blue"><var>X</var></code> and our
-                            <span class="hint_green"><code>y</code>-coordinate</span> is <code class="hint_green"><var>Y</var></code>.</p>
+                        <div data-if="COORD === 'x'" data-unwrap="">
+                            <p>The <code>x</code>-coordinate tells how far we move to the right from the origin.</p>
+                            <div>
+                                <p data-if="X === 1">The point is <code><var>X</var></code> unit to the right of the origin.</p>
+                                <p data-else="">The point is <code><var>X</var></code> units to the right of the origin.</p>
+                                <div data-if="X !== 0" class="graphie" data-update="grid">
+                                    style({
+                                        stroke: PINK,
+                                        strokeWidth: 3,
+                                        arrows: "-&gt;"
+                                    }, function() {
+                                        line([0, Y], [X, Y]);
+                                    });
+                                    graph.point.toFront();
+                                </div>
+                            </div>
+                        </div>
+                        <div data-else="" data-unwrap="">
+                            <p>The <code>y</code>-coordinate tells how far we move up from the origin.</p>
+                            <div>
+                                <p data-if="Y === 1">The point is <code><var>Y</var></code> unit up from the origin.</p>
+                                <p data-else="">The point is <code><var>Y</var></code> units up from the origin.</p>
+                                <div data-if="Y !== 0" class="graphie" data-update="grid">
+                                    style({
+                                        stroke: PINK,
+                                        strokeWidth: 3,
+                                        arrows: "-&gt;"
+                                    }, function() {
+                                        line([X, 0], [X, Y]);
+                                    });
+                                    graph.point.toFront();
+                                </div>
+                            </div>
+                        </div>
+                        <p>So the <code><var>COORD</var></code>-coordinate is <code><var>ANSWER</var></code>.</p>
+                    </div>
+                </div>
 
-                        <p>
-                            The <span class="hint_blue"><code>x</code>-coordinate</span> tells how far we move to the right from the origin and the
-                            <span class="hint_green"><code>y</code>-coordinate</span> tells us how far we move up from the origin.
+                <div id="give-coord-both" data-type="give-coord">
+                    <div class="vars">
+                        <var id="X">randRange(0, 10)</var>
+                        <var id="Y">randRange(0, 10)</var>
+                    </div>
+
+                    <div class="question">
+                        <p>What is the coordinate of the point plotted below?</p>
+                    </div>
+
+                    <div class="solution" data-type="multiple">
+                        <code>(\ </code><span class="sol short32"><var>X</var></span>
+                        <code>, \ </code><span class="sol short32"><var>Y</var></span><code>\ )</code>
+                    </div>
+
+                    <div class="hints">
+                         <p>Coordinates are listed as <code>(\pink{x},\green{y})</code>.</p>
+                         <p>
+                            The <span class="hint_pink"><code>x</code>-coordinate</span> tells how far we move to the right from the origin and
+                            the <span class="hint_green"><code>y</code>-coordinate</span> tells us how far we move up from the origin.
                         </p>
 
                         <div>
-                            <div data-if="X === 0">
-                                Since our <span class="hint_blue"><code>x</code>-coordinate</span> is equal to <code class="hint_blue">0</code>, we don't need to move to the right of the origin.
-                            </div>
-                            <div data-else="">
-                                <p>
-                                    Since our <span class="hint_blue"><code>x</code>-coordinate</span> is equal to <code class="hint_blue"><var>X</var></code>,
-                                    we move <code class="hint_blue"><var>X</var></code> to the right of the origin.
-                                </p>
-                                <div class="graphie" data-update="grid">
-                                    style({
-                                        stroke: BLUE,
-                                        strokeWidth: 3,
-                                        arrows: "-&gt;"
-                                    }, function() {
-                                        line( [ 0, 0 ], [ X, 0 ]);
-                                    });
-                                    graph.movablePoint.toFront();
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div data-if="Y === 0">
-                                Since our <span class="hint_green"><code>y</code>-coordinate</span> is equal to <code class="hint_green">0</code>, we don't need to move up from the origin.
-                            </div>
-                            <div data-else="">
-                                <p>
-                                    Since our <span class="hint_green"><code>y</code>-coordinate</span> is equal to <code class="hint_green"><var>Y</var></code>,
-                                    we move up <code class="hint_green"><var>Y</var></code> from the origin.
-                                </p>
-                                <div class="graphie" data-update="grid">
-                                    style({
-                                        stroke: GREEN,
-                                        strokeWidth: 3,
-                                        arrows: "-&gt;"
-                                    }, function() {
-                                        line( [ X, 0 ], [ X, Y ] );
-                                    });
-                                    graph.movablePoint.toFront();
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p class="final_answer">
-                                Move the point to <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> at the marked point above.
-                                <input onclick="javascript:KhanUtil.currentGraph.graph.showCorrect();" type="button" value="Show me">
+                            <p data-if="X === 1">
+                                Since the point is <code>\pink{<var>X</var>}</code> unit to the right of the origin,
+                                the <span class="hint_pink"><code>x</code>-coordinate</span> is equal to <code>\pink{<var>X</var>}</code>.
+                            </p><p data-else="">
+                                Since the point is <code>\pink{<var>X</var>}</code> units to the right of the origin,
+                                the <span class="hint_pink"><code>x</code>-coordinate</span> is equal to <code>\pink{<var>X</var>}</code>.
                             </p>
                             <div class="graphie" data-update="grid">
                                 style({
                                     stroke: PINK,
-                                    strokeWidth: 3
+                                    strokeWidth: 3,
+                                    arrows: "-&gt;"
                                 }, function() {
-                                    line( [ X - 0.25, Y - 0.25 ], [ X + 0.25, Y + 0.25 ] );
-                                    line( [ X + 0.25, Y - 0.25 ], [ X - 0.25, Y + 0.25 ] );
+                                    line([0, Y], [X, Y]);
                                 });
-                                graph.movablePoint.toFront();
+                                graph.point.toFront();
                             </div>
                         </div>
+
+                        <div>
+                            <p data-if="Y === 1">
+                                Since the point is <code>\green{<var>Y</var>}</code> unit up from the origin,
+                                the <span class="hint_green"><code>y</code>-coordinate</span> is equal to <code>\green{<var>Y</var>}</code>.
+                            </p><p data-else="">
+                                Since the point is <code>\green{<var>Y</var>}</code> units up from the origin,
+                                the <span class="hint_green"><code>y</code>-coordinate</span> is equal to <code>\green{<var>Y</var>}</code>.
+                            </p>
+                            <div class="graphie" data-update="grid">
+                                style({
+                                    stroke: GREEN,
+                                    strokeWidth: 3,
+                                    arrows: "-&gt;"
+                                }, function() {
+                                    line([X,0], [X, Y]);
+                                });
+                                graph.point.toFront();
+                            </div>
+                        </div>
+
+                        <p>So the coordinate is <code>(\pink{<var>X</var>}, \green{<var>Y</var>})</code>.</p>
+
                     </div>
                 </div>
             </div>
