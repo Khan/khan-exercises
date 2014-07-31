@@ -794,7 +794,7 @@ html.exercise-browser {
 	-webkit-border-radius: 4px;
 	cursor: pointer;
 	margin-right: 4px;
-	width: 65px;
+	min-width: 65px;
 	height: 65px;
 	text-align: center;
 	font-size: 1.2em;
