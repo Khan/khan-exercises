@@ -63,7 +63,7 @@
             </div>
 
             <div class="hints">
-                <div>
+                <div data-if="C / C_DENOM !== 1">
                     <p data-if="C / C_DENOM === -1">
                         Distribute the negative in front of the parentheses. Be careful!
                         The negative sign in front of the parentheses means we're multiplying by <code>\pink{-1}</code>:
@@ -170,7 +170,7 @@
             </code></p>
 
             <div class="hints">
-                <div>
+                <div data-if="C / C_DENOM !== 1">
                     <p data-if="C / C_DENOM === -1">
                         Distribute the negative in front of the parentheses. Be careful!
                         The negative sign in front of the parentheses means we're multiplying by <code>\pink{-1}</code>:
@@ -350,12 +350,12 @@
                     </p>
                     <p data-if="ORDER"><code>\qquad\begin{eqnarray}
                         <var>A</var> + \purple{<var>roundTo(2, -C * E)</var>} &amp;=&amp; <var>BDX</var> \\ \\
-                        <var>SOL_NUM * MULTIPLE</var> &amp;=&amp; <var>BDX</var>
+                        <var>roundTo(4, SOL_NUM * MULTIPLE)</var> &amp;=&amp; <var>BDX</var>
                         \end{eqnarray}
                     </code></p>
                     <p data-else=""><code>\qquad\begin{eqnarray}
                         <var>BDX</var> &amp;=&amp; <var>A</var> + \purple{<var>roundTo(2, -C * E)</var>} \\ \\
-                        <var>BDX</var> &amp;=&amp; <var>SOL_NUM * MULTIPLE</var>
+                        <var>BDX</var> &amp;=&amp; <var>roundTo(4, SOL_NUM * MULTIPLE)</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
@@ -363,12 +363,12 @@
                 <div data-if="BD !== 1">
                     <p>Divide both sides by <code>\green{<var>BD</var>}</code> to isolate <code><var>X</var></code>:</p>
                     <p data-if="ORDER"><code>\qquad
-                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BD</var>}} =
+                        \dfrac{<var>roundTo(4, SOL_NUM * MULTIPLE)</var>}{\green{<var>BD</var>}} =
                         \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}}
                     </code></p>
                     <p data-else=""><code>\qquad
                         \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}} =
-                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BD</var>}}
+                        \dfrac{<var>roundTo(4, SOL_NUM * MULTIPLE)</var>}{\green{<var>BD</var>}}
                     </code></p>
                 </div>
 
@@ -433,12 +433,12 @@
                     </p>
                     <p data-if="ORDER"><code>\qquad\begin{eqnarray}
                         <var>A</var> + \purple{<var>roundTo(2, -C * E)</var>} &amp;=&amp; <var>BDX</var> \\ \\
-                        <var>SOL_NUM * MULTIPLE</var> &amp;=&amp; <var>BDX</var>
+                        <var>roundTo(4, SOL_NUM * MULTIPLE)</var> &amp;=&amp; <var>BDX</var>
                         \end{eqnarray}
                     </code></p>
                     <p data-else=""><code>\qquad\begin{eqnarray}
                         <var>BDX</var> &amp;=&amp; <var>A</var> + \purple{<var>roundTo(2, -C * E)</var>} \\ \\
-                        <var>BDX</var> &amp;=&amp; <var>SOL_NUM * MULTIPLE</var>
+                        <var>BDX</var> &amp;=&amp; <var>roundTo(4, SOL_NUM * MULTIPLE)</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
@@ -446,12 +446,12 @@
                 <div data-if="BD !== 1">
                     <p>Divide both sides by <code>\green{<var>BD</var>}</code> to isolate <code><var>X</var></code>:</p>
                     <p data-if="ORDER"><code>\qquad
-                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BD</var>}} =
+                        \dfrac{<var>roundTo(4, SOL_NUM * MULTIPLE)</var>}{\green{<var>BD</var>}} =
                         \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}}
                     </code></p>
                     <p data-else=""><code>\qquad
                         \dfrac{\green{\cancel{<var>BD</var>}}<var>X</var>}{\green{\cancel{<var>BD</var>}}} =
-                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BD</var>}}
+                        \dfrac{<var>roundTo(4, SOL_NUM * MULTIPLE)</var>}{\green{<var>BD</var>}}
                     </code></p>
                 </div>
 
@@ -675,7 +675,7 @@
                         \end{eqnarray}
                     </code></p>
                     <p data-else=""><code>\qquad\begin{eqnarray}
-                        <var>FX</var> + \pink{<var>C</var>} \blue{(<var>E</var> + <var>DX</var>)} &amp;=&amp; <var>A</var> \\ \\
+                        <var>FX</var> + \pink{<var>C</var>} \blue{(<var>E</var> + <var>DX</var>)} &amp;=&amp; <var>A</var> - <var>BX</var> \\ \\
                         <var>FX</var> + \pink{(<var>C</var>)}\blue{(<var>E</var>)} + \pink{(<var>C</var>)}\blue{(<var>DX</var>)}
                         &amp;=&amp; <var>A</var> - <var>BX</var> \\ \\
                         <var>FX</var> + <var>CE</var> + <var>CDX</var> &amp;=&amp; <var>A</var> - <var>BX</var>
@@ -716,12 +716,12 @@
                     </p>
                     <p data-if="ORDER"><code>\qquad\begin{eqnarray}
                         <var>A</var> + \purple{<var>-CE</var>} &amp;=&amp; <var>BDFX</var> \\ \\
-                        <var>SOL_NUM * MULTIPLE</var> &amp;=&amp; <var>BDFX</var>
+                        <var>roundTo(4, SOL_NUM * MULTIPLE)</var> &amp;=&amp; <var>BDFX</var>
                         \end{eqnarray}
                     </code></p>
                     <p data-else=""><code>\qquad\begin{eqnarray}
                         <var>BDFX</var> &amp;=&amp; <var>A</var> + \purple{<var>-CE</var>} \\ \\
-                        <var>BDFX</var> &amp;=&amp; <var>SOL_NUM * MULTIPLE</var>
+                        <var>BDFX</var> &amp;=&amp; <var>roundTo(4, SOL_NUM * MULTIPLE)</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
@@ -729,12 +729,12 @@
                 <div data-if="BDF !== 1">
                     <p>Divide both sides by <code>\green{<var>BDF</var>}</code> to isolate <code><var>X</var></code>:</p>
                     <p data-if="ORDER"><code>\qquad
-                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BDF</var>}} =
+                        \dfrac{<var>roundTo(4, SOL_NUM * MULTIPLE)</var>}{\green{<var>BDF</var>}} =
                         \dfrac{\green{\cancel{<var>BDF</var>}}<var>X</var>}{\green{\cancel{<var>BDF</var>}}}
                     </code></p>
                     <p data-else=""><code>\qquad
                         \dfrac{\green{\cancel{<var>BDF</var>}}<var>X</var>}{\green{\cancel{<var>BDF</var>}}} =
-                        \dfrac{<var>SOL_NUM * MULTIPLE</var>}{\green{<var>BDF</var>}}
+                        \dfrac{<var>roundTo(4, SOL_NUM * MULTIPLE)</var>}{\green{<var>BDF</var>}}
                     </code></p>
                 </div>
 
