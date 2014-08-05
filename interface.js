@@ -448,6 +448,7 @@ function onHintButtonClicked() {
     }
     waitingOnHintRequest = true;
 
+    hintsUsed++;
     var curTime = new Date().getTime();
     var prevLastAttemptOrHint = lastAttemptOrHint;
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
@@ -507,6 +508,7 @@ function onHintButtonClicked() {
         // TODO(alpert): Really we should store this in a snapshottable way
         // (e.g., with persistent data structures) so that this is easy...
         lastAttemptOrHint = prevLastAttemptOrHint;
+        hintsUsed--;
         // Filter out the hint activity entry in place
         var ual = Exercises.userActivityLog;
         for (var i = ual.length; i-- > 0;) {
@@ -521,7 +523,6 @@ function onHintShown(e, data) {
     // Grow the scratchpad to cover the new hint
     Khan.scratchpad.resize();
 
-    hintsUsed++;
     updateHintButtonText();
 
     $(Exercises).trigger("hintUsed", data);
