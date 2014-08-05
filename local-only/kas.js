@@ -1,4 +1,5 @@
 /*! KAS | https://github.com/Khan/KAS */
+// This is a @generated file
 window.KAS = {};
 (function(KAS) {
 
@@ -645,146 +646,170 @@ case 0:/* skip whitespace */
 break;
 case 1:/* skip \space */
 break;
-case 2:return "INT"
+case 2:/* skip '\ ' */
 break;
-case 3:return "FLOAT"
+case 3:return "INT"
 break;
-case 4:return "^"
+case 4:return "FLOAT"
 break;
-case 5:return "*"
+case 5:return "^"
 break;
 case 6:return "*"
 break;
 case 7:return "*"
 break;
-case 8:return "/"
+case 8:return "*"
 break;
-case 9:return "-"
+case 9:return "*"
 break;
-case 10:return "-"
+case 10:return "/"
 break;
-case 11:return "+"
+case 11:return "-"
 break;
-case 12:return "^"
+case 12:return "-"
 break;
-case 13:return "("
+case 13:return "+"
 break;
-case 14:return ")"
+case 14:return "^"
 break;
 case 15:return "("
 break;
 case 16:return ")"
 break;
-case 17:return "{"
+case 17:return "("
 break;
-case 18:return "}"
+case 18:return ")"
 break;
 case 19:return "{"
 break;
 case 20:return "}"
 break;
-case 21:return "_"
+case 21:return "{"
 break;
-case 22:return "|"
+case 22:return "}"
 break;
-case 23:return "LEFT|"
+case 23:return "_"
 break;
-case 24:return "RIGHT|"
+case 24:return "|"
 break;
-case 25:return "!"
+case 25:return "LEFT|"
 break;
-case 26:return "SIGN"
+case 26:return "RIGHT|"
 break;
-case 27:yy_.yytext = "<="; return "SIGN"
+case 27:return "!"
 break;
-case 28:yy_.yytext = ">="; return "SIGN"
+case 28:return "SIGN"
 break;
-case 29:yy_.yytext = "<>"; return "SIGN"
+case 29:yy_.yytext = "<="; return "SIGN"
 break;
-case 30:yy_.yytext = "<>"; return "SIGN"
+case 30:yy_.yytext = ">="; return "SIGN"
 break;
-case 31:yy_.yytext = "<>"; return "SIGN"
+case 31:yy_.yytext = "<="; return "SIGN"
 break;
-case 32:yy_.yytext = "<>"; return "SIGN"
+case 32:yy_.yytext = ">="; return "SIGN"
 break;
 case 33:yy_.yytext = "<>"; return "SIGN"
 break;
-case 34:yy_.yytext = "<="; return "SIGN"
+case 34:yy_.yytext = "<>"; return "SIGN"
 break;
-case 35:yy_.yytext = ">="; return "SIGN"
+case 35:yy_.yytext = "<>"; return "SIGN"
 break;
-case 36:return "FRAC"
+case 36:yy_.yytext = "<>"; return "SIGN"
 break;
-case 37:return "sqrt"
+case 37:yy_.yytext = "<="; return "SIGN"
 break;
-case 38:return "abs"
+case 38:yy_.yytext = ">="; return "SIGN"
 break;
-case 39:return "ln"
+case 39:return "FRAC"
 break;
-case 40:return "log"
+case 40:return "FRAC"
 break;
-case 41:return "TRIG"
+case 41:return "sqrt"
 break;
-case 42:return "TRIG"
+case 42:return "abs"
 break;
-case 43:yy_.yytext = "sin"; return "TRIG"
+case 43:return "ln"
 break;
-case 44:yy_.yytext = "cos"; return "TRIG"
+case 44:return "log"
 break;
-case 45:yy_.yytext = "tan"; return "TRIG"
+case 45:return "TRIG"
 break;
-case 46:yy_.yytext = "csc"; return "TRIG"
+case 46:return "TRIG"
 break;
-case 47:yy_.yytext = "sec"; return "TRIG"
+case 47:return "TRIG"
 break;
-case 48:yy_.yytext = "cot"; return "TRIG"
+case 48:return "TRIG"
 break;
-case 49:yy_.yytext = "arcsin"; return "TRIG"
+case 49:yy_.yytext = "sin"; return "TRIG"
 break;
-case 50:yy_.yytext = "arccos"; return "TRIG"
+case 50:yy_.yytext = "cos"; return "TRIG"
 break;
-case 51:yy_.yytext = "arctan"; return "TRIG"
+case 51:yy_.yytext = "tan"; return "TRIG"
 break;
-case 52:yy_.yytext = "arccsc"; return "TRIG"
+case 52:yy_.yytext = "csc"; return "TRIG"
 break;
-case 53:yy_.yytext = "arcsec"; return "TRIG"
+case 53:yy_.yytext = "sec"; return "TRIG"
 break;
-case 54:yy_.yytext = "arccot"; return "TRIG"
+case 54:yy_.yytext = "cot"; return "TRIG"
 break;
-case 55:return "TRIGINV"
+case 55:yy_.yytext = "arcsin"; return "TRIG"
 break;
-case 56:return "TRIGINV"
+case 56:yy_.yytext = "arccos"; return "TRIG"
 break;
-case 57:return "CONST"
+case 57:yy_.yytext = "arctan"; return "TRIG"
 break;
-case 58:yy_.yytext = "pi"; return "CONST"
+case 58:yy_.yytext = "arccsc"; return "TRIG"
 break;
-case 59:yy_.yytext = "pi"; return "CONST"
+case 59:yy_.yytext = "arcsec"; return "TRIG"
 break;
-case 60:return "VAR"
+case 60:yy_.yytext = "arccot"; return "TRIG"
 break;
-case 61:yy_.yytext = "theta"; return "VAR"
+case 61:return "TRIGINV"
 break;
-case 62:yy_.yytext = "theta"; return "VAR"
+case 62:return "TRIGINV"
 break;
-case 63:return "VAR"
+case 63:yy_.yytext = "sinh"; return "TRIG"
 break;
-case 64:yy_.yytext = "phi"; return "VAR"
+case 64:yy_.yytext = "cosh"; return "TRIG"
 break;
-case 65:yy_.yytext = "phi"; return "VAR"
+case 65:yy_.yytext = "tanh"; return "TRIG"
 break;
-case 66:return yy.symbolLexer(yy_.yytext)
+case 66:yy_.yytext = "csch"; return "TRIG"
 break;
-case 67:return "EOF"
+case 67:yy_.yytext = "sech"; return "TRIG"
 break;
-case 68:return "INVALID"
+case 68:yy_.yytext = "tanh"; return "TRIG"
 break;
-case 69:console.log(yy_.yytext);
+case 69:return "CONST"
+break;
+case 70:yy_.yytext = "pi"; return "CONST"
+break;
+case 71:yy_.yytext = "pi"; return "CONST"
+break;
+case 72:return "VAR"
+break;
+case 73:yy_.yytext = "theta"; return "VAR"
+break;
+case 74:yy_.yytext = "theta"; return "VAR"
+break;
+case 75:return "VAR"
+break;
+case 76:yy_.yytext = "phi"; return "VAR"
+break;
+case 77:yy_.yytext = "phi"; return "VAR"
+break;
+case 78:return yy.symbolLexer(yy_.yytext)
+break;
+case 79:return "EOF"
+break;
+case 80:return "INVALID"
+break;
+case 81:console.log(yy_.yytext);
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:\\space)/,/^(?:[0-9]+\.?)/,/^(?:([0-9]+)?\.[0-9]+)/,/^(?:\*\*)/,/^(?:\*)/,/^(?:\\cdot|·)/,/^(?:\\times|×)/,/^(?:\/)/,/^(?:-)/,/^(?:−)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:\\left\()/,/^(?:\\right\))/,/^(?:\{)/,/^(?:\})/,/^(?:\\left\{)/,/^(?:\\right\})/,/^(?:_)/,/^(?:\|)/,/^(?:\\left\|)/,/^(?:\\right\|)/,/^(?:\!)/,/^(?:<=|>=|<>|<|>|=)/,/^(?:\\le)/,/^(?:\\ge)/,/^(?:=\/=)/,/^(?:\/=)/,/^(?:\!=)/,/^(?:\\ne)/,/^(?:≠)/,/^(?:≤)/,/^(?:≥)/,/^(?:\\frac)/,/^(?:sqrt|\\sqrt)/,/^(?:abs|\\abs)/,/^(?:ln|\\ln)/,/^(?:log|\\log)/,/^(?:sin|cos|tan)/,/^(?:csc|sec|cot)/,/^(?:\\sin)/,/^(?:\\cos)/,/^(?:\\tan)/,/^(?:\\csc)/,/^(?:\\sec)/,/^(?:\\cot)/,/^(?:\\arcsin)/,/^(?:\\arccos)/,/^(?:\\arctan)/,/^(?:\\arccsc)/,/^(?:\\arcsec)/,/^(?:\\arccot)/,/^(?:arcsin|arccos|arctan)/,/^(?:arccsc|arcsec|arccot)/,/^(?:pi)/,/^(?:π)/,/^(?:\\pi)/,/^(?:theta)/,/^(?:θ)/,/^(?:\\theta)/,/^(?:phi)/,/^(?:φ)/,/^(?:\\phi)/,/^(?:[a-zA-Z])/,/^(?:$)/,/^(?:.)/,/^(?:.)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69],"inclusive":true}}
+rules: [/^(?:\s+)/,/^(?:\\space)/,/^(?:\\ )/,/^(?:[0-9]+\.?)/,/^(?:([0-9]+)?\.[0-9]+)/,/^(?:\*\*)/,/^(?:\*)/,/^(?:\\cdot|·)/,/^(?:\\times|×)/,/^(?:\\ast)/,/^(?:\/)/,/^(?:-)/,/^(?:−)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:\\left\()/,/^(?:\\right\))/,/^(?:\{)/,/^(?:\})/,/^(?:\\left\{)/,/^(?:\\right\})/,/^(?:_)/,/^(?:\|)/,/^(?:\\left\|)/,/^(?:\\right\|)/,/^(?:\!)/,/^(?:<=|>=|<>|<|>|=)/,/^(?:\\le)/,/^(?:\\ge)/,/^(?:\\leq)/,/^(?:\\geq)/,/^(?:=\/=)/,/^(?:\\ne)/,/^(?:\\neq)/,/^(?:≠)/,/^(?:≤)/,/^(?:≥)/,/^(?:\\frac)/,/^(?:\\dfrac)/,/^(?:sqrt|\\sqrt)/,/^(?:abs|\\abs)/,/^(?:ln|\\ln)/,/^(?:log|\\log)/,/^(?:sin|cos|tan)/,/^(?:csc|sec|cot)/,/^(?:sinh|cosh|tanh)/,/^(?:csch|sech|coth)/,/^(?:\\sin)/,/^(?:\\cos)/,/^(?:\\tan)/,/^(?:\\csc)/,/^(?:\\sec)/,/^(?:\\cot)/,/^(?:\\arcsin)/,/^(?:\\arccos)/,/^(?:\\arctan)/,/^(?:\\arccsc)/,/^(?:\\arcsec)/,/^(?:\\arccot)/,/^(?:arcsin|arccos|arctan)/,/^(?:arccsc|arcsec|arccot)/,/^(?:\\sinh)/,/^(?:\\cosh)/,/^(?:\\tanh)/,/^(?:\\csch)/,/^(?:\\sech)/,/^(?:\\coth)/,/^(?:pi)/,/^(?:π)/,/^(?:\\pi)/,/^(?:theta)/,/^(?:θ)/,/^(?:\\theta)/,/^(?:phi)/,/^(?:φ)/,/^(?:\\phi)/,/^(?:[a-zA-Z])/,/^(?:$)/,/^(?:.)/,/^(?:.)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81],"inclusive":true}}
 };
 return lexer;
 })();
@@ -1317,8 +1342,8 @@ Add.prototype = new Seq();
 _.extend(Add.prototype, {
     func: Add,
 
-    eval: function(vars) {
-        return _.reduce(this.terms, function(memo, term) { return memo + term.eval(vars); }, 0);
+    eval: function(vars, options) {
+        return _.reduce(this.terms, function(memo, term) { return memo + term.eval(vars, options); }, 0);
     },
 
     print: function() {
@@ -1442,8 +1467,8 @@ Mul.prototype = new Seq();
 _.extend(Mul.prototype, {
     func: Mul,
 
-    eval: function(vars) {
-        return _.reduce(this.terms, function(memo, term) { return memo * term.eval(vars); }, 1);
+    eval: function(vars, options) {
+        return _.reduce(this.terms, function(memo, term) { return memo * term.eval(vars, options); }, 1);
     },
 
     print: function() {
@@ -2060,8 +2085,8 @@ _.extend(Pow.prototype, {
     func: Pow,
     args: function() { return [this.base, this.exp]; },
 
-    eval: function(vars) {
-        return Math.pow(this.base.eval(vars), this.exp.eval(vars));
+    eval: function(vars, options) {
+        return Math.pow(this.base.eval(vars, options), this.exp.eval(vars, options));
     },
 
     print: function() {
@@ -2243,7 +2268,7 @@ _.extend(Pow.prototype, {
                 var decimalsInBase = pow.base.getDecimalPlaces();
                 var root = new Pow(pow.base, new Rational(1, exp.d));
                 var decimalsInRoot = root.collect().getDecimalPlaces();
-                                        
+
                 if (decimalsInRoot > decimalsInBase) {
                     // Collecting over this denominator would result in an
                     // imprecise float, so avoid doing so.
@@ -2251,7 +2276,7 @@ _.extend(Pow.prototype, {
                     return new Pow(newBase, new Rational(1, exp.d));
                 }
             }
-            
+
             // e.g. 4^1.5 -> 8
             return pow.base.raiseToThe(pow.exp, options);
         } else {
@@ -2392,8 +2417,8 @@ _.extend(Log.prototype, {
     func: Log,
     args: function() { return [this.base, this.power]; },
 
-    eval: function(vars) {
-        return Math.log(this.power.eval(vars)) / Math.log(this.base.eval(vars));
+    eval: function(vars, options) {
+        return Math.log(this.power.eval(vars, options)) / Math.log(this.base.eval(vars, options));
     },
 
     print: function() {
@@ -2567,7 +2592,53 @@ _.extend(Trig.prototype, {
         arccot: {
             eval: function(arg) { return Math.atan(1 / arg); },
             tex: "\\operatorname{arccot}"
-        }
+        },
+        sinh: {
+            eval: function(arg) {
+                return (Math.exp(arg) - Math.exp(-arg)) / 2;
+            },
+            tex: "\\sinh",
+            expand: function() { return this; }
+        },
+        cosh: {
+            eval: function(arg) {
+                return (Math.exp(arg) + Math.exp(-arg)) / 2;
+            },
+            tex: "\\cosh",
+            expand: function() { return this; }
+        },
+        tanh: {
+            eval: function(arg) {
+                return (Math.exp(arg) - Math.exp(-arg)) / (Math.exp(arg) + Math.exp(-arg));
+            },
+            tex: "\\tanh",
+            expand: function() {
+                return Mul.handleDivide(Trig.sinh(this.arg), Trig.cosh(this.arg));
+            }
+        },
+        csch: {
+            eval: function(arg) { return 2 / (Math.exp(arg) - Math.exp(-arg)); },
+            tex: "\\csch",
+            expand: function() {
+                return Mul.handleDivide(Num.One, Trig.sinh(this.arg));
+            }
+        },
+        sech: {
+            eval: function(arg) { return 2 / (Math.exp(arg) + Math.exp(-arg)); },
+            tex: "\\sech",
+            expand: function() {
+                return Mul.handleDivide(Num.One, Trig.cosh(this.arg));
+            }
+        },
+        coth: {
+            eval: function(arg) {
+                return (Math.exp(arg) + Math.exp(-arg)) / (Math.exp(arg) - Math.exp(-arg));
+            },
+            tex: "\\coth",
+            expand: function() {
+                return Mul.handleDivide(Trig.cosh(this.arg), Trig.sinh(this.arg));
+            }
+        },
     },
 
     isEven: function() {
@@ -2582,9 +2653,9 @@ _.extend(Trig.prototype, {
         return _.contains(["sin", "cos"], this.type);
     },
 
-    eval: function(vars) {
+    eval: function(vars, options) {
         var func = this.functions[this.type].eval;
-        var arg = this.arg.eval(vars);
+        var arg = this.arg.eval(vars, options);
         return func(arg);
     },
 
@@ -2689,6 +2760,14 @@ _.extend(Trig, {
 
     cos: function(arg) {
         return new Trig("cos", arg);
+    },
+
+    sinh: function(arg) {
+        return new Trig("sinh", arg);
+    },
+
+    cosh: function(arg) {
+        return new Trig("cosh", arg);
     }
 });
 
@@ -2699,7 +2778,7 @@ Abs.prototype = new Expr();
 _.extend(Abs.prototype, {
     func: Abs,
     args: function() { return [this.arg]; },
-    eval: function(vars) { return Math.abs(this.arg.eval(vars)); },
+    eval: function(vars, options) { return Math.abs(this.arg.eval(vars, options)); },
     print: function() { return "abs(" + this.arg.print() + ")"; },
 
     tex: function() {
@@ -3003,6 +3082,20 @@ _.extend(Func.prototype, {
         return this.symbol + "(" + this.arg.tex() + ")";
     },
 
+    eval: function(vars, options) {
+        var arg = this.arg;
+        var func = vars[this.symbol];
+        var newVars = _.extend(_.clone(vars), {
+            x: arg.eval(vars, options)
+        });
+        var parsedFunc = KAS.parse(func, options);
+        if (parsedFunc.parsed) {
+            return parsedFunc.expr.eval(newVars, options);
+        }
+        // If parsedFunc isn't actually parsed, return its error
+        return parsedFunc;
+    },
+
     getVars: function(excludeFunc) {
         if (excludeFunc) {
             return this.arg.getVars();
@@ -3035,6 +3128,17 @@ _.extend(Var.prototype, {
         return this.symbol + sub;
     },
 
+    // Provide a way to easily evalate expressions with the common case,
+    // subscripts that consist of a single number or symbol e.g. x_a or x_42
+    prettyPrint: function() {
+        var sub = this.subscript;
+        if (sub && (sub instanceof Num || sub instanceof Symbol)) {
+            return this.symbol + "_" + sub.print();
+        } else {
+            return this.print();
+        }
+    },
+
     tex: function() {
         var sub = "";
         if (this.subscript) {
@@ -3046,11 +3150,11 @@ _.extend(Var.prototype, {
 
     repr: function() { return "Var(" + this.print() + ")"; },
 
-    eval: function(vars) {
-        return vars[this.print()];
+    eval: function(vars, options) {
+        return vars[this.prettyPrint()];
     },
 
-    getVars: function() { return [this.symbol]; },
+    getVars: function() { return [this.prettyPrint()]; },
 
     isPositive: function() { return false; }
 });
@@ -3065,7 +3169,7 @@ _.extend(Const.prototype, {
     args: function() { return [this.symbol]; },
     recurse: function() { return this; },
 
-    eval: function(vars) {
+    eval: function(vars, options) {
         if (this.symbol === "pi") {
             return Math.PI;
         } else if (this.symbol === "e") {
@@ -3320,7 +3424,7 @@ _.extend(Float.prototype, {
             return Float.toDecimalPlaces(
                 this.n + num.eval(),
                 Math.max(this.getDecimalPlaces(), num.getDecimalPlaces())
-            );    
+            );
         } else {
             return new Float(this.n + num.eval()).collect();
         }
@@ -3331,7 +3435,7 @@ _.extend(Float.prototype, {
             return Float.toDecimalPlaces(
                 this.n * num.eval(),
                 this.getDecimalPlaces() + num.getDecimalPlaces()
-            );    
+            );
         } else {
             return new Float(this.n * num.eval()).collect();
         }
