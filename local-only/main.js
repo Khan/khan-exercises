@@ -28,7 +28,6 @@ requirejs([
             "../exercises-stub.js",
             "../history.js",
             "../interface.js",
-            "../related-videos.js"
         ], function() {
             requirejs(["../khan-exercise.js"], function() {
                 Khan.loadLocalModeSiteWhenReady();
