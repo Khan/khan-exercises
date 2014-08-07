@@ -223,7 +223,7 @@
         start();
     });
 
-    asyncTest("number pi", 39, function() {
+    asyncTest("number pi", 60, function() {
         setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='pi'>-6.283185307179586<\/p>"
@@ -245,6 +245,13 @@
         testAnswer(answerData, "" + (-2 * Math.PI), "empty-message", "approximately right answer provides a message");
         testAnswer(answerData, "-2/1 pi", "empty-message", "unsimplified answer provides a message");
         testAnswer(answerData, "-9.42", "wrong", "totally wrong answer gives no message");
+        testAnswer(answerData, "-\\tau", "right", "\\tau is interpreted as tau");
+        testAnswer(answerData, "-2\\pi", "right", "\\pi is interpreted as pi");
+        testAnswer(answerData, "-t", "right", "t is interpreted as tau");
+        testAnswer(answerData, "-2p", "right", "p is interpreted as pi");
+        testAnswer(answerData, "-2\\p", "empty-message", "\\p is not interpreted as pi");
+        testAnswer(answerData, " - 2 pi", "right", "spacing is arbitrary");
+        testAnswer(answerData, " -4 pau /  3", "right", "spacing is arbitrary with fractions");
 
         start();
     });
