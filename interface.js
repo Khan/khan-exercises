@@ -448,7 +448,6 @@ function onHintButtonClicked() {
     }
     waitingOnHintRequest = true;
 
-    hintsUsed++;
     var curTime = new Date().getTime();
     var prevLastAttemptOrHint = lastAttemptOrHint;
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
@@ -460,8 +459,15 @@ function onHintButtonClicked() {
     if (!previewingItem && !localMode && !userExercise.readOnly &&
             !Exercises.currentCard.get("preview") && canAttempt) {
 
+        // buildAttemptData reads the number of hints we have taken from hintsUsed.
+        // However, we haven't updated that yet since we haven't gotten a response
+        // back, from, you guessed it, this request itself. So we increment
+        // hintsUsed while forming this request so that it gets the number of hints
+        // that will have been used when this request returns successfully.
+        hintsUsed++;
         hintRequest = request("problems/" + problemNum + "/hint",
                 buildAttemptData(false, attempts, "hint", timeTaken, false, false));
+        hintsUsed--;
     } else {
         // We don't send a request to the server, so just assume immediate
         // success
@@ -508,7 +514,6 @@ function onHintButtonClicked() {
         // TODO(alpert): Really we should store this in a snapshottable way
         // (e.g., with persistent data structures) so that this is easy...
         lastAttemptOrHint = prevLastAttemptOrHint;
-        hintsUsed--;
         // Filter out the hint activity entry in place
         var ual = Exercises.userActivityLog;
         for (var i = ual.length; i-- > 0;) {
@@ -523,6 +528,7 @@ function onHintShown(e, data) {
     // Grow the scratchpad to cover the new hint
     Khan.scratchpad.resize();
 
+    hintsUsed++;
     updateHintButtonText();
 
     $(Exercises).trigger("hintUsed", data);
