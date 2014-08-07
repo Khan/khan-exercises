@@ -2,12 +2,39 @@ define(function(require) {
 
 var decimalPointSymbol = icu.getDecimalFormatSymbols().decimal_separator;
 
-function Adder(a, b, digitsA, digitsB) {
+function Adder(a, b, decimalA, decimalB) {
     var graph = KhanUtil.currentGraph;
-    digitsA = digitsA || KhanUtil.digits(a);
-    digitsB = digitsB || KhanUtil.digits(b);
-    var highlights = [];
-    var carry = 0;
+    decimalA = decimalA || 0;
+    decimalB = decimalB || 0;
+
+    // Remove trailing zeros from decimals
+    while (a % 10 === 0 && a !== 0) {
+        a /= 10;
+        decimalA--;
+    }
+
+    while (b % 10 === 0 && b !== 0) {
+        b /= 10;
+        decimalB--;
+    }
+
+    var decimalPos = Math.max(decimalA, decimalB);
+
+    // Add trailing zeros so decimals line up
+    var newA = a * (decimalB > decimalA ? Math.pow(10, decimalB - decimalA) : 1);
+    var newB = b * (decimalA > decimalB ? Math.pow(10, decimalA - decimalB) : 1);
+    var digitsA = KhanUtil.digits(newA);
+    var digitsB = KhanUtil.digits(newB);
+    var digitDiff = digitsA.length - digitsB.length;
+
+    for (var i = 0; i < -digitDiff || digitsA.length < decimalA + 1; i++) {
+        digitsA.push(0);
+    }
+
+    for (var i = 0; i < digitDiff || digitsB.length < decimalB + 1; i++) {
+        digitsB.push(0);
+    }
+
     var pos = { max: Math.max(digitsA.length, digitsB.length, KhanUtil.digits(a + b).length),
         carry: 3,
         first: 2,
@@ -17,7 +44,9 @@ function Adder(a, b, digitsA, digitsB) {
         sideY: 1.5 };
 
     var index = 0;
-    var numHints = Adder.numHintsFor(a, b);
+    var carry = 0;
+    var highlights = [];
+    var numHints = Adder.numHintsFor(newA, newB);
 
     this.show = function() {
         graph.init({
@@ -30,6 +59,17 @@ function Adder(a, b, digitsA, digitsB) {
 
         graph.path([[-0.5, pos.second - 0.5], [pos.max + 0.5, pos.second - 0.5]]);
         graph.label([0, 1] , "\\LARGE{+\\vphantom{0}}");
+
+        if (decimalPos !== 0) {
+            for (var i = 0; i < 3; i++) {
+                graph.style({ fill: "#000" }, function() {
+                    graph.label([pos.max - decimalPos + 0.5, i - 0.1],
+                        "\\LARGE{" + decimalPointSymbol + "}", "center", true);
+                });
+            }
+            this.showSideLabel("\\text{Make sure digits are lined up by place value.}");
+            this.showSideLabel("\\text{Use the decimal points to help you.}", -0.6);
+        }
     };
 
     this.showHint = function() {
@@ -43,17 +83,17 @@ function Adder(a, b, digitsA, digitsB) {
         }
         var prevCarry = carry;
         var prevCarryStr = "";
-        var carryStr = "";
+        var resultStr = "";
         var addendStr = "";
         var sum;
 
         var x = pos.max - index;
-        var power = Math.pow(10, index);
-        var zeros = new Array(index + 1).join("0");
+        var power = Math.pow(10, index - decimalPos);
+        var decimalPlaces = Math.max(0, decimalPos - index);
 
         if (prevCarry !== 0) {
             highlights.push(graph.label([x, pos.carry], "\\blue{" + prevCarry + "}", "below"));
-            prevCarryStr = "\\blue{" + (prevCarry * power) + "} + ";
+            prevCarryStr = "\\blue{" + KhanUtil.localeToFixed(prevCarry * power,  decimalPlaces) + "} + ";
         }
 
         sum = digitsA[index] + carry;
@@ -61,7 +101,7 @@ function Adder(a, b, digitsA, digitsB) {
 
         if (index < digitsB.length) {
             highlights = highlights.concat(drawDigits([digitsB[index]], x, pos.second, KhanUtil.BLUE));
-            addendStr = " + \\blue{" + (digitsB[index] * power) + "}";
+            addendStr = " + \\blue{" + KhanUtil.localeToFixed(digitsB[index] * power, decimalPlaces) + "}";
             sum += digitsB[index];
         }
 
@@ -69,19 +109,32 @@ function Adder(a, b, digitsA, digitsB) {
         highlights = highlights.concat(drawDigits([sum % 10], x, pos.sum, KhanUtil.GREEN));
 
         carry = Math.floor(sum / 10);
+        doCarry = Math.min(carry, 1);
+
+        if (decimalPlaces > doCarry) {
+            resultStr += "0.";
+            resultStr += (new Array(decimalPlaces - doCarry).join("0"));
+        }
+
         if (carry !== 0) {
             highlights.push(graph.label([x - 1, pos.carry], "\\orange{" + carry + "}", "below"));
-            carryStr = "\\orange{" + carry + "}";
+            resultStr += "\\orange{" + carry + "}";
+            if (decimalPlaces === 1) {
+                resultStr += ".";
+            }
+        }
+
+        resultStr += "\\green{" + (sum % 10) + "}";
+        if (index + 1 > decimalPos) {
+            resultStr += (new Array(index - decimalPos + 1).join("0"));
         }
 
         this.showSideLabel("\\Large{" +
             prevCarryStr +
-            "\\blue{" + (digitsA[index] * power) + "}" +
+            "\\blue{" + KhanUtil.localeToFixed(digitsA[index] * power, decimalPlaces) + "}" +
             addendStr +
             " = " +
-            carryStr +
-            "\\green{" + sum % 10 + "}" +
-            zeros +
+            resultStr +
             "}");
 
         index++;
@@ -92,12 +145,12 @@ function Adder(a, b, digitsA, digitsB) {
             "\\blue{" + carry + "}", "below"));
         graph.label([pos.max - index, pos.sum], "\\LARGE{" + carry + "}");
         highlights.push(graph.label([pos.max - index, pos.sum],
-            "\\LARGE{\\color{#28AE7B}{" + carry + "}}"));
+            "\\LARGE{\\green{" + carry + "}}"));
 
         this.showSideLabel("\\Large{" +
             "\\blue{" + carry + "}" +
             " = " +
-            "\\color{#28AE7B}{" + carry + "}" +
+            "\\green{" + carry + "}" +
             "}");
     };
 
@@ -111,19 +164,14 @@ function Adder(a, b, digitsA, digitsB) {
         }
     };
 
-    this.showSideLabel = function(str) {
-        highlights.push(graph.label([pos.sideX, pos.sideY], str, "right"));
+    this.showSideLabel = function(str, dy) {
+        var y = pos.sideY + (dy || 0);
+        highlights.push(graph.label([pos.sideX, y], str, "right"));
     };
+}
 
-    this.showDecimals = function(deciA, deciB) {
-        for (var i = 0; i < 3; i++) {
-            graph.style({ fill: "#000" }, function() {
-                graph.label([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.1],
-                    "\\LARGE{" + decimalPointSymbol + "}", "center", true);
-            });
-        }
-        this.showSideLabel("\\text{Make sure the decimals are lined up.}");
-    };
+Adder.processDigit = function() {
+
 }
 
 Adder.numHintsFor = function(a, b) {

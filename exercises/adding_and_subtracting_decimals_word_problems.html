@@ -56,15 +56,14 @@
                 </p>
                 <p>Price of <var>plural_form(fruit(1))</var> + price of <var>plural_form(fruit(2))</var> = total price.</p>
                 <div class="graphie" id="numbers">
-                    graph.adder = new DecimalAdder(fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal);
+                    graph.adder = new Adder(fruit_1_integer, fruit_2_integer, fruit_1_decimal, fruit_2_decimal);
                     graph.adder.show();
-                    graph.adder.showDecimals();
                 </div>
-                <div class="graphie" data-each="DecimalAdder.numHintsFor(fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal) times" data-update="numbers">
+                <div class="graphie" data-each="Adder.numHintsFor(fruit_1_integer, fruit_2_integer, fruit_1_decimal, fruit_2_decimal) times" data-update="numbers">
                     graph.adder.showHint();
                 </div>
 
-                <p class="final_answer"><var>person(1)</var> needs to pay <code>$<var>solution</var></code>.</p>
+                <p><var>person(1)</var> needs to pay <code>$<var>solution</var></code>.</p>
             </div>
         </div>
 
@@ -113,10 +112,10 @@
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
                 </div>
-                <div class="graphie" data-each="DecimalAdder.numHintsFor(time_1_integer, time_1_decimal, time_2_integer, time_2_decimal) times" data-update="numbers">
+                <div class="graphie" data-each="DecimalSubtractor.numHintsFor(time_1_integer, time_1_decimal, time_2_integer, time_2_decimal) times" data-update="numbers">
                     graph.subtractor.showHint();
                 </div>
-                <p class="final_answer"><var>person(2)</var> was <code><var>solution</var></code> seconds faster than <var>person(1)</var>.</p>
+                <p><var>person(2)</var> was <code><var>solution</var></code> seconds faster than <var>person(1)</var>.</p>
             </div>
         </div>
 
@@ -153,18 +152,17 @@
                 <p>To find the weights of the two babies, we need to add their weights together.</p>
                 <p><var>person(2)</var>'s weight + <var>person(3)</var>'s weight = total weight.</p>
                 <div class="graphie" id="numbers">
-                    graph.adder = new DecimalAdder(weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal);
+                    graph.adder = new Adder(weight_1_integer, weight_2_integer, weight_1_decimal, weight_2_decimal);
                     graph.adder.show();
-                    graph.adder.showDecimals();
                 </div>
-                <div class="graphie" data-each="DecimalAdder.numHintsFor(weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal) times" data-update="numbers">
+                <div class="graphie" data-each="Adder.numHintsFor(weight_1_integer, weight_2_integer, weight_1_decimal, weight_2_decimal) times" data-update="numbers">
                     graph.adder.showHint();
                 </div>
 
                 <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                     graph.adder.showHint();
                 </div>
-                <p class="final_answer">Together, the babies weigh <code><var>solution</var></code> kilograms.</p>
+                <p>Together, the babies weigh <code><var>solution</var></code> kilograms.</p>
             </div>
         </div>
 
@@ -220,7 +218,7 @@
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
                 </div>
-                <div class="graphie" data-each="DecimalAdder.numHintsFor(amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal) times" data-update="numbers">
+                <div class="graphie" data-each="DecimalSubtractor.numHintsFor(amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal) times" data-update="numbers">
                     graph.subtractor.showHint();
                 </div>
                 <p class="final_answer"><var>person(1)</var> received <code>$<var>solution</var></code> in change.</p>
@@ -263,7 +261,7 @@
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
                 </div>
-                <div class="graphie" data-each="DecimalAdder.numHintsFor(rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal) times" data-update="numbers">
+                <div class="graphie" data-each="DecimalSubtractor.numHintsFor(rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal) times" data-update="numbers">
                     graph.subtractor.showHint();
                 </div>
                 <p class="final_answer">
@@ -309,11 +307,10 @@
                 <p>To find the total distance <var>person(1)</var> travels, we need to add the two distances together.</p>
                 <p>Distance on <var>vehicle(1)</var> + distance on <var>vehicle(2)</var> = total distance.</p>
                 <div class="graphie" id="numbers">
-                    graph.adder = new DecimalAdder(distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal);
+                    graph.adder = new Adder(distance_1_integer, distance_2_integer, distance_1_decimal, distance_2_decimal);
                     graph.adder.show();
-                    graph.adder.showDecimals();
                 </div>
-                <div class="graphie" data-each="DecimalAdder.numHintsFor(distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal) times" data-update="numbers">
+                <div class="graphie" data-each="Adder.numHintsFor(distance_1_integer, distance_2_integer, distance_1_decimal, distance_2_decimal) times" data-update="numbers">
                     graph.adder.showHint();
                 </div>
 
