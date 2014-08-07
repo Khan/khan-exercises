@@ -109,7 +109,7 @@ function Adder(a, b, decimalA, decimalB) {
         highlights = highlights.concat(drawDigits([sum % 10], x, pos.sum, KhanUtil.GREEN));
 
         carry = Math.floor(sum / 10);
-        doCarry = Math.min(carry, 1);
+        var doCarry = Math.min(carry, 1);
 
         if (decimalPlaces > doCarry) {
             resultStr += "0.";
@@ -172,7 +172,7 @@ function Adder(a, b, decimalA, decimalB) {
 
 Adder.processDigit = function() {
 
-}
+};
 
 Adder.numHintsFor = function(a, b) {
     return KhanUtil.digits(a + b).length + 1;
