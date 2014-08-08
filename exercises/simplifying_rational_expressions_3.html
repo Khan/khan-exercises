@@ -27,45 +27,12 @@
                 <p class="problem">Simplify the following expression and state the condition under which the simplification is valid:</p>
                 <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>FACTOR2.regex()</var></span>
-                        <span class="sol" data-type="regex"><var>FACTOR3.regex()</var></span>
-                        <span class="sol" data-type="number"><var>-A</var></span>
+                <div class="solution" data-type="multiple">
+                    <span><code><var>Y</var> = </code></span>
+                    <div class="sol" data-type="expression" data-same-form="">
+                        (<var>FACTOR2.toString()</var>)/(<var>FACTOR3.toString()</var>)
                     </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>FACTOR2.multiply(-1).regex()</var></span>
-                        <span class="sol" data-type="regex"><var>FACTOR3.multiply(-1).regex()</var></span>
-                        <span class="sol" data-type="number"><var>-A</var></span>
-                    </div>
-
-                    <div class="input-format">
-                        <div class="entry" data-type="multiple">
-                            <table class="rational-exp">
-                                <tbody><tr>
-                                    <td>
-                                        <code><var>Y</var> = </code>
-                                    </td>
-                                    <td><table>
-                                        <tbody><tr>
-                                            <td class="soln-top">
-                                                <span class="sol short40">a</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="soln-bot">
-                                                <span class="sol short40" data-fallback="1">a</span>
-                                            </td>
-                                        </tr>
-                                    </tbody></table></td>
-                                    <td>
-                                        <code> \space <var>X</var> \neq </code><span class="sol soln-dom short32">a</span>
-                                    </td>
-                                </tr>
-                            </tbody></table>
-                        </div>
-                    </div>
-                    <div class="example">a simplifed expression, like <code>x + 2</code></div>
+                    <code><var>X</var> \neq \space</code><span class="sol"><var>-A</var></span>
                 </div>
 
                 <div class="hints">
@@ -81,7 +48,7 @@
                     <div>
                         <p>Dividing both the numerator and denominator by <code>(<var>FACTOR1</var>)</code> gives:</p>
                         <div data-if="FACTOR2.toString() === '1'">
-                            <code><var>Y</var> = \dfrac{<var>FACTOR2</var>}{<var>FACTOR3</var>}</code> or more simply, 
+                            <code><var>Y</var> = \dfrac{<var>FACTOR2</var>}{<var>FACTOR3</var>}</code> or more simply,
                             <code><var>Y</var> = <var>FACTOR2</var></code>
                         </div>
                         <div data-else="">

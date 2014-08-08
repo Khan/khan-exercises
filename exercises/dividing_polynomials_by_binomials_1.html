@@ -20,23 +20,13 @@
                 <p class="problem">Simplify the following expression and state the condition under which the simplification is valid.</p>
                 <p class="question"><code><var>Y</var> = \dfrac{<var>X</var>^2 + <var>CONSTANT</var>}{<var>X</var> + <var>A</var>}</code></p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <div class="sol" data-type="regex">^\s*<var>X</var>\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs(A)</var>\s*$</div>
-                        <span class="sol" data-type="number"><var>-A</var></span>
+                <div class="solution" data-type="multiple">
+                    <span><code><var>Y</var> = </code></span>
+                    <div class="sol" data-type="expression" data-same-form="">
+                        <var>X</var> + <var>-A</var>
                     </div>
-                    <div class="set-sol" data-type="multiple">
-                        <div class="sol" data-type="regex">^\s*<var>A &lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs(A)</var>\s*\+\s*<var>X</var>\s*$</div>
-                        <span class="sol" data-type="number"><var>-A</var></span>
-                    </div>
-
-                    <div class="input-format">
-                        <div class="entry" data-type="multiple">
-                            <code><var>Y</var> = \space </code><span class="sol short50">a</span>
-                            <code>\space <var>X</var> \neq \space </code><span class="sol short32">a</span>
-                        </div>
-                    </div>
-                    <div class="example">a simplifed expression, like <code>x + 2</code></div>
+                    <span><code>\space <var>X</var> \neq \space </code>
+                    <span class="sol" data-type="number"><var>-A</var></span>
                 </div>
 
                 <div class="hints" data-apply="appendContents">
@@ -53,7 +43,7 @@
 
                     <div>
                         <p>So we can rewrite the expression as:</p>
-                        <p><code><var>Y</var> = 
+                        <p><code><var>Y</var> =
                             <span data-if="A > 0">\dfrac{(\blue{<var>X</var>} + \pink{<var>A</var>})(\blue{<var>X</var>} \pink{<var>-A</var>})}</span>
                             <span data-else="">\dfrac{(\blue{<var>X</var>} \pink{<var>A</var>})(\blue{<var>X</var>} + \pink{<var>-A</var>})}</span>
                             {<var>X</var> + <var>A</var>}
@@ -61,7 +51,7 @@
                     </div>
 
                     <p>
-                        We can divide the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code> 
+                        We can divide the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code>
                         on condition that <code><var>X</var> \neq <var>-A</var></code>.
                     </p>
 
@@ -84,27 +74,17 @@
                 </div>
 
                 <p class="problem">Simplify the following expression:</p>
-                <p class="question"><code><var>Y</var> = 
+                <p class="question"><code><var>Y</var> =
                     \dfrac{<var>X</var>^2 + <var>plus(LINEAR + X)</var> + <var>CONSTANT</var>}{<var>X</var> + <var>-A</var>}
                 </code></p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <div class="sol" data-type="regex">^\s*<var>X</var>\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs(B)</var>\s*$</div>
-                        <span class="sol" data-type="number"><var>A</var></span>
+                <div class="solution" data-type="multiple">
+                    <span><code><var>Y</var> = </code></span>
+                    <div class="sol" data-type="expression" data-simplify="">
+                        <var>X</var> + <var>-B</var>
                     </div>
-                    <div class="set-sol" data-type="multiple">
-                        <div class="sol" data-type="regex">^\s*<var>B &lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs(B)</var>\s*\+\s*<var>X</var>\s*$</div>
-                        <span class="sol" data-type="number"><var>A</var></span>
-                    </div>
-
-                    <div class="input-format">
-                        <div class="entry" data-type="multiple">
-                            <code><var>Y</var> = \space </code><span class="sol short50">a</span>
-                            <code>\space <var>X</var> \neq \space </code><span class="sol short32">a</span>
-                        </div>
-                    </div>
-                    <div class="example">a simplifed expression, like <code>x + 2</code></div>
+                    <span><code>\space <var>X</var> \neq \space </code>
+                    <span class="sol" data-type="number"><var>A</var></span>
                 </div>
 
                 <div class="hints" data-apply="appendContents">
@@ -114,13 +94,13 @@
 
                     <div>
                         <p>So we can rewrite the expression as:</p>
-                        <p><code><var>Y</var> = 
+                        <p><code><var>Y</var> =
                             \dfrac{(<var>X</var> + <var>-A</var>)(<var>X</var> + <var>-B</var>)}{<var>X</var> + <var>-A</var>}
                         </code></p>
                     </div>
 
                     <p>
-                        We can divide the numerator and denominator by <code>(<var>X</var> + <var>-A</var>)</code> 
+                        We can divide the numerator and denominator by <code>(<var>X</var> + <var>-A</var>)</code>
                         on condition that <code><var>X</var> \neq <var>A</var></code>.
                     </p>
 

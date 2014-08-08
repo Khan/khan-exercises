@@ -21,12 +21,21 @@
             </div>
 
             <p class="problem">Simplify the following expression:</p>
-            <p class="question"><code><var>Y</var> = 
+            <p class="question"><code><var>Y</var> =
                 \dfrac{<var>C</var><var>X</var>^2 + <var>C * LINEAR</var><var>X</var> + <var>C * CONSTANT</var>}{<var>X</var> + <var>-A</var>}
             </code></p>
 
             <div class="solution" data-type="multiple">
-                <code><var>Y</var> = \space</code><span class="sol short50" data-type="regex"><var>SOLUTION.regex(true)</var></span> 
+                <span><code><var>Y</var> = </code></span>
+                <div class="sol" data-type="set">
+                    <div class="set-sol" data-type="expression" data-same-form="">
+                        <var>C</var><var>X</var> + <var>C * (-B)</var>
+                    </div>
+                    <div class="set-sol" data-type="expression" data-same-form="">
+                        <var>C</var>(<var>X</var> + <var>(-B)</var>)
+                    </div>
+                    <div class="input-format"><div class="entry" data-type="expression"></div></div>
+                </div>
                 <code><var>X</var> \neq </code> <span class="sol short50" data-type="number"><var>A</var></span>
             </div>
 
@@ -42,7 +51,7 @@
 
                 <div>
                     <p>Then we factor the remaining polynomial:</p>
-                    <p><code><var>X</var>^2 
+                    <p><code><var>X</var>^2
                         <var>LINEAR &gt; 0 ? "+" : ""</var> \green{<var>LINEAR</var>}<var>X</var> <var>CONSTANT &gt; 0 ? "+" : ""</var> \blue{<var>CONSTANT</var>}
                     </code></p>
                     <p><code>\pink{<var>-A</var>} <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>} = \green{<var>LINEAR</var>}</code></p>
@@ -61,7 +70,7 @@
                 </div>
 
                 <p>
-                    We can divide the numerator and denominator by <code>(<var>X</var> - <var>A</var>)</code> 
+                    We can divide the numerator and denominator by <code>(<var>X</var> - <var>A</var>)</code>
                     on condition that <code><var>X</var> \neq <var>A</var></code>.
                 </p>
 

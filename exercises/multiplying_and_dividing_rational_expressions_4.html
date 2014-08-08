@@ -149,51 +149,33 @@
             </div>
         </div>
 
-        <div class="solution" data-type="set">
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
-                <span class="sol" data-type="regex" data-fallback="1"><var>DENOMSOL.regex(true)</var></span>
-                <span class="sol" data-type="number"><var>-B</var></span>
-                <span class="sol" data-type="number" data-fallback="0"><var>SOL</var></span>
+        <div class="solution" data-type="multiple">
+            <span><code><var>Y</var> = </code></span>
+            <div class="sol" data-type="set">
+                <div class="set-sol" data-type="expression" data-same-form="">
+                    (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
+                </div>
+                <div class="set-sol" data-type="expression" data-same-form="">
+                    (<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)
+                </div>
+                <div class="set-sol" data-type="expression" data-same-form="">
+                    (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)
+                </div>
+                <div class="set-sol" data-type="expression" data-same-form="">
+                    (<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)
+                </div>
+                <div class="input-format"><div class="entry" data-type="expression"></div></div>
             </div>
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
-                <span class="sol" data-type="regex" data-fallback="1"><var>DENOMSOL.regex(true)</var></span>
-                <span class="sol" data-type="number"><var>SOL</var></span>
-                <span class="sol" data-type="number" data-fallback="0"><var>-B</var></span>
-            </div>
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(true)</var></span>
-                <span class="sol" data-type="regex" data-fallback="1"><var>DENOMSOL.multiply(-1).regex(true)</var></span>
-                <span class="sol" data-type="number"><var>-B</var></span>
-                <span class="sol" data-type="number" data-fallback="0"><var>SOL</var></span>
-            </div>
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex(true)</var></span>
-                <span class="sol" data-type="regex" data-fallback="1"><var>DENOMSOL.multiply(-1).regex(true)</var></span>
-                <span class="sol" data-type="number"><var>SOL</var></span>
-                <span class="sol" data-type="number" data-fallback="0"><var>-B</var></span>
-            </div>
-
-            <div class="input-format">
-                <div class="entry" data-type="multiple">
-                    <table class="rational-exp"><tbody>
-                        <tr>
-                            <td class="soln-name" rowspan="2"><code><var>Y</var> = </code></td>
-                            <td class="soln-top"><span class="sol short50">a</span></td>
-                        </tr>
-                        <tr>
-                            <td class="soln-bot"><span class="sol short50" data-fallback="1">a</span></td>
-                        </tr>
-                        <tr>
-                            <td><code><var>X</var> \neq </code></td>
-                            <td><span class="sol short50">a</span></td>
-                        </tr>
-                        <tr>
-                            <td><code><var>X</var> \neq </code></td>
-                            <td><span class="sol short50">a</span></td>
-                        </tr>
-                    </tbody></table>
+            <div class="sol" data-type="set">
+                <span class="set-sol"><var>-B</var></span>
+                <span data-if="CANCEL.terms[1].coefficient !== B" class="set-sol"><var>SOL</var></span>
+                <div class="input-format">
+                    <div>
+                        <code><var>X</var> \neq \space</code><span class="entry"></span>
+                    </div>
+                    <div data-if="CANCEL.terms[1].coefficient !== B">
+                        <code><var>X</var> \neq \space</code><span class="entry"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,7 +184,7 @@
             You can assume that <code><var>X</var> \neq 0</code>.</p>
 
         <p class="question">
-            <p><code><var>Y</var> = 
+            <p><code><var>Y</var> =
                 <span data-if="OPERATOR === 'multiply'">
                     \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[0]]</var>} \times
                     \dfrac{<var>NUMERATORS[ORDER[1]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>}
@@ -225,7 +207,7 @@
 
             <p>First factor the quadratic.</p>
 
-            <p><code><var>Y</var> = 
+            <p><code><var>Y</var> =
                 \dfrac{<var>NUMER_STRINGS[ORDER[0]]</var>}{<var>DENOM_STRINGS[ORDER[0]]</var>} \times
                 \dfrac{<var>NUMER_STRINGS[ORDER[1]]</var>}{<var>DENOM_STRINGS[ORDER[1]]</var>}
             </code></p>
@@ -233,7 +215,7 @@
             <div data-if="FACTOR1 !== 1 || FACTORS[0].toString() !== '1' || FACTORS[1].toString() !== '1'">
                 <p>Then factor out any other terms.</p>
 
-                <p><code><var>Y</var> = 
+                <p><code><var>Y</var> =
                     \dfrac{<var>NUMER_STRINGS2[ORDER[0]]</var>}{<var>DENOM_STRINGS2[ORDER[0]]</var>} \times
                     \dfrac{<var>NUMER_STRINGS2[ORDER[1]]</var>}{<var>DENOM_STRINGS2[ORDER[1]]</var>}
                 </code></p>

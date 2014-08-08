@@ -3,21 +3,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying and dividing rational expressions 3</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style type="text/css">
-        #solutionarea td {
-            text-align: center;
-            vertical-align: middle;
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-        #solutionarea .soln-top {
-            padding-bottom: 1px;
-        }
-        #solutionarea .soln-bot {
-            padding-top: 1px;
-            border-top: 1px solid black;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -124,44 +109,13 @@
             </div>
         </div>
 
-        <div class="solution" data-type="set">
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.regex()</var></span>
-                <span class="sol" data-fallback="1" data-type="regex"><var>DENOMSOL.regex()</var></span>
-                <span class="sol"><var>-CONSTANT/COEFFICIENT</var></span>
+        <div class="solution" data-type="multiple">
+            <span><code><var>Y</var> = </code></span>
+            <div class="sol" data-type="expression" data-simplify="">
+                (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
             </div>
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex()</var></span>
-                <span class="sol" data-fallback="1" data-type="regex"><var>DENOMSOL.multiply(-1).regex()</var></span>
-                <span class="sol"><var>-CONSTANT/COEFFICIENT</var></span>
-            </div>
-
-            <div class="input-format">
-                <div class="entry" data-type="multiple">
-                    <table>
-                        <tbody><tr>
-                            <td>
-                                <code><var>Y</var> = </code>
-                            </td>
-                            <td><table>
-                                <tbody><tr>
-                                    <td class="soln-top">
-                                        <span class="sol short32">a</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="soln-bot">
-                                        <span class="sol short32" data-fallback="1">a</span>
-                                    </td>
-                                </tr>
-                            </tbody></table></td>
-                            <td>
-                                <code> \space <var>X</var> \neq \space </code><span class="sol soln-dom short32">a</span>
-                            </td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
+            <code><var>X</var> \neq \space</code>
+            <span class="sol"><var>-CONSTANT/COEFFICIENT</var></span>
         </div>
 
         <div class="hints">

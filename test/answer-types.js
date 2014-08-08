@@ -1059,8 +1059,6 @@
         start();
     });
 
-    // TODO(eater): Uncomment when D10355 lands
-    /*
     asyncTest("expression-multiple", 12, function() {
         setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(
@@ -1080,7 +1078,32 @@
 
         start();
     });
-    */
+
+    asyncTest("expression-set-in-multiple", 15, function() {
+        setupSolutionArea();
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<div class='solution' data-type='multiple'>" +
+                "<span><code>f(x) = </code></span>" +
+                "<div class='sol' data-type='set'>" +
+                    "<div class='set-sol' data-type='expression' data-same-form>5x+45</div>" +
+                    "<div class='set-sol' data-type='expression' data-same-form>5(x+9)</div>" +
+                    "<div class='input-format'><div class='entry' data-type='expression'></div></div>" +
+                "</div>" +
+            "</div>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, [""], "empty", "empty answer is empty");
+        testMultipleAnswer(answerData, ["5x+45"], "right", "right answer is right");
+        testMultipleAnswer(answerData, ["5(x+9)"], "right", "other right answer is right");
+        testMultipleAnswer(answerData, ["5x+9"], "wrong", "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["(5x^2+25x-180)/(x-4)"], "wrong-message",
+                "unsimplified answer is wrong with message");
+
+        start();
+    });
 
     asyncTest("radio answerability", 8, function() {
         setupSolutionArea();

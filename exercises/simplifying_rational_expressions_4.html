@@ -10,7 +10,7 @@
         <div class="vars">
             <var id="X">randVar()</var>
             <var id="Y" data-ensure="X !== Y">randVar()</var>
-            
+
             <var id="A">randRangeNonZero(-10, 10)</var>
             <var id="B">randRangeNonZero(-10, 10)</var>
             <var id="C" data-ensure="B !== C">randRangeNonZero(-10, 10)</var>
@@ -52,54 +52,35 @@
                 </p>
                 <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATOR_SOL.regex(true)</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATOR_SOL.regex(true)</var></span>
-                        <span class="sol" data-type="number"><var>-A</var></span>
-                        <span class="sol" data-type="number" data-if="ZERONOTSOL"><var>0</var></span>
+                <div class="solution" data-type="multiple">
+                    <span><code><var>Y</var> = </code></span>
+                    <div class="sol" data-type="set">
+                        <div class="set-sol" data-type="expression" data-same-form="">
+                            (<var>NUMERATOR_SOL.toString()</var>)/(<var>DENOMINATOR_SOL.toString()</var>)
+                        </div>
+                        <div class="set-sol" data-type="expression" data-same-form="">
+                            (<var>NUMERATOR_SOL.toStringFactored()</var>)/(<var>DENOMINATOR_SOL.toString()</var>)
+                        </div>
+                        <div class="set-sol" data-type="expression" data-same-form="">
+                            (<var>NUMERATOR_SOL.toString()</var>)/(<var>DENOMINATOR_SOL.toStringFactored()</var>)
+                        </div>
+                        <div class="set-sol" data-type="expression" data-same-form="">
+                            (<var>NUMERATOR_SOL.toStringFactored()</var>)/(<var>DENOMINATOR_SOL.toStringFactored()</var>)
+                        </div>
+                        <div class="input-format"><span class="entry" data-type="expression"></span></div>
                     </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATOR_SOL.multiply(-1).regex(true)</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATOR_SOL.multiply(-1).regex(true)</var></span>
-                        <span class="sol" data-type="number"><var>-A</var></span>
-                        <span class="sol" data-type="number" data-if="ZERONOTSOL"><var>0</var></span>
-                    </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATOR_SOL.regex(true)</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATOR_SOL.regex(true)</var></span>
-                        <span class="sol" data-type="number" data-if="ZERONOTSOL"><var>0</var></span>
-                        <span class="sol" data-type="number"><var>-A</var></span>
-                    </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATOR_SOL.multiply(-1).regex(true)</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATOR_SOL.multiply(-1).regex(true)</var></span>
-                        <span class="sol" data-type="number" data-if="ZERONOTSOL"><var>0</var></span>
-                        <span class="sol" data-type="number"><var>-A</var></span>
-                    </div>
-
-                    <div class="input-format">
-                        <div class="entry" data-type="multiple">
-                            <table class="rational-exp"><tbody>
-                                <tr>
-                                    <td rowspan="2"><code><var>Y</var> = </code></td>
-                                    <td class="soln-top"><span class="sol short50">a</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="soln-bot"><span class="sol short50" data-fallback="1">a</span></td>
-                                </tr>
-                                <tr>
-                                    <td><code><var>X</var> \neq </code></td>
-                                    <td><span class="sol short50">a</span></td>
-                                </tr>
-                                <tr data-if="ZERONOTSOL">
-                                    <td><code><var>X</var> \neq </code></td>
-                                    <td><span class="sol short50">a</span></td>
-                                </tr>
-                            </tbody></table>
+                    <div class="sol" data-type="set">
+                        <span class="set-sol" data-type="number"><var>-A</var></span>
+                        <span class="set-sol" data-type="number" data-if="ZERONOTSOL">0</span>
+                        <div class="input-format">
+                            <div>
+                                <code><var>X</var> \neq \space</code><span class="entry"></span></code>
+                            </div>
+                            <div data-if="ZERONOTSOL">
+                                <code><var>X</var> \neq \space</code><span class="entry"></span></code>
+                            </div>
                         </div>
                     </div>
-                    <div class="example">an expression, like <code>x + 2</code></div>
                 </div>
             </div>
         </div>
@@ -113,7 +94,7 @@
                     {<var>NUM_FACTOR</var>(<var>NUMERATOR.divide(NUM_FACTOR)</var>)}
                     {<var>DEN_FACTOR</var>(<var>DENOMINATOR.divide(DEN_FACTOR)</var>)}
                 </code></p>
-                <p><code>\qquad <var>Y</var> = 
+                <p><code>\qquad <var>Y</var> =
                     <span data-if="FACTOR_SIGN">-</span>\dfrac{<var>NUM_FACTORa</var>}{<var>DEN_FACTORa</var>} \cdot
                     \dfrac{<var>NUMERATOR.divide(NUM_FACTOR)</var>}{<var>DENOMINATOR.divide(DEN_FACTOR)</var>}
                 </code></p>

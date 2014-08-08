@@ -87,37 +87,11 @@
                 <p><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
                 <p>You can assume <code><var>X</var> \neq 0</code>.</p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATORSOL.regex(true)</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATORSOL.regex(true)</var></span>
+                <div class="solution" data-type="multiple">
+                    <span><code><var>Y</var> = </code></span>
+                    <div class="sol" data-type="expression" data-simplify="">
+                        (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toString()</var>)
                     </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATORSOL.multiply(-1).regex(true)</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATORSOL.multiply(-1).regex(true)</var></span>
-                    </div>
-
-                    <div class="input-format">
-                        <div class="entry" data-type="multiple">
-                            <table class="rational-exp">
-                                <tbody><tr>
-                                    <td rowspan="2">
-                                        <code><var>Y</var> = </code>
-                                    </td>
-                                    <td class="soln-top">
-                                        <span class="sol short50">a</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="soln-bot">
-                                        <span class="sol short50" data-fallback="1">a</span>
-                                    </td>
-                                </tr>
-                            </tbody></table>
-                        </div>
-                    </div>
-
-                    <p class="example">a simplifed expression, like <code>x + 2</code></p>
                 </div>
 
                 <div class="hints">
@@ -144,7 +118,7 @@
                     <div>
                         <p>Dividing both the numerator and denominator by <code><var>FACTORDEGREE</var></code> gives:</p>
                         <div data-if="DENOMINATORSOL.toString() === '1'">
-                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply, 
+                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply,
                             <code><var>Y</var> = <var>NUMERATORSOL</var></code>
                         </div>
                         <div data-else="">

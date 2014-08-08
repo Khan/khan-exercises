@@ -26,27 +26,12 @@
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question"><code>y = \dfrac{<var>A</var>x^2+<var>B</var>x+<var>C</var>}{<var>DENOMINATOR</var>}</code></p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <div class="sol" data-type="regex">
-                            ^\s*x\s*<var>F &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs(F)</var>\s*$
-                        </div>
-                        <span class="sol"><var>-E/A</var></span>
+                <div class="solution" data-type="multiple">
+                    <span><code>y = </code></span>
+                    <div class="sol" data-type="expression" data-same-form="">
+                        <var>SOLUTION.toString()</var>
                     </div>
-                    <div class="set-sol" data-type="multiple">
-                        <div class="sol" data-type="regex">
-                            ^\s*<var>F &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs(F)</var>\s*\+\s*x\s*$
-                        </div>
-                        <span class="sol"><var>-E/A</var></span>
-                    </div>
-
-                    <div class="input-format">
-                        <div class="entry" data-type="multiple">
-                            <code>y = \space </code><span class="sol short50">a</span>
-                            <code>\space x \neq \space </code><span class="sol short32">a</span>
-                        </div>
-                    </div>
-                    <div class="example">a simplifed expression, like <code>x + 2</code></div>
+                    <code>x \neq \space </code><span class="sol"><var>-E/A</var></span>
                 </div>
             </div>
 
@@ -60,27 +45,12 @@
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question"><code>y = \dfrac{<var>A</var>x^2+<var>B</var>x+<var>C</var>}{<var>DENOMINATOR</var>}</code></p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <div class="sol" data-type="regex">
-                            ^\s*<var>A &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs(A)</var>\s*x\s*<var>E &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs(E)</var>\s*$
-                        </div>
-                        <span class="sol" data-type="number"><var>-F</var></span>
+                <div class="solution" data-type="multiple">
+                    <span><code>y = </code></span>
+                    <div class="sol" data-type="expression" data-same-form="">
+                        <var>SOLUTION.toString()</var>
                     </div>
-                    <div class="set-sol" data-type="multiple">
-                        <div class="sol" data-type="regex">
-                            ^\s*<var>E &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs(E)</var>\s*<var>A &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs(A)</var>\s*x\s*$
-                        </div>
-                        <span class="sol" data-type="number"><var>-F</var></span>
-                    </div>
-
-                    <div class="input-format">
-                        <div class="entry" data-type="multiple">
-                            <code>y = \space </code><span class="sol short50">a</span>
-                            <code>\space x \neq \space </code><span class="sol short32">a</span>
-                        </div>
-                    </div>
-                    <div class="example">a simplifed expression, like <code>x + 2</code></div>
+                    <code>x \neq \space </code><span class="sol"><var>-F</var></span>
                 </div>
             </div>
         </div>
@@ -150,12 +120,12 @@
                     + (\purple{<var>A * F</var>}x <span data-if="C > 0">+</span>\pink{<var>C</var>})
                 </code>
             </div>
-            
+
             <div>
                 <p>Factor out the common factors:</p>
                 <code>\qquad x(<var>A</var>x + <var>E</var>) + <var>F</var>(<var>A</var>x + <var>E</var>)</code>
             </div>
-            
+
             <div>
                 <p>Now factor out <code>(<var>A</var>x + <var>E</var>)</code>:</p>
                 <p><code>\qquad (<var>A</var>x + <var>E</var>)(x + <var>F</var>)</code></p>

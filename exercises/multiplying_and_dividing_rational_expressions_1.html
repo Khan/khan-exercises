@@ -4,21 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying and dividing rational expressions  1</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <style type="text/css">
-        #solutionarea td {
-            text-align: center;
-            vertical-align: middle;
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-        #solutionarea .soln-top {
-            padding-bottom: 1px;
-        }
-        #solutionarea .soln-bot {
-            padding-top: 1px;
-            border-top: 1px solid black;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -72,19 +57,10 @@
         </div>
 
         <div class="solution" data-type="multiple">
-            <table>
-                <tbody><tr>
-                    <td class="soln-name" rowspan="2"><code><var>Y</var>=</code></td>
-                    <td class="soln-top">
-                        <span class="sol short50" data-type="regex"><var>NUMERSOL.regex(true)</var></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="soln-bot">
-                        <span class="sol short50" data-type="regex"><var>DENOMSOL.regex(true)</var></span>
-                    </td>
-                </tr>
-            </tbody></table>
+            <span><code><var>Y</var> = </code></span>
+            <div class="sol" data-type="expression" data-simplify="">
+                (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
+            </div>
         </div>
 
         <div class="hints">

@@ -1298,14 +1298,21 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         }
 
                         // If this validator completely accepts this answer
-                        // or returns a check answer message
-                        if (pass.correct || pass.message) {
-                            // remove the working validator
-                            unusedValidators.splice(i, 1);
+                        if (pass.correct) {
                             // store correct
-                            correct = pass.correct || pass.message;
+                            correct = pass.correct;
+                            // remove the matching validator
+                            unusedValidators.splice(i, 1);
                             // break
                             return false;
+                        }
+
+                        // If the validator matches, grades wrong, and provides
+                        // a message, we want to continue trying the other
+                        // validators in the hopes the answer may yet be
+                        // correct. But in case it isn't, store the message.
+                        if (!pass.correct && pass.message) {
+                            correct = pass.message;
                         }
                     });
 
@@ -1994,19 +2001,22 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return solution;
         },
 
-        setupFunctional: function(solutionarea, solutionText, solutionData) {
+        _parseOptions: function(solutionData) {
             // Convert options to a form KAS can understand
             var options = {
                 form: solutionData.sameForm != null,
                 simplify: solutionData.simplify != null,
                 times: solutionData.times != null
             };
-
             if (solutionData.functions) {
                 options.functions = _.compact(
                     solutionData.functions.split(/[ ,]+/));
             }
+            return options;
+        },
 
+        setupFunctional: function(solutionarea, solutionText, solutionData) {
+            var options = this._parseOptions(solutionData);
             var solution = Khan.answerTypes.expression.parseSolution(solutionText, options);
 
             // Assemble the solution area
@@ -2136,7 +2146,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
 
             return {
-                validator: Khan.answerTypes.expression.createValidatorFunctional(solution, options),
+                validator: Khan.answerTypes.expression.createValidatorFunctional(solution, solutionData),
                 answer: function() { return $input.val(); },
                 solution: solution.print(),
                 examples: [
@@ -2155,7 +2165,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 }
             };
         },
-        createValidatorFunctional: function(solution, options) {
+        createValidatorFunctional: function(solution, solutionData) {
+            var options = this._parseOptions(solutionData);
             return function(guess) {
                 var score = {
                     empty: false,
