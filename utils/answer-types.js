@@ -2008,9 +2008,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 simplify: solutionData.simplify != null,
                 times: solutionData.times != null
             };
-            if (solutionData.functions) {
+            if (_.isString(solutionData.functions)) {
                 options.functions = _.compact(
                     solutionData.functions.split(/[ ,]+/));
+            } else if (_.isArray(solutionData.functions)) {
+                options.functions = _.compact(solutionData.functions);
             }
             return options;
         },
