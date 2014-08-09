@@ -2003,10 +2003,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
         _parseOptions: function(solutionData) {
             // Convert options to a form KAS can understand
+            var form = solutionData.form !== undefined ?
+                solutionData.form :
+                solutionData.sameForm;
+            var notFalseOrNil = function(x) {
+                return x != null && x !== false;
+            };
             var options = {
-                form: solutionData.sameForm != null,
-                simplify: solutionData.simplify != null,
-                times: solutionData.times != null
+                form: notFalseOrNil(form),
+                simplify: notFalseOrNil(solutionData.simplify),
+                times: notFalseOrNil(solutionData.times)
             };
             if (_.isString(solutionData.functions)) {
                 options.functions = _.compact(
