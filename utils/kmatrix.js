@@ -125,6 +125,16 @@ var kmatrix = KhanUtil.kmatrix = {
         }, mat);
     },
 
+    printFractionMatrix: function(mat, color) {
+        return kmatrix.printMatrix(function(item) {
+            item = KhanUtil.decimalFraction(item, true);
+            if (color) {
+                return KhanUtil.colorMarkup(item, color);
+            }
+            return item;
+        }, mat);
+    },
+
     /**
      * Prints matrix as determinant, like |matrix| rather than [matrix]
      */

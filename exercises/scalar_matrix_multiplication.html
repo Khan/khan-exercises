@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math kmatrix matrix-input">
+<html data-require="math math-format kmatrix matrix-input">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Scalar matrix multiplication</title>
@@ -10,7 +10,8 @@
 
     <div class="vars">
         <var id="MAT_A">randRange(-2, 4, ROWS, COLS)</var>
-        <var id="SCALAR">randRange(-5, 5)</var>
+        <var id="SCALAR">randFromArray([-1, 1]) * (rand(4) === 0 ? randRange(1, 3) / 4 : randRange(2, 5))</var>
+        <var id="SCALAR_TEXT">decimalFraction(SCALAR, true)</var>
         <var id="OPERATION">"\\times"</var>
 
         <var id="SOLN_MAT">
@@ -29,20 +30,20 @@
         </var>
         <var id="PRETTY_HINT_MAT">
             printMatrix(function(a) {
-                var s = colorMarkup(SCALAR, SCALAR_COLOR);
+                var s = colorMarkup(SCALAR_TEXT, SCALAR_COLOR);
                 var b = colorMarkup(a, MAT_A_COLOR);
                 return s + OPERATION + b;
             }, MAT_A)
         </var>
         <var id="PRETTY_SOLN_MAT">
-            printSimpleMatrix(SOLN_MAT, SOLN_MAT_COLOR)
+            printFractionMatrix(SOLN_MAT, SOLN_MAT_COLOR)
         </var>
     </div>
 
     <div class="question">
         <code>
             \Large{
-                \color{<var>SCALAR_COLOR</var>}{<var>SCALAR</var>}
+                \color{<var>SCALAR_COLOR</var>}{<var>SCALAR_TEXT</var>}
                 <var>OPERATION</var>
                 <var>PRETTY_MAT_A</var> = {?}
             }
@@ -67,7 +68,7 @@
     <div class="solution" data-type="multiple">
         <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
             <span data-each="row as elem">
-                <span class="sol" data-forms="integer" data-if="elem !== ''">
+                <span class="sol" data-if="elem !== ''">
                     <var>elem</var>
                 </span>
                 <span class="sol" data-else="" data-type="text">
