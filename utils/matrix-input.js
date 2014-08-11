@@ -65,7 +65,7 @@ $.extend(KhanUtil, {
 
             this.initContainer();
 
-            var inputs = $(".matrix-input .sol input[type='text']");
+            var inputs = $(".matrix-row .sol input[type='text']");
             this.cells = _.map(inputs, function(input, i) {
                 return {
                     el: input,
@@ -88,7 +88,10 @@ $.extend(KhanUtil, {
         },
 
         initContainer: function() {
-            this.containerEl = $("#solutionarea").addClass("matrix-input");
+            this.containerEl = $("#solutionarea .matrix-input");
+            if (!this.containerEl[0]) {
+                this.containerEl = $("#solutionarea").addClass("matrix-input");
+            }
         },
 
         addBrackets: function(i) {

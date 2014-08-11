@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math kmatrix matrix-input">
+<html data-require="math math-format kmatrix matrix-input">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inverse of a 2x2 matrix</title>
@@ -9,112 +9,254 @@
     <div class="exercise">
 
     <div class="vars">
-        <div data-ensure="DET !== 0">
+        <var id="LETTERS">["A", "B", "C", "D", "E", "F"]</var>
+        <var id="MAT_ID">rand(6)</var>
+        <var id="PRETTY_MAT_ID">"\\textbf " + LETTERS[MAT_ID]</var>
+
+        <div data-ensure="DET !== 0 && abs(DET) <= 30">
             <var id="DIM">2</var>
-            <var id="MAT">makeMatrix(randRange(-2, 5, DIM, DIM))</var>
+            <var id="MAT">makeMatrix(randRange(-10, 10, DIM, DIM))</var>
             <var id="DET">matrixDet(MAT)</var>
         </div>
-        <var id="HINT_MAT">
-            makeMatrix([["a","b"],["c","d"]])
-        </var>
-        <var id="HINT_MAT_ADJ">
-            makeMatrix([["d","-b"],["-c","a"]])
-        </var>
+        
+        <div data-ensure="abs(A2) < 11 && abs(D2) < 11 && A2 * D2 - B2 * C2 <= 30">
+            <var id="B2" data-ensure="abs(B2) < 11">
+                randRangeWeighted(-6, 6, 1, 0.3) * randRangeWeighted(-6, 6, 1, 0.3)
+            </var>
+            <var id="C2" data-ensure="abs(C2) < 11">
+                randRangeWeighted(-6, 6, 1, 0.3) * randRangeWeighted(-6, 6, 1, 0.3)
+            </var>
+            <var id="A2, D2">(function() {
+                if (B2 * C2 === 0) {
+                    return KhanUtil.shuffle([0, KhanUtil.randRangeNonZero(-6, 6)]);
+                } else {
+                    var factor = KhanUtil.shuffle(KhanUtil.getFactors(Math.abs(B2 * C2)))[0];
+                    var a = KhanUtil.randRangeNonZero(-1, 1) * B2 * C2 / factor;
+                    var d = B2 * C2 / a;
+                    return [a, d];
+                }
+            })()</var>
+        </div>
+        <var id="MAT_2">makeMatrix([[A2, B2], [C2, D2]])</var>
+        <var id="DET_2">matrixDet(MAT_2)</var>
+
+        <var id="HINT_MAT">makeMatrix([["a","b"],["c","d"]])</var>
+        <var id="HINT_MAT_ADJ">makeMatrix([["d","-b"],["-c","a"]])</var>
         <var id="SOLN_MAT">matrixInverse(MAT)</var>
         <var id="PADDED_SOLN_MAT">matrixPad(SOLN_MAT, 3, 3)</var>
         <var id="PRETTY_SOLN_MAT">
             printMatrix(function(a) {
-                var sign = (a &lt; 0) ? "-" : "";
-
-                var frac = toFraction(abs(a));
-
-                // omit denominator when it's equal to 1
-                if (frac[1] === 1) {
-                    return sign + frac[0];
-                }
-
-                return sign + "\\frac{" + frac[0] + "}{" + frac[1] + "}";
+                var frac = toFraction(a);
+                return fractionReduce(frac[0], frac[1], true);
             }, SOLN_MAT)
         </var>
-        <var id="PRETTY_MAT_ID">"\\textbf " + randFromArray("ABCDEF")</var>
     </div>
 
     <div class="problems">
-        <div>
-            <div class="problem">
-                <p>
-                    <code><var>PRETTY_MAT_ID</var> = <var>printSimpleMatrix(MAT)</var></code>
-                </p>
-            </div>
+        <div id="invertible" data-weight="2">
+            <p class="problem">
+                <code><var>PRETTY_MAT_ID</var> = <var>printSimpleMatrix(MAT)</var></code>
+            </p>
 
             <p class="question">
                 What is <code><var>PRETTY_MAT_ID</var>^{-1}</code>?
             </p>
 
             <div class="solution" data-type="multiple">
-                <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
-                    <span data-each="row as elem">
-                        <span class="sol" data-if="elem !== ''" data-simplify="optional">
-                            <var>elem</var>
+                <div><label>
+                    <span class="sol" data-type="checkbox">False</span>
+                    <code><var>PRETTY_MAT_ID</var>^{-1}</code> does not exist
+                </label></div>
+                <div class="matrix-input">
+                    <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
+                        <span data-each="row as elem">
+                            <span class="sol" data-if="elem !== ''" data-simplify="optional">
+                                <var>elem</var>
+                            </span>
+                            <span class="sol" data-else="" data-type="text">
+                                <var>elem</var>
+                            </span>
                         </span>
-                        <span class="sol" data-else="" data-type="text">
-                            <var>elem</var>
-                        </span>
-                    </span>
+                    </div>
                 </div>
+                <p class="example">If matrix is not invertible check the box.</p>
+                <p class="example">Otherwise fill in the matrix.</p>
                 <p class="example">Express your answer in fractions or exact decimals.</p>
                 <p class="example">The fractions do not need to be simplified.</p>
             </div>
 
             <div class="hints">
+                <p><code>
+                    <var>PRETTY_MAT_ID</var>^{-1} = \frac{1}{det(<var>PRETTY_MAT_ID</var>)}adj(<var>PRETTY_MAT_ID</var>)
+                </code></p>
                 <div>
-                    <code>
-                        <var>PRETTY_MAT_ID</var>^{-1} = \frac{1}{det(<var>PRETTY_MAT_ID</var>)}adj(<var>PRETTY_MAT_ID</var>)
-                    </code>
-                </div>
-                <div>
-                    <p><b>Step 1: Find the adjugate</b></p>
+                    <p>Find the determinant:</p>
                     <p>
-                        For any 2x2 matrix <code><var>printSimpleMatrix(HINT_MAT)</var></code>, the adjugate is <code><var>printSimpleMatrix(HINT_MAT_ADJ)</var></code>.
+                        For any <code>2 \times 2</code> matrix <code><var>printSimpleMatrix(HINT_MAT)</var></code>,
+                        the determinant is <code><var>matrix2x2DetHint(HINT_MAT)</var></code>.
                     </p>
                 </div>
+                <p><code>
+                    det(<var>PRETTY_MAT_ID</var>) = <var>matrix2x2DetHint(MAT)</var> = \red{<var>DET</var>}
+                </code></p>
                 <div>
+                    <p>Find the adjugate:</p>
                     <p>
-                        <code>
-                            adj(<var>PRETTY_MAT_ID</var>)
-                            = <var>printSimpleMatrix(matrixAdj(MAT), KhanUtil.BLUE)</var>
-                        </code>
+                        For any <code>2 \times 2</code> matrix <code><var>printSimpleMatrix(HINT_MAT)</var></code>,
+                        the adjugate is <code><var>printSimpleMatrix(HINT_MAT_ADJ)</var></code>.
                     </p>
                 </div>
+                <p><code>
+                    adj(<var>PRETTY_MAT_ID</var>) = <var>printSimpleMatrix(matrixAdj(MAT), KhanUtil.BLUE)</var>
+                </code></p>
                 <div>
-                    <p><b>Step 2: Find the determinant</b></p>
-                    <p>
-                        For any 2x2 matrix <code><var>printSimpleMatrix(HINT_MAT)</var></code>, the determinant is <code><var>matrix2x2DetHint(HINT_MAT)</var></code>.
-                    </p>
-                </div>
-                <div>
-                    <p>
-                        <code>
-                            det(<var>PRETTY_MAT_ID</var>)
-                            = <var>matrix2x2DetHint(MAT)</var>
-                            = <var>expr(["color", KhanUtil.RED, DET])</var>
-                        </code>
-                    </p>
-                </div>
-                <div>
-                    <p><b>Step 3: Put it all together</b></p>
                     <p>Now that we have both the determinant and the adjugate, we can compute the inverse.</p>
-                    <code>
-                        <var>PRETTY_MAT_ID</var>^{-1} = 
-                        \frac{1}{<var>expr(["color", KhanUtil.RED, DET])</var>}
+                    <p><code>
+                        <var>PRETTY_MAT_ID</var>^{-1} = \frac{1}{\red{<var>DET</var>}}
                         <var>printSimpleMatrix(matrixAdj(MAT), KhanUtil.BLUE)</var>
-                    </code>
+                    </code></p>
                 </div>
+                <p><code> = <var>PRETTY_SOLN_MAT</var></code></p>
+            </div>
+        </div>
+
+        <div id="non-invertible" data-weight="1">
+            <p class="problem">
+                <code><var>PRETTY_MAT_ID</var> = <var>printSimpleMatrix(MAT_2)</var></code>
+            </p>
+
+            <p class="question">
+                What is <code><var>PRETTY_MAT_ID</var>^{-1}</code>?
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <div><label>
+                    <span class="sol" data-type="checkbox">true</span>
+                    <code><var>PRETTY_MAT_ID</var>^{-1}</code> does not exist
+                </label></div>
+                <div class="matrix-input">
+                    <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
+                        <span data-each="row as elem">
+                            <span class="sol" data-type="text"></span>
+                        </span>
+                    </div>
+                </div>
+                <p class="example">If matrix is not invertible check the box.</p>
+                <p class="example">Otherwise fill in the matrix.</p>
+                <p class="example">Express your answer in fractions or exact decimals.</p>
+                <p class="example">The fractions do not need to be simplified.</p>
+            </div>
+
+            <div class="hints">
+                <p><code>
+                    <var>PRETTY_MAT_ID</var>^{-1} = \frac{1}{det(<var>PRETTY_MAT_ID</var>)}adj(<var>PRETTY_MAT_ID</var>)
+                </code></p>
                 <div>
+                    <p>Find the determinant:</p>
                     <p>
-                        <code> = <var>PRETTY_SOLN_MAT</var></code>
+                        For any <code>2 \times 2</code> matrix <code><var>printSimpleMatrix(HINT_MAT)</var></code>,
+                        the determinant is <code><var>matrix2x2DetHint(HINT_MAT)</var></code>.
                     </p>
                 </div>
+                <p><code>
+                    det(<var>PRETTY_MAT_ID</var>) = <var>matrix2x2DetHint(MAT_2)</var> = \red{<var>DET_2</var>}
+                </code></p>
+                <div>
+                    <p><code>
+                        <var>PRETTY_MAT_ID</var>^{-1} = \frac{1}{\red{0}}adj(<var>PRETTY_MAT_ID</var>)
+                    </code></p>
+                    <p>
+                        Since <code>\frac{1}{0}</code> is undefined,
+                        <code><var>PRETTY_MAT_ID</var>^{-1}</code> does not exist.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="both" data-weight="2">
+            <div class="vars">
+                <var id="MAT_ID_2">(LETTERS.length + MAT_ID + randRangeNonZero(-1, 1)) % LETTERS.length</var>
+                <var id="PRETTY_MAT_ID_2">"\\textbf " + LETTERS[MAT_ID_2]</var>
+                <var id="ORDER">rand(2)</var>
+            </div>
+
+            <div class="problem">
+                <div data-if="ORDER === 0">
+                    <p><code><var>PRETTY_MAT_ID</var> = <var>printSimpleMatrix(MAT)</var></code></p>
+                    <p><code><var>PRETTY_MAT_ID_2</var> = <var>printSimpleMatrix(MAT_2)</var></code></p>
+                </div><div data-else="">
+                    <p><code><var>PRETTY_MAT_ID_2</var> = <var>printSimpleMatrix(MAT_2)</var></code></p>
+                    <p><code><var>PRETTY_MAT_ID</var> = <var>printSimpleMatrix(MAT)</var></code></p>
+                </div>
+            </div>
+
+            <p class="question">
+                Which matrix is invertible? What is its inverse?
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <div>
+                    <span>Matrix </span>
+                    <span class="sol short32" data-type="text"><var>LETTERS[MAT_ID]</var></span>
+                    <span> is invertible.</span>
+                </div>
+                <div>Its inverse is:</div>
+                <div class="matrix-input">
+                    <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
+                        <span data-each="row as elem">
+                            <span class="sol" data-if="elem !== ''" data-simplify="optional">
+                                <var>elem</var>
+                            </span>
+                            <span class="sol" data-else="" data-type="text">
+                                <var>elem</var>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <p class="example">Write the letter of the matrix in the first box.</p>
+                <p class="example">Matrix values should be fractions or exact decimals.</p>
+                <p class="example">Fractions do not need to be simplified.</p>
+            </div>
+
+            <div class="hints">
+                <p>A matrix is invertible if its determinant is non-zero.</p>
+                <p>
+                    The determinant of a <code>2 \times 2</code> matrix <code><var>printSimpleMatrix(HINT_MAT)</var></code>,
+                    is <code><var>matrix2x2DetHint(HINT_MAT)</var></code>.
+                </p>
+
+                <div data-if="ORDER === 0">
+                    <p><code>det(<var>PRETTY_MAT_ID</var>) = <var>matrix2x2DetHint(MAT)</var> = \red{<var>DET</var>}</code></p>
+                    <p><code>det(<var>PRETTY_MAT_ID_2</var>) = <var>matrix2x2DetHint(MAT_2)</var> = \red{<var>DET_2</var>}</code></p>
+                </div><div data-else="">
+                    <p><code>det(<var>PRETTY_MAT_ID_2</var>) = <var>matrix2x2DetHint(MAT_2)</var> = \red{<var>DET_2</var>}</code></p>
+                    <p><code>det(<var>PRETTY_MAT_ID</var>) = <var>matrix2x2DetHint(MAT)</var> = \red{<var>DET</var>}</code></p>
+                </div>
+
+                <p>Therefore, only matrix <code><var>PRETTY_MAT_ID</var></code> is invertible.</p>
+
+                <p><code>
+                    <var>PRETTY_MAT_ID</var>^{-1} = \frac{1}{det(<var>PRETTY_MAT_ID</var>)}adj(<var>PRETTY_MAT_ID</var>)
+                </code></p>
+                <div>
+                    <p>Find the adjugate:</p>
+                    <p>
+                        For any <code>2 \times 2</code> matrix <code><var>printSimpleMatrix(HINT_MAT)</var></code>,
+                        the adjugate is <code><var>printSimpleMatrix(HINT_MAT_ADJ)</var></code>.
+                    </p>
+                </div>
+                <p><code>
+                    adj(<var>PRETTY_MAT_ID</var>) = <var>printSimpleMatrix(matrixAdj(MAT), KhanUtil.BLUE)</var>
+                </code></p>
+
+                <div>
+                    <p>Now that we have both the determinant and the adjugate, we can compute the inverse.</p>
+                    <p><code>
+                        <var>PRETTY_MAT_ID</var>^{-1} = \frac{1}{\red{<var>DET</var>}}
+                        <var>printSimpleMatrix(matrixAdj(MAT), KhanUtil.BLUE)</var>
+                    </code></p>
+                </div>
+                <p><code> = <var>PRETTY_SOLN_MAT</var></code></p>
             </div>
         </div>
     </div>

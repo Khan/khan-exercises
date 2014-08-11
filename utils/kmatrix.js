@@ -220,10 +220,10 @@ var kmatrix = KhanUtil.kmatrix = {
 
     matrix2x2DetHint: function(mat) {
         // if terms in the matrix are letters, omit the dot
-        var operator = (typeof mat[0][0] === "string") ? "*" : "dot";
-        var termA = [operator, mat[0][0], mat[1][1]];
-        var termB = [operator, mat[0][1], mat[1][0]];
-        return KhanUtil.expr(["-", termA, termB]);
+        var operator = (typeof mat[0][0] === "string") ? " \\times " : " \\cdot ";
+        var termA = "(" + mat[0][0] + operator + mat[1][1] + ")";
+        var termB = "(" + mat[0][1] + operator + mat[1][0] + ")";
+        return termA + "-" + termB;
     },
 
     matrix3x3DetHint: function(mat, isIntermediate) {
