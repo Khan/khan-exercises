@@ -28,19 +28,27 @@
                 <p>Is the shown angle acute, right, or obtuse?</p>
 
                 <div class="graphie" id="angle">
-
                     var ANGLE_TWO = ANGLE_ONE + DIFF;
-                    var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
-                    var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
+                    var ANGLE_ONE_R = toRadians(ANGLE_ONE);
+                    var ANGLE_TWO_R = toRadians(ANGLE_TWO);
+                    angle.COS1 = cos(ANGLE_ONE_R);
+                    angle.SIN1 = sin(ANGLE_ONE_R);
+                    angle.COS2 = cos(ANGLE_TWO_R);
+                    angle.SIN2 = sin(ANGLE_TWO_R);
 
                     init({
                         range: [ [-11, 31], [-10, 10] ],
                         scale: 20
                     });
-                    path([ [5 * cos( ANGLE_ONE_R ), 5 * sin( ANGLE_ONE_R )], [0, 0], [5 * cos( ANGLE_TWO_R ), 5 * sin( ANGLE_TWO_R )] ]);
 
-                    <!-- somewhat verbose, but draws a right angle symbol or arc based on angle -->
-                    DIFF == 90 ? path([ [1 * cos( ANGLE_ONE_R ), 1 * sin( ANGLE_ONE_R )], [sqrt(2) * cos( ANGLE_ONE_R + PI / 4 ), sqrt(2) * sin( ANGLE_ONE_R + PI / 4)], [1 * cos( ANGLE_TWO_R ), 1 * sin( ANGLE_TWO_R )] ]) : arc( [0,0], 1, ANGLE_ONE, ANGLE_TWO );
+                    line([0, 0], [5 * angle.COS1, 5 * angle.SIN1], { arrows: "-&gt;"});
+                    line([0, 0], [5 * angle.COS2, 5 * angle.SIN2], { arrows: "-&gt;"});
+
+                    if (DIFF === 90) {
+                        path([[angle.COS1, angle.SIN1], [sqrt(2) * cos(ANGLE_ONE_R + PI / 4), sqrt(2) * sin(ANGLE_ONE_R + PI / 4)], [angle.COS2, angle.SIN2]]);
+                    } else {
+                        arc([0, 0], 1, ANGLE_ONE, ANGLE_TWO);
+                    }
 
                     addMouseLayer();
                     graph.protractor = protractor([14, -8]);
@@ -62,7 +70,7 @@
                 <div>
                     <p>The shown angle measures less than <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
-                        label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                        label([9 * angle.COS1, 9 * angle.SIN1], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}");
                     </div>
                 </div>
                 <p>Therefore, it is an acute angle.</p>
@@ -84,7 +92,7 @@
                 <div>
                     <p>The shown angle measures <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
-                        label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                        label([9 * angle.COS1, 9 * angle.SIN1], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}");
                     </div>
                 </div>
                 <p>Therefore, it is a right angle.</p>
@@ -106,7 +114,7 @@
                 <div>
                     <p>The shown angle measures more than <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
-                        label( [ 9 * cos( toRadians( ANGLE_ONE ) ), 9 * sin( toRadians( ANGLE_ONE ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
+                        label([9 * angle.COS1, 9 * angle.SIN1], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}");
                     </div>
                 </div>
                 <p>Therefore, it is an obtuse angle.</p>
