@@ -5,8 +5,6 @@
  * In general, khan-exercises and perseus will want to trigger events on
  * Exercises but only listen to their own events.
  */
-var BigBingo = require("../javascript/shared-package/bigbingo.js");
-
 (function() {
 
 // If any of these properties have already been defined, then leave them --
@@ -266,8 +264,10 @@ function handleAttempt(data) {
                 attemptMessage = score.message;
                 // If the message is a clue
                 if (!(score.correct || score.empty)) {
-                    BigBingo.markConversion("clue_seen_" +
-                        exerciseName.replace(/-/g, "_")); // For BigBingo
+                    if (typeof BigBingo !== undefined) {
+                        BigBingo.markConversion("clue_seen_" +
+                            exerciseName.replace(/-/g, "_")); // For BigBingo
+                    }
                 }
             }
         } else {
