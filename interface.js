@@ -5,6 +5,8 @@
  * In general, khan-exercises and perseus will want to trigger events on
  * Exercises but only listen to their own events.
  */
+var BigBingo = require("../javascript/shared-package/bigbingo.js");
+
 (function() {
 
 // If any of these properties have already been defined, then leave them --
@@ -243,9 +245,34 @@ function handleAttempt(data) {
     var isAnswerEmpty = score.empty && !skipped;
     var attemptMessage = null;
 
+    // A temporary list of exercises participating in the targeted feedback
+    // clues experiment
+    // TODO(ilan): Remove this hack once the exeriment is over
+    var TARGETED_CLUES_EXERCISES = [
+        "dividing-fractions-by-fractions-word-problems",
+        "interpret-features-func-2",
+        "quadratic-formula-with-complex-solutions",
+        "using-zeros-to-graph-polynomials",
+        "naming-shapes-2"
+    ];
+
     // Is there a message to be shown?
     if (score.message != null) {
-        attemptMessage = score.message;
+        var exerciseName = Exercises.currentCard.attributes.exerciseName;
+        if (TARGETED_CLUES_EXERCISES.indexOf(exerciseName) >= 0) {
+            // Don't show clues to people who are not in the right experimental
+            // group
+            if (score.correct || score.empty || Exercises.cluesEnabled) {
+                attemptMessage = score.message;
+                // If the message is a clue
+                if (!(score.correct || score.empty)) {
+                    BigBingo.markConversion("clue_seen_" +
+                        exerciseName.replace(/-/g, "_")); // For BigBingo
+                }
+            }
+        } else {
+            attemptMessage = score.message;
+        }
     } else if (isAnswerEmpty) {
         attemptMessage = EMPTY_MESSAGE;
     }
