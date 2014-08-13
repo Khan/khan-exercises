@@ -175,7 +175,7 @@
             </div>
         </div>
         <div id="collective-action-calculate">
-            <div class="vars">
+            <div class="vars" data-ensure="TIME_INIT > 0">
                 <var id="PEOPLE_INIT, WALL_INIT">randRangeUnique(3, 10, 2)</var>
                 <var id="PEOPLE_FINAL">randRangeExclude(3, 10, [PEOPLE_INIT])</var>
                 <var id="WALL_FINAL">randRangeExclude(3, 10, [WALL_INIT])</var>
@@ -200,7 +200,7 @@
                     So it will take <code><var>fractionReduce(TIME_INIT, WALL_INIT)</var></code> minutes for <code><var>PEOPLE_INIT</var></code> people to paint one wall.
                 </p>
                 <p>
-                    For only one person, it will take <code><var>PEOPLE_INIT</var></code> as long,
+                    For only one person, it will take <code><var>PEOPLE_INIT</var></code> times as long,
                     so it will take <code><var>fractionReduce(TIME_INIT, WALL_INIT)</var> \cdot <code><var>PEOPLE_INIT</var></code>
                     = <var>fractionReduce(TIME_INIT * PEOPLE_INIT, WALL_INIT)</var></code> minutes for one person to paint one wall.
                 </p>
