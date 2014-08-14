@@ -264,7 +264,7 @@ function handleAttempt(data) {
                 attemptMessage = score.message;
                 // If the message is a clue
                 if (!(score.correct || score.empty)) {
-                    if (typeof BigBingo !== undefined) {
+                    if (typeof BigBingo !== "undefined") {
                         BigBingo.markConversion("clue_seen_" +
                             exerciseName.replace(/-/g, "_")); // For BigBingo
                     }
