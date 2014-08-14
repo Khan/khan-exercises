@@ -95,12 +95,6 @@
                         color: "#A9A9A9"
                     }
                 ]</var>
-                <var id="GRAPH">{}</var>
-                <var id="UNWRAPGRAPH">{}</var>
-
-                <var id="BASE_TEXT">$._("base")</var>
-                <var id="HEIGHT_TEXT">$._("height")</var>
-
             </div>
 
             <p class="question">
@@ -160,13 +154,11 @@
 
                 graph.obj.doDraw();
 
-                GRAPH = graph;
-
                 var spinner;
                 setTimeout(function() {
                     spinner = setInterval(function() {
-                        GRAPH.obj.rotate(0, 0, 1, 0.01);
-                        GRAPH.obj.doDraw();
+                        graph.obj.rotate(0, 0, 1, 0.01);
+                        graph.obj.doDraw();
                     }, 50);
                 }, 300);
 
@@ -176,27 +168,27 @@
                 $(mouseTarget[0]).bind("vmousedown", function(event) {
                     event.preventDefault();
 
-                    GRAPH.lastX = event.pageX;
-                    GRAPH.lastY = event.pageY;
+                    graph.lastX = event.pageX;
+                    graph.lastY = event.pageY;
 
                     clearInterval(spinner);
 
                     $(document).bind("vmousemove vmouseup", function(event) {
                         event.preventDefault();
 
-                        var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
-                        var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+                        var dx = (event.pageX - graph.lastX) / 200 * PI;
+                        var dy = (event.pageY - graph.lastY) / 200 * PI;
 
-                        GRAPH.lastX = event.pageX;
-                        GRAPH.lastY = event.pageY;
+                        graph.lastX = event.pageX;
+                        graph.lastY = event.pageY;
 
-                        var xAxis = normalize(GRAPH.obj.perspective[1]);
-                        var yAxis = normalize(GRAPH.obj.perspective[0]);
+                        var xAxis = normalize(graph.obj.perspective[1]);
+                        var yAxis = normalize(graph.obj.perspective[0]);
 
-                        GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
-                        GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+                        graph.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                        graph.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
 
-                        GRAPH.obj.doDraw();
+                        graph.obj.doDraw();
 
                         if (event.type === "vmouseup") {
                             $(document).unbind("vmousemove vmouseup");
@@ -206,7 +198,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <p><span class="sol" data-type="rational"><var>LENGTH*WIDTH*HEIGHT</var></span> <code><var>UNIT_TEXT</var>^3</code></p>
+                <p><span class="sol" data-type="rational"><var>LENGTH*WIDTH*HEIGHT</var></span> cubic <var>UNIT_SMALL</var></p>
             </div>
 
 
@@ -219,7 +211,7 @@
                     <code>1 <var>UNIT_TEXT</var></code> high.
                     </p>
 
-                     <div class="graphie" data-update = "box">
+                     <div class="graphie" data-update="box">
                          for (var i = 0; i&lt;HEIGHT-1;i++){
                                graph.obj.addSketch({ verts: [8+4*i,9+4*i,10+4*i,11+4*i,8+4*i]});
                              };
@@ -313,11 +305,11 @@
                     }, {
                         verts: [0, 1, 5, 4],
                         color: COLOR3,
-                        labels: [[[-XBORD, YBORD, 0], "\\Box" + UNIT_TEXT]]
+                        labels: [[[-XBORD, YBORD, 0], "x" + UNIT_TEXT]]
                     }, {
                         verts: [2, 3, 7, 6],
                         color: COLOR3,
-                        labels: [[[-XBORD, -YBORD, 0], "\\Box" + UNIT_TEXT]]
+                        labels: [[[-XBORD, -YBORD, 0], "x" + UNIT_TEXT]]
                     }, {
                         verts: [1, 2, 6, 5],
                         color: COLOR2,
@@ -335,18 +327,11 @@
                 color: "#A9A9A9"}
                 ]
                 </var>
-                <var id="GRAPH">{}</var>
-                <var id="UNWRAPGRAPH">{}</var>
-
-                <var id="BASE_TEXT">$._("base")</var>
-                <var id="HEIGHT_TEXT">$._("height")</var>
-
-
             </div>
 
             <p class="question">
-                The volume of this box is <code><var>LENGTH*WIDTH*HEIGHT</var> <var>UNIT_TEXT</var>^3</code>.
-                What is the number labeled <code>\Box</code> below?
+                The volume of this box is <code><var>LENGTH*WIDTH*HEIGHT</var></code> cubic units.
+                What is the number labeled <code>x</code> below?
             </p>
 
             <div class="graphie" id = "box">
@@ -402,13 +387,11 @@
 
                 graph.obj.doDraw();
 
-                GRAPH = graph;
-
                 var spinner;
                 setTimeout(function() {
                     spinner = setInterval(function() {
-                        GRAPH.obj.rotate(0, 0, 1, 0);
-                        GRAPH.obj.doDraw();
+                        graph.obj.rotate(0, 0, 1, 0);
+                        graph.obj.doDraw();
                     }, 50);
                 }, 300);
 
@@ -416,27 +399,27 @@
                     fill: "#000", opacity: 0.0
                 });
                 $(mouseTarget[0]).bind("vmousedown", function(event) {
-                    GRAPH.lastX = event.pageX;
-                    GRAPH.lastY = event.pageY;
+                    graph.lastX = event.pageX;
+                    graph.lastY = event.pageY;
 
                     clearInterval(spinner);
 
                     $(document).bind("vmousemove vmouseup", function(event) {
                         event.preventDefault();
 
-                        var dx = (event.pageX - GRAPH.lastX) / 200 * PI;
-                        var dy = (event.pageY - GRAPH.lastY) / 200 * PI;
+                        var dx = (event.pageX - graph.lastX) / 200 * PI;
+                        var dy = (event.pageY - graph.lastY) / 200 * PI;
 
-                        GRAPH.lastX = event.pageX;
-                        GRAPH.lastY = event.pageY;
+                        graph.lastX = event.pageX;
+                        graph.lastY = event.pageY;
 
-                        var xAxis = normalize(GRAPH.obj.perspective[1]);
-                        var yAxis = normalize(GRAPH.obj.perspective[0]);
+                        var xAxis = normalize(graph.obj.perspective[1]);
+                        var yAxis = normalize(graph.obj.perspective[0]);
 
-                        GRAPH.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
-                        GRAPH.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
+                        graph.obj.rotate(xAxis[0], xAxis[1], xAxis[2], -dx / 2);
+                        graph.obj.rotate(yAxis[0], yAxis[1], yAxis[2], -dy / 2);
 
-                        GRAPH.obj.doDraw();
+                        graph.obj.doDraw();
 
                         if (event.type === "vmouseup") {
                             $(document).unbind("vmousemove vmouseup");
@@ -446,8 +429,8 @@
 
             </div>
 
-            <div class="solution" data-forms="integer">
-                <var>HEIGHT</var>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-type="rational"><var>HEIGHT</var></span> <var>UNIT_SMALL</var></p>
             </div>
 
             <div class="hints">
@@ -507,29 +490,25 @@
                 </div>
 
                 <p>
-                    Since the slabs have a height of <code>1</code> <var>UNIT</var>, <code>\Box</code> is the number of these slabs which fill up the whole box.
+                    Since the slabs have a height of <code>1</code> <var>UNIT</var>, <code>x</code> is the number of these slabs which fill up the whole box.
                 </p>
                 <p>
                     We can figure out the number of slabs needed by seeing how many times <code><var>LENGTH*WIDTH</var></code>
                      goes into <code><var>LENGTH*WIDTH*HEIGHT</var></code>
                 </p>
                 <p>
-                    So <code>\Box = <var>LENGTH*WIDTH*HEIGHT</var> \div <var>LENGTH*WIDTH</var></code>
+                    So <code>x = <var>LENGTH*WIDTH*HEIGHT</var> \div <var>LENGTH*WIDTH</var></code>
                 </p>
                 <div>
-                    <p>
-                        Thus <code>\Box = <var>HEIGHT</var></code>
-                    </p>
+                    <p>Thus <code>x = <var>HEIGHT</var></code></p>
                      <div class="graphie" data-update = "box">
-                         for (var i = 0; i&lt;HEIGHT-1;i++){
+                        for (var i = 0; i &lt; HEIGHT - 1; i++){
                                graph.obj.addSketch({ verts: [8+4*i,9+4*i,10+4*i,11+4*i,8+4*i]});
-                             };
+                            };
 
                         graph.obj.doDraw();
                     </div>
                 </div>
-
-
             </div>
         </div>
 
