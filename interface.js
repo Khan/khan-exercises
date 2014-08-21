@@ -808,10 +808,6 @@ function subhintExpand(e, subhintName) {
 
 function clearExistingProblem() {
     $("#happy").hide();
-    if (!$("#examples-show").data("show")) {
-        // TODO(alpert): What does this do?
-        $("#examples-show").click();
-    }
 
     // Toggle the navigation buttons
     $("#check-answer-button").show();
