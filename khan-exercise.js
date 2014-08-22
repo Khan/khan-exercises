@@ -763,7 +763,7 @@ var Khan = {
                 $("#issue-throbber").hide();
             };
 
-            $.post("/api/v1/bigbingo/mark_conversions", {
+            $.post("/api/internal/bigbingo/mark_conversions", {
                 conversion_ids: "exercise_submit_issue"
             });
 
