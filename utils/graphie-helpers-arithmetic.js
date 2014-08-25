@@ -6,33 +6,38 @@ function Adder(a, b, decimalA, decimalB) {
     var graph = KhanUtil.currentGraph;
     decimalA = decimalA || 0;
     decimalB = decimalB || 0;
-
-    // Remove trailing zeros from decimals
-    while (a % 10 === 0 && a !== 0) {
-        a /= 10;
-        decimalA--;
-    }
-
-    while (b % 10 === 0 && b !== 0) {
-        b /= 10;
-        decimalB--;
-    }
-
     var decimalPos = Math.max(decimalA, decimalB);
 
-    // Add trailing zeros so decimals line up
-    var newA = a * (decimalB > decimalA ? Math.pow(10, decimalB - decimalA) : 1);
-    var newB = b * (decimalA > decimalB ? Math.pow(10, decimalA - decimalB) : 1);
-    var digitsA = KhanUtil.digits(newA);
-    var digitsB = KhanUtil.digits(newB);
-    var digitDiff = digitsA.length - digitsB.length;
+    // Remove trailing zeros from decimals
+    if (decimalPos) {
+        while (a % 10 === 0 && a !== 0) {
+            a /= 10;
+            decimalA--;
+        }
 
-    for (var i = 0; i < -digitDiff || digitsA.length < decimalA + 1; i++) {
-        digitsA.push(0);
+        while (b % 10 === 0 && b !== 0) {
+            b /= 10;
+            decimalB--;
+        }
+
+        // Add trailing zeros so decimals line up
+        a *= (decimalB > decimalA ? Math.pow(10, decimalB - decimalA) : 1);
+        b *= (decimalA > decimalB ? Math.pow(10, decimalA - decimalB) : 1);
     }
 
-    for (var i = 0; i < digitDiff || digitsB.length < decimalB + 1; i++) {
-        digitsB.push(0);
+    var digitsA = KhanUtil.digits(a);
+    var digitsB = KhanUtil.digits(b);
+    var digitDiff = digitsA.length - digitsB.length;
+
+    // Add leading zeros to decimals
+    if (decimalPos) {
+        for (var i = 0; i < -digitDiff || digitsA.length < decimalA + 1; i++) {
+            digitsA.push(0);
+        }
+
+        for (var i = 0; i < digitDiff || digitsB.length < decimalB + 1; i++) {
+            digitsB.push(0);
+        }
     }
 
     var pos = { max: Math.max(digitsA.length, digitsB.length, KhanUtil.digits(a + b).length),
@@ -46,7 +51,7 @@ function Adder(a, b, decimalA, decimalB) {
     var index = 0;
     var carry = 0;
     var highlights = [];
-    var numHints = Adder.numHintsFor(newA, newB);
+    var numHints = Adder.numHintsFor(a, b);
 
     this.show = function() {
         graph.init({
