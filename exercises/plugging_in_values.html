@@ -147,7 +147,8 @@
             </div>
             <div class="question">
                 <p><b>The table below was generated using the following equation:</b><code>\quad f(x) = <var>COEF</var>x + <var>CONS</var></code></p>
-                <p><b>Find the missing values.</b></p>
+                <p data-if="I === 1"><b>Find the missing value.</b></p>
+                <p data-else=""><b>Find the missing values.</b></p>
             </div>
             <div class="solution" data-each="TABLEVALS as tableval" data-type="multiple">
                 <p data-if="tableval.yval === ' '"><code>f(<var>tableval.xval</var>)</code> = <span class="sol short50" data-forms="integer, decimal"><var>COEF * tableval.xval + CONS</var></span></p>
