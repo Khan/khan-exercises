@@ -64,19 +64,19 @@
                 <p class="solution"><var>SOL_N / SOL_D</var></p>
 
                 <div class="hints">
+                    <p data-if="EXP_NEG"><code>
+                        <var>fracParens(BASE_N, BASE_D)</var>^{<var>-EXP</var>} =
+                        <var>fracParens(BASE_D, BASE_N)</var>^{<var>EXP</var>}
+                    </code></p>
 
-                    <div data-if="abs( EXP ) > 1" data-unwrap="">
-
-                        <p data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></p>
-
+                    <div data-if="EXP > 1" data-unwrap="">
                         <div data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v" data-unwrap="">
-                            <p><code>= <var>v</var></code></p>
+                            <p><code>\phantom{<var>fracParens(BASE_N, BASE_D)</var>^{<var>-EXP</var>}} = <var>v</var></code></p>
                         </div>
-
                     </div>
-
-                    <p data-else=""><code>= <var>frac( SOL_N, SOL_D )</var></code></p>
-
+                    <p data-else="">
+                        <code>\phantom{<var>fracParens(BASE_N, BASE_D)</var>^{<var>-EXP</var>}} = <var>frac(SOL_N, SOL_D)</var></code>
+                    </p>
                 </div>
             </div>
         </div>
