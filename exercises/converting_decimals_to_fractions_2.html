@@ -5,10 +5,6 @@
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
 </head>
 
-<!--
-Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals such as 12.16 into mixed number (12 4/25), reduce to simplest terms
- -->
-
 <body>
 <div class="exercise">
 
@@ -23,12 +19,14 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
             <div class="hints">
                 <div>
                     <p><code><var>localeToFixed(D, 4)</var></code> can be represented as follows.</p>
-                    <p><code>= 0 + <var>fraction(Math.floor(D*10%10), 10)</var> + <var>fraction(Math.floor(D*100%10), 100)</var> + <var>fraction(Math.floor(D*1000%10), 1000)</var> + <var>fraction(Math.floor(D*10000%10), 10000)</var></code></p>
+                    <p><code>
+                        = 0 + 
+                        <var>fraction(floor(NUMERATOR / 1000 % 10), 10)</var> + 
+                        <var>fraction(floor(NUMERATOR / 100 % 10), 100)</var> + 
+                        <var>fraction(floor(NUMERATOR / 10 % 10), 1000)</var> + 
+                        <var>fraction(floor(NUMERATOR % 10), 10000)</var>
+                    </code></p>
                     <p><code>= <var>fraction(NUMERATOR, 10000)</var></code></p>
-                </div>
-                <div>
-                    <p>You can also skip a few steps by making a fraction with <code><var>NUMERATOR</var></code> as the numerator and <code>10000</code> (because the decimal extends to the ten thousandths place) as the denominator.</p>
-                    <p><code><var>fraction(NUMERATOR, 10000)</var></code></p>
                 </div>
             </div>
         </div>
