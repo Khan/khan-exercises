@@ -933,7 +933,7 @@
                     </div>
                     <p>
                         Use a straightedge to connect the two points where the
-                        circles intersect. This line is the perpendicular
+                        circles intersect. This line segment is the perpendicular
                         bisector of <code>\overline{AB}</code>.
                     </p>
                 </div>
@@ -1230,7 +1230,7 @@
                     <input onclick="javascript: KhanUtil.construction.removeAllTools();" type="button" value="Clear">
                 </form>
                 <p class="question">
-                    Construct a line the same length as <code>\overline{AB}</code>, with one end at <code>P</code>.
+                    Construct a line segment with the same length as <code>\overline{AB}</code>, with one end at <code>P</code>.
                 </p>
                 <div class="graphie" id="construction">
                     init({
@@ -1461,7 +1461,7 @@
                     var compass1 = findCompass(guess, { cx: P[0], cy: P[1] });
 
                     if (compass1.length !== 1) {
-                        return false;
+                        return "Make sure you keep the compasses you used in place.";
                     }
 
                     // Ensure there is a compass centered on p1 or p2 with correct radius
@@ -1476,7 +1476,11 @@
                     var compass2 = findCompass(guess, { cx: p1[0], cy: p1[1], radius: r2 });
                     var compass3 = findCompass(guess, { cx: p2[0], cy: p2[1], radius: r2 });
 
-                    return (compass2.length === 1 || compass3.length === 1);
+                    if (compass2.length === 1 || compass3.length === 1) {
+                        return true;
+                    } else {
+                        return "Make sure you keep the compasses you used in place.";
+                    }
                 </div>
                 <div class="show-guess">showConstructionGuess(guess);</div>
             </div>
@@ -1538,7 +1542,7 @@
                     <p>
                         If we construct <span class="hint_blue">a triangle</span> with a vertex at
                         point <code>A</code>, then construct a triangle with the same side lengths
-                        at and a vertex at point <code>P</code>, the angles at <code>A</code> and
+                        and a vertex at point <code>P</code>, the angles at <code>A</code> and
                         <code>P</code> will be the same.
                     </p>
                 </div>
@@ -1595,7 +1599,7 @@
                     </div>
                     <p>
                         We can use a compass <strong>with same radius</strong> centered at <code>P</code>
-                        to find all the points the same distance from <code>P</code>. We can ensure we have
+                        to find all the points the same distance from <code>P</code>. We can ensure we
                         get the same radius by putting the compass at point <code>A</code> first, getting
                         the radii equal, then moving the compass to point <code>P</code>.
                     </p>
@@ -1617,7 +1621,7 @@
                     </div>
                     <p>
                         To find the distance between the <span class="hint_blue">two points equidistant from <code>A</code></span>
-                        we can add center a compass on one point and change the radius to go through the other point.
+                        we can center a compass on one point and change the radius to go through the other point.
                     </p>
                 </div>
 
