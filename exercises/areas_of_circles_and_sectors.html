@@ -31,10 +31,10 @@
             <div class="problems">
                 <div id="Ac-angle-to-As">
                     <p class="problem">
-                        A circle with area <code class="hint_blue"><var>PRETTY_A_C</var></code> has a <span class="hint_orange">sector</span> with a
-                        <span data-if="USE_RADIANS"><code class="hint_purple"><var>RADIANS</var></code> radian</span>
-                        <span data-else=""><code class="hint_purple"><var>DEGREES</var>^\circ</code></span>
-                        central angle.
+                        A circle with area <code>\blue{<var>PRETTY_A_C</var>}</code> has a <span class="hint_green">sector</span>
+                        with a central angle of 
+                        <span data-if="USE_RADIANS"><code>\purple{<var>RADIANS</var>}</code> radians</span>
+                        <span data-else=""><code>\purple{<var>DEGREES</var>^\circ}</code></span>.
                     </p>
                     <p class="question">What is the area of the sector?</p>
                     <div class="graphie" id="circle">
@@ -45,21 +45,21 @@
 
                         circle([0, 0], DIAGRAM_R, { stroke: BLUE });
 
-                        arc([0, 0], DIAGRAM_R, ROTATE_ARC, ROTATE_ARC + DEGREES, true, { stroke: ORANGE, fill: ORANGE, "fill-opacity": 0.1 });
+                        arc([0, 0], DIAGRAM_R, ROTATE_ARC, ROTATE_ARC + DEGREES, true, { stroke: GREEN, fill: GREEN, "fill-opacity": 0.1 });
 
                         graph.cAngle = 180 + ((ROTATE_ARC + DEGREES) + ROTATE_ARC) / 2;
-                        graph.aCL = label(polar(DIAGRAM_R/2, graph.cAngle), "\\color{" + BLUE + "}{" + PRETTY_A_C + "}", "below");
+                        graph.aCL = label(polar(DIAGRAM_R/2, graph.cAngle), "\\blue{" + PRETTY_A_C + "}", "below");
                         graph.aAngle = (ROTATE_ARC * 2 + DEGREES) / 2;
 
                         graph.angle = arc([0, 0], DIAGRAM_R * 0.12, ROTATE_ARC, ROTATE_ARC + DEGREES, { stroke: PURPLE });
 
                         if (USE_RADIANS) {
-                            label(polar(0.5, graph.aAngle), "\\color{" + PURPLE + "}{" + RADIANS + "}", labelDirection(graph.aAngle));
+                            label(polar(0.5, graph.aAngle), "\\purple{" + RADIANS + "}", labelDirection(graph.aAngle));
                         } else {
-                            label(polar(0.5, graph.aAngle), "\\color{" + PURPLE + "}{" + DEGREES + "^\\circ}", labelDirection(graph.aAngle));
+                            label(polar(0.5, graph.aAngle), "\\purple{" + DEGREES + "^\\circ}", labelDirection(graph.aAngle));
                         }
 
-                        graph.aSL = label(polar(DIAGRAM_R * 0.65, graph.aAngle), "\\color{" + ORANGE + "}{" + PRETTY_A_S + "}");
+                        graph.aSL = label(polar(DIAGRAM_R * 0.65, graph.aAngle), "\\green{" + PRETTY_A_S + "}");
                         $(graph.aSL).hide();
                     </div>
                     <p class="solution" data-forms="integer, proper, improper, mixed, pi"><var>A_S</var></p>
@@ -67,27 +67,31 @@
                     <div class="hints">
                         <div data-if="USE_RADIANS" data-unwrap="">
                             <p>
-                                The ratio between the sector's central angle <code class="hint_purple">\theta</code> and <code>2 \pi</code> radians is equal to the ratio between the sector's area, <code class="hint_orange">A_s</code>, and the whole circle's area, <code class="hint_blue">A_c</code>.
+                                The ratio between the sector's central angle <code>\purple{\theta}</code> and <code>2 \pi</code> radians
+                                is equal to the ratio between the sector's area,
+                                <code>\green{A_s}</code>, and the whole circle's area, <code>\blue{A_c}</code>.
                             </p>
 
-                            <p><code>\dfrac{\theta}{2 \pi} = \dfrac{A_s}{A_c}</code></p>
-                            <p><code><var>RADIANS</var> \div 2 \pi = \dfrac{A_s}{<var>PRETTY_A_C</var>}</code></p>
+                            <p><code>\dfrac{\purple{\theta}}{2 \pi} = \dfrac{\green{A_s}}{\blue{A_c}}</code></p>
+                            <p><code>\purple{<var>RADIANS</var>} \div 2 \pi = \dfrac{\green{A_s}}{\blue{<var>PRETTY_A_C</var>}}</code></p>
                         </div>
 
                         <div data-else="" data-unwrap="">
                             <p>
-                                The ratio between the sector's central angle <code class="hint_purple">\theta</code> and <code>360^\circ</code> is equal to the ratio between the sector's area, <code class="hint_orange">A_s</code>, and the whole circle's area, <code class="hint_blue">A_c</code>.
+                                The ratio between the sector's central angle <code>\purple{\theta}</code> and <code>360^\circ</code>
+                                is equal to the ratio between the sector's area, <code>\green{A_s}</code>,
+                                and the whole circle's area, <code>\blue{A_c}</code>.
                             </p>
 
-                            <p><code>\dfrac{\theta}{360^\circ} = \dfrac{A_s}{A_c}</code></p>
-                            <p><code>\dfrac{<var>DEGREES</var>^\circ}{360^\circ} = \dfrac{A_s}{<var>PRETTY_A_C</var>}</code></p>
+                            <p><code>\dfrac{\purple{\theta}}{360^\circ} = \dfrac{\green{A_s}}{\blue{A_c}}</code></p>
+                            <p><code>\dfrac{\purple{<var>DEGREES</var>^\circ}}{360^\circ} = \dfrac{\green{A_s}}{\blue{<var>PRETTY_A_C</var>}}</code></p>
                         </div>
 
-                        <p><code><var>fractionReduce(NUMERATOR, DENOMINATOR)</var> = \dfrac{A_s}{<var>PRETTY_A_C</var>}</code></p>
-                        <p><code><var>fractionReduce(NUMERATOR, DENOMINATOR)</var> \times <var>PRETTY_A_C</var> = A_s</code></p>
+                        <p><code><var>fractionReduce(NUMERATOR, DENOMINATOR)</var> = \dfrac{\green{A_s}}{\blue{<var>PRETTY_A_C</var>}}</code></p>
+                        <p><code><var>fractionReduce(NUMERATOR, DENOMINATOR)</var> \times \blue{<var>PRETTY_A_C</var>} = \green{A_s}</code></p>
 
                         <div>
-                            <p><code><var>PRETTY_A_S</var> = A_s</code></p>
+                            <p><code><var>PRETTY_A_S</var> = \green{A_s}</code></p>
                             <div class="graphie" data-update="circle">
                                 $(graph.aSL).show();
                             </div>
@@ -97,25 +101,24 @@
 
                 <div id="r-angle-to-As" data-type="Ac-angle-to-As">
                     <p class="problem">
-                        A circle with radius <code class="hint_blue"><var>R</var></code> has a sector with a
-                        <span data-if="USE_RADIANS"><code class="hint_purple"><var>RADIANS</var></code> radian</span>
-                        <span data-else=""><code class="hint_purple"><var>DEGREES</var>^\circ</code></span>
-                        central angle.
+                        A circle with radius <code>\pink{<var>R</var>}</code> has a sector with a central angle of
+                        <span data-if="USE_RADIANS"><code>\purple{<var>RADIANS</var>}</code> radians</span>
+                        <span data-else=""><code>\purple{<var>DEGREES</var>^\circ}</code></span>.
                     </p>
                     <div class="graphie" data-update="circle">
                         $(graph.aCL).hide();
 
-                        graph.r = path([[0, 0], polar(DIAGRAM_R, graph.cAngle)], { stroke: BLUE });
-                        graph.rL = label(polar(DIAGRAM_R/2, graph.cAngle), "\\color{"+BLUE+"}{" + R + "}", "above");
+                        graph.r = path([[0, 0], polar(DIAGRAM_R, graph.cAngle)], { stroke: PINK });
+                        graph.rL = label(polar(DIAGRAM_R / 2, graph.cAngle), "\\pink{" + R + "}", "above");
                     </div>
 
                     <div class="hints" data-apply="prependContents">
                         <p>First, calculate the area of the whole circle.</p>
                         <p>Then the area of the sector is some fraction of the whole circle's area.</p>
-                        <p><code>A_c = \pi r^2</code></p>
+                        <p><code>\blue{A_c} = \pi \pink{r}^2</code></p>
                         <div>
-                            <p><code>A_c = \pi (<var>R</var>)^2</code></p>
-                            <p><code>A_c = <var>PRETTY_A_C</var></code></p>
+                            <p><code>\blue{A_c} = \pi (\pink{<var>R</var>})^2</code></p>
+                            <p><code>\blue{A_c} = <var>PRETTY_A_C</var></code></p>
                             <div class="graphie" data-update="circle">
                                 $(graph.aCL).show();
                             </div>
@@ -125,42 +128,47 @@
 
                 <div id="As-angle-to-Ac" data-type="Ac-angle-to-As">
                     <p class="problem">
-                        A circle has a <span class="hint_orange">sector</span> with area <code class="hint_orange"><var>PRETTY_A_S</var></code> and central angle
-                        <span data-if="USE_RADIANS"><code class="hint_purple"><var>RADIANS</var></code> radian</span>
-                        <span data-else=""><code class="hint_purple"><var>DEGREES</var>^\circ</code></span>.
+                        A circle has a <span class="hint_green">sector</span> with area <code class="hint_green"><var>PRETTY_A_S</var></code>
+                        and central angle of 
+                        <span data-if="USE_RADIANS"><code>\purple{<var>RADIANS</var>}</code> radians</span>
+                        <span data-else=""><code>\purple{<var>DEGREES</var>^\circ}</code></span>.
                     </p>
                     <p class="question">What is the area of the circle?</p>
                     <div class="graphie" data-update="circle">
                         $(graph.aCL).hide();
-
                         $(graph.aSL).show();
                     </div>
                     <p class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>A_C</var></p>
 
                     <div class="hints">
                         <div data-if="USE_RADIANS" data-unwrap="">
-                                <p>
-                                    The ratio between the sector's central angle <code class="hint_purple">\theta</code> and <code>2 \pi</code> radians is equal to the ratio between the sector's area, <code class="hint_orange">A_s</code>, and the whole circle's area, <code class="hint_blue">A_c</code>.
-                                </p>
-
-                                <p><code>\dfrac{\theta}{2 \pi} = \dfrac{A_s}{A_c}</code></p>
-                                <p><code><var>RADIANS</var> \div 2 \pi = <var>PRETTY_A_S</var> \div A_c</code></p>
-                            </div>
-
-                            <div data-else="" data-unwrap="">
                             <p>
-                                The ratio between the sector's central angle <code class="hint_purple">\theta</code> and <code>360^\circ</code> is equal to the ratio between the sector's area, <code class="hint_orange">A_s</code>, and the whole circle's area, <code class="hint_blue">A_c</code>.
+                                The ratio between the sector's central angle <code>\purple{\theta}</code> and <code>2 \pi</code> radians
+                                is equal to the ratio between the sector's area, <code>\green{A_s}</code>,
+                                and the whole circle's area, <code>\blue{A_c}</code>.
                             </p>
-                            <p><code>\dfrac{\theta}{360^\circ} = \dfrac{A_s}{A_c}</code></p>
-                            <p><code>\dfrac{<var>DEGREES</var>^\circ}{360^\circ} = <var>PRETTY_A_S</var> \div A_c</code></p>
+
+                            <p><code>\dfrac{\purple{\theta}}{2 \pi} = \dfrac{\green{A_s}}{\blue{A_c}}</code></p>
+                            <p><code>\purple{<var>RADIANS</var>} \div 2 \pi = \green{<var>PRETTY_A_S</var>} \div \blue{A_c}</code></p>
                         </div>
 
-                        <p><code><var>fractionReduce(NUMERATOR, DENOMINATOR)</var> = <var>PRETTY_A_S</var> \div A_c</code></p>
-                        <p><code>A_c \times <var>fractionReduce(NUMERATOR, DENOMINATOR)</var> = <var>PRETTY_A_S</var></code></p>
-                        <p><code>A_c = <var>PRETTY_A_S</var> \times <var>fractionReduce(DENOMINATOR, NUMERATOR)</var></code></p>
+                        <div data-else="" data-unwrap="">
+                            <p>
+                                The ratio between the sector's central angle <code>\purple{\theta}</code> and <code>360^\circ</code>
+                                is equal to the ratio between the sector's area, <code>\green{A_s}</code>,
+                                and the whole circle's area, <code>\blue{A_c}</code>.
+                            </p>
+
+                            <p><code>\dfrac{\purple{\theta}}{360^\circ} = \dfrac{\green{A_s}}{\blue{A_c}}</code></p>
+                            <p><code>\dfrac{\purple{<var>DEGREES</var>^\circ}}{360^\circ} = \green{<var>PRETTY_A_S</var>} \div \blue{A_c}</code></p>
+                        </div>
+
+                        <p><code><var>fractionReduce(NUMERATOR, DENOMINATOR)</var> = \green{<var>PRETTY_A_S</var>} \div \blue{A_c}</code></p>
+                        <p><code>\blue{A_c} \times <var>fractionReduce(NUMERATOR, DENOMINATOR)</var> = \green{<var>PRETTY_A_S</var>}</code></p>
+                        <p><code>\blue{A_c} = \green{<var>PRETTY_A_S</var>} \times <var>fractionReduce(DENOMINATOR, NUMERATOR)</var></code></p>
 
                         <div>
-                            <p><code>A_c = <var>PRETTY_A_C</var></code></p>
+                            <p><code>\blue{A_c} = <var>PRETTY_A_C</var></code></p>
                             <div class="graphie" data-update="circle">
                                 $(graph.aCL).show();
                             </div>
