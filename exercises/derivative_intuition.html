@@ -63,8 +63,8 @@
                         <table id="answers">
                             <tbody><tr data-each="POINTS as X">
                                 <td class="sol" data-fallback="0" style="display: none"><var>roundTo(2, DDX(X))</var></td>
-                                <td data-if="OPTIONS.xLabelFormat" style="text-align: right"><code>\frac{d}{dx} f(<var>OPTIONS.xLabelFormat(X)</var>) = </code></td>
-                                <td data-else="" style="text-align: right"><code>\frac{d}{dx} f(<var>X</var>) = </code></td>
+                                <td data-if="OPTIONS.xLabelFormat" style="text-align: right"><code>\frac{d}{dx} f(<var>OPTIONS.xLabelFormat(X)</var>) = {}</code></td>
+                                <td data-else="" style="text-align: right"><code>\frac{d}{dx} f(<var>X</var>) = {}</code></td>
                                 <td class="answer-label">0</td>
                             </tr>
                         </tbody></table>
@@ -130,8 +130,8 @@
                 <div class="vars">
                     <var id="SCENARIO">randFromArray([
                         {
-                            text:    "sin(x)",
-                            ddxtext: "cos(x)",
+                            text:    "\\sin(x)",
+                            ddxtext: "\\cos(x)",
                             fnx:     function(x) { return Math.sin(x); },
                             ddx:     function(x) { return Math.cos(x); },
                             xrange:  [-1.25*Math.PI, 1.25*Math.PI],
@@ -139,8 +139,8 @@
                             points:  [ -1*Math.PI, -3*Math.PI/4, -Math.PI/2, -Math.PI/4, 0, Math.PI/4, Math.PI/2, 3*Math.PI/4, Math.PI ],
                             options: { xLabelFormat: piFraction }
                         }, {
-                            text:    "cos(x)",
-                            ddxtext: "-sin(x)",
+                            text:    "\\cos(x)",
+                            ddxtext: "-\\sin(x)",
                             fnx:     function(x) { return Math.cos(x); },
                             ddx:     function(x) { return -Math.sin(x); },
                             xrange:  [-1.25*Math.PI, 1.25*Math.PI],
@@ -157,7 +157,7 @@
                             points:  [ -2, -1, 0, 1, 2 ],
                             options: {}
                         }, {
-                            text:    "ln(x)",
+                            text:    "\\ln(x)",
                             ddxtext: "\\frac{1}{x}",
                             fnx:     function(x) { return Math.log(x); },
                             ddx:     function(x) { return 1/x; },
