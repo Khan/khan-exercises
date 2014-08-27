@@ -32,6 +32,16 @@ function polar(r, th) {
     return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
 }
 
+// Keep track of all the intervalIDs created by setInterval.
+// This lets us cancel all the intervals when cleaning up.
+var intervalIDs = [];
+function cleanupIntervals() {
+    _.each(intervalIDs, function(intervalID) {
+        window.clearInterval(intervalID);
+    });
+    intervalIDs.length = 0;
+}
+
 $.extend(KhanUtil, {
     unscaledSvgPath: function(points) {
         // If this is an empty closed path, return "" instead of "z", which
@@ -654,6 +664,15 @@ KhanUtil.createGraphie = function(el) {
             return this;
         },
 
+        // Wrap window.setInterval to keep track of all the intervalIDs.
+        setInterval: function() {
+            var intervalID = Function.prototype.apply.call(window.setInterval,
+                                                           window,
+                                                           arguments);
+            intervalIDs.push(intervalID);
+            return intervalID;
+        },
+
         style: function(attrs, fn) {
             var processed = processAttributes(attrs);
 
@@ -1010,6 +1029,10 @@ $.fn.graphie = function(problem) {
         $.tmpl.getVAR(code, graphie);
         // delete KhanUtil.currentGraph;
     }).end();
+};
+
+$.fn.graphieCleanup = function(problem) {
+    cleanupIntervals();
 };
 
 });
