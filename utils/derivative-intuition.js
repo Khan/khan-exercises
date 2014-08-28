@@ -171,10 +171,14 @@ $.extend(KhanUtil, {
             graph.slopePoints[index] = graph.ellipse([xval, 0], [4 / graph.scale[0], 4 / graph.scale[1]]);
         });
 
+        var $ddxplot = $("#ddxplot");
+        var $solutionAreaText = $("div#solutionarea :text").eq(index);
+        var $solutionAreaLabel = $("div#solutionarea .answer-label").eq(index);
+
         // the invisible shape in front of each point that gets mouse events
         graph.mouseTargets[index] = graph.mouselayer.circle(
                 (xval - graph.range[0][0]) * graph.scale[0],
-                (graph.range[1][1] - 0) * graph.scale[1], 15);
+                (graph.range[1][1] - 0) * graph.scale[1], 22);
         graph.mouseTargets[index].attr({fill: "#000", "opacity": 0.0});
 
         $(graph.mouseTargets[index][0]).css("cursor", "move");
@@ -203,17 +207,19 @@ $.extend(KhanUtil, {
                 graph.tangentLines[index].animate({ scale: KhanUtil.TANGENT_GROWTH_FACTOR }, 200);
                 KhanUtil.dragging = true;
 
+                var ddxplotTop = $ddxplot.offset().top;
+
                 $(document).bind("vmousemove vmouseup", function(event) {
                     event.preventDefault();
 
                     // mouseY is in pixels relative to the SVG; coordY is the scaled y-coordinate value
-                    var mouseY = event.pageY - $("#ddxplot").offset().top;
+                    var mouseY = event.pageY - ddxplotTop;
                     mouseY = Math.max(10, Math.min(graph.ypixels - 10, mouseY));
                     var coordY = graph.range[1][1] - mouseY / graph.scale[1];
 
                     if (event.type === "vmousemove") {
-                        $($("div#solutionarea :text")[index]).val(KhanUtil.roundTo(2, coordY));
-                        $($("div#solutionarea .answer-label")[index]).text(KhanUtil.roundTo(2, coordY));
+                        $solutionAreaText.val(KhanUtil.roundTo(2, coordY));
+                        $solutionAreaLabel.text(KhanUtil.roundTo(2, coordY));
                         graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
                         graph.slopePoints[index].attr("cy", mouseY);
                         graph.mouseTargets[index].attr("cy", mouseY);
