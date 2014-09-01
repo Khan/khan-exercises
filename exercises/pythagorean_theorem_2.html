@@ -125,7 +125,8 @@
                 <var id="BC">randRange(2, 6)</var>
                 <var id="BCr, BCrs">randFromArray([[1, ""], [3, "\\sqrt{3}"]])</var>
                 <var id="BCdisp">BC + BCrs</var>
-                <var id="mAB">randFromArray(["\\angle A = 30^\\circ", "\\angle B = 60^\\circ"])</var>
+                <var id="ANGLE">rand(2)</var>
+                <var id="mAB">["\\angle A = 30^\\circ", "\\angle B = 60^\\circ"][ANGLE]</var>
             </div>
 
             <div class="question">
@@ -133,6 +134,13 @@
 
                 <div class="graphie">
                     betterTriangle(1, sqrt(3), "A", "B", "C", BC + BCrs, "", "x");
+                    if (ANGLE === 0) {
+                        arc([0, 5 * sqrt(3) / 2], 0.8, 270, 300);
+                        label([-0.1, (5 * sqrt(3) / 2) - 1], "{30}^{\\circ}", "below right");
+                    } else {
+                        arc([5/2,0], 0.5, 120, 180);
+                        label([5/2-0.2, 0], "{60}^{\\circ}", "above left");
+                    }
                 </div>
             </div>
 
@@ -168,14 +176,22 @@
                     [3, "\\sqrt{3}", (AC * 2),                   AC * AC * 4]
                 ])</var>
                 <var id="ACdisp">AC + ACrs</var>
-                <var id="mAB">randFromArray([ "\\angle A = 30^\\circ", "\\angle B = 60^\\circ" ])</var>
+                <var id="ANGLE">rand(2)</var>
+                <var id="mAB">["\\angle A = 30^\\circ", "\\angle B = 60^\\circ"][ANGLE]</var>
             </div>
 
             <div class="question">
                 <p>In the right triangle shown, <code><var>mAB</var></code> and <code>AC = <var>AC + ACrs</var></code>. How long is <code>AB</code>?</p>
 
                 <div class="graphie">
-                    betterTriangle( 1, sqrt(3), "A", "B", "C", "", AC + ACrs, "x" );
+                    betterTriangle(1, sqrt(3), "A", "B", "C", "", AC + ACrs, "x");
+                    if (ANGLE === 0) {
+                        arc([0, 5 * sqrt(3) / 2], 0.8, 270, 300);
+                        label([-0.1, (5 * sqrt(3) / 2) - 1], "{30}^{\\circ}", "below right");
+                    } else {
+                        arc([5/2,0], 0.5, 120, 180);
+                        label([5/2-0.2, 0], "{60}^{\\circ}", "above left");
+                    }
                 </div>
             </div>
 
@@ -213,14 +229,25 @@
                 <var id="BC">randRange( 2, 6 )</var>
                 <var id="BCr, BCrs">randFromArray([ [1, ""], [3, "\\sqrt{3}"] ])</var>
                 <var id="ABdisp">2*BC + BCrs</var>
-                <var id="mAB">randFromArray([ "\\angle A = 30^\\circ", "\\angle B = 60^\\circ" ])</var>
+                <var id="ANGLE">rand(2)</var>
+                <var id="mAB">["\\angle A = 30^\\circ", "\\angle B = 60^\\circ"][ANGLE]</var>
             </div>
 
             <div class="question">
-                <p>In the right triangle shown, <code><var>mAB</var></code> and <code>AB = <var>( 2 * BC ) + BCrs</var></code>. How long is <code>BC</code>?</p>
+                <p>
+                    In the right triangle shown, <code><var>mAB</var></code> and <code>AB = <var>2 * BC + BCrs</var></code>.
+                    How long is <code>BC</code>?
+                </p>
 
                 <div class="graphie">
-                    betterTriangle( 1, sqrt(3), "A", "B", "C", "x", "", ( 2 * BC ) + BCrs );
+                    betterTriangle(1, sqrt(3), "A", "B", "C", "x", "", 2 * BC + BCrs);
+                    if (ANGLE === 0) {
+                        arc([0, 5 * sqrt(3) / 2], 0.8, 270, 300);
+                        label([-0.1, (5 * sqrt(3) / 2) - 1], "{30}^{\\circ}", "below right");
+                    } else {
+                        arc([5/2,0], 0.5, 120, 180);
+                        label([5/2-0.2, 0], "{60}^{\\circ}", "above left");
+                    }
                 </div>
             </div>
 
@@ -228,7 +255,7 @@
 
             <div class="hints">
                 <p>
-                    We know the length of a leg, and want to find the length of the hypotenuse.
+                    We know the length of the hypotenuse, and want to find the length of the shortest side.
                     What is the relationship between the sides of a <code>30 - 60 - 90</code> triangle?
                 </p>
                 <div>
@@ -237,8 +264,8 @@
                         betterTriangle(1, sqrt(3), "A", "B", "C", "\\dfrac{1}{2}", "\\dfrac{\\sqrt{3}}{2}", 1);
                         arc([0, 5 * sqrt(3) / 2], 0.8, 270, 300);
                         arc([5/2,0], 0.5, 120, 180);
-                        label([-0.1, (5 * sqrt(3) / 2) - 1], "{30}^{\\circ}", "below right");
                         label([5/2-0.2, 0], "{60}^{\\circ}", "above left");
+                        label([-0.1, (5 * sqrt(3) / 2) - 1], "{30}^{\\circ}", "below right");
                     </div>
                 </div>
                 <p>The ratio of <code>BC : AB</code> is <code>\dfrac{1}{2} : 1</code>.</p>
@@ -254,15 +281,22 @@
                     [1,  "",         (AC * 2 / 3) + "\\sqrt{3}", AC * AC * 4 / 3],
                     [3, "\\sqrt{3}", (AC * 2),                   AC * AC * 4]
                 ])</var>
-
-                <var id="mAB">randFromArray([ "\\angle A = 30^\\circ", "\\angle B = 60^\\circ" ])</var>
+                <var id="ANGLE">rand(2)</var>
+                <var id="mAB">["\\angle A = 30^\\circ", "\\angle B = 60^\\circ"][ANGLE]</var>
             </div>
 
             <div class="question">
                 <p>In the right triangle shown, <code><var>mAB</var></code> and <code>AB = <var>ABs</var></code>. How long is <code>AC</code>?</p>
 
                 <div class="graphie">
-                    betterTriangle( 1, sqrt(3), "A", "B", "C", "", "x", ABs );
+                    betterTriangle(1, sqrt(3), "A", "B", "C", "", "x", ABs);
+                    if (ANGLE === 0) {
+                        arc([0, 5 * sqrt(3) / 2], 0.8, 270, 300);
+                        label([-0.1, (5 * sqrt(3) / 2) - 1], "{30}^{\\circ}", "below right");
+                    } else {
+                        arc([5/2,0], 0.5, 120, 180);
+                        label([5/2-0.2, 0], "{60}^{\\circ}", "above left");
+                    }
                 </div>
             </div>
 
@@ -270,7 +304,7 @@
 
             <div class="hints">
                 <p>
-                    We know the length of a leg, and want to find the length of the hypotenuse.
+                    We know the length of the hypotenuse, and want to find the length of the longest side.
                     What is the relationship between the sides of a <code>30 - 60 - 90</code> triangle?
                 </p>
                <div>
