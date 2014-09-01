@@ -470,6 +470,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     deciB = deciB || 0;
     digitsA = digitsA || KhanUtil.digits(a);
     digitsB = digitsB || KhanUtil.digits(b);
+
     var digitsProduct = KhanUtil.integerToDigits(a * b);
     var highlights = [];
     var carry = 0;
@@ -478,7 +479,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     var maxNumDigits = Math.max(deciA + deciB, digitsProduct.length);
 
     var leadingZero = 0;
-    for (var i=digitsB.length-1; i>0; i--) {
+    for (var i = digitsB.length - 1; i > 0; i--) {
         if (digitsB[i] === 0) {
             leadingZero++;
         } else {
@@ -489,8 +490,13 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     var numHints = digitsA.length * (digitsB.length - leadingZero) + 1;
 
     this.show = function() {
+        var height = Math.max(numHints - 4, 3);
+        if (deciA || deciB) {
+            height += 3;
+        }
+
         graph.init({
-            range: [[-2 - maxNumDigits, 12], [-Math.max(numHints, 6), 3]],
+            range: [[-2 - maxNumDigits, 18], [-height, 3]],
             scale: [20, 40]
         });
 
@@ -507,6 +513,15 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         }
     };
 
+    this.getTrueValue = function(n, power) {
+        n *= Math.pow(10, power);
+        if (n !== 0) {
+            return KhanUtil.localeToFixed(n, Math.max(0, -power));
+        } else {
+            return n;
+        }
+    }
+
     this.showHint = function() {
         this.removeHighlights();
 
@@ -522,24 +537,32 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         var ones = product % 10;
         var currCarry = Math.floor(product / 10);
 
+        // Highlight the digits we're using
         highlights = highlights.concat(drawDigits([bigDigit], -indexA, 2, KhanUtil.BLUE));
         highlights = highlights.concat(drawDigits([smallDigit], -indexB, 1, KhanUtil.PINK));
         if (carry) {
-            highlights = highlights.concat(graph.label([-indexA, 3], "\\orange{" + carry + "}", "below"));
+            highlights = highlights.concat(graph.label([-indexA, 3], "\\purple{" + carry + "}", "below"));
         }
-        graph.label([2, -indexB * digitsA.length - indexA + 2],
-            "\\blue{" + bigDigit + "}" +
-            "\\times" +
-            "\\color{#FF00AF}{" + smallDigit + "}" +
-            (carry ? "+\\orange{" + carry + "}" : "") +
-            "=" +
-            "\\color{#28AE7B}{" + product + "}", "right");
 
-        drawDigits([ones], -indexB - indexA, -indexB);
+        var hint = "\\blue{" + this.getTrueValue(bigDigit, indexA - deciA) + "}";
+        hint += "\\times \\pink{" + this.getTrueValue(smallDigit, indexB - deciB) + "}";
+        hint += (carry ? "+\\purple{" + this.getTrueValue(carry, indexA + indexB - deciA - deciB) + "}" : "");
+        hint += "= \\green{" + this.getTrueValue(product, indexA + indexB - deciA - deciB) + "}";
+
+        graph.label([2, 2 - indexB * digitsA.length - indexA], hint, "right");
+
+        var result = [ones];
+        if (indexA === 0) {
+            for (var i = 0; i < indexB; i++) {
+                result.push(0);
+            }
+        }
+
+        drawDigits(result, -indexB - indexA, -indexB);
         highlights = highlights.concat(drawDigits([ones], -indexB - indexA, -indexB, KhanUtil.GREEN));
 
         if (currCarry) {
-            highlights = highlights.concat(graph.label([-1 - indexA, 3], "\\color{#28AE7B}{" + currCarry + "}", "below"));
+            highlights = highlights.concat(graph.label([-1 - indexA, 3], "\\green{" + currCarry + "}", "below"));
             if (indexA === digitsA.length - 1) {
                 drawDigits([currCarry], -indexB - indexA - 1, -indexB);
                 highlights = highlights.concat(drawDigits([currCarry], -indexB - indexA - 1, -indexB, KhanUtil.GREEN));

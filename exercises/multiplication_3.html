@@ -8,25 +8,44 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="SMALL_FACTOR">randRange( 10, 99 )</var>
-            <var id="BIG_FACTOR">randRange( 10, 99 )</var>
+            <var id="ORDER">rand(2)</var>
+            <var id="SMALL_FACTOR">randRange(10, 99)</var>
+            <var id="BIG_FACTOR">randRange(10, 99)</var>
             <var id="DUMMY">[]</var>
         </div>
 
         <div class="problems">
             <div>
-                <br>
+                <p class="problem">
+                    <span data-if="ORDER === 0">
+                        <code>\large{<var>SMALL_FACTOR</var> \times <var>BIG_FACTOR</var> = {?}}</code>
+                    </span><span data-else="">
+                        <code>\large{<var>BIG_FACTOR</var> \times <var>SMALL_FACTOR</var> = {?}}</code>
+                    </span>
+                </p>
                 <div class="graphie" id="numbers">
-                    graph.multiplier = new Multiplier( BIG_FACTOR, SMALL_FACTOR );
-                    graph.multiplier.show();
-                    DUMMY = Array( graph.multiplier.getNumHints() );
+                    graph.multiplier = new Multiplier(BIG_FACTOR, SMALL_FACTOR);
+                    DUMMY = Array(graph.multiplier.getNumHints()  - 1);
                 </div>
                 <div class="solution" data-forms="integer"><var>SMALL_FACTOR * BIG_FACTOR</var></div>
             </div>
         </div>
         <div class="hints">
+            <div class="graphie" data-update="numbers">
+                graph.multiplier.show();
+            </div>
             <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                 graph.multiplier.showHint();
+            </div>
+            <div>
+                <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
+                    graph.multiplier.showHint();
+                </div>
+                <p data-if="ORDER === 0">
+                    <code>\large{<var>SMALL_FACTOR</var> \times <var>BIG_FACTOR</var> = <var>SMALL_FACTOR * BIG_FACTOR</var>}</code>
+                </p><p data-else="">
+                    <code>\large{<var>BIG_FACTOR</var> \times <var>SMALL_FACTOR</var> = <var>SMALL_FACTOR * BIG_FACTOR</var>}</code>
+                </p>
             </div>
         </div>
     </div>
