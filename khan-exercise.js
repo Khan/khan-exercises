@@ -1323,11 +1323,13 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         problem: problem
     });
 
-    hintsUsed = userExercise ? userExercise.lastCountHints : 0;
+    hintsUsed = 0;
 
     // The server says the user has taken hints on this problem already
     // show all lastCountHints it says we have seen
-    _(hintsUsed).times(showHint);
+    if (userExercise && userExercise.lastCountHints) {
+        _(userExercise.lastCountHints).times(showHint);
+    }
 
     // Add autocomplete="off" attribute so IE doesn't try to display previous answers
     $("#problem-and-answer").find("input[type='text'], input[type='number']")
