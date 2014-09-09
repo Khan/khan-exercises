@@ -83,11 +83,13 @@
                     </div>
                 </div>
 
-                <div class="graphie" data-update="grid">
-                    var point = POINTS[FORGOTTEN];
-                    label( point, PAIR( point ), "above right");
-                    label( point, "\\text{" + $._("was not graphed") + "}", "right" );
-                    circle( point, 0.3, { stroke: "red" } );
+                <div>
+                    <div class="graphie" data-update="grid">
+                        var point = POINTS[FORGOTTEN];
+                        label( point, PAIR( point ), "above right", { color: RED });
+                        circle( point, 0.3, { stroke: RED } );
+                    </div>
+                    <p><code>(<var>POINTS[FORGOTTEN]</var>)</code> was not graphed.</p>
                 </div>
             </div>
         </div>
