@@ -520,7 +520,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         } else {
             return n;
         }
-    }
+    };
 
     this.showHint = function() {
         this.removeHighlights();
