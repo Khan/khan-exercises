@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie">
+<html data-require="math math-format graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Point slope form</title>
@@ -8,131 +8,148 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="y-as-function-of-x" data-weight="2">
-                <div class="vars" data-ensure="X1 !== X2 &amp;&amp; SLOPE !== 0">
-                    <var id="X1">randRangeNonZero( -5, 5 )</var>
-                    <var id="Y1">randRangeNonZero( -5, 5 )</var>
-                    <var id="X2">randRangeNonZero( -5, 5 )</var>
-                    <var id="Y2">randRangeNonZero( -5, 5 )</var>
-                    <var id="SLOPE">(Y1 - Y2) / (X1 - X2)</var>
-                </div>
-                <p class="problem">Using the following values, create an equation in point slope form.  In other words, given the values below, for a formula that looks like <code>(y - y_{1}) = m(x - x_{1})</code>, what are the values of <code>x_{1}</code>, <code>y_{1}</code>, and <code>m</code>?</p>
-                <p><code>x_{1}=\color{#b22222}{<var>X1</var>},\quad f(x_{1})=\color{#b22222}{<var>Y1</var>}.</code><br><code>x_{2}=\color{#4169E1}{<var>X2</var>},\quad f(x_{2})=\color{#4169E1}{<var>Y2</var>}.</code> </p>
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol"><var>Y2</var></span>
-                        <span class="sol"><var>SLOPE</var></span>
-                        <span class="sol"><var>X2</var></span>
-                    </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol"><var>Y1</var></span>
-                        <span class="sol"><var>SLOPE</var></span>
-                        <span class="sol"><var>X1</var></span>
-                    </div>
-                    <div class="input-format">
-                        <p class="entry" data-type="multiple" style="font-size: 11px;">
-                            <code>(y - {}</code><span class="sol short25"></span><code>) = {}</code><span class="sol short25"></span><code>(x - {}</code><span class="sol short25"></span><code>)</code>
-                        </p>
-                    </div>
-                    <p class="example">integers, like <code>6</code></p>
-                    <p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
-                    <p class="example"><em>simplified improper</em> fractions, like <code>7/4</code></p>
-                    <p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
-                    <p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
-                </div>
-                <div class="hints">
-                    <p><code>f(x)</code> is just a fancy term for <code>y</code>.  So one point is <code>(\color{#b22222}{<var>X1</var>}, \color{#b22222}{<var>Y1</var>})</code>.</p>
-                    <p>The formula to find the slope is: <code>m = (y_{1} - y_{2}) / (x_{1} - x_{2})</code>.</p>
-                    <p>So, by plugging in the numbers, we get <code>\displaystyle {} \frac{\color{#b22222}{<var>Y1</var>} - <span data-if="Y2 < 0">(</span>\color{#4169E1}{<var>Y2</var>}<span data-if="Y2 < 0">)</span>}{\color{#b22222}{<var>X1</var>} - <span data-if="X2 < 0">(</span>\color{#4169E1}{<var>X2</var>}<span data-if="X2 < 0">)</span>} =</code>
-                    <span data-if="getGCD( Y1-Y2, X1-X2 ) !== 1 || X1-X2 === 1 || X1-X2 < 0 || Y1-Y2 < 0">
-                        <code>\color{#68228B}{\dfrac{<var>Y1-Y2</var>}{<var> X1-X2</var>}} =</code>
-                    </span>
-                    <code>\color{#68228B}{<var>fractionReduce(Y1 - Y2, X1 - X2)</var>}</code></p>
-                    <div>
-                        <p>Select one of the points to substitute for <code>x_{1}</code> and <code>y_{1}</code> in the point slope formula.  The solution is then either:</p>
-                        <p><code>(y - \color{#b22222}{<var>Y1</var>}) = \color{#68228B}{<var>fractionReduce(Y1 - Y2, X1 - X2)</var>}(x - \color{#b22222}{<var>X1</var>})</code></p>
-                        <p>OR</p>
-                        <p><code>(y - \color{#4169E1}{<var>Y2</var>}) = \color{#68228B}{<var>fractionReduce(Y1 - Y2, X1 - X2)</var>}(x - \color{#4169E1}{<var>X2</var>})</code></p>
-                    </div>
-                </div>
-            </div>
             <div id="two-points" data-weight="3">
-                <div class="vars" data-ensure="X1 !== X2 &amp;&amp; SLOPE !== 0">
-                    <var id="X1">randRangeNonZero( -5, 5 )</var>
-                    <var id="Y1">randRangeNonZero( -5, 5 )</var>
-                    <var id="X2">randRangeNonZero( -5, 5 )</var>
-                    <var id="Y2">randRangeNonZero( -5, 5 )</var>
+                <div class="vars">
+                    <var id="X1">randRange(-5, 5)</var>
+                    <var id="Y1">randRange(-5, 5)</var>
+                    <var id="X2">randRangeExclude(-5, 5, [X1])</var>
+                    <var id="Y2">randRangeExclude(-5, 5, [Y1])</var>
                     <var id="SLOPE">(Y1 - Y2) / (X1 - X2)</var>
+                    <var id="SLOPE_FRACTION">fractionReduce(Y1 - Y2, X1 - X2)</var>
+                    <var id="INTERCEPT">SLOPE * X1 - Y1</var>
                 </div>
-                <p class="problem"> A line passes through both <code>(\color{#b22222}{<var>X1</var>}, \color{#b22222}{<var>Y1</var>})</code> and <code>(\color{#4169E1}{<var>X2</var>}, \color{#4169E1}{<var>Y2</var>})</code>. Express the equation of the line in point slope form.</p>
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol"><var>Y2</var></span>
-                        <span class="sol"><var>SLOPE</var></span>
-                        <span class="sol"><var>X2</var></span>
+
+                <p class="problem">
+                    A line passes through both <code>(\blue{<var>X1</var>}, \blue{<var>Y1</var>})</code> and
+                    <code>(\green{<var>X2</var>}, \green{<var>Y2</var>})</code>.
+                </p>
+
+                <p class="question">
+                    Express the equation of the line in point slope form.
+                </p>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction" style="font-size: 11px;">
+                        <code>y - {}</code><input id="response1" type="text" style="width:25px;"></span><code>{} = {}</code><input id="response2" type="text" style="width:25px;"></span><code>(x - {}</code><input id="response3" type="text" style="width:25px;"></span><code>)</code>
                     </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol"><var>Y1</var></span>
-                        <span class="sol"><var>SLOPE</var></span>
-                        <span class="sol"><var>X1</var></span>
+                    
+                    <div class="guess">[$("input#response1").val(), $("input#response2").val(), $("input#response3").val()]</div>
+                    <div class="validator-function">                        
+                        var xyMessage = null, xyEmpty = false;
+
+                        var slopeValidator = Khan.answerTypes.predicate.createValidatorFunctional(function(slope, error) {
+                            if (Math.abs(slope - SLOPE) &gt; Math.pow(2, -42)) {
+                                return false;
+                            }
+
+                            var yMessage = null, yEmpty = false;
+
+                            var xValidator = Khan.answerTypes.predicate.createValidatorFunctional(function(x, error) {
+                                var yValidator = Khan.answerTypes.predicate.createValidatorFunctional(function(y, error) {
+                                    return Math.abs((x * slope - y) - INTERCEPT) &lt; Math.pow(2, -42);
+                                }, {forms: 'integer, proper, improper, mixed, decimal'});
+
+                                var yResult = yValidator(guess[0]);
+
+                                if (yResult.empty) {
+                                    yEmpty = true;
+                                }
+                                if (yResult.message !== null) {
+                                    yMessage = yResult.message;
+                                }
+                                if (yResult.correct) {
+                                    yEmpty = false;
+                                    yMessage = null;
+                                }
+
+                                return yResult.correct;
+                            }, {forms: 'integer, proper, improper, mixed, decimal'});
+
+                            var xResult = xValidator(guess[2]);
+
+                            if (xResult.empty || yEmpty) {
+                                xyEmpty = true;
+                            }
+                            if (xResult.message !== null || yMessage !== null) {
+                                xyMessage = xResult.message || yMessage;
+                            }
+                            if (xResult.correct) {
+                                xyEmpty = false;
+                                xyMessage = null;
+                            }
+
+                            return xResult.correct;
+                        // TODO(emily): Remove fallback when coefficient actually works
+                        }, {forms: 'integer, proper, improper, mixed, decimal, coefficient', fallback: 1});
+
+                        var slopeResult = slopeValidator(guess[1]);
+
+                        // TODO(emily): In the future, when validator-functions can return empty and
+                        // message separately, make this actually work
+                        if (slopeResult.empty || xyEmpty) {
+                            return "";
+                        } else if (slopeResult.message !== null) {
+                            return slopeResult.message;
+                        } else if (xyMessage !== null) {
+                            return xyMessage;
+                        }
+
+                        return slopeResult.correct;
                     </div>
-                    <div class="input-format">
-                        <p class="entry" data-type="multiple" style="font-size: 11px;">
-                            <code>(y - {}</code><span class="sol short25"></span><code>) = {}</code><span class="sol short25"></span><code>(x - {}</code><span class="sol short25"></span><code>)</code>
-                        </p>
-                    </div>
-                    <p class="example">integers, like <code>6</code></p>
-                    <p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
-                    <p class="example"><em>simplified improper</em> fractions, like <code>7/4</code></p>
-                    <p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
-                    <p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
                 </div>
+
                 <div class="hints">
-                    <p>The formula to find the slope is: <code>m = (y_{1} - y_{2}) / (x_{1} - x_{2})</code>.</p>
-                    <p>So, by plugging in the numbers, we get <code>\displaystyle {} \frac{\color{#b22222}{<var>Y1</var>} - <span data-if="Y2 < 0">(</span>\color{#4169E1}{<var>Y2</var>}<span data-if="Y2 < 0">)</span>}{\color{#b22222}{<var>X1</var>} - <span data-if="X2 < 0">(</span>\color{#4169E1}{<var>X2</var>}<span data-if="X2 < 0">)</span>} =</code>
-                    <span data-if="getGCD( Y1-Y2, X1-X2 ) !== 1 || X1-X2 === 1 || X1-X2 < 0 || Y1-Y2 < 0">
-                        <code>\color{#68228B}{\dfrac{<var>Y1-Y2</var>}{<var> X1-X2</var>}} =</code>
-                    </span><code> \color{#68228B}{<var>fractionReduce(Y1 - Y2, X1 - X2)</var>}</code></p>
+                    <p>The formula to find the slope is: <code>m = \dfrac{(y_{1} - y_{2})}{(x_{1} - x_{2})}</code>.</p>
+                   <p>
+                        So, by plugging in the numbers, we get:
+                        <code>\dfrac{\blue{<var>Y1</var>} - <var>negParens(Y2, "green")</var>}
+                        {\blue{<var>X1</var>} - </span><var>negParens(X2, "green")</var>} =
+                        <span data-if="getGCD(Y1 - Y2, X1 - X2) !== 1 || X1 - X2 === 1 || X1 - X2 < 0 || Y1 - Y2 < 0">
+                            \pink{\dfrac{<var>Y1 - Y2</var>}{<var>X1 - X2</var>}} =
+                        </span>
+                        \pink{<var>SLOPE_FRACTION</var>}</code>
+                    </p>
+                    <p>Select one of the points to substitute for <code>x_{1}</code> and <code>y_{1}</code> in the point slope formula.</p>
                     <div>
-                        <p>Select one of the points to substitute for <code>x_{1}</code> and <code>y_{1}</code> in the point slope formula.  The solution then becomes either:</p>
-                        <p><code>(y - \color{#b22222}{<var>Y1</var>}) = \color{#68228B}{<var>fractionReduce(Y1 - Y2, X1 - X2)</var>}(x - \color{#b22222}{<var>X1</var>})</code></p>
-                        <p>OR</p>
-                        <p><code>(y - \color{#4169E1}{<var>Y2</var>}) = \color{#68228B}{<var>fractionReduce(Y1 - Y2, X1 - X2)</var>}(x - \color{#4169E1}{<var>X2</var>})</code></p>
+                        <p>Either <code>(y - \blue{<var>Y1</var>}) = \pink{<var>SLOPE_FRACTION</var>}(x - \blue{<var>X1</var>})</code>,<br>
+                        or <code>(y - \green{<var>Y2</var>}) = \pink{<var>SLOPE_FRACTION</var>}(x - \green{<var>X2</var>})</code>.</p>
                     </div>
                 </div>
             </div>
-            <div id="slope-intercept" data-weight="1">
-                <div class="vars" data-ensure="X1 !== X2 &amp;&amp; SLOPE !== 0">
+            <div id="y-as-function-of-x" data-weight="2" data-type="two-points">
+                <div class="problem">
+                    <p>Given the following values, find the equation of the line.</p>
+                    <p><code>
+                        \begin{eqnarray}
+                        x_{1} &amp;=&amp; \blue{<var>X1</var>},\quad &amp;f(x_{1}) = \blue{<var>Y1</var>} \\
+                        x_{2} &amp;=&amp; \green{<var>X2</var>},\quad &amp;f(x_{2}) = \green{<var>Y2</var>}
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+
+                <div class="hints" data-apply="prependContents">
+                    <p><code>f(x)</code> is just a fancy term for <code>y</code>.</p>
+                    <p>
+                        So one point on the line is <code>(\blue{<var>X1</var>}, \blue{<var>Y1</var>})</code>.
+                        Another is <code>(\green{<var>X2</var>}, \green{<var>Y2</var>})</code>.
+                    </p>
+                </div>
+            </div>
+            <div id="slope-intercept" data-weight="1"  data-type="two-points">
+                <div class="vars">
                     <var id="X1">0</var>
-                    <var id="Y1">randRangeNonZero( -5, 5 )</var>
-                    <var id="X2">randRangeNonZero( -5, 5 )</var>
-                    <var id="Y2">randRangeNonZero( -5, 5 )</var>
-                    <var id="SLOPE">(Y1 - Y2)/ (X1 - X2)</var>
                 </div>
-                <p class="problem"> The slope of a line is <code>\color{#68228B}{<var>fractionReduce(Y1 - Y2, X1 - X2)</var>}</code> and the y-intercept is <code>\color{#4169E1}{<var>Y1</var>}</code>. Express the equation of the line in point slope form.</p>
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol"><var>Y1</var></span>
-                        <span class="sol"><var>SLOPE</var></span>
-                        <span class="sol"><var>X1</var></span>
-                    </div>
-                    <div class="input-format">
-                        <p class="entry" data-type="multiple" style="font-size: 11px;">
-                            <code>(y - {}</code><span class="sol short25"></span><code>) = {}</code><span class="sol short25"></span><code>(x - {}</code><span class="sol short25"></span><code>)</code>
-                        </p>
-                    </div>
-                    <p class="example">integers, like <code>6</code></p>
-                    <p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
-                    <p class="example"><em>simplified improper</em> fractions, like <code>7/4</code></p>
-                    <p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
-                    <p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
-                </div>
+                <p class="problem">
+                    The slope of a line is <code>\pink{<var>SLOPE_FRACTION</var>}</code>
+                    and its <code>y</code>-intercept is <code>\blue{<var>Y1</var>}</code>.
+                </p>
                 <div class="hints">
-                    <p>The y-intercept is the value of <code>y</code> when <code>x = 0</code>, so it defines a point you can use:<code>\quad(\color{#b22222}{<var>X1</var>}, \color{#b22222}{<var>Y1</var>})</code>.</p>
-                    <p>An equation in point slope form looks like: <code>(y - y_{1}) = m(x - x_{1})</code> </p>
-                    <div>
-                        <p> Thus, the solution in point slope form can be written as:<br><code>(y - \color{#b22222}{<var>Y1</var>}) = \color{#68228B}{<var>fractionReduce(Y1 - Y2, X1 - X2)</var>}(x - \color{#b22222}{<var>X1</var>})</code></p>
-                    </div>
+                    <p>The <code>y</code>-intercept is the value of <code>y</code> when <code>x = 0</code>.
+                    <p>So the line goes through the point, <code>(\blue{<var>X1</var>}, \blue{<var>Y1</var>})</code>.</p>
+                    <p>
+                        Thus, the solution in point slope form can be written as:<br>
+                        <code>(y - \blue{<var>Y1</var>}) = \pink{<var>SLOPE_FRACTION</var>}(x - \blue{<var>X1</var>})</code>
+                    </p>
                 </div>
             </div>
         </div>
