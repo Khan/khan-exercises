@@ -6,7 +6,7 @@ require("./expressions.js");
 $.extend(KhanUtil, {
     /* Wraps a number in paretheses if it's negative. */
     negParens: function(n, color) {
-        var n2 = color ? "\\" + color + "{" + n + "}" : n
+        var n2 = color ? "\\" + color + "{" + n + "}" : n;
         return n < 0 ? "(" + n2 + ")" : n2;
     },
 
