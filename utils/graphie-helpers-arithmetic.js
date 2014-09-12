@@ -21,8 +21,15 @@ function Adder(a, b, decimalA, decimalB) {
         }
 
         // Add trailing zeros so decimals line up
-        a *= (decimalB > decimalA ? Math.pow(10, decimalB - decimalA) : 1);
-        b *= (decimalA > decimalB ? Math.pow(10, decimalA - decimalB) : 1);
+        if (decimalB > decimalA) {
+            a *= Math.pow(10, decimalB - decimalA);
+            decimalA = decimalB;
+        } else if (decimalA > decimalB) {
+            b *= Math.pow(10, decimalA - decimalB);
+            decimalB = decimalA;
+        }
+        
+        decimalPos = decimalA;
     }
 
     var digitsA = KhanUtil.digits(a);
