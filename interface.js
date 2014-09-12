@@ -7,6 +7,8 @@
  */
 (function() {
 
+var REQUEST_TIMEOUT_MS = 30000;
+
 // If any of these properties have already been defined, then leave them --
 // this happens in local mode
 _.defaults(Exercises, {
@@ -407,7 +409,8 @@ function handleAttempt(data) {
         // Alert any listeners of the error before reload
         $(Exercises).trigger("attemptError");
 
-        if (xhr && xhr.readyState === 0) {
+        var requestTimedOut = (xhr.statusText === "timeout");
+        if (xhr && xhr.readyState === 0 && !requestTimedOut) {
             // This path gets called when there is a broken pipe during
             // page unload- browser navigating away during ajax request
             // See http://stackoverflow.com/a/1370383.
@@ -420,16 +423,53 @@ function handleAttempt(data) {
         // Hide the page so users don't continue, then warn the user about the
         // problem and encourage reloading the page
         $("#problem-and-answer").css("visibility", "hidden");
-        $(Exercises).trigger("warning",
-                $._("This page is out of date. You need to " +
-                    "<a href='%(refresh)s'>refresh</a>, but don't " +
-                    "worry, you haven't lost progress. If you think " +
-                    "this is a mistake, " +
-                    "<a href='http://www.khanacademy.org/reportissue?" +
-                    "type=Defect'>tell us</a>.",
-                    {refresh: _.escape(window.location.href)}
-                )
-        );
+
+        if (requestTimedOut) {
+            // TODO(david): Instead of throwing up this error message, try
+            //     retrying the request or something. See more details in
+            //     comment in request().
+            $(Exercises).trigger("warning",
+                    $._("Uh oh, it looks like a network request timed out! " +
+                        "You'll need to " +
+                        "<a href='%(refresh)s'>refresh</a> to continue. " +
+                        "If you think this is a mistake, " +
+                        "<a href='http://www.khanacademy.org/reportissue?" +
+                        "type=Defect'>tell us</a>.",
+                        {refresh: _.escape(window.location.href)}
+                    )
+            );
+
+            // Also log this timeout failure to a bunch of places so we can see
+            // how frequently this occurs, and if it's similar to the frequency
+            // that we used to get for the endless spinner at end of task card
+            // logs.
+            var logMessage = "[" + (+new Date()) + "] request to " +
+                requestUrl + " timed out after " + REQUEST_TIMEOUT_MS +
+                "ms with " + Exercises.pendingAPIRequests +
+                " pending API requests " +
+                "(in khan-exercises/interface.js:handleAttempt)";
+
+            // Log to app engine logs... hopefully.
+            $.post("/sendtolog", {message: logMessage, with_user: 1});
+
+            // Also log to Sentry via Raven, just for some redundancy in case
+            // the above request doesn't make it to our server somehow.
+            if (window.Raven) {
+                window.Raven.captureMessage(logMessage,
+                        {tags: {ipaddebugging: true}});
+            }
+        } else {
+            $(Exercises).trigger("warning",
+                    $._("This page is out of date. You need to " +
+                        "<a href='%(refresh)s'>refresh</a>, but don't " +
+                        "worry, you haven't lost progress. If you think " +
+                        "this is a mistake, " +
+                        "<a href='http://www.khanacademy.org/reportissue?" +
+                        "type=Defect'>tell us</a>.",
+                        {refresh: _.escape(window.location.href)}
+                    )
+            );
+        }
     });
 
     if (skipped && !Exercises.assessmentMode) {
@@ -666,7 +706,27 @@ function request(method, data) {
         url: apiBaseUrl + "/" + userExercise.exerciseModel.name + "/" + method,
         type: "POST",
         data: data,
-        dataType: "json"
+        dataType: "json",
+
+        // If we don't receive a response within this many milliseconds, we
+        // throw up an error (the red bar) and prevent the user from
+        // continuing. Why do we timeout requests? Dropped requests seem to be
+        // a real thing and causes problems. First, a dropped request is bad by
+        // itself, but also prevents any future requests from being sent
+        // because we queue up requests on the client. Also, before we render
+        // the end-of-task card, we wait for all requests to return, and if
+        // there's a dropped request, we throw up a spinner that spins forever.
+        // This is a real problem that we were first made aware of from iPad
+        // Safari users in classrooms. We also added logging after 60 seconds
+        // of waiting for all requests to return at the pre-end-of-task card
+        // spinner, and it occurs frequently (several times every minute).
+        // Though it would be good to retry requests, that's going to be
+        // slightly tricker to do to ensure the server can be idempotent or be
+        // able to handle multiple requests. So for now, we are just showing
+        // the red error bar, which, although jarring, is hopefully less bad
+        // than being stuck with an endless spinner before the end of task
+        // card and then losing all progress since the first dropped request.
+        timeout: REQUEST_TIMEOUT_MS
     };
 
     var deferred = $.Deferred();
