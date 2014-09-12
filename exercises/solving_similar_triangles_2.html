@@ -26,19 +26,19 @@
                     </var>
                 </div>
 
-                <div class="problem">
-                    <p>
-                        Given that:<br>
-                        <code>
-                            \quad\begin{eqnarray}
-                            \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\ 
-                            \overline{BD} &amp;=&amp; <var>SIDE_B</var> \\ 
-                            \overline{DE} &amp;=&amp; <var>HEIGHT_B</var>
-                            \end{eqnarray}
-                        </code>
-                    </p>
-                    <p>What is the value of <code>x</code>?</p>
-                </div>
+                <p>
+                    Given that:<br>
+                    <code>
+                        \quad\begin{eqnarray}
+                        \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\
+                        \overline{BD} &amp;=&amp; <var>SIDE_B</var> \\
+                        \overline{DE} &amp;=&amp; <var>HEIGHT_B</var> \\
+                        \overline{AB} &amp;=&amp; x \\
+                        \end{eqnarray}
+                    </code>
+                </p>
+
+                <p class="question">What is the value of <code>x</code>?</p>
 
                 <div class="solution"><var>SIDE_A</var></div>
 
@@ -74,6 +74,7 @@
                     <var id="SIDE_B">randRange(1, 10)</var>
                     <var id="HEIGHT_B">randRange(1, SIDE_A + SIDE_B)</var>
                     <var id="HEIGHT_A">HEIGHT_B * SIDE_A / (SIDE_A + SIDE_B)</var>
+                    <var id="GCD">getGCD(SIDE_A + SIDE_B, HEIGHT_B)</var>
 
                     <var id="LABELS">[SIDE_A, "x", SIDE_B, HEIGHT_B]</var>
                     <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
@@ -86,35 +87,41 @@
                     </var>
                 </div>
 
-                <div class="problem">
-                    <p>
-                        Given that:<br>
-                        <code>
-                            \quad\begin{eqnarray}
-                            \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\ 
-                            \overline{BD} &amp;=&amp; <var>SIDE_B</var> \\ 
-                            \overline{DE} &amp;=&amp; <var>HEIGHT_B</var>
-                            \end{eqnarray}
-                        </code>
-                    </p>
-                    <p>What is the value of <code>x</code>?</p>
-                </div>
+                <p>
+                    Given that:<br>
+                    <code>
+                        \quad\begin{eqnarray}
+                        \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\
+                        \overline{BD} &amp;=&amp; <var>SIDE_B</var> \\
+                        \overline{DE} &amp;=&amp; <var>HEIGHT_B</var> \\
+                        \overline{BC} &amp;=&amp; x
+                        \end{eqnarray}
+                    </code>
+                </p>
+
+                <p class="question">What is the value of <code>x</code>?</p>
 
                 <div class="solution"><var>HEIGHT_A</var></div>
 
                 <div class="hints" data-apply="appendContents">
                     <div>
                         <p><code>\overline{AB} : \overline{BC} = \dfrac{<var>SIDE_A</var>}{x}</code></p>
-                        <p><code>\overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A</var> + <var>SIDE_B</var>}{<var>HEIGHT_B</var>} = 
-                            <var>fraction(SIDE_A + SIDE_B, HEIGHT_B)</var></code></p>
+                        <p><code>
+                            \overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A</var> + <var>SIDE_B</var>}{<var>HEIGHT_B</var>}
+                            = <var>fraction(SIDE_A + SIDE_B, HEIGHT_B)</var>
+                            <span data-if="GCD !== 1">= <var>fractionReduce(SIDE_A + SIDE_B, HEIGHT_B)</var></span>
+                        </code></p>
                     </div>
 
                     <p><code>
-                        \dfrac{<var>SIDE_A</var>}{x} = \dfrac{<var>SIDE_A + SIDE_B</var>}{<var>HEIGHT_B</var>}
+                        \dfrac{<var>SIDE_A</var>}{x} = <var>fractionReduce(SIDE_A + SIDE_B, HEIGHT_B)</var>
                     </code></p>
 
-                    <p><code><var>SIDE_A</var> \times <var>HEIGHT_B</var> = <var>SIDE_A + SIDE_B</var> \times x</code></p>
-                    <p><code><var>SIDE_A * HEIGHT_B</var> = <var>SIDE_A + SIDE_B</var>x</code></p>
+                    <p><code>
+                        <var>SIDE_A</var> <span data-if="HEIGHT_B !== GCD">\times <var>HEIGHT_B / GCD</var></span>
+                        = <var>(SIDE_A + SIDE_B) / GCD</var> \times x
+                    </code></p>
+                    <p><code><var>SIDE_A * HEIGHT_B / GCD</var> = <var>coefficient((SIDE_A + SIDE_B) / GCD)</var>x</code></p>
                     <p><code>x = <var>fractionReduce(SIDE_A * HEIGHT_B, SIDE_A + SIDE_B)</var></code></p>
                 </div>
             </div>
@@ -125,6 +132,7 @@
                     <var id="HEIGHT_A">randRange(1, SIDE_A)</var>
                     <var id="HEIGHT_B">HEIGHT_A + randRange(1, 10)</var>
                     <var id="SIDE_B">SIDE_A * (HEIGHT_B - HEIGHT_A) / HEIGHT_A</var>
+                    <var id="GCD">getGCD(SIDE_A, HEIGHT_A)</var>
                     
                     <var id="LABELS">[SIDE_A, HEIGHT_A, "x", HEIGHT_B]</var>
                     <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
@@ -137,43 +145,49 @@
                     </var>
                 </div>
 
-                <div class="problem">
-                    <p>
-                        Given that:<br>
-                        <code>
-                            \quad\begin{eqnarray}
-                            \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\ 
-                            \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\ 
-                            \overline{DE} &amp;=&amp; <var>HEIGHT_B</var>
-                            \end{eqnarray}
-                        </code>
-                    </p>
-                    <p>What is the value of <code>x</code>?</p>
-                </div>
+                <p>
+                    Given that:<br>
+                    <code>
+                        \quad\begin{eqnarray}
+                        \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\
+                        \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\
+                        \overline{DE} &amp;=&amp; <var>HEIGHT_B</var> \\
+                        \overline{BD} &amp;=&amp; x
+                        \end{eqnarray}
+                    </code>
+                </p>
+
+                <p class="question">What is the value of <code>x</code>?</p>
 
                 <div class="solution"><var>SIDE_B</var></div>
 
                 <div class="hints" data-apply="appendContents">
                     <div>
-                        <p><code>\overline{AB} : \overline{BC} = <var>fraction(SIDE_A, HEIGHT_A)</var></code></p>
+                        <p><code>
+                            \overline{AB} : \overline{BC} = <var>fraction(SIDE_A, HEIGHT_A)</var>
+                            <span data-if="GCD !== 1 || HEIGHT_A === 1">= <var>fractionReduce(SIDE_A, HEIGHT_A)</var></span>
+                        </code></p>
                         <p><code>\overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A</var> + x}{<var>HEIGHT_B</var>}</code></p>
                     </div>
 
                     <p><code>
-                        \dfrac{<var>SIDE_A</var> + x}{<var>HEIGHT_B</var>} = <var>fraction(SIDE_A, HEIGHT_A)</var>
+                        \dfrac{<var>SIDE_A</var> + x}{<var>HEIGHT_B</var>} = <var>fractionReduce(SIDE_A, HEIGHT_A)</var>
                     </code></p>
 
                     <p><code>
-                        <var>HEIGHT_A</var> \times (<var>SIDE_A</var> + x) = <var>HEIGHT_B</var> \times <var>SIDE_A</var> 
+                        <span data-if="HEIGHT_A !== GCD"><var>HEIGHT_A / GCD</var> \times (</span>
+                        <var>SIDE_A</var> + x
+                        <span data-if="HEIGHT_A !== GCD">)</span>
+                        = <var>HEIGHT_B</var> \times <var>SIDE_A / GCD</var>
                     </code></p>
 
                     <p><code>
-                        <var>HEIGHT_A * SIDE_A</var> + <var>coefficient(HEIGHT_A)</var>x = <var>HEIGHT_B * SIDE_A</var>
+                        <var>HEIGHT_A * SIDE_A / GCD</var> + <var>coefficient(HEIGHT_A / GCD)</var>x = <var>HEIGHT_B * SIDE_A / GCD</var>
                     </code></p>
 
-                    <p><code><var>plus(HEIGHT_A + "x")</var> = <var>HEIGHT_B * SIDE_A - HEIGHT_A * SIDE_A</var></code></p>
+                    <p><code><var>coefficient(HEIGHT_A / GCD)</var>x = <var>(HEIGHT_B * SIDE_A - HEIGHT_A * SIDE_A) / GCD</var></code></p>
 
-                    <p data-if="HEIGHT_A !== 1"><code>x = <var>fractionReduce(HEIGHT_B * SIDE_A - HEIGHT_A * SIDE_A, HEIGHT_A)</var></code></p>
+                    <p data-if="HEIGHT_A / GCD !== 1"><code>x = <var>fractionReduce(HEIGHT_B * SIDE_A - HEIGHT_A * SIDE_A, HEIGHT_A)</var></code></p>
                 </div>
             </div>
 
@@ -183,6 +197,7 @@
                     <var id="SIDE_B">randRange(1, 10)</var>
                     <var id="HEIGHT_A">randRange(1, SIDE_A)</var>
                     <var id="HEIGHT_B">(SIDE_A + SIDE_B) * HEIGHT_A / SIDE_A</var>
+                    <var id="GCD">getGCD(SIDE_A, HEIGHT_A)</var>
 
                     <var id="LABELS">[SIDE_A, HEIGHT_A, SIDE_B, "x"]</var>
                     <var id="ANGLE">atan(HEIGHT_A / SIDE_A) * 180 / PI</var>
@@ -195,52 +210,56 @@
                     </var>
                 </div>
 
-                <div class="problem">
-                    <p>
-                        Given that:<br>
-                        <code>
-                            \quad\begin{eqnarray}
-                            \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\ 
-                            \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\ 
-                            \overline{BD} &amp;=&amp; <var>SIDE_B</var>
-                            \end{eqnarray}
-                        </code>
-                    </p>
-                    <p>What is the value of <code>x</code>?</p>
-                </div>
+                <p>
+                    Given that:<br>
+                    <code>
+                        \quad\begin{eqnarray}
+                        \overline{AB} &amp;=&amp; <var>SIDE_A</var> \\
+                        \overline{BC} &amp;=&amp; <var>HEIGHT_A</var> \\
+                        \overline{BD} &amp;=&amp; <var>SIDE_B</var> \\
+                        \overline{DE} &amp;=&amp; x
+                        \end{eqnarray}
+                    </code>
+                </p>
+
+                <p class="question">What is the value of <code>x</code>?</p>
 
                 <div class="solution"><var>HEIGHT_B</var></div>
 
                 <div class="hints" data-apply="appendContents">
                     <div>
-                        <p><code>\overline{AB} : \overline{BC} = <var>fraction(SIDE_A, HEIGHT_A)</var></code></p>
+                        <p><code>
+                            \overline{AB} : \overline{BC} = <var>fraction(SIDE_A, HEIGHT_A)</var>
+                            <span data-if="GCD !== 1 || HEIGHT_A === 1">= <var>fractionReduce(SIDE_A, HEIGHT_A)</var></span>
+                        </code></p>
                         <p><code>\overline{AD} : \overline{DE} = \dfrac{<var>SIDE_A</var> + <var>SIDE_B</var>}{x}
                             = \dfrac{<var>SIDE_A + SIDE_B</var>}{x}
                         </code></p>
                     </div>
 
-                    <p><code><var>fraction(SIDE_A, HEIGHT_A)</var> = \dfrac{<var>SIDE_A + SIDE_B</var>}{x}</code></p>
+                    <p><code><var>fractionReduce(SIDE_A, HEIGHT_A)</var> = \dfrac{<var>SIDE_A + SIDE_B</var>}{x}</code></p>
 
                     <p><code>
-                        <var>SIDE_A</var> \times x = <var>HEIGHT_A</var> \times <var>SIDE_A + SIDE_B</var>
+                        <var>SIDE_A / GCD</var> \times x =
+                        <span data-if="HEIGHT_A !== GCD"><var>HEIGHT_A / GCD</var> \times </span>
+                        <var>SIDE_A + SIDE_B</var>
                     </code></p>
 
                     <p><code>
-                        <var>coefficient(SIDE_A)</var>x = <var>HEIGHT_A * (SIDE_A + SIDE_B)</var>
+                        <var>coefficient(SIDE_A / GCD)</var>x = <var>HEIGHT_A * (SIDE_A + SIDE_B) / GCD</var>
                     </code></p>
 
-                    <p data-ensure="SIDE_A !== 1"><code>
-                        x = <var>fraction(HEIGHT_A * (SIDE_A + SIDE_B), SIDE_A)</var> 
-                        <span data-if="getGCD(HEIGHT_A * (SIDE_A + SIDE_B), SIDE_A) !== 1">
+                    <p data-ensure="SIDE_A !== GCD"><code>
+                        x = <var>fraction(HEIGHT_A * (SIDE_A + SIDE_B) / GCD, SIDE_A / GCD)</var>
+                        <span data-if="getGCD(HEIGHT_A * (SIDE_A + SIDE_B) / GCD, SIDE_A / GCD) !== 1">
                             = <var>fractionReduce(HEIGHT_A * (SIDE_A + SIDE_B), SIDE_A)</var>
                         </span>
                     </code></p>
                 </div>
             </div>
-
         </div>
 
-        <div class="question">
+        <div class="problem">
             <div class="graphie" id="triangles">
                 var tri_range = TRI_B.boundingRange(1);
 
