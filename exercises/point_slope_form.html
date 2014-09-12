@@ -30,7 +30,7 @@
 
                 <div class="solution" data-type="custom">
                     <div class="instruction" style="font-size: 11px;">
-                        <code>y - {}</code><input id="response1" type="text" style="width:25px;"></span><code>{} = {}</code><input id="response2" type="text" style="width:25px;"></span><code>(x - {}</code><input id="response3" type="text" style="width:25px;"></span><code>)</code>
+                        <code>y - {}</code><input id="response1" type="text" style="width:25px;"><code>{} = {}</code><input id="response2" type="text" style="width:25px;"><code>(x - {}</code><input id="response3" type="text" style="width:25px;"><code>)</code>
                     </div>
                     
                     <div class="guess">[$("input#response1").val(), $("input#response2").val(), $("input#response3").val()]</div>
@@ -103,7 +103,7 @@
                    <p>
                         So, by plugging in the numbers, we get:
                         <code>\dfrac{\blue{<var>Y1</var>} - <var>negParens(Y2, "green")</var>}
-                        {\blue{<var>X1</var>} - </span><var>negParens(X2, "green")</var>} =
+                        {\blue{<var>X1</var>} - <var>negParens(X2, "green")</var>} =
                         <span data-if="getGCD(Y1 - Y2, X1 - X2) !== 1 || X1 - X2 === 1 || X1 - X2 < 0 || Y1 - Y2 < 0">
                             \pink{\dfrac{<var>Y1 - Y2</var>}{<var>X1 - X2</var>}} =
                         </span>
