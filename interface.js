@@ -258,19 +258,23 @@ function handleAttempt(data) {
 
     // Is there a message to be shown?
     if (score.message != null) {
-        var exerciseName = Exercises.currentCard.attributes.exerciseName;
-        if (TARGETED_CLUES_EXERCISES.indexOf(exerciseName) >= 0) {
-            // Don't show clues to people who are not in the right experimental
-            // group
-            if (score.correct || score.empty || Exercises.cluesEnabled) {
-                attemptMessage = score.message;
-                // If the message is a clue
-                if (!(score.correct || score.empty)) {
-                    if (typeof window.BigBingo !== "undefined") {
-                        window.BigBingo.markConversion("clue_seen_" +
-                            exerciseName.replace(/-/g, "_")); // For BigBingo
+        if (Exercises.currentCard) {
+            var exerciseName = Exercises.currentCard.attributes.exerciseName;
+            if (TARGETED_CLUES_EXERCISES.indexOf(exerciseName) >= 0) {
+                // Don't show clues to people who are not in the right
+                // experimental group
+                if (score.correct || score.empty || Exercises.cluesEnabled) {
+                    attemptMessage = score.message;
+                    // If the message is a clue
+                    if (!(score.correct || score.empty)) {
+                        if (typeof window.BigBingo !== "undefined") {
+                            window.BigBingo.markConversion("clue_seen_" +
+                                exerciseName.replace(/-/g, "_")); // For BigBingo
+                        }
                     }
                 }
+            } else {
+                attemptMessage = score.message;
             }
         } else {
             attemptMessage = score.message;
