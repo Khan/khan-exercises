@@ -52,9 +52,21 @@
 
             <div class="hints" data-apply="appendContents">
                 <p>We want to find <code>c</code>; let <code>a = <var>BC</var></code> and <code>b = <var>AC</var></code>.</p>
-                <p>So <code>c^2 = <var>BC</var>^2 + <var>AC</var>^2 = <var>AB2</var></code>.</p>
-                <p>Then, <code>c = \sqrt{<var>AB2</var>}</code>.</p>
-                <p data-if="squareRootCanSimplify(AB2)">Simplifying the radical gives <code>c = <var>formattedSquareRootOf(AB2)</var>.</code></p>
+                <p><code>
+                    \begin{align}
+                    c^2 &amp;= <var>BC</var>^2 + <var>AC</var>^2 \\
+                    c^2 &amp;= <var>BC * BC</var> + <var>AC * AC</var> \\
+                    c^2 &amp;= <var>AB2</var> \\
+                    c &amp;= \sqrt{<var>AB2</var>}
+                    \end{align}
+                </code></p>
+                <div data-if="squareRootCanSimplify(AB2)">
+                    <p>Simplifying the radical gives <code>c = <var>formattedSquareRootOf(AB2)</var>.</code></p>
+                    <p>So <code>c = <var>formattedSquareRootOf(AB2)</var>.</code></p>
+                </div>
+                <p data-else="">
+                    The radical cannot be simplified, so <code>c = 1\sqrt{<var>AB2</var>}</code> or just <code>\sqrt{<var>AB2</var>}</code>.
+                </p>
             </div>
         </div>
 
@@ -83,9 +95,22 @@
 
             <div class="hints" data-apply="appendContents">
                 <p>We want to find <code><var>a</var></code>; let <code><var>b</var> = <var>AC</var></code> and <code>c = <var>AB</var></code>.</p>
-                <p>So <code><var>a</var>^2 = c^2 - <var>b</var>^2 = <var>AB</var>^2 - <var>AC</var>^2 = <var>BC2</var></code>.</p>
-                <p>Then, <code><var>a</var> = \sqrt{<var>BC2</var>}</code>.</p>
-                <p data-if="squareRootCanSimplify(BC2)">Simplifying the radical gives <code><var>a</var> = <var>formattedSquareRootOf(BC2)</var>.</code></p>
+                <p>So <code><var>a</var>^2 = c^2 - <var>b</var>^2</code>
+                <p><code>
+                    \begin{align}
+                    <var>a</var>^2 &amp;= <var>AB</var>^2 - <var>AC</var>^2 \\
+                    <var>a</var>^2 &amp;= <var>AB * AB</var> - <var>AC * AC</var> \\
+                    <var>a</var>^2 &amp;= <var>BC2</var> \\
+                    <var>a</var> &amp;= \sqrt{<var>BC2</var>}
+                    \end{align}
+                </code></p>
+                <div data-if="squareRootCanSimplify(BC2)">
+                    <p>Simplifying the radical gives <code><var>a</var> = <var>formattedSquareRootOf(BC2)</var>.</code></p>
+                    <p>So <code><var>aside</var> = <var>formattedSquareRootOf(BC2)</var>.</code></p>
+                </div>
+                <p data-else="">
+                    The radical cannot be simplified, so <code><var>aside</var> = 1\sqrt{<var>BC2</var>}</code> or just <code>\sqrt{<var>BC2</var>}</code>.
+                </p>
             </div>
         </div>
     </div>
