@@ -6,7 +6,7 @@
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
     <script>
         var permUnique = function(word, repletter, numperms){
-            colorPerms = arrayPerms(["<span class='hint_blue'>", "<span class='hint_orange'>", "<span class='hint_pink'>"]).slice(0,KhanUtil.factorial(numperms));
+            colorPerms = arrayPerms(["<span class='hint_blue'>", "<span class='hint_green'>", "<span class='hint_pink'>"]).slice(0,KhanUtil.factorial(numperms));
             perms = [];
             _.each(colorPerms, function(cp){
                 cp = cp.slice(0,numperms);
@@ -35,12 +35,12 @@
     <div class="exercise">
         <div class="problems">
             <div id="letters" data-weight="2">
-                <div class="vars" data-ensure="PERM !== WORD">
+                <div class="vars">
                     <var id="INDEX">randRange(0,7)</var>
                     <var id="WORD">["HATTER", "PRIOR", "PRETTY", "SASSY", "CANNON", "PLOP", "ERROR", "THAT"][INDEX]</var>
                     <var id="REPLETTER">["T","R","T","S","N","P","R","T"][INDEX]</var>
                     <var id="REPTIMES">[2,2,2,3,3,2,3,2][INDEX]</var>
-                    <var id="PERM">shuffle(WORD).join("")</var>
+                    <var id="PERM" data-ensure="PERM !== WORD">shuffle(WORD).join("")</var>
                     <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER, REPTIMES)</var>
                     <var id="ANSWER">factorial(WORD.length)/factorial(REPTIMES)</var>
                 </div>
@@ -93,11 +93,11 @@
             </div>
 
             <div id="reindeer" data-weight="1">
-                <div class="vars" data-ensure="PAIR[0] != PAIR[1]">
+                <div class="vars">
                     <var id="NAMES">shuffle(["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin", "Balthazar", "Ezekiel", "Jebediah", "Rudy"],
                         randRange(4,5))</var>
+                    <var id="PAIR"  data-ensure="PAIR[0] != PAIR[1]">randFromArray(NAMES, 2)</var>
                     <var id="FIGHTING">random() &gt; 0.5</var>
-                    <var id="PAIR">randFromArray(NAMES, 2)</var>
                     <var id="ANSWER">FIGHTING ? factorial(NAMES.length) - factorial(NAMES.length-1)*2 : factorial(NAMES.length-1)*2</var>
                 </div>
                 <p data-if="FIGHTING">You need to put your reindeer, <var>toSentence(NAMES)</var>, in a single-file line to pull your sleigh. However,
@@ -174,7 +174,8 @@
                     <var id="BOTH_TIMES">roundTowardsZero(100/(FAC1*FAC2))</var>
                 </div>
                 <p class="question">
-                    How many numbers between 1 and 100 (inclusive) are divisible by <var>FAC1</var> or <var>FAC2</var>?
+                    How many numbers between <code>1</code> and <code>100</code> (inclusive)
+                    are divisible by <code><var>FAC1</var></code> or <code><var>FAC2</var></code>?
                 </p>
 
                 <p class="solution" data-forms="integer"><var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var>
@@ -228,10 +229,10 @@
                     </p>
                     <p data-if="isSingular(BOTH_TIMES)">
                         Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by
-                        <code><var>FAC1*FAC2</var></code>, so there is <code><var>BOTH_TIMES</var></code> number between 1 and 100 divisible by both.
+                        <code><var>FAC1*FAC2</var></code>, so there is <code><var>BOTH_TIMES</var></code> number between <code>1</code> and <code>100</code> divisible by both.
                     </p><p data-else="">
                         Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by
-                        <code><var>FAC1*FAC2</var></code>, so there are <code><var>BOTH_TIMES</var></code> numbers between 1 and 100 divisible by both.
+                        <code><var>FAC1*FAC2</var></code>, so there are <code><var>BOTH_TIMES</var></code> numbers between <code>1</code> and <code>100</code> divisible by both.
                     </p>
                     <p>
                         Subtracting, there are <code><var>FAC1_TIMES + FAC2_TIMES</var> - <var>BOTH_TIMES</var> = <var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> or <code><var>FAC2</var></code>.
