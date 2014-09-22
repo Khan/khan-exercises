@@ -13,8 +13,7 @@
                     <var id="DIVIDEND">randRange(1, 10)</var>
                     <var id="DIVISOR">randRange(1, 9) / 10</var>
                     <var id="QUOTIENT">DIVIDEND / DIVISOR</var>
-                    <var id="GCD">getGCD(DIVISOR * 10, 10)</var>
-                    <var id="N">10</var>
+                    <var id="MULTIPLE">10</var>
                 </div>
 
                 <p class="question"><code>\large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = {?}}</code></p>
@@ -26,8 +25,7 @@
                     <var id="DIVIDEND">randRange(1, 10)</var>
                     <var id="DIVISOR">randRange(1, 3) / 4</var>
                     <var id="QUOTIENT">DIVIDEND / DIVISOR</var>
-                    <var id="GCD">getGCD(DIVISOR * 10, 10)</var>
-                    <var id="N">DIVISOR === 0.5 ? 10 : 100</var>
+                    <var id="MULTIPLE">DIVISOR === 0.5 ? 10 : 100</var>
                 </div>
 
                 <p class="question"><code>\large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = {?}}</code></p>
@@ -36,33 +34,22 @@
         </div>
 
         <div class="hints">
+            <div>
+                <p>We prefer to divide by a whole number.</p>
+                <p>To make an equivalent equation with a whole number divisor, we can multiply both numbers by <code><var>MULTIPLE</var></code>.</p>
+            </div>
             <p><code>
-                \large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = <var>DIVIDEND</var> \div \dfrac{<var>DIVISOR * N</var>}{<var>N</var>}}
-            </code></p>
-
-            <p data-if="GCD !== 1"><code>
-                \large{\phantom{<var>DIVIDEND</var> \div <var>DIVISOR</var>} = <var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}}
-            </code></p>
-
-            <p>Dividing by a fraction is the same as multiplying by the reciprocal of the fraction.</p>
-
-            <p><code>
-                \large{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>} = 
-                <var>DIVIDEND</var> \times \dfrac{<var>10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
-            </code></p>
-
-            <p data-if="10 * DIVISOR / GCD !== 1"><code>
-                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = 
-                \dfrac{<var>DIVIDEND</var> \times <var>10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
-            </code></p>
-
-            <p data-if="10 * DIVISOR / GCD !== 1"><code>
-                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = 
-                \dfrac{<var>DIVIDEND * 10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
+                \large{<var>DIVIDEND</var> \div <var>DIVISOR</var> =
+                (<var>DIVIDEND</var> \times <var>MULTIPLE</var>) \div (<var>DIVISOR </var> \times <var>MULTIPLE</var>)}
             </code></p>
 
             <p><code>
-                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = <var>QUOTIENT</var>}
+                \large{\phantom{<var>DIVIDEND</var> \div <var>DIVISOR</var>} =
+                <var>DIVIDEND * MULTIPLE</var> \div <var>MULTIPLE * DIVISOR</var>}
+            </code></p>
+
+            <p><code>
+                \large{\phantom{<var>DIVIDEND</var> \div <var>DIVISOR</var>} = <var>QUOTIENT</var>}
             </code></p>
         </div>
     </div>

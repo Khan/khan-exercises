@@ -13,46 +13,48 @@
                     <var id="DIVIDEND">randRange(1, 10)</var>
                     <var id="DIVISOR">randFromArray([0.3, 0.4, 0.6, 0.7, 0.75, 0.8, 0.9])</var>
                     <var id="QUOTIENT">DIVIDEND / DIVISOR</var>
-                    <var id="GCD">getGCD(DIVISOR * 10, 10)</var>
+                    <var id="MULTIPLE">DIVISOR === 0.75 ? 4 : 10</var>
+                    <var id="NUMERATOR">DIVIDEND * MULTIPLE</var>
+                    <var id="DENOMINATOR">DIVISOR * MULTIPLE</var>
+                    <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
                 </div>
 
                 <p class="question"><code>\large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = {?}}</code></p>
                 <div class="solution" data-type="number"><var>QUOTIENT</var></div>
-
-                <div class="hints" data-apply="prependContents">
-                    <p><code>
-                        \large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = <var>DIVIDEND</var> \div \dfrac{<var>DIVISOR * 10</var>}{10}}
-                    </code></p>
-                </div>
             </div>
         </div>
 
         <div class="hints">
-            
-            <p data-if="GCD !== 1"><code>
-                \large{\phantom{<var>DIVIDEND</var> \div <var>DIVISOR</var>} = <var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}}
-            </code></p>
-
-            <p>Dividing by a fraction is the same as multiplying by the reciprocal of the fraction.</p>
+             <div>
+                <p>We prefer to divide by a whole number.</p>
+                <p>To make an equivalent equation with a whole number divisor, we can multiply both numbers by <code><var>MULTIPLE</var></code>.</p>
+            </div>
 
             <p><code>
-                \large{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>} = 
-                <var>DIVIDEND</var> \times \dfrac{<var>10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
-            </code></p>
-
-            <p data-if="10 * DIVISOR / GCD !== 1"><code>
-                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = 
-                \dfrac{<var>DIVIDEND</var> \times <var>10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
-            </code></p>
-
-            <p data-if="10 * DIVISOR / GCD !== 1"><code>
-                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = 
-                \dfrac{<var>DIVIDEND * 10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
+                \large{<var>DIVIDEND</var> \div <var>DIVISOR</var> =
+                (<var>DIVIDEND</var> \times <var>MULTIPLE</var>) \div (<var>DIVISOR </var> \times <var>MULTIPLE</var>)}
             </code></p>
 
             <p><code>
-                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = <var>QUOTIENT</var>}
+                \large{\phantom{<var>DIVIDEND</var> \div <var>DIVISOR</var>} =
+                <var>NUMERATOR</var> \div <var>DENOMINATOR</var>}
             </code></p>
+
+            <p data-if="isInt(QUOTIENT)"><code>
+                \large{\phantom{<var>DIVIDEND</var> \div <var>DIVISOR</var>} = <var>QUOTIENT</var>}
+            </code></p>
+            <div data-else="" data-unwrap="">
+                <p>
+                    If we divide <code><var>NUMERATOR</var></code> apples between
+                    <code><var>DENOMINATOR</var></code> people, how many would each person have?
+                </p>
+                <p><code>\large{= \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}}</code></p>
+                <p><code>
+                    \large{
+                    <span data-if="GCD !== 1"> = \dfrac{<var>NUMERATOR / GCD</var>}{<var>DENOMINATOR / GCD</var>}}</span>
+                    = <var>round(100 * QUOTIENT) / 100</var>
+                </code></p>
+            </div>
         </div>
     </div>
 </body>
