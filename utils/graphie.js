@@ -782,6 +782,7 @@ KhanUtil.createGraphie = function(el) {
                 Math.min(Math.max(range[0][0], 0), range[0][1]),
                 Math.min(Math.max(range[1][0], 0), range[1][1])
             ],
+            axisLabels = options.axisLabels != null ? options.axisLabels : false,
             ticks = options.ticks != null ? options.ticks : true,
             tickStep = options.tickStep || [2, 2],
             tickLen = options.tickLen || [5, 5],
@@ -863,6 +864,11 @@ KhanUtil.createGraphie = function(el) {
                     this.path([[axisCenter[0], gridRange[1][0]], [axisCenter[0], gridRange[1][1]]]);
                 });
 
+            }
+
+            if (axisLabels && axisLabels.length === 2) {
+                this.label([gridRange[0][1], axisCenter[1]], axisLabels[0], "right");
+                this.label([axisCenter[0], gridRange[1][1]], axisLabels[1], "above");
             }
 
         }
