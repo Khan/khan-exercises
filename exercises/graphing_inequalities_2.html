@@ -40,15 +40,16 @@
                     <var id="POINT_1_ON_LINE">POINT_1[1] === SLOPE * POINT_1[0] + YINT</var>
                     <var id="POINT_2_ON_LINE">POINT_2[1] === SLOPE * POINT_2[0] + YINT</var>
                     <var id="POINT_1_SOLUTION">(function() {
-                        if (POINT_1_ON_LINE && INCLUSIVE) {
-                            return true;
+                        if (POINT_1_ON_LINE) {
+                            return INCLUSIVE;
                         }
+
                         return (POINT_1[1] &lt; SLOPE * POINT_1[0] + YINT) ? LESS_THAN : !LESS_THAN;
                     })()
                     </var>
                     <var id="POINT_2_SOLUTION">(function() {
-                        if (POINT_2_ON_LINE && INCLUSIVE) {
-                            return true;
+                        if (POINT_2_ON_LINE) {
+                            return INCLUSIVE;
                         }
                         return (POINT_2[1] &lt; SLOPE * POINT_2[0] + YINT) ? LESS_THAN : !LESS_THAN;
                     })()
