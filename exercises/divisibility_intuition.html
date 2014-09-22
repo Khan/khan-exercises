@@ -14,11 +14,11 @@
                 <var id="FACTORS">getFactors(NUMBER)</var>
             </div>
 
-            <p class="question">What are the factors of <var>NUMBER</var>?</p>
+            <p class="question">What are the positive factors of <code><var>NUMBER</var></code>?</p>
 
             <div class="problem">
                 <p>
-                    You can resize this box with <var>NUMBER</var> dots to help you find the factors:
+                    You can resize this box with <code><var>NUMBER</var></code> dots to help you find the factors:
                 </p>
                 <div class="graphie">
                     init({ range: [[-3, NUMBER + 3], [-NUMBER - 3, 3]], scale: [20, 20] });
@@ -116,10 +116,18 @@
     <div class="hints">
         <div data-each="FACTORS.reverse() as FACTOR">
             <p>
-                <span data-if="isSingular(NUMBER / FACTOR)">The <var>NUMBER</var> dots can be arranged in <var>NUMBER / FACTOR</var> row.</span><span data-else="">The <var>NUMBER</var> dots can be arranged in <var>NUMBER / FACTOR</var> rows.</span>
-                <span data-if="isSingular(FACTOR)">Each row has <var>FACTOR</var> dot each, so
-                <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:</span><span data-else="">Each row has <var>FACTOR</var> dots each, so
-                <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:</span>
+                <span data-if="isSingular(NUMBER / FACTOR)">
+                    The <code><var>NUMBER</var></code> dots can be arranged in <code><var>NUMBER / FACTOR</var></code> row.
+                </span><span data-else="">
+                    The <code><var>NUMBER</var></code> dots can be arranged in <code><var>NUMBER / FACTOR</var></code> rows.
+                </span>
+                <span data-if="isSingular(FACTOR)">
+                    Each row has <code><var>FACTOR</var></code> dot each, so
+                    <code>\pink{<var>NUMBER / FACTOR</var>}</code> is a factor of <code><var>NUMBER</var></code>:
+                </span><span data-else="">
+                    Each row has <code><var>FACTOR</var></code> dots each, so
+                    <code>\pink{<var>NUMBER / FACTOR</var>}</code> is a factor of <code><var>NUMBER</var></code>:
+            </span>
             </p>
             <div class="graphie">
                 graph.width = FACTOR;
@@ -141,7 +149,7 @@
             </div>
         </div>
         <p>
-            The factors of <code><var>NUMBER</var></code> are
+            The positive factors of <code><var>NUMBER</var></code> are
             <var>toSentenceTex(FACTORS.reverse(), function(){return true;}, "hint_pink")</var>.
         </p>
     </div>
