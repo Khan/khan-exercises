@@ -31,23 +31,19 @@
                         scale: [30, 30]
                     });
 
-                    var v = [[0, 0], [B1, 0], [B2 + SH, H], [SH, H], [0, 0]];
+                    style({ stroke: BLUE, fill: "#eee"});
+                    path([[0, 0], [B1, 0], [B2 + SH, H], [SH, H], [0, 0]]);
 
-                    style({ stroke: BLUE, fill: "#eee"},
-                          function() {
-                              path(v);
+                    label([B1/2, 0], B1 + "\\text{ " + UNIT + "}", "below");
+                    label([B2/2 + SH, H], B2 + "\\text{ " + UNIT + "}", "above");
 
-                              label([B1/2, 0], B1 + "\\text{ " + UNIT + "}", "below");
-                              label([B2/2 + SH, H], B2 + "\\text{ " + UNIT + "}", "above");
+                    var x = min(B1, B2 + SH);
+                    line([x, 0], [x, H], { strokeDasharray: "." });
+                    label([x, H/2], H + "\\text{ " + UNIT + "}", "right");
+                    rightAngleBox([[0, 0], [x, 0]], [[x, 0], [x, H]], { stroke: GRAY, opacity: 0.5 });
 
-                              path([[B1, 0], [B1, H]], H, { strokeDasharray: "." });
-                              label([B1, H/2], H + "\\text{ " + UNIT + "}", "right");
-
-                              parallel([[0, 0], [B1, 0]], 1);
-                              parallel([[SH, H], [B2 + SH, H]], 1);
-                          });
-
-                   rightAngleBox([[0, 0], [B1, 0]], [[B1, 0], [B1, H]], { stroke: GRAY, opacity: 0.5 });
+                    parallel([[0, 0], [B1, 0]], 1);
+                    parallel([[SH, H], [B2 + SH, H]], 1);
                 </div>
 
                 <div class="solution" data-type="multiple">
