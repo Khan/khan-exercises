@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format angles">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Triangle types</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="TYPES">[ $._("Right"), $._("Acute"), $._("Obtuse") ]</var>
+            <var id="TYPE_NUM">randRange(0, 2)</var>
+            <var id="ANGLES">(function() {
+                var a, b;
+                if (TYPE_NUM === 0) {
+                    a = 90;
+                    b = randRange(20, 70);
+                } else if (TYPE_NUM === 1) {
+                    a = randRange(20, 89);
+                    b = randRange(max(20, 89 - a), min(89, 160 - a));
+                } else {
+                    a = randRange(91, 140);
+                    b = randRange(20, 160 - a);
+                }
+                return [a, b, 180 - a - b];
+            })()
+            </var>
+            <var id="ROTATE">randRange(0, 360)</var>
+        </div>
+
+        <div class="problems">
+            <div id="knownAngles">
+                <div class="problem">
+                    Is this triangle acute, obtuse or right triangle?
+                </div>
+                <div class="question">
+                    <div class="graphie" id="triangle">
+                        var tr = new Triangle([0, 0], ANGLES, 10, {});
+                        tr.labels = { "angles" : tr.niceAngles };
+                        tr.rotate(ROTATE);
+
+                        init({
+                            range: tr.boundingRange(1)
+                        })
+
+                        tr.draw();
+                        tr.drawLabels();
+                        triangle.TR = tr;
+                    </div>
+                </div>
+
+                <p class="solution"><var>TYPES[TYPE_NUM]</var></p>
+                <ul class="choices" data-category="true">
+                    <li><var>TYPES[0]</var></li>
+                    <li><var>TYPES[1]</var></li>
+                    <li><var>TYPES[2]</var></li>
+                </ul>
+
+                <div class="hints">
+                    <div data-if="TYPE_NUM === 0">
+                        <div class="graphie" data-update="triangle">
+                            var p1 = triangle.TR.points[0];
+                            var p2 = triangle.TR.points[1];
+                            var p3 = triangle.TR.points[2];
+                            var a1 = PI + atan2(p1[1] - p2[1], p1[0] - p2[0]);
+                            var a2 = PI + atan2(p1[1] - p3[1], p1[0] - p3[0]);
+
+                            var dx1 = 0.5 * cos(a1);
+                            var dy1 = 0.5 * sin(a1);
+                            var dx2 = 0.5 * cos(a2);
+                            var dy2 = 0.5 * sin(a2);
+
+                            path([[p1[0] + dx1, p1[1] + dy1],
+                                  [p1[0] + dx1 + dx2, p1[1] + dy1 + dy2],
+                                  [p1[0] + dx2, p1[1] + dy2]],
+                                  {stroke: BLUE});
+                        </div>
+                        <p>One of the angles is <code>90^\circ</code>, so this is a right triangle.</p>
+                    </div>
+                    <p data-else-if="TYPE_NUM === 1">
+                        All the angles are less than <code>90^\circ</code>, so it is an acute triangle.
+                    </p>
+                    <div data-else="">
+                        <div class="graphie" data-update="triangle">
+                            var p1 = triangle.TR.points[0];
+                            var p2 = triangle.TR.points[1];
+                            var p3 = triangle.TR.points[2];
+                            var a1 = 180 + toDegrees(atan2(p1[1] - p2[1], p1[0] - p2[0]));
+                            var a2 = 180 + toDegrees(atan2(p1[1] - p3[1], p1[0] - p3[0]));
+
+                            arc(p1, 1, a1, a2, {stroke: BLUE});
+                        </div>
+                        <p>One of the angles is greater than <code>90^\circ</code>, so this is an obtuse triangle.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
