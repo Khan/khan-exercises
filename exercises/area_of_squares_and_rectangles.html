@@ -17,13 +17,10 @@
                 <var id="AREA">$._("area")</var>
             </div>
 
-            <p class="question"><span data-if="isSingular(S)" data-unwrap="">
-                One side of a square is <code><var>S</var></code>
-                <var>UNIT_TEXT</var> long. What is its area?
-            </span><span data-else="" data-unwrap="">
+            <p class="question">
                 One side of a square is <code><var>S</var></code>
                 <var>plural_form(UNIT_TEXT, S)</var> long. What is its area?
-            </span></p>
+            </p>
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>S * S</var></span> square
@@ -54,12 +51,7 @@
                             });
                         });
                     </div>
-                    <p data-if="isSingular(S)">
-                        The length is <code><var>S</var></code> <var>UNIT_TEXT</var> and
-                        the width is <code><var>S</var></code> <var>UNIT_TEXT</var>, so the
-                        area is <code><var>S</var>\times<var>S</var></code>
-                        square <var>plural_form(UNIT_TEXT, S * S)</var>.
-                    </p><p data-else="">
+                    <p>
                         The length is <code><var>S</var></code> <var>plural_form(UNIT_TEXT, S)</var> and
                         the width is <code><var>S</var></code> <var>plural_form(UNIT_TEXT, S)</var>, so the
                         area is <code><var>S</var>\times<var>S</var></code>
@@ -134,11 +126,7 @@
                         \pink{<var>S</var>} =
                         <var>S * S</var>\text{ <var>UNIT</var>}
                     </code></p>
-                    <p data-if="isSingular(S)">
-                        The sides of a square are all the same length, so each
-                        side must be <code><var>S</var></code>
-                        <var>UNIT_TEXT</var> long.
-                    </p><p data-else="">
+                    <p>
                         The sides of a square are all the same length, so each
                         side must be <code><var>S</var></code>
                         <var>plural_form(UNIT_TEXT, S)</var> long.
@@ -148,23 +136,16 @@
         </div>
 
         <div id="rectangle">
-            <div class="vars" data-ensure="L !== W">
-                <var id="L">randRange(2, 9)</var>
-                <var id="W">randRange(2, 9)</var>
+            <div class="vars">
+                <var id="W">randRange(2, 8)</var>
+                <var id="L">randRange(W + 1, 9)</var>
                 <var id="AREA">$._("area")</var>
             </div>
 
             <p class="question">
-                <span data-if="isSingular(L)">A rectangle is
-                <code><var>L</var></code> <var>UNIT_TEXT</var>
-                long.</span><span data-else="">A rectangle is
-                <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>
-                long.</span>
-                <span data-if="isSingular(W)">The rectangle is also
-                <code><var>W</var></code> <var>UNIT_TEXT</var>
-                wide. What is its area?</span><span data-else="">The rectangle is also
-                <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>
-                wide. What is its area?</span>
+                A rectangle is <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var> long
+                and <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var> wide.
+                What is its area?
             </p>
 
             <div class="solution" data-type="multiple">
@@ -199,18 +180,9 @@
                         });
                     </div>
                     <p>
-                        <span data-if="isSingular(L)">
-                            The length is <code><var>L</var></code> <var>UNIT_TEXT</var>.
-                        </span><span data-else="">
-                            The length is <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>.
-                        </span>
-                        <span data-if="isSingular(W)">
-                            The width is <code><var>W</var></code> <var>UNIT_TEXT</var>.
-                        </span><span data-else="">
-                            The width is <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>.
-                        </span>
-                        <span>Thus the
-                        area is <code><var>L</var>\times<var>W</var></code>
+                        The length is <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>.
+                        The width is <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>.
+                        So the area is <code><var>L</var>\times<var>W</var></code>
                         square <var>plural_form(UNIT_TEXT, L * W)</var>.</span>
                     </p>
                 </div>
