@@ -41,7 +41,7 @@
                         q.labels = {
                             "angles": ANG_LABELS,
                             "sides": $.map($.map(q.sides, lineLength), function(x) {
-                                return localeToFixed(x, 1);
+                                return localeToFixed(x * 4, 1);
                             })
                         };
                         q.drawLabels();
@@ -56,50 +56,50 @@
                 <div class="hints">
                     <p>This figure is a trapezoid.</p>
                     <p>The angles of a trapezoid side are supplementary.</p>
-                    <p><code><var>ANGLES[ SHOWN_POS ]</var> + x = 180</code></p>
-                    <p><code>x = 180 - <var>ANGLES[ SHOWN_POS ]</var></code></p>
-                    <p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>
+                    <p><code><var>ANGLES[SHOWN_POS]</var>^\circ + x = 180^\circ</code></p>
+                    <p><code>x = 180^\circ - <var>ANGLES[SHOWN_POS]</var>^\circ</code></p>
+                    <p><code>x =  <var>ANGLES[ANSWER_POS]</var>^\circ</code></p>
                 </div>
             </div>
             <div id="isoscelesTrap1" data-type="trapezoid">
                 <div class="vars">
-                    <var id="ANGLES">randomQuadAngles.isoscelesTrapezoid()</var>
+                    <var id="ANGLES" data-ensure="abs(ANGLES[0] - 90) > 5">randomQuadAngles.isoscelesTrapezoid()</var>
                 </div>
             </div>
             <div id="isoscelesTrap2" data-type="trapezoid">
                 <div class="vars">
-                    <var id="ANGLES">randomQuadAngles.isoscelesTrapezoid()</var>
+                    <var id="ANGLES" data-ensure="abs(ANGLES[0] - 90) > 5">randomQuadAngles.isoscelesTrapezoid()</var>
                     <var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
                 </div>
 
                 <div class="hints">
                     <p>This figure is an isosceles trapezoid.</p>
                     <p>The angles of bases of an isosceles trapezoid are equal.</p>
-                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[SHOWN_POS]</var>^\circ</code></p>
                 </div>
             </div>
             <div id="parallelogram1" data-type="trapezoid">
                 <div class="vars">
-                    <var id="ANGLES">randomQuadAngles.parallelogram()</var>
+                    <var id="ANGLES" data-ensure="abs(ANGLES[0] - 90) > 5">randomQuadAngles.parallelogram()</var>
                     <var id="SHOWN_POS">( ANSWER_POS + 2 ) % 4</var>
                 </div>
                 <div class="hints">
                     <p>This quadrilateral is a parallelogram.</p>
                     <p>Opposite angles of a parallelogram are equal.</p>
-                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[SHOWN_POS]</var>^\circ</code></p>
                 </div>
             </div>
             <div id="parallelogram2" data-type="trapezoid">
                 <div class="vars">
-                    <var id="ANGLES">randomQuadAngles.parallelogram()</var>
+                    <var id="ANGLES" data-ensure="abs(ANGLES[0] - 90) > 5">randomQuadAngles.parallelogram()</var>
                     <var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
                 </div>
                 <div class="hints">
                     <p>This quadrilateral is a parallelogram.</p>
                     <p>Adjacent angles of a parallelogram are supplementary.</p>
-                    <p><code><var>ANGLES[ SHOWN_POS ]</var> + x = 180</code></p>
-                    <p><code>x = 180 - <var>ANGLES[ SHOWN_POS ]</var></code></p>
-                    <p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>
+                    <p><code><var>ANGLES[SHOWN_POS]</var>^\circ + x = 180^\circ</code></p>
+                    <p><code>x = 180^\circ - <var>ANGLES[SHOWN_POS]</var>^\circ</code></p>
+                    <p><code>x =  <var>ANGLES[ANSWER_POS]</var>^\circ</code></p>
                 </div>
             </div>
             <div id="rhombus1" data-type="parallelogram1">
@@ -123,7 +123,7 @@
                 <div class="hints">
                     <p>This quadrilateral is a rhombus, because it has all sides equal.</p>
                     <p>Opposite angles of a rhombus are equal.</p>
-                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[SHOWN_POS]</var>^\circ</code></p>
                 </div>
             </div>
             <div id="rhombus2" data-type="rhombus1">
@@ -134,9 +134,9 @@
                 <div class="hints">
                     <p>This quadrilateral is a rhombus, because it has all sides equal.</p>
                     <p>Adjacent angles of a rhombus are supplementary.</p>
-                    <p><code><var>ANGLES[ SHOWN_POS ]</var> + x = 180</code></p>
-                    <p><code>x = 180 - <var>ANGLES[ SHOWN_POS ]</var></code></p>
-                    <p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>
+                    <p><code><var>ANGLES[SHOWN_POS]</var>^\circ + x = 180^\circ</code></p>
+                    <p><code>x = 180^\circ - <var>ANGLES[SHOWN_POS]</var></code></p>
+                    <p><code>x =  <var>ANGLES[ANSWER_POS]</var>^\circ</code></p>
                 </div>
             </div>
             <div id="kite" data-type="rhombus1">
@@ -148,7 +148,7 @@
                 <div class="hints">
                     <p>This quadrilateral is a kite, because it has two pairs of adjacent sides equal.</p>
                     <p>Angles between the non-equal sides of a kite are equal.</p>
-                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
+                    <p>Therefore, the angle <code>x</code> is also <code><var>ANGLES[SHOWN_POS]</var>^\circ</code></p>
                 </div>
             </div>
         </div>
