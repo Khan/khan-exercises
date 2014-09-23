@@ -168,9 +168,11 @@
     <div class="problems">
         <div id="fair">
             <div class="vars" data-apply="prependVars">
-                <var id="SEQUENCE">
-                    randFromArray(["H", "T"], 276).join("")
-                </var>
+                <!-- TODO(emily) Make the random number generator more randoma and remove this data-ensure. -->
+                <div data-ensure="COUNT > 124 && COUNT < 152">
+                    <var id="SEQUENCE">randFromArray(["H", "T"], 276).join("")</var>
+                    <var id="COUNT">(SEQUENCE.match(/H/g) || []).length</var>
+                </div>
                 <var id="SOLUTION">0</var>
             </div>
         </div>
