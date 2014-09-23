@@ -7,23 +7,23 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="SMALL_FACTOR < BIG_FACTOR">
-            <var id="ORDER">rand(2)</var>
-            <var id="SMALL_FACTOR">randFromArray([
-                randRange(10, 99),
-                randRange(10, 99),
-                randRange(10, 99),
-                randRange(100, 999)
-            ])</var>
-            <var id="BIG_FACTOR">randFromArray([
-                randRange(100, 999),
-                randRange(1000, 9999)
-            ])</var>
-            <var id="DUMMY">[]</var>
-        </div>
-
         <div class="problems">
-            <div>
+            <div id="any-number" data-weight="3">
+                <div class="vars" data-ensure="SMALL_FACTOR < BIG_FACTOR">
+                    <var id="ORDER">rand(2)</var>
+                    <var id="SMALL_FACTOR">randFromArray([
+                        randRange(10, 99),
+                        randRange(10, 99),
+                        randRange(10, 99),
+                        randRange(100, 999)
+                    ])</var>
+                    <var id="BIG_FACTOR">randFromArray([
+                        randRange(100, 999),
+                        randRange(1000, 9999)
+                    ])</var>
+                    <var id="DUMMY">[]</var>
+                </div>
+
                 <p class="problem">
                     <span data-if="ORDER === 0">
                         <code>\large{<var>SMALL_FACTOR</var> \times <var>BIG_FACTOR</var> = {?}}</code>
@@ -31,29 +31,57 @@
                         <code>\large{<var>BIG_FACTOR</var> \times <var>SMALL_FACTOR</var> = {?}}</code>
                     </span>
                 </p>
+
                 <div class="graphie" id="numbers">
                     graph.multiplier = new Multiplier(BIG_FACTOR, SMALL_FACTOR);
                     DUMMY = Array(graph.multiplier.getNumHints()  - 1);
                 </div>
+
                 <div class="solution" data-forms="integer"><var>SMALL_FACTOR * BIG_FACTOR</var></div>
-            </div>
-        </div>
-        <div class="hints">
-            <div class="graphie" data-update="numbers">
-                graph.multiplier.show();
-            </div>
-            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
-                graph.multiplier.showHint();
-            </div>
-            <div>
-                <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
-                    graph.multiplier.showHint();
+
+                <div class="hints">
+                    <div class="graphie" data-update="numbers">
+                        graph.multiplier.show();
+                    </div>
+                    <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
+                        graph.multiplier.showHint();
+                    </div>
+                    <div>
+                        <div class="graphie" data-update="numbers">
+                            graph.multiplier.showHint();
+                        </div>
+                        <p data-if="ORDER === 0">
+                            <code>\large{<var>SMALL_FACTOR</var> \times <var>BIG_FACTOR</var> = <var>SMALL_FACTOR * BIG_FACTOR</var>}</code>
+                        </p><p data-else="">
+                            <code>\large{<var>BIG_FACTOR</var> \times <var>SMALL_FACTOR</var> = <var>SMALL_FACTOR * BIG_FACTOR</var>}</code>
+                        </p>
+                    </div>
                 </div>
-                <p data-if="ORDER === 0">
-                    <code>\large{<var>SMALL_FACTOR</var> \times <var>BIG_FACTOR</var> = <var>SMALL_FACTOR * BIG_FACTOR</var>}</code>
-                </p><p data-else="">
-                    <code>\large{<var>BIG_FACTOR</var> \times <var>SMALL_FACTOR</var> = <var>SMALL_FACTOR * BIG_FACTOR</var>}</code>
-                </p>
+            </div>
+
+            <div id="multiple-10" data-type="any-number" data-weight="1">
+                <div class="vars" data-ensure="SMALL_FACTOR < BIG_FACTOR">
+                    <var id="SMALL_FACTOR">randFromArray([
+                        randRange(10, 99),
+                        randRange(100, 999),
+                        randRange(1000, 9999)
+                    ])</var>
+                    <var id="BIG_FACTOR">randFromArray([100, 1000])</var>
+                    <var id="ORDER">1</var>
+                </div>
+
+                <div class="hints">
+                    <p data-if="BIG_FACTOR === 100">
+                        When we multiply a whole number by <code>100</code>, we add two zeros to the end of the number.
+                    </p><p data-else="">
+                        When we multiply a whole number by <code>1000</code>, we add three zeros to the end of the number.
+                    </p>
+                    <p data-if="ORDER === 0">
+                        <code>\large{<var>SMALL_FACTOR</var> \times <var>BIG_FACTOR</var> = <var>SMALL_FACTOR * BIG_FACTOR</var>}</code>
+                    </p><p data-else="">
+                        <code>\large{<var>BIG_FACTOR</var> \times <var>SMALL_FACTOR</var> = <var>SMALL_FACTOR * BIG_FACTOR</var>}</code>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
