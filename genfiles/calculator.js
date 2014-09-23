@@ -637,8 +637,9 @@ return new Parser;
         throw new CalculatorError(ERROR_TEXT);
     };
 
+    var userID = window.KA && window.KA.getUserID();
     var settings = window.localStorage == null ? {} : $.parseJSON(
-            window.localStorage["calculator_settings:" + window.USERNAME] || "{}");
+            window.localStorage["calculator_settings:" + userID] || "{}");
     if (settings.angleMode == null) {
         settings.angleMode = "DEG";
     }

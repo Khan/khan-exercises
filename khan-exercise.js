@@ -1788,8 +1788,9 @@ function prepareSite() {
                         Calculator.settings.angleMode === "DEG" ?
                         "RAD" : "DEG";
                     if (typeof window.localStorage !== "undefined") {
+                        var userID = window.KA && window.KA.getUserID();
                         window.localStorage["calculator_settings:" +
-                            window.USERNAME] = JSON.stringify(
+                            userID] = JSON.stringify(
                             Calculator.settings);
                     }
                     updateAngleMode();
