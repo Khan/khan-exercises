@@ -68,7 +68,7 @@
                         return false;
                     }
 
-                    // Of the lines going through P, does one go through X too?
+                    // Of the lines going through P, does one go through C too?
                     var connectingLine = _.filter(lines, function(tool) {
                         return isPointOnLineSegment([tool.first.coord, tool.second.coord], [0, 0], 0.15);
                     });
@@ -77,13 +77,18 @@
                         return "Make sure you keep the straightedges you used in place.";
                     }
 
-                    // Test whether there are compasses centered on C and Q with the same radii
-                    var compasses1 = findCompass(guess, {center: [0, 0]});
-                    var compasses2 = findCompass(guess, {center: Q});
+                    // Are there two compasses on the line segment CQ but not on P?
+                    var compasses = _.filter(guess, function(tool) {
+                        if (tool.center != null) {
+                            return !distEqual(P, tool.center.coord, 0, 0.15) &amp;&amp;
+                                isPointOnLineSegment([connectingLine[0].first.coord, connectingLine[0].second.coord], tool.center.coord, 0.15);
+                        }
+                    });
 
-                    for (var i = 0; i &lt; compasses1.length; i++) {
-                        for (var j = 0; j &lt; compasses2.length; j++) {
-                            if (abs(compasses1[i].radius - compasses2[j].radius) &lt; 0.1) {
+                    // Do two of these compasses have and have the same length radii?
+                    for (var i = 0; i &lt; compasses.length; i++) {
+                        for (var j = i + 1; j &lt; compasses.length; j++) {
+                            if (abs(compasses[i].radius - compasses[j].radius) &lt; 0.1) {
                                 return true;
                             }
                         }
