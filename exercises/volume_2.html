@@ -61,7 +61,72 @@
                 
                 <div class="guess">[$("input#response1").val(),$("input#response2").val(),$("input#response3").val()]</div>
                 <div class="validator-function">
-                    return guess[0]*guess[1]*guess[2] == VOL &amp;&amp; guess[0]&lt; 10 &amp;&amp; guess[1] &lt; 10 &amp;&amp; guess[2] &lt; 10
+                    var lengthMessage = null, lengthEmpty = false;
+
+                    var LengthValidator = Khan.answerTypes.predicate.createValidatorFunctional(function(length, error) {
+                        if (length &gt; 10) {
+                            return false;
+                        }
+
+                        var heightMessage = null, heightEmpty = false;
+
+                        var WidthValidator = Khan.answerTypes.predicate.createValidatorFunctional(function(width, error) {
+                            if (width &gt; 10) {
+                                return false;
+                            }
+
+                            var HeightValidator = Khan.answerTypes.predicate.createValidatorFunctional(function(height, error) {
+                                if (height &gt; 10) {
+                                    return false;
+                                }
+                                return Math.abs(length * width * height - VOL) &lt; Math.pow(2, -42);
+                            }, {forms: 'integer'});
+
+                            var heightResult = HeightValidator(guess[2]);
+
+                            if (heightResult.empty) {
+                                heightEmpty = true;
+                            }
+                            if (heightResult.message !== null) {
+                                heightMessage = heightResult.message;
+                            }
+                            if (heightResult.correct) {
+                                heightEmpty = false;
+                                heightMessage = null;
+                            }
+
+                            return heightResult.correct;
+                        }, {forms: 'integer'});
+
+                        var widthResult = WidthValidator(guess[1]);
+
+                        if (widthResult.empty || heightEmpty) {
+                            lengthEmpty = true;
+                        }
+                        if (widthResult.message !== null || heightMessage !== null) {
+                            lengthMessage = widthResult.message || heightMessage;
+                        }
+                        if (widthResult.correct) {
+                            lengthEmpty = false;
+                            lengthMessage = null;
+                        }
+
+                        return widthResult.correct;
+                    }, {forms: 'integer'});
+
+                    var lengthResult = LengthValidator(guess[0]);
+
+                    // TODO(emily): In the future, when validator-functions can return empty and
+                    // message separately, make this actually work
+                    if (lengthResult.empty || lengthEmpty) {
+                        return "";
+                    } else if (lengthResult.message !== null) {
+                        return lengthResult.message;
+                    } else if (lengthMessage !== null) {
+                        return lengthMessage;
+                    }
+
+                    return lengthResult.correct;
                 </div>
                 <div class="example">an integer, like <code>6</code></div>
             </div>
@@ -123,9 +188,9 @@
                     <p>We can find the dimensions of the package by arranging the factors into three groups of products, all less than <code>10</code>.</p>
                     <p>
                         One solution would be:
-                        (<code><var>getPrimeFactorization(WIDTH).join("\\space\\color{black}{\\times}\\space")</var></code>),
-                        (<code><var>getPrimeFactorization(LENGTH).join("\\space\\color{black}{\\times}\\space")</var></code>) and
-                        (<code><var>getPrimeFactorization(HEIGHT).join("\\space\\color{black}{\\times}\\space")</var></code>)
+                        <code>(<var>getPrimeFactorization(WIDTH).join("\\space\\color{black}{\\times}\\space")</var>)</code>,
+                        <code>(<var>getPrimeFactorization(LENGTH).join("\\space\\color{black}{\\times}\\space")</var>)</code> and
+                        <code>(<var>getPrimeFactorization(HEIGHT).join("\\space\\color{black}{\\times}\\space")</var>)</code>
                     </p>
                     <p>
                         So the dimensions of the package could be <code><var>WIDTH</var></code>,
@@ -590,7 +655,7 @@
             </p>
 
             <div class="solution" data-type="multiple">
-               <p> <span class="sol"><var>VOL * CONVERSION_CUBED</var></span> cubic units</p>
+               <p> <span class="sol short40"><var>VOL * CONVERSION_CUBED</var></span> cubic <var>plural_form(TO)</var></p>
             </div>
 
             <div class="hints">
