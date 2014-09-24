@@ -236,7 +236,7 @@ $.extend(KhanUtil, {
             var graph = KhanUtil.currentGraph,
                 coord = graph.polar(radius + 0.4, theta);
             return graph.label(coord, label);
-        }
+        };
 
         function isThetaWithin(theta, min, max) {
             min = min % 360;
