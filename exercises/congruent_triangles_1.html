@@ -9,10 +9,10 @@
     <div class="exercise">
         <div class="vars">
             <var id="MAIN">randomTriangleAngles.triangle()</var>
-            <var id="MAIN_SIZE">5 + random() * 2</var>
+            <var id="MAIN_SIZE">6 + random() * 2</var>
             <var id="IS_B">randRange( 0, 1 ) === 1</var>
             <var id="B">IS_B ? MAIN : randomTriangleAngles.triangle()</var>
-            <var id="B_SIZE">IS_B ? MAIN_SIZE : 2 + random() * 2</var>
+            <var id="B_SIZE">IS_B ? MAIN_SIZE : 6 + random() * 2</var>
             <var id="CHOICES">[$._("Yes"), $._("No"), $._("There is not enough information to say")]</var>
             <var id="ANSWER">IS_B ? 0 : 1</var>
 
@@ -30,7 +30,7 @@
             </var>
             <var id="TR_B">
                 function(){
-                    var t = new Triangle( [ 7, -6 ], B, B_SIZE, {} );
+                    var t = new Triangle( [ 7, -7 ], B, B_SIZE, {} );
                     t.labels =  { "name": "B", "angles" : clearArray( t.niceAngles, B_ANGLES ),  "sides" : clearArray( t.niceSideLengths, B_SIDES ) };
                     return t;
                 }()
@@ -134,7 +134,12 @@
                 </div>
                 <div class="hints" data-apply="appendContents">
                     <p>In this problem we know all three triangle angles.</p>
-                    <p data-if="IS_B">However, having all three angles the same is not a property we can use to conclude that two triangles are congruent. We can only say that they are similar. They are not congruent because they might be different size, yet have same angles.</p>
+                    <div data-if="IS_B" data-unwrap="">
+                        <p>
+                            However, having all three angles the same is not a property we can use to conclude that two triangles are congruent. We can only say for sure that they are similar.
+                        </p>
+                        <p>We do not have enough information to say that the two triangles are congruent.</p>
+                    </div>
                     <p data-else="">Because the angles do not match, triangle A is not congruent with triangle B.</p>
                 </div>
             </div>
