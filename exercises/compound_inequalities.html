@@ -65,9 +65,9 @@
             </var>
             <var id="NO_SOLUTION">
                 !IS_OR &amp;&amp; 
-                (LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[1] &gt; SOLUTION[0]) ||
+                ((LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[1] &gt; SOLUTION[0]) ||
                 (!LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt; SOLUTION[1]) ||
-                (LESS_THAN[0] !== LESS_THAN[1] &amp;&amp; SOLUTION[0] === SOLUTION[1] &amp;&amp; (!INCLUSIVE[0] || !INCLUSIVE[1]))</var>
+                (LESS_THAN[0] !== LESS_THAN[1] &amp;&amp; SOLUTION[0] === SOLUTION[1] &amp;&amp; (!INCLUSIVE[0] || !INCLUSIVE[1])))</var>
             <var id="SINGLE_SOLUTION">
                 !IS_OR &amp;&amp; SOLUTION[0] === SOLUTION[1] &amp;&amp; COMP.indexOf("≤") !== -1 &amp;&amp; COMP.indexOf("≥") !== -1
             </var>
