@@ -759,7 +759,6 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
 
         // Draw extra zeros in the dividend
         if (deciDiff > 0) {
-            var orig = digitsDividend;
             digitsDividend = KhanUtil.padDigitsToNum(digitsDividend, digitsDividend.length + deciDiff);
             var x = digitsDividend.length - deciDiff;
             var zeros = digitsDividend.slice(x);

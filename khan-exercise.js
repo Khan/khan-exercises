@@ -878,11 +878,6 @@ function loadAndRenderExercise(nextUserExercise) {
         exerciseFile = userExercise.exerciseModel.fileName;
 
     function finishRender() {
-        // Get all problems of this exercise type...
-        var problems = exercises.filter(function() {
-            return $.data(this, "name") === exerciseId;
-        }).children(".problems").children();
-
         // Make scratchpad persistent per-user
         if (user && window.LocalStore) {
             var lastScratchpad = LocalStore.get("scratchpad:" + user);
@@ -1586,7 +1581,6 @@ function prepareSite() {
         var calculator = $(".calculator"),
             history = calculator.children(".history"),
             output = $("#calc-output-content"),
-            outputContainer = $("#calc-output"),
             inputRow = history.children(".calc-row.input"),
             input = inputRow.children("input"),
             buttons = calculator.find("a"),
@@ -2169,8 +2163,6 @@ function injectLocalModeSite(html, htmlExercise) {
     $(Exercises).trigger("problemTemplateRendered");
 
     exercises = exercises.add($("div.exercise").detach());
-    var problems = exercises.children(".problems").children();
-
     // Generate the initial problem when dependencies are done being loaded
     makeProblem(currentExerciseId);
 }

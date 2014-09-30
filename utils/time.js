@@ -269,7 +269,7 @@ $.extend(KhanUtil, {
             }
         });
 
-        var centerPoint = graph.addMovablePoint({
+        graph.addMovablePoint({
             graph: graph,
             coord: [0, 0],
             constraints: {
@@ -381,8 +381,6 @@ $.extend(KhanUtil, {
                 }
             });
 
-            // for some reason this doesn't work, so for now, create another center point
-            // centerPoint.toFront();
             interactiveAnalogClock.graph.addMovablePoint({
                 coord: [0, 0],
                 constraints: {

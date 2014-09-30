@@ -3,7 +3,6 @@ define(function(require) {
 require("../third_party/jquery.mobile.vmouse.js");
 
 require("./graphie.js");
-var knumber = require("./knumber.js");
 var kvector = require("./kvector.js");
 var kpoint = require("./kpoint.js");
 var kline = require("./kline.js");

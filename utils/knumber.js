@@ -77,7 +77,7 @@ var knumber = KhanUtil.knumber = {
         // Initialize everything to compute successive terms of
         // continued-fraction approximations via recurrence relation
         var n = [1, 0], d = [0, 1];
-        var a = Math.floor(decimal), t;
+        var a = Math.floor(decimal);
         var rem = decimal - a;
 
         while (d[0] <= max_denominator) {

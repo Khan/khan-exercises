@@ -159,7 +159,6 @@ KhanUtil.scale = {
             speed = 500;
         }
         var newAngle = 0;
-        var currentAngle = this.angle;
         this.equation.draw(this.unknown, this.leftCoef,
             this.leftConst, this.rightConst);
 
