@@ -5,7 +5,6 @@
 define(function(require) {
 
 var kpoint = require("./kpoint.js");
-var kvector = require("./kvector.js");
 var knumber = require("./knumber.js");
 
 var kline = KhanUtil.kline = {
