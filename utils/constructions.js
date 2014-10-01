@@ -392,8 +392,13 @@ $.extend(KhanUtil, {
         // the straightedge object has the following fields
         // first, second: movable endpoints
         // edge: movable line segment
-        construction.addStraightedge = function(extend) {
+        // extend determines whether the line extends off
+        // screen (default) or is a line segment
+        // if fixed is true then the line cannot be dragged
+        // by selecting the line (as opposed to the end points)
+        construction.addStraightedge = function(extend, fixed) {
             extend = extend == null ? true : extend;
+            fixed = fixed == null ? false : fixed;
 
             construction.tool = {
                 interType: "line",
@@ -432,6 +437,9 @@ $.extend(KhanUtil, {
                         "stroke-width": 3
                     },
                     extendLine: extend,
+                    constraints: {
+                        fixed: fixed
+                    },
                     movePointsWithLine: true
                 });
 
