@@ -7,37 +7,46 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="DIVIDEND % 10 !== 0">
-            <var id="DIVISOR">randRange( 10, 99 )</var>
-            <var id="QUOTIENT">randRange( 100, 999 )</var>
-            <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
-            <var id="DIVISOR_DECIMAL">randRange( 0, 2 )</var>
-            <var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 4 : 5</var>
-            <var id="DIVIDEND_DECIMAL">randRange( Math.max( DIVISOR_DECIMAL, 1 ), MAX_DIVIDEND_DECIMAL)</var>
-            <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
-            <var id="SOLUTION">QUOTIENT * pow(10, -QUOTIENT_DECIMAL)</var>
-            <var id="DUMMY">[]</var>
-        </div>
-
         <div class="problems">
             <div>
-                <div class="graphie" id="numbers">
-                    graph.divider = new Divider( DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
-                    graph.divider.show();
-                    DUMMY = Array( graph.divider.getNumHints() );
+                <div class="vars" data-ensure="DIVIDEND % 10 !== 0">
+                    <var id="DIVISOR">randRange( 10, 99 )</var>
+                    <var id="QUOTIENT">randRange( 100, 999 )</var>
+                    <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
+                    <var id="DIVISOR_DECIMAL">randRange( 0, 2 )</var>
+                    <var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 4 : 5</var>
+                    <var id="DIVIDEND_DECIMAL">randRange( Math.max( DIVISOR_DECIMAL, 1 ), MAX_DIVIDEND_DECIMAL)</var>
+                    <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
+                    <var id="SOLUTION">QUOTIENT / pow(10, QUOTIENT_DECIMAL)</var>
+                    <var id="DUMMY">[]</var>
                 </div>
+
+                <p class="question"><code>
+                    \Large{<var>localeToFixed(DIVIDEND / pow(10, DIVIDEND_DECIMAL), DIVIDEND_DECIMAL)</var> \div
+                    <var>localeToFixed(DIVISOR / pow(10, DIVISOR_DECIMAL), DIVISOR_DECIMAL)</var> = ?}
+                </code></p>
+                
+                <div class="graphie" id="numbers">
+                    graph.divider = new Divider(DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL);
+                    DUMMY = Array(graph.divider.getNumHints());
+                </div>
+
                 <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
+
+                <div class="hints">
+                    <div class="graphie" data-update="numbers">
+                        graph.divider.show();
+                    </div>
+                    <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
+                        graph.divider.showHint();
+                    </div>
+                    <p><code>
+                        \Large{<var>localeToFixed(DIVIDEND / pow(10, DIVIDEND_DECIMAL), DIVIDEND_DECIMAL)</var> \div
+                        <var>localeToFixed(DIVISOR / pow(10, DIVISOR_DECIMAL), DIVISOR_DECIMAL)</var> =
+                        <var>localeToFixed(SOLUTION, max(0, QUOTIENT_DECIMAL))</var>}
+                    </code></p>
+                </div>
             </div>
-        </div>
-        <div class="hints">
-            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
-                graph.divider.showHint();
-            </div>
-            <p><code>
-                <var>localeToFixed(DIVIDEND * pow(10, -DIVIDEND_DECIMAL), DIVIDEND_DECIMAL)</var> \div
-                <var>localeToFixed(DIVISOR * pow(10, -DIVISOR_DECIMAL), DIVISOR_DECIMAL)</var> =
-                <var>localeToFixed(SOLUTION, QUOTIENT_DECIMAL)</var>
-            </code></p>
         </div>
     </div>
 </body>

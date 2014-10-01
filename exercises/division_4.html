@@ -16,9 +16,11 @@
         </div>
         <div class="problems">
             <div>
+                <p class="question"><code>\Large{<var>DIVIDEND</var> \div  <var>DIVISOR</var> = ?}</code></p>
+                <p><em>Write your answer as a whole number and remainder.</em></p>
+
                 <div class="graphie" id="numbers">
                     graph.divider = new Divider( DIVISOR, DIVIDEND );
-                    graph.divider.show();
                     DUMMY = Array( graph.divider.getNumHints() );
                 </div>
                 <div class="solution" data-type="multiple">
@@ -26,15 +28,20 @@
                         <span class="sol short40" data-forms="integer"><var>QUOTIENT</var></span><code>\text{ R }</code>
                         <span class="sol short40" data-forms="integer" data-fallback="0"><var>REMAINDER</var></span>
                     </div>
-                    <div>Write your answer as a whole number and remainder.</div>
                     <p class="example">a quotient and remainder, like <code>5 \text{ R } 3</code></p>
                 </div>
             </div>
         </div>
         <div class="hints">
+            <div class="graphie" data-update="numbers">
+                graph.divider.show();
+            </div>
             <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                 graph.divider.showHint();
             </div>
+            <div><code>
+                \Large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = <var>QUOTIENT</var> \text{ R } <var>REMAINDER</var>}
+            </code></div>
         </div>
     </div>
 </body>
