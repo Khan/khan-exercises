@@ -11,16 +11,17 @@
         <div id="already-simplified" data-weight="2">
             <div class="vars">
                 <var id="NUM">randFromArray([30, 42, 66, 70, 105, 110, 154, 165, 210])</var>
+                <var id="FACTORS">getPrimeFactorization(NUM).join("\\cdot")</var>
             </div>
 
-            <p class="question">
-                Simplify <code>\sqrt{<var>NUM</var>}</code>.</p>
-            <p></p>
+            <p class="question">Simplify <code>\sqrt{<var>NUM</var>}</code>.</p>
 
             <div class="solution" data-type="radical"><var>NUM</var></div>
 
             <div class="hints">
-                <p class="final_answer">The number <code><var>NUM</var></code> has no perfect-square factors, so <code>\sqrt{<var>NUM</var>}</code> is already the simplest form.</p>
+                <p><code><var>NUM</var> = <var>FACTORS</var></code></p>
+                <p><code><var>NUM</var></code> has no perfect-square factors, so <code>\sqrt{<var>NUM</var>}</code> is already the simplest form.</p>
+                <p><code>\sqrt{<var>NUM</var>} = 1\sqrt{<var>NUM</var>}</code> or just <code>\sqrt{<var>NUM</var>}</code>.</p>
             </div>
         </div>
 
@@ -31,14 +32,14 @@
                 <var id="COEFFICIENT">SPLIT[0] === 1 ? "" : SPLIT[0]</var>
             </div>
 
-            <p class="question">
-                Simplify <code>\sqrt{<var>NUM</var>}</code>.
-            </p>
+            <p class="question">Simplify <code>\sqrt{<var>NUM</var>}</code>.</p>
 
             <div class="solution" data-type="radical"><var>NUM</var></div>
 
             <div class="hints">
-                <p class="final_answer">The number <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var></code>.</p>
+                <p><code><var>NUM</var> = <var>round(sqrt(NUM))</var>^2</code></p>
+                <p>So, <code>\sqrt{<var>NUM</var>} = \sqrt{<var>SPLIT[0]</var>^2} = <var>SPLIT[0]</var></code></p>
+                <p><code>\sqrt{<var>NUM</var>} = <var>SPLIT[0]</var>\sqrt{1}</code> or just <code><var>SPLIT[0]</var></code>.</p>
             </div>
         </div>
 
@@ -50,16 +51,16 @@
                 <var id="RADICAL">SPLIT[1] === 1 ? "" : SPLIT[1]</var>
             </div>
 
-            <p class="question">
-                Simplify <code>\sqrt{<var>NUM</var>}</code>.
-            </p>
+            <p class="question">Simplify <code>\sqrt{<var>NUM</var>}</code>.</p>
 
             <div class="solution" data-type="radical"><var>NUM</var></div>
 
             <div class="hints">
                 <p>The largest perfect square that divides <code><var>NUM</var></code> is <code><var>COEFFICIENT * COEFFICIENT</var></code>.</p>
-                <p>Factoring it out, we have <code><var>NUM</var> = <var>COEFFICIENT</var>^2 \cdot <var>RADICAL</var></code>.</p>
-                <p class="final_answer">Thus, <code>\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var>\sqrt{<var>RADICAL</var>}</code>.</p>
+                <p><code><var>NUM</var> = <var>COEFFICIENT * COEFFICIENT</var> \cdot <var>RADICAL</var></code></p>
+                <p><code>\sqrt{<var>NUM</var>} = \sqrt{<var>COEFFICIENT * COEFFICIENT</var> \cdot <var>RADICAL</var>}</code></p>
+                <p><code>\sqrt{<var>NUM</var>} = \sqrt{<var>COEFFICIENT * COEFFICIENT</var>} \cdot \sqrt{<var>RADICAL</var>}</code></p>
+                <p>Thus, <code>\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var>\sqrt{<var>RADICAL</var>}</code>.</p>
             </div>
         </div>
     </div>
