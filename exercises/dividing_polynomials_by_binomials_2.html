@@ -22,17 +22,17 @@
 
             <p class="problem">Simplify the following expression:</p>
             <p class="question"><code><var>Y</var> =
-                \dfrac{<var>C</var><var>X</var>^2 + <var>C * LINEAR</var><var>X</var> + <var>C * CONSTANT</var>}{<var>X</var> + <var>-A</var>}
+                \dfrac{<var>C</var><var>X</var>^2 + <var>C * LINEAR</var><var>X</var> + <var>C * CONSTANT</var>}{<var>X</var> - <var>A</var>}
             </code></p>
 
             <div class="solution" data-type="multiple">
                 <span><code><var>Y</var> = </code></span>
                 <div class="sol" data-type="set">
                     <div class="set-sol" data-type="expression" data-same-form="">
-                        <var>C</var><var>X</var> + <var>C * (-B)</var>
+                        <var>C</var><var>X</var> - <var>C * B</var>
                     </div>
                     <div class="set-sol" data-type="expression" data-same-form="">
-                        <var>C</var>(<var>X</var> + <var>(-B)</var>)
+                        <var>C</var>(<var>X</var> - <var>B</var>)
                     </div>
                     <div class="input-format"><div class="entry" data-type="expression"></div></div>
                 </div>
@@ -45,38 +45,57 @@
                 <div>
                     <p>We notice that all the terms in the numerator have a common factor of <code><var>C</var></code>, so we can rewrite the expression:</p>
                     <p><code>
-                        <var>Y</var> =\dfrac{<var>C</var>(<var>X</var>^2 + <var>LINEAR</var><var>X</var> + <var>CONSTANT</var>)}{<var>X</var> + <var>-A</var>}
+                        <var>Y</var> =\dfrac{<var>C</var>(<var>X</var>^2 + <var>LINEAR</var><var>X</var> + <var>CONSTANT</var>)}{<var>X</var> - <var>A</var>}
                     </code></p>
                 </div>
 
                 <div>
                     <p>Then we factor the remaining polynomial:</p>
                     <p><code><var>X</var>^2
-                        <var>LINEAR &gt; 0 ? "+" : ""</var> \green{<var>LINEAR</var>}<var>X</var> <var>CONSTANT &gt; 0 ? "+" : ""</var> \blue{<var>CONSTANT</var>}
+                        <var>LINEAR &gt; 0 ? "+" : ""</var> \green{<var>LINEAR</var>}<var>X</var> 
+                        <var>CONSTANT &gt; 0 ? "+" : ""</var> \blue{<var>CONSTANT</var>}
                     </code></p>
                     <p><code>\pink{<var>-A</var>} <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>} = \green{<var>LINEAR</var>}</code></p>
                     <p><code>\pink{<var>-A</var>} \times \pink{<var>-B</var>} = \blue{<var>CONSTANT</var>}</code></p>
                 </div>
 
                 <p><code>
-                    (<var>X</var> <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
-                    (<var>X</var> <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})
+                    (<var>X</var> <var>A &lt; 0 ? "+" : ""</var> \pink{<var>-A</var>})
+                    (<var>X</var> <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>})
                 </code></p>
 
                 <div>
                     <p>This gives us a factored expression:</p>
-                    <p><code>\dfrac{<var>C</var>(<var>X</var> <var>A &lt; 0 ? "+" : ""</var> \pink{<var>-A</var>})
-                    (<var>X</var> <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>})}{<var>X</var> + <var>-A</var>}</code></p>
+                    <p><code><var>Y</var> =
+                        \dfrac{<var>C</var>(<var>X</var> <var>A &lt; 0 ? "+" : ""</var> \pink{<var>-A</var>})
+                        (<var>X</var> <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>})}{<var>X</var> + <var>-A</var>}
+                    </code></p>
                 </div>
 
-                <p>
-                    We can divide the numerator and denominator by <code>(<var>X</var> - <var>A</var>)</code>
-                    on condition that <code><var>X</var> \neq <var>A</var></code>.
-                </p>
+                <div>
+                    <p>We can divide the numerator and denominator by <code>(<var>X</var> - <var>A</var>)</code>:</p>
+                    <p><code><var>Y</var> =
+                        \dfrac{<var>C</var>\cancel{(<var>X</var> <var>A &lt; 0 ? "+" : ""</var> \pink{<var>-A</var>})}
+                        (<var>X</var> <var>B &lt; 0 ? "+" : ""</var> \pink{<var>-B</var>})}{\cancel{<var>X</var> - <var>A</var>}}
+                        = <var>C</var>(<var>X</var> + <var>-B</var>)
+                    </code></p>
+                </div>
 
                 <div>
-                    <p>Therefore</p>
-                    <p><code><var>Y</var> = <var>C</var>(<var>X</var> + <var>-B</var>); <var>X</var> \neq <var>A</var></code></p>
+                    <p>Because we divided by <code>(<var>X</var> - <var>A</var>)</code>,</p>
+                    <p><code>\begin{align}
+                        <var>X</var> - <var>A</var> &amp;\neq 0 \\
+                        <var>X</var> &amp;\neq <var>A</var>
+                        \end{align}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Therefore,</p>
+                    <p>
+                        <code>\qquad <var>Y</var> = <var>C</var>(<var>X</var> - <var>B</var>)</code><br>
+                        <code>\qquad <var>X</var> \neq <var>A</var></code>
+                    </p>
                 </div>
             </div>
         </div>
