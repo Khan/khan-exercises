@@ -151,21 +151,13 @@
 
         <div class="solution" data-type="multiple">
             <span><code><var>Y</var> = </code></span>
-            <div class="sol" data-type="set">
-                <div class="set-sol" data-type="expression" data-same-form="">
-                    (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
-                </div>
-                <div class="set-sol" data-type="expression" data-same-form="">
-                    (<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)
-                </div>
-                <div class="set-sol" data-type="expression" data-same-form="">
-                    (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)
-                </div>
-                <div class="set-sol" data-type="expression" data-same-form="">
-                    (<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)
-                </div>
-                <div class="input-format"><div class="entry" data-type="expression"></div></div>
+            <div class="sol" data-type="expression">
+                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
+                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
             </div>
+
             <div class="sol" data-type="set">
                 <span class="set-sol"><var>-B</var></span>
                 <span data-if="CANCEL.terms[1].coefficient !== B" class="set-sol"><var>SOL</var></span>

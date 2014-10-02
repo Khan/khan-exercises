@@ -89,8 +89,19 @@
 
                 <div class="solution" data-type="multiple">
                     <span><code><var>Y</var> = </code></span>
-                    <div class="sol" data-type="expression" data-simplify="">
-                        (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toString()</var>)
+                    <div class="sol" data-type="expression">
+                        <div class="set-sol" data-same-form="">
+                            (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toString()</var>)
+                        </div>
+                        <div class="set-sol" data-same-form="">
+                            (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)
+                        </div>
+                        <div class="set-sol" data-same-form="">
+                            (<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toString()</var>)
+                        </div>
+                        <div class="set-sol" data-same-form="">
+                            (<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)
+                        </div>
                     </div>
                 </div>
 

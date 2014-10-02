@@ -1987,45 +1987,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      *     but with "times":    2 * 3^x -> 2 \times 3^{x}
      */
     expression: {
-        parseSolution: function(solutionString, options) {
-            var solution = KAS.parse(solutionString, options);
-            if (!solution.parsed) {
-                throw new Error("The provided solution (" + solutionString +
-                    ") didn't parse.");
-            } else if (options.simplified && !solution.expr.isSimplified()) {
-                throw new Error("The provided solution (" + solutionString +
-                    ") isn't fully expanded and simplified.");
-            } else {
-                solution = solution.expr;
-            }
-            return solution;
-        },
-
-        _parseOptions: function(solutionData) {
-            // Convert options to a form KAS can understand
-            var form = solutionData.form !== undefined ?
-                solutionData.form :
-                solutionData.sameForm;
-            var notFalseOrNil = function(x) {
-                return x != null && x !== false;
-            };
-            var options = {
-                form: notFalseOrNil(form),
-                simplify: notFalseOrNil(solutionData.simplify),
-                times: notFalseOrNil(solutionData.times)
-            };
-            if (_.isString(solutionData.functions)) {
-                options.functions = _.compact(
-                    solutionData.functions.split(/[ ,]+/));
-            } else if (_.isArray(solutionData.functions)) {
-                options.functions = _.compact(solutionData.functions);
-            }
-            return options;
-        },
-
-        setupFunctional: function(solutionarea, solutionText, solutionData) {
-            var options = this._parseOptions(solutionData);
-            var solution = Khan.answerTypes.expression.parseSolution(solutionText, options);
+        setup: function(solutionarea, solution) {
+            var options = this._parseOptions($(solution).data());
 
             // Assemble the solution area
             var $input = $('<input type="text">');
@@ -2149,14 +2112,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // Examples
             var explicitMul = $._("For <code>2\\cdot2</code>, enter <strong>2*2</strong>");
+            // Will only use the options from the final set-sol
+            // but it's unlikely different set-sols will have different times options
             if (options.times) {
                 explicitMul = explicitMul.replace(/\\cdot/g, "\\times");
             }
 
             return {
-                validator: Khan.answerTypes.expression.createValidatorFunctional(solution, solutionData),
+                validator: Khan.answerTypes.expression.createValidator(solution),
                 answer: function() { return $input.val(); },
-                solution: solution.print(),
+                solution: solution,
                 examples: [
                     explicitMul,
                     $._("For <code>3y</code>, enter <strong>3y</strong> or <strong>3*y</strong>"),
@@ -2173,8 +2138,94 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 }
             };
         },
-        createValidatorFunctional: function(solution, solutionData) {
-            var options = this._parseOptions(solutionData);
+
+        parseSolution: function(solutionString, options) {
+            var solution = KAS.parse(solutionString, options);
+            if (!solution.parsed) {
+                throw new Error("The provided solution (" + solutionString +
+                    ") didn't parse.");
+            } else if (options.simplified && !solution.expr.isSimplified()) {
+                throw new Error("The provided solution (" + solutionString +
+                    ") isn't fully expanded and simplified.");
+            } else {
+                solution = solution.expr;
+            }
+            return solution;
+        },
+
+        _parseOptions: function(solutionData) {
+            // Convert options to a form KAS can understand
+            var form = solutionData.form !== undefined ?
+                solutionData.form :
+                solutionData.sameForm;
+            var notFalseOrNil = function(x) {
+                return x != null && x !== false;
+            };
+            var options = {
+                form: notFalseOrNil(form),
+                simplify: notFalseOrNil(solutionData.simplify),
+                times: notFalseOrNil(solutionData.times)
+            };
+            if (_.isString(solutionData.functions)) {
+                options.functions = _.compact(
+                    solutionData.functions.split(/[ ,]+/));
+            } else if (_.isArray(solutionData.functions)) {
+                options.functions = _.compact(solutionData.functions);
+            }
+            return options;
+        },
+
+        createValidator: function(solution) {
+            var $solution = $(solution);
+            var validatorArray = [];
+
+            var createValidatorFunctional = this.createValidatorFunctional;
+            var parseOptions = this._parseOptions;
+
+            // Find solutions and options in a set
+            $(solution).find(".set-sol").each(function() {
+                var options = parseOptions($(this).data());
+                validatorArray.push(createValidatorFunctional(
+                    $(this).text(), options));
+            });
+
+            // Single solution, not a set
+            if (validatorArray.length === 0) {
+                var options = parseOptions($solution.data());
+                validatorArray.push(createValidatorFunctional(
+                    $solution.text(), options));
+            }
+
+            return function(guess) {
+                var score = {
+                    empty: false,
+                    correct: false,
+                    message: null,
+                    guess: guess
+                };
+
+                // Check guess against all validators
+                $.each(validatorArray, function(i, validator) {
+                    var result = validator(guess);
+
+                    if (result.correct) {
+                        score.correct = true;
+                        score.message = null;
+                        return false;
+                    }
+                    if (result.message) {
+                        score.message = result.message;
+                    }
+                    if (result.empty) {
+                        score.empty = true;
+                    }
+                });
+
+                return score;
+            };
+        },
+
+        createValidatorFunctional: function(solution, options) {
             return function(guess) {
                 var score = {
                     empty: false,

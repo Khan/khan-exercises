@@ -67,8 +67,8 @@
             <var id="SIGNEDNUMERATOR">SIGN === "+" ? NUMERATOR2 : NUMERATOR2.multiply(-1)</var>
             <var id="SUMNUMERATOR">NUMERATOR1.add(SIGNEDNUMERATOR)</var>
             <var id="GCD">SUMNUMERATOR.getGCD(DENOMINATOR)</var>
-            <var id="SOLNUMERATOR">SUMNUMERATOR.divide(GCD)</var>
-            <var id="SOLDENOMINATOR">DENOMINATOR.divide(GCD)</var>
+            <var id="NUMERATORSOL">SUMNUMERATOR.divide(GCD)</var>
+            <var id="DENOMINATORSOL">DENOMINATOR.divide(GCD)</var>
         </div>
 
         <div class="problems">
@@ -80,10 +80,12 @@
                 </p>
                 <p>You can assume <code><var>USEDVARIABLES</var> \neq 0</code>.</p>
 
-                <div class="solution" data-type="multiple">
-                    <span><code><var>Y</var> = </code></span>
-                    <div class="sol" data-type="expression" data-simplify="">
-                        (<var>SOLNUMERATOR.toString()</var>)/(<var>SOLDENOMINATOR.toString()</var>)
+                <div class="solution" data-type="expression">
+                    <div class="set-sol" data-same-form="">
+                        (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toString()</var>)
+                    </div>
+                    <div class="set-sol" data-same-form="">
+                        (<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)
                     </div>
                 </div>
             </div>
@@ -106,7 +108,7 @@
 
             <div data-if="GCD.toString() !== '1'">
                 <p>The numerator and denominator have a common factor of <code><var>GCD.toString()</var></code>, so we can simplify</p>
-                <p><code><var>Y</var> = \dfrac{<var>SOLNUMERATOR</var>}{<var>SOLDENOMINATOR</var>}</code></p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code></p>
             </div>
         </div>
     </div>
