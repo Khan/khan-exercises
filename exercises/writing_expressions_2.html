@@ -125,10 +125,6 @@
                         "\\dfrac{" + B + "x + " + A + "}{" + C + "}" :
                         "\\dfrac{" + C + "}{" + B + "x + " + A + "}"
                     </var>
-                    <var id="INCORRECT">ORDER === 0 ? 
-                        "\\dfrac{" + C + "}{" + B + "x + " + A + "}" :
-                        "\\dfrac{" + B + "x + " + A + "}{" + C + "}"
-                    </var>
                 </div>
 
                 <p class="problem"><p>First consider the expression for:</p>
@@ -140,18 +136,13 @@
                 </b></p>
 
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <!--
-                    Solution: (A + Bx) / C
-                    wrong 1:  C ( B + Ax ) + D,
-                    wrong 2:  D ( A + Bx ) + C,
-                    wrong 3:  D ( B + Ax ) + C,
-                    wrong 4:  B ( D + Cx ) + A
-                -->
+
                 <ul class="choices" data-none="true" data-show="5">
-                    <li><code><var>INCORRECT</var></code></li>
                     <li><code>\dfrac{<var>B</var> + <var>expr(["*", A, "x"])</var>}{<var>C</var>}</code></li>
                     <li><code>\dfrac{<var>C</var>}{<var>expr(["*", A, "x"])</var> + <var>B</var>}</code></li>
-                    <li><code>\dfrac{<var>expr(["*", B, "x"])</var>}{<var>C</var>} + <var>A</var></code></li>
+                    <li><code><var>C</var>(<var>expr(["*", A, "x"])</var> + <var>B</var>)</code></li>
+                    <li><code><var>C</var>(<var>B</var>x + <var>A</var>)</code></li>
+                    <li><code>\dfrac{<var>B</var>x}{<var>C</var>} + <var>A</var></code></li>
                 </ul>
 
                 <div class="hints">
