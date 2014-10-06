@@ -355,45 +355,45 @@
                             }
                         })()
                     </var>
+                    <var id="DISTANCE">cardinalThrough20(randRange(2, 5))</var>
                 </div>
 
                 <p>
                     <span>Captain <var>person(1)</var> has a ship, the H.M.S Crimson Lynx.</span>
                     <span data-if="isMale(2)">
-                        The ship is two furlongs from the dread pirate <var>person(2)</var> and his merciless band of thieves.
+                        The ship is <var>DISTANCE</var> furlongs from the dread pirate <var>person(2)</var> and his merciless band of thieves.
                     </span>
                     <span data-else="">
-                        The ship is two furlongs from the dread pirate <var>person(2)</var> and her merciless band of thieves.
+                        The ship is <var>DISTANCE</var> furlongs from the dread pirate <var>person(2)</var> and her merciless band of thieves.
                     </span>
                 </p>
-                <p>
-                    <span data-if="isMale(1)">
-                        The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship,
-                        if his ship hasn't already been hit. If it has been hit, he will always miss.
-                    </span>
-                    <span data-else="">
-                        The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship,
-                        if her ship hasn't already been hit. If it has been hit, she will always miss.
-                    </span>
-                    <span data-if="isMale(2)">
-                        The pirate has probability <code><var>P_HIT_PRETTY</var></code> of hitting the Captain's ship,
-                        if his ship hasn't already been hit. If it has been hit, he will always miss as well.
-                    </span>
-                    <span data-else="">
-                        The pirate has probability <code><var>P_HIT_PRETTY</var></code> of hitting the Captain's ship,
-                        if her ship hasn't already been hit. If it has been hit, she will always miss as well.
-                    </span>
-                </p>
+                <div>
+                    <p data-if="isMale(1)">
+                        If his ship hasn't already been hit, Captain <var>person(1)</var> has probability
+                        <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
+                        If his ship has been hit, Captain <var>person(1)</var> will always miss.
+                    </p><p data-else="">
+                        If her ship hasn't already been hit, Captain <var>person(1)</var> has probability
+                        <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
+                        If her ship has been hit, Captain <var>person(1)</var> will always miss.
+                    </p>
+                    <p data-if="isMale(2)">
+                        If his ship hasn't already been hit, dread pirate <var>person(2)</var> has probability
+                        <code><var>P_HIT_PRETTY</var></code> of hitting the Captain's ship.
+                        If his ship has been hit, dread pirate <var>person(2)</var> will always miss.
+                    </p><p data-else="">
+                        If her ship hasn't already been hit, dread pirate <var>person(2)</var> has probability
+                        <code><var>P_HIT_PRETTY</var></code> of hitting the Captain's ship.
+                        If her ship has been hit, dread pirate <var>person(2)</var> will always miss.
+                    </p>
+                </div>
 
-                <p class="question">
-                    <span data-if="C_FIRST" data-unwrap="">
-                        If the Captain shoots first, what is the probability that
-                        <var>QUESTION</var>?
-                    </span>
-                    <span data-else="" data-unwrap="">
-                        If the pirate shoots first, what is the probability that
-                       <var>QUESTION</var>?
-                    </span>
+                <p class="question" data-if="C_FIRST">
+                    If the Captain and the pirate each shoot once, and the Captain shoots first,
+                    what is the probability that <var>QUESTION</var>?
+                </p><p data-else="">
+                    If the Captain and the pirate each shoot once, and the pirate shoots first,
+                    what is the probability that <var>QUESTION</var>?
                 </p>
 
                 <div class="solution">
@@ -409,18 +409,18 @@
                         In this case, event A is <var>EV_A</var> and event B is <var>EV_B</var>.
                     </p>
                     <p data-if="isMale(C_FIRST ? 1 : 2)">
-                        <span data-if="C_FIRST" data-unwrap="">
+                        <span data-if="C_FIRST">
                             The Captain fires first, so his ship can't be sunk before he fires his cannons.
                         </span>
-                        <span data-else="" data-unwrap="">
+                        <span data-else="">
                             The pirate fires first, so his ship can't be sunk before he fires his cannons.
                         </span>
                     </p>
                     <p data-else="">
-                        <span data-if="C_FIRST" data-unwrap="">
+                        <span data-if="C_FIRST">
                             The Captain fires first, so her ship can't be sunk before she fires her cannons.
                         </span>
-                        <span data-else="" data-unwrap="">
+                        <span data-else="">
                             The pirate fires first, so her ship can't be sunk before she fires her cannons.
                         </span>
                     </p>
@@ -428,18 +428,18 @@
                         So, the probability of <var>EV_A</var> is <code><var>PR_A</var></code>.
                     </p>
                     <p data-if="PR_B === 0 || PR_B === 1">
-                        <span data-if="C_FIRST" data-unwrap="">
+                        <span data-if="C_FIRST">
                             If the Captain hit the pirate ship, the pirate has no chance of firing back.
                         </span>
-                        <span data-else="" data-unwrap="">
+                        <span data-else="">
                             If the pirate hit the Captain's ship, the Captain has no chance of firing back.
                         </span>
                     </p>
                     <p data-else="">
-                        <span data-if="C_FIRST" data-unwrap="">
+                        <span data-if="C_FIRST">
                             If the Captain missed the pirate ship, the pirate has a normal chance to fire back.
                         </span>
-                        <span data-else="" data-unwrap="">
+                        <span data-else="">
                             If the pirate missed the Captain's ship, the Captain has a normal chance to fire back.
                         </span>
                     </p>
