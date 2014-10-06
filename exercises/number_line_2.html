@@ -155,8 +155,8 @@
             <div class="hints">
                 <p>We know where <code>0</code> is on the number line because it is labeled.</p>
                 <p>We know each tick mark represents <code><var>SCALE</var></code> because <code><var>-SCALE</var></code> and <code><var>SCALE</var></code> are labeled.</p>
-                <p data-if="NUMBER < 0">Because <code><var>NUMBER</var></code> is negative, it will be to the left of <code>0</code>.</p>
-                <p data-else="">Because <code><var>NUMBER</var></code> is positive, it will be to the right of <code>0</code>.</p>
+                <p data-if="NUMBER < 0">Because <code><var>NUMBER</var></code> is negative, it will be below <code>0</code>.</p>
+                <p data-else="">Because <code><var>NUMBER</var></code> is positive, it will be above <code>0</code>.</p>
                 <div>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: BLUE, fill: BLUE, strokeWidth: 3.5, arrows: "-&gt;" });
@@ -167,12 +167,12 @@
                         Each tick mark represents <code><var>SCALE</var></code>,
                         so <code><var>NUMBER</var></code> will be
                         <code><var>abs(round(NUMBER / SCALE))</var></code> tick marks
-                        to the left of <code>0</code>.
+                        below <code>0</code>.
                     </p><p data-else="">
                         Each tick mark represents <code><var>SCALE</var></code>,
                         so <code><var>NUMBER</var></code> will be
                         <code><var>abs(round(NUMBER / SCALE))</var></code> tick marks
-                        to the right of <code>0</code>.
+                        above <code>0</code>.
                     </p>
                 </div>
                 <div>
@@ -265,8 +265,8 @@
             <div class="hints">
                 <p>We know where <code>0</code> is on the number line because it is labeled.</p>
                 <p>We know each tick mark represents <code><var>SCALE</var></code> because <code><var>-SCALE</var></code> and <code><var>SCALE</var></code> are labeled.</p>
-                <p data-if="NUMBER < 0">Because the blue dot is to the left of <code>0</code>, the number will be negative.</p>
-                <p data-else="">Because the blue dot is to the right of <code>0</code>, the number will be positive.</p>
+                <p data-if="NUMBER < 0">Because the blue dot is below <code>0</code>, the number will be negative.</p>
+                <p data-else="">Because the blue dot is above <code>0</code>, the number will be positive.</p>
                 <div>
                     <div class="graphie" data-update="number-line-2">
                         for (var x = SCALE * 2; x &lt;= UPPER_BOUND; x += SCALE) {
