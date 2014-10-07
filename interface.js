@@ -703,7 +703,8 @@ $(window).unload(function() {
 
 function request(method, data) {
     var apiBaseUrl = (Exercises.assessmentMode ?
-            "/api/v1/user/assessment/exercises" : "/api/v1/user/exercises");
+            "/api/internal/user/assessment/exercises" :
+            "/api/internal/user/exercises");
 
     var params = {
         // Do a request to the server API
@@ -864,7 +865,7 @@ function subhintExpand(e, subhintName) {
     // write to KALOG capturing the subhint-expand
     // click
     if (!localMode) {
-        $.post("/api/v1/misc/subhint_expand", {
+        $.post("/api/internal/misc/subhint_expand", {
             subhintName: subhintName
         });
     }

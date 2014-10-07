@@ -10,7 +10,7 @@ import requests
 
 
 def get_title_dict():
-    r = requests.get("http://www.khanacademy.org/api/v1/exercises")
+    r = requests.get("http://www.khanacademy.org/api/internal/exercises")
     data = r.json()
     return {e['file_name']: e['pretty_display_name']
             for e in data if e['file_name']}
