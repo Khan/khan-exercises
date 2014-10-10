@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Weighted average of three points</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <div data-ensure="!(WEIGHT_A !== 1 && WEIGHT_A === WEIGHT_B && WEIGHT_A === WEIGHT_C)">
+                <var id="WEIGHT_A">randRangeWeighted(1, 4, 1, 0.4)</var>
+                <var id="WEIGHT_B">randRangeWeighted(1, 4, 1, 0.4)</var>
+                <var id="WEIGHT_C">randRangeWeighted(1, 4, 1, 0.4)</var>
+            </div>
+            <var id="TOTAL_WEIGHT">WEIGHT_A + WEIGHT_B + WEIGHT_C</var>
+            <var id="XA">randRangeNonZero(-9, 9)</var>
+            <var id="XB">randRangeExclude(-9, 9, [0, XA])</var>
+            <var id="XC">randRangeNonZero(-9, 9, [0, XA, XB])</var>
+            <var id="YA">randRangeExclude(-9, 8, [-2, -1, 0, 1])</var>
+            <var id="YB">randRangeExclude(-9, 8, [-2, -1, 0, 1, YA])</var>
+            <var id="YC">randRangeExclude(-9, 8, [-2, -1, 0, 1, YA, YB])</var>
+            <var id="SUM_X">XA * WEIGHT_A + XB * WEIGHT_B + XC * WEIGHT_C</var>
+            <var id="SUM_Y">YA * WEIGHT_A + YB * WEIGHT_B + YC * WEIGHT_C</var>
+            <var id="XM">SUM_X / TOTAL_WEIGHT</var>
+            <var id="YM">SUM_Y / TOTAL_WEIGHT</var>
+            <var id="XM_FRACTION">fractionReduce(SUM_X, TOTAL_WEIGHT)</var>
+            <var id="YM_FRACTION">fractionReduce(SUM_Y, TOTAL_WEIGHT)</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="question">
+                    What is the average of the points <code>\blue{A}</code>, <code>\pink{B}</code> and <code>\green{C}</code> with weights
+                    <code>\blue{<var>WEIGHT_A</var>}</code>, <code>\pink{<var>WEIGHT_B</var>}</code> and <code>\green{<var>WEIGHT_C</var>}</code> respectively?
+                </p>
+
+                <div class="graphie" id="graph">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "&lt;-&gt;",
+                    });
+
+                    label([XA, YA], "A", "above", { color: BLUE });
+                    label([XB, YB], "B", "above", { color: PINK });
+                    label([XC, YC], "C", "above", { color: GREEN });
+                    
+                    circle([XA, YA], 0.15, { stroke: BLUE, fill: BLUE, strokeWidth: 1.5 });
+                    circle([XB, YB], 0.15, {stroke: PINK, fill: PINK, strokeWidth: 1.5 });
+                    circle([XC, YC], 0.15, { stroke: GREEN, fill: GREEN, strokeWidth: 1.5 });
+                </div>
+
+
+                <div class="solution" data-type="multiple">
+                    <p><code>(</code><span class="sol short40"><var>XM</var></span>, <span class="sol short40"><var>YM</var></span><code>)</code>
+                    </p>
+                    <p class="example"> integers, like <code>6</code></p>
+                    <p class="example"> simplified proper fractions, like <code>3/5</code></p>
+                    <p class="example"> simplified improper fractions, like <code>7/4</code></p>
+                    <p class="example"> a mixed number, like <code>1\ 3/4</code></p>
+                    <p class="example"> and/or exact decimals, like <code>0.75</code></p>
+                </div>
+
+                <div class="hints">
+                    <p>For a weighted average, each value is multiplied by a weight, then the results are summed and divided by the sum of the weights.</p>
+
+                    <div>
+                        <p>First find the sum of the weights.</p>
+                        <p><code>
+                            \blue{<var>WEIGHT_A</var>} + \pink{<var>WEIGHT_B</var>} + \green{<var>WEIGHT_C</var>} = <var>TOTAL_WEIGHT</var>
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>So the weighted average of the three points, call it <code>\purple{M}</code>, is:</p>
+                        <p><code>
+                            \purple{M} = \dfrac{\blue{<var>WEIGHT_A</var>A} + \pink{<var>WEIGHT_B</var>B} + \green{<var>WEIGHT_C</var>C}}
+                            {<var>TOTAL_WEIGHT</var>}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>The <code>x</code> coordinate of <code>\purple{M}</code></span> is the weighted average of the <code>x</code> coordinates.</p>
+                        <p><code>
+                            \purple{M_x} = \dfrac{1}{<var>TOTAL_WEIGHT</var>}\bigl(
+                            \blue{<var>WEIGHT_A</var> \cdot A_x} + 
+                            \pink{<var>WEIGHT_B</var> \cdot B_x} + 
+                            \green{<var>WEIGHT_C</var> \cdot C_x}\bigr)
+                        </code></p>
+                    </div>
+
+                    <p><code>
+                        \purple{M_x} = \dfrac{1}{<var>TOTAL_WEIGHT</var>}\bigl(
+                        \blue{<var>WEIGHT_A</var> \cdot <var>negParens(XA)</var>} + 
+                        \pink{<var>WEIGHT_B</var> \cdot <var>negParens(XB)</var>} + 
+                        \green{<var>WEIGHT_C</var> \cdot <var>negParens(XC)</var>}\bigr)
+                    </code></p>
+                    
+                    <p><code>\purple{M_x} = \dfrac{1}{<var>TOTAL_WEIGHT</var>}(<var>SUM_X</var>)</code></p>
+                    
+                    <p><code>\purple{M_x = <var>XM_FRACTION</var>}</code></p>
+
+                    <div>
+                        <p>The <code>y</code> coordinate of <code>\purple{M}</code></span> is the weighted average of the <code>y</code> coordinates.</p>
+                        <p><code>
+                            \purple{M_y} = \dfrac{1}{<var>TOTAL_WEIGHT</var>}\bigl(
+                            \blue{<var>WEIGHT_A</var> \cdot A_y} + 
+                            \pink{<var>WEIGHT_B</var> \cdot B_y} + 
+                            \green{<var>WEIGHT_C</var> \cdot C_y}\bigr)
+                        </code></p>
+                    </div>
+
+                    <p><code>
+                        \purple{M_y} = \dfrac{1}{<var>TOTAL_WEIGHT</var>}\bigl(
+                        \blue{<var>WEIGHT_A</var> \cdot <var>negParens(YA)</var>} + 
+                        \pink{<var>WEIGHT_B</var> \cdot <var>negParens(YB)</var>} + 
+                        \green{<var>WEIGHT_C</var> \cdot <var>negParens(YC)</var>}\bigr)
+                    </code></p>
+
+                    <p><code>\purple{M_y} = \dfrac{1}{<var>TOTAL_WEIGHT</var>}(<var>SUM_Y</var>)</code></p>
+
+                    <p><code>\purple{M_y = <var>YM_FRACTION</var>}</code></p>
+
+                    <div>
+                        <p><code>
+                            \purple{M} = (\purple{M_x}, \purple{M_y}) = \left(\purple{<var>XM_FRACTION</var>}, \purple{<var>YM_FRACTION</var>}\right)
+                        </code></p>
+                        <div class="graphie" data-update="graph">
+                            circle([XM, YM], 0.15, { stroke: PURPLE, fill: PURPLE, strokeWidth: 1.5 });
+                            label([XM, YM], "M", "above", { color: PURPLE });
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
