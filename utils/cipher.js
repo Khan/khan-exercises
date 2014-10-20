@@ -5,11 +5,11 @@ $.extend(KhanUtil, {
     /* A set of cipher messages to diversify exercises */
     getCipherMessage: function(num) {
         return [
-            $._("I have learned all kinds of different things from using Khan Academy"),
-            $._("The world is filled with secrets and mysteries just waiting to be discovered"),
-            $._("When a message contains a single character by itself, it is most likely either the letter i or a"),
-            $._("Words which have repeating letters like too and all can also give a hint to what the secret message is"),
-            $._("You have just cracked a Caesar cipher and obtained the title of code breaker")
+            $._("i have learned all kinds of different things from using khan academy"),
+            $._("the world is filled with secrets and mysteries just waiting to be discovered"),
+            $._("when a message contains a single character by itself, it is most likely either the letter i or a"),
+            $._("words which have repeating letters like too and all can also give a hint to what the secret message is"),
+            $._("you have just cracked a caesar cipher and obtained the title of code breaker")
         ][num - 1];
     },
 

@@ -9,8 +9,9 @@
     <div class="exercise">
         <div class="vars">
             <var id="M">person( 1 )</var>
+            <var id="M_LOWER">M.toLowerCase()</var>
             <var id="SHIFT">randRange(1,25)</var>
-            <var id="C">applyCaesar(M,SHIFT)</var>
+            <var id="C">applyCaesar(M_LOWER, SHIFT)</var>
 
             <var id="LOWER_BOUND">0</var>
             <var id="UPPER_BOUND">25</var>
@@ -21,13 +22,15 @@
                 <div class="question">
                     <div data-if="isMale(1)">
                         <p>
-                            <strong><var>M</var></strong> decides he wants to encrypt his name with a Caesar Cipher, using a shift of <var>SHIFT</var>.
+                            <strong><var>M</var></strong> decides he wants to encrypt his name with a Caesar Cipher,
+                            using a shift of <code><var>SHIFT</var></code>.
                         </p><p>
                             What will his name look like after he encrypts it?
                         </p>
                     </div><div data-else="">
                         <p>
-                            <strong><var>M</var></strong> decides she wants to encrypt her name with a Caesar Cipher, using a shift of <var>SHIFT</var>.
+                            <strong><var>M</var></strong> decides she wants to encrypt her name with a Caesar Cipher,
+                            using a shift of <code><var>SHIFT</var></code>.
                         </p><p>
                             What will her name look like after she encrypts it?
                         </p>
@@ -97,14 +100,14 @@
         </div>
 
         <div class="hints">
-            <p>We want to take each letter of the name and shift it right by <strong><var>SHIFT</var></strong>.</p>
+            <p>We want to take each letter of the name and shift it right by <code><var>SHIFT</var></code>.</p>
             <p>
-                If we take the first letter <strong><var>M[0]</var></strong> and shift it right by <strong><var>SHIFT</var></strong>, we get the letter
-                <strong><var>"abcdefghijklmnopqrstuvwxyz"[ ("abcdefghijklmnopqrstuvwxyz".indexOf( M[0].toLowerCase() ) + SHIFT) % 26]</var></strong>.
+                If we take the first letter <strong><var>M[0]</var></strong> and shift it right by <code><var>SHIFT</var></code>, we get the letter
+                <strong><var>"abcdefghijklmnopqrstuvwxyz"[("abcdefghijklmnopqrstuvwxyz".indexOf(M_LOWER[0]) + SHIFT) % 26]</var></strong>.
             </p>
             <p>
-                If we take the second letter <strong><var>M[1]</var></strong> and shift it right by <strong><var>SHIFT</var></strong>, we get the letter
-                <strong><var>"abcdefghijklmnopqrstuvwxyz"[ ("abcdefghijklmnopqrstuvwxyz".indexOf( M[1].toLowerCase() ) + SHIFT) % 26]</var></strong>.
+                If we take the second letter <strong><var>M[1]</var></strong> and shift it right by <code><var>SHIFT</var></code>, we get the letter
+                <strong><var>"abcdefghijklmnopqrstuvwxyz"[("abcdefghijklmnopqrstuvwxyz".indexOf(M_LOWER[1]) + SHIFT) % 26]</var></strong>.
             </p>
             <p>
                 Continuing this for each letter, the final cipher output is &ldquo;<var>C</var>&rdquo;
