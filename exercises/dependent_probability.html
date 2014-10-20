@@ -62,19 +62,9 @@
                             return prs;
                         })()
                     </var>
-                    <var id="ANS_N,ANS_D">
-                        (function(){
-                            n = d = 1;
-                            _.each(PROBS, function(frac) {
-                                n *= frac[0];
-                                d *= frac[1];
-                            });
-                            gcd = getGCD(n, d);
-                            n = n/gcd;
-                            d = d/gcd;
-                            return [n, d];
-                        })()
-                    </var>
+                    <var id="ANS_N">_.reduce(PROBS, function(n, frac) { return n * frac[0]; }, 1)</var>
+                    <var id="ANS_D">_.reduce(PROBS, function(n, frac) { return n * frac[1]; }, 1)</var>
+                    <var id="GCD">getGCD(ANS_N, ANS_D)</var>
                 </div>
 
                 <p class="problem">
@@ -91,7 +81,7 @@
                     of them <var>EVENT_PY</var>?
                 </p>
 
-                <div class="solution">
+                <div class="solution" data-forms="proper, improper, decimal, percent" data-simplify="optional">
                     <var>ANS_N / ANS_D</var>
                 </div>
 
@@ -151,17 +141,23 @@
                         We can continue using the same logic for the rest of
                         the students the teacher picks.
                     </p>
-                    <p>
-                        So, the probability of the teacher picking 
-                        <code><var>CHOSEN</var></code> students such that
-                        <var>ALL ? ((CHOSEN === 2) ? "both" : "all") 
-                                 : "none"</var> of them 
-                        <var>EVENT_PY</var> is 
-                        <code><var>_.map(PROBS, function(p){
-                            return "\\dfrac{"+p[0]+"}{"+p[1]+"}";
-                        }).join("\\cdot")</var> =
-                        \dfrac{<var>ANS_N</var>}{<var>ANS_D</var>}</code>
-                    </p>
+                    <div>
+                        <p>
+                            So, the probability of the teacher picking 
+                            <code><var>CHOSEN</var></code> students such that
+                            <var>ALL ? ((CHOSEN === 2) ? "both" : "all") 
+                                     : "none"</var> of them 
+                            <var>EVENT_PY</var> is:
+                        </p>
+                        <p><code>\qquad<var>_.map(PROBS, function(p){
+                                return "\\dfrac{"+p[0]+"}{"+p[1]+"}";
+                            }).join("\\cdot")</var> =
+                            \dfrac{<var>ANS_N</var>}{<var>ANS_D</var>}
+                            <span data-if="GCD !== 1">
+                                = <var>fractionReduce(ANS_N, ANS_D)</var>
+                            </span></code>
+                        </p>
+                    </div>
                 </div>
             </div>
             <div id="marbles">
@@ -192,14 +188,8 @@
                         COLOR_ONE === COLOR_T ? 
                         NUM_TWO - 1 : NUM_TWO
                     </var>
-                    <var id="ANS_N">
-                        NUM_ONE*AFTER_NUM/
-                        getGCD(NUM_ONE*AFTER_NUM,TOTAL*(TOTAL-1))
-                    </var>
-                    <var id="ANS_D">
-                        TOTAL*(TOTAL-1)/
-                        getGCD(NUM_ONE*AFTER_NUM,TOTAL*(TOTAL-1))
-                    </var>
+                    <var id="ANS_N">NUM_ONE * AFTER_NUM</var>
+                    <var id="ANS_D">TOTAL * (TOTAL - 1)</var>
                 </div>
 
                 <p class="problem">
@@ -209,17 +199,15 @@
                     and <code><var>BLUEMAR</var></code>
                     blue <var>MARBLE</var>s.</p>
                 <p></p>
-                <div class="question">
-                    <p>If we choose a <var>MARBLE</var>, then another <var>
-                    MARBLE</var>
+                <p class="question">
+                    If we choose a <var>MARBLE</var>, then another <var>MARBLE</var>
                     <em>without putting the first one back in the <var>
                     CONTAINER</var></em>, what is the probability that 
                     the first <var>MARBLE</var> will be <var>COLOR_ONE</var> 
-                     and the second will be <var>COLOR_T</var><var>COLOR_ONE === COLOR_T ? " as well?" : "?"</var> Write 
-                    your answer as a simplified fraction.</p>
-                </div>
-                <div class="solution">
-                    <var>(NUM_ONE / TOTAL) * (AFTER_NUM / (TOTAL - 1))</var>
+                    and the second will be <var>COLOR_T</var><var>COLOR_ONE === COLOR_T ? " as well?" : "?"</var>
+                </p>
+                <div class="solution" data-forms="proper, improper, decimal, percent"  data-simplify="optional">
+                    <var>ANS_N / ANS_D</var>
                 </div>
                 <div class="hints">
                     <p>
@@ -278,7 +266,8 @@
                         <var>COLOR_TWO</var> <var>MARBLE</var>
                         is <code>\dfrac{<var>NUM_ONE</var>}{<var>TOTAL</var>} 
                         \cdot \dfrac{<var>AFTER_NUM</var>}{<var>TOTAL-1</var>}
-                        = \dfrac{<var>ANS_N</var>}{<var>ANS_D</var>}</code>
+                        = \dfrac{<var>ANS_N</var>}{<var>ANS_D</var>}
+                        = <var>fractionReduce(ANS_N, ANS_D)</var></code>
                     </p>
                 </div>
             </div>
@@ -310,19 +299,20 @@
                             }
                         })()
                     </var>
-                    <var id="ANS_N, ANS_D, ANSWER">
+                    <var id="ANS_N, ANS_D">
                         (function(){
                             if(C_FIRST) {
-                                return [[CAPTAIN_NUM, CAPTAIN_DEM, CAPTAIN_PROB],
-                                [(CAPTAIN_DEM-CAPTAIN_NUM) * PIRATE_NUM, CAPTAIN_DEM*PIRATE_DEM, (1-CAPTAIN_PROB)*PIRATE_PROB],
-                                [0,1,0]][INDEX];
+                                return [[CAPTAIN_NUM, CAPTAIN_DEM],
+                                [(CAPTAIN_DEM - CAPTAIN_NUM) * PIRATE_NUM, CAPTAIN_DEM * PIRATE_DEM],
+                                [0, 1]][INDEX];
                             } else {
-                                return [[CAPTAIN_NUM * (PIRATE_DEM-PIRATE_NUM), CAPTAIN_DEM*PIRATE_DEM, CAPTAIN_PROB*(1-PIRATE_PROB)],
-                                [PIRATE_NUM, PIRATE_DEM, PIRATE_PROB],
-                                [0,1,0]][INDEX];
+                                return [[CAPTAIN_NUM * (PIRATE_DEM - PIRATE_NUM), CAPTAIN_DEM * PIRATE_DEM],
+                                [PIRATE_NUM, PIRATE_DEM],
+                                [0, 1]][INDEX];
                             }
                         })()
                     </var>
+                    <var id="ANSWER">ANS_N / ANS_D</var>
                     <var id="C">INDEX === 0 || INDEX === 2</var>
                     <var id="P">INDEX === 1 || INDEX === 2</var>
                     <var id="EV_A, PR_A">
@@ -396,7 +386,7 @@
                     what is the probability that <var>QUESTION</var>?
                 </p>
 
-                <div class="solution">
+                <div class="solution" data-forms="integer, proper, improper, decimal, percent">
                     <var>ANSWER</var>
                 </div>
 
