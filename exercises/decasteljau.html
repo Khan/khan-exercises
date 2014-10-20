@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie kvector">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>De Casteljau algorithm</title>
+    <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <div data-ensure="getDistance([DXA, DYA], [DXC, DYC]) > 4">
+                <var id="T_DENOM">randFromArray([2, 4, 5, 8])</var>
+                <var id="T_NUMER">randRange(1, T_DENOM - 1)</var>
+                <var id="T">T_NUMER / T_DENOM</var>
+                <var id="T_FRACTION">fractionReduce(T_NUMER, T_DENOM)</var>
+
+                <var id="DELTA">floor(8 / T_DENOM)</var>
+
+                <div data-ensure="getDistance([0, 0], [DXA, DYA]) > 4">
+                    <var id="DXA">randRange(-DELTA, DELTA) * T_DENOM</var>
+                    <var id="DYA">randRange(-DELTA, DELTA) * T_DENOM</var>
+                    <var id="SLOPE_A">(atan2(DYA, DXA) + PI) % PI</var>
+                </div>
+                <div data-ensure="getDistance([0, 0], [DXC, DYC]) > 5 && round(10 * SLOPE_A) !== round(10 * SLOPE_C)">
+                    <var id="DXC">randRange(-DELTA, DELTA) * T_DENOM</var>
+                    <var id="DYC">randRange(-DELTA, DELTA) * T_DENOM</var>
+                    <var id="SLOPE_C">(atan2(DYC, DXC) + PI) % PI</var>
+                </div>
+            </div>
+
+            <var id="BX">randRangeNonZero(-9 - min(0, min(DXA, DXC)), 9 - max(0, max(DXA, DXC)))</var>
+            <var id="BY">randRangeNonZero(-9 - min(0, min(DYA, DYC)), 9 - max(0, max(DYA, DYC)))</var>
+
+            <var id="AX">BX + DXA</var>
+            <var id="AY">BY + DYA</var>
+            <var id="CX">BX + DXC</var>
+            <var id="CY">BY + DYC</var>
+
+            <var id="QX">round(AX * (1 - T) + BX * T)</var>
+            <var id="QY">round(AY * (1 - T) + BY * T)</var>
+            <var id="RX">round(BX * (1 - T) + CX * T)</var>
+            <var id="RY">round(BY * (1 - T) + CY * T)</var>
+            <var id="PX">QX * (1 - T) + RX * T</var>
+            <var id="PY">QY * (1 - T) + RY * T</var>
+            <var id="PX_FRACTION">fractionReduce(QX * (T_DENOM - T_NUMER) + RX * T_NUMER, T_DENOM)</var>
+            <var id="PY_FRACTION">fractionReduce(QY * (T_DENOM - T_NUMER) + RY * T_NUMER, T_DENOM)</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p>A parabola is created with a string construction from the control points, <code>A</code>, <code>B</code> and <code>C</code>.</p>
+                <p class="question">
+                    What is the coordinate of a point, <code>P</code>, if it is <code><var>T_FRACTION</var></code> of the way along the parabola,
+                    from <code>A</code> to <code>C</code>?
+                </p>
+
+                <div class="graphie" id="graph">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "&lt;-&gt;",
+                    });
+
+                    
+                    style({ stroke: BLUE, fill: BLUE, strokeWidth: 1.5 });
+                    line([AX, AY], [BX, BY]);
+                    line([CX, CY], [BX, BY]);
+
+                    // Construct parabola
+                    var points = [];
+                    var resolution = 40;
+
+                    for (var i = 0; i &lt;= resolution; i++) {
+                        var t = i / resolution;
+                        var s = 1 - t;
+                        var x = s * s * AX + 2 * s * t * BX + t * t * CX;
+                        var y = s * s * AY + 2 * s * t * BY + t * t * CY;
+                        points.push([x, y]);
+                    }
+
+                    style({ stroke: GREEN, fill: null, strokeWidth: 3 });
+                    path(points);
+
+                    style({ stroke: BLUE, fill: BLUE, color: BLUE, strokeWidth: 1.5 });
+                    circle([AX, AY], 0.15);
+                    circle([BX, BY], 0.15);
+                    circle([CX, CY], 0.15);
+
+                    var A = [AX, AY];
+                    var B = [BX, BY];
+                    var C = [CX, CY];
+
+                    var labelA = kvector.normalize(kvector.subtract(A, B));
+                    var labelC = kvector.normalize(kvector.subtract(C, B));
+                    var labelB = kvector.negate(kvector.normalize(kvector.add(labelA, labelC)));
+
+                    label(kvector.add(A, labelA), "A");
+                    label(kvector.add(B, labelB), "B");
+                    label(kvector.add(C, labelC), "C");
+                </div>
+
+
+                <div class="solution" data-type="multiple">
+                    <p><code>P = (</code>
+                        <span class="sol short40" data-simplify="optional"><var>PX</var></span>,
+                        <span class="sol short40" data-simplify="optional"><var>PY</var></span>
+                        <code>)</code>
+                    </p>
+                    <p class="example"> integers, like <code>6</code></p>
+                    <p class="example"> simplified proper fractions, like <code>3/5</code></p>
+                    <p class="example"> simplified improper fractions, like <code>7/4</code></p>
+                    <p class="example"> a mixed number, like <code>1\ 3/4</code></p>
+                    <p class="example"> and/or exact decimals, like <code>0.75</code></p>
+                </div>
+
+                <div class="hints">
+                    <p>
+                        First find a point, <code>\pink{Q}</code>, <code><var>T_FRACTION</var></code> of the way along <code>\blue{\overline{AB}}</code>.
+                    </p>
+                    <p><code>\pink{Q} = \left(1 - <var>T_FRACTION</var>\right)\blue{A} + \left(<var>T_FRACTION</var>\right)\blue{B}</code></p>
+                    <p><code>
+                        \begin{eqnarray} \pink{Q_x}
+                        &amp;=&amp; \left(<var>fractionReduce(T_DENOM - T_NUMER, T_DENOM)</var>\right)\blue{A_x} +
+                        \left(<var>T_FRACTION</var>\right)\blue{B_x} \\
+                        &amp;=&amp; \left(<var>fractionReduce(T_DENOM - T_NUMER, T_DENOM)</var>\right)\blue{<var>negParens(AX)</var>} + 
+                        \left(<var>T_FRACTION</var>\right)\blue{<var>negParens(BX)</var>} \\
+                        &amp;=&amp; <var>fractionReduce((T_DENOM - T_NUMER) * AX, T_DENOM)</var> + <var>fractionReduce(T_NUMER * BX, T_DENOM)</var>
+                        = \pink{<var>QX</var>}
+                        \end{eqnarray}
+                    </code></p>
+
+                    <p><code>
+                        \begin{eqnarray} \pink{Q_y}
+                        &amp;=&amp; \left(<var>fractionReduce(T_DENOM - T_NUMER, T_DENOM)</var>\right)\blue{A_y} +
+                        \left(<var>T_FRACTION</var>\right)\blue{B_y} \\
+                        &amp;=&amp; \left(<var>fractionReduce(T_DENOM - T_NUMER, T_DENOM)</var>\right)\blue{<var>negParens(AY)</var>} + 
+                        \left(<var>T_FRACTION</var>\right)\blue{<var>negParens(BY)</var>} \\
+                        &amp;=&amp; <var>fractionReduce((T_DENOM - T_NUMER) * AY, T_DENOM)</var> + <var>fractionReduce(T_NUMER * BY, T_DENOM)</var>
+                        = \pink{<var>QY</var>}
+                        \end{eqnarray}
+                    </code></p>
+
+                    <div>
+                        <p>So <code>\pink{Q}</code> is at <code>(\pink{<var>QX</var>}, \pink{<var>QY</var>})</code>.</p>
+                        <div class="graphie" data-update="graph">
+                            graph.R = [RX, RY];
+                            graph.Q = [QX, QY];
+                            graph.RQ = kvector.normalize(kvector.subtract(graph.R, graph.Q));
+                            
+                            style({ stroke: PINK, fill: PINK, color: PINK, strokeWidth: 1.5 });
+                            circle(graph.Q, 0.15);
+                            label(kvector.subtract(graph.Q, graph.RQ), "Q");
+                        </div>
+                    </div>
+
+                    <p>
+                        Find a point, <code>\pink{R}</code>, <code><var>T_FRACTION</var></code> of the way along <code>\blue{\overline{BC}}</code>,
+                        using the same method.
+                    </p>
+                    <p><code>\pink{R} = \left(1 - <var>T_FRACTION</var>\right)\blue{B} + \left(<var>T_FRACTION</var>\right)\blue{C}</code></p>
+                    <div>
+                        <p><code>\pink{R}</code> is at <code>(\pink{<var>RX</var>}, \pink{<var>RY</var>})</code>.</p>
+                        <div class="graphie" data-update="graph">
+                            circle(graph.R, 0.15);
+                            label(kvector.add(graph.R, graph.RQ), "R");
+                        </div>
+                    </div>
+
+                    <div>
+                        <p><code>\green{P}</code> is <code><var>T_FRACTION</var></code> of the way along <code>\pink{\overline{QR}}</code>.</p>
+                        <div class="graphie" data-update="graph">
+                            line([QX, QY], [RX, RY], { stroke: PINK });
+                        </div>
+                    </div>
+
+                    <p><code>\green{P} = \left(1 - <var>T_FRACTION</var>\right)\pink{Q} + \left(<var>T_FRACTION</var>\right)\pink{R}</code></p>
+
+                    <div>
+                        <p><code>\green{P}</code> is at <code>\left(\green{<var>PX_FRACTION</var>}, \green{<var>PY_FRACTION</var>}\right)</code>.</p>
+                        <div class="graphie" data-update="graph">
+                            style({ stroke: GREEN, fill: GREEN, color: GREEN });
+                            circle([PX, PY], 0.15);
+                            label(kvector.add([PX, PY], kvector.rotateDeg(graph.RQ, 90)), "P");
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
