@@ -42,6 +42,17 @@ function cleanupIntervals() {
     intervalIDs.length = 0;
 }
 
+// Bound a number by 1e-6 and 1e20 to avoid exponents after toString
+function boundNumber(num) {
+    if (num === 0) {
+        return num;
+    } else if (num < 0) {
+        return -boundNumber(-num);
+    } else {
+        return Math.max(1e-6, Math.min(num, 1e20));
+    }
+}
+
 $.extend(KhanUtil, {
     unscaledSvgPath: function(points) {
         // If this is an empty closed path, return "" instead of "z", which
@@ -192,17 +203,6 @@ KhanUtil.createGraphie = function(el) {
     };
 
     var svgPath = function(points, alreadyScaled) {
-        // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
-        function boundNumber(num) {
-            if (num === 0) {
-                return num;
-            } else if (num < 0) {
-                return -boundNumber(-num);
-            } else {
-                return Math.max(1e-6, Math.min(num, 1e20));
-            }
-        }
-
         return $.map(points, function(point, i) {
             if (point === true) {
                 return "z";
@@ -211,6 +211,22 @@ KhanUtil.createGraphie = function(el) {
                 return (i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
             }
         }).join("");
+    };
+
+    var quadraticSvgPath = function(points, alreadyScaled) {
+        if (points.length !== 3) {
+            throw new Error(
+                "Quadratic paths require three points."
+            );
+        }
+
+        if (!alreadyScaled) {
+            points = _.map(points, scalePoint);
+        }
+
+        var values = _.map(_.flatten(points), boundNumber);
+        return "M" + values[0] + "," + values[1] + " Q" + values[2] + "," +
+            values[3] + " " + values[4] + "," + values[5];
     };
 
     $.extend(KhanUtil, {svgPath: svgPath});
@@ -370,6 +386,22 @@ KhanUtil.createGraphie = function(el) {
 
         line: function(start, end) {
             return this.path([start, end]);
+        },
+
+        parabola: function(vertex, point) {
+            // Provide the vertex of the parabola and any other point along
+            // the curve. The range of the plotted parabola will be defined
+            // by the x-distance between the provided points.
+
+            // Calculate SVG 'control' point, defined by spec
+            var control = [vertex[0], vertex[1] - (point[1] - vertex[1])];
+
+            // Calculate mirror points across parabola's axis of symmetry
+            var dx = Math.abs(vertex[0] - point[0]);
+            var left = [vertex[0] - dx, point[1]];
+            var right = [vertex[0] + dx, point[1]];
+
+            return raphael.path(quadraticSvgPath([left, control, right]));
         },
 
         grid: function(xr, yr) {
