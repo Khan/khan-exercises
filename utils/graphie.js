@@ -229,6 +229,67 @@ KhanUtil.createGraphie = function(el) {
             values[3] + " " + values[4] + "," + values[5];
     };
 
+    var svgSinusoidPath = function(a, b, c, d) {
+        // Plot a sinusoid of the form: f(x) = a * sin(b * x - c) + d
+        var quarterPeriod = Math.abs(Math.PI / (2 * b));
+
+        var computeSine = function(x) {
+            return a * Math.sin(b * x - c) + d;
+        };
+
+        var computeDerivative = function(x) {
+            return a * b * Math.cos(c - b * x);
+        };
+
+        var coordsForOffset = function(initial, i) {
+            // Return the cubic coordinates (including the two anchor and two
+            // control points) for the ith portion of the sinusoid.
+            var x0 = initial + quarterPeriod * i;
+            var x1 = x0 + quarterPeriod;
+
+            // Interpolate using derivative technique
+            // See: http://stackoverflow.com/questions/13932704/how-to-draw-sine-waves-with-svg-js
+            var xCoords = [
+                x0,
+                x0 * 2/3 + x1 * 1/3,
+                x0 * 1/3 + x1 * 2/3,
+                x1
+            ];
+            var yCoords = [
+                computeSine(x0),
+                computeSine(x0) + computeDerivative(x0) * (x1 - x0)/3,
+                computeSine(x1) - computeDerivative(x1) * (x1 - x0)/3,
+                computeSine(x1)
+            ];
+
+            // Zip and scale
+            return _.map(_.zip(xCoords, yCoords), scalePoint);
+        };
+
+        // How many quarter-periods do we need to span the graph?
+        var extent = xRange[1] - xRange[0];
+        var numQuarterPeriods = Math.ceil(extent / quarterPeriod) + 1;
+
+        // Find starting coordinate: first anchor point curve left of xRange[0]
+        var initial = c / b;
+        var distToEdge = initial - xRange[0];
+        initial -= quarterPeriod * Math.ceil(distToEdge / quarterPeriod);
+
+        // First portion of path is special-case, requiring move-to ('M')
+        var coords = coordsForOffset(initial, 0);
+        var path = "M" + coords[0][0] + "," + coords[0][1] + " C" +
+            coords[1][0] + "," + coords[1][1] + " " + coords[2][0] + "," +
+            coords[2][1] + " " + coords[3][0] + "," + coords[3][1];
+        for (var i = 1; i < numQuarterPeriods; i++) {
+            coords = coordsForOffset(initial, i);
+            path += " C" + coords[1][0] + "," + coords[1][1] + " " +
+                coords[2][0] + "," + coords[2][1] + " " + coords[3][0] + "," +
+                coords[3][1];
+        }
+
+        return path;
+    };
+
     $.extend(KhanUtil, {svgPath: svgPath});
 
     var processAttributes = function(attrs) {
@@ -402,6 +463,11 @@ KhanUtil.createGraphie = function(el) {
             var right = [vertex[0] + dx, point[1]];
 
             return raphael.path(quadraticSvgPath([left, control, right]));
+        },
+
+        sinusoid: function(a, b, c, d) {
+            // Plot a sinusoid of the form: f(x) = a * sin(b * x - c) + d
+            return raphael.path(svgSinusoidPath(a, b, c, d));
         },
 
         grid: function(xr, yr) {
