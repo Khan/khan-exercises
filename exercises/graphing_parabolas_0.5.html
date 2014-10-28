@@ -118,9 +118,9 @@
                 style({
                     stroke: KhanUtil.BLUE
                 }, function() {
-                    graph.parabola = plot( function( x ) {
-                        return coeffs[0] * x * x + coeffs[1] * x + coeffs[2];
-                    }, [ -11, 11 ] );
+                    // Plot the parabola
+                    var a = coeffs[0], b = coeffs[1], c = coeffs[2];
+                    graph.parabola = parabola(a, b, c);
                     graph.parabola.toBack();
                 });
             };

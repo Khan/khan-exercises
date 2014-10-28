@@ -213,17 +213,44 @@ KhanUtil.createGraphie = function(el) {
         }).join("");
     };
 
-    var quadraticSvgPath = function(points, alreadyScaled) {
-        if (points.length !== 3) {
-            throw new Error(
-                "Quadratic paths require three points."
-            );
+    var svgParabolaPath = function(a, b, c) {
+        var computeParabola = function(x) {
+            return (a * x + b) * x + c;
+        };
+
+        // If points are collinear, plot a line instead
+        if (a === 0) {
+            var points = _.map(xRange, function(x) {
+                return [x, computeParabola(x)];
+            });
+            return svgPath(points);
         }
 
-        if (!alreadyScaled) {
-            points = _.map(points, scalePoint);
-        }
+        // Calculate x coordinates of points on parabola
+        var xVertex = -b / (2 * a);
+        var distToEdge = Math.max(
+            Math.abs(xVertex - xRange[0]),
+            Math.abs(xVertex - xRange[1])
+        );
 
+        // To guarantee that drawn parabola to spans the viewport, use a point
+        // on the edge of the graph furtherest from the vertex
+        var xPoint = xVertex + distToEdge;
+
+        // Compute parabola and other point on the curve
+        var vertex = [xVertex, computeParabola(xVertex)];
+        var point = [xPoint, computeParabola(xPoint)];
+
+        // Calculate SVG 'control' point, defined by spec
+        var control = [vertex[0], vertex[1] - (point[1] - vertex[1])];
+
+        // Calculate mirror points across parabola's axis of symmetry
+        var dx = Math.abs(vertex[0] - point[0]);
+        var left = [vertex[0] - dx, point[1]];
+        var right = [vertex[0] + dx, point[1]];
+
+        // Scale and bound
+        var points = _.map([left, control, right], scalePoint);
         var values = _.map(_.flatten(points), boundNumber);
         return "M" + values[0] + "," + values[1] + " Q" + values[2] + "," +
             values[3] + " " + values[4] + "," + values[5];
@@ -449,20 +476,9 @@ KhanUtil.createGraphie = function(el) {
             return this.path([start, end]);
         },
 
-        parabola: function(vertex, point) {
-            // Provide the vertex of the parabola and any other point along
-            // the curve. The range of the plotted parabola will be defined
-            // by the x-distance between the provided points.
-
-            // Calculate SVG 'control' point, defined by spec
-            var control = [vertex[0], vertex[1] - (point[1] - vertex[1])];
-
-            // Calculate mirror points across parabola's axis of symmetry
-            var dx = Math.abs(vertex[0] - point[0]);
-            var left = [vertex[0] - dx, point[1]];
-            var right = [vertex[0] + dx, point[1]];
-
-            return raphael.path(quadraticSvgPath([left, control, right]));
+        parabola: function(a, b, c) {
+            // Plot a parabola of the form: f(x) = (a * x + b) * x + c
+            return raphael.path(svgParabolaPath(a, b, c));
         },
 
         sinusoid: function(a, b, c, d) {

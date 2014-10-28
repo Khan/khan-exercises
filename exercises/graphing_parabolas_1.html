@@ -111,21 +111,9 @@
                 style({
                     stroke: KhanUtil.BLUE
                 }, function() {
-                    // Apply the parabola
+                    // Plot the parabola
                     var a = coeffs[0], b = coeffs[1], c = coeffs[2];
-                    var plot = function(x) {
-                        return [x, (a * x + b) * x + c];
-                    };
-
-                    // Calculate x-coordinates of points on parabola
-                    var xVertex = (a === 0) ? 0 : -b / (2 * a);
-                    var xExtent = Math.max(
-                        Math.abs(xVertex - 11),
-                        Math.abs(xVertex + 11)
-                    );
-                    var xPoint = xVertex + xExtent;
-
-                    graph.parabola = parabola(plot(xVertex), plot(xPoint));
+                    graph.parabola = parabola(a, b, c);
                     graph.parabola.toBack();
                 });
             };
