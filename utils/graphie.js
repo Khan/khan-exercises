@@ -317,7 +317,11 @@ KhanUtil.createGraphie = function(el) {
         return path;
     };
 
-    $.extend(KhanUtil, {svgPath: svgPath});
+    $.extend(KhanUtil, {
+        svgPath: svgPath,
+        svgParabolaPath: svgParabolaPath,
+        svgSinusoidPath: svgSinusoidPath
+    });
 
     var processAttributes = function(attrs) {
         var transformers = {
