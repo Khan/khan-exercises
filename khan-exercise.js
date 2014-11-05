@@ -173,7 +173,6 @@ if (localMode) {
         addLink("css/khan-site.css");
         addLink("css/khan-exercise.css");
         addLink("local-only/katex/katex.css");
-        addLink("local-only/katex/fonts/fonts.css");
     })();
 }
 

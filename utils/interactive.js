@@ -3816,7 +3816,7 @@ function Ruler(graphie, options) {
                 text
             );
             label.attr({
-                "font-family": "katex_main",
+                "font-family": "KaTeX_Main",
                 "font-size": "12px",
                 "color": "#444"
             });

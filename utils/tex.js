@@ -82,7 +82,7 @@ $.extend(KhanUtil, {
             if (Exercises.useKatex) {
                 // Try to process the nodes with KaTeX first
                 try {
-                    katex.process(text, $katexHolder[0]);
+                    katex.render(text, $katexHolder[0]);
                     // If that worked, and we previously formatted with
                     // mathjax, do some mathjax cleanup
                     if ($elem.attr("data-math-type") === "mathjax") {
