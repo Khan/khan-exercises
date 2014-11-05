@@ -668,6 +668,9 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         task_id: (Exercises.getTaskId && Exercises.getTaskId()) ||
                 (Exercises.learningTask && Exercises.learningTask.get("id")),
 
+        task_generation_time: (Exercises.learningTask &&
+                Exercises.learningTask.get("generationTime")),
+
         user_mission_id: Exercises.userMissionId,
 
         // The current card data
