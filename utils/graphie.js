@@ -317,11 +317,8 @@ KhanUtil.createGraphie = function(el) {
         return path;
     };
 
-    $.extend(KhanUtil, {
-        svgPath: svgPath,
-        svgParabolaPath: svgParabolaPath,
-        svgSinusoidPath: svgSinusoidPath
-    });
+    // `svgPath` is independent of graphie range, so we export on KhanUtil
+    $.extend(KhanUtil, { svgPath: svgPath });
 
     var processAttributes = function(attrs) {
         var transformers = {
@@ -809,7 +806,13 @@ KhanUtil.createGraphie = function(el) {
         scaleVector: scaleVector,
 
         unscalePoint: unscalePoint,
-        unscaleVector: unscaleVector
+        unscaleVector: unscaleVector,
+
+        // Custom SVG path functions that are dependent on graphie range
+        // `svgPath`, while independent of range, is exported for consistency
+        svgPath: svgPath,
+        svgParabolaPath: svgParabolaPath,
+        svgSinusoidPath: svgSinusoidPath
     });
 
     $.each(drawingTools, function(name) {
