@@ -122,10 +122,10 @@
             </div>
             <div class="question">
                 <p class="problem">
-                    <span data-if="GRID_HEIGHT === 4" data-unwrap="">
+                    <span data-if="GRID_HEIGHT === 4">
                         You are given two dice to roll. One is black with six sides; the other is white with four sides.
                     </span>
-                    <span data-else="" data-unwrap="">
+                    <span data-else="">
                         You are given two six-sided dice to roll.
                     </span>
                 </p>
@@ -195,17 +195,15 @@
                     });
                 </div>
             </div>
-            <div class="solution" data-type="rational"><var>SOLUTION_N / SOLUTION_D</var></div>
+            <div class="solution" data-forms="integer, decimal, proper, percentage"><var>SOLUTION_N / SOLUTION_D</var></div>
 
             <div class="hints">
                 <div>
                     <p data-if="isSingular(SOLUTION_N)">
-                        There is
-                        <b><var>cardinalThrough20(SOLUTION_N)</var></b> matching
-                        outcome.
+                        There is <b>one</b> matching outcome.
                     </p><p data-else="">
                         There are
-                        <b><var>cardinalThrough20(SOLUTION_N)</var></b> matching
+                        <b><code><var>SOLUTION_N</var></code></b> matching
                         outcomes.
                     </p>
                     <div class="graphie">
@@ -235,16 +233,16 @@
             <span class="question" id="question-statement" data-apply="append">
                 <span data-if="X !== Y">
                     <span data-if="X < 5">
-                        For a given roll, what is the probability that the dice are
+                        For a given roll, what is the probability that the dice display
                         <code><var>X</var></code> and <code><var>Y</var></code>
                         in any order?
                     </span><span data-else>
-                        For a given roll, what is the probability that the dice are
+                        For a given roll, what is the probability that the dice display
                         <code><var>X</var></code> and <code><var>Y</var></code>?
                     </span>
                 </span><span data-else>
-                    For a given roll, what is the probability that the dice are
-                    both equal to <code><var>X</var></code>?
+                    For a given roll, what is the probability that the dice both display
+                    <code><var>X</var></code>?
                 </span>
             </span>
         </div>
@@ -261,10 +259,12 @@
             <span class="question" id="question-statement" data-apply="append">
                 <span data-if="EVEN">
                     For a given roll, what is the probability that the black
-                    die is even and the white die is <code><var>Y</var></code>?
+                    die displays an even number and the white die displays
+                    <code><var>Y</var></code>?
                 </span><span data-else>
                     For a given roll, what is the probability that the black
-                    die is odd and the white die is <code><var>Y</var></code>?
+                    die displays an odd number and the white die displays
+                    <code><var>Y</var></code>?
                 </span>
             </span>
 
@@ -288,7 +288,7 @@
             </div>
 
             <span class="question" id="question-statement" data-apply="append">
-                For a given roll, what is the probability that the dice add to <code><var>Z</var></code>?
+                For a given roll, what is the probability that the values of the dice add to <code><var>Z</var></code>?
             </span>
 
             <div class="hints" data-apply="prependContents">
@@ -305,7 +305,7 @@
             </div>
 
             <span class="question" id="question-statement" data-apply="append">
-                For a given roll, what is the probability that the dice add to <code><var>Z</var></code> <em>or less</em>?
+                For a given roll, what is the probability that the values of the dice add to <code><var>Z</var></code> <em>or less</em>?
             </span>
 
             <div class="hints" data-apply="prependContents">
@@ -335,7 +335,8 @@
             </div>
 
             <span class="question" id="question-statement" data-apply="append">
-                For a given roll, what is the probability the black die is <code><var>X</var></code> and the white die is <code><var>Y</var></code>?
+                For a given roll, what is the probability the black die displays
+                <code><var>X</var></code> and the white die displays <code><var>Y</var></code>?
             </span>
         </div>
 
@@ -348,7 +349,7 @@
             </div>
 
             <span class="question" id="question-statement" data-apply="append">
-                For a given roll, what is the probability at least one die is <code><var>X</var></code>?
+                For a given roll, what is the probability at least one die displays <code><var>X</var></code>?
             </span>
 
             <div class="hints" data-apply="prependContents">
