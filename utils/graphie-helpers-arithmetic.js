@@ -869,7 +869,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
     this.showRemainder = function(remainder) {
         var txt;
         if (remainder === 0) {
-            txt = "\\text{" + $._("The remainder is 0 so we have our answer.") + "}";
+            txt = "\\text{" + $._("The remainder is 0, so we have our answer.") + "}";
         } else {
             txt = $._("\\text{Since } %(remainder)s \\text{ is less than } %(divisor)s \\text{, it is left as our remainder.}",
                     { remainder: remainder, divisor: divisor });
