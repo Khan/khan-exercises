@@ -7,7 +7,15 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="problems">
+    <div class="vars" data-ensure="V1 !== 'o' && V2 !== 'o'">
+        <var id="I1">randRange(1, 10)</var>
+        <var id="I2">randRangeExclude(1, 10, [P1])</var>
+        <var id="P1">person(I1)</var>
+        <var id="P2">person(I2)</var>
+        <var id="V1">personVar(I1)</var>
+        <var id="V2">personVar(I2)</var>
+    </div>
+    <div class="problems">  
         <div id="solve-older-1">
             <div class="vars">
                 <var id="C">randRange(3, 5)</var>
@@ -15,98 +23,120 @@
                 <var id="A">randRange(1, 10) * (C - 1)</var>
             </div>
 
-            <div class="question">
-                <p class="spin">
-                {<span class="first"><var>person(1)</var> is <var>A</var> years older than <var>person(2)</var></span>|<span class="first"><var>person(2)</var> is <var>A</var> years younger than <var>person(1)</var></span>}.
-                {For the last {four|3|two} years, <var>person(1)</var> and <var>person(2)</var> have been friends.|<var>person(1)</var> and <var>person(2)</var> first met 3 years ago.|}
-                <span class="second"><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</span></p>
+            <p class="problem spin">
+                {<span class="first"><var>P1</var> is <code><var>A</var></code> years older than <var>P2</var></span>|
+                <span class="first"><var>P2</var> is <code><var>A</var></code> years younger than <var>P1</var></span>}.
+                {For the last {four|<code>3</code>|two} years, <var>P1</var> and <var>P2</var> have been friends.|
+                <var>P1</var> and <var>P2</var> first met {four|<code>3</code>|two} years ago.|}
+                <span class="second">
+                    <var>CardinalThrough20(B)</var> years ago, <var>P1</var> was <code><var>C</var></code> times as old as <var>P2</var>.
+                </span>
+            </p>
+            
+            <p class="question">How old is <var>P1</var> now?</p>
 
-                <p>How old is <var>person(1)</var> now?</p>
-            </div>
             <div class="solution"><var>(C * (B + A) - B) / (C - 1)</var></div>
 
-            <div class="hints">
-		<p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
-                <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
+            <div class="hints" data-apply="appendContents">
                 <div>
                     <p>The information in the first sentence can be expressed in the following equation:</p>
-                    <div>
-                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code></p>
-                    </div>
+                    <p><code>\blue{<var>V1</var> = <var>V2</var> + <var>A</var>}</code></p>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                     </div>
                 </div>
-                <p><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old, and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
+                <p>
+                    <var>CardinalThrough20(B)</var> years ago, <var>P1</var> was <code><var>V1</var> - <var>B</var></code> years old,
+                    and <var>P2</var> was <code><var>V2</var> - <var>B</var></code> years old.
+                </p>
                 <div>
                     <p>The information in the second sentence can be expressed in the following equation:</p>
-                    <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code></p>
-                    </div>
+                    <p><code>\red{<var>V1</var> - <var>B</var> = <var>C</var>(<var>V2</var> - <var>B</var>)}</code></p>
                     <div class="graphie">
                         $(".second").addClass("hint_red");
                     </div>
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
-                <p>Because we are looking for <code><var>personVar(1)</var></code>, it might be easiest to solve our first equation for <code><var>personVar(2)</var></code> and substitute it into our second equation.</p>
+                <p>
+                    Because we are looking for <code><var>V1</var></code>,
+                    it might be easiest to solve our first equation for <code><var>V2</var></code>
+                    and substitute it into our second equation.
+                </p>
                 <div>
-                    <p>Solving our first equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_blue"><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our second equation, we get the equation:</p>
-                    <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(</code><code class="hint_blue">(<var>personVar(1)</var> - <var>A</var>)</code> <code class="hint_red"> -</code> <code class="hint_red"> <var>B</var>)</code></p>
-                    </div>
-                    <p>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                    <p>
+                        Solving our first equation for <code><var>V2</var></code>, we get:
+                        <code>\blue{<var>V2</var> = <var>V1</var> - <var>A</var>}</code>.
+                        Substituting this into our second equation, we get the equation:
+                    </p>
+                    <p>
+                        <code>\red{<var>V1</var> - <var>B</var> = <var>C</var>(}
+                        \blue{(<var>V1</var> - <var>A</var>)}\red{ - <var>B</var>)}</code>
+                    </p>
+                    <p>which combines the information about <code><var>V1</var></code> from both of our original equations.</p>
                 </div>
-                <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var><var>personVar(1)</var> - <var>C * (A + B)</var></code>.</p>
-                <p>Solving for <code><var>personVar(1)</var></code>, we get: <code><var>C - 1</var> <var>personVar(1)</var> = <var>C * (A + B) - B</var></code>.</p>
-				<p><code><var>personVar(1)</var> = <var>(C * (B + A) - B) / (C - 1)</var></code>.</p>
+                <p>
+                    Simplifying the right side of this equation, we get:
+                    <code><var>V1</var> - <var>B</var> = <var>C</var><var>V1</var> - <var>C * (A + B)</var></code>.
+                </p>
+                <p>
+                    Solving for <code><var>V1</var></code>, we get:
+                    <code><var>C - 1</var> <var>V1</var> = <var>C * (A + B) - B</var></code>.
+                </p>
+				<p><code><var>V1</var> = <var>(C * (B + A) - B) / (C - 1)</var></code>.</p>
             </div>
         </div>
 
         <div id="solve-younger-1" data-type="solve-older-1">
-            <div class="question">
-                <p>
-                    <span class="first"><var>person(1)</var> is <var>A</var> years older than <var>person(2)</var>.</span>
-                    <span class="second"><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var>
-                    was <var>C</var> times as old as <var>person(2)</var>.</span>
-                </p>
-                <p>How old is <var>person(2)</var> now?</p>
-            </div>
+            <p class="question">How old is <var>P2</var> now?</p>
+
             <div class="solution"><var>(A - B + C * B) / (C - 1)</var></div>
 
             <div class="hints">
-                <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
-                <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
+                <p>
+                    We can use the given information to write down two equations that describe the ages of
+                    <var>P1</var> and <var>P2</var>.
+                </p>
+                <p>
+                    Let <var>P1</var>'s current age be <code><var>V1</var></code>
+                    and <var>P2</var>'s current age be <code><var>V2</var></code>.
+                </p>
                 <div>
                     <p>The information in the first sentence can be expressed in the following equation:</p>
-                    <div>
-                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code></p>
-                    </div>
+                    <p><code>\blue{<var>V1</var> = <var>V2</var> + <var>A</var>}</code></p>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                     </div>
                 </div>
-                <p><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old, and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
+                <p>
+                    <var>CardinalThrough20(B)</var> years ago, <var>P1</var> was <code><var>V1</var> - <var>B</var></code> years old,
+                    and <var>P2</var> was <code><var>V2</var> - <var>B</var></code> years old.
+                </p>
                 <div>
                     <p>The information in the second sentence can be expressed in the following equation:</p>
-                    <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code></p>
-                    </div>
+                    <p><code>\red{<var>V1</var> - <var>B</var> = <var>C</var>(<var>V2</var> - <var>B</var>)}</code></p>
                     <div class="graphie">
                         $(".second").addClass("hint_red");
                     </div>
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
-                <p>Because we are looking for <code><var>personVar(2)</var></code>, it might be easiest to use our first equation for <code><var>personVar(1)</var></code> and substitute it into our second equation.</p>
+                <p>
+                    Because we are looking for <code><var>V2</var></code>,
+                    it might be easiest to use our first equation for <code><var>V1</var></code>
+                    and substitute it into our second equation.
+                </p>
                 <div>
-                    <p>Our first equation is: <code class="hint_blue"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>. Substituting this into our second equation, we get the equation:</p>
-                    <div>
-                        <p><code class="hint_blue">(<var>personVar(2)</var> + <var>A</var>)</code> <code class="hint_red">-</code> <code class="hint_red"><var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code></p>
-                    </div>
-                    <p>which combines the information about <code><var>personVar(2)</var></code> from both of our original equations.</p>
+                    <p>
+                        Our first equation is: <code>\blue{<var>V1</var> = <var>V2</var> + <var>A</var>}</code>.
+                        Substituting this into our second equation, we get the equation:
+                    </p>
+                    <p><code>
+                        \blue{(<var>V2</var> + <var>A</var>)}\red{-<var>B</var> = <var>C</var>(<var>V2</var> - <var>B</var>)}
+                    </code></p>
+                    <p>which combines the information about <code><var>V2</var></code> from both of our original equations.</p>
                 </div>
-                <p>Simplifying both sides of this equation, we get: <code><var>personVar(2)</var> + <var>A - B</var> = <var>C</var> <var>personVar(2)</var> - <var>C * B</var></code>.</p>
-                <p>Solving for <code><var>personVar(2)</var></code>, we get: <code><var>C - 1</var> <var>personVar(2)</var> = <var>A - B + C * B</var></code>.</p>
-				<p><code><var>personVar(2)</var> = <var>(A - B + C * B) / (C - 1)</var></code>.</p>
+                <p>Simplifying both sides of this equation, we get: <code><var>V2</var> + <var>A - B</var> = <var>C</var> <var>V2</var> - <var>C * B</var></code>.</p>
+                <p>Solving for <code><var>V2</var></code>, we get: <code><var>C - 1</var> <var>V2</var> = <var>A - B + C * B</var></code>.</p>
+                <p><code><var>V2</var> = <var>(A - B + C * B) / (C - 1)</var></code>.</p>
             </div>
         </div>
 
@@ -116,81 +146,74 @@
                 <var id="A">randRange(2, 10) * (C - 1)</var>
             </div>
 
-            <div class="question">
-                <p>
-                    <span class="first"><var>person(1)</var> is <var>C</var> times as old as <var>person(2)</var></span> and
-                    <span class="second">is also <var>A</var> years older than <var>person(2)</var></span>.
-                </p>
-                <p>How old is <var>person(1)</var>?</p>
-            </div>
+            <p class="problem">
+                <span class="first"><var>P1</var> is <code><var>C</var></code> times as old as <var>P2</var></span> and
+                <span class="second">is also <code><var>A</var></code> years older than <var>P2</var></span>.
+            </p>
+
+            <p class="question">How old is <var>P1</var>?</p>
+
             <div class="solution"><var>A * C / (C - 1)</var></div>
 
-            <div class="hints">
-                <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
-                <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
+            <div class="hints" data-apply="appendContents">
                 <div>
-                    <div>
-                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>C</var><var>personVar(2)</var></code></p>
-                    </div>
-                    <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code></p>
-                    </div>
+                    <p><code>\blue{<var>V1</var> = <var>C</var><var>V2</var>}</code></p>
+                    <p><code>\red{<var>V1</var> = <var>V2</var> + <var>A</var>}</code></p>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                         $(".second").addClass("hint_red");
                     </div>
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
-                <p>One way to solve for <code><var>personVar(1)</var></code> is to solve the second equation for <code><var>personVar(2)</var></code> and substitute that value into the first equation.</p>
+                <p>One way to solve for <code><var>V1</var></code> is to solve the second equation for <code><var>V2</var></code> and substitute that value into the first equation.</p>
                 <div>
-                    <p>Solving our second equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_red"><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our first equation, we get the equation: </p>
-                    <div>
-                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>C</var></code><code class="hint_red">(<var>personVar(1)</var> - <var>A</var>)</code></p>
-                    </div>
-                    <p>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                    <p>
+                        Solving our second equation for <code><var>V2</var></code>, we get:
+                        <code>\red{<var>V2</var> = <var>V1</var> - <var>A</var>}</code>.
+                        Substituting this into our first equation, we get the equation:
+                    </p>
+                    <p><code>\blue{<var>V1</var> = <var>C</var>}\red{(<var>V1</var> - <var>A</var>)}</code></p>
+                    <p>which combines the information about <code><var>V1</var></code> from both of our original equations.</p>
                 </div>
-                <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> = <var>C</var><var>personVar(1)</var> - <var>C * A</var></code>.</p>
-                <p>Solving for <code><var>personVar(1)</var></code>, we get: <code><var>C - 1</var> <var>personVar(1)</var> = <var>A * C</var></code>.</p>
-				<p><code><var>personVar(1)</var> = <var>A * C / (C - 1)</var></code>.</p>
+                <p>Simplifying the right side of this equation, we get: <code><var>V1</var> = <var>C</var><var>V1</var> - <var>C * A</var></code>.</p>
+                <p>Solving for <code><var>V1</var></code>, we get: <code><var>C - 1</var> <var>V1</var> = <var>A * C</var></code>.</p>
+                <p><code><var>V1</var> = <var>A * C / (C - 1)</var></code>.</p>
             </div>
         </div>
 
         <div id="solve-younger-2" data-type="solve-older-2">
-            <div class="question">
-                <p><span class="first"><var>person(1)</var> is <var>C</var> times as old as
-                <var>person(2)</var></span> and <span class="second">is also <var>A</var>
-                years older than <var>person(2)</var>.</span></p>
+            <p class="question">How old is <var>P2</var>?</p>
 
-                <p>How old is <var>person(2)</var>?</p>
-            </div>
             <div class="solution"><var>A / (C - 1)</var></div>
 
             <div class="hints">
-                <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
-                <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
+                <p>
+                    We can use the given information to write down two equations that describe the ages of
+                    <var>P1</var> and <var>P2</var>.
+                </p>
+                <p>
+                    Let <var>P1</var>'s current age be <code><var>V1</var></code>
+                    and <var>P2</var>'s current age be <code><var>V2</var></code>.
+                </p>
+                <p>We can use the given information to write down two equations that describe the ages of <var>P1</var> and <var>P2</var>.</p>
+                <p>Let <var>P1</var>'s current age be <code><var>V1</var></code> and <var>P2</var>'s current age be <code><var>V2</var></code>.</p>
                 <div>
-                    <div>
-                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>C</var><var>personVar(2)</var></code></p>
-                    </div>
-                    <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code></p>
-                    </div>
+                    <p><code>\blue{<var>V1</var> = <var>C</var><var>V2</var>}</code></p>
+                    <p><code>\red{<var>V1</var> = <var>V2</var> + <var>A</var>}</code></p>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                         $(".second").addClass("hint_red");
                     </div>
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
-                <p>Since we are looking for <code><var>personVar(2)</var></code>, and both of our equations have <code><var>personVar(1)</var></code> alone on one side, this is a convenient time to use elimination.</p>
+                <p>Since we are looking for <code><var>V2</var></code>, and both of our equations have <code><var>V1</var></code> alone on one side, this is a convenient time to use elimination.</p>
                 <div>
                     <p>Subtracting the second equation from the first equation, we get:</p>
-                    <div>
-                        <p><code>0 =</code> <code class="hint_blue"><var>C</var><var>personVar(2)</var></code> <code>-</code> <code class="hint_red"> (<var>personVar(2)</var> + <var>A</var>)</code></p>
-                    </div>
-                    <p>which combines the information about <code><var>personVar(2)</var></code> from both of our original equations.</p>
+                    <p><code>0 = \blue{<var>C</var><var>V2</var>} -\red{(<var>V2</var> + <var>A</var>)}</code></p>
+                    <p>which combines the information about <code><var>V2</var></code> from both of our original equations.</p>
                 </div>
-                <p>Solving for <code><var>personVar(2)</var></code>, we get: <code><var>C - 1</var> <var>personVar(2)</var> = <var>A</var></code>.</p>
-				<p><code><var>personVar(2)</var> = <var>A / (C - 1)</var></code>.</p>
+                <p>Solving for <code><var>V2</var></code>, we get: <code><var>C - 1</var> <var>V2</var> = <var>A</var></code>.</p>
+                <p><code><var>V2</var> = <var>A / (C - 1)</var></code>.</p>
             </div>
         </div>
 
@@ -201,92 +224,98 @@
                 <var id="B">randRange(2, 7) * (C - A)</var>
             </div>
 
-            <div class="question">
-                <p><span class="first"><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>.</span> <span class="second"><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</span></p>
+            <p class="problem">
+                <span class="first"><var>P1</var> is <code><var>A</var></code> times as old as <var>P2</var>.</span>
+                <span class="second">
+                    <code><var>B</var></code> years ago, <var>P1</var> was <code><var>C</var></code> times as old as <var>P2</var>.
+                </span>
+            </p>
 
-                <p>How old is <var>person(1)</var> now?</p>
-            </div>
+            <p class="question">How old is <var>P1</var> now?</p>
+
             <div class="solution"><var>A * B * (C - 1) / (C - A)</var></div>
 
-            <div class="hints">
-                <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
-                <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
+            <div class="hints" data-apply="appendContents">
                 <div>
                     <p>The information in the first sentence can be expressed in the following equation:</p>
-                    <div>
-                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code></p>
-                    </div>
+                    <p><code>\blue{<var>V1</var> = <var>A</var><var>V2</var>}</code></p>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                     </div>
                 </div>
-                <p><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old, and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
+                <p><var>CardinalThrough20(B)</var> years ago, <var>P1</var> was <code><var>V1</var> - <var>B</var></code> years old, and <var>P2</var> was <code><var>V2</var> - <var>B</var></code> years old.</p>
                 <div>
                     <p>The information in the second sentence can be expressed in the following equation:</p> 
-                    <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code></p>
-                    </div>
+                    <p><code>\red{<var>V1</var> - <var>B</var> = <var>C</var>(<var>V2</var> - <var>B</var>)}</code></p>
                     <div class="graphie">
                         $(".second").addClass("hint_red");
                     </div>
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
-                <p>Because we are looking for <code><var>personVar(1)</var></code>, it might be easiest to solve our first equation for <code><var>personVar(2)</var></code> and substitute it into our second equation.</p>
+                <p>Because we are looking for <code><var>V1</var></code>, it might be easiest to solve our first equation for <code><var>V2</var></code> and substitute it into our second equation.</p>
                 <div>
-                    <p>Solving our first equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_blue"><var>personVar(2)</var> = <var>personVar(1)</var> / <var>A</var></code>. Substituting this into our second equation, we get: </p>
-                    <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(</code> <code class="hint_blue">(<var>personVar(1)</var> / <var>A</var>)</code> <code class="hint_red">- <var>B</var>)</code></p>
-                    </div>
-                    <p>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                    <p>
+                        Solving our first equation for <code><var>V2</var></code>, we get:
+                        <code>\blue{<var>V2</var> = \dfrac{<var>V1</var>}{<var>A</var>}}</code>.
+                        Substituting this into our second equation, we get:
+                    </p>
+                    <p><code>
+                        \red{<var>V1</var> - <var>B</var> = <var>C</var>
+                        (}\blue{\frac{<var>V1</var>}{<var>A</var>}} \red{- <var>B</var>)}
+                    </code></p>
+                    <p>which combines the information about <code><var>V1</var></code> from both of our original equations.</p>
                 </div>
-                <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> - <var>B</var> = <var>fractionReduce(C, A)</var> <var>personVar(1)</var> - <var>C * B</var></code>.</p>
-                <p>Solving for <code><var>personVar(1)</var></code>, we get: <code><var>fractionReduce(C - A, A)</var> <var>personVar(1)</var> = <var>B * (C - 1)</var></code>.</p>
-				<p><code><var>personVar(1)</var> = <var>fractionReduce(A, C - A)</var> \cdot <var>B * (C - 1)</var> = <var>A * B * (C - 1) / (C - A)</var></code>.</p>
+                <p>Simplifying the right side of this equation, we get: <code><var>V1</var> - <var>B</var> = <var>fractionReduce(C, A)</var> <var>V1</var> - <var>C * B</var></code>.</p>
+                <p>Solving for <code><var>V1</var></code>, we get: <code><var>fractionReduce(C - A, A)</var> <var>V1</var> = <var>B * (C - 1)</var></code>.</p>
+                <p><code><var>V1</var> = <var>fractionReduce(A, C - A)</var> \cdot <var>B * (C - 1)</var> = <var>A * B * (C - 1) / (C - A)</var></code>.</p>
             </div>
         </div>
 
         <div id="solve-younger-3" data-type="solve-older-3">
-            <div class="question">
-                <p><span class="first"><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>.</span> <span class="second"><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</span></p>
+            <p class="question">How old is <var>P2</var> now?</p>
 
-                <p>How old is <var>person(2)</var> now?</p>
-            </div>
             <div class="solution"><var>B * (C - 1) / (C - A)</var></div>
 
             <div class="hints">
-                <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
-                <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
+                <p>
+                    We can use the given information to write down two equations that describe the ages of
+                    <var>P1</var> and <var>P2</var>.
+                </p>
+                <p>
+                    Let <var>P1</var>'s current age be <code><var>V1</var></code>
+                    and <var>P2</var>'s current age be <code><var>V2</var></code>.
+                </p>
                 <div>
                     <p>The information in the first sentence can be expressed in the following equation:</p>
-                    <div>
-                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code></p>
-                    </div>
+                    <p><code>\blue{<var>V1</var> = <var>A</var><var>V2</var>}</code></p>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                     </div>
                 </div>
-                <p><var>CardinalThrough20(B)</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old, and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
+                <p><var>CardinalThrough20(B)</var> years ago, <var>P1</var> was <code><var>V1</var> - <var>B</var></code> years old, and <var>P2</var> was <code><var>V2</var> - <var>B</var></code> years old.</p>
                 <div>
                     <p>The information in the second sentence can be expressed in the following equation:</p>
-                    <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code></p>
-                    </div>
+                    <p><code>\red{<var>V1</var> - <var>B</var> = <var>C</var>(<var>V2</var> - <var>B</var>)}</code></p>
                     <div class="graphie">
                         $(".second").addClass("hint_red");
                     </div>
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
-                <p>Because we are looking for <code><var>personVar(2)</var></code>, it might be easiest to use our first equation for <code><var>personVar(1)</var></code> and substitute it into our second equation.</p>
+                <p>Because we are looking for <code><var>V2</var></code>, it might be easiest to use our first equation for <code><var>V1</var></code> and substitute it into our second equation.</p>
                 <div>
-                    <p>Our first equation is: <code class="hint_blue"><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code>. Substituting this into our second equation, we get:</p>
-                     <div>
-                        <p><code class="hint_blue"><var>A</var><var>personVar(2)</var></code> <code class="hint_red">-</code> <code class="hint_red"><var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code></p>
-                    </div>
-                    <p>which combines the information about <code><var>personVar(2)</var></code> from both of our original equations.</p>
+                    <p>
+                        Our first equation is: <code>\blue{<var>V1</var> = <var>A</var><var>V2</var>}</code>.
+                        Substituting this into our second equation, we get:
+                    </p>
+                    <p>
+                        <code>\blue{<var>A</var><var>V2</var>} \red {-<var>B</var> = 
+                        <var>C</var>(<var>V2</var> - <var>B</var>)}</code>
+                    </p>
+                    <p>which combines the information about <code><var>V2</var></code> from both of our original equations.</p>
                 </div>
-                <p>Simplifying the right side of this equation, we get: <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> <var>personVar(2)</var> - <var>B * C</var></code>.</p>
-                <p>Solving for <code><var>personVar(2)</var></code>, we get: <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var>.</code>
-				</p><p><code><var>personVar(2)</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
+                <p>Simplifying the right side of this equation, we get: <code><var>A</var> <var>V2</var> - <var>B</var> = <var>C</var> <var>V2</var> - <var>B * C</var></code>.</p>
+                <p>Solving for <code><var>V2</var></code>, we get: <code><var>C - A</var> <var>V2</var> = <var>B * (C - 1)</var>.</code>
+				</p><p><code><var>V2</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
             </div>
         </div>
 
@@ -296,26 +325,30 @@
                 <var id="B">randRange(7, 24) * (A - 1)</var>
             </div>
 
-            <div class="question">
-                <p data-if="isMale(1)">In <var>B</var> years, <var>person(1)</var> will be <var>A</var> times as old as he is right now.</p><p data-else="">In <var>B</var> years, <var>person(1)</var> will be <var>A</var> times as old as she is right now.</p>
+            <p class="problem" data-if="isMale(P1)">
+                In <code><var>B</var></code> years, <var>P1</var> will be <code><var>A</var></code> times as old as he is right now.
+            </p><p data-else="">
+                In <code><var>B</var></code> years, <var>P1</var> will be <code><var>A</var></code> times as old as she is right now.
+            </p>
 
-                <p data-if="isMale(1)">How old is he right now?</p><p data-else="">How old is she right now?</p>
-            </div>
+            <p class="question" data-if="isMale(P1)">How old is he right now?</p>
+            <p class="question" data-else="">How old is she right now?</p>
+
             <div class="solution"><var>B / (A - 1)</var></div>
 
             <div class="hints">
-                <p>We can use the given information to write down an equation about <var>person(1)</var>'s age.</p>
-                <p>Let <var>person(1)</var>'s age be <code><var>personVar(1)</var></code>.</p>
-                <p data-if="isMale(1)">In <var>B</var> years, he will be <code><var>personVar(1)</var> + <var>B</var></code> years old.</p><p data-else="">In <var>B</var> years, she will be <code><var>personVar(1)</var> + <var>B</var></code> years old.</p>
-                <p data-if="isMale(1)">At that time, he will also be <code><var>A</var> <var>personVar(1)</var></code> years old.</p><p data-else="">At that time, she will also be <code><var>A</var> <var>personVar(1)</var></code> years old.</p>
+                <p>We can use the given information to write down an equation about <var>P1</var>'s age.</p>
+                <p>Let <var>P1</var>'s age be <code><var>V1</var></code>.</p>
+                <p data-if="isMale(P1)">In <code><var>B</var></code> years, he will be <code><var>V1</var> + <var>B</var></code> years old.</p>
+                <p data-else="">In <code><var>B</var></code> years, she will be <code><var>V1</var> + <var>B</var></code> years old.</p>
+                <p data-if="isMale(P1)">At that time, he will also be <code><var>A</var> <var>V1</var></code> years old.</p>
+                <p data-else="">At that time, she will also be <code><var>A</var> <var>V1</var></code> years old.</p>
                 <div>
                     <p>Writing this information as an equation, we get:</p>
-                    <div>
-                         <p><code><var>personVar(1)</var> + <var>B</var> = <var>A</var> <var>personVar(1)</var></code></p>
-                    </div>
+                    <p><code><var>V1</var> + <var>B</var> = <var>A</var> <var>V1</var></code></p>
                 </div>
-                <p>Solving for <code><var>personVar(1)</var></code>, we get: <code><var>A - 1</var> <var>personVar(1)</var> = <var>B</var></code>.</p>
-				<p><code><var>personVar(1)</var> = <var>B / (A - 1)</var></code>.</p>
+                <p>Solving for <code><var>V1</var></code>, we get: <code><var>A - 1</var> <var>V1</var> = <var>B</var></code>.</p>
+                <p><code><var>V1</var> = <var>B / (A - 1)</var></code>.</p>
             </div>
         </div>
 
@@ -326,29 +359,38 @@
                 <var id="A">randRange(C * B + 1, 15) * (C - 1)</var>
             </div>
 
-            <div class="question">
-                <p><var>person(1)</var> is <var>A</var> years old and <var>person(2)</var> is <var>B</var> years old.</p>
-
-                <p>How many years will it take until <var>person(1)</var> is only <var>C</var> times as old as <var>person(2)</var>?</p>
-            </div>
+            <p class="problem">
+                <var>P1</var> is <code><var>A</var></code> years old and <var>P2</var> is <code><var>B</var></code> years old.
+            </p>
+            <p class="question">
+                How many years will it take until <var>P1</var> is only <code><var>C</var></code> times as old as <var>P2</var>?
+            </p>
             <div class="solution"><var>(A - B * C) / (C - 1)</var></div>
 
             <div class="hints">
                 <p>We can use the given information to write down an equation about how many years it will take.</p>
                 <p>Let <code>y</code> be the number of years that it will take.</p>
-                <p>In <code>y</code> years, <var>person(1)</var> will be <code><var>A</var> + y</code> years old and <var>person(2)</var> will be <code><var>B</var> + y</code> years old.</p>
-                <p>At that time, <var>person(1)</var> will be <var>C</var> times as old as <var>person(2)</var>.</p>
+                <p>In <code>y</code> years, <var>P1</var> will be <code><var>A</var> + y</code> years old and <var>P2</var> will be <code><var>B</var> + y</code> years old.</p>
+                <p>At that time, <var>P1</var> will be <var>C</var> times as old as <var>P2</var>.</p>
                 <div>
                     <p>Writing this information as an equation, we get:</p>
-                    <div>
-                        <p><code><var>A</var> + y = <var>C</var> (<var>B</var> + y)</code></p>
-                    </div>
+                    <p><code><var>A</var> + y = <var>C</var> (<var>B</var> + y)</code></p>
                 </div>
                 <p>Simplifying the right side of this equation, we get: <code><var>A</var> + y = <var>C * B</var> + <var>C</var> y</code>.</p>
                 <p>Solving for <code>y</code>, we get: <code><var>C - 1</var> y = <var>A - C * B</var></code>.</p>
 				<p><code>y = <var>(A - C * B) / (C - 1)</var></code>.</p>
             </div>
         </div>
+    </div>
+    <div class="hints">
+        <p>
+            We can use the given information to write down two equations that describe the ages of
+            <var>P1</var> and <var>P2</var>.
+        </p>
+        <p>
+            Let <var>P1</var>'s current age be <code><var>V1</var></code>
+            and <var>P2</var>'s current age be <code><var>V2</var></code>.
+        </p>
     </div>
     </div>
 </body>
