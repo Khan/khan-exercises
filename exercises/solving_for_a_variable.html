@@ -23,11 +23,14 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="LETTERS">"abcdefghijklmnpqrstuvwxyz"</var>
-            <var id="LETTER">randRange( 0, LETTERS.length - 3 )</var>
-            <var id="X">LETTERS[ LETTER + 0 ]</var>
-            <var id="Y">LETTERS[ LETTER + 1 ]</var>
-            <var id="Z">LETTERS[ LETTER + 2 ]</var>
+            <var id="X, Y, Z">randFromArray([
+                ["a", "b", "c"],
+                ["f", "g", "h"],
+                ["m", "n", "p"],
+                ["r", "s", "t"],
+                ["p", "q", "r"],
+                ["x", "y", "z"] ])
+            </var>
         </div>
 
         <div class="problems">
@@ -111,10 +114,8 @@
                     <div data-else="" data-unwrap="">
                         <p><code><var>X</var> = \dfrac{<var>plus((D - A) + Y, (E - B) + Z, F - C)</var>}{<var>plus(color_(G + X_EXTRAS, false))</var>}</code></p>
                         <div data-if="GCD > 1 || G < 0" data-unwrap="">
-                            <p data-if="GCD > 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>
-                            <p data-if="GCD > 1 && G < 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
-                            <p data-else-if="GCD &gt; 1">Divide by the common factor.</p>
-                            <p data-else="">Swap the signs so the denominator isn't negative.</p>
+                            <p data-if="GCD > 1">Simplify by dividing by <code><var>GCD</var></code>.</p>
+                            <p data-if="G < 0">To avoid a negative denominator, we can multiply the numerator and denominator by <code>-1</code>.</p>
                             <p><code><var>ANSWER(D - A, E - B, F - C, G)</var></code></p>
                         </div>
                     </div>
@@ -204,12 +205,12 @@
                     <p><code><var>X</var> = \dfrac{ <var>plus( E+Y, F-D )</var> }{ <var>color_( plus( A+Y, B+Z, C ), true )</var> }</code></p>
 
                     <div data-if="GCD !== 1">
-                        <p>Simplify.</p>
+                        <p>Simplify by dividing by <code><var>GCD</var></code>.</p>
                         <p><code><var>ANSWER(E, F - D, A, B, C)</var></code></p>
                     </div>
 
                     <div data-else-if="FLIP">
-                        <p>To avoid a negative denominator, we can multiply the top and bottom of the fraction by <code>-1</code>.</p>
+                        <p>To avoid a negative denominator, we can multiply the numerator and denominator by <code>-1</code>.</p>
                         <p><code><var>ANSWER(E, F - D, A, B, C)</var></code></p>
                     </div>
 
@@ -377,11 +378,11 @@
                     </div>
                     <p><code><var>X</var> = \dfrac{ <var>plus( E_TERM+Z, (-B_TERM)+Y )</var> }{ <var>color_( A_TERM-D_TERM, false )</var> }</code></p>
 
-                    <div data-if="GCD > 1 || (A_TERM-D_TERM) < 0" data-unwrap="">
-                        <p data-if="GCD > 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>
-                        <p data-if="GCD > 1 && (A_TERM-D_TERM) < 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
-                        <p data-else-if="GCD &gt; 1">Divide by the common factor.</p>
-                        <p data-else="">Swap signs so the denominator isn't negative.</p>
+                    <div data-if="GCD > 1 || (A_TERM - D_TERM) < 0" data-unwrap="">
+                        <p data-if="GCD > 1">Simplify by dividing by <code><var>GCD</var></code>.</p>
+                        <p data-if="(A_TERM - D_TERM) < 0">
+                            To avoid a negative denominator, we can multiply the numerator and denominator by <code>-1</code>.
+                        </p>
                         <p><code><var>X</var> = \dfrac{ <var>plus( color_( round( E_TERM*DIVISOR ), true )+Z, color_( round( -B_TERM*DIVISOR ), true )+Y )</var> }{ <var>color_( round( (A_TERM-D_TERM)*DIVISOR ), true )</var> }</code></p>
                     </div>
 
