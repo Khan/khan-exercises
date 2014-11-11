@@ -90,17 +90,16 @@
             </p>
 
             <div class="problem">
-                <p class="hint_blue" data-if="STD_FORM_1">
-                    <code><var>expr([ "+", [ "*", A_1, "x" ], [ "*", B_1, "y" ] ])</var> <var>STD_FORM_COMP_1</var> <var>C_1</var></code>
+                <p data-if="STD_FORM_1">
+                    <code>\blue{<var>expr([ "+", [ "*", A_1, "x" ], [ "*", B_1, "y" ] ])</var> <var>STD_FORM_COMP_1</var> <var>C_1</var>}</code>
+                </p><p data-else="">
+                    <code>\blue{y <var>COMP_1</var> <var>PRETTY_SLOPE_1</var> + <var>YINT_1</var>}</code>
                 </p>
-                <p class="hint_blue" data-else="">
-                    <code>y <var>COMP_1</var> <var>PRETTY_SLOPE_1</var> + <var>YINT_1</var></code>
+                <p data-if="STD_FORM_2">
+                    <code>\green{<var>expr([ "+", [ "*", A_2, "x" ], [ "*", B_2, "y" ] ])</var> <var>STD_FORM_COMP_2</var> <var>C_2</var>}</code>
                 </p>
-                <p class="hint_green" data-if="STD_FORM_2">
-                    <code><var>expr([ "+", [ "*", A_2, "x" ], [ "*", B_2, "y" ] ])</var> <var>STD_FORM_COMP_2</var> <var>C_2</var></code>
-                </p>
-                <p class="hint_green" data-else="">
-                    <code>y <var>COMP_2</var> <var>PRETTY_SLOPE_2</var> + <var>YINT_2</var></code>
+                <p data-else="">
+                    <code>\green{y <var>COMP_2</var> <var>PRETTY_SLOPE_2</var> + <var>YINT_2</var>}</code>
                 </p>
 
                 <form>
