@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie">
+<html data-require="math math-format word-problems expressions graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Converting between slope-intercept and standard form</title>
@@ -59,29 +59,34 @@
         </div>
         <div id="slope-to-standard">
             <div class="vars">
-                <var id="SLOPE">randRange( -3, 3 )</var>
-                <var id="Y_INTERCEPT">randRangeNonZero( -3, 3 )</var>
-                <var id="A">SLOPE &lt;= 0 ? -1 * SLOPE : SLOPE</var>
-                <var id="B">SLOPE &lt;= 0 ? 1 : -1</var>
-                <var id="C">SLOPE &lt;= 0 ? Y_INTERCEPT: -1 * Y_INTERCEPT</var>
+                <var id="A">randRange(-5, 5)</var>
+                <var id="C">randRangeNonZero(-5, 5)</var>
+                <var id="B" data-ensure="getGCD(A, B) === 1 || getGCD(A, C) === 1">randRange(1, 5)</var>
+                <var id="SLOPE">-A / B</var>
+                <var id="Y_INTERCEPT">C / B</var>
             </div>
             <p class="question">Convert the following equation from slope intercept form to standard form.</p>
+            <p><code>
+                y = <span data-if="A !== 0"><var>coefficient(fractionReduce(-A, B))</var>x + </span>
+                <var>fractionReduce(C, B)</var>
+            </code></p>
             <p>
-                In other words, if the equation is rewritten to look like <code>Ax + By = C</code>,
-                what are the values of <code>A</code>, <code>B</code>, and <code>C</code>?
+                In other words, what are the values of
+                <code>A</code>, <code>B</code>, and <code>C</code>
+                if the equation is rewritten to look like
+                <code>\blue{A}x + \green{B}y = \pink{C}</code>?
             </p>
             <p>
-                Note that <code>A</code> should be positive and <code>A</code>, <code>B</code>, and <code>C</code> should be whole numbers.
+                <em>Note that <code>A</code>, <code>B</code>, and <code>C</code> should be whole numbers.</em>
             </p>
-            <p><code>y = <var>expr([ "+", [ "*", SLOPE, "x" ], Y_INTERCEPT ])</var></code></p>
             <div class="solution" data-type="set">
                 <div class="set-sol" data-type="multiple">
                     <span class="sol"><var>A</var></span>
                     <span class="sol"><var>B</var></span>
                     <span class="sol"><var>C</var></span>
                 </div>
-                <div class="set-sol" data-if="A === 0" data-type="multiple">
-                    <span class="sol"><var>A</var></span>
+                <div class="set-sol" data-type="multiple">
+                    <span class="sol"><var>-A</var></span>
                     <span class="sol"><var>-B</var></span>
                     <span class="sol"><var>-C</var></span>
                 </div>
@@ -97,22 +102,36 @@
             <div class="hints">
                 <div data-if="SLOPE !== 0">
                     <p>Move the <code>x</code> term to the same side as the <code>y</code> term.</p>
-                    <p><code><var>expr([ "*", -SLOPE, "x" ])</var> + y = <var>Y_INTERCEPT</var></code></p>
+                    <p><code><var>coefficient(fractionReduce(A, B))</var>x + y = <var>fractionReduce(C, B)</var></code></p>
                 </div>
-                <div data-else="">
+                <div data-if="B !== 1">
+                    <p>To get whole numbers, multiply all the terms by <code><var>B</var></code>.</p>
+                    <p><code>
+                        <span data-if="A !== 0"><var>coefficient(A)</var>x + </span>
+                        <var>B</var>y = <var>C</var>
+                    </code></p>
+                </div>
+                <div data-if="SLOPE === 0 && B === 1">
                     <p>Since the slope is <code>0</code> and there is no <code>x</code> term, the equation is already in slope intercept form.</p>
                     <p><code>y = <var>Y_INTERCEPT</var></code></p>
                 </div>
-                <div data-if="SLOPE > 0">
-                    <p>Multiply both sides by <code>-1</code> so that <code>A</code> will be positive</p>
-                    <p><code><var>expr([ "*", SLOPE, "x" ])</var> - y = <var>-Y_INTERCEPT</var></code></p>
-                </div>
                 <div>
-                    <p>Inspecting the equation in standard form, we see the following.</p>
-                    <p><code>\begin{align*}A &amp;= <var>A</var>\\
-                        B &amp;= <var>B</var>\\
-                        C &amp;= <var>C</var>\end{align*}</code></p>
+                    <p>
+                        So we have <code>\blue{<var>A</var>}</code>
+                        <span data-if="isSingular(abs(A))"> lot of </span>
+                        <span data-else=""> lots of </span>
+                        <code>x</code>, <code>\green{<var>B</var>}</code>
+                        <span data-if="isSingular(abs(B))"> lot of </span>
+                        <span data-else=""> lots of </span>
+                        <code>y</code>, and a <code>\pink{<var>C</var>}</code>.
+                    </p>
+                    <p><code>\blue{<var>A</var>}x + \green{<var>B</var>}y = \pink{<var>C</var>}</code></p>
                 </div>
+                <p><code>\begin{align*}
+                    \blue{A} &amp;= \blue{<var>A</var>}\\
+                    \green{B} &amp;= \green{<var>B</var>}\\
+                    \pink{C} &amp;= \pink{<var>C</var>}\end{align*}
+                </code></p>
                 <div>
                     <p>Behold! The magic of math, that both equations could represent the same line!</p>
                     <div class="graphie" id="grid">
