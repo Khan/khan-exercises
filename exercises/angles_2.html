@@ -42,7 +42,7 @@
                         });
 
                         // label angle ABC
-                        arc([-4, 3], 0.75, 312, 360, { stroke: "green" });
+                        arc([-4, 3], 0.75, 312, 360, { stroke: GREEN });
                         label([-3.2, 3], "\\green{" + Tri_Y + "^\\circ}", "below right");
 
                         // label angle BAC
@@ -94,7 +94,7 @@
                     <div>
                         <p><code>\red{\angle{BCA}} = 180^\circ - \green{\angle{ABC}} - \purple{\angle{BAC}}</code></p>
                         <div class="graphie" data-update="tri-and-parallel">
-                            arc([2.5, 3], 0.75, 180, 220, { stroke: "red" });
+                            arc([2.5, 3], 0.75, 180, 220, { stroke: RED });
                             graph.TriX = label([1.8, 3], "\\red{\\angle{BCA}}", "below left");
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                     <p>Given the following:</p>
                     <ul>
                         <li><code>\overline{AB} \parallel \overline{CD}</code> (line <code>AB</code> is parallel to line <code>CD</code>)</li>
-                        <li data-if="RAND_SWITCH3 === 0"><code>\purple{\angle{EGB}} = <var>X</var>^\circ</code></li>
+                        <li data-if="RAND_SWITCH3 === 0"><code>\green{\angle{EGB}} = <var>X</var>^\circ</code></li>
                         <li data-else-if="RAND_SWITCH3 === 1"><code>\purple{\angle{AGH}} = <var>X</var>^\circ</code></li>
                         <li data-else=""><code>\purple{\angle{BGH}} = <var>180 - X</var>^\circ</code></li>
                     </ul>
@@ -167,13 +167,13 @@
 
                         // label angle Y
                         if(RAND_SWITCH3 === 0) {
-                            arc([1.2, 2], 1, 0, 54, { stroke: "green" });
+                            arc([1.2, 2], 1, 0, 54, { stroke: GREEN });
                             label([2.2, 2], "\\green{" + X + "^\\circ}", "above right");
                         } else if (RAND_SWITCH3 === 1) {
                             arc([1.4, 2], 1, 180, 210, { stroke: "purple" });
                             label([0, 2], "\\purple{" + X + "^\\circ}", "below left");
                         } else {
-                            arc([1.2, 2], 1, 216, 0, { stroke: "green" });
+                            arc([1.2, 2], 1, 216, 0, { stroke: GREEN });
                             label([1.5, 1.2], "\\green{" + (180 - X) + "^\\circ}", "below right");
                         }
 
@@ -320,9 +320,9 @@
 
                         // Label the given angles
                         label([-5.5, -5.2], "\\green{" + ANGLE_2 + "^\\circ}", "above right");
-                        arc([-6, -6], 1.3, 40, 70, { stroke: "green" });
+                        arc([-6, -6], 1.3, 40, 70, { stroke: GREEN });
                         label([0, 7.4], "\\red{" + ANGLE_1 + "^\\circ}", "below");
-                        arc([0, 9], 1.3, 247, 290, { stroke: "red" });
+                        arc([0, 9], 1.3, 247, 290, { stroke: RED });
 
                         // Label X according to variation on the problem
                         if(RAND_SWITCH3 == 0) {
@@ -457,9 +457,9 @@
                             if( RAND_SWITCH2 == 0) {
                                 // Label the given angles
                                 label([-5.5, -5.2], "\\green{" + ANGLE_1 + "^\\circ}", "above right");
-                                arc([-6, -6], 1.3, 39, 69, { stroke: "green" });
+                                arc([-6, -6], 1.3, 39, 69, { stroke: GREEN });
                                 label([0, -0.4], "\\red{" + (180 - ANGLE_2) + "^\\circ}", "above");
-                                arc([0, -1.2], 0.75, 32, 145, { stroke: "red" });
+                                arc([0, -1.2], 0.75, 32, 145, { stroke: RED });
 
                                 // Label X
                                 LABEL = label([-3.7, 2.5], "\\blue{\\angle{AJF}}= {?}", "above");
@@ -467,9 +467,9 @@
                             } else {
                                 // Label the given angles
                                 label([6.5, 5], "\\green{" + ANGLE_1 + "^\\circ}", "below left");
-                                arc([8, 5], 1.3, 180, 220, { stroke: "green" });
+                                arc([8, 5], 1.3, 180, 220, { stroke: GREEN });
                                 label([1.3, 4.5], "\\red{" + (180 - ANGLE_2) + "^\\circ}", "below left");
-                                arc([1.7, 5], 1, 180, 289, { stroke: "red" });
+                                arc([1.7, 5], 1, 180, 289, { stroke: RED });
 
                                 // Label X
                                 LABEL = label([4.0, -0.3], "\\blue{\\angle{IHE}}= {?}", "below left");
