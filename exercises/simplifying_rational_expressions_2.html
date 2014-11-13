@@ -49,7 +49,6 @@
             <div>
                 <div class="vars" data-ensure="!NUMERATOR.divide(DENOMINATOR)">
                     <var id="X">randVar()</var>
-                    <var id="Y" data-ensure="X !== Y">randVar()</var>
                     <div data-ensure="COEFFICIENT1 !== 0 || CONSTANT1 !== 0">
                         <var id="COEFFICIENT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
                         <var id="CONSTANT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
@@ -77,31 +76,22 @@
                         return new Term(FACTOR, d);
                     })()
                     </var>
-                    <var id="NUMERATORSOL">new RationalExpression([[COEFFICIENT1, X], CONSTANT1])</var>
-                    <var id="DENOMINATORSOL">new RationalExpression([[COEFFICIENT2, X], CONSTANT2])</var>
-                    <var id="NUMERATOR">NUMERATORSOL.multiply(FACTORDEGREE)</var>
-                    <var id="DENOMINATOR">DENOMINATORSOL.multiply(FACTORDEGREE)</var>
+                    <var id="NUMERSOL">new RationalExpression([[COEFFICIENT1, X], CONSTANT1])</var>
+                    <var id="DENOMSOL">new RationalExpression([[COEFFICIENT2, X], CONSTANT2])</var>
+                    <var id="NUMERATOR">NUMERSOL.multiply(FACTORDEGREE)</var>
+                    <var id="DENOMINATOR">DENOMSOL.multiply(FACTORDEGREE)</var>
                 </div>
 
-                <p class="question">Simplify the following expression:</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
-                <p>You can assume <code><var>X</var> \neq 0</code>.</p>
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+                <p><em>You can assume <code><var>X</var> \neq 0</code>.</em></p>
 
                 <div class="solution" data-type="multiple">
-                    <span><code><var>Y</var> = </code></span>
                     <div class="sol" data-type="expression">
-                        <div class="set-sol" data-same-form="">
-                            (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toString()</var>)
-                        </div>
-                        <div class="set-sol" data-same-form="">
-                            (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)
-                        </div>
-                        <div class="set-sol" data-same-form="">
-                            (<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toString()</var>)
-                        </div>
-                        <div class="set-sol" data-same-form="">
-                            (<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)
-                        </div>
+                        <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+                        <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
+                        <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+                        <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
                     </div>
                 </div>
 
@@ -123,17 +113,20 @@
 
                     <div>
                         <p>Factoring out <code><var>FACTORDEGREE</var></code> gives us:</p>
-                        <div><code><var>Y</var> = \dfrac{(<var>FACTORDEGREE</var>)(<var>NUMERATORSOL</var>)}{(<var>FACTORDEGREE</var>)(<var>DENOMINATORSOL</var>)}</code></div>
+                        <div><code>
+                            \qquad \dfrac{(<var>FACTORDEGREE</var>)(<var>NUMERSOL</var>)}
+                            {(<var>FACTORDEGREE</var>)(<var>DENOMSOL</var>)}
+                        </code></div>
                     </div>
 
                     <div>
                         <p>Dividing both the numerator and denominator by <code><var>FACTORDEGREE</var></code> gives:</p>
-                        <div data-if="DENOMINATORSOL.toString() === '1'">
-                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply,
-                            <code><var>Y</var> = <var>NUMERATORSOL</var></code>
+                        <div data-if="DENOMSOL.toString() === '1'">
+                            <code>\qquad \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code> or more simply,
+                            <code><var>NUMERSOL</var></code>
                         </div>
                         <div data-else="">
-                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code>
+                            <code>\qquad \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code>
                         </div>
                     </div>
                 </div>

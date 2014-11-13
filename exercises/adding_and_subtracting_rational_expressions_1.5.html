@@ -51,7 +51,6 @@
                 ["p", "q", "r"],
                 ["x", "y", "z"] ])
             </var>
-            <var id="Y">"k"</var>
             <var id="FACTORCOEFFICIENT">randRange(0, 1) ? randFromArray([2, 5, 10]) : 1</var>
             <var id="FACTORTERM">randRange(0, 1) ? FACTORCOEFFICIENT: new Term(FACTORCOEFFICIENT, randFromArray(X))</var>
             <div data-ensure="DENOMINATOR.toString() !== '1'">
@@ -74,19 +73,17 @@
         <div class="problems">
             <div id="add">
                 <p class="problem">Simplify the following expression:</p>
-                <p class="question">
-                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}
-                          <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
+                <p class="question"><code>
+                    \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}<var>SIGN</var>
+                    \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
                 </p>
                 <p>You can assume <code><var>USEDVARIABLES</var> \neq 0</code>.</p>
 
                 <div class="solution" data-type="expression">
-                    <div class="set-sol" data-same-form="">
-                        (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toString()</var>)
-                    </div>
-                    <div class="set-sol" data-same-form="">
-                        (<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)
-                    </div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toString()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toString()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)</div>
                 </div>
             </div>
 
@@ -95,20 +92,20 @@
         <div class="hints">
             <div data-if="SIGN === '+'">
                 <p>Since the expressions have the same denominator we simply combine the numerators:</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+                <p><code>\dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
             </div>
             <div data-else="">
                 <p>Since the expressions have the same denominator we simply combine the numerators:</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
+                <p><code>\dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
             </div>
 
             <div data-if="SUMNUMERATOR.toString() !== NUMERATOR1.toString() + ' + ' + NUMERATOR2.toString()">
-                <p><code><var>Y</var> = \dfrac{<var>SUMNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+                <p><code>\dfrac{<var>SUMNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
             </div>
 
             <div data-if="GCD.toString() !== '1'">
                 <p>The numerator and denominator have a common factor of <code><var>GCD.toString()</var></code>, so we can simplify</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code></p>
+                <p><code>\dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code></p>
             </div>
         </div>
     </div>

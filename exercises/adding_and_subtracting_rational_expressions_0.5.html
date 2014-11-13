@@ -9,7 +9,6 @@
     <div class="exercise">
         <div class="vars">
             <var id="X">randVar()</var>
-            <var id="Y" data-ensure="Y !== X">randVar()</var>
             <var id="SIGN">randFromArray(["-", "+"])</var>
         </div>
 
@@ -30,11 +29,8 @@
                     <var id="DENOMSOL">DENOMINATOR / FACTOR</var>
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <span><code><var>Y</var> = </code></span>
-                    <div class="sol" data-type="expression" data-simplify="">
-                        (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
-                    </div>
+                <div class="solution" data-type="expression" data-simplify="">
+                    (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
                 </div>
             </div>
 
@@ -52,7 +48,6 @@
                 </div>
 
                 <div class="solution" data-type="multiple">
-                    <span><code><var>Y</var> = </code></span>
                     <div class="sol" data-type="expression" data-simplify="">
                         (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
                     </div>
@@ -62,29 +57,29 @@
         </div>
 
         <p class="problem">Simplify the following expression:</p>
-        <p class="question">
-            <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}
-                  <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
-        </p>
+        <p class="question"><code>
+            \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}<var>SIGN</var>
+            \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}
+        </code></p>
 
         <div class="hints">
             <div>
                 <p>Since the expressions have the same denominator we simply combine the numerators:</p>
                 <div data-if="SIGN === '+'">
-                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> <var>SIGN</var> <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+                    <p><code>\dfrac{<var>NUMERATOR1</var> <var>SIGN</var> <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
                 </div>
                 <div data-else="">
-                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> <var>SIGN</var> (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
+                    <p><code>\dfrac{<var>NUMERATOR1</var> <var>SIGN</var> (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
                 </div>
             </div>
             <div>
                 <p>Combine like terms:</p>
-                <code><var>Y</var> = \dfrac{<var>NUMERATORSUM</var>}{<var>DENOMINATOR</var>}</code>
+                <code>\dfrac{<var>NUMERATORSUM</var>}{<var>DENOMINATOR</var>}</code>
             </div>
             <div data-if="FACTOR !== 1">
-                <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p><p>
-                </p><p data-if="DENOMSOL === 1"><code><var>Y</var> = <var>NUMERSOL</var></code></p>
+                <p>Simplify by dividing numerator and denominator by <code><var>FACTOR</var></code>:</p>
+                <p data-if="DENOMSOL === 1"><code><var>NUMERSOL</var></code></p>
+                <p data-else=""><code>\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p>
             </div>
         </div>
     </div>

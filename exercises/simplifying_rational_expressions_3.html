@@ -11,7 +11,6 @@
             <div>
                 <div class="vars">
                     <var id="X">randVar()</var>
-                    <var id="Y" data-ensure="X !== Y">randVar()</var>
                     <var id="A">randRangeNonZero(-10, 10)</var>
                     <div data-ensure="A !== C && B !== C && (B !== 0 || C !== 0)">
                         <var id="B">randRangeWeighted(-10, 10, 0, 0.5)</var>
@@ -25,10 +24,9 @@
                 </div>
 
                 <p class="problem">Simplify the following expression and state the condition under which the simplification is valid:</p>
-                <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+                <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 
                 <div class="solution" data-type="multiple">
-                    <span><code><var>Y</var> = </code></span>
                     <div class="sol" data-type="expression" data-same-form="">
                         <div class="set-sol">(<var>FACTOR2.toString()</var>)/(<var>FACTOR3.toString()</var>)</div>
                     </div>
@@ -38,9 +36,9 @@
                 <div class="hints">
                     <p>First factor the expressions in the numerator and denominator.</p>
 
-                    <p><code>
-                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
-                        = \dfrac{(<var>FACTOR2</var>)(<var>FACTOR1</var>)}{(<var>FACTOR3</var>)(<var>FACTOR1</var>)}
+                    <p><code>\qquad
+                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} =
+                        \dfrac{(<var>FACTOR2</var>)(<var>FACTOR1</var>)}{(<var>FACTOR3</var>)(<var>FACTOR1</var>)}
                     </code></p>
 
                     <p>Notice that the term <code>(<var>FACTOR1</var>)</code> appears in both the numerator and denominator.</p>
@@ -48,17 +46,17 @@
                     <div>
                         <p>Dividing both the numerator and denominator by <code>(<var>FACTOR1</var>)</code> gives:</p>
                         <div data-if="FACTOR2.toString() === '1'">
-                            <code><var>Y</var> = \dfrac{<var>FACTOR2</var>}{<var>FACTOR3</var>}</code> or more simply,
-                            <code><var>Y</var> = <var>FACTOR2</var></code>
+                            <code>\qquad \dfrac{<var>FACTOR2</var>}{<var>FACTOR3</var>}</code> or more simply,
+                            <code>\qquad <var>FACTOR2</var></code>
                         </div>
                         <div data-else="">
-                            <code><var>Y</var> = \dfrac{<var>FACTOR2</var>}{<var>FACTOR3</var>}</code>
+                            <code>\qquad \dfrac{<var>FACTOR2</var>}{<var>FACTOR3</var>}</code>
                         </div>
                     </div>
 
                     <div>
                         <p>Since we divided by <code>(<var>FACTOR1</var>)</code>, <code><var>X</var> \neq <var>-A</var></code>.</p>
-                        <p><code><var>Y</var> = <var>writeExpressionFraction(FACTOR2, FACTOR3)</var>; \space <var>X</var> \neq <var>-A</var></code></p>
+                        <p><code>\qquad <var>writeExpressionFraction(FACTOR2, FACTOR3)</var>; \space <var>X</var> \neq <var>-A</var></code></p>
                     </div>
                 </div>
             </div>

@@ -30,7 +30,6 @@
             <var id="OPERATOR">randFromArray(['multiply', 'divide'])</var>
             <var id="ORDER">randFromArray([[0, 0], [1, 0], [1, 0], [1, 1]])</var>
             <var id="X">randVar()</var>
-            <var id="Y" data-ensure="X !== Y">randVar()</var>
 
             <var id="A">randRangeNonZero(-10, 10)</var>
             <var id="B" data-ensure="A !== B">randRangeNonZero(-10, 10)</var>
@@ -107,7 +106,6 @@
         </div>
 
         <div class="solution" data-type="multiple">
-            <span><code><var>Y</var> = </code></span>
             <div class="sol" data-type="expression">
                 <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
                 <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)</div>
@@ -118,12 +116,8 @@
                 <span class="set-sol"><var>-B</var></span>
                 <span class="set-sol"><var>-A</var></span>
                 <div class="input-format">
-                    <div>
-                        <code><var>X</var> \neq \space</code><span class="entry"></span>
-                    </div>
-                    <div>
-                        <code><var>X</var> \neq \space</code><span class="entry"></span>
-                    </div>
+                    <div><code><var>X</var> \neq \space</code><span class="entry"></span></div>
+                    <div><code><var>X</var> \neq \space</code><span class="entry"></span></div>
                 </div>
             </div>
         </div>
@@ -132,7 +126,7 @@
             You can assume that <code><var>X</var> \neq 0</code>.</p>
 
         <p class="question">
-            <p><code><var>Y</var> =
+            <p><code>\qquad
                 <span data-if="OPERATOR === 'multiply'">
                     \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>} \times
                     \dfrac{<var>NUMERATORS[1 - ORDER[0]]</var>}{<var>DENOMINATORS[1 - ORDER[1]]</var>}
@@ -147,7 +141,7 @@
         <div class="hints">
             <div data-if="OPERATOR === 'divide'">
                 <p>Dividing by an expression is the same as multiplying by its inverse.</p>
-                <p><code><var>Y</var> =
+                <p><code>\qquad
                     \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>} \times
                     \dfrac{<var>NUMERATORS[1 - ORDER[0]]</var>}{<var>DENOMINATORS[1 - ORDER[1]]</var>}
                 </code></p>
@@ -155,7 +149,7 @@
 
             <div>
                 <p>First factor out any common factors.</p>
-                <p><code><var>Y</var> =
+                <p><code>\qquad
                     \dfrac{<var>NUMERATORS[ORDER[0]].toStringFactored()</var>}{<var>DENOMINATORS[ORDER[1]].toStringFactored()</var>} \times
                     \dfrac{<var>NUMERATORS[1 - ORDER[0]].toStringFactored()</var>}{<var>DENOMINATORS[1 - ORDER[1]].toStringFactored()</var>}
                 </code></p>
@@ -163,7 +157,7 @@
 
             <div>
                 <p>Then factor the quadratic expressions.</p>
-                <p><code><var>Y</var> = \dfrac
+                <p><code>\qquad \dfrac
                     {<span data-if="ORDER[0]"><var>NUMERATORS[1].toStringFactored()</var></span><span data-else=""><var>NUMER_QUADRATIC</var></span>}
                     {<span data-if="ORDER[1]"><var>DENOMINATORS[1].toStringFactored()</var></span><span data-else=""><var>DENOM_QUADRATIC</var></span>}
                     \times \dfrac
@@ -174,14 +168,14 @@
 
             <div>
                 <p>Then multiply the two numerators and multiply the two denominators.</p>
-                <p><code><var>Y</var> = \dfrac
+                <p><code>\qquad \dfrac
                     {<span data-if="ORDER[0]"><var>NUMERATORS[1].toStringFactored(true)</var> \times <var>NUMER_QUADRATIC</var></span>
                      <span data-else=""><var>NUMER_QUADRATIC</var> \times <var>NUMERATORS[1].toStringFactored(true)</var></span>}
                     {<span data-if="ORDER[1]"><var>DENOMINATORS[1].toStringFactored(true)</var> \times <var>DENOM_QUADRATIC</var></span>
                      <span data-else=""><var>DENOM_QUADRATIC</var> \times <var>DENOMINATORS[1].toStringFactored(true)</var></span>}
                 </code></p>
 
-                <p><code><var>Y</var> = \dfrac
+                <p><code>\qquad = \dfrac
                     {<var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1])</var>}
                     {<var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1])</var>}
                 </code></p>
@@ -190,7 +184,7 @@
             <p> Notice that <code>(<var>TERM_A</var>)</code> and <code>(<var>TERM_B</var>)</code> appear in both the numerator and denominator so we can cancel them.</p>
 
             <div>
-                <p><code><var>Y</var> = \dfrac
+                <p><code>\qquad = \dfrac
                     {<var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], CANCEL_ORDER[0].slice(0, 1))</var>}
                     {<var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], CANCEL_ORDER[1].slice(0, 1))</var>}
                 </code></p>
@@ -200,7 +194,7 @@
             </div>
 
             <div>
-                <p><code><var>Y</var> = \dfrac
+                <p><code>\qquad \dfrac
                     {<var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], CANCEL_ORDER[0])</var>}
                     {<var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], CANCEL_ORDER[1])</var>}
                 </code></p>
@@ -210,14 +204,14 @@
             </div>
 
             <div data-if="COMMON_FACTOR !== 1">
-                <p><code><var>Y</var> = \dfrac
+                <p><code>\qquad \dfrac
                     {<var>NUMERSOL.multiply(COMMON_FACTOR).toStringFactored()</var>}
                     {<var>DENOMSOL.multiply(COMMON_FACTOR).toStringFactored()</var>}
                 </code></p>
             </div>
 
             <p><code>
-                <var>Y</var> = \dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>};
+                \dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>};
                 <var>X</var> \neq <var>-A</var>; <var>X</var> \neq <var>-B</var>
             </code></p>
 

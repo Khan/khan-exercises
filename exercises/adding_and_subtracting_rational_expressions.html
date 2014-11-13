@@ -7,10 +7,9 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="!NUMERATORSOL.divide(DENOMINATORSOL)">
+        <div class="vars" data-ensure="!NUMERSOL.divide(DENOMSOL)">
             <var id="SIGN">randFromArray(["-", "+"])</var>
             <var id="X">randVar()</var>
-            <var id="Y" data-ensure="X !== Y">randVar()</var>
 
             <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
             <var id="DENOMCONST">randRangeWeighted(-12, 12, 0, 0.25)</var>
@@ -29,25 +28,23 @@
                 SIGN === "+" ? new RationalExpression([[NUMERCOEFF - COEFF1, X], NUMERCONST - CONST1]) :
                                new RationalExpression([[COEFF1 - NUMERCOEFF, X], CONST1 - NUMERCONST])
             </var>
-            <var id="NUMERATORSOL">NUMERATORSUM.divide(FACTOR)</var>
-            <var id="DENOMINATORSOL">DENOMINATOR.divide(FACTOR)</var>
+            <var id="NUMERSOL">NUMERATORSUM.divide(FACTOR)</var>
+            <var id="DENOMSOL">DENOMINATOR.divide(FACTOR)</var>
         </div>
 
         <div class="problems">
             <div>
                 <p class="problem">Simplify the following expression:</p>
-                <p class="question">
-                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}
-                          <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
-                </p>
+                <p class="question"><code>
+                    \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}<var>SIGN</var>
+                    \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}
+                </code></p>
 
                 <div class="solution" data-type="expression">
-                    <div class="set-sol" data-same-form="">
-                        (<var>NUMERATORSOL.toString()</var>)/(<var>DENOMINATORSOL.toString()</var>)
-                    </div>
-                    <div class="set-sol" data-same-form="">
-                        (<var>NUMERATORSOL.toStringFactored()</var>)/(<var>DENOMINATORSOL.toStringFactored()</var>)
-                    </div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
                 </div>
             </div>
         </div>
@@ -56,25 +53,25 @@
             <div data-if="SIGN === '-'" data-unwrap="">
                 <div>
                     <p>Since the expressions have the same denominator we simply subtract the numerators:</p>
-                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
+                    <p><code>\dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
                 </div>
                 <div>
                     <p>Distribute the negative sign:</p>
-                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2.multiply(-1)</var>}{<var>DENOMINATOR</var>}</code></p>
+                    <p><code>\dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2.multiply(-1)</var>}{<var>DENOMINATOR</var>}</code></p>
                 </div>
             </div>
 
             <div data-if="SIGN === '+'">
                         <p>Since the expressions have the same denominator we simply combine the numerators:</p>
-                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+                        <p><code>\dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
                     </div>
             <div>
                 <p>Combine like terms:</p>
-                <code><var>Y</var> = \dfrac{<var>NUMERATORSUM</var>}{<var>DENOMINATOR</var>}</code>
+                <code>\dfrac{<var>NUMERATORSUM</var>}{<var>DENOMINATOR</var>}</code>
             </div>
             <div data-if="FACTOR.toString() !== '1'">
                 <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code></p>
+                <p><code>\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p>
             </div>
         </div>
     </div>

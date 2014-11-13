@@ -10,7 +10,6 @@
         <div class="vars">
             <var id="SIGN">randFromArray(["+", "-"])</var>
             <var id="X">randVar()</var>
-            <var id="Y" data-ensure="X !== Y">randVar()</var>
             <div data-ensure="getGCD(NUMERATOR1, DENOMINATOR1) === 1">
                 <var id="NUMERATOR1">randRangeWeighted(1, 10, 1, 0.4)</var>
                 <var id="DENOMINATOR1">randRange(2, 10)</var>
@@ -53,16 +52,13 @@
         </div>
 
         <p class="problem">Simplify the following expression:</p>
-        <p class="question">
-            <code><var>Y</var> = \dfrac{<var>N1</var>}{<var>D1</var>}
-                  <var>SIGN</var> \dfrac{<var>N2</var>}{<var>D2</var>}</code>
+        <p class="question"><code>
+            \dfrac{<var>N1</var>}{<var>D1</var>}<var>SIGN</var>
+            \dfrac{<var>N2</var>}{<var>D2</var>}</code>
         </p>
 
-        <div class="solution" data-type="multiple">
-            <span><code><var>Y</var> = </code></span>
-            <div class="sol" data-type="expression" data-simplify="">
-                (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
-            </div>
+        <div class="solution" data-type="expression" data-simplify="">
+            (<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)
         </div>
 
         <div class="hints">
@@ -71,21 +67,21 @@
             <p>The smallest common denominator is the least common multiple of <code><var>D1</var></code> and <code><var>D2</var></code>.</p>
             <p><code>\lcm(<var>D1</var>, <var>D2</var>) = <var>DENOMINATOR</var></code></p>
             <p><code>
-                <var>Y</var> = \dfrac{<var>F1</var>}{<var>F1</var>} \cdot \dfrac{<var>N1</var>}{<var>D1</var>}
-                <var>SIGN</var> \dfrac{<var>F2</var>}{<var>F2</var>} \cdot \dfrac{<var>N2</var>}{<var>D2</var>}
+                \dfrac{<var>F1</var>}{<var>F1</var>} \cdot \dfrac{<var>N1</var>}{<var>D1</var>}<var>SIGN</var>
+                \dfrac{<var>F2</var>}{<var>F2</var>} \cdot \dfrac{<var>N2</var>}{<var>D2</var>}
             </code></p>
-            <p>
-                <code><var>Y</var> = \dfrac{<var>N1.multiply(F1)</var>}{<var>DENOMINATOR</var>}
-                     <var>SIGN</var> \dfrac{<var>N2.multiply(F2)</var>}{<var>DENOMINATOR</var>}</code>
-            </p>
-            <p>
-                <code><var>Y</var> = \dfrac{<var>N1.multiply(F1)</var>
-                    <var>SIGN</var><var>N2.multiply(F2)</var>}{<var>DENOMINATOR</var>}</code>
-            </p>
-            <p><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+            <p><code>
+                \dfrac{<var>N1.multiply(F1)</var>}{<var>DENOMINATOR</var>}<var>SIGN</var>
+                \dfrac{<var>N2.multiply(F2)</var>}{<var>DENOMINATOR</var>}
+            </code></p>
+            <p><code>
+                \dfrac{<var>N1.multiply(F1)</var><var>SIGN</var>
+                <var>N2.multiply(F2)</var>}{<var>DENOMINATOR</var>}
+            </code></p>
+            <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
             <div data-if="FACTOR !== 1">
                 <div>Simplify the expression by dividing the numerator and denominator by <var>FACTOR</var>:</div>
-                <div><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></div>
+                <div><code>\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></div>
             </div>
         </div>
     </div>

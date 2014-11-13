@@ -39,17 +39,24 @@
                     <var id="NUMERATOR">PRODUCT1.add(PRODUCT2a)</var>
                     <var id="DENOMINATOR">DENOMINATOR1.multiply(DENOMINATOR2)</var>
                     <var id="GCD">DENOMINATOR.getGCD(NUMERATOR)</var>
-                    <var id="FINAL_N">NUMERATOR.divide(GCD)</var>
-                    <var id="FINAL_D">DENOMINATOR.divide(GCD)</var>
-                    <var id="ANSWER">"(" + FINAL_N.toString() + ")/(" + FINAL_D.toString() + ")" </var>
+                    <var id="NUMERSOL">NUMERATOR.divide(GCD)</var>
+                    <var id="DENOMSOL">DENOMINATOR.divide(GCD)</var>
                 </div>
 
                 <p class="problem">Simplify and expand the following expression:</p>
                 <p class="question"><code>
-                    \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>}<var>SIGN</var>\dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR2</var>}
+                    \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>}<var>SIGN</var>
+                    \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR2</var>}
                 </code></p>
 
-                <div class="solution" data-type="expression" data-same-form><var>ANSWER</var></div>
+                <div class="solution" data-type="expression">
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/((<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>))</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
+                    <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/((<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>))</div>
+                </div>
 
                 <div class="hints">
                     <p data-if="SIGN === '+'">In order to add expressions, they must have a common denominator.</p>
@@ -83,7 +90,7 @@
 
                     <div data-if="SIGN === '+'">
                         <p >Now both terms have a common denominator we can simply add the numerators:</p>
-                        <p><code>\qquad =
+                        <p><code>\qquad
                             \dfrac{<var>PRODUCT1</var> + <var>PRODUCT2</var>}{(<var>DENOMINATOR1</var>)(<var>DENOMINATOR2</var>)}
                         </code></p>
                     </div>
@@ -107,7 +114,7 @@
 
                     <div data-if="!GCD.isOne()">
                         <p>Simplify:</p>
-                        <p><code>\qquad = \dfrac{<var>FINAL_N</var>}{<var>FINAL_D</var>}</code></p>
+                        <p><code>\qquad = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p>
                     </div>
                 </div>
             </div>

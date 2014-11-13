@@ -9,7 +9,6 @@
     <div class="exercise">
         <div class="vars">
             <var id="X">randVar()</var>
-            <var id="Y" data-ensure="X !== Y">randVar()</var>
 
             <var id="A">randRangeNonZero(-10, 10)</var>
             <var id="B">randRangeNonZero(-10, 10)</var>
@@ -50,24 +49,22 @@
                 <p class="problem">
                     Simplify the following expression and state the condition under which the simplification is valid.
                 </p>
-                <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+                <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 
                 <div class="solution" data-type="multiple">
-                    <span><code><var>Y</var> = </code></span>
-                    <div class="sol" data-type="set">
-                        <div class="set-sol" data-type="expression" data-same-form="">
+                    <div class="sol" data-type="expression">
+                        <div class="set-sol" data-same-form="">
                             (<var>NUMERATOR_SOL.toString()</var>)/(<var>DENOMINATOR_SOL.toString()</var>)
                         </div>
-                        <div class="set-sol" data-type="expression" data-same-form="">
+                        <div class="set-sol" data-same-form="">
                             (<var>NUMERATOR_SOL.toStringFactored()</var>)/(<var>DENOMINATOR_SOL.toString()</var>)
                         </div>
-                        <div class="set-sol" data-type="expression" data-same-form="">
+                        <div class="set-sol" data-same-form="">
                             (<var>NUMERATOR_SOL.toString()</var>)/(<var>DENOMINATOR_SOL.toStringFactored()</var>)
                         </div>
-                        <div class="set-sol" data-type="expression" data-same-form="">
+                        <div class="set-sol" data-same-form="">
                             (<var>NUMERATOR_SOL.toStringFactored()</var>)/(<var>DENOMINATOR_SOL.toStringFactored()</var>)
                         </div>
-                        <div class="input-format"><span class="entry" data-type="expression"></span></div>
                     </div>
                     <div class="sol" data-type="set">
                         <span class="set-sol" data-type="number"><var>-A</var></span>
@@ -90,19 +87,19 @@
             <p>First factor out the greatest common factors in the numerator and in the denominator.</p>
 
             <div>
-                <p><code>\qquad <var>Y</var> = \dfrac
+                <p><code>\qquad \dfrac
                     {<var>NUM_FACTOR</var>(<var>NUMERATOR.divide(NUM_FACTOR)</var>)}
                     {<var>DEN_FACTOR</var>(<var>DENOMINATOR.divide(DEN_FACTOR)</var>)}
                 </code></p>
-                <p><code>\qquad <var>Y</var> =
-                    <span data-if="FACTOR_SIGN">-</span>\dfrac{<var>NUM_FACTORa</var>}{<var>DEN_FACTORa</var>} \cdot
+                <p><code>\qquad <span data-if="FACTOR_SIGN">-</span>
+                    \dfrac{<var>NUM_FACTORa</var>}{<var>DEN_FACTORa</var>} \cdot
                     \dfrac{<var>NUMERATOR.divide(NUM_FACTOR)</var>}{<var>DENOMINATOR.divide(DEN_FACTOR)</var>}
                 </code></p>
             </div>
 
             <div data-if="!TERM_FACTOR.isOne()">
                 <p>Simplify:</p>
-                <p><code>\qquad <var>Y</var> = <span data-if="FACTOR_SIGN">-</span>
+                <p><code>\qquad <span data-if="FACTOR_SIGN">-</span>
                     <span data-if="!DEN_FACTOR2.isOne()">\dfrac{<var>NUM_FACTOR2</var>}{<var>DEN_FACTOR2</var>} \cdot </span>
                     <span data-else-if="!NUM_FACTOR2.isOne()"><var>NUM_FACTOR2</var> \cdot </span>
                     \dfrac{<var>NUMERATOR.divide(NUM_FACTOR)</var>}{<var>DENOMINATOR.divide(DEN_FACTOR)</var>}</code>
@@ -114,14 +111,14 @@
 
             <p>Next factor the numerator and denominator.</p>
 
-            <p><code>\qquad <var>Y</var> = <span data-if="FACTOR_SIGN">-</span>
+            <p><code>\qquad <span data-if="FACTOR_SIGN">-</span>
                 <span data-if="!DEN_FACTOR2.isOne()">\dfrac{<var>NUM_FACTOR2</var>}{<var>DEN_FACTOR2</var>} \cdot </span>
                 <span data-else-if="!NUM_FACTOR2.isOne()"><var>NUM_FACTOR2</var> \cdot </span>
                 \dfrac{(<var>FACTOR</var>)(<var>TERM1</var>)}{(<var>FACTOR</var>)(<var>TERM3</var>)}</code></p>
 
             <div>
                 <p>Assuming <code><var>X</var> \neq <var>-A</var></code>, we can cancel the <code><var>FACTOR</var></code>.</p>
-                <p><code>\qquad <var>Y</var> = <span data-if="FACTOR_SIGN">-</span>
+                <p><code>\qquad <span data-if="FACTOR_SIGN">-</span>
                     <span data-if="!DEN_FACTOR2.isOne()">\dfrac{<var>NUM_FACTOR2</var>}{<var>DEN_FACTOR2</var>} \cdot </span>
                     <span data-else-if="!NUM_FACTOR2.isOne()"><var>NUM_FACTOR2</var> \cdot </span>
                     \dfrac{<var>TERM1</var>}{<var>TERM3</var>}</code></p>
@@ -129,7 +126,7 @@
 
             <div>
                 <p>Therefore:</p>
-                <p><code>\qquad <var>Y</var> = \dfrac{
+                <p><code>\qquad \dfrac{
                     <span data-if="NUM_FACTOR2.isOne()">
                         <span data-if="FACTOR_SIGN"><var>TERM1.multiply(-1)</var></span>
                         <span data-else=""><var>TERM1</var></span>

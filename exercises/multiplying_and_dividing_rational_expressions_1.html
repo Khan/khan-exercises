@@ -9,7 +9,6 @@
     <div class="exercise">
         <div class="vars">
             <var id="X">randVar()</var>
-            <var id="Y" data-ensure="X !== Y">randVar()</var>
 
             <div data-ensure="!(DENOMINATOR.divide(NUMERATOR))">
                 <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
@@ -31,52 +30,47 @@
         <div class="problems">
             <div id="multiply">
                 <p class="problem">Simplify the following expression:</p>
-                <p class="question">
-                    <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
-                                  \times <var>fractionReduce(CONSTANT[0], CONSTANT[1])</var></code>
+                <p class="question"><code>
+                    \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} \times
+                    <var>fractionReduce(CONSTANT[0], CONSTANT[1])</var></code>
                 </p>
             </div>
 
             <div id="divide">
                 <p class="problem">Simplify the following expression:</p>
-                <p class="question">
-                    <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
-                                  \div <var>fractionReduce(CONSTANT[1], CONSTANT[0])</var></code>
+                <p class="question"><code>
+                    \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} \div
+                    <var>fractionReduce(CONSTANT[1], CONSTANT[0])</var></code>
                 </p>
 
                 <div class="hints" data-apply="prependContents">
                     <div>
                         <p>Dividing by a number is the same as multiplying by its inverse.</p>
-                        <p>
-                            <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
-                                          \times \dfrac{<var>CONSTANT[0]</var>}{<var>CONSTANT[1]</var>}</code>
+                        <p><code>\qquad
+                            \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} \times
+                            \dfrac{<var>CONSTANT[0]</var>}{<var>CONSTANT[1]</var>}</code>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="solution" data-type="multiple">
-            <span><code><var>Y</var> = </code></span>
-            <div class="sol" data-type="expression">
-                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
-                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
-            </div>
+        <div class="solution" data-type="expression">
+            <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+            <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
+            <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+            <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
         </div>
 
         <div class="hints">
             <p>When multiplying fractions, we multiply the numerators and the denominators.</p>
 
-            <p>
-                <code><var>Y</var> = \dfrac{(<var>NUMERATOR</var>) \times <var>CONSTANT[0]</var>}
-                                           {(<var>DENOMINATOR</var>) \times <var>CONSTANT[1]</var>}</code>
-            </p>
-
-            <p><code><var>Y</var> = \dfrac{<var>NUMERPRODUCT</var>}{<var>DENOMPRODUCT</var>}</code></p>
+            <p><code>\qquad \dfrac{(<var>NUMERATOR</var>) \times <var>CONSTANT[0]</var>}{(<var>DENOMINATOR</var>) \times <var>CONSTANT[1]</var>}</code></p>
+            <p><code>\qquad \dfrac{<var>NUMERPRODUCT</var>}{<var>DENOMPRODUCT</var>}</code></p>
 
             <div data-if="FACTOR.toString() !== '1'">
                 <p>Simplify:</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p>
+                <p><code>\qquad \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p>
             </div>
         </div>
     </div>

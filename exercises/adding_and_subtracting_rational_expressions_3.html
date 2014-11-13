@@ -10,7 +10,6 @@
             <var id="SIGN">randFromArray(["+", "-"])</var>
             <var id="ORDER">rand(2)</var>
             <var id="X">randVar()</var>
-            <var id="Y" data-ensure="X !== Y">randVar()</var>
 
             <var id="EXPR1">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
             <div data-ensure="TERM1.getGCD(TERM2).toString() === '1'">
@@ -74,20 +73,22 @@
 
         <p class="problem">Simplify the following expression:</p>
         <p class="question"><code>
-            <var>Y</var> =
             <span data-if="D1.toString() !== '1'">\dfrac{<var>N1</var>}{<var>D1</var>}</span><span data-else=""><var>N1</var></span>
             <var>SIGN</var>
-            <span data-if="D2.toString() !== '1'">\dfrac{<var>N2</var>}{<var>D2</var>}</span><span data-else=""><var>N2</var></span>
+            <span data-if="D2.toString() !== '1'">\dfrac{<var>N2</var>}{<var>D2</var>}</span>
+            <span data-else="">
+                <span data-if="N2.isNegative()">(<var>N2</var>)</span>
+                <span data-else=""><var>N2</var></span>
+            </span>
         </code></p>
 
-       <div class="solution" data-type="multiple">
-            <span><code><var>Y</var> = </code></span>
-            <div class="sol" data-type="expression">
-                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
-                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
-                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)</div>
-                <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
-            </div>
+        <div class="solution" data-type="expression">
+            <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+            <div class="set-sol" data-same-form="">(<var>NUMERSOL.toString()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
+            <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toString()</var>)</div>
+            <div class="set-sol" data-same-form="">(<var>NUMERSOL.toStringFactored()</var>)/(<var>DENOMSOL.toStringFactored()</var>)</div>
+            <div class="set-sol" data-same-form="" data-if="DENOMSOL.toString() === '1'"><var>NUMERSOL.toString()</var></div>
+            <div class="set-sol" data-same-form="" data-if="DENOMSOL.toString() === '1'"><var>NUMERSOL.toStringFactored()</var></div>
         </div>
 
         <div class="hints">
@@ -117,7 +118,7 @@
 
             <div>
                 <p>Therefore</p>
-                <p><code> \qquad <var>Y</var> =
+                <p><code> \qquad
                     \dfrac{<var>N_PRODUCT1</var>}{<var>D_PRODUCT</var>} <var>SIGN</var> 
                     \dfrac{<var>N_PRODUCT2</var>}{<var>D_PRODUCT</var>}
                 </code></p>
@@ -126,7 +127,7 @@
             <div data-if="SIGN === '-'" data-unwrap="">
                 <div>
                     <p>Now the expressions have the same denominator we can simply subtract the numerators:</p>
-                    <p><code><var>Y</var> =
+                    <p><code>\qquad 
                         \dfrac{<var>N_PRODUCT1</var> - 
                             <span data-if="N_PRODUCT2.terms !== undefined">(<var>N_PRODUCT2</var>)</span>
                             <span data-else=""><var>N_PRODUCT2</var></span>
@@ -137,23 +138,28 @@
                 <div>
                     <div>
                         <p>Distribute the negative sign:</p>
-                        <p><code><var>Y</var> = \dfrac{<var>N_PRODUCT1</var> + <var>N_PRODUCT2.multiply(-1)</var>}{<var>D_PRODUCT</var>}</code></p>
+                        <p><code>\qquad \dfrac{<var>N_PRODUCT1</var> + <var>N_PRODUCT2.multiply(-1)</var>}{<var>D_PRODUCT</var>}</code></p>
                     </div>
                 </div>
             </div>
 
             <div data-else="">
                 <p>Now the expressions have the same denominator we can simply add the numerators:</p>
-                <p><code><var>Y</var> =
-                    \dfrac{<var>N_PRODUCT1</var> + <var>N_PRODUCT2</var>}{<var>D_PRODUCT</var>}
+                <p><code>
+                    \qquad \dfrac{<var>N_PRODUCT1</var> + <var>N_PRODUCT2</var>}{<var>D_PRODUCT</var>}
                 </code></p>
             </div>
 
-            <p><code><var>Y</var> = \dfrac{<var>N_SUM</var>}{<var>D_PRODUCT</var>}</code></p>
+            <p><code>\qquad \dfrac{<var>N_SUM</var>}{<var>D_PRODUCT</var>}</code></p>
 
             <div data-if="FACTOR.toString() !== '1'">
-                <div>Simplify the expression by dividing the numerator and denominator by <var>FACTOR</var>:</div>
-                <div><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></div>
+                <div>Simplify the expression by dividing the numerator and denominator by <code><var>FACTOR</var></code>:</div>
+                <div data-if="DENOMSOL.toString() === '1'">
+                    <code>\qquad <var>NUMERSOL</var></code>
+                </div>
+                <div data-else="">
+                    <code>\qquad \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code>
+                </div>
             </div>
 
         </div>
