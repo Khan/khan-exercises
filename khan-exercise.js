@@ -155,10 +155,7 @@ var primes = [197, 3, 193, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
 
     // Keeps track of failures in MakeProblem so we don't endlessly try and
     // re-Make a bad problem
-    failureRetryCount = 0,
-
-    // The ul#examples (keep in a global because we need to modify it even when it's out of the DOM)
-    examples = null;
+    failureRetryCount = 0;
 
 // Add in the site stylesheets
 if (localMode) {
@@ -1032,12 +1029,13 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
 
     debugLog("cloned problem");
 
-    // problem has to be child of visible #workarea for MathJax metrics to all work right
     $("#workarea").append(problem);
 
     // If there's an original problem, add inherited elements
     var parentType = problem.data("type");
 
+    // We want to wait until problem is "fully formed" before
+    // attempting to move #solutionarea
     while (parentType) {
         // Copy over the parent element to the child
         var original = exercise.find(".problems #" + parentType).clone();
@@ -1138,17 +1136,22 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
     }
 
     // Store the solution to the problem
-    var solution = problem.find(".solution"),
+    var solution = problem.find(".solution");
 
-        // Get the multiple choice problems
-        choices = problem.find(".choices"),
+    // Get the multiple choice problems
+    var choices = problem.find(".choices");
 
-        // Get the area into which solutions will be inserted,
-        // Removing any previous answer
-        solutionarea = $("#solutionarea").empty(),
+    // Get the area into which solutions will be inserted,
+    // Removing any previous answer
+    var solutionarea = $("#solutionarea").empty();
 
-        // See if we're looking for a specific style of answer
-        answerType = solution.data("type");
+    // XXX(alex): Proactively move #solutionarea back to its original location,
+    // in case it is not already there. This should never be the case,
+    // but that's somehow not very reassuring.
+    $(".solutionarea-placeholder").after($("#solutionarea"));
+
+    // See if we're looking for a specific style of answer
+    var answerType = solution.data("type");
 
     // Make sure that the answer type exists
     if (answerType) {
@@ -1173,6 +1176,17 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
     // (this includes possibly generating the multiple choice problems,
     // if this fails then we will need to try generating another one.)
     debugLog("decided on answer type " + answerType);
+
+    // Move the answer area into the question:
+    if (problem.find(".render-answer-area-here").length) {
+        // Either to a specific place in the question...
+        problem.find(".render-answer-area-here").before($("#solutionarea"));
+    } else {
+        // ...or else just to the end of the question.
+        problem.append($("#solutionarea"));
+    }
+
+    // This is where we actually insert content into #solutionarea
     answerData = Khan.answerTypes[answerType].setup(solutionarea, solution);
 
     validator = answerData.validator;
@@ -1209,6 +1223,13 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
     } else {
         // Making the problem failed, let's try again (up to 3 times)
         debugLog("validator was falsey");
+
+        // Put back #solutionarea
+        // TODO(alex): Consider delaying the #solutionarea move until after we
+        // have confirmed that a working solution was generated so that we
+        // don't have to put it back right away if one wasn't
+        $(".solutionarea-placeholder").after($("#solutionarea"));
+
         problem.remove();
         if (failureRetryCount < 100) {
             failureRetryCount++;
@@ -1257,46 +1278,6 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         .not("#check-answer-button, #show-prereqs-button")
         .prop("disabled", false);
 
-    // Show acceptable formats
-    if (examples !== null && answerData.examples && answerData.examples.length > 0) {
-        $("#examples-show").show();
-        examples.empty();
-
-        $.each(answerData.examples, function(i, example) {
-            examples.append("<li>" + example + "</li>");
-        });
-
-        if ($("#examples-show").data("qtip")) {
-            $("#examples-show").qtip("destroy", /* immediate */ true);
-        }
-
-        $("#examples-show").qtip({
-            content: {
-                text: examples.remove(),
-                prerender: true
-            },
-            style: {classes: "qtip-light leaf-tooltip"},
-            position: {
-                my: "center right",
-                at: "center left"
-            },
-            show: {
-                delay: 200,
-                effect: {
-                    length: 0
-                }
-            },
-            hide: {delay: 0},
-            events: {
-                render: function() {
-                    // Only run the modules when the qtip is actually shown
-                    examples.children().runModules();
-                }
-            }
-        });
-    } else {
-        $("#examples-show").hide();
-    }
     // save a normal JS array of hints so we can shift() through them later
     hints = hints.tmpl().children().get();
 
@@ -1571,8 +1552,6 @@ function renderNextProblem(data) {
  */
 function prepareSite() {
     debugLog("prepareSite()");
-    // Grab example answer format container
-    examples = $("#examples");
 
     assessmentMode = !localMode && Exercises.assessmentMode;
     function initializeCalculator() {

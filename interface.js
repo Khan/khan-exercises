@@ -876,15 +876,15 @@ function subhintExpand(e, subhintName) {
 
 function clearExistingProblem() {
     $("#happy").hide();
-    if (!$("#examples-show").data("show")) {
-        // TODO(alpert): What does this do?
-        $("#examples-show").click();
-    }
 
     // Toggle the navigation buttons
     $("#check-answer-button").show();
     $("#next-question-button").blur().hide();
     $("#positive-reinforcement").hide();
+
+    // #solutionarea might have been moved by makeProblem(), so put it back
+    // to the default location (which is also where Perseus expects it to be)
+    $(".solutionarea-placeholder").after($("#solutionarea"));
 
     // Wipe out any previous problem
     PerseusBridge.cleanupProblem() || Khan.cleanupProblem();
