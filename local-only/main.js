@@ -19,13 +19,13 @@ requirejs([
 
     // These scripts depend on jQuery, so we wait to load them
     requirejs([
+        "../exercises-stub.js",
         "../local-only/jquery-migrate-1.1.1.js",
         "../local-only/jquery-ui.js",
         "../local-only/jquery.qtip.js",
         "../local-only/i18n.js"
     ], function() {
         requirejs([
-            "../exercises-stub.js",
             "../history.js",
             "../interface.js",
         ], function() {
