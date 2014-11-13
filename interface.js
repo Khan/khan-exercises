@@ -135,7 +135,7 @@ function problemTemplateRendered() {
     });
 
     // These shouldn't interfere...
-    $(PerseusBridge).trigger("problemTemplateRendered");
+    $(PerseusBridge).trigger("problemTemplateRendered", [Khan.mathJaxLoaded]);
     $(Khan).trigger("problemTemplateRendered");
 }
 
