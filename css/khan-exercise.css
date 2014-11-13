@@ -50,11 +50,11 @@ div.definition {
 
 #workarea { margin-left: 30px; }
 #hintsarea { margin-left: 50px; }
-#answer_area ul { list-style: none; }
-#answer_area li { padding: 7px 0; }
-#answer_area li label { display: block; }
-#answer_area li input[type=radio] { float: left; margin-top: 4px; }
-#answer_area li .value { display: block; min-height: 22px; margin-left: 18px; }
+.solutionarea ul { list-style: none; }
+.solutionarea li { padding: 7px 0; }
+.solutionarea li label { display: block; }
+.solutionarea li input[type=radio] { float: left; margin-top: 4px; }
+.solutionarea li .value { display: block; min-height: 22px; margin-left: 18px; }
 
 #extras li { display: inline; }
 #extras li:before { content: "| "; }
@@ -64,8 +64,8 @@ div.definition {
 #answer_area #check-answer-results .check-answer-message { font-size: 12px; line-height: 20px; margin: 0; }
 #sad, #happy { float: left; margin: 0 6px 4px 0; }
 
-#examples { color: #777; margin-left: 20px; list-style-type: disc; }
-#examples li { margin: 5px 0; }
+.examples { color: #777; margin-left: 20px; list-style-type: disc; }
+.examples li { margin: 5px 0; }
 
 #problemarea { font-size: 14px; width: 70%; min-height: 378px; position: relative; float: left; padding-bottom: 38px; }
 
@@ -82,48 +82,48 @@ table.limit td { border: 1px solid #AAA; }
 table.limit th, table.limit td { padding: 5px; }
 table.limit th:first-child { text-align: right; }
 
-#answer_area input[type=text],
-#answer_area input[type=number] {
+.solutionarea input[type=text],
+.solutionarea input[type=number] {
     width: 80px;
 }
-#answer_area .short20 input[type=text],
-#answer_area .short20 input[type=number] {
+.solutionarea .short20 input[type=text],
+.solutionarea .short20 input[type=number] {
     width: 20px;
 }
-#answer_area .short25 input[type=text],
-#answer_area .short25 input[type=number] {
+.solutionarea .short25 input[type=text],
+.solutionarea .short25 input[type=number] {
     width: 25px;
 }
-#answer_area .short28 input[type=text],
-#answer_area .short28 input[type=number] {
+.solutionarea .short28 input[type=text],
+.solutionarea .short28 input[type=number] {
     width: 28px;
 }
-#answer_area .short30 input[type=text],
-#answer_area .short30 input[type=number] {
+.solutionarea .short30 input[type=text],
+.solutionarea .short30 input[type=number] {
     width: 30px;
 }
-#answer_area .short32 input[type=text],
-#answer_area .short32 input[type=number] {
+.solutionarea .short32 input[type=text],
+.solutionarea .short32 input[type=number] {
     width: 32px;
 }
-#answer_area .short35 input[type=text],
-#answer_area .short35 input[type=number] {
+.solutionarea .short35 input[type=text],
+.solutionarea .short35 input[type=number] {
     width: 35px;
 }
-#answer_area .short40 input[type=text],
-#answer_area .short40 input[type=number] {
+.solutionarea .short40 input[type=text],
+.solutionarea .short40 input[type=number] {
     width: 40px;
 }
-#answer_area .short50 input[type=text],
-#answer_area .short50 input[type=number] {
+.solutionarea .short50 input[type=text],
+.solutionarea .short50 input[type=number] {
     width: 50px;
 }
 #readonly { display: none; }
 
 .radical .surd { font: 150% Arial; padding: 0 0 0 5px; }
 .radical .overline { border-top: 1px solid #000; padding: 6px 1px 0 3px; margin-left: -1px; }
-#answer_area .radical input[type=text],
-#answer_area .radical input[type=number] {
+.solutionarea .radical input[type=text],
+.solutionarea .radical input[type=number] {
     width: 40px;
 }
 
@@ -164,25 +164,6 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 #answer_area #answercontent { position: relative; z-index: 2; } /* above-scratchpad */
 #answer_area .hint-box { position: relative; z-index: 1;}
 #problemarea a:link { position: relative; z-index: 3;} /* interactive-content */
-
-#answer_area #examples-show {
-  display: none;
-  float: right;
-  margin-top: -2px;
-  background: #F7F7F7;
-  padding: 0 10px;
-  font-size: 80%;
-  border-radius: 50px;
-  border: 1px solid #DDD;
-  color: #777;
-  cursor: default;
-}
-#answer_area #examples-show:hover,
-#answer_area #examples-show.hover {
-  background: #777;
-  color: #fff;
-  text-decoration: none;
-}
 
 #answer_area .calculator {
     width: 181px;
@@ -315,10 +296,15 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     overflow: visible;
 }
 
+.workarea #solutionarea {
+    border-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
 #answer_area .answer-buttons {
   margin: 0 -10px;
   padding: 10px 10px 0;
-  border-top: 1px solid #fff;
   position: relative;
 }
 
@@ -610,7 +596,7 @@ html.exercise-browser {
 	font-size: 16px;
 }
 
-.lite #answercontent #examples-show, .lite #answercontent #examples {
+.lite #answercontent .examples {
 	display: none !important;
 }
 
@@ -904,18 +890,18 @@ html.exercise-browser {
 }
 /* Fancy matrix input - goes along with matrix-input.js */
 
-#answer_area .matrix-row {
+.solutionarea .matrix-row {
     float: left;  /* contain inner floats */
     clear: both;
 }
 
-#answer_area .matrix-row .sol {
+.solutionarea .matrix-row .sol {
     margin: 0;
     float: left;
 }
 
-#answer_area .matrix-row .sol input[type=text],
-#answer_area .matrix-row .sol input[type=number] {
+.solutionarea .matrix-row .sol input[type=text],
+.solutionarea .matrix-row .sol input[type=number] {
     width: 45px;
     height: 30px;
     border: none;
@@ -1185,82 +1171,74 @@ body.debug span.error {
     color: inherit;
 }
 
-#answer_area .info-box .mini-button {
+.solutionarea .info-box .mini-button {
     margin: 0px 10px 0px 0px;
     padding: 0px 5px;
     width: 25px;
     height: 18px;
 }
 
-#answer_area #number-label {
+.solutionarea #number-label {
     clear: both;
     margin: 0px 0px;
     padding: 14px 0px 0px 0px;
 }
 
 /* Expression/equation input (see "expression" answer type) */
-#answer_area .expression {
-    display: block;
-}
-
-#answer_area .expression > input {
+.solutionarea .expression {
     box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+    display: block;
     max-width: 240px;
     width: 100%;
-    margin-bottom: 5px;
 }
 
-#answer_area .expression > .output {
-    display: block;
+.solutionarea .expression > .output {
+    background: #f2f2f2;
+    display: inline-block;
+    border-radius: 5px;
+    padding-top: 10px;
+    margin: 10px 0;
 }
 
-#answer_area .expression > .output > .tex {
+.solutionarea .expression > .output > .tex {
     display: block;
-    overflow-x: auto;
+    min-height: 42px;
+    overflow-x: scroll;
+    padding: 2px 10px 16px 10px;
 }
 
-#answer_area .expression > .output > .placeholder {
-    display: block;
+.solutionarea .expression > .input {
     position: relative;
-    height: 40px;
-    overflow-y: hidden;
 }
 
-#answer_area .expression > .output > .placeholder  > .error {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    background: #f7f7f7;
-    border: 1px solid #ddd;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    color: #000;
-    display: none;
-    font-weight: normal;
-    min-height: 22px;
-    width: 168px;
+.solutionarea .expression > .input > input {
+    border: 1px solid #a4a4a4;
+    border-radius: 5px;
+    direction: ltr;
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding: 6px;
+}
+
+.solutionarea .expression > .output,
+.solutionarea .expression > .output > .tex,
+.solutionarea .expression > .input > input {
+    box-sizing: border-box;
+    max-width: 240px;
+    width: 100%;
+}
+
+.solutionarea .expression > .input > input.error {
+    padding-right: 25px;
+}
+
+.solutionarea .expression > .input > .error-div {
     position: absolute;
-    top: 0px;
-    left: 40px;
-    margin: auto;
-    font-size: 100%;
-    padding: 0;
-    text-decoration: none;
+    right: 6px;
+    top: -2px;
 }
 
-#answer_area .expression > .output > .placeholder > .error > .buddy {
-    background-image: url(images/error-buddy.png);
-    background-size: 100%;
-    height: 36px;
-    width: 40px;
-    position: absolute;
-    top: -3px;
-    left: -42px;
-}
-
-#answer_area .expression > .output > .placeholder > .error > .message {
-    font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 1.4em;
-    margin: 0px 4px;
+.solutionarea .expression > .input > .error-div > .error-icon {
+    color: #fcc335;
+    font-size: 20px;
 }
