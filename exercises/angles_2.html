@@ -32,6 +32,7 @@
                     </ul>
                     <p data-if="RAND_SWITCH2 === 0">What is <code>\blue{\angle{DAF}}{?}</code></p>
                     <p data-else="">What is <code>\blue{\angle{CAE}}{?}</code></p>
+                    <div class="render-answer-area-here"></div>
                 </div>
 
                 <div class="problem">
@@ -100,7 +101,7 @@
                     </div>
                     <div>
                         <p><code>
-                            \red{\angle{BCA}} = 180^\circ - \green{<var>Tri_Y</var>^\circ} - \purple{<var>Tri_Z</var>^\circ} = 
+                            \red{\angle{BCA}} = 180^\circ - \green{<var>Tri_Y</var>^\circ} - \purple{<var>Tri_Z</var>^\circ} =
                             \red{<var>Tri_X</var>^\circ}
                         </code></p>
                         <div class="graphie" data-update="tri-and-parallel">
@@ -147,6 +148,7 @@
                     </ul>
                     <p data-if="RAND_SWITCH2 === 0">What is <code>\blue{\angle{GHD}}{?}</code></p>
                     <p data-else="">What is <code>\blue{\angle{CHF}}{?}</code></p>
+                    <div class="render-answer-area-here"></div>
                 </div>
 
                 <div class="problem">
@@ -182,7 +184,7 @@
                         path([[-5, -4], [3, 4]]);
                         ParallelLineMarkers(4.2, 2);
                         ParallelLineMarkers(4.2, -2);
-                        
+
                         label([-5, 2], "A", "below");
                         label([5, 2], "B", "below");
                         label([-5, -2], "C", "below");
@@ -209,7 +211,7 @@
                     <span class="sol"><var>X</var></span><code>\Large{{}^\circ}</code>
                 </div>
 
-                <div class="hints">                    
+                <div class="hints">
                     <div data-if="RAND_SWITCH3 === 2" data-unwrap="">
                         <div>
                             <p><code>\purple{\angle{AGH}}</code> forms a linear pair with <code>\green{\angle{BGH}}</code>.</p>
@@ -297,6 +299,7 @@
                     <p>
                         What is <code>\blue{\angle{<var>RAND_SWITCH3 === 0 ? "CHE" : ( RAND_SWITCH3 === 1 ? "GHC" : "DHE" )</var>}} {?}</code>
                     </p>
+                    <div class="render-answer-area-here"></div>
                 </div>
 
                 <div class="problem">
@@ -363,7 +366,7 @@
                     </div>
                     <div>
                         <p><code>
-                            \purple{\angle{BHD}} = 180^\circ - \green{<var>ANGLE_2</var>^\circ} - 
+                            \purple{\angle{BHD}} = 180^\circ - \green{<var>ANGLE_2</var>^\circ} -
                             \red{<var>ANGLE_1</var>^\circ} = \purple{<var>ANGLE_3</var>^\circ}
                         </code></p>
                         <div class="graphie" data-update="star1">
@@ -432,6 +435,7 @@
                         <li><code>\red{\angle{FGH}} = <var>180 - ANGLE_2</var>^\circ</code></li>
                     </ul>
                     <p data-if="RAND_SWITCH2 === 0">What is <code>\blue{\angle{AJF}} {?}</code></p><p data-else="">What is <code>\blue{\angle{IHE}} {?}</code></p>
+                    <div class="render-answer-area-here"></div>
                 </div>
 
                 <div class="problem">
@@ -491,7 +495,7 @@
                 <div class="hints">
                     <div data-if="RAND_SWITCH2 === 0" data-unwrap="">
                         <p><code>\purple{\angle{DIJ}}</code> forms a linear pair with <code>\red{\angle{AIC}}</code>.</p>
-                        
+
                         <div>
                             <p>Therefore, <code>\purple{\angle{DIJ}} = 180^\circ - \red{<var>180 - ANGLE_2</var>^\circ}</code>.</p>
                             <div class="graphie" data-update="star2">
