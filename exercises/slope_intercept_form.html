@@ -53,6 +53,7 @@
             </div>
             <p>A line goes through the following points, and the equation of that line is written in <code>y = mx + b</code> form.</p>
             <p class="question">What is the equation of the line?</p>
+            <p class="render-answer-area-here"></p>
             <div class="fake_header reading">
                 <span><code>x</code></span><span><code>y</code></span>
             </div>
@@ -118,26 +119,27 @@
             <div class="vars">
                 <var id="SHOW_GRAPH">randRange( 0, 1 )</var>
             </div>
-            <div class="question">
+            <div class="problem">
                 <p>The equation of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code> is written in the form <code>y = mx + b</code>.</p>
+            </div>
 
-                <p>What is the equation of the line?</p>
-                <div class="graphie" data-if="SHOW_GRAPH">
-                    graphInit({
-                        range: 10,
-                        scale: 20,
-                        tickStep: 1,
-                        labelStep: 1,
-                        unityLabels: false,
-                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "&lt;-&gt;"
-                    });
+            <p class="question">What is the equation of the line?</p>
+            <p class="render-answer-area-here"></p>
+            <div class="graphie" data-if="SHOW_GRAPH">
+                graphInit({
+                    range: 10,
+                    scale: 20,
+                    tickStep: 1,
+                    labelStep: 1,
+                    unityLabels: false,
+                    labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                    axisArrows: "&lt;-&gt;"
+                });
 
-                    style({ stroke: BLUE, fill: BLUE });
-                    line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M] );
-                    circle( [X1, Y1], 3/20 );
-                    circle( [X2, Y2], 3/20 );
-                </div>
+                style({ stroke: BLUE, fill: BLUE });
+                line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M] );
+                circle( [X1, Y1], 3/20 );
+                circle( [X2, Y2], 3/20 );
             </div>
 
             <div class="solution" data-type="multiple">

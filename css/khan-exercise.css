@@ -890,6 +890,13 @@ html.exercise-browser {
 }
 /* Fancy matrix input - goes along with matrix-input.js */
 
+.matrix-input {
+    padding: 15px;
+    margin-top: 10px;
+    background-color: #eee;
+    width: 165px;
+}
+
 .solutionarea .matrix-row {
     float: left;  /* contain inner floats */
     clear: both;

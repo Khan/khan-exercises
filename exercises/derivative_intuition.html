@@ -25,21 +25,14 @@
                     <var id="OPTIONS">{}</var>
                 </div>
 
-                <div class="question">
-                    <p>
-                        <code class="hint_blue">f(x) = <var>FNXTEXT</var></code>
-                        <span id="ddxspan" style="margin-left: 5em; display: none; opacity:0">
-                            <code class="hint_orange">\frac{d}{dx}f(x) = <var>DDXTEXT</var></code>
-                        </span>
-                    </p>
-                    <p>
-                        Drag each one of the <var>POINTS.length</var> <span class="hint_orange">orange</span> points up and down
-                        to adjust the slope of the corresponding tangent line.</p>
-                    <p>
-                        The derivative of a function is defined as the slope of a line tangent to the curve at each point.
-                        Adjust the slopes of the lines to visually find the    derivative <code>\frac{d}{dx} f(x)</code> at each point.
-                    </p>
-                </div>
+                <p class="question">
+                    Drag each one of the <var>POINTS.length</var> <span class="hint_orange">orange</span> points up and down
+                    to adjust the slope of the corresponding tangent line.</p>
+                </p>
+                <p>
+                    The derivative of a function is defined as the slope of a line tangent to the curve at each point.
+                    Adjust the slopes of the lines to visually find the derivative <code>\frac{d}{dx} f(x)</code> at each point.
+                </p>
 
                 <div class="problem">
                     <div class="graphie" id="ddxplot">
@@ -57,6 +50,12 @@
                         initDerivativeIntuition(FNX, DDX, POINTS);
                     </div>
                 </div>
+                <p>
+                    <code class="hint_blue">f(x) = <var>FNXTEXT</var></code>
+                    <span id="ddxspan" style="margin-left: 5em; display: none; opacity:0">
+                        <code class="hint_orange">\frac{d}{dx}f(x) = <var>DDXTEXT</var></code>
+                    </span>
+                </p>
 
                 <div class="solution" data-type="custom">
                     <div class="instruction">

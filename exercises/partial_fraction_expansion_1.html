@@ -5,21 +5,21 @@
     <title>Partial fraction expansion</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
     <style type="text/css">
-        #answer_area .soln-bot input[type="text"] {
+        #solutionarea .soln-bot input[type="text"] {
             margin-left: 3px;
         }
-        #answer_area td {
+        #solutionarea td {
             text-align: center;
             vertical-align: middle;
             padding: 0px;
         }
-        #answer_area .soln-top {
+        #solutionarea .soln-top {
             padding-bottom: 1px;
         }
-        #answer_area .soln-middle {
+        #solutionarea .soln-middle {
             padding: 0px 5px;
         }
-        #answer_area .soln-bot {
+        #solutionarea .soln-bot {
             padding-top: 1px;
             border-top: 1px solid black;
         }
@@ -48,11 +48,11 @@
                 <var id="ADENOM">expr(["+", "x", -C])</var>
                 <var id="BDENOM">expr(["+", "x", -D])</var>
             </div>
-            <div class="question">
+            <p class="question">
                 Expand
                 <code>\dfrac{<var>NUMER</var>}{<var>DENOM</var>}</code>
                 using partial fractions.
-            </div>
+            </p>
             <div class="solution" data-type="set">
                 <div class="set-sol" data-type="multiple">
                     <span class="sol" data-forms="integer"><var>A</var></span>
