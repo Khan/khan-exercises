@@ -55,7 +55,6 @@
             </div>
 
             <div class="solution" data-type="custom">
-                <span class="instruction">Move the orange dot to select your answer.</span>
                 <div class="guess">graph.movablePoint.coord[0]</div>
                 <div class="validator-function">
                     if ( guess === 0 ) {
@@ -139,7 +138,6 @@
             </div>
 
             <div class="solution" data-type="custom">
-                <span class="instruction">Move the orange dot to select your answer.</span>
                 <div class="guess">graph.movablePoint.coord[1]</div>
                 <div class="validator-function">
                     if (guess === 0) {
@@ -188,6 +186,7 @@
         <div id="what-is-point-horizontal">
             <div class="question">
                 <p>Where is the blue dot on the number line?</p>
+                <div class="render-answer-area-here"></div>
                 <div class="graphie" id="number-line-2">
                     init({
                         range: [[LOWER_BOUND - SCALE * 0.75, UPPER_BOUND + SCALE * 0.75], [-1, 1]],
@@ -236,6 +235,7 @@
         <div id="what-is-point-vertical">
             <div class="question">
                 <p>Where is the blue dot on the number line?</p>
+                <div class="render-answer-area-here"></div>
                 <div class="graphie" id="number-line-2">
                     init({
                         range: [[-5, 5], [LOWER_BOUND - SCALE * 0.75, UPPER_BOUND + SCALE * 0.75]],

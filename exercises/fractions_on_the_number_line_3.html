@@ -46,7 +46,7 @@
                         scale: [70 / graph.d, 40]
                     });
 
-                    line([0, 0], [STOP + 1, 0 ], { arrows: "&gt;" });                    
+                    line([0, 0], [STOP + 1, 0 ], { arrows: "&gt;" });
                     line([0, 0], [START - 1, 0 ], { arrows: "-&gt;" });
 
                     for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++) {
@@ -70,7 +70,6 @@
             </div>
 
             <div class="solution" data-type="custom">
-                <span class="instruction">Move the orange dot to select your answer.</span>
                 <div class="guess">graph.movablePoint.coord[0] / abs(DENOMINATOR)</div>
                 <div class="validator-function">
                     if (guess === 0) {
@@ -88,7 +87,7 @@
             <div class="vars">
                 <var id="ORIENTATION">1</var>
             </div>
-            
+
             <div class="question">
                 <p>Move the <strong><code>\orange{\text{<var>ORANGE_DOT</var>}}</code></strong> to
                 <strong><code>\orange{<var>NUMBER</var>}</code></strong> on the number line.</p>
@@ -100,7 +99,7 @@
                         scale: [40, 60 / graph.d]
                     });
 
-                    line([0, 0], [0, STOP + 1], { arrows: "&gt;" });                    
+                    line([0, 0], [0, STOP + 1], { arrows: "&gt;" });
                     line([0, 0], [0, START - 1], { arrows: "-&gt;" });
 
                     for (var y = LOWER_BOUND; y &lt;= UPPER_BOUND; y++) {
@@ -124,7 +123,6 @@
             </div>
 
             <div class="solution" data-type="custom">
-                <span class="instruction">Move the orange dot to select your answer.</span>
                 <div class="guess">graph.movablePoint.coord[1] / abs(DENOMINATOR)</div>
                 <div class="validator-function">
                     if (guess === 0) {
