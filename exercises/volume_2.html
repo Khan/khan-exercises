@@ -42,15 +42,12 @@
                     })
                 </var>
             </div>
-             <p>
-                 <var>person(1)</var> needs to ship a package of flour to a baker.
-                 <span data-if="isMale(1)">He has <code><var>VOL</var></code> cubic centimeters of flour to send.</span>
-                 <span data-else>She has <code><var>VOL</var></code> cubic centimeters of flour to send.</span>
-                 The post office will not ship any box which has an edge <code>10</code> centimeters or longer.
+             <p id="problem">
+                The post office does not sell any boxes which have a side length longer than <code>10</code> centimeters.
+                I bought a box from the post office that has a volume of <code><var>VOL</var></code> cubic centimeters.
              </p>
             <p class="question">
-               What dimensions will hold exactly <code><var>VOL</var></code> cubic centimeters of flour,
-               but whose edge lengths are all whole numbers less than <code>10</code> centimeters?
+               What could be the dimensions of my box?
             </p>
             <div class="solution" data-type="custom">
                 <div class="instruction">
@@ -80,7 +77,7 @@
                                     return false;
                                 }
                                 return Math.abs(length * width * height - VOL) &lt; Math.pow(2, -42);
-                            }, {forms: 'integer'});
+                            }, {forms: 'integer, proper, improper, mixed, decimal'});
 
                             var heightResult = HeightValidator(guess[2]);
 
@@ -96,7 +93,7 @@
                             }
 
                             return heightResult.correct;
-                        }, {forms: 'integer'});
+                        }, {forms: 'integer, proper, improper, mixed, decimal'});
 
                         var widthResult = WidthValidator(guess[1]);
 
@@ -112,7 +109,7 @@
                         }
 
                         return widthResult.correct;
-                    }, {forms: 'integer'});
+                    }, {forms: 'integer, proper, improper, mixed, decimal'});
 
                     var lengthResult = LengthValidator(guess[0]);
 
@@ -193,7 +190,7 @@
                         <code>(<var>getPrimeFactorization(HEIGHT).join("\\space\\color{black}{\\times}\\space")</var>)</code>
                     </p>
                     <p>
-                        So the dimensions of the package could be <code><var>WIDTH</var></code>,
+                        So the dimensions of the box could be <code><var>WIDTH</var></code>,
                         <code><var>LENGTH</var></code> and <code><var>HEIGHT</var></code>.
                     </p>
                 </div>
