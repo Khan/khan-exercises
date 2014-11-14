@@ -22,7 +22,6 @@
     <style type="text/css">
         .ttable {
             text-align: left;
-            margin: 20px auto 0;
         }
 
         .ttable tr {
@@ -109,7 +108,10 @@
                 estimating their values to the nearest <code><var>CORRECTOFFSET</var></code>.
                 Enter at least <code>5</code> different points.
             </p>
+
             <div class="problem">
+                <p class="render-answer-area-here"></p>
+
                 <div class="graphie" id="main">
                     graphInit({
                         range: 10,
@@ -129,9 +131,9 @@
                     plot(FUNC, [-10, 10], { stroke: BLUE });
                 </div>
             </div>
+
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    <span>Enter your data in the table below.</span>
                     <table class="ttable">
                         <tbody><tr class="labels">
                             <td><code>x</code></td>
@@ -391,10 +393,7 @@
             </div>
 
             <div class="solution" data-type="custom">
-                <div class="instruction">
-                    Plot the points given in the table on the graph,
-                    then check your answer.
-                </div>
+                <div class="instruction"></div>
                 <div class="guess">
                     [
                         graph.moved,
@@ -496,6 +495,7 @@
                 decimals.
             </p>
             <p class="problem"><code>y = <var>FUNCSHOW</var></code></p>
+            <p class="render-answer-area-here"></p>
             <div class="hints">
                 <p>
                     You can look at a function in many different ways,
