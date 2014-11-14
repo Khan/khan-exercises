@@ -37,8 +37,8 @@
         <div class="problems">
             <div id="equation">
                 <p class="question">Which of the following ordered pairs represents a solution to the equation below?</p>
-                <p><code><var>$.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
                 <p><code>y = <var>expr(["+", ["*", M, "x"], B])</var></code></p>
+                <div class="render-answer-area-here"></div>
                 <p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
                 <ul class="choices" data-category="true">
                     <li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
@@ -87,7 +87,7 @@
 
             <div id="graphed">
                 <p class="question">Which of the following ordered pairs represents a solution to the equation graphed below?</p>
-                <p><code><var>$.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
+                <div class="render-answer-area-here"></div>
 
                 <div class="graphie" id="grid">
                     graphInit({
