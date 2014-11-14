@@ -53,6 +53,7 @@
                     What is the coordinate of a point, <code>P</code>, if it is <code><var>T_FRACTION</var></code> of the way along the parabola,
                     from <code>A</code> to <code>C</code>?
                 </p>
+                <p class="render-answer-area-here"><p>
 
                 <div class="graphie" id="graph">
                     graphInit({
@@ -65,7 +66,7 @@
                         axisArrows: "&lt;-&gt;",
                     });
 
-                    
+
                     style({ stroke: BLUE, fill: BLUE, strokeWidth: 1.5 });
                     line([AX, AY], [BX, BY]);
                     line([CX, CY], [BX, BY]);
@@ -145,7 +146,7 @@
                             graph.R = [RX, RY];
                             graph.Q = [QX, QY];
                             graph.RQ = kvector.normalize(kvector.subtract(graph.R, graph.Q));
-                            
+
                             style({ stroke: PINK, fill: PINK, color: PINK, strokeWidth: 1.5 });
                             circle(graph.Q, 0.15);
                             label(kvector.subtract(graph.Q, graph.RQ), "Q");

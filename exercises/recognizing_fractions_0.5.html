@@ -20,7 +20,10 @@
         <div class="problems">
             <div id="pie-chart">
                 <div class="question">
-                        <p data-if="WHOLES === 1">What fraction of the circle is shaded red?</p>
+                        <p data-if="WHOLES === 1">
+                            What fraction of the circle is shaded red?
+                            <span class="render-answer-area-here"></span>
+                        </p>
                         <div data-else="">
                             <p>This circle represents one whole.</p>
                             <div class="graphie">
@@ -30,7 +33,10 @@
                                 });
                                 piechart([0, DEN_1], [RED, "#999"], 2, false, 3, 0);
                             </div>
-                            <p>What fraction is shaded red below?</p>
+                            <p>
+                                What fraction is shaded red below?
+                                <span class="render-answer-area-here"></span>
+                            <p>
                         </div>
 
                         <div class="graphie">
@@ -63,7 +69,10 @@
 
             <div id="rectangle-area">
                 <div class="question">
-                    <p data-if="WHOLES === 1">What fraction of the rectangle is shaded red?</p>
+                    <p data-if="WHOLES === 1">
+                        What fraction of the rectangle is shaded red?
+                        <span class="render-answer-area-here"></span>
+                    </p>
                     <div data-else="">
                         <p>This rectangle represents one whole.</p>
                         <div class="graphie">
@@ -73,7 +82,10 @@
                             });
                             rectchart([0, DEN_1], [RED, "#999"], 0);
                         </div>
-                        <p>What fraction is shaded red below?</p>
+                        <p>
+                            What fraction is shaded red below?
+                            <span class="render-answer-area-here"></span>
+                        <p>
                     </div>
 
                     <div class="graphie">
