@@ -437,6 +437,45 @@ KhanUtil.createGraphie = function(el) {
             return raphael.ellipse.apply(raphael, scalePoint(center).concat(scaleVector(radii)));
         },
 
+        fixedEllipse: function(center, radii, maxScale) {
+            // Scale point and radius
+            var scaledPoint = scalePoint(center);
+            var scaledRadii = scaleVector(radii);
+
+            // Padding protects against clipping at the edges
+            var padding = 2;
+            var width = 2 * scaledRadii[0] * maxScale + padding;
+            var height = 2 * scaledRadii[1] * maxScale + padding;
+
+            // Calculate absolute left, top
+            var left = scaledPoint[0] - width / 2;
+            var top = scaledPoint[1] - height / 2;
+
+            // Wrap in <div>
+            var wrapper = document.createElement("div");
+            $(wrapper).css({
+                position: "absolute",
+                width: width + "px",
+                height: height + "px",
+                left: left + "px",
+                top: top + "px"
+            });
+
+            // Create Raphael canvas
+            var localRaphael = Raphael(wrapper, width, height);
+            var visibleShape = localRaphael.ellipse(
+                width / 2,
+                height / 2,
+                scaledRadii[0],
+                scaledRadii[1]
+            );
+
+            return {
+                wrapper: wrapper,
+                visibleShape: visibleShape
+            };
+        },
+
         arc: function(center, radius, startAngle, endAngle, sector) {
             startAngle = (startAngle % 360 + 360) % 360;
             endAngle = (endAngle % 360 + 360) % 360;
@@ -1097,7 +1136,6 @@ KhanUtil.createGraphie = function(el) {
                 }
             });
         }
-
     };
 
     return graphie;

@@ -229,8 +229,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             allowScratchpad: false
         }, options);
 
+        var mouselayerZIndex = 2;
         graph.mouselayer = Raphael(graph.raphael.canvas.parentNode, graph.xpixels, graph.ypixels);
-        $(graph.mouselayer.canvas).css("z-index", 2);
+        $(graph.mouselayer.canvas).css("z-index", mouselayerZIndex);
         if (options.onClick || options.onMouseDown || options.onMouseMove ||
                 options.onMouseOver || options.onMouseOut) {
             var canvasClickTarget = graph.mouselayer.rect(
@@ -282,6 +283,34 @@ $.extend(KhanUtil.Graphie.prototype, {
         if (!options.allowScratchpad) {
             Khan.scratchpad.disable();
         }
+
+        // Add mouse and visible wrapper layers for DOM-node-wrapped movables
+        graph._mouselayerWrapper = document.createElement("div");
+        $(graph._mouselayerWrapper).css({
+            position: "absolute",
+            left: 0,
+            top: 0,
+            zIndex: mouselayerZIndex
+        });
+
+        graph._visiblelayerWrapper = document.createElement("div");
+        $(graph._visiblelayerWrapper).css({
+            position: "absolute",
+            left: 0,
+            top: 0
+        });
+
+        var el = graph.raphael.canvas.parentNode;
+        el.appendChild(graph._visiblelayerWrapper);
+        el.appendChild(graph._mouselayerWrapper);
+
+        // Add functions for adding to wrappers
+        graph.addToMouseLayerWrapper = function(el) {
+            this._mouselayerWrapper.appendChild(el);
+        };
+        graph.addToVisibleLayerWrapper = function(el) {
+            this._visiblelayerWrapper.appendChild(el);
+        };
     },
 
     /**
