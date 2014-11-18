@@ -8,9 +8,9 @@
 
 <body>
     <div class="exercise">
-        <div class="problem">
+        <p class="question">
             What is the value of the angle <code>x</code>?
-        </div>
+        </p>
         <div class="vars" data-ensure="TR_A.niceSideLengths[0] !== TR_A.niceSideLengths[2]">
             <var id="RAND_ANG">rand(3)</var>
             <var id="NEW_ANG">""</var>
@@ -45,7 +45,8 @@
             </var>
             <var id="ANSWER">ANGLES[ RAND_ANG ]</var>
         </div>
-        <div class="question">
+        <p class="render-answer-area-here"></p>
+        <div class="problem">
             <div class="graphie" id="triangle">
                 var minX = min(0, min(TR_A.points[1][0], TR_A.points[2][0]));
                 var maxX = TR_A.points[1][0] + max(0, TR_A.points[2][0]);
@@ -165,7 +166,7 @@
                     </var>
                     <var id="ANSWER">TR_B.angles[ANG_LEFT]</var>
                 </div>
-                <div class="question">
+                <div class="problem">
                     <div class="graphie" id="oppTriangle">
                     var maxX = max(TR_A.points[1][0], TR_A.points[2][0]) + 1;
                     var minY = TR_A.points[1][1] - 1;

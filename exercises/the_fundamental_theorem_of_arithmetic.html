@@ -58,6 +58,7 @@
                     Use the arrows to change the exponent on each prime number below to see if you can find the
                     prime factorization.
                 </p>
+                <p class="render-answer-area-here"></p>
                 <div class="graphie">
                     // Save a reference to KhanUtil.currentGraph.graph to workaround the issue
                     // of the custom validator depending on KhanUtil.currentGraph and
@@ -91,7 +92,10 @@
                             }
                             return answer;
                         }, []).join("\\cdot");
-                        answerPreview += " = " + graph.computeTotal();
+                        if (answerPreview) {
+                            answerPreview += " = ";
+                        }
+                        answerPreview += graph.computeTotal();
 
                         KhanUtil.processMath($("#answer-preview code")[0], answerPreview, true);
                     };
@@ -167,9 +171,8 @@
             </div>
 
             <div class="solution" data-type="custom">
-                <div class="instruction">
-                    <p>Click the orange arrows to change your answer.</p>
-                    <p id="answer-preview"><code>=1</code></p>
+                <div class="instruction" style="width: 360px;">
+                    <p id="answer-preview" style="background: #eee; padding: 5px; text-align: center;"><code>1</code></p>
                 </div>
                 <div class="guess">GRAPHIE.computeTotal()</div>
                 <div class="validator-function">
