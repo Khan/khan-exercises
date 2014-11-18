@@ -39,6 +39,7 @@
                         central angle.
                     </p>
                     <p class="question">What is the length of the arc?</p>
+                    <div class="render-answer-area-here"></div>
                     <div class="graphie" id="circle">
                         init({
                             range: [[-DIAGRAM_R - 2, DIAGRAM_R + 2], [-DIAGRAM_R - 2, DIAGRAM_R + 2]],
@@ -132,6 +133,7 @@
                     <p class="question">
                         <span data-if="USE_RADIANS">What is the central angle of the arc, in radians?</span>
                         <span data-else="">What is the central angle of the arc, in degrees?</span>
+                        <div class="render-answer-area-here"></div>
                     </p>
                     <div class="graphie" data-update="circle">
                         $(graph.angle).hide();

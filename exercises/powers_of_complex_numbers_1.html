@@ -52,6 +52,7 @@
                 <code>\blue{x}</code> is plotted in <strong class="hint_blue">blue</strong> below.
                 Change the angle and radius to plot <code>\orange{y}</code> in <strong class="hint_orange">orange</strong>.
             </p>
+            <p class="render-answer-area-here"></p>
             <div class="graphie" id="gauss-plane">
                 var size = 10;
 
@@ -73,22 +74,22 @@
                 redrawComplexPolarForm();
             </div>
             <div class="solution" data-type="custom">
-                <div class="instruction">
+                <div class="instruction" style="width: 180px;">
                     <div>
                         <div style="float: left;">Radius: <span id="current-radius"><code>1</code></span></div>
-                        <div style="float: right;">
+                        <div style="float: right; margin-bottom: 4px;">
                             <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, -1)" type="button" value="-">
                             <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, 1)" type="button" value="+">
                         </div>
                     </div>
                     <div style="clear: both;">
                         <div style="float: left;">Angle: <span id="current-angle"><code>0</code></span></div>
-                        <div style="float: right;">
+                        <div style="float: right; margin-bottom: 14px;">
                             <input class="simple-button mini-button" onclick="updateComplexPolarForm(-1, 0)" type="button" value="-">
                             <input class="simple-button mini-button" onclick="updateComplexPolarForm(1, 0)" type="button" value="+">
                         </div>
                     </div>
-                    <div id="number-label">1</div>
+                    <div id="number-label" style="background: #eee; padding: 5px; text-align: center;">1</div>
                 </div>
                 <div class="guess">[
                     graph.currComplexPolar.getAngleNumerator(),
