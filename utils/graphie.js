@@ -1,6 +1,7 @@
 define(function(require) {
 
 var kpoint = require("./kpoint.js");
+var kvector = require("./kvector.js");
 require("./tex.js");  // for graphie.label()
 require("./tmpl.js");
 
@@ -40,17 +41,6 @@ function cleanupIntervals() {
         window.clearInterval(intervalID);
     });
     intervalIDs.length = 0;
-}
-
-// Bound a number by 1e-6 and 1e20 to avoid exponents after toString
-function boundNumber(num) {
-    if (num === 0) {
-        return num;
-    } else if (num < 0) {
-        return -boundNumber(-num);
-    } else {
-        return Math.max(1e-6, Math.min(num, 1e20));
-    }
 }
 
 $.extend(KhanUtil, {
@@ -208,7 +198,7 @@ KhanUtil.createGraphie = function(el) {
                 return "z";
             } else {
                 var scaled = alreadyScaled ? point : scalePoint(point);
-                return (i === 0 ? "M" : "L") + boundNumber(scaled[0]) + " " + boundNumber(scaled[1]);
+                return (i === 0 ? "M" : "L") + KhanUtil.bound(scaled[0]) + " " + KhanUtil.bound(scaled[1]);
             }
         }).join("");
     };
@@ -506,6 +496,65 @@ KhanUtil.createGraphie = function(el) {
             return p;
         },
 
+        fixedPath: function(points, center, createPath) {
+            points = _.map(points, scalePoint);
+            center = center ? scalePoint(center) : null;
+            createPath = createPath || svgPath;
+
+            var pathLeft = _.min(_.pluck(points, 0));
+            var pathRight = _.max(_.pluck(points, 0));
+            var pathTop = _.min(_.pluck(points, 1));
+            var pathBottom = _.max(_.pluck(points, 1));
+
+            // Apply padding to line
+            var padding = [4, 4];
+
+            // Calculate and apply additional offset
+            var extraOffset = [pathLeft, pathTop];
+
+            // Apply padding and offset to points
+            points = _.map(points, function(point) {
+                return kvector.add(
+                    kvector.subtract(
+                        point,
+                        extraOffset
+                    ),
+                    kvector.scale(padding, 0.5)
+                );
+            });
+
+            // Calculate <div> dimensions
+            var width = (pathRight - pathLeft) + padding[0];
+            var height = (pathBottom - pathTop) + padding[1];
+            var left = extraOffset[0] - padding[0]/2;
+            var top = extraOffset[1] - padding[1]/2;
+
+            // Create <div>
+            var wrapper = document.createElement("div");
+            $(wrapper).css({
+                position: "absolute",
+                width: width + "px",
+                height: height + "px",
+                left: left + "px",
+                top: top + "px",
+                // If user specified a center, set it
+                transformOrigin: center ? (width/2 + center[0]) + "px " +
+                                          (height/2 + center[1]) + "px"
+                                        : null
+            });
+
+            // Create Raphael canvas
+            var localRaphael = Raphael(wrapper, width, height);
+
+            // Calculate path
+            var visibleShape = localRaphael.path(createPath(points));
+
+            return {
+                wrapper: wrapper,
+                visibleShape: visibleShape
+            };
+        },
+
         scaledPath: function(points) {
             var p = raphael.path(svgPath(points, /* alreadyScaled */ true));
             p.graphiePath = points;
@@ -519,6 +568,70 @@ KhanUtil.createGraphie = function(el) {
         parabola: function(a, b, c) {
             // Plot a parabola of the form: f(x) = (a * x + b) * x + c
             return raphael.path(svgParabolaPath(a, b, c));
+        },
+
+        fixedLine: function(start, end, thickness) {
+            // Apply padding to line
+            var padding = [thickness, thickness];
+
+            // Scale points to get values in pixels
+            start = scalePoint(start);
+            end = scalePoint(end);
+
+            // Calculate and apply additional offset
+            var extraOffset = [
+                Math.min(start[0], end[0]),
+                Math.min(start[1], end[1])
+            ];
+
+            // Apply padding and offset to start, end points
+            start = kvector.add(
+                kvector.subtract(
+                    start,
+                    extraOffset
+                ),
+                kvector.scale(padding, 0.5)
+            );
+            end = kvector.add(
+                kvector.subtract(
+                    end,
+                    extraOffset
+                ),
+                kvector.scale(padding, 0.5)
+            );
+
+            // Calculate <div> dimensions
+            var left = extraOffset[0] - padding[0]/2;
+            var top = extraOffset[1] - padding[1]/2;
+            var width = Math.abs(start[0] - end[0]) + padding[0];
+            var height = Math.abs(start[1] - end[1]) + padding[1];
+
+            // Create <div>
+            var wrapper = document.createElement("div");
+            $(wrapper).css({
+                position: "absolute",
+                width: width + "px",
+                height: height + "px",
+                left: left + "px",
+                top: top + "px",
+                // Outsiders should feel like the line's 'origin' (i.e., for
+                // rotation) is the starting point
+                transformOrigin: start[0] + "px " + start[1] + "px"
+            });
+
+            // Create Raphael canvas
+            var localRaphael = Raphael(wrapper, width, height);
+
+            // Calculate path
+            var path = "M" + start[0] + " " + start[1] + " " +
+                       "L" + end[0] + " " + end[1];
+            var visibleShape = localRaphael.path(path);
+            visibleShape.graphiePath = [start, end];
+
+            return {
+                wrapper: wrapper,
+                visibleShape: visibleShape
+            };
         },
 
         sinusoid: function(a, b, c, d) {

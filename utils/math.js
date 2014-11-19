@@ -111,6 +111,17 @@ $.extend(KhanUtil, {
         return Math.floor(x + 0.001);
     },
 
+    // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
+    bound: function(num) {
+        if (num === 0) {
+            return num;
+        } else if (num < 0) {
+            return -KhanUtil.bound(-num);
+        } else {
+            return Math.max(1e-6, Math.min(num, 1e20));
+        }
+    },
+
     factorial: function(x) {
         if (x <= 1) {
             return x;
