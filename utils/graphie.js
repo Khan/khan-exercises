@@ -241,7 +241,7 @@ KhanUtil.createGraphie = function(el) {
 
         // Scale and bound
         var points = _.map([left, control, right], scalePoint);
-        var values = _.map(_.flatten(points), boundNumber);
+        var values = _.map(_.flatten(points), KhanUtil.bound);
         return "M" + values[0] + "," + values[1] + " Q" + values[2] + "," +
             values[3] + " " + values[4] + "," + values[5];
     };
