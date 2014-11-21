@@ -63,10 +63,10 @@
                         <p>If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>.</p>
                         <p data-if="A < 0">
                             Since <code><var>3 * A + B</var> ≤ <var>B</var></code>,
-                            the range is still <code><code>\{\, y \mid y ≤ <var>B</var> \,\}</code></code>.
+                            the range is still <code>\{\, y \in \RR \mid y ≤ <var>B</var> \,\}</code>.
                         </p><p data-else>
                             Since <code><var>3 * A + B</var> ≥ <var>B</var></code>,
-                            the range is still <code><code>\{\, y \mid y ≥ <var>B</var> \,\}</code></code>.
+                            the range is still <code>\{\, y \in \RR \mid y ≥ <var>B</var> \,\}</code>.
                         </p>
                         <div class="graphie" data-update="grid">
                             circle( [HOLE, 3 * A + B], 3 / 20, {
@@ -111,8 +111,8 @@
                             } );
                         </div>
                     </div>
-                    <p data-if="A > 0">The new range is <code>\{\, y \mid y &gt; <var>B</var> \,\}</code>.</p>
-                    <p data-else="">The new range is <code>\{\, y \mid y &lt; <var>B</var> \,\}</code>.</p>
+                    <p data-if="A > 0">So the range of <code>f(x)</code> is <code>\{\, y \in \RR \mid y &gt; <var>B</var> \,\}</code>.</p>
+                    <p data-else="">So the range of <code>f(x)</code> is <code>\{\, y \in \RR \mid y &lt; <var>B</var> \,\}</code>.</p>
                 </div>
             </div>
         </div>
@@ -143,11 +143,11 @@
                 <p>Consider the range of <code><var>expr(["*", A, ["^", "x", 2]])</var></code>.</p>
             </div>
             <p data-if="A > 0">
-                The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>.<br>
+                The range of <code>x^2</code> is <code>\{\, y \in \RR \mid y \ge 0 \,\}</code>.<br>
                 Multiplying by <code><var>A</var></code> doesn't change the range.
             </p><p data-else="">
-                The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>.<br>
-                Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.
+                The range of <code>x^2</code> is <code>\{\, y \in \RR \mid y \ge 0 \,\}</code>.<br>
+                Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \in \RR \mid y \le 0 \,\}</code>.
             </p>
             <div>
                 <p>
@@ -156,8 +156,8 @@
                     </span><span data-else="">
                         To get <code><var>expr(["+", ["*", A, ["^", "x", 2]], B])</var></code>, we subtract <code><var>abs( B )</var></code>.
                     </span>
-                    <span data-if="A > 0">So the range becomes: <code>\{\, y \mid y ≥ <var>B</var> \,\}</code>.</span>
-                    <span data-else="">So the range becomes: <code>\{\, y \mid y ≤ <var>B</var> \,\}</code>.</span>
+                    <span data-if="A > 0">So the range becomes: <code>\{\, y \in \RR \mid y ≥ <var>B</var> \,\}</code>.</span>
+                    <span data-else="">So the range becomes: <code>\{\, y \in \RR \mid y ≤ <var>B</var> \,\}</code>.</span>
                 </p>
 
                 <div class="graphie" data-update="grid">
