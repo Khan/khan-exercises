@@ -664,51 +664,51 @@ case 9:return "*"
 break;
 case 10:return "/"
 break;
-case 11:return "-"
+case 11:return "/"
 break;
 case 12:return "-"
 break;
-case 13:return "+"
+case 13:return "-"
 break;
-case 14:return "^"
+case 14:return "+"
 break;
-case 15:return "("
+case 15:return "^"
 break;
-case 16:return ")"
+case 16:return "("
 break;
-case 17:return "("
+case 17:return ")"
 break;
-case 18:return ")"
+case 18:return "("
 break;
-case 19:return "{"
+case 19:return ")"
 break;
-case 20:return "}"
+case 20:return "{"
 break;
-case 21:return "{"
+case 21:return "}"
 break;
-case 22:return "}"
+case 22:return "{"
 break;
-case 23:return "_"
+case 23:return "}"
 break;
-case 24:return "|"
+case 24:return "_"
 break;
-case 25:return "LEFT|"
+case 25:return "|"
 break;
-case 26:return "RIGHT|"
+case 26:return "LEFT|"
 break;
-case 27:return "!"
+case 27:return "RIGHT|"
 break;
-case 28:return "SIGN"
+case 28:return "!"
 break;
-case 29:yy_.yytext = "<="; return "SIGN"
+case 29:return "SIGN"
 break;
-case 30:yy_.yytext = ">="; return "SIGN"
+case 30:yy_.yytext = "<="; return "SIGN"
 break;
-case 31:yy_.yytext = "<="; return "SIGN"
+case 31:yy_.yytext = ">="; return "SIGN"
 break;
-case 32:yy_.yytext = ">="; return "SIGN"
+case 32:yy_.yytext = "<="; return "SIGN"
 break;
-case 33:yy_.yytext = "<>"; return "SIGN"
+case 33:yy_.yytext = ">="; return "SIGN"
 break;
 case 34:yy_.yytext = "<>"; return "SIGN"
 break;
@@ -716,23 +716,23 @@ case 35:yy_.yytext = "<>"; return "SIGN"
 break;
 case 36:yy_.yytext = "<>"; return "SIGN"
 break;
-case 37:yy_.yytext = "<="; return "SIGN"
+case 37:yy_.yytext = "<>"; return "SIGN"
 break;
-case 38:yy_.yytext = ">="; return "SIGN"
+case 38:yy_.yytext = "<="; return "SIGN"
 break;
-case 39:return "FRAC"
+case 39:yy_.yytext = ">="; return "SIGN"
 break;
 case 40:return "FRAC"
 break;
-case 41:return "sqrt"
+case 41:return "FRAC"
 break;
-case 42:return "abs"
+case 42:return "sqrt"
 break;
-case 43:return "ln"
+case 43:return "abs"
 break;
-case 44:return "log"
+case 44:return "ln"
 break;
-case 45:return "TRIG"
+case 45:return "log"
 break;
 case 46:return "TRIG"
 break;
@@ -740,76 +740,78 @@ case 47:return "TRIG"
 break;
 case 48:return "TRIG"
 break;
-case 49:yy_.yytext = "sin"; return "TRIG"
+case 49:return "TRIG"
 break;
-case 50:yy_.yytext = "cos"; return "TRIG"
+case 50:yy_.yytext = "sin"; return "TRIG"
 break;
-case 51:yy_.yytext = "tan"; return "TRIG"
+case 51:yy_.yytext = "cos"; return "TRIG"
 break;
-case 52:yy_.yytext = "csc"; return "TRIG"
+case 52:yy_.yytext = "tan"; return "TRIG"
 break;
-case 53:yy_.yytext = "sec"; return "TRIG"
+case 53:yy_.yytext = "csc"; return "TRIG"
 break;
-case 54:yy_.yytext = "cot"; return "TRIG"
+case 54:yy_.yytext = "sec"; return "TRIG"
 break;
-case 55:yy_.yytext = "arcsin"; return "TRIG"
+case 55:yy_.yytext = "cot"; return "TRIG"
 break;
-case 56:yy_.yytext = "arccos"; return "TRIG"
+case 56:yy_.yytext = "arcsin"; return "TRIG"
 break;
-case 57:yy_.yytext = "arctan"; return "TRIG"
+case 57:yy_.yytext = "arccos"; return "TRIG"
 break;
-case 58:yy_.yytext = "arccsc"; return "TRIG"
+case 58:yy_.yytext = "arctan"; return "TRIG"
 break;
-case 59:yy_.yytext = "arcsec"; return "TRIG"
+case 59:yy_.yytext = "arccsc"; return "TRIG"
 break;
-case 60:yy_.yytext = "arccot"; return "TRIG"
+case 60:yy_.yytext = "arcsec"; return "TRIG"
 break;
-case 61:return "TRIGINV"
+case 61:yy_.yytext = "arccot"; return "TRIG"
 break;
 case 62:return "TRIGINV"
 break;
-case 63:yy_.yytext = "sinh"; return "TRIG"
+case 63:return "TRIGINV"
 break;
-case 64:yy_.yytext = "cosh"; return "TRIG"
+case 64:yy_.yytext = "sinh"; return "TRIG"
 break;
-case 65:yy_.yytext = "tanh"; return "TRIG"
+case 65:yy_.yytext = "cosh"; return "TRIG"
 break;
-case 66:yy_.yytext = "csch"; return "TRIG"
+case 66:yy_.yytext = "tanh"; return "TRIG"
 break;
-case 67:yy_.yytext = "sech"; return "TRIG"
+case 67:yy_.yytext = "csch"; return "TRIG"
 break;
-case 68:yy_.yytext = "tanh"; return "TRIG"
+case 68:yy_.yytext = "sech"; return "TRIG"
 break;
-case 69:return "CONST"
+case 69:yy_.yytext = "tanh"; return "TRIG"
 break;
-case 70:yy_.yytext = "pi"; return "CONST"
+case 70:return "CONST"
 break;
 case 71:yy_.yytext = "pi"; return "CONST"
 break;
-case 72:return "VAR"
+case 72:yy_.yytext = "pi"; return "CONST"
 break;
-case 73:yy_.yytext = "theta"; return "VAR"
+case 73:return "VAR"
 break;
 case 74:yy_.yytext = "theta"; return "VAR"
 break;
-case 75:return "VAR"
+case 75:yy_.yytext = "theta"; return "VAR"
 break;
-case 76:yy_.yytext = "phi"; return "VAR"
+case 76:return "VAR"
 break;
 case 77:yy_.yytext = "phi"; return "VAR"
 break;
-case 78:return yy.symbolLexer(yy_.yytext)
+case 78:yy_.yytext = "phi"; return "VAR"
 break;
-case 79:return "EOF"
+case 79:return yy.symbolLexer(yy_.yytext)
 break;
-case 80:return "INVALID"
+case 80:return "EOF"
 break;
-case 81:console.log(yy_.yytext);
+case 81:return "INVALID"
+break;
+case 82:console.log(yy_.yytext);
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:\\space)/,/^(?:\\ )/,/^(?:[0-9]+\.?)/,/^(?:([0-9]+)?\.[0-9]+)/,/^(?:\*\*)/,/^(?:\*)/,/^(?:\\cdot|·)/,/^(?:\\times|×)/,/^(?:\\ast)/,/^(?:\/)/,/^(?:-)/,/^(?:−)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:\\left\()/,/^(?:\\right\))/,/^(?:\{)/,/^(?:\})/,/^(?:\\left\{)/,/^(?:\\right\})/,/^(?:_)/,/^(?:\|)/,/^(?:\\left\|)/,/^(?:\\right\|)/,/^(?:\!)/,/^(?:<=|>=|<>|<|>|=)/,/^(?:\\le)/,/^(?:\\ge)/,/^(?:\\leq)/,/^(?:\\geq)/,/^(?:=\/=)/,/^(?:\\ne)/,/^(?:\\neq)/,/^(?:≠)/,/^(?:≤)/,/^(?:≥)/,/^(?:\\frac)/,/^(?:\\dfrac)/,/^(?:sqrt|\\sqrt)/,/^(?:abs|\\abs)/,/^(?:ln|\\ln)/,/^(?:log|\\log)/,/^(?:sin|cos|tan)/,/^(?:csc|sec|cot)/,/^(?:sinh|cosh|tanh)/,/^(?:csch|sech|coth)/,/^(?:\\sin)/,/^(?:\\cos)/,/^(?:\\tan)/,/^(?:\\csc)/,/^(?:\\sec)/,/^(?:\\cot)/,/^(?:\\arcsin)/,/^(?:\\arccos)/,/^(?:\\arctan)/,/^(?:\\arccsc)/,/^(?:\\arcsec)/,/^(?:\\arccot)/,/^(?:arcsin|arccos|arctan)/,/^(?:arccsc|arcsec|arccot)/,/^(?:\\sinh)/,/^(?:\\cosh)/,/^(?:\\tanh)/,/^(?:\\csch)/,/^(?:\\sech)/,/^(?:\\coth)/,/^(?:pi)/,/^(?:π)/,/^(?:\\pi)/,/^(?:theta)/,/^(?:θ)/,/^(?:\\theta)/,/^(?:phi)/,/^(?:φ)/,/^(?:\\phi)/,/^(?:[a-zA-Z])/,/^(?:$)/,/^(?:.)/,/^(?:.)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81],"inclusive":true}}
+rules: [/^(?:\s+)/,/^(?:\\space)/,/^(?:\\ )/,/^(?:[0-9]+\.?)/,/^(?:([0-9]+)?\.[0-9]+)/,/^(?:\*\*)/,/^(?:\*)/,/^(?:\\cdot|·)/,/^(?:\\times|×)/,/^(?:\\ast)/,/^(?:\/)/,/^(?:\\div|÷)/,/^(?:-)/,/^(?:−)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:\\left\()/,/^(?:\\right\))/,/^(?:\{)/,/^(?:\})/,/^(?:\\left\{)/,/^(?:\\right\})/,/^(?:_)/,/^(?:\|)/,/^(?:\\left\|)/,/^(?:\\right\|)/,/^(?:\!)/,/^(?:<=|>=|<>|<|>|=)/,/^(?:\\le)/,/^(?:\\ge)/,/^(?:\\leq)/,/^(?:\\geq)/,/^(?:=\/=)/,/^(?:\\ne)/,/^(?:\\neq)/,/^(?:≠)/,/^(?:≤)/,/^(?:≥)/,/^(?:\\frac)/,/^(?:\\dfrac)/,/^(?:sqrt|\\sqrt)/,/^(?:abs|\\abs)/,/^(?:ln|\\ln)/,/^(?:log|\\log)/,/^(?:sin|cos|tan)/,/^(?:csc|sec|cot)/,/^(?:sinh|cosh|tanh)/,/^(?:csch|sech|coth)/,/^(?:\\sin)/,/^(?:\\cos)/,/^(?:\\tan)/,/^(?:\\csc)/,/^(?:\\sec)/,/^(?:\\cot)/,/^(?:\\arcsin)/,/^(?:\\arccos)/,/^(?:\\arctan)/,/^(?:\\arccsc)/,/^(?:\\arcsec)/,/^(?:\\arccot)/,/^(?:arcsin|arccos|arctan)/,/^(?:arccsc|arcsec|arccot)/,/^(?:\\sinh)/,/^(?:\\cosh)/,/^(?:\\tanh)/,/^(?:\\csch)/,/^(?:\\sech)/,/^(?:\\coth)/,/^(?:pi)/,/^(?:π)/,/^(?:\\pi)/,/^(?:theta)/,/^(?:θ)/,/^(?:\\theta)/,/^(?:phi)/,/^(?:φ)/,/^(?:\\phi)/,/^(?:[a-zA-Z])/,/^(?:$)/,/^(?:.)/,/^(?:.)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82],"inclusive":true}}
 };
 return lexer;
 })();
@@ -857,7 +859,9 @@ KAS.parser = parser;
 
 // assert that all abstract methods have been overridden
 var abstract = function() {
-    throw new Error("Abstract method - must override!");
+    // Try to give people a bit of information when this happens
+    throw new Error("Abstract method - must override for expr: " +
+            this.print());
 };
 
 // throw an error that is meant to be caught by the test suite (not user facing)
@@ -907,6 +911,17 @@ _.extend(Expr.prototype, {
 
     // evaluate numerically with given variable mapping
     eval: abstract,
+
+    codegen: abstract,
+
+    compile: function() {
+        var code = this.codegen();
+        try {
+            return new Function("vars", "return " + code + ";");
+        } catch (e) {
+            throw new Error("Function did not compile: " + code);
+        }
+    },
 
     // returns a string unambiguously representing the expression
     // should be valid as input
@@ -987,10 +1002,26 @@ _.extend(Expr.prototype, {
             once: false
         }, options);
 
-        var simplified = this.factor(options)
-                             .collect(options)
-                             .expand(options)
-                             .collect(options);
+        // Attempt to factor and collect
+        var step1 = this.factor(options);
+        var step2 = step1.collect(options);
+
+        // Rollback if collect didn't do anything
+        if (step1.equals(step2)) {
+            step2 = this.collect(options);
+        }
+
+        // Attempt to expand and collect
+        var step3 = step2.expand(options);
+        var step4 = step3.collect(options);
+
+        // Rollback if collect didn't do anything
+        if (step3.equals(step4)) {
+            step4 = step2.collect(options);
+        }
+
+        // One round of simplification complete
+        var simplified = step4;
 
         if (options.once || this.equals(simplified)) {
             return simplified;
@@ -1236,10 +1267,6 @@ _.extend(Seq.prototype, {
         return this.recurse("expand").flatten();
     },
 
-    factor: function(options) {
-        return this.recurse("factor", options).flatten();
-    },
-
     // partition the sequence into its numeric and non-numeric parts
     // makes no guarantees about the validity of either part!
     partition: function() {
@@ -1344,6 +1371,12 @@ _.extend(Add.prototype, {
 
     eval: function(vars, options) {
         return _.reduce(this.terms, function(memo, term) { return memo + term.eval(vars, options); }, 0);
+    },
+
+    codegen: function() {
+        return _.map(this.terms, function(term) {
+            return "(" + term.codegen() + ")";
+        }).join(" + ") || "0";
     },
 
     print: function() {
@@ -1469,6 +1502,12 @@ _.extend(Mul.prototype, {
 
     eval: function(vars, options) {
         return _.reduce(this.terms, function(memo, term) { return memo * term.eval(vars, options); }, 1);
+    },
+
+    codegen: function() {
+        return _.map(this.terms, function(term) {
+            return "(" + term.codegen() + ")";
+        }).join(" * ") || "0";
     },
 
     print: function() {
@@ -1637,6 +1676,33 @@ _.extend(Mul.prototype, {
         }
 
         return new Mul(normals.concat(inverses)).flatten();
+    },
+
+    factor: function(options) {
+        var factored = this.recurse("factor", options).flatten();
+        if (! (factored instanceof Mul)) {
+            return factored;
+        }
+
+        // Combine any factored out Rationals into one, but don't collect
+        var grouped = _.groupBy(factored.terms, function(term) {
+            return term instanceof Rational;
+        });
+
+        // Could also accomplish this by passing a new option
+        // e.g. return  memo.mul(term, {autocollect: false});
+        // TODO(alex): Decide whether this is a good use of options or not
+        var rational = _.reduce(grouped[true], function(memo, term) {
+            return {n: memo.n * term.n, d: memo.d * term.d};
+        }, {n: 1, d: 1});
+
+        if (rational.d === 1) {
+            rational = new Int(rational.n);
+        } else {
+            rational = new Rational(rational.n, rational.d);
+        }
+
+        return new Mul((grouped[false] || []).concat(rational)).flatten();
     },
 
     collect: function(options) {
@@ -2089,6 +2155,11 @@ _.extend(Pow.prototype, {
         return Math.pow(this.base.eval(vars, options), this.exp.eval(vars, options));
     },
 
+    codegen: function() {
+        return "Math.pow(" + this.base.codegen() +
+            ", " + this.exp.codegen() + ")";
+    },
+
     print: function() {
         var base = this.base.print();
         if (this.base instanceof Seq || this.base instanceof Pow) {
@@ -2198,7 +2269,13 @@ _.extend(Pow.prototype, {
         var pow = this.recurse("factor");
         if (pow.base instanceof Mul) {
             var terms = _.map(pow.base.terms, function(term) {
-                return new Pow(term, pow.exp);
+                if (term instanceof Int && pow.exp.equals(Num.Div)) {
+                    // Anything that can be a Rational should be a Rational
+                    // e.g. 2^(-1) -> 1/2
+                    return new Rational(1, term.n);
+                } else {
+                    return new Pow(term, pow.exp);
+                }
             });
             return new Mul(terms);
         } else {
@@ -2421,6 +2498,11 @@ _.extend(Log.prototype, {
         return Math.log(this.power.eval(vars, options)) / Math.log(this.base.eval(vars, options));
     },
 
+    codegen: function() {
+        return "(Math.log(" + this.power.codegen() +
+            ") / Math.log(" + this.base.codegen() + "))";
+    },
+
     print: function() {
         var power = "(" + this.power.print() + ")";
         if (this.isNatural()) {
@@ -2533,16 +2615,19 @@ _.extend(Trig.prototype, {
     functions: {
         sin: {
             eval: Math.sin,
+            codegen: "Math.sin((",
             tex: "\\sin",
             expand: function() { return this; }
         },
         cos: {
             eval: Math.cos,
+            codegen: "Math.cos((",
             tex: "\\cos",
             expand: function() { return this; }
         },
         tan: {
             eval: Math.tan,
+            codegen: "Math.tan((",
             tex: "\\tan",
             expand: function() {
                 return Mul.handleDivide(Trig.sin(this.arg), Trig.cos(this.arg));
@@ -2550,6 +2635,7 @@ _.extend(Trig.prototype, {
         },
         csc: {
             eval: function(arg) { return 1 / Math.sin(arg); },
+            codegen: "(1/Math.sin(",
             tex: "\\csc",
             expand: function() {
                 return Mul.handleDivide(Num.One, Trig.sin(this.arg));
@@ -2557,6 +2643,7 @@ _.extend(Trig.prototype, {
         },
         sec: {
             eval: function(arg) { return 1 / Math.cos(arg); },
+            codegen: "(1/Math.cos(",
             tex: "\\sec",
             expand: function() {
                 return Mul.handleDivide(Num.One, Trig.cos(this.arg));
@@ -2564,6 +2651,7 @@ _.extend(Trig.prototype, {
         },
         cot: {
             eval: function(arg) { return 1 / Math.tan(arg); },
+            codegen: "(1/Math.tan(",
             tex: "\\cot",
             expand: function() {
                 return Mul.handleDivide(Trig.cos(this.arg), Trig.sin(this.arg));
@@ -2571,31 +2659,40 @@ _.extend(Trig.prototype, {
         },
         arcsin: {
             eval: Math.asin,
+            codegen: "Math.asin((",
             tex: "\\arcsin"
         },
         arccos: {
             eval: Math.acos,
+            codegen: "Math.acos((",
             tex: "\\arccos"
         },
         arctan: {
             eval: Math.atan,
+            codegen: "Math.atan((",
             tex: "\\arctan"
         },
         arccsc: {
             eval: function(arg) { return Math.asin(1 / arg); },
+            codegen: "Math.asin(1/(",
             tex: "\\operatorname{arccsc}"
         },
         arcsec: {
             eval: function(arg) { return Math.acos(1 / arg); },
+            codegen: "Math.acos(1/(",
             tex: "\\operatorname{arcsec}"
         },
         arccot: {
             eval: function(arg) { return Math.atan(1 / arg); },
+            codegen: "Math.atan(1/(",
             tex: "\\operatorname{arccot}"
         },
         sinh: {
             eval: function(arg) {
                 return (Math.exp(arg) - Math.exp(-arg)) / 2;
+            },
+            codegen: function(argStr) {
+                return "((Math.exp(" + argStr + ") - Math.exp(-(" + argStr + "))) / 2)";
             },
             tex: "\\sinh",
             expand: function() { return this; }
@@ -2604,12 +2701,22 @@ _.extend(Trig.prototype, {
             eval: function(arg) {
                 return (Math.exp(arg) + Math.exp(-arg)) / 2;
             },
+            codegen: function(argStr) {
+                return "((Math.exp(" + argStr + ") + Math.exp(-(" + argStr + "))) / 2)";
+            },
             tex: "\\cosh",
             expand: function() { return this; }
         },
         tanh: {
             eval: function(arg) {
                 return (Math.exp(arg) - Math.exp(-arg)) / (Math.exp(arg) + Math.exp(-arg));
+            },
+            codegen: function(argStr) {
+                return "(" +
+                    "(Math.exp(" + argStr + ") - Math.exp(-(" + argStr + ")))" +
+                    " / " +
+                    "(Math.exp(" + argStr + ") + Math.exp(-(" + argStr + ")))" +
+                    ")";
             },
             tex: "\\tanh",
             expand: function() {
@@ -2618,6 +2725,9 @@ _.extend(Trig.prototype, {
         },
         csch: {
             eval: function(arg) { return 2 / (Math.exp(arg) - Math.exp(-arg)); },
+            codegen: function(argStr) {
+                return "(2 / (Math.exp(" + argStr + ") - Math.exp(-(" + argStr + "))))";
+            },
             tex: "\\csch",
             expand: function() {
                 return Mul.handleDivide(Num.One, Trig.sinh(this.arg));
@@ -2625,6 +2735,9 @@ _.extend(Trig.prototype, {
         },
         sech: {
             eval: function(arg) { return 2 / (Math.exp(arg) + Math.exp(-arg)); },
+            codegen: function(argStr) {
+                return "(2 / (Math.exp(" + argStr + ") + Math.exp(-(" + argStr + "))))";
+            },
             tex: "\\sech",
             expand: function() {
                 return Mul.handleDivide(Num.One, Trig.cosh(this.arg));
@@ -2633,6 +2746,13 @@ _.extend(Trig.prototype, {
         coth: {
             eval: function(arg) {
                 return (Math.exp(arg) + Math.exp(-arg)) / (Math.exp(arg) - Math.exp(-arg));
+            },
+            codegen: function(argStr) {
+                return "(" +
+                    "(Math.exp(" + argStr + ") + Math.exp(-(" + argStr + ")))" +
+                    " / " +
+                    "(Math.exp(" + argStr + ") - Math.exp(-(" + argStr + ")))" +
+                    ")";
             },
             tex: "\\coth",
             expand: function() {
@@ -2657,6 +2777,17 @@ _.extend(Trig.prototype, {
         var func = this.functions[this.type].eval;
         var arg = this.arg.eval(vars, options);
         return func(arg);
+    },
+
+    codegen: function() {
+        var func = this.functions[this.type].codegen;
+        if (typeof func === "function") {
+            return func(this.arg.codegen());
+        } else if (typeof func === "string") {
+            return func + this.arg.codegen() + "))";
+        } else {
+            throw new Error("codegen not implemented for " + this.type);
+        }
     },
 
     print: function() {
@@ -2779,6 +2910,7 @@ _.extend(Abs.prototype, {
     func: Abs,
     args: function() { return [this.arg]; },
     eval: function(vars, options) { return Math.abs(this.arg.eval(vars, options)); },
+    codegen: function() { return "Math.abs(" + this.arg.codegen() + ")"; },
     print: function() { return "abs(" + this.arg.print() + ")"; },
 
     tex: function() {
@@ -2938,11 +3070,13 @@ _.extend(Eq.prototype, {
 
     // divide through by every common factor in the expression
     // e.g. 2y-4x(=0) -> y-2x(=0)
+    // TODO(alex): Make it an option to only divide by variables/expressions
+    // guaranteed to be nonzero
     divideThrough: function(expr) {
         var isInequality = !this.isEquality();
 
-        var factored = expr.simplify({once: true})
-                           .factor({keepNegative: isInequality});
+        var simplified = expr.simplify({once: true});
+        var factored = simplified.factor({keepNegative: isInequality});
 
         if (!(factored instanceof Mul)) {
             return expr;
@@ -2985,7 +3119,15 @@ _.extend(Eq.prototype, {
             return new Pow(term, Num.Div);
         });
 
-        return new Mul(terms.concat(denominator)).collect();
+        var dividedResult = new Mul(terms.concat(denominator)).collect();
+
+        // If the end result is the same as the original factoring,
+        // rollback the factoring and discard all intermediate steps.
+        if (dividedResult.equals(factored)) {
+            return simplified;
+        } else {
+            return dividedResult;
+        }
     },
 
     isEquality: function() {
@@ -3096,6 +3238,11 @@ _.extend(Func.prototype, {
         return parsedFunc;
     },
 
+    codegen: function() {
+        return 'vars["' + this.symbol + '"](' +
+            this.arg.codegen() + ')';
+    },
+
     getVars: function(excludeFunc) {
         if (excludeFunc) {
             return this.arg.getVars();
@@ -3154,6 +3301,10 @@ _.extend(Var.prototype, {
         return vars[this.prettyPrint()];
     },
 
+    codegen: function() {
+        return 'vars["' + this.prettyPrint() + '"]';
+    },
+
     getVars: function() { return [this.prettyPrint()]; },
 
     isPositive: function() { return false; }
@@ -3174,6 +3325,14 @@ _.extend(Const.prototype, {
             return Math.PI;
         } else if (this.symbol === "e") {
             return Math.E;
+        }
+    },
+
+    codegen: function() {
+        if (this.symbol === "pi") {
+            return "Math.PI";
+        } else if (this.symbol === "e") {
+            return "Math.E";
         }
     },
 
@@ -3212,6 +3371,7 @@ _.extend(Num.prototype, {
     repr: function() { return this.print(); },
     strip: function() { return this.abs(); },
     recurse: function() { return this; },
+    codegen: function() { return this.print(); },
 
     // takes another Num and returns a new Num
     add: abstract,
