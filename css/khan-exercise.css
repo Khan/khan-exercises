@@ -163,7 +163,12 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 }
 #answer_area #answercontent { position: relative; z-index: 2; } /* above-scratchpad */
 #answer_area .hint-box { position: relative; z-index: 1;}
-#problemarea a:link { position: relative; z-index: 3;} /* interactive-content */
+
+#problemarea a:link,
+#problemarea input,
+#problemarea label { /* HACK(aria): for radios */
+    position: relative; z-index: 3; /* interactive-content */
+}
 
 #answer_area .calculator {
     width: 181px;
@@ -1205,6 +1210,12 @@ body.debug span.error {
     border-radius: 5px;
     padding-top: 10px;
     margin: 10px 0;
+    /* HACK(aria) above scratchpad so that users have somewhere to
+     * "click off of" to hide the expression dialog.
+     * Also important because it can get a silly scrollbar and we
+     * want users to be able to scroll even if the scratchpad is
+     * open. We should probably make this wider eventually. */
+    position: relative; z-index: 2;
 }
 
 .solutionarea .expression > .output > .tex {
@@ -1216,6 +1227,7 @@ body.debug span.error {
 
 .solutionarea .expression > .input {
     position: relative;
+    z-index: 3; /* interactive-content */
 }
 
 .solutionarea .expression > .input > input {
