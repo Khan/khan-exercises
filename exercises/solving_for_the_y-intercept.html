@@ -4,20 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solving for the y-intercept</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-
-    <script type="text/javascript">
-        KhanUtil.p1Position = function p1Position(x1, y1, x2, y2) {
-            if ((y1 > y2) && (x1 > x2)) {
-                return "below right";
-            } else if ((y1 > y2) && (x1 < x2)) {
-                return "below left";
-            } else if ((y1 < y2) && (x1 < x2)) {
-                return "above left";
-            } else {
-                return "above right";
-            }
-        };
-    </script>
 </head>
 <body>
     <div class="exercise">
@@ -63,8 +49,8 @@
                         <div class="graphie">
                             graphInit({
                                 range: max(abs(B) + 4, 11),
-                                scale: 20,
-                                tickStep: 1,
+                                scale: 220 / max(abs(B) + 4, 11),
+                                tickStep: ceil(max(abs(B) + 4, 11) / 11),
                                 labelStep: 1,
                                 unityLabels: false,
                                 labelFormat: function(s) { return "\\small{" + s + "}"; },
@@ -81,7 +67,17 @@
                                 stroke: "none",
                                 fill: "black"
                             });
-                            label([X1, Y1], "(" + X1 + ", " + Y1 + ")", p1Position(X1, Y1, X2, Y2));
+
+                            var p1Position = "above right";
+                            if ((Y1 &gt; Y2) &amp;&amp; (X1 &gt; X2)) {
+                                p1Position = "below right";
+                            } else if ((Y1 &gt; Y2) &amp;&amp; (X1 &lt; X2)) {
+                                p1Position = "below left";
+                            } else if ((Y1 &lt; Y2) &amp;&amp; (X1 &lt; X2)) {
+                                p1Position = "above left";
+                            }
+
+                            label([X1, Y1], "(" + X1 + ", " + Y1 + ")", p1Position);
                         </div>
                     </div>
                 </div>
