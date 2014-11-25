@@ -3,15 +3,6 @@
 <head>
     <title>Probability space</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
-    <script type="text/javascript">
-        KhanUtil.selectMatching = function(matchingPairs) {
-            $(".e-dice").removeClass("e-selected");
-            _.each(matchingPairs, function(match) {
-                $(".e-dice").eq((match[1] - 1) * 6 + (match[0] - 1)).addClass("e-selected");
-            });
-            $("#e-selected-count").text($(".e-selected").length);
-        };
-    </script>
     <style>
         /* Classes and IDs are prefixed with "e-" to avoid conflicts with global CSS. */
         .e-dice {
@@ -182,7 +173,7 @@
                     </div>
                 </div>
 
-                <div class="graphie problem">
+                <div class="graphie problem" id="graph">
                     Khan.scratchpad.disable();
                     // Set .e-grid size.
                     $('.e-grid').addClass('e-six-by-' + (GRID_HEIGHT === 6 ? 'six' : 'four'));
@@ -194,6 +185,14 @@
                         $(this).toggleClass('e-selected');
                         selected.text($('.e-selected').length);
                     });
+
+                    graph.selectMatching = function(matchingPairs) {
+                        $(".e-dice").removeClass("e-selected");
+                        _.each(matchingPairs, function(match) {
+                            $(".e-dice").eq((match[1] - 1) * 6 + (match[0] - 1)).addClass("e-selected");
+                        });
+                        $("#e-selected-count").text($(".e-selected").length);
+                    };
                 </div>
             </div>
             <div class="solution" data-forms="integer, decimal, proper, percentage"><var>SOLUTION_N / SOLUTION_D</var></div>
@@ -207,8 +206,8 @@
                         <b><code><var>SOLUTION_N</var></code></b> matching
                         outcomes.
                     </p>
-                    <div class="graphie">
-                        selectMatching(MATCHING_PAIRS);
+                    <div class="graphie" data-update="graph">
+                        graph.selectMatching(MATCHING_PAIRS);
                     </div>
                 </div>
                 <p>The probability is the number of <b>matching outcomes</b> divided by <b>all possible outcomes</b>.</p>
