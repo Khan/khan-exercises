@@ -87,142 +87,140 @@
 </head>
 <body>
 <div class="exercise">
-    <div class="problems">
 
-        <div id="template" data-weight="0">
-            <div class="vars">
-                <!-- PRED defined in concrete problem types -->
-                <var id="GRID_WIDTH">6</var>
-                <var id="GRID_HEIGHT">randFromArray([4, 6])</var>
-                <var id="X">randRange(1, GRID_WIDTH)</var>
-                <var id="Y">randRange(1, GRID_HEIGHT)</var>
-                <var id="Z">randRange(2, GRID_WIDTH + GRID_HEIGHT)</var>
-                <var id="MATCHING_PAIRS">(function() {
-                    var pairs = [], i, j;
-                    for (i = 1; i &lt;= GRID_WIDTH; i++) {
-                        for (j = 1; j &lt;= GRID_HEIGHT; j++) {
-                            if (PRED(i, j)) {
-                                pairs.push([i, j]);
-                            }
-                        }
+    <div class="vars">
+        <!-- PRED defined in concrete problem types -->
+        <var id="GRID_WIDTH">6</var>
+        <var id="GRID_HEIGHT">randFromArray([4, 6])</var>
+        <var id="X">randRange(1, GRID_WIDTH)</var>
+        <var id="Y">randRange(1, GRID_HEIGHT)</var>
+        <var id="Z">randRange(2, GRID_WIDTH + GRID_HEIGHT)</var>
+        <var id="MATCHING_PAIRS">(function() {
+            var pairs = [], i, j;
+            for (i = 1; i &lt;= GRID_WIDTH; i++) {
+                for (j = 1; j &lt;= GRID_HEIGHT; j++) {
+                    if (PRED(i, j)) {
+                        pairs.push([i, j]);
                     }
-                    return pairs;
-                })()</var>
-                <var id="SOLUTION_N">MATCHING_PAIRS.length</var>
-                <var id="SOLUTION_D">GRID_WIDTH * GRID_HEIGHT</var>
-            </div>
-            <div class="question">
-                <p class="problem">
-                    <span data-if="GRID_HEIGHT === 4">
-                        You are given two dice to roll. One is black with six sides; the other is white with four sides.
-                    </span>
-                    <span data-else="">
-                        You are given two six-sided dice to roll.
-                    </span>
-                </p>
-                <p class="question" id="question-statement"></p>
-                <p class="render-answer-area-here"></p>
-                <p class="problem">If it helps, you may select the matching outcomes below. Your selections
-                aren't checked with your answer:</p>
+                }
+            }
+            return pairs;
+        })()</var>
+        <var id="SOLUTION_N">MATCHING_PAIRS.length</var>
+        <var id="SOLUTION_D">GRID_WIDTH * GRID_HEIGHT</var>
+    </div>
+    <div class="question">
+        <p class="problem">
+            <span data-if="GRID_HEIGHT === 4">
+                You are given two dice to roll. One is black with six sides; the other is white with four sides.
+            </span>
+            <span data-else="">
+                You are given two six-sided dice to roll.
+            </span>
+        </p>
+        <p class="question" id="question-statement"></p>
+        <p class="render-answer-area-here"></p>
+        <p class="problem">If it helps, you may select the matching outcomes below. Your selections
+        aren't checked with your answer:</p>
 
-                <div class="problem" id="e-dice-container">
-                    <div class="e-legend"><span id="e-selected-count">0</span> of <var>SOLUTION_D</var> selected</div>
+        <div class="problem" id="e-dice-container">
+            <div class="e-legend"><span id="e-selected-count">0</span> of <var>SOLUTION_D</var> selected</div>
 
-                    <div class="e-grid">
-                        <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-white"></div></div>
+            <div class="e-grid">
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-white"></div></div>
 
-                        <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-two e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-two e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-two e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-two e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-two e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-two e-white"></div></div>
 
-                        <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-three e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-three e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-three e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-three e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-three e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-three e-white"></div></div>
 
-                        <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-four e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-four e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-four e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-four e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-four e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-four e-white"></div></div>
 
-                        <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-five e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-five e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-five e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-five e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-five e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-five e-white"></div></div>
 
-                        <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-six e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-six e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-six e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-six e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-six e-white"></div></div>
-                        <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-six e-white"></div></div>
-                    </div>
-                </div>
-
-                <div class="graphie problem" id="graph">
-                    Khan.scratchpad.disable();
-                    // Set .e-grid size.
-                    $('.e-grid').addClass('e-six-by-' + (GRID_HEIGHT === 6 ? 'six' : 'four'));
-
-                    // Toggle cell selection on click.
-                    var selected = $('#e-selected-count');
-
-                    $('.e-dice').on('click', function() {
-                        $(this).toggleClass('e-selected');
-                        selected.text($('.e-selected').length);
-                    });
-
-                    graph.selectMatching = function(matchingPairs) {
-                        $(".e-dice").removeClass("e-selected");
-                        _.each(matchingPairs, function(match) {
-                            $(".e-dice").eq((match[1] - 1) * 6 + (match[0] - 1)).addClass("e-selected");
-                        });
-                        $("#e-selected-count").text($(".e-selected").length);
-                    };
-                </div>
-            </div>
-            <div class="solution" data-forms="integer, decimal, proper, percentage"><var>SOLUTION_N / SOLUTION_D</var></div>
-
-            <div class="hints">
-                <div>
-                    <p data-if="isSingular(SOLUTION_N)">
-                        There is <b>one</b> matching outcome.
-                    </p><p data-else="">
-                        There are
-                        <b><code><var>SOLUTION_N</var></code></b> matching
-                        outcomes.
-                    </p>
-                    <div class="graphie" data-update="graph">
-                        graph.selectMatching(MATCHING_PAIRS);
-                    </div>
-                </div>
-                <p>The probability is the number of <b>matching outcomes</b> divided by <b>all possible outcomes</b>.</p>
-                <p data-if="reduces(SOLUTION_N, SOLUTION_D)">
-                    The probability is <code><var>fraction(SOLUTION_N, SOLUTION_D)</var></code>,
-                    which reduces to <code><var>fractionReduce(SOLUTION_N, SOLUTION_D)</var></code>.
-                </p>
-                <p data-else="">
-                    The probability is <code><var>fractionReduce(SOLUTION_N, SOLUTION_D)</var></code>.
-                </p>
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-six e-white"></div></div>
             </div>
         </div>
 
+        <div class="graphie problem" id="graph">
+            Khan.scratchpad.disable();
+            // Set .e-grid size.
+            $('.e-grid').addClass('e-six-by-' + (GRID_HEIGHT === 6 ? 'six' : 'four'));
 
-        <div id="d1-and-d2-are-x-and-y" data-type="template">
+            // Toggle cell selection on click.
+            var selected = $('#e-selected-count');
+
+            $('.e-dice').on('click', function() {
+                $(this).toggleClass('e-selected');
+                selected.text($('.e-selected').length);
+            });
+
+            graph.selectMatching = function(matchingPairs) {
+                $(".e-dice").removeClass("e-selected");
+                _.each(matchingPairs, function(match) {
+                    $(".e-dice").eq((match[1] - 1) * 6 + (match[0] - 1)).addClass("e-selected");
+                });
+                $("#e-selected-count").text($(".e-selected").length);
+            };
+        </div>
+    </div>
+    <div class="solution" data-forms="integer, decimal, proper, percentage"><var>SOLUTION_N / SOLUTION_D</var></div>
+
+    <div class="hints">
+        <div>
+            <p data-if="isSingular(SOLUTION_N)">
+                There is <b>one</b> matching outcome.
+            </p><p data-else="">
+                There are
+                <b><code><var>SOLUTION_N</var></code></b> matching
+                outcomes.
+            </p>
+            <div class="graphie" data-update="graph">
+                graph.selectMatching(MATCHING_PAIRS);
+            </div>
+        </div>
+        <p>The probability is the number of <b>matching outcomes</b> divided by <b>all possible outcomes</b>.</p>
+        <p data-if="reduces(SOLUTION_N, SOLUTION_D)">
+            The probability is <code><var>fraction(SOLUTION_N, SOLUTION_D)</var></code>,
+            which reduces to <code><var>fractionReduce(SOLUTION_N, SOLUTION_D)</var></code>.
+        </p>
+        <p data-else="">
+            The probability is <code><var>fractionReduce(SOLUTION_N, SOLUTION_D)</var></code>.
+        </p>
+    </div>
+
+
+    <div class="problems">
+        <div id="d1-and-d2-are-x-and-y">
             <div class="vars" data-apply="prependVars">
                 <var id="PRED">function(x, y) {
                     return (x === X &amp;&amp; y === Y ||
@@ -248,7 +246,7 @@
         </div>
 
 
-        <div id="d1-is-even-d2-is-x" data-type="template">
+        <div id="d1-is-even-d2-is-x">
             <div class="vars" data-apply="prependVars">
                 <var id="EVEN">rand(2)</var>
                 <var id="PRED">function(x, y) {
@@ -280,7 +278,7 @@
         </div>
 
 
-        <div id="d1-plus-d2-is-x" data-type="template" data-weight="2">
+        <div id="d1-plus-d2-is-x" data-weight="2">
             <div class="vars" data-apply="prependVars">
                 <var id="PRED">function(x, y) {
                     return x + y === Z;
@@ -297,7 +295,7 @@
         </div>
 
 
-        <div id="d1-plus-d2-is-leq-x" data-type="template" data-weight="2">
+        <div id="d1-plus-d2-is-leq-x" data-weight="2">
             <div class="vars" data-apply="prependVars">
                 <var id="PRED">function(x, y) {
                     return x + y &lt;= Z;
@@ -314,7 +312,7 @@
         </div>
 
 
-        <div id="d1-same-as-d2" data-type="template">
+        <div id="d1-same-as-d2">
             <div class="vars" data-apply="prependVars">
                 <var id="PRED">function(x, y) {
                     return x === y;
@@ -327,7 +325,7 @@
         </div>
 
 
-        <div id="d1-is-x-d2-is-y" data-type="template">
+        <div id="d1-is-x-d2-is-y">
             <div class="vars" data-apply="prependVars">
                 <var id="PRED">function(x, y) {
                     return x === X &amp;&amp; y === Y;
@@ -341,7 +339,7 @@
         </div>
 
 
-        <div id="d1-or-d2-is-x" data-type="template">
+        <div id="d1-or-d2-is-x">
             <div class="vars" data-apply="prependVars">
                 <var id="PRED">function(x, y) {
                     return x === X || y === X;
