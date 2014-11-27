@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<html data-require="math graphie graphie-helpers-arithmetic">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying 1-digit numbers</title>
@@ -7,65 +7,103 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-            <var id="A">randRange(0, 10)</var>
-            <var id="B">randRange(0, 10)</var>
-        </div>
-
         <div class="problems">
-            <div>
-                <div class="graphie" id="numbers">
-                    init({
-                        range: [ [ -1, 12 ], [ -3, B + 1 ] ],
-                        scale: [ 50, 50 ]
-                    });
-                    KhanUtil.currentGraph.labelHolder = label( [ 0, B ],
-                        "\\Huge{\\color{#6495ED}{" + A + "} \\times \\color{#28AE7B}{" + B + "} = {?}}", "right" );
+            <div id="missing-C">
+                <div class="vars" data-ensure="A !== 0 || B !== 0">
+                    <var id="A">randRange(0, 10)</var>
+                    <var id="B">randRange(0, 10)</var>
+                    <var id="C">A * B</var>
                 </div>
-                <div class="solution" data-forms="integer"><var>A * B</var></div>
-            </div>
-        </div>
-        <div class="hints">
-            <div data-if="B > 0" data-unwrap="">
-                <div>
-                    <div class="graphie" data-update="numbers">
-                        label( [ 0, B - 1 ],
-                            $.ngettext("Draw %(num)s circle.", "Draw %(num)s circles.", A),
-                            "right", false );
-                        drawRow( A, B - 3, "#6495ED", 1 );
-                    </div>
+                <div class="question">
+                    <code>\Huge\blue{<var>A</var>}\times\green{<var>B</var>}=\pink?</code>
                 </div>
-                <div>
-                    <div class="graphie" data-update="numbers">
-                        if (isSingular(A)) {
-                            label( [ 0, B - 2 ],
-                                $.ngettext(
-                                    "If there is %(num)s row with %(a)s circle, &lt;br&gt; there are a total of how many circles?",
-                                    "If there are %(num)s rows with %(a)s circle each, &lt;br&gt;there are a total of how many circles?",
-                                    B, {a: A}), "right", false );
-                        } else {
-                            label( [ 0, B - 2 ],
-                                $.ngettext(
-                                    "If there is %(num)s row with %(a)s circles, &lt;br&gt; there are a total of how many circles?",
-                                    "If there are %(num)s rows with %(a)s circles each, &lt;br&gt;there are a total of how many circles?",
-                                    B, {a: A}), "right", false );
 
-                        }
-                        for ( var i = 1; i &lt; B; i++ ) {
-                            drawRow( A, B - 3 - i, "#28AE7B", A * i + 1 );
-                        }
+                <div class="solution" data-forms="integer"><var>C</var></div>
+
+                <div class="hints">
+                    <div data-if="A > 1 &amp;&amp; B > 1" data-unwrap="">
+                        <div>
+                            <p>
+                                Let's picture this problem by drawing <code>\green{<var>B</var>}</code> rows of <code>\blue{<var>A</var>}</code> circles.
+                            </p>
+                            <div class="graphie">
+                                init({
+                                    range: [[-1, 12], [-2.5, B - 2.5]],
+                                    scale: [45, 45]
+                                });
+                                for (var i = 0; i &lt; B; i++) {
+                                    drawRow(A, B - 3 - i, BLACK, A * i + 1);
+                                }
+                            </div>
+                            <p>
+                                How many circles are there?
+                            </p>
+                        </div>
+                    </div>
+                    <div data-else-if="A === 0 || B === 0">
+                        <div data-if="A === 0">
+                            If we have <code>\green{<var>B</var>}</code> zeros, how much do we have in total?
+                        </div>
+                        <div data-else="">
+                            If we have <code>\blue{<var>A</var>}</code> zeros, how much do we have in total?
+                        </div>
+                    </div>
+                    <div data-else="">
+                        <div data-if="A === 1">
+                            If we have one <code>\green{<var>B</var>}</code>, how much do we have in total?
+                        </div>
+                        <div data-else="">
+                            If we have one <code>\blue{<var>A</var>}</code>, how much do we have in total?
+                        </div>
+                    </div>
+                    <div>
+                        <code>\Huge\blue{<var>A</var>}\times\green{<var>B</var>}=\pink{<var>C</var>}</code>
                     </div>
                 </div>
             </div>
-            <div data-else="">
-                <div class="graphie" data-update="numbers">
-                    label( [ 0, B - 1 ], "\\large{\\text{" + $._("Multiplying any number by 0 equals 0.") + "}}", "right" );
+            
+            <div id="missing-A">
+                <div class="vars">
+                    <var id="A">randRange(1, 10)</var>
+                    <var id="B">randRange(0, 10)</var>
+                    <var id="C">A * B</var>
                 </div>
-            </div>
-            <div class="graphie" data-update="numbers">
-                KhanUtil.currentGraph.labelHolder.remove();
-                label( [ 0, B ],
-                    "\\Huge{\\color{#6495ED}{" + A + "} \\times \\color{#28AE7B}{" + B + "} = " + ( A  * B ) + "}", "right" );
+                <div class="question">
+                    <code>\Huge\blue{<var>A</var>}\times\green{?}=\pink{<var>C</var>}</code>
+                </div>
+
+                <div class="solution" data-forms="integer"><var>C</var></div>
+
+                <div class="hints">
+                    <div data-if="A > 1 &amp;&amp; B > 1" data-unwrap="">
+                        <div>
+                            <p>
+                                How many rows of <code>\blue{<var>A</var>}</code> circles do we need to make <code>\pink{<var>C</var>}</code> total circles?
+                            </p>
+                            <div class="graphie">
+                                init({
+                                    range: [[-1, 12], [-2.5, B - 2.5]],
+                                    scale: [45, 45]
+                                });
+                                for (var i = 0; i &lt; B; i++) {
+                                    drawRow(A, B - 3 - i, BLACK, A * i + 1);
+                                }
+                            </div>
+                            <p>
+                                We need <code>\green{<var>B</var>}</code> rows of <code>\blue{<var>A</var>}</code> circles to make <code>\pink{<var>C</var>}</code> total circles.
+                            </p>
+                        </div>
+                    </div>
+                    <div data-else-if="B === 0">
+                        What times <code>\blue{<var>A</var>}</code> equals zero?
+                    </div>
+                    <div data-else="">
+                        What can we multiply by <code>\blue{<var>A</var>}</code> to get <code>\pink{<var>C</var>}</code>?
+                    </div>
+                    <div>
+                        <code>\Huge\blue{<var>A</var>}\times\green{<var>B</var>}=\pink{<var>C</var>}</code>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
