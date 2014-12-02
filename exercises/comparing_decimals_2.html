@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
+<html data-require="math math-format word-problems graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Comparing decimals 2</title>
@@ -10,12 +10,11 @@
         <div class="problems">
             <div id="rearranging">
                 <div class="vars">
-                    <var id="UNIT">randRangeWeighted(0, 9, 0, 0.5)</var>
-                    <var id="NUMS">[randRange(0, 9), randRange(0, 9), randRange(0, 9)]</var>
-                    <var id="DIGITS1">[rand(3) ? randRange(0, 9) : UNIT].concat(shuffle(NUMS))</var>
-                    <var id="DIGITS2">[rand(3) ? randRange(0, 9) : UNIT].concat(shuffle(NUMS))</var>
-                    <var id="D1">1000 * DIGITS1[3] + DIGITS1[2] * 100 + DIGITS1[1] * 10 + DIGITS1[0]</var>
-                    <var id="D2">1000 * DIGITS2[3] + DIGITS2[2] * 100 + DIGITS2[1] * 10 + DIGITS2[0]</var>
+                    <var id="NUMS">randRange(0, 9, 4)</var>
+                    <var id="DIGITS1">shuffle(NUMS)</var>
+                    <var id="DIGITS2">shuffle(NUMS)</var>
+                    <var id="D1">1000 * DIGITS1[0] + DIGITS1[1] * 100 + DIGITS1[2] * 10 + DIGITS1[3]</var>
+                    <var id="D2">1000 * DIGITS2[0] + DIGITS2[1] * 100 + DIGITS2[2] * 10 + DIGITS2[3]</var>
                     <var id="N1">D1 / 1000</var>
                     <var id="N2">D2 / 1000</var>
                     <var id="SOLUTION">(function() {
@@ -23,6 +22,15 @@
                             return "=";
                         } else {
                             return N1 &lt; N2 ? "&lt;" : "&gt;";
+                        }
+                    })()</var>
+                    <var id="PLACES">(function() {
+                        var places = [];
+                        for (var i = 0; i &lt; DIGITS1.length; i++) {
+                            places.push(i);
+                            if (DIGITS1[i] !== DIGITS2[i]) {
+                                return places;
+                            }
                         }
                     })()</var>
                 </div>
@@ -58,8 +66,8 @@
                         })()</var>
                         <var id="TRAILING1">DIGITS1[3] === 0 &amp;&amp; rand(2) ? "0" : ""</var>
                         <var id="TRAILING2">DIGITS1[3] === 0 &amp;&amp; rand(2) ? "0" : ""</var>
-                        <var id="D1">1000 * DIGITS1[3] + DIGITS1[2] * 100 + DIGITS1[1] * 10 + DIGITS1[0]</var>
-                        <var id="D2">1000 * DIGITS2[3] + DIGITS2[2] * 100 + DIGITS2[1] * 10 + DIGITS2[0]</var>
+                        <var id="D1">1000 * DIGITS1[0] + DIGITS1[1] * 100 + DIGITS1[2] * 10 + DIGITS1[3]</var>
+                        <var id="D2">1000 * DIGITS2[0] + DIGITS2[1] * 100 + DIGITS2[2] * 10 + DIGITS2[3]</var>
                     </div>
 
                     <var id="N1">D1 / 1000</var>
@@ -70,6 +78,16 @@
                         } else {
                             return N1 &lt; N2 ? "&lt;" : "&gt;";
                         }
+                    })()</var>
+                    <var id="PLACES">(function() {
+                        var places = [];
+                        for (var i = 0; i &lt; DIGITS1.length; i++) {
+                            places.push(i);
+                            if (DIGITS1[i] !== DIGITS2[i]) {
+                                return places;
+                            }
+                        }
+                        return places;
                     })()</var>
                 </div>
 
@@ -95,52 +113,96 @@
             </div>
 
             <p><code>
-                \large{<var>N1</var> = <var>DIGITS1[3]</var> + \dfrac{<var>DIGITS1[2]</var>}{10}
-                 + \dfrac{<var>DIGITS1[1]</var>}{100} + \dfrac{<var>DIGITS1[0]</var>}{1000}}
+                <var>N1</var><var>TRAILING1</var> = <var>DIGITS1[0]</var> + \dfrac{<var>DIGITS1[1]</var>}{10}
+                 + \dfrac{<var>DIGITS1[2]</var>}{100} + \dfrac{<var>DIGITS1[3]</var>}{1000}
             </code></p>
 
             <p><code>
-                \large{\phantom{<var>N1</var>} = \dfrac{<var>1000 * DIGITS1[3]</var>}{1000} + \dfrac{<var>100 * DIGITS1[2]</var>}{1000}
-                 + \dfrac{<var>10 * DIGITS1[1]</var>}{1000} + \dfrac{<var>DIGITS1[0]</var>}{1000}}
+                \phantom{<var>N1</var><var>TRAILING1</var>} = \dfrac{<var>1000 * DIGITS1[0]</var>}{1000} + \dfrac{<var>100 * DIGITS1[1]</var>}{1000}
+                 + \dfrac{<var>10 * DIGITS1[2]</var>}{1000} + \dfrac{<var>DIGITS1[3]</var>}{1000}
             </code></p>
 
             <div>
                 <p><code>
-                    \large{\phantom{<var>N1</var>} = \dfrac{<var>1000 * DIGITS1[3]</var>
-                    + <var>100 * DIGITS1[2]</var> + <var>10 * DIGITS1[1]</var> + <var>DIGITS1[0]</var>}{1000}}
+                    \phantom{<var>N1</var><var>TRAILING1</var>} = \dfrac{<var>1000 * DIGITS1[0]</var>
+                    + <var>100 * DIGITS1[1]</var> + <var>10 * DIGITS1[2]</var> + <var>DIGITS1[3]</var>}{1000}
                 </code></p>
 
-                <p><code>\large{\phantom{<var>N1</var>} = \dfrac{<var>D1</var>}{1000}}</code></p>
+                <p><code>\phantom{<var>N1</var><var>TRAILING1</var>} = \dfrac{<var>D1</var>}{1000}</code></p>
             </div>
 
             <p><code>
-                \large{<var>N2</var> = <var>DIGITS2[3]</var> + \dfrac{<var>DIGITS2[2]</var>}{10}
-                 + \dfrac{<var>DIGITS2[1]</var>}{100} + \dfrac{<var>DIGITS2[0]</var>}{1000}}
+                <var>N2</var><var>TRAILING2</var> = <var>DIGITS2[0]</var> + \dfrac{<var>DIGITS2[1]</var>}{10}
+                 + \dfrac{<var>DIGITS2[2]</var>}{100} + \dfrac{<var>DIGITS2[3]</var>}{1000}
             </code></p>
 
             <p><code>
-                \large{\phantom{<var>N2</var>} = \dfrac{<var>1000 * DIGITS2[3]</var>}{1000} + \dfrac{<var>100 * DIGITS2[2]</var>}{1000}
-                 + \dfrac{<var>10 * DIGITS2[1]</var>}{1000} + \dfrac{<var>DIGITS2[0]</var>}{1000}}
+                \phantom{<var>N2</var><var>TRAILING2</var>} = \dfrac{<var>1000 * DIGITS2[0]</var>}{1000} + \dfrac{<var>100 * DIGITS2[1]</var>}{1000}
+                 + \dfrac{<var>10 * DIGITS2[2]</var>}{1000} + \dfrac{<var>DIGITS2[3]</var>}{1000}
             </code></p>
 
             <div>
                 <p><code>
-                    \large{\phantom{<var>N2</var>} = \dfrac{<var>1000 * DIGITS2[3]</var>
-                    + <var>100 * DIGITS2[2]</var> + <var>10 * DIGITS2[1]</var> + <var>DIGITS2[0]</var>}{1000}}
+                    \phantom{<var>N2</var><var>TRAILING2</var>} = \dfrac{<var>1000 * DIGITS2[0]</var>
+                    + <var>100 * DIGITS2[1]</var> + <var>10 * DIGITS2[2]</var> + <var>DIGITS2[3]</var>}{1000}
                 </code></p>
 
-                <p><code>\large{\phantom{<var>N2</var>} = \dfrac{<var>D2</var>}{1000}}</code></p>
+                <p><code>\phantom{<var>N2</var><var>TRAILING2</var>} = \dfrac{<var>D2</var>}{1000}</code></p>
             </div>
 
             <p data-if="N1 > N2">
-                <code>\large{<var>D1</var>}</code> thousandths is more than <code>\large{<var>D2</var>}</code> thousandths.
+                <code><var>D1</var></code> thousandths is more than <code><var>D2</var></code> thousandths.
             </p>
             <p data-else-if="N1 < N2">
-                <code>\large{<var>D1</var>}</code> thousandths is less than <code>\large{<var>D2</var>}</code> thousandths.
+                <code><var>D1</var></code> thousandths is less than <code><var>D2</var></code> thousandths.
             </p>
             <p data-else="">
-                <code>\large{<var>D1</var>}</code> thousandths is equal to <code>\large{<var>D2</var>}</code> thousandths.
+                <code><var>D1</var></code> thousandths is equal to <code><var>D2</var></code> thousandths.
             </p>
+
+            <div>
+                <p>We can also line up the decimal points and compare the digits.</p>
+                <div class="graphie" id="numbers">
+                    init({ range: [[-5, 5], [-1, 2]], scale: 25 });
+
+                    for (var i = 0; i &lt; DIGITS1.length; i++) {
+                        label([i, 1.5], "\\huge{" + DIGITS1[i] + "}");
+                        label([i, 0], "\\huge{" + DIGITS2[i] + "}");
+                    }
+
+                    label([0.5, 0], "\\huge{.}");
+                    label([0.5, 1.5], "\\huge{.}");
+                </div>
+            </div>
+
+            <div data-each="PLACES as i">
+                <div data-if="DIGITS1[i] === DIGITS2[i]">
+                    <p data-if="i < 3">
+                        Both numbers have the same digit in the <var>plural_form(decimalPlaceNames[i], 2)</var> place,
+                        so we have to check the next digit.
+                    </p><p data-else="">
+                        Both numbers have the same digit in the final place, so the two numbers are the same.
+                    </p>
+                </div>
+                <p data-else-if="DIGITS1[i] > DIGITS2[i]">
+                    In the <var>plural_form(decimalPlaceNames[i], 2)</var> place,
+                    <code><var>N1</var></code> has a higher value digit than <code><var>N2</var></code>.
+                </p>
+                <p data-else="">
+                    In the <var>plural_form(decimalPlaceNames[i], 2)</var> place,
+                    <code><var>N2</var></code> has a higher value digit than <code><var>N1</var></code>.
+                </p>
+
+                <div class="graphie" data-update="numbers">
+                    label([i, 1.5], "\\huge{\\blue{" + DIGITS1[i] + "}}");
+                    label([i, 0], "\\huge{\\blue{" + DIGITS2[i] + "}}");
+
+                    if (i !== 0) {
+                    label([i - 1, 1.5], "\\huge{" + DIGITS1[i - 1] + "}");
+                    label([i - 1, 0], "\\huge{" + DIGITS2[i - 1] + "}");
+                    }
+                </div>
+            </div>
 
             <p data-if="N1 > N2">Therefore <code>\large{<var>N1</var> &gt; <var>N2</var>}</code>.</p>
             <p data-else-if="N1 < N2">Therefore <code>\large{<var>N1</var> &lt; <var>N2</var>}</code>.</p>
