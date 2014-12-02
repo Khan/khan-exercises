@@ -42,6 +42,8 @@
             $.fn.tex.apply(this, arguments);
             return this;
         };
+        // Since we have some code that calls qtip executed by tests :(
+        $.fn.qtip = function() { return "fake qtip"; };
     </script>
     <script src="../local-only/underscore.js"></script>
     <script src="../local-only/kas.js"></script>
