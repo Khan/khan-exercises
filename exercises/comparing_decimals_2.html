@@ -13,6 +13,8 @@
                     <var id="NUMS">randRange(0, 9, 4)</var>
                     <var id="DIGITS1">shuffle(NUMS)</var>
                     <var id="DIGITS2">shuffle(NUMS)</var>
+                    <var id="TRAILING1">""</var>
+                    <var id="TRAILING2">""</var>
                     <var id="D1">1000 * DIGITS1[0] + DIGITS1[1] * 100 + DIGITS1[2] * 10 + DIGITS1[3]</var>
                     <var id="D2">1000 * DIGITS2[0] + DIGITS2[1] * 100 + DIGITS2[2] * 10 + DIGITS2[3]</var>
                     <var id="N1">D1 / 1000</var>
@@ -32,6 +34,7 @@
                                 return places;
                             }
                         }
+                        return [];
                     })()</var>
                 </div>
 
