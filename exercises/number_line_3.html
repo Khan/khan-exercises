@@ -9,7 +9,7 @@
     <div class="exercise">
     <div class="vars">
         <var id="SCALE">randRange(1, 4)</var>
-        <var id="MIDPOINT">randRange( -15, 15 )</var>
+        <var id="MIDPOINT">(SCALE + randRange(1, 10)) * randFromArray([-1, 1])</var>
         <var id="LOWER_BOUND">MIDPOINT - 5 * SCALE</var>
         <var id="UPPER_BOUND">MIDPOINT + 5 * SCALE</var>
         <var id="NUMBER">randFromArray([
