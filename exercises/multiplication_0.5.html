@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<html data-require="math graphie graphie-helpers-arithmetic">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying 1-digit numbers</title>
@@ -14,134 +14,105 @@
                     <var id="B">randRange(0, 10)</var>
                     <var id="C">A * B</var>
                 </div>
-
-                <div class="graphie" id="numbers">
-                    init({
-                        range: [[ -1, 12], [-3, B + 1]],
-                        scale: [45, 45]
-                    });
-                    graph.question = label([0, B], "\\Huge{\\blue{" + A + "} \\times \\green{" + B + "} = ?}", "right");
+                <div class="question">
+                    <code>\Huge\blue{<var>A</var>}\times\green{<var>B</var>}=\pink?</code>
                 </div>
+
                 <div class="solution" data-forms="integer"><var>C</var></div>
 
                 <div class="hints">
-                    <div data-if="C !== 0" data-unwrap="">
+                    <div data-if="A > 1 &amp;&amp; B > 1" data-unwrap="">
                         <div>
-                            <div class="graphie" data-update="numbers">
-                                label([0, B - 1], $.ngettext("Draw %(num)s circle.", "Draw %(num)s circles.", A), "right", false);
-                                drawRow(A, B - 3, BLUE, 1);
-                            </div>
-                        </div>
-                        <div>
-                            <div class="graphie" data-update="numbers">
-                                if (isSingular(A)) {
-                                    label([0, B - 2],
-                                        $.ngettext(
-                                            "If there is %(num)s row with %(a)s circle, &lt;br&gt;how many circles are there in total?",
-                                            "If there are %(num)s rows with %(a)s circle each, &lt;br&gt;how many circles are there in total?",
-                                            B, {a: A}), "right", false);
-                                } else {
-                                    label([0, B - 2],
-                                        $.ngettext(
-                                            "If there is %(num)s row with %(a)s circles, &lt;br&gt;how many circles are there in total?",
-                                            "If there are %(num)s rows with %(a)s circles each, &lt;br&gt;how many circles are there in total?",
-                                            B, {a: A}), "right", false);
-
-                                }
+                            <p>
+                                Let's picture this problem by drawing <code>\green{<var>B</var>}</code> rows of <code>\blue{<var>A</var>}</code> circles.
+                            </p>
+                            <div class="graphie">
+                                init({
+                                    range: [[-1, 12], [-2.5, B - 2.5]],
+                                    scale: [45, 45]
+                                });
                                 for (var i = 0; i &lt; B; i++) {
-                                    label([-0.3, B - 3 - i], "\\green{" + (i + 1) + "}", "left");
-                                    if (i &gt; 0) {
-                                        drawRow(A, B - 3 - i, GREEN, A * i + 1);
-                                        path([[-0.7, B - 3 - i + 0.5], [A - 0.7, B - 3 - i + 0.5]], { stroke: GREEN });
-                                    }
+                                    drawRow(A, B - 3 - i, BLACK, A * i + 1);
                                 }
                             </div>
+                            <p>
+                                How many circles are there?
+                            </p>
+                        </div>
+                    </div>
+                    <div data-else-if="A === 0 || B === 0">
+                        <div data-if="A === 0">
+                            If we have <code>\green{<var>B</var>}</code> zeros, how much do we have in total?
+                        </div>
+                        <div data-else="">
+                            If we have <code>\blue{<var>A</var>}</code> zeros, how much do we have in total?
                         </div>
                     </div>
                     <div data-else="">
-                        <div class="graphie" data-update="numbers">
-                            var nonzero = A || B;
-                            label([0, B - 1],
-                                $.ngettext(
-                                    "If we have %(num)s zero, how much do we have in total?",
-                                    "If we have %(num)s zeros, how much do we have in total?",
-                                nonzero), "right", false);
-                            var zeros = _(nonzero).times(function() { return 0; });
-                            label([0, B - 2], "\\large{" + zeros.join("+") + " = {?}}", "right");
+                        <div data-if="A === 1">
+                            If we have one <code>\green{<var>B</var>}</code>, how much do we have in total?
+                        </div>
+                        <div data-else="">
+                            If we have one <code>\blue{<var>A</var>}</code>, how much do we have in total?
                         </div>
                     </div>
-                    <div class="graphie" data-update="numbers">
-                        graph.question.remove();
-                        label([0, B], "\\Huge{\\blue{" + A + "} \\times \\green{" + B + "} = \\pink{" + C + "}}", "right");
+                    <div>
+                        <code>\Huge\blue{<var>A</var>}\times\green{<var>B</var>}=\pink{<var>C</var>}</code>
                     </div>
                 </div>
             </div>
-            <div id="missing-A">
+            
+            <div id="missing-B">
                 <div class="vars">
                     <var id="A">randRange(1, 10)</var>
                     <var id="B">randRange(0, 10)</var>
                     <var id="C">A * B</var>
                     <var id="ORDER">rand(2)</var>
                 </div>
-
-                <div class="graphie" id="numbers">
-                    init({
-                        range: [[-1, 12], [-3, B + 1]],
-                        scale: [45, 45]
-                    });
-                    if (rand === 0) {
-                        graph.question = label([0, B], "\\Huge{? \\times \\green{" + A + "} = \\pink{" + C + "}}", "right");
-                    } else {
-                        graph.question = label([0, B], "\\Huge{\\green{" + A + "} \\times ? = \\pink{" + C + "}}", "right");
-                    }
+                <div class="question">
+                    <div data-if="ORDER" data-unwrap="">
+                        <code>\Huge\blue{<var>A</var>}\times\green{?}=\pink{<var>C</var>}</code>
+                    </div>
+                    <div data-else="">
+                        <code>\Huge\green{?}\times\blue{<var>A</var>}=\pink{<var>C</var>}</code>
+                    </div>
                 </div>
+
                 <div class="solution" data-forms="integer"><var>B</var></div>
 
                 <div class="hints">
-                    <div data-if="C !== 0" data-unwrap="">
+                    <div data-if="A > 1 &amp;&amp; B > 1" data-unwrap="">
                         <div>
-                            <div class="graphie" data-update="numbers">
-                                label([0, B - 1], $.ngettext("Draw %(num)s circle.", "Draw %(num)s circles.", A), "right", false);
-                                drawRow(A, B - 3, GREEN, 1);
-                            </div>
-                        </div>
-                        <div>
-                            <div class="graphie" data-update="numbers">
-                                label([0, B - 2],
-                                    $.ngettext(
-                                        "If we draw %(c)s circles, &lt;br&gt;how many rows of %(num)s circle do we need?",
-                                        "If we draw %(c)s circles, &lt;br&gt;how many rows of %(num)s circles do we need?",
-                                        A, { c: C }), "right", false );
-
+                            <p>
+                                How many rows of <code>\blue{<var>A</var>}</code> circles do we need to make <code>\pink{<var>C</var>}</code> total circles?
+                            </p>
+                            <div class="graphie">
+                                init({
+                                    range: [[-1, 12], [-2.5, B - 2.5]],
+                                    scale: [45, 45]
+                                });
                                 for (var i = 0; i &lt; B; i++) {
-                                    label([-0.3, B - 3 - i], "\\blue{" + (i + 1) + "}", "left");
-                                    if (i &gt; 0) {
-                                        path([[-0.7, B - 3 - i + 0.5], [A - 0.7, B - 3 - i + 0.5]], { stroke: BLUE });
-                                        drawRow(A, B - 3 - i, GREEN, A * i + 1);
-                                    }
+                                    drawRow(A, B - 3 - i, BLACK, A * i + 1);
                                 }
                             </div>
+                            <p>
+                                We need <code>\green{<var>B</var>}</code> rows of <code>\blue{<var>A</var>}</code> circles to make <code>\pink{<var>C</var>}</code> total circles.
+                            </p>
                         </div>
+                    </div>
+                    <div data-else-if="B === 0">
+                        What times <code>\blue{<var>A</var>}</code> equals zero?
                     </div>
                     <div data-else="">
-                        <div class="graphie" data-update="numbers">
-                            var nonzero = A || B;
-                            label([0, B - 1],
-                                $.ngettext(
-                                    "If we have %(num)s zero, how much do we have in total?",
-                                    "If we have %(num)s zeros, how much do we have in total?",
-                                nonzero), "right", false);
-                            var zeros = _(nonzero).times(function() { return 0; });
-                            label([0, B - 2], "\\large{" + zeros.join("+") + " = ?}", "right");
-                        </div>
+                        What can we multiply by <code>\blue{<var>A</var>}</code> to get <code>\pink{<var>C</var>}</code>?
                     </div>
-                    <div class="graphie" data-update="numbers">
-                        graph.question.remove();
-                        if (rand === 0) {
-                            label([0, B], "\\Huge{\\blue{" + B + "} \\times \\green{" + A + "} = \\pink{" + C + "}}", "right");
-                        } else {
-                            label([0, B], "\\Huge{\\green{" + A + "} \\times \\blue{" + B + "} = \\pink{" + C + "}}", "right");
-                        }
+                    <div>
+                        <div data-if="ORDER" data-unwrap="">
+                            <code>\Huge\blue{<var>A</var>}\times\green{<var>B</var>}=\pink{<var>C</var>}</code>
+                        </div>
+                        <div data-else="">
+                            <code>\Huge\green{<var>B</var>}\times\blue{<var>A</var>}=\pink{<var>C</var>}</code>
+                        </div>
                     </div>
                 </div>
             </div>

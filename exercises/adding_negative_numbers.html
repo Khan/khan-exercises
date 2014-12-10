@@ -22,19 +22,14 @@
                     <var id="REMOVE">[]</var>
                 </div>
                 <div class="question">
-                    <div class="graphie" id="numbers">
-                        init({
-                            range: [ [0, 13], [-4, 1] ]
-                        });
-
-                        label( [0, 0],
-                            "\\Huge{\\color{#6495ED}{" + A + "} + \\color{#28AE7B}{(" + B + ")} = {?}}",
-                            "right" );
-                        </div>
+                    <code>\Huge\blue{<var>A</var>} + \green{<var>B</var>}=\pink{{?}}</code>
                 </div>
                 <div class="solution" data-forms="integer"><var>ANSWER</var></div>
                 <div class="hints">
-                    <div class="graphie" data-update="numbers">
+                    <div class="graphie" id="numbers">
+                        init({
+                            range: [ [0, 13], [-4, -1] ]
+                        });
                         REMOVE = label( [0, -2],
                             "\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{" + B + "} = {?}}",
                             "right" );

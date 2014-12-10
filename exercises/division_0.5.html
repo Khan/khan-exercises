@@ -15,15 +15,8 @@
 
         <div class="problems">
             <div>
-                <div class="graphie" id="numbers">
-                    var bottomBoundary = ( B === 1 ) ? A - 1 : -1;
-                    init({
-                        range: [ [ -1, 10 ], [ bottomBoundary, A + 1 ] ],
-                        scale: [ 50, 50 ]
-                    });
-
-                    KhanUtil.currentGraph.labelHolder = label( [ 0, A ],
-                        "\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = {?}}", "right" );
+                <div class="question">
+                    <code>\Huge\blue{<var>C</var>}\div\orange{<var>B</var>}=\purple{{?}}</code>
                 </div>
                 <div class="solution" data-forms="integer"><var>A</var></div>
             </div>
@@ -31,17 +24,22 @@
         <div class="hints">
             <div data-if="B > 1" data-unwrap="">
                 <div>
-                    <div class="graphie" data-update="numbers">
+                    <p>Draw <var>C</var> circles, with <var>B</var> to each row.</p>
+                    <div class="graphie" id="numbers">
+                        init({
+                            range: [ [ -1, B ], [ -1, A ] ],
+                            scale: [ 50, 50 ]
+                        });
+
                         for ( var i = 0; i &lt; A; i++ ) {
                             drawRow( B, A - 1 - i, "#6495ED", B * i + 1 );
                         }
                     </div>
-                    <p>Draw <var>C</var> circles, with <var>B</var> to each row.</p>
                 </div>
                 <div>
                     <div class="graphie" data-update="numbers">
                         style({
-                            stroke: "#FFA500"
+                            stroke: "orange"
                         });
                         for ( var i = 1; i &lt; A; i++ ) {
                             path ( [ [ - 0.5 , i - 0.5 ], [ B - 0.5 , i - 0.5 ] ]);
@@ -53,10 +51,8 @@
             <p data-else="">
                 Dividing any number by 1 equals itself.
             </p>
-            <div class="graphie" data-update="numbers">
-                KhanUtil.currentGraph.labelHolder.remove();
-                label( [ 0, A ],
-                    "\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = " + A + "}", "right" );
+            <div>
+                <code>\Huge\blue{<var>C</var>}\div\orange{<var>B</var>}=\purple{<var>A</var>}</code>
             </div>
         </div>
     </div>
