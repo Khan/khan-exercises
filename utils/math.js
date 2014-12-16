@@ -673,6 +673,15 @@ $.extend(KhanUtil, {
     LIGHT_RED: "#ED9AAC",
     LIGHT_GRAY: "#ED9B9B",
     LIGHT_BLACK: "#ED9B9B",
+    GRAY10: "#D6D6D6",
+    GRAY20: "#CDCDCD",
+    GRAY30: "#B3B3B3",
+    GRAY40: "#9A9A9A",
+    GRAY50: "#808080",
+    GRAY60: "#666666",
+    GRAY70: "#4D4D4D",
+    GRAY80: "#333333",
+    GRAY90: "#1A1A1A",
     // Don't actually use _BACKGROUND! Make things transparent instead. The
     // background color used in exercises is subject to change at the whim
     // of fickle designers.
