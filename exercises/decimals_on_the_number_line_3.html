@@ -7,53 +7,46 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
-        <var id="LOWER_BOUND">-2</var>
-        <var id="UPPER_BOUND">2</var>
-
-        <var id="LOWER_VALUE">LOWER_BOUND</var>
-        <var id="UPPER_VALUE">UPPER_BOUND</var>
-
-        <var id="SOLUTION">roundTo(1, randRangeNonZero(-19, 19) / 10)</var>
-        <var id="SOLUTION_DECIMAL">roundTo(1, SOLUTION % 1)</var>
-        <var id="SOLUTION_WHOLE">parseInt( ( SOLUTION ).toString(), 10 )</var>
-
-        <var id="ORANGE_DOT">$._("orange dot")</var>
-    </div>
     <div class="problems">
-        <div>
+        <div id="tenths">
+            <div class="vars">
+                <var id="GAP">4</var>
+                <var id="LOWER_BOUND">randRange(-20, 20 - GAP)</var>
+                <var id="UPPER_BOUND">LOWER_BOUND + GAP</var>
+                <var id="MID_POINT">(LOWER_BOUND + UPPER_BOUND) / 2</var>
+                <div data-ensure="SOLUTION_DECIMAL !== 0">
+                    <var id="SOLUTION">roundTo(1, MID_POINT + randRangeNonZero(GAP * -5 + 1, GAP * 5 - 1) / 10)</var>
+                    <var id="SOLUTION_DECIMAL">roundTo(1, SOLUTION % 1)</var>
+                </div>
+                <var id="SOLUTION_WHOLE">parseInt((SOLUTION).toString(), 10)</var>
+            </div>
+
             <div class="question">
                 <p>Move the orange dot to <code><var>SOLUTION</var></code> on the number line.</p>
                 <div class="graphie" id="number-line">
                     init({
-                        range: [[LOWER_BOUND - 0.3, UPPER_BOUND + 0.3], [-1, 1]],
-                        scale: [108, 40]
+                        range: [[LOWER_BOUND - GAP / 12, UPPER_BOUND + GAP / 12], [-1, 1]],
+                        scale: [460 / (GAP * 1.1), 40]
                     });
 
                     style({arrows: "&gt;"});
-                    line([0, 0], [UPPER_BOUND + 0.25, 0]);
+                    line([MID_POINT, 0], [UPPER_BOUND + GAP / 16, 0]);
 
                     style({arrows: "-&gt;"});
-                    line([0, 0], [LOWER_BOUND - 0.25, 0]);
+                    line([MID_POINT, 0], [LOWER_BOUND - GAP / 16, 0]);
 
                     style({arrows: ""});
                     for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += 0.5) {
-                        var markLength = (x % 1 === 0) ? 0.2 : 0.1;
-                        line( [ x, -markLength ], [ x, markLength ] );
+                        if (x % 1 === 0) {
+                            line([x, -0.2], [x, 0.2]);
+                            label([x, -0.53], x, "center", { color: BLUE });
+                        } else {
+                            line([x, -0.1], [x, 0.1]);
+                        }
                     }
 
-                    style({stroke: BLUE, strokeWidth: 3.5});
-                    line([LOWER_BOUND, -0.2], [LOWER_BOUND, 0.2]);
-                    label([LOWER_BOUND, -0.53], LOWER_BOUND, "center", {color: BLUE});
-
-                    line([UPPER_BOUND, -0.2], [UPPER_BOUND, 0.2]);
-                    label([UPPER_BOUND, -0.53], UPPER_BOUND, "center", {color: BLUE});
-
-                    line([0, -0.2], [0, 0.2]);
-                    label([0, -0.53], "0", "center", {color: BLUE});
-
                     addMouseLayer();
-                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.1 });
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.1, coord: [MID_POINT, 0] });
                     graph.movablePoint.onMove = function(x, y) {
                         return [min(max(LOWER_BOUND, x), UPPER_BOUND), y];
                     };
@@ -64,7 +57,7 @@
                 <span class="instruction"></span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
-                    if ( guess === 0 ) {
+                    if ( guess === MID_POINT ) {
                         return "";
                     }
                     return abs( SOLUTION - guess ) &lt; 0.001;
@@ -75,16 +68,18 @@
             </div>
 
             <div class="hints">
-                <p data-if="SOLUTION > 0">
-                    Because <code><var>SOLUTION</var></code> is positive the orange dot will be to the right of <code>0</code>.
-                </p><p data-else="">
-                    Because <code><var>SOLUTION</var></code> is negative the orange dot will be to the left of <code>0</code>.
-                </p>
-
-                <div data-if="abs(SOLUTION) > 1">
+                <div>
                     <p>Separate the decimal from the whole number:</p>
                     <p><code><var>SOLUTION</var> = \purple{<var>SOLUTION_WHOLE</var>} + \purple{<var>SOLUTION_DECIMAL</var>}</code></p>
                 </div>
+
+                <p data-if="SOLUTION > 0">
+                    Because <code><var>SOLUTION</var></code> is positive the orange dot
+                    will be to the right of <code>\purple{<var>SOLUTION_WHOLE</var>}</code>.
+                </p><p data-else="">
+                    Because <code><var>SOLUTION</var></code> is negative the orange dot will
+                    be to the left of <code>\purple{<var>SOLUTION_WHOLE</var>}</code>.
+                </p>
 
                 <div>
                     <p>Therefore, we know <code><var>SOLUTION</var></code> lies between
@@ -98,11 +93,15 @@
 
                 <div>
                     <div class="graphie" data-update="number-line">
-                        style({stroke: BLUE, fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;"});
-                        line([0, 0], [SOLUTION, 0]);
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>The orange dot should be shifted to the position <code><var>SOLUTION</var></code> right of <code>0</code>.</p>
+                    <p data-if="SOLUTION > 0">
+                        The orange dot should be shifted <code><var>abs(SOLUTION_DECIMAL)</var></code>
+                        to the right of <code><var>SOLUTION_WHOLE</var></code>.
+                    </p><p data-else="">
+                        The orange dot should be shifted <code><var>abs(SOLUTION_DECIMAL)</var></code>
+                        to the left of <code><var>SOLUTION_WHOLE</var></code>.
+                    </p>
                 </div>
 
                 <div>
@@ -113,6 +112,193 @@
                     <p>The highlighted number shows where <code>\pink{<var>SOLUTION</var>}</code> is on the number line.</p>
                 </div>
 
+            </div>
+        </div>
+
+        <div id="tenths-vertical" data-type="tenths">
+            <div class="question">
+                <p>Move the orange dot to <code><var>SOLUTION</var></code> on the number line.</p>
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [[-5, 5], [LOWER_BOUND - GAP / 12, UPPER_BOUND + GAP / 12]],
+                        scale: [40, 460 / (GAP * 1.1)]
+                    });
+
+                    style({arrows: "&gt;"});
+                    line([0, MID_POINT], [0, UPPER_BOUND + GAP / 16]);
+
+                    style({arrows: "-&gt;"});
+                    line([0, MID_POINT], [0, LOWER_BOUND - GAP / 16]);
+
+                    style({arrows: ""});
+                    for (var y = LOWER_BOUND; y &lt;= UPPER_BOUND; y += 0.5) {
+                        if (y % 1 === 0) {
+                            line([-0.2, y], [0.2, y]);
+                            label([-0.2, y], y, "left", { color: BLUE });
+                        } else {
+                            line([-0.1, y], [0.1, y]);
+                        }
+                    }
+
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainX: true }, snapY: 0.1, coord: [0, MID_POINT] });
+                    graph.movablePoint.onMove = function(x, y) {
+                        return [x, min(max(LOWER_BOUND, y), UPPER_BOUND)];
+                    };
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <span class="instruction"></span>
+                <div class="guess"> graph.movablePoint.coord[1] </div>
+                <div class="validator-function">
+                    if ( guess === MID_POINT ) {
+                        return "";
+                    }
+                    return abs( SOLUTION - guess ) &lt; 0.001;
+                </div>
+                <div class="show-guess">
+                    graph.movablePoint.setCoord( [ 0, guess ] );
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>Separate the decimal from the whole number:</p>
+                    <p><code><var>SOLUTION</var> = \purple{<var>SOLUTION_WHOLE</var>} + \purple{<var>SOLUTION_DECIMAL</var>}</code></p>
+                </div>
+
+                <p data-if="SOLUTION > 0">
+                    Because <code><var>SOLUTION</var></code> is positive the orange dot
+                    will be above <code>\purple{<var>SOLUTION_WHOLE</var>}</code>.
+                </p><p data-else="">
+                    Because <code><var>SOLUTION</var></code> is negative the orange dot will
+                    be below <code>\purple{<var>SOLUTION_WHOLE</var>}</code>.
+                </p>
+
+                <div>
+                    <p>Therefore, we know <code><var>SOLUTION</var></code> lies between
+                    <code>\green{<var>SOLUTION_WHOLE</var>}</code> and
+                    <code>\green{<var>SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>}</code> on the number line.</p>
+                    <div class="graphie" data-update="number-line">
+                        var y = SOLUTION &gt; 0 ? SOLUTION_WHOLE : SOLUTION_WHOLE - 1;
+                        rect(-0.3, y, 0.6, 1, {fill: GREEN, fillOpacity: 0.5, stroke: "none"});
+                    </div>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        graph.movablePoint.visibleShape.toFront();
+                    </div>
+                    <p data-if="SOLUTION > 0">
+                        The orange dot should be shifted <code><var>abs(SOLUTION_DECIMAL)</var></code>
+                        above <code><var>SOLUTION_WHOLE</var></code>.
+                    </p><p data-else="">
+                        The orange dot should be shifted <code><var>abs(SOLUTION_DECIMAL)</var></code>
+                        below <code><var>SOLUTION_WHOLE</var></code>.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        label([0.2, SOLUTION], SOLUTION, "right", { color: PINK });
+                        graph.movablePoint.moveTo(0, SOLUTION);
+                    </div>
+                    <p>The highlighted number shows where <code>\pink{<var>SOLUTION</var>}</code> is on the number line.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="hundredths" data-type="tenths">
+            <div class="vars">
+                <var id="GAP">2</var>
+                <var id="LOWER_BOUND">randRange(-10, 10 - GAP)</var>
+                <var id="UPPER_BOUND">LOWER_BOUND + GAP</var>
+                <var id="MID_POINT">(LOWER_BOUND + UPPER_BOUND) / 2</var>
+                <div data-ensure="SOLUTION_DECIMAL !== 0">
+                    <var id="SOLUTION">roundTo(2, MID_POINT + randRangeNonZero(GAP * -5 + 1, GAP * 5 - 1) / 20)</var>
+                    <var id="SOLUTION_DECIMAL">roundTo(2, SOLUTION % 1)</var>
+                </div>
+                <var id="SOLUTION_WHOLE">parseInt((SOLUTION).toString(), 10)</var>
+            </div>
+
+            <div class="question">
+                <p>Move the orange dot to <code><var>SOLUTION</var></code> on the number line.</p>
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [[LOWER_BOUND - GAP / 12, UPPER_BOUND + GAP / 12], [-1, 1]],
+                        scale: [460 / (GAP * 1.1), 40]
+                    });
+
+                    style({arrows: "&gt;"});
+                    line([MID_POINT, 0], [UPPER_BOUND + GAP / 16, 0]);
+
+                    style({arrows: "-&gt;"});
+                    line([MID_POINT, 0], [LOWER_BOUND - GAP / 16, 0]);
+
+                    style({arrows: ""});
+                    for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND + 0.001; x += 0.1) {
+                        if (round(x * 10) % 5 === 0) {
+                            line([x, -0.2], [x, 0.2]);
+                            label([x, -0.53], roundTo(2, x), "center", { color: BLUE });
+                        } else {
+                            line([x, -0.1], [x, 0.1]);
+                        }
+                    }
+
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.05, coord: [MID_POINT, 0] });
+                    graph.movablePoint.onMove = function(x, y) {
+                        return [min(max(LOWER_BOUND, x), UPPER_BOUND), y];
+                    };
+                </div>
+            </div>
+        </div>
+
+        <div id="hundredths-vertical" data-type="tenths-vertical">
+            <div class="vars">
+                <var id="GAP">2</var>
+                <var id="LOWER_BOUND">randRange(-10, 10 - GAP)</var>
+                <var id="UPPER_BOUND">LOWER_BOUND + GAP</var>
+                <var id="MID_POINT">(LOWER_BOUND + UPPER_BOUND) / 2</var>
+                <div data-ensure="SOLUTION_DECIMAL !== 0">
+                    <var id="SOLUTION">roundTo(2, MID_POINT + randRangeNonZero(GAP * -5 + 1, GAP * 5 - 1) / 20)</var>
+                    <var id="SOLUTION_DECIMAL">roundTo(2, SOLUTION % 1)</var>
+                </div>
+                <var id="SOLUTION_WHOLE">parseInt((SOLUTION).toString(), 10)</var>
+            </div>
+
+            <div class="question">
+                <p>Move the orange dot to <code><var>SOLUTION</var></code> on the number line.</p>
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [[-5, 5], [LOWER_BOUND - GAP / 12, UPPER_BOUND + GAP / 12]],
+                        scale: [40, 460 / (GAP * 1.1)]
+                    });
+
+                    style({arrows: "&gt;"});
+                    line([0, MID_POINT], [0, UPPER_BOUND + GAP / 16]);
+
+                    style({arrows: "-&gt;"});
+                    line([0, MID_POINT], [0, LOWER_BOUND - GAP / 16]);
+
+                    style({arrows: ""});
+                    for (var y = LOWER_BOUND; y &lt;= UPPER_BOUND + 0.001; y += 0.1) {
+                        if (round(y * 10) % 5 === 0) {
+                            line([-0.2, y], [0.2, y]);
+                            label([-0.2, y], roundTo(1, y), "left", { color: BLUE });
+                        } else {
+                            line([-0.1, y], [0.1, y]);
+                        }
+                    }
+
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainX: true }, snapY: 0.05, coord: [0, MID_POINT] });
+                    graph.movablePoint.onMove = function(x, y) {
+                        return [x, min(max(LOWER_BOUND, y), UPPER_BOUND)];
+                    };
+                </div>
             </div>
         </div>
     </div>
