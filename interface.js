@@ -335,7 +335,9 @@ function handleAttempt(data) {
         card: Exercises.currentCard,
         optOut: optOut,
         // Determine if this attempt qualifies as fast completion
-        fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken
+        fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken,
+        // Used by mobile for skipping problems in a mastery task
+        skipped: skipped
     });
 
     // Update interface corresponding to correctness
