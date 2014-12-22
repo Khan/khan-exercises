@@ -1814,7 +1814,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         var normalColor = (polygon.fixed) ? KhanUtil.DYNAMIC
                                           : KhanUtil.INTERACTIVE;
-        polygon.normalStyle = _.extend(polygon.normalStyle, {
+        polygon.normalStyle = _.extend({
             "stroke-width": 2,
             "fill-opacity": 0,
             "fill": normalColor,
