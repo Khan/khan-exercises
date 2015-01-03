@@ -37,8 +37,7 @@ $.kaOauthAjax = function (options) {
 
 var PerseusBridge = Exercises.PerseusBridge,
 
-    EMPTY_MESSAGE = $._("It looks like you haven't answered all of the " +
-        "question yet."),
+    EMPTY_MESSAGE = $._("There are still more parts of this question to answer."),
 
     // Store these here so that they're hard to change after the fact via
     // bookmarklet, etc.
