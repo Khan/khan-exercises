@@ -4,6 +4,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing systems of equations</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+    <style>
+    body.mobile .graphie {
+        font-size: 65%;
+    }
+    </style>
 </head>
 <body>
 <div class="exercise">
@@ -39,19 +44,28 @@
             <p class="question">Graph this system of equations and solve.</p>
 
             <div class="problem">
-                <p class="hint_blue" data-if="STD_FORM_1">
-                    <code><var>expr([ "+", [ "*", A1, "x" ], [ "*", B1, "y" ] ])</var> = <var>C1</var></code>
-                </p>
-                <p class="hint_blue" data-else="">
-                    <code>y = <var>PRETTY_SLOPE_1</var> x + <var>YINT_1</var></code>
-                </p>
+                <div>
+                    <div style="width:45%; float: left;">
+                        <p class="hint_blue" data-if="STD_FORM_1">
+                            <code><var>expr([ "+", [ "*", A1, "x" ], [ "*", B1, "y" ] ])</var> = <var>C1</var></code>
+                        </p>
+                        <p class="hint_blue" data-else="">
+                            <code>y = <var>PRETTY_SLOPE_1</var> x + <var>YINT_1</var></code>
+                        </p>
+                    </div>
+                    <div style="width: 45%; float: left;">
+                        <p class="hint_green" data-if="STD_FORM_2">
+                            <code><var>expr([ "+", [ "*", A2, "x" ], [ "*", B2, "y" ] ])</var> = <var>C2</var></code>
+                        </p>
+                        <p class="hint_green" data-else="">
+                            <code>y = <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code>
+                        </p>
+                    </div>
+                </div>
 
-                <p class="hint_green" data-if="STD_FORM_2">
-                    <code><var>expr([ "+", [ "*", A2, "x" ], [ "*", B2, "y" ] ])</var> = <var>C2</var></code>
-                </p>
-                <p class="hint_green" data-else="">
-                    <code>y = <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code>
-                </p>
+                <p class="render-answer-area-here"></p>
+
+                <p style="clear: left;">Drag the points to plot the system.</p>
 
                 <div class="graphie" id="grid">
                     graphInit({
@@ -148,15 +162,17 @@
                     graph.pointB.toFront();
 
                 </div>
-                <p>Click and drag the points to move the lines.</p>
             </div>
             <div class="solution" data-type="multiple">
-                <p><code>x = </code> <span class="sol"><var>X</var></span></p>
-                <p><code>y = </code> <span class="sol"><var>Y</var></span></p>
-                <div class="sol" data-type="custom">
-                    <div class="instruction">
-                        Your graphs are also part of your answer.
+                <div>
+                    <div style="width: 45%; float: left;">
+                        <p><code>x = </code> <span class="sol"><var>X</var></span></p>
                     </div>
+                    <div style="width: 45%; float: left;">
+                        <p><code>y = </code> <span class="sol"><var>Y</var></span></p>
+                    </div>
+                </div>
+                <div class="sol" data-type="custom" style="clear: left;">
                     <div class="guess">
                         [ graph.pointA.coord, graph.pointB.coord, graph.pointC.coord, graph.pointD.coord ]
                     </div>
@@ -336,7 +352,7 @@
                     from <code>(0, <var>YINT_2</var>)</code> is
                     <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
                 </span><span data-else="">
-                    <code><var>SLOPE_2_FRAC[1]</var></code> positions to the right and 
+                    <code><var>SLOPE_2_FRAC[1]</var></code> positions to the right and
                     <code><var>abs(SLOPE_2_FRAC[0])</var></code> position
                     <span data-if="SLOPE_2_FRAC[0] < 0">down</span><span data-else="">up</span>
                     from <code>(0, <var>YINT_2</var>)</code> is
