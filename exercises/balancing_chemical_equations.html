@@ -5,8 +5,8 @@
     <title>Balancing chemical equations</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
     <style>
-        input.coefficient {
-            width: 25px;
+        .coefficient input {
+            width: 25px !important;
             margin-right: 5px;
             vertical-align: super;
         }
@@ -14,16 +14,19 @@
 </head>
 <body>
     <div class="exercise">
+    <p class="question">
+        Balance the following chemical equation:
+    </p>
     <div class="problems">
-        <div id="h2-o2---h2o" data-type="template">
+        <div id="h2-o2---h2o">
             <div class="vars">
                 <var id="SOLUTION">[2, 1, 2]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{H}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{H}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{O}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <div>
@@ -55,16 +58,16 @@
             </div>
         </div>
 
-        <div id="ch4-cl2---ccl4-hcl" data-type="template">
+        <div id="ch4-cl2---ccl4-hcl">
             <div class="vars">
                 <var id="SOLUTION">[1, 4, 1, 4]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{CH}_4 +</code>
-                <input class="coefficient" type="number"><code>\text{Cl}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{CCl}_4 +</code>
-                <input class="coefficient" type="number"><code>\text{HCl}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{CH}_4 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{Cl}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{CCl}_4 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{HCl}</code>
             </div>
             <div class="hints">
                 <p>
@@ -99,15 +102,15 @@
             </div>
         </div>
 
-        <div id="al-o2---al2o3" data-type="template">
+        <div id="al-o2---al2o3">
             <div class="vars">
                 <var id="SOLUTION">[4, 3, 2]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{Al} +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{Al}_2\text{O}_3</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{Al} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{O}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{Al}_2\text{O}_3</code>
             </div>
             <div class="hints">
                 <div>
@@ -141,16 +144,16 @@
             </div>
         </div>
 
-        <div id="ch4-o2---co2-h2o" data-type="template">
+        <div id="ch4-o2---co2-h2o">
             <div class="vars">
                 <var id="SOLUTION">[1, 2, 1, 2]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{CH}_4 +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{CO}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{CH}_4 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{O}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{CO}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <p>
@@ -188,16 +191,16 @@
             </div>
         </div>
 
-        <div id="nabr-cl2---nacl-br2" data-type="template">
+        <div id="nabr-cl2---nacl-br2">
             <div class="vars">
                 <var id="SOLUTION">[2, 1, 2, 1]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{NaBr} +</code>
-                <input class="coefficient" type="number"><code>\text{Cl}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{NaCl} +</code>
-                <input class="coefficient" type="number"><code>\text{Br}_2</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{NaBr} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{Cl}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{NaCl} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{Br}_2</code>
             </div>
             <div class="hints">
                 <div>
@@ -232,16 +235,16 @@
             </div>
         </div>
 
-        <div id="mg-hcl---mgcl2-h2" data-type="template">
+        <div id="mg-hcl---mgcl2-h2">
             <div class="vars">
                 <var id="SOLUTION">[1, 2, 1, 1]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{Mg} +</code>
-                <input class="coefficient" type="number"><code>\text{HCl} \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{MgCl}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{Mg} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{HCl} \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{MgCl}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2</code>
             </div>
             <div class="hints">
                 <div>
@@ -263,16 +266,16 @@
             </div>
         </div>
 
-        <div id="nh4no3---n2-o2-h2o" data-type="template">
+        <div id="nh4no3---n2-o2-h2o">
             <div class="vars">
                 <var id="SOLUTION">[2, 2, 1, 4]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{NH}_4\text{NO}_3 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{N}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{NH}_4\text{NO}_3 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{N}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{O}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <p>
@@ -322,16 +325,16 @@
             </div>
         </div>
 
-        <div id="c2h6o-o2---co2-h2o" data-type="template">
+        <div id="c2h6o-o2---co2-h2o">
             <div class="vars">
                 <var id="SOLUTION">[1, 3, 2, 3]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{C}_2\text{H}_6\text{O} +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{CO}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{C}_2\text{H}_6\text{O} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{O}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{CO}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <p>
@@ -377,15 +380,15 @@
             </div>
         </div>
 
-        <div id="mg-o2---mgo" data-type="template">
+        <div id="mg-o2---mgo">
             <div class="vars">
                 <var id="SOLUTION">[2, 1, 2]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{Mg} +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{MgO}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{Mg} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{O}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{MgO}</code>
             </div>
             <div class="hints">
                 <div>
@@ -417,16 +420,16 @@
             </div>
         </div>
 
-        <div id="al-hcl---alcl3-h2" data-type="template">
+        <div id="al-hcl---alcl3-h2">
             <div class="vars">
                 <var id="SOLUTION">[2, 6, 2, 3]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{Al} +</code>
-                <input class="coefficient" type="number"><code>\text{HCl} \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{AlCl}_3 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{Al} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{HCl} \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{AlCl}_3 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2</code>
             </div>
             <div class="hints">
                 <div>
@@ -470,16 +473,16 @@
             </div>
         </div>
 
-        <div id="cacl2-na2po4---ca3po42-nacl" data-type="template">
+        <div id="cacl2-na2po4---ca3po42-nacl">
             <div class="vars">
                 <var id="SOLUTION">[3, 2, 1, 6]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{CaCl}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{Na}_3\text{PO}_4 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{Ca}_3\text{(PO}_4\text{)}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{NaCl}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{CaCl}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{Na}_3\text{PO}_4 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{Ca}_3\text{(PO}_4\text{)}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{NaCl}</code>
             </div>
             <div class="hints">
                 <div>
@@ -535,16 +538,16 @@
             </div>
         </div>
 
-        <div id="n2h4-o2---no2-h2o" data-type="template">
+        <div id="n2h4-o2---no2-h2o">
             <div class="vars">
                 <var id="SOLUTION">[1, 3, 2, 2]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{N}_2\text{H}_4 +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{NO}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{N}_2\text{H}_4 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{O}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{NO}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <div>
@@ -589,16 +592,16 @@
             </div>
         </div>
 
-        <div id="fe-h2o---fe3o4-h2" data-type="template">
+        <div id="fe-h2o---fe3o4-h2">
             <div class="vars">
                 <var id="SOLUTION">[3, 4, 1, 4]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{Fe} +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O} \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{Fe}_3\text{O}_4 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{Fe} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{H}_2\text{O} \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{Fe}_3\text{O}_4 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2</code>
             </div>
             <div class="hints">
                 <div>
@@ -643,15 +646,15 @@
             </div>
         </div>
 
-        <div id="nh4no3---n2o-h2o" data-type="template">
+        <div id="nh4no3---n2o-h2o">
             <div class="vars">
                 <var id="SOLUTION">[1, 1, 2]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{NH}_4\text{NO}_3 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{N}_2\text{O} +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{NH}_4\text{NO}_3 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{N}_2\text{O} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <p>
@@ -683,15 +686,15 @@
             </div>
         </div>
 
-        <div id="hgo---hg-o2" data-type="template">
+        <div id="hgo---hg-o2">
             <div class="vars">
                 <var id="SOLUTION">[2, 2, 1]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{HgO} \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{Hg} +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{HgO} \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{Hg} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{O}_2</code>
             </div>
             <div class="hints">
                 <div>
@@ -723,16 +726,16 @@
             </div>
         </div>
 
-        <div id="sio2-hf---sif4-h2o" data-type="template">
+        <div id="sio2-hf---sif4-h2o">
             <div class="vars">
                 <var id="SOLUTION">[1, 4, 1, 2]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{SiO}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{HF} \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{SiF}_4 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{SiO}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{HF} \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{SiF}_4 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <p>
@@ -772,16 +775,16 @@
             </div>
         </div>
 
-        <div id="mgoh2-hcl---mgcl2-h2o" data-type="template">
+        <div id="mgoh2-hcl---mgcl2-h2o">
             <div class="vars">
                 <var id="SOLUTION">[1, 2, 1, 2]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{Mg(OH)}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{HCl} \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{MgCl}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{Mg(OH)}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{HCl} \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{MgCl}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <p>
@@ -821,16 +824,16 @@
             </div>
         </div>
 
-        <div id="h2so4-pboh4---pbso42-h2o" data-type="template">
+        <div id="h2so4-pboh4---pbso42-h2o">
             <div class="vars">
                 <var id="SOLUTION">[2, 1, 1, 4]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{SO}_4 +</code>
-                <input class="coefficient" type="number"><code>\text{Pb(OH)}_4 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{Pb(SO}_4\text{)}_2 +</code>
-                <input class="coefficient" type="number"><code>\text{H}_2\text{O}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{H}_2\text{SO}_4 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{Pb(OH)}_4 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{Pb(SO}_4\text{)}_2 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{H}_2\text{O}</code>
             </div>
             <div class="hints">
                 <div>
@@ -873,16 +876,16 @@
             </div>
         </div>
 
-        <div id="as4s6-o2---as4o6-so2" data-type="template">
+        <div id="as4s6-o2---as4o6-so2">
             <div class="vars">
                 <var id="SOLUTION">[1, 9, 1, 6]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{As}_4\text{S}_6 +</code>
-                <input class="coefficient" type="number"><code>\text{O}_2 \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{As}_4\text{O}_6 +</code>
-                <input class="coefficient" type="number"><code>\text{SO}_2</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{As}_4\text{S}_6 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{O}_2 \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{As}_4\text{O}_6 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{SO}_2</code>
             </div>
             <div class="hints">
                 <p>
@@ -920,16 +923,16 @@
             </div>
         </div>
 
-        <div id="cr2o3-mg---cr-mgo" data-type="template">
+        <div id="cr2o3-mg---cr-mgo">
             <div class="vars">
                 <var id="SOLUTION">[1, 3, 2, 3]</var>
             </div>
-            <div class="problem">
+            <div class="solution" data-type="multiple">
                 <code>\qquad</code>
-                <input class="coefficient" type="number"><code>\text{Cr}_2\text{O}_3 +</code>
-                <input class="coefficient" type="number"><code>\text{Mg} \rightarrow</code>
-                <input class="coefficient" type="number"><code>\text{Cr} +</code>
-                <input class="coefficient" type="number"><code>\text{MgO}</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[0]</var></span><code>\text{Cr}_2\text{O}_3 +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[1]</var></span><code>\text{Mg} \rightarrow</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[2]</var></span><code>\text{Cr} +</code>
+                <span class="sol coefficient" data-forms="integer, coefficient"><var>SOLUTION[3]</var></span><code>\text{MgO}</code>
             </div>
             <div class="hints">
                 <div>
@@ -968,51 +971,6 @@
                         \text{Cr}_2\text{O}_3 + 3\text{Mg} \rightarrow 2\text{Cr} + 3\text{MgO}
                     </code></p>
                 </div>
-            </div>
-        </div>
-
-
-
-        <div id="template" data-weight="0">
-            <p class="question">
-                Balance the following chemical equation:
-            </p>
-            <div class="graphie" style="z-index: -10">
-                // Focus the first input
-                $('.coefficient').eq(0).focus();
-
-                Khan.scratchpad.disable();
-            </div>
-            <div class="solution" data-type="custom">
-                <div class="instruction"></div>
-                <div class="guess">_.map($("div.problem input"), function(el) { return $(el).val() })</div>
-                <div class="validator-function">
-                    var unanswered = true;
-                    var allCorrect = true;
-                    _(SOLUTION).each(function(correct, n) {
-                        coefficient = guess[n].replace(/[ ]/g, "");
-                        if (coefficient === "") {
-                            coefficient = 1;
-                        } else {
-                            coefficient = parseFloat(coefficient);
-                            unanswered = false;
-                        }
-                        if (coefficient !== correct) {
-                            allCorrect = false;
-                        }
-                    });
-                    if (unanswered) {
-                        return "";
-                    }
-                    return allCorrect;
-                </div>
-                <div class="show-guess">
-                    _(guess).each(function(g, n) {
-                        $("div.problem input").eq(n).val(g);
-                    });
-                </div>
-            </div>
-            <div class="hints">
             </div>
         </div>
     </div>
