@@ -7,6 +7,8 @@ var kvector = require("./kvector.js");
 var kpoint = require("./kpoint.js");
 var kline = require("./kline.js");
 var WrappedEllipse = require("./wrapped-ellipse.js");
+var WrappedLine = require("./wrapped-line.js");
+var WrappedPath = require("./wrapped-path.js");
 
 function sum(array) {
     return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
@@ -1408,18 +1410,26 @@ $.extend(KhanUtil.Graphie.prototype, {
             var tickoffset = 0.5 - ((lineSegment.ticks - 1) + (i * 2)) / graph.scale[0];
             path += KhanUtil.unscaledSvgPath([[tickoffset, -7], [tickoffset, 7]]);
         }
-        lineSegment.visibleLine = graph.raphael.path(path);
+
+        // Create and style visible shape
+        var options = {
+            thickness: Math.max(
+                lineSegment.normalStyle["stroke-width"],
+                lineSegment.highlightStyle["stroke-width"]
+            )
+        };
+        lineSegment.visibleLine = new WrappedLine(graph, [0, 0], [1, 0],
+            options);
         lineSegment.visibleLine.attr(lineSegment.normalStyle);
-        // Clip the line 5px from the edge of the graphie to allow for
-        // arrowheads
-        if (lineSegment.extendLine || lineSegment.extendRay) {
-            lineSegment.visibleLine.attr({
-                "clip-rect": "5 5 " + (graph.dimensions[0] - 10) + " " +
-                    (graph.dimensions[1] - 10)
-            });
-        }
+
+        // Add mouse target
         if (!lineSegment.fixed) {
-            lineSegment.mouseTarget = graph.mouselayer.rect(0, -15, 1, 30);
+            var options = {
+                thickness: 30,
+                mouselayer: true
+            };
+            lineSegment.mouseTarget = new WrappedLine(graph, [0, 0], [1, 0],
+                options);
             lineSegment.mouseTarget.attr({fill: "#000", "opacity": 0.0});
         }
 
@@ -1436,38 +1446,23 @@ $.extend(KhanUtil.Graphie.prototype, {
                     this.coordZ = this.pointZ.coord;
                 }
             }
-            var scaledA = graph.scalePoint(this.coordA);
-            var scaledZ = graph.scalePoint(this.coordZ);
-            var angle = KhanUtil.findAngle(scaledZ, scaledA);
-            var lineLength = KhanUtil.getDistance(scaledZ, scaledA);
 
-            var elements = [this.visibleLine];
-            if (!this.fixed) {
-                elements.push(this.mouseTarget);
-            }
-            _.each(elements, function(element) {
-                element.translate(scaledA[0] - element.attr("translation").x,
-                        scaledA[1] - element.attr("translation").y);
-                element.rotate(angle, scaledA[0], scaledA[1]);
-                if (this.extendLine) {
-                    element.translate(-0.5, 0);
-                    lineLength = graph.dimensions[0] + graph.dimensions[1];
-                    lineLength = 2 * lineLength;
-                } else if (this.extendRay) {
-                    lineLength = graph.dimensions[0] + graph.dimensions[1];
-                }
-                element.scale(lineLength, 1, scaledA[0], scaledA[1]);
-            }, this);
-
-            // Temporary objects: array of SVG nodes that get recreated on drag
-            _.invoke(this.temp, "remove");
-            this.temp = [];
+            // Given a line, find the angle between the endpoints
+            var getScaledAngle = function(line) {
+                var scaledA = line.graph.scalePoint(line.coordA);
+                var scaledZ = line.graph.scalePoint(line.coordZ);
+                return kvector.polarDegFromCart(
+                    kvector.subtract(
+                        scaledZ,
+                        scaledA
+                    )
+                )[1];
+            };
 
             // Given `coord` and `angle`, find the point where a line extended
             // from `coord` in the direction of `angle` would be clipped by the
-            // edge of the graphie canvas. Then draw an arrowhead at that point
-            // pointing in the direction of `angle`.
-            var drawArrowAtClipPoint = function(coord, angle) {
+            // edge of the graphie canvas.
+            var getClipPoint = function(graph, coord, angle) {
                 var graph = lineSegment.graph;
                 // Actually put the arrowheads 4px from the edge so they have
                 // a bit of room
@@ -1489,24 +1484,117 @@ $.extend(KhanUtil.Graphie.prototype, {
                 // ... and then bring it back
                 var clipPoint = graph.constrainToBoundsOnAngle(farCoord, 4,
                                               scaledAngle * Math.PI / 180);
-                clipPoint = graph.scalePoint(clipPoint);
+                return clipPoint;
+            };
 
-                var arrowHead = graph.raphael.path("M-3 4 C-2.75 2.5 0 0.25 0.75 0C0 -0.25 -2.75 -2.5 -3 -4");
-                arrowHead.rotate(360 - angle, 0.75, 0)
-                    .scale(1.4, 1.4, 0.75, 0)
-                    .translate(clipPoint[0], clipPoint[1])
-                    .attr(lineSegment.arrowStyle)
-                    .attr({ "stroke-linejoin": "round", "stroke-linecap": "round", "stroke-dasharray": "" });
+            var angle = getScaledAngle(this);
+            var start = this.coordA;
+            var end = this.coordZ;
+
+            // Extend start, end if necessary (i.e., if not a line segment)
+            if (this.extendLine) {
+                start = getClipPoint(graph, start, 360 - angle);
+                end = getClipPoint(graph, end, (540 - angle) % 360);
+            } else if (this.extendRay) {
+                start = getClipPoint(graph, start, 360 - angle);
+            }
+
+            var elements = [this.visibleLine];
+            if (!this.fixed) {
+                elements.push(this.mouseTarget);
+            }
+            _.each(elements, function(element) {
+                element.moveTo(start, end);
+            });
+
+            // Draw an arrowhead at the end of the line
+            var createArrow = function(graph, style) {
+                // Points that define the arrowhead
+                var center = [0.75, 0];
+                var points = [
+                    [-3, 4],
+                    [-2.75, 2.5],
+                    [0, 0.25],
+                    center,
+                    [0, -0.25],
+                    [-2.75, -2.5],
+                    [-3, -4]
+                ];
+
+                // Scale points by 1.4 around (0.75, 0)
+                var scale = 1.4;
+                points = _.map(points, function(point) {
+                    var pv = kvector.subtract(point, center);
+                    var pvScaled = kvector.scale(pv, scale);
+                    return kvector.add(center, pvScaled);
+                });
+
+                // We can't just pass in a path to `graph.fixedPath` as we need to modify
+                // the points in some way, so instead we provide a function for creating
+                // the path once the points have been transformed
+                var createCubicPath = function(points) {
+                    var path = "M" + points[0][0] + " " + points[0][1];
+                    for (var i = 1; i < points.length; i += 3) {
+                        path += "C" + points[i][0] + " " + points[i][1] + " " +
+                                      points[i + 1][0] + " " + points[i + 1][1] + " " +
+                                      points[i + 2][0] + " " + points[i + 2][1];
+                    }
+                    return path;
+                };
+
+                // Create arrowhead
+                var unscaledPoints = _.map(points, graph.unscalePoint);
+                var options = {
+                    center: graph.unscalePoint(center),
+                    createPath: createCubicPath
+                };
+                var arrowHead = new WrappedPath(graph, unscaledPoints, options);
+                arrowHead.attr(_.extend({
+                    "stroke-linejoin": "round",
+                    "stroke-linecap": "round",
+                    "stroke-dasharray": ""
+                }, style));
+
+                // Add custom function for transforming arrowheads that accounts for
+                // center, scaling, etc.
+                arrowHead.toCoordAtAngle = function(coord, angle) {
+                    var clipPoint = graph.scalePoint(getClipPoint(graph, coord, angle));
+                    var do3dTransform = KhanUtil.getCanUse3dTransform();
+                    arrowHead.transform(
+                        "translateX(" + (clipPoint[0] + scale * center[0]) + "px) " +
+                        "translateY(" + (clipPoint[1] + scale * center[1]) + "px) " +
+                        (do3dTransform ? "translateZ(0) " : "") +
+                        "rotate(" + (360 - KhanUtil.bound(angle)) + "deg)");
+                };
 
                 return arrowHead;
             };
 
-            if (this.extendLine) {
-                this.temp.push(drawArrowAtClipPoint(this.coordA, 360 - angle));
-                this.temp.push(drawArrowAtClipPoint(this.coordZ, (540 - angle) % 360));
-            } else if (this.extendRay) {
-                this.temp.push(drawArrowAtClipPoint(this.coordA, 360 - angle));
+            // Add arrows
+            if (this._arrows == null) {
+                this._arrows = [];
+
+                if (this.extendLine) {
+                    this._arrows.push(createArrow(
+                        graph, this.normalStyle));
+                    this._arrows.push(createArrow(
+                        graph, this.normalStyle));
+                } else if (this.extendRay) {
+                    this._arrows.push(drawArrowAtClipPoint(
+                        graph, this.normalStyle));
+                }
             }
+
+            // Move and rotate arrows to appropriate coordinate and angle
+            var coordForArrow = [this.coordA, this.coordZ];
+            var angleForArrow = [360 - angle, (540 - angle) % 360];
+            _.each(this._arrows, function(arrow, i) {
+                arrow.toCoordAtAngle(coordForArrow[i], angleForArrow[i]);
+            });
+
+            // Temporary objects: array of SVG nodes that get recreated on drag
+            _.invoke(this.temp, "remove");
+            this.temp = [];
 
             // Labels are always above line, unless vertical (if so, on right)
             // probably want to add an option to flip this at will!
@@ -1609,8 +1697,9 @@ $.extend(KhanUtil.Graphie.prototype, {
         }
 
         if (!lineSegment.fixed && !lineSegment.constraints.fixed) {
-            $(lineSegment.mouseTarget[0]).css("cursor", "move");
-            $(lineSegment.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
+            var $mouseTarget = $(lineSegment.mouseTarget.getMouseTarget());
+            $mouseTarget.css("cursor", "move");
+            $mouseTarget.bind("vmousedown vmouseover vmouseout", function(event) {
                 if (event.type === "vmouseover") {
                     if (!KhanUtil.dragging) {
                         lineSegment.highlight = true;

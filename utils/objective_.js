@@ -1,7 +1,6 @@
 /*
  * This file was copied from Perseus and shouldn't be modified directly.
  */
-
 define(function(require) {
 
 /**
