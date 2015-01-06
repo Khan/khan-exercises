@@ -29,12 +29,12 @@
                 </p>
 
                 <div class="solution" data-type="custom">
-                    <div class="instruction" style="font-size: 11px;">
+                    <div class="instruction">
                         <code>y - {}</code><input id="response1" type="text" style="width:25px;"><code>{} = {}</code><input id="response2" type="text" style="width:25px;"><code>(x - {}</code><input id="response3" type="text" style="width:25px;"><code>)</code>
                     </div>
-                    
+
                     <div class="guess">[$("input#response1").val(), $("input#response2").val(), $("input#response3").val()]</div>
-                    <div class="validator-function">                        
+                    <div class="validator-function">
                         var xyMessage = null, xyEmpty = false;
 
                         var slopeValidator = Khan.answerTypes.predicate.createValidatorFunctional(function(slope, error) {
