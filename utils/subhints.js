@@ -43,6 +43,10 @@ $(document).on("mouseenter mouseleave", "a.show-definition", function(event) {
     return false;
 });
 
+$(document).on("click", "a.show-definition", function(e) {
+    e.preventDefault();
+});
+
 $.extend(KhanUtil, {
     getSubHints: getSubHints
 });
