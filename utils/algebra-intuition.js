@@ -258,6 +258,7 @@ KhanUtil.scale = {
             }
         }
         this.balance();
+        return false;
     },
 
     init: function(options) {
