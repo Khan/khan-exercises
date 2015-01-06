@@ -6,6 +6,7 @@ require("./graphie.js");
 var kvector = require("./kvector.js");
 var kpoint = require("./kpoint.js");
 var kline = require("./kline.js");
+var WrappedEllipse = require("./wrapped-ellipse.js");
 
 function sum(array) {
     return _.reduce(array, function(memo, arg) { return memo + arg; }, 0);
@@ -904,13 +905,25 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         movablePoint.coord = applySnapAndConstraints(movablePoint.coord);
 
+        var highlightScale = 2;
+
         if (movablePoint.visible) {
             graph.style(movablePoint.normalStyle, function() {
-                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [movablePoint.pointSize / graph.scale[0], movablePoint.pointSize / graph.scale[1]]);
+                var radii = [
+                    movablePoint.pointSize / graph.scale[0],
+                    movablePoint.pointSize / graph.scale[1]
+                ];
+                var options = {
+                    maxScale: highlightScale
+                };
+                movablePoint.visibleShape = new WrappedEllipse(graph,
+                    movablePoint.coord, radii, options);
+                movablePoint.visibleShape.attr(_.omit(movablePoint.normalStyle, "scale"));
+                movablePoint.visibleShape.toFront();
             });
         }
         movablePoint.normalStyle.scale = 1;
-        movablePoint.highlightStyle.scale = 2;
+        movablePoint.highlightStyle.scale = highlightScale;
 
         if (movablePoint.vertexLabel) {
             movablePoint.labeledVertex = this.label([0, 0], "", "center", movablePoint.labelStyle);
@@ -965,10 +978,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                     mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
 
                     if (doMove) {
-                        movablePoint.visibleShape.attr("cx", mouseX);
-                        movablePoint.mouseTarget.attr("cx", mouseX);
-                        movablePoint.visibleShape.attr("cy", mouseY);
-                        movablePoint.mouseTarget.attr("cy", mouseY);
+                        var point = graph.unscalePoint([mouseX, mouseY]);
+                        movablePoint.visibleShape.moveTo(point);
+                        movablePoint.mouseTarget.moveTo(point);
                         movablePoint.coord = [coordX, coordY];
                         movablePoint.updateLineEnds();
                         $(movablePoint).trigger("move");
@@ -987,10 +999,9 @@ $.extend(KhanUtil.Graphie.prototype, {
                             coordY = result[1];
                             mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
                             mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
-                            movablePoint.visibleShape.attr("cx", mouseX);
-                            movablePoint.mouseTarget.attr("cx", mouseX);
-                            movablePoint.visibleShape.attr("cy", mouseY);
-                            movablePoint.mouseTarget.attr("cy", mouseY);
+                            var point = graph.unscalePoint([mouseX, mouseY]);
+                            movablePoint.visibleShape.moveTo(point);
+                            movablePoint.mouseTarget.moveTo(point);
                             movablePoint.coord = [coordX, coordY];
                         }
                     }
@@ -1007,16 +1018,18 @@ $.extend(KhanUtil.Graphie.prototype, {
         if (movablePoint.visible && !movablePoint.constraints.fixed) {
             // the invisible shape in front of the point that gets mouse events
             if (!movablePoint.mouseTarget) {
-                movablePoint.mouseTarget = graph.mouselayer.circle(
-                    graph.scalePoint(movablePoint.coord)[0],
-                    graph.scalePoint(movablePoint.coord)[1],
-                    15
-                );
-                movablePoint.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+                var radii = graph.unscaleVector(15);
+                var options = {
+                    mouselayer: true
+                };
+                movablePoint.mouseTarget = new WrappedEllipse(graph,
+                    movablePoint.coord, radii, options);
+                movablePoint.mouseTarget.attr({fill: "#000", opacity: 0.0});
             }
 
-            $(movablePoint.mouseTarget[0]).css("cursor", "move");
-            $(movablePoint.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
+            var $mouseTarget = $(movablePoint.mouseTarget.getMouseTarget());
+            $mouseTarget.css("cursor", "move");
+            $mouseTarget.bind("vmousedown vmouseover vmouseout", function(event) {
                 if (event.type === "vmouseover") {
                     movablePoint.highlight = true;
                     if (!KhanUtil.dragging) {
@@ -1052,32 +1065,13 @@ $.extend(KhanUtil.Graphie.prototype, {
             // 5ms per pixel seems good
             var time = distance * 5;
 
-            var scaled = graph.scalePoint([coordX, coordY]);
-            var end = { cx: scaled[0], cy: scaled[1] };
-            if (updateLines) {
-                var start = {
-                    cx: this.visibleShape.attr("cx"),
-                    cy: this.visibleShape.attr("cy")
-                };
-                $(start).animate(end, {
-                    duration: time,
-                    easing: "linear",
-                    step: function(now, fx) {
-                        movablePoint.visibleShape.attr(fx.prop, now);
-                        movablePoint.mouseTarget.attr(fx.prop, now);
-                        if (fx.prop === "cx") {
-                            movablePoint.coord[0] = now / graph.scale[0] + graph.range[0][0];
-                        } else {
-                            movablePoint.coord[1] = graph.range[1][1] - now / graph.scale[1];
-                        }
-                        movablePoint.updateLineEnds();
-                    }
-                });
-
-            } else {
-                this.visibleShape.animate(end, time);
-                this.mouseTarget.animate(end, time);
-            }
+            // Update the line on each step of the animation, if necessary
+            var cb = updateLines && function(coord) {
+                movablePoint.coord = coord;
+                movablePoint.updateLineEnds();
+            };
+            this.visibleShape.animateTo([coordX, coordY], time, cb);
+            this.mouseTarget.animateTo([coordX, coordY], time, cb);
             this.coord = [coordX, coordY];
             if (_.isFunction(this.onMove)) {
                 this.onMove(coordX, coordY);
@@ -1103,12 +1097,9 @@ $.extend(KhanUtil.Graphie.prototype, {
         // Put the point at a new position without any checks, animation, or callbacks
         movablePoint.setCoord = function(coord) {
             if (this.visible) {
-                var scaledPoint = graph.scalePoint(coord);
-                this.visibleShape.attr({ cx: scaledPoint[0] });
-                this.visibleShape.attr({ cy: scaledPoint[1] });
+                this.visibleShape.moveTo(coord);
                 if (this.mouseTarget != null) {
-                    this.mouseTarget.attr({ cx: scaledPoint[0] });
-                    this.mouseTarget.attr({ cy: scaledPoint[1] });
+                    this.mouseTarget.moveTo(coord);
                 }
             }
             this.coord = coord.slice();
