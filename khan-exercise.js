@@ -1306,6 +1306,10 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         _(userExercise.lastCountHints).times(showHint);
     }
 
+    // Let listeners (like the mobile app) know that we've finished rendering
+    // the initial hints.
+    $(Exercises).trigger("initialHintsShown");
+
     // Add autocomplete="off" attribute so IE doesn't try to display previous answers
     $("#problem-and-answer").find("input[type='text'], input[type='number']")
                             .attr("autocomplete", "off");
