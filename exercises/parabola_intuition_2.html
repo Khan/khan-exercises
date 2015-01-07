@@ -94,14 +94,14 @@
                         
                         var x = graph.currParabola.getVertexX();
                         var y = graph.currParabola.getVertexY();
-                        var xText = x &gt; 0 ? "" : "+\\space";
-                        var yText = y &gt; 0 ? "" : "+\\space";
+                        var xText = x &gt; 0 ? "" : "+";
+                        var yText = y &gt; 0 ? "" : "+";
                         xText += fractionReduce.apply(KhanUtil, toFraction(-x, 0.001));
                         yText += fractionReduce.apply(KhanUtil, toFraction(-y, 0.001));
                         var a = fractionReduce.apply(KhanUtil, toFraction(graph.currParabola.getLeadingCoefficient(), 0.001));
 
-                        $("#focus-x-label").html("&lt;code&gt;" + xText + "&lt;/code&gt;").tex();
-                        $("#focus-y-label").html("&lt;code&gt;" + yText + "&lt;/code&gt;").tex();
+                        $("#focus-x-label").html("&lt;code&gt;{}" + xText + "&lt;/code&gt;").tex();
+                        $("#focus-y-label").html("&lt;code&gt;{}" + yText + "&lt;/code&gt;").tex();
                         $("#directrix-label").html("&lt;code&gt;" + a + "&lt;/code&gt;").tex();
                     };
 
@@ -133,11 +133,9 @@
                             Drag the focus and directrix on the graph to match the equation.
                         </div><p>
                             Equation of the parabola:<br>
-                            <span style="font-size: 12px;">
-                                <code>y\space</code><span id="focus-y-label"><code>+\space0</code></span>
-                                <code>\space=\space</code><span id="directrix-label"><code>\dfrac{1}{4}</code></span>
-                                <code>(x\space</code><span id="focus-x-label"><code>+\space0</code></span><code>)^2</code>
-                            </span>
+                            <code>y</code><span id="focus-y-label"><code>{}+0</code></span>
+                            <code>{}={}</code><span id="directrix-label"><code>\dfrac{1}{4}</code></span>
+                            <code>(x</code><span id="focus-x-label"><code>{}+0</code></span><code>)^2</code>
                         </p>
                     </div>
 
