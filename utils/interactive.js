@@ -1677,12 +1677,18 @@ $.extend(KhanUtil.Graphie.prototype, {
             if (lineSegment.temp.length) {
                 _.invoke(lineSegment.temp, "hide");
             }
+            if (lineSegment._arrows) {
+                _.invoke(lineSegment._arrows, "hide");
+            }
         };
 
         lineSegment.show = function() {
             lineSegment.visibleLine.show();
             if (lineSegment.temp.length) {
                 _.invoke(lineSegment.temp, "show");
+            }
+            if (lineSegment._arrows) {
+                _.invoke(lineSegment._arrows, "show");
             }
         };
 

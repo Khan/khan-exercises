@@ -56,6 +56,14 @@ var WrappedDefaults = _.extend({
                              "translateY(" + delta[1] + "px)" +
                              (do3dTransform ? " translateZ(0)" : "");
         this.transform(transformation);
+    },
+
+    hide: function() {
+        this.visibleShape.hide();
+    },
+
+    show: function() {
+        this.visibleShape.show();
     }
 }, objective_.mapObjectFromArray(PASS_TO_RAPHAEL, function(attribute) {
     return function() {
