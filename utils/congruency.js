@@ -300,7 +300,7 @@ $.extend(KhanUtil, {
             };
 
             // make the mouse target pretty big
-            line.point.mouseTarget.attr({ r: graph.scale[0] * 0.7 });
+            $(line.point.mouseTarget.getMouseTarget()).attr({ r: graph.scale[0] * 0.7 });
 
             // remove the original visible shape
             line.point.visibleShape.remove();
@@ -364,14 +364,14 @@ $.extend(KhanUtil, {
             };
 
             // make the clickable point change the state
-            $(line.point.mouseTarget[0]).bind("vmouseup", function(event) {
+            $(line.point.mouseTarget.getMouseTarget()).bind("vmouseup", function(event) {
                 line.setState((line.state === line.maxState) ? 0 : line.state + 1);
             });
 
             // make the line stick in the state it is in currently,
             // and remove the clickable part
             line.stick = function() {
-                line.point.mouseTarget.remove();
+                line.point.mouseTarget.getMouseTarget().remove();
             };
 
             // if we shouldn't be clickable, stick right now
@@ -427,12 +427,12 @@ $.extend(KhanUtil, {
             };
 
             // Make a clicky pointer
-            $(angle.point.mouseTarget[0]).css("cursor", "pointer");
+            $(angle.point.mouseTarget.getMouseTarget()).css("cursor", "pointer");
 
             // Increase the point's size
             var pointRadius = Math.sin(KhanUtil.toRadians(angle.angle) / 2) *
                 angle.radius * graph.scale[0];
-            angle.point.mouseTarget.attr({ r: pointRadius });
+            $(angle.point.mouseTarget.getMouseTarget()).attr({ r: pointRadius });
 
             // Replace the shape with our angle
             angle.point.visibleShape.remove();
@@ -515,15 +515,16 @@ $.extend(KhanUtil, {
             angle.draw();
 
             // Bind mouseclick
-            $(angle.point.mouseTarget[0]).bind("vmouseup", function(event) {
+            $(angle.point.mouseTarget.getMouseTarget()).bind("vmouseup", function(event) {
+                console.log("here");
                 angle.setState((angle.state === angle.maxState) ? 0 : angle.state + 1);
             });
 
             // Make an angle stick in its current state
             // by removing the clicky part
             angle.stick = function() {
-                $(this.point.mouseTarget[0]).unbind();
-                this.point.mouseTarget.remove();
+                $(this.point.mouseTarget.getMouseTarget()).unbind();
+                this.point.mouseTarget.getMouseTarget().remove();
             };
 
             if (!angle.clickable) {
