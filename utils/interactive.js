@@ -1496,7 +1496,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                 start = getClipPoint(graph, start, 360 - angle);
                 end = getClipPoint(graph, end, (540 - angle) % 360);
             } else if (this.extendRay) {
-                start = getClipPoint(graph, start, 360 - angle);
+                end = getClipPoint(graph, start, 360 - angle);
             }
 
             var elements = [this.visibleLine];
@@ -1580,7 +1580,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                     this._arrows.push(createArrow(
                         graph, this.normalStyle));
                 } else if (this.extendRay) {
-                    this._arrows.push(drawArrowAtClipPoint(
+                    this._arrows.push(createArrow(
                         graph, this.normalStyle));
                 }
             }
