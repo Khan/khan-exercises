@@ -24,7 +24,10 @@ var WrappedDefaults = _.extend({
 
     toFront: function () {
         var parentNode = this.wrapper.parentNode;
-        parentNode.appendChild(this.wrapper);
+        // XXX(joel/emily/charlie)
+        if (parentNode) {
+            parentNode.appendChild(this.wrapper);
+        }
     },
 
     toBack: function () {
