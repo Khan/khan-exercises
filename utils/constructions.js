@@ -216,9 +216,10 @@ $.extend(KhanUtil, {
                 }
             };
 
-            t.center.mouseTarget.dblclick(function() {
-                construction.removeTool(t, true);
-            });
+            // XXX(joel/emily)
+            // t.center.mouseTarget.dblclick(function() {
+            //     construction.removeTool(t, true);
+            // });
 
             $(t.perim[0]).css("cursor", "move");
             $(t.perim[0]).bind(
@@ -380,7 +381,7 @@ $.extend(KhanUtil, {
                 //t.first.onMoveEnd(t.first.coord[0], t.first.coord[1]);
                 //t.second.onMoveEnd(t.second.coord[0], t.second.coord[1]);
             };
-            
+
             $(t.center.mouseTarget[0]).bind("dblclick", function() {
                 construction.removeTool(t, true);
             });
@@ -1032,8 +1033,8 @@ $.extend(KhanUtil, {
         // Find angles to line points
         var angles = [];
         _.map(lines, function(tool) {
-            var angle1 = Math.atan2(tool.first.coord[1], tool.first.coord[0]) * 180 / Math.PI; 
-            var angle2 = Math.atan2(tool.second.coord[1], tool.second.coord[0]) * 180 / Math.PI; 
+            var angle1 = Math.atan2(tool.first.coord[1], tool.first.coord[0]) * 180 / Math.PI;
+            var angle2 = Math.atan2(tool.second.coord[1], tool.second.coord[0]) * 180 / Math.PI;
             angles.push((angle1 - offsetAngle + 540 + 180 / n) % 360);
             angles.push((angle2 - offsetAngle + 540 + 180 / n) % 360);
         });
