@@ -86,10 +86,11 @@
                     graph.dragHandle.visibleShape.remove();
                     graph.dragHandle.mouseTarget.attr({ scale: 2.0 });
 
-                    $(graph.dragHandle.mouseTarget[0]).bind("vmouseover", function(event) {
+                    var $mouseTarget = $(graph.dragHandle.mouseTarget.getMouseTarget());
+                    $mouseTarget.bind("vmouseover", function(event) {
                         graph.handle.animate({ scale: 1.5, stroke: BLUE }, 50);
                     });
-                    $(graph.dragHandle.mouseTarget[0]).bind("vmouseout", function(event) {
+                    $mouseTarget.bind("vmouseout", function(event) {
                         graph.handle.animate({ scale: 1.0, stroke: BLUE }, 50);
                     });
 

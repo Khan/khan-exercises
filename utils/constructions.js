@@ -129,7 +129,7 @@ $.extend(KhanUtil, {
 
             var t = construction.tool;
 
-            $(t.center.mouseTarget[0]).bind(
+            $(t.center.mouseTarget.getMouseTarget()).bind(
                 "vmouseover vmouseout", function(event) {
                     if (t.center.highlight) {
                         t.circ.animate({
@@ -149,8 +149,6 @@ $.extend(KhanUtil, {
 
             // add new points that all other points should snap to
             construction.snapPoints.push(t.center);
-
-
 
             t.center.onMove = function(x, y) {
                 t.circ.toFront();
@@ -344,7 +342,7 @@ $.extend(KhanUtil, {
                     movePointsWithLine: true
                 });
 
-            $(construction.tool.center.mouseTarget[0]).bind(
+            $(construction.tool.center.mouseTarget.getMouseTarget()).bind(
                 "vmouseover vmouseout", construction.tool, function(event) {
                     if (event.data.center.highlight) {
                         event.data.line1.visibleLine.animate({
@@ -382,7 +380,7 @@ $.extend(KhanUtil, {
                 //t.second.onMoveEnd(t.second.coord[0], t.second.coord[1]);
             };
 
-            $(t.center.mouseTarget[0]).bind("dblclick", function() {
+            $(t.center.mouseTarget.getMouseTarget()).bind("dblclick", function() {
                 construction.removeTool(t, true);
             });
 
@@ -444,7 +442,7 @@ $.extend(KhanUtil, {
                     movePointsWithLine: true
                 });
 
-            $(construction.tool.first.mouseTarget[0]).bind(
+            $(construction.tool.first.mouseTarget.getMouseTarget()).bind(
                 "vmouseover vmouseout", construction.tool, function(event) {
                     if (event.data.first.highlight) {
                         event.data.edge.visibleLine.animate({
@@ -464,7 +462,7 @@ $.extend(KhanUtil, {
                         }, 50);
                     }
                 });
-            $(construction.tool.second.mouseTarget[0]).bind(
+            $(construction.tool.second.mouseTarget.getMouseTarget()).bind(
                 "vmouseover vmouseout", construction.tool, function(event) {
                     if (event.data.second.highlight) {
                         event.data.edge.visibleLine.animate({
@@ -484,7 +482,7 @@ $.extend(KhanUtil, {
                         }, 50);
                     }
                 });
-            $(construction.tool.edge.mouseTarget[0]).bind(
+            $(construction.tool.edge.mouseTarget.getMouseTarget()).bind(
                 "vmouseover vmouseout", construction.tool, function(event) {
                     if (event.data.edge.highlight) {
                         event.data.first.visibleShape.animate({
@@ -592,15 +590,15 @@ $.extend(KhanUtil, {
                 endpointMoveEnd(x, y, t.second);
             };
 
-            $(t.first.mouseTarget[0]).bind("dblclick", function() {
+            $(t.first.mouseTarget.getMouseTarget()).bind("dblclick", function() {
                 construction.removeTool(t, true);
             });
 
-            $(t.second.mouseTarget[0]).bind("dblclick", function() {
+            $(t.second.mouseTarget.getMouseTarget()).bind("dblclick", function() {
                 construction.removeTool(t, true);
             });
 
-            $(t.edge.mouseTarget[0]).bind("dblclick", function() {
+            $(t.edge.mouseTarget.getMouseTarget()).bind("dblclick", function() {
                 construction.removeTool(t, true);
             });
             construction.updateIntersections();
@@ -613,7 +611,7 @@ $.extend(KhanUtil, {
                         key === "first" || key === "second") {
                     tool[key].visibleShape.remove();
                     tool[key].visible = false;
-                    $(tool[key].mouseTarget[0]).remove();
+                    $(tool[key].mouseTarget.getMouseTarget()).remove();
                 } else if (key === "circ") {
                     tool[key].remove();
                 } else if (key === "edge") {

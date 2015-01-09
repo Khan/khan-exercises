@@ -1672,6 +1672,9 @@ $.extend(KhanUtil.Graphie.prototype, {
             if (lineSegment.labeledVertices) {
                 _.invoke(lineSegment.labeledVertices, "remove");
             }
+            if (lineSegment._arrows) {
+                _.invoke(lineSegment._arrows, "remove");
+            }
             if (lineSegment.temp.length) {
                 _.invoke(lineSegment.temp, "remove");
             }
@@ -2929,7 +2932,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         // Highlight circle circumference on center point hover
         if (!circle.centerConstraints.fixed) {
-            $(circle.centerPoint.mouseTarget[0]).on("vmouseover vmouseout",
+            $(circle.centerPoint.mouseTarget.getMouseTarget()).on("vmouseover vmouseout",
                     function(event) {
                 if (circle.centerPoint.highlight ||
                         circle.centerPoint.dragging) {
@@ -3368,11 +3371,12 @@ $.extend(KhanUtil.Graphie.prototype, {
             }
 
             // Make the arrow-thing grow and shrink with mouseover/out
-            $(rotateHandle.mouseTarget[0]).bind("vmouseover", function(e) {
+            var $mouseTarget = $(rotateHandle.mouseTarget.getMouseTarget());
+            $mouseTarget.bind("vmouseover", function(e) {
                 isHovering = true;
                 redrawRotateHandle(rotateHandle.coord);
             });
-            $(rotateHandle.mouseTarget[0]).bind("vmouseout", function(e) {
+            $mouseTarget.bind("vmouseout", function(e) {
                 isHovering = false;
                 redrawRotateHandle(rotateHandle.coord);
             });
@@ -3542,7 +3546,8 @@ $.extend(KhanUtil.Graphie.prototype, {
             $(line).on("move", _.bind(update, button, null, null));
 
             // Add click handling
-            $(button.mouseTarget[0]).on("vclick", function() {
+            var $mouseTarget = $(button.mouseTarget.getMouseTarget());
+            $mouseTarget.on("vclick", function() {
                 var result = options.onClick();
                 if (result !== false) {
                     isFlipped = !isFlipped;
@@ -3563,14 +3568,14 @@ $.extend(KhanUtil.Graphie.prototype, {
             // Resize the hidden point to cover the size of the visual point
             var pointScale = graphie.scaleVector(options.size)[0] / 20;
             button.mouseTarget.attr({scale: 1.5 * pointScale});
-            $(button.mouseTarget[0]).css("cursor", "pointer");
+            $mouseTarget.css("cursor", "pointer");
 
             // Make the arrow-thing grow and shrink with mouseover/out
-            $(button.mouseTarget[0]).bind("vmouseover", function(e) {
+            $mouseTarget.bind("vmouseover", function(e) {
                 isHovering = true;
                 redraw(button.coord, [line.pointA.coord, line.pointZ.coord]);
             });
-            $(button.mouseTarget[0]).bind("vmouseout", function(e) {
+            $mouseTarget.bind("vmouseout", function(e) {
                 isHovering = false;
                 redraw(button.coord, [line.pointA.coord, line.pointZ.coord]);
             });
@@ -3686,7 +3691,8 @@ function Protractor(graph, center) {
     };
 
     var self = this;
-    $(self.rotateHandle.mouseTarget[0]).bind("vmousedown", function(event) {
+    var $mouseTarget = $(self.rotateHandle.mouseTarget.getMouseTarget());
+    $mouseTarget.bind("vmousedown", function(event) {
         isDragging = true;
         arrow.animate({ scale: 1.5, fill: KhanUtil.INTERACTING }, 50);
 
@@ -3701,11 +3707,11 @@ function Protractor(graph, center) {
         });
     });
 
-    $(self.rotateHandle.mouseTarget[0]).bind("vmouseover", function(event) {
+    $mouseTarget.bind("vmouseover", function(event) {
         isHovering = true;
         arrow.animate({ scale: 1.5, fill: KhanUtil.INTERACTING }, 50);
     });
-    $(self.rotateHandle.mouseTarget[0]).bind("vmouseout", function(event) {
+    $mouseTarget.bind("vmouseout", function(event) {
         isHovering = false;
         if (!isHighlight()) {
             arrow.animate({ scale: 1.0, fill: KhanUtil.INTERACTIVE }, 50);
