@@ -300,7 +300,7 @@ $.extend(KhanUtil, {
             };
 
             // make the mouse target pretty big
-            $(line.point.mouseTarget.getMouseTarget()).attr({ r: graph.scale[0] * 0.7 });
+            line.point.mouseTarget.attr({ r: graph.scale[0] * 0.7 });
 
             // remove the original visible shape
             line.point.visibleShape.remove();
@@ -432,7 +432,7 @@ $.extend(KhanUtil, {
             // Increase the point's size
             var pointRadius = Math.sin(KhanUtil.toRadians(angle.angle) / 2) *
                 angle.radius * graph.scale[0];
-            $(angle.point.mouseTarget.getMouseTarget()).attr({ r: pointRadius });
+            angle.point.mouseTarget.attr({ r: pointRadius });
 
             // Replace the shape with our angle
             angle.point.visibleShape.remove();
@@ -516,7 +516,6 @@ $.extend(KhanUtil, {
 
             // Bind mouseclick
             $(angle.point.mouseTarget.getMouseTarget()).bind("vmouseup", function(event) {
-                console.log("here");
                 angle.setState((angle.state === angle.maxState) ? 0 : angle.state + 1);
             });
 
