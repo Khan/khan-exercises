@@ -87,6 +87,10 @@
 
                         graph.decimal.visibleShape.remove();
                         graph.decimal.visibleShape = label([graph.decimalPlace, -0.3], "\\Huge{" + decimal + "}");
+                        graph.decimal.visibleShape.moveTo = function(point) {
+                            this.attr("cx", point[0]);
+                            this.attr("cy", point[1]);
+                        };
                         graph.decimal.visibleShape.css("color",
                             KhanUtil.BLUE);
 

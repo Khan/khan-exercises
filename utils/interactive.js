@@ -981,12 +981,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
                     if (doMove) {
                         var point = graph.unscalePoint([mouseX, mouseY]);
-                        if (movablePoint.visibleShape.moveTo) {
-                            movablePoint.visibleShape.moveTo(point);
-                        } else {
-                            movablePoint.visibleShape.attr("cx", mouseX);
-                            movablePoint.visibleShape.attr("cy", mouseY);
-                        }
+                        movablePoint.visibleShape.moveTo(point);
                         movablePoint.mouseTarget.moveTo(point);
                         movablePoint.coord = [coordX, coordY];
                         movablePoint.updateLineEnds();
