@@ -25,14 +25,24 @@
             <var id="PARENT_EXPANSION">_(floor(N_PARENT / D_PARENT)).times(function() { return fraction(D, D);}).join("+")</var>
             <var id="N_OFFSPRING_EXPANDED">N_OFFSPRING * (D_OFFSPRING === 1 ? D : 1)</var>
             <var id="OFFSPRING_EXPANSION">_(floor(N_OFFSPRING / D_OFFSPRING)).times(function() { return fraction(D, D);}).join("+")</var>
-            <var id="UNIT">new Plural(function(n) {
-                return $.ngettext("unit", "units", n);
-            })</var>
         </div>
 
         <div class="problems">
             <div>
-                <p class="question">The starting block below is <code><var>CODE_PARENT</var></code> <var>D_PARENT === 1 ? plural_form(UNIT, N_PARENT) : plural_form(UNIT)</var> long. Use the tools below to convert the starting block into the goal block that is <code><var>CODE_OFFSPRING</var></code> units long. The current block shows your progress.</p>
+                <p class="question">
+                    <span data-if="isSingular(CODE_PARENT)">
+                        The starting block below is <code><var>CODE_PARENT</var></code> unit long.
+                    </span><span data-else="">
+                        The starting block below is <code><var>CODE_PARENT</var></code> units long.
+                    </span>
+                    <span data-if="isSingular(CODE_OFFSPRING)">
+                        Use the tools below to convert the starting block into the goal block that is <code><var>CODE_OFFSPRING</var></code> unit long.
+                    </span><span data-else="">
+                        Use the tools below to convert the starting block into the goal block that is <code><var>CODE_OFFSPRING</var></code> units long.
+                    </span>
+                    The current block shows your progress.
+                </p>
+
                 <p class="render-answer-area-here"></p>
 
                 <p>Starting Block:</p>
@@ -40,14 +50,14 @@
                 <div class="graphie" id="parent_block">
                     initSliceClone(["current_block"]);
                     init({range: [[0, 1], [0, 1]], scale: [500, 25 ]});
-                    rectchart([1, 0], ["#e00", "#999"]);
+                    rectchart([1, 0], [RED, "#999"]);
                 </div>
 
                 <p>Current Block:</p>
 
                 <div class="graphie" id="current_block">
                     init({ range: [[0, 1], [0, 1] ], scale: [500, 25]});
-                    rectchart([1, 0], ["#e00", "#999"]);
+                    rectchart([1, 0], [RED, "#999"]);
                 </div>
 
                 <p>Goal Block:</p>

@@ -42,7 +42,16 @@
 
         <div class="problems">
             <div>
-                <p class="question">The starting block below is <code><var>CODE_PARENT</var></code> <var>D_PARENT === 1 ? plural_form(UNIT, N_PARENT) : plural_form(UNIT)</var> long. Use the tools to the right to convert the starting block into both of the goal blocks that are <code><var>CODE_OFFSPRING_1</var></code> units long and <code><var>CODE_OFFSPRING_2</var></code> units long. The current blocks show your progress.</p>
+                <p class="question">
+                    <span data-if="isSingular(CODE_PARENT)">
+                        The starting block below is <code><var>CODE_PARENT</var></code> unit long.
+                    </span><span data-else="">
+                        The starting block below is <code><var>CODE_PARENT</var></code> units long.
+                    </span>
+                    Use the tools below to convert the starting block into both of the goal blocks that are
+                    <code><var>CODE_OFFSPRING_1</var></code> units long and <code><var>CODE_OFFSPRING_2</var></code> units long.
+                    The current blocks show your progress.
+                </p>
                 <p class="render-answer-area-here"></p>
 
                 <p>Starting Block:</p>
@@ -50,14 +59,14 @@
                 <div class="graphie" id="parent_block">
                     initSliceClone(["current_block_1", "current_block_2"]);
                     init({range: [[0, 1], [0, 1]], scale: [ 500, 25]});
-                    rectchart([1, 0], ["#e00", "#999"]);
+                    rectchart([1, 0], [RED, "#999"]);
                 </div>
 
                 <p>Current Block 1:</p>
 
                 <div class="graphie" id="current_block_1">
                     init({range: [[0, 1], [0, 1]], scale: [500, 25]});
-                    rectchart([1, 0], ["#e00", "#999"]);
+                    rectchart([1, 0], [RED, "#999"]);
                 </div>
 
                 <p>Goal Block 1:</p>
@@ -71,7 +80,7 @@
 
                 <div class="graphie" id="current_block_2">
                     init({range: [[0, 1], [0, 1]], scale: [500, 25]});
-                    rectchart([1, 0], ["#e00", "#999"]);
+                    rectchart([1, 0], [RED, "#999"]);
                 </div>
 
                 <p>Goal Block 2:</p>
