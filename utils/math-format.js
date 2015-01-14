@@ -643,7 +643,7 @@ $.extend(KhanUtil, {
 
     scientific: function(precision, num) {
         var exponent = KhanUtil.scientificExponent(num);
-        var mantissa = KhanUtil.localeToFixed(KhanUtil.scientificMantissa(precision, num), precision);
+        var mantissa = KhanUtil.localeToFixed(KhanUtil.scientificMantissa(precision, num), precision - 1);
         return "" + mantissa + "\\times 10^{" + exponent + "}";
     }
 });

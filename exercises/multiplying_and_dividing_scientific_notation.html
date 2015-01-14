@@ -8,102 +8,125 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="DENOMINATOR">randRange( 1,  9 ) * Math.pow( 10, randRange( -5, 5 ) )</var>
-            <var id="QUOTIENT">randRange( 1, 99 ) * Math.pow( 10, randRange( -5, 5 ) )</var>
+            <var id="DENOMINATOR">randRange(1, 9) * Math.pow(10, randRange(-5, 5))</var>
+            <var id="QUOTIENT">randRange(1, 99) * Math.pow(10, randRange(-5, 5))</var>
             <var id="NUMERATOR">DENOMINATOR * QUOTIENT</var>
+
+            <var id="SCIENTIFIC_1">scientific(2, DENOMINATOR)</var>
+            <var id="SCIENTIFIC_2">scientific(2, QUOTIENT)</var>
+            <var id="SCIENTIFIC_3">scientific(3, NUMERATOR)</var>
+
+            <var id="MANTISSA_1">localeToFixed(scientificMantissa(2, DENOMINATOR), 1)</var>
+            <var id="MANTISSA_2">localeToFixed(scientificMantissa(2, QUOTIENT), 1)</var>
+            <var id="MANTISSA_3">localeToFixed(scientificMantissa(3, NUMERATOR), 2)</var>
+            <var id="MANTISSA_DIV">localeToFixed(roundTo(2, MANTISSA_3 / MANTISSA_1), 2)</var>
+            <var id="MANTISSA_MUL">localeToFixed(roundTo(1, MANTISSA_1 * MANTISSA_2), 1)</var>
+
+            <var id="EXPONENT_1">scientificExponent(DENOMINATOR)</var>
+            <var id="EXPONENT_2">scientificExponent(QUOTIENT)</var>
+            <var id="EXPONENT_3">scientificExponent(NUMERATOR)</var>
         </div>
 
         <div class="problems">
             <div id="divide">
+                <p class="problem">Calculate the quotient below and give your answer in scientific notation.</p>
                 <p class="question">
-                    Express this quotient in scientific notation:
-                    <code>\Large{\frac{<var>scientific( 3, NUMERATOR )</var>}
-                    {<var>scientific( 1, DENOMINATOR )</var>}}</code>
+                    <code>\large{\dfrac{<var>SCIENTIFIC_3</var>}{<var>SCIENTIFIC_1</var>}} =\ ?</code>
                 </p>
 
                 <div class="solution" data-type="multiple">
-                    <span class="sol short30 base" data-forms="integer, decimal"><var>scientificMantissa( 2, QUOTIENT )</var></span>
+                    <span class="sol short30 base" data-forms="integer, decimal"><var>scientificMantissa(2, QUOTIENT)</var></span>
                     <code> \times 10 </code>
-                    <sup class="sol short30 exp" data-forms="integer, decimal" style="width: 20px;"><var>scientificExponent( QUOTIENT )</var></sup>
+                    <sup class="sol short30 exp" data-forms="integer, decimal"><var>EXPONENT_2</var></sup>
                 </div>
 
                 <div class="hints">
-                    <p>Start by collecting like terms together.</p>
-                    <p>
-                        <code>= \Large{\frac{<var>localeToFixed(scientificMantissa(3, NUMERATOR), 3)</var>}
-                        {<var>localeToFixed(scientificMantissa(1, DENOMINATOR), 1)</var>}}
-                        \times\Large{\frac{10^{<var>scientificExponent(NUMERATOR)</var>}}
-                        {10^{<var>scientificExponent(DENOMINATOR)</var>}}}</code>
-                    </p>
-                    <p>Then divide each term separately. When dividing exponents with the same base, subtract their powers.</p>
-                    <p>
-                        <code>= <var>localeToFixed(roundTo( 2, scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ), 2)</var>
-                        \times 10^{<var>scientificExponent( NUMERATOR )</var>\,-\,<var>scientificExponent( DENOMINATOR )</var>}</code>
-                    </p>
-                    <p>
-                        <code>= <var>localeToFixed(roundTo( 2, scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ), 2 )</var>
-                        \times 10^{<var>scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )</var>}</code>
-                    </p>
-                    <div data-if="scientificExponent( QUOTIENT ) != scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )" data-unwrap="">
+                    <div>
+                        <p>Start by collecting the significands and exponents.</p>
+                        <p><code>
+                            \large{\dfrac
+                            {\blue{<var>MANTISSA_3</var>} \times \pink{10^{<var>EXPONENT_3</var>}}}
+                            {\blue{<var>MANTISSA_1</var>} \times \pink{10^{<var>EXPONENT_1</var>}}} =
+                            \blue{\dfrac{<var>MANTISSA_3</var>}{<var>MANTISSA_1</var>}} \times
+                            \pink{\dfrac{10^{<var>EXPONENT_3</var>}}{10^{<var>EXPONENT_1</var>}}}}
+                        </code></p>
+                    </div>
+                    <div>
+                        <p>Then divide each term separately. When dividing exponents with the same base, subtract their powers.</p>
+                        <p><code>= \blue{<var>MANTISSA_DIV</var>} \times \pink{10^{<var>EXPONENT_3</var> \,-\, <var>EXPONENT_1</var>}}</code></p>
+                        <p><code>= \blue{<var>MANTISSA_DIV</var>} \times \pink{10^{<var>EXPONENT_3 - EXPONENT_1</var>}}</code></p>
+                    </div>
+                    <div data-if="EXPONENT_2 != EXPONENT_3 - EXPONENT_1" data-unwrap="">
                         <p>
                             To write the answer correctly in scientific notation, the first number needs to be between <code>1</code> and <code>10</code>.
                             In this case, we need to move the decimal one position to the right without changing the value of our answer.
                         </p>
                         <p>
-                            <code>\qquad</code>We can use the fact that
-                            <code><var>localeToFixed(roundTo( 2, scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ), 2 )</var></code> is the same as
-                            <code><var>localeToFixed(scientificMantissa(2, QUOTIENT), 2)</var> \div 10</code>, or
-                            <code class="hint_blue"><var>localeToFixed(scientificMantissa(2, QUOTIENT), 2)</var> \times 10^{-1}</code>.
+                            We can use the fact that <code>\blue{<var>MANTISSA_DIV</var>}</code> is the same as
+                            <code>\green{<var>MANTISSA_2</var> \div 10}</code>, or
+                            <code>\green{<var>MANTISSA_2</var> \times 10^{-1}}</code>.
                         </p>
-                        <p><code>
-                            = \color{<var>BLUE</var>}{<var>localeToFixed(scientificMantissa( 2, QUOTIENT ), 2)</var> \times 10^{-1}}
-                            \times 10^{<var>scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )</var>}
-                        </code></p>
-                        <p><code>= <var>scientific( 2, QUOTIENT )</var></code></p></div>
+                        <div>
+                            <p><code>
+                                = \green{<var>MANTISSA_2</var> \times 10^{-1}} \times \pink{10^{<var>EXPONENT_3 - EXPONENT_1</var>}}
+                            </code></p>
+                            <p><code>
+                                = <var>MANTISSA_2</var> \times 10^{\green{-1} + \pink{<var>EXPONENT_3 - EXPONENT_1</var>}}
+                            </code></p>
+                            <p><code>= <var>SCIENTIFIC_2</var></code></p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div id="multiply">
-                <p class="question">
-                    Express this product in scientific notation:
-                    <code>(<var>scientific( 2, QUOTIENT )</var>)\times (<var>scientific( 2, DENOMINATOR )</var>)</code></p>
+                <p class="problem">Calculate the product below and give your answer in scientific notation.</p>
+                <p class="question"><code>
+                    \large{\left(<var>SCIENTIFIC_2</var> \right)
+                    \times \left(<var>SCIENTIFIC_1</var> \right) =\ ?}
+                </code></p>
 
                 <div class="solution" data-type="multiple">
-                    <span class="sol short30 base" data-forms="integer, decimal"><var>scientificMantissa( 3, NUMERATOR )</var></span>
+                    <span class="sol short30 base" data-forms="integer, decimal"><var>scientificMantissa(3, NUMERATOR)</var></span>
                     <code> \times 10 </code>
-                    <sup class="sol short30 exp" data-forms="integer, decimal" style="width: 20px;"><var>scientificExponent( NUMERATOR )</var></sup>
+                    <sup class="sol short30 exp" data-forms="integer, decimal"><var>EXPONENT_3</var></sup>
                 </div>
 
                 <div class="hints">
-                    <p>Start by collecting like terms together.</p>
-                    <p>
-                        <code>= (<var>localeToFixed(scientificMantissa(2, QUOTIENT), 2)</var>\times <var>localeToFixed(scientificMantissa(2, DENOMINATOR), 2)</var>)
-                        \times (10^{<var>scientificExponent( QUOTIENT )</var>}\times 10^{<var>scientificExponent( DENOMINATOR )</var>})</code>
-                    </p>
-                    <p>When multiplying exponents with the same base, add the powers together.</p>
-                    <p>
-                        <code>= <var>localeToFixed(roundTo( 1, scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ), 1 )</var>
-                        \times 10^{<var>scientificExponent( QUOTIENT )</var>\,+\,<var>scientificExponent( DENOMINATOR )</var>}</code>
-                    </p>
-                    <p>
-                        <code>= <var>localeToFixed(roundTo( 1, scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ), 1 )</var>
-                        \times 10^{<var>scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )</var>}</code>
-                    </p>
-                    <div data-if="scientificExponent( NUMERATOR ) != scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )" data-unwrap="">
+                    <div>
+                        <p>Start by collecting the significands and exponents.</p>
+                        <p><code>
+                            (\blue{<var>MANTISSA_2</var>} \times \pink{10^{<var>EXPONENT_2</var>}}) \times
+                            (\blue{<var>MANTISSA_1</var>} \times \pink{10^{<var>EXPONENT_1</var>}}) = 
+                            (\blue{<var>MANTISSA_2</var>} \times \blue{<var>MANTISSA_1</var>}) \times
+                            (\pink{10^{<var>EXPONENT_2</var>}} \times \pink{10^{<var>EXPONENT_1</var>}})
+                        </code></p>
+                    </div>
+                    <div>
+                        <p>Then multiply each term separately. When multiplying exponents with the same base, add the powers together.</p>
+                        <p><code>= \blue{<var>MANTISSA_MUL</var>} \times \pink{10^{<var>EXPONENT_2</var> \,+\, <var>EXPONENT_1</var>}}</code></p>
+                        <p><code>= \blue{<var>MANTISSA_MUL</var>} \times \pink{10^{<var>EXPONENT_2 + EXPONENT_1</var>}}</code></p>
+                    </div>
+                    <div data-if="EXPONENT_3 != EXPONENT_1 + EXPONENT_2" data-unwrap="">
                         <p>
                             To write the answer correctly in scientific notation, the first number needs to be between <code>1</code> and <code>10</code>.
                             In this case, we need to move the decimal one position to the left without changing the value of our answer.
                         </p>
                         <p>
-                            <code>\qquad</code>We can use the fact that
-                            <code><var>localeToFixed(roundTo( 1, scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ), 1 )</var></code> is the same as
-                            <code class="hint_blue"><var>localeToFixed(scientificMantissa( 3, NUMERATOR ), 3)</var> \times 10</code>.
+                            We can use the fact that <code>\blue{<var>MANTISSA_MUL</var>}</code> is the same as
+                            <code>\green{<var>MANTISSA_3</var> \times 10}</code> or
+                            <code>\green{<var>MANTISSA_3</var> \times 10^{1}}</code>.
                         </p>
-                        <p><code>
-                            = \color{<var>BLUE</var>}{<var>localeToFixed(scientificMantissa( 3, NUMERATOR ), 3)</var> \times 10}
-                            \times 10^{<var>scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )</var>}
-                        </code></p>
-                        <p><code>= <var>scientific( 3, NUMERATOR )</var></code></p></div>
+                        <div>
+                            <p><code>
+                                = \green{<var>MANTISSA_3</var> \times 10^{1}} \times \pink{10^{<var>EXPONENT_2 + EXPONENT_1</var>}}
+                            </code></p>
+                            <p><code>
+                                = <var>MANTISSA_3</var> \times 10^{\green{1} + \pink{<var>EXPONENT_2 + EXPONENT_1</var>}}
+                            </code></p>
+                            <p><code>= <var>SCIENTIFIC_3</var></code></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
