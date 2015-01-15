@@ -66,42 +66,54 @@
                         KhanUtil.currentGraph.graph.shadetop1 = !KhanUtil.currentGraph.graph.shadetop1;
                         KhanUtil.currentGraph.graph.update();
                     " type="button" value="Shade other side">
-                    <label class="hint_blue">
-                        <input checked name="dashradio1" onclick="javascript:
-                            KhanUtil.currentGraph.graph.dasharray1 = '';
-                            KhanUtil.currentGraph.graph.update();
-                        " type="radio" value="solid">
-                        Solid line
-                    </label>
-                    <label class="hint_blue">
-                        <input name="dashradio1" onclick="javascript:
-                            KhanUtil.currentGraph.graph.dasharray1 = '- ';
-                            KhanUtil.currentGraph.graph.update();
-                        " type="radio" value="dashed">
-                        Dashed line
-                    </label>
+                    <ul class="inequalities-one-line-radios">
+                        <li>
+                            <label class="hint_blue">
+                                <input checked name="dashradio1" onclick="javascript:
+                                       KhanUtil.currentGraph.graph.dasharray1 = '';
+                                       KhanUtil.currentGraph.graph.update();
+                                       " type="radio" value="solid">
+                                Solid line
+                            </label>
+                        </li>
+                        <li>
+                            <label class="hint_blue">
+                                <input name="dashradio1" onclick="javascript:
+                                       KhanUtil.currentGraph.graph.dasharray1 = '- ';
+                                       KhanUtil.currentGraph.graph.update();
+                                       " type="radio" value="dashed">
+                                Dashed line
+                            </label>
+                        </li>
+                    </ul>
                     <br>
                     <span class="hint_green" style="width: 40px">Inequality 2:</span>
                     <input onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop2 = !KhanUtil.currentGraph.graph.shadetop2;
                         KhanUtil.currentGraph.graph.update();
                     " type="button" value="Shade other side">
-                    <label class="hint_green">
-                        <input checked name="dashradio2" onclick="javascript:
-                            KhanUtil.currentGraph.graph.dasharray2 = '';
-                            KhanUtil.currentGraph.graph.update();
-                        " type="radio" value="solid">
-                        Solid line
-                    </label>
-                    <label class="hint_green">
-                        <input name="dashradio2" onclick="javascript:
-                            KhanUtil.currentGraph.graph.dasharray2 = '- ';
-                            KhanUtil.currentGraph.graph.update();
-                        " type="radio" value="dashed">
-                        Dashed line
-                    </label>
+                    <ul class="inequalities-one-line-radios">
+                        <li>
+                            <label class="hint_green">
+                                <input checked name="dashradio2" onclick="javascript:
+                                       KhanUtil.currentGraph.graph.dasharray2 = '';
+                                       KhanUtil.currentGraph.graph.update();
+                                       " type="radio" value="solid">
+                                Solid line
+                            </label>
+                        </li>
+                        <li>
+                            <label class="hint_green">
+                                <input name="dashradio2" onclick="javascript:
+                                       KhanUtil.currentGraph.graph.dasharray2 = '- ';
+                                       KhanUtil.currentGraph.graph.update();
+                                       " type="radio" value="dashed">
+                                Dashed line
+                            </label>
+                        </li>
+                    </ul>
                 </form>
-                <div class="graphie" id="grid">
+                <div class="graphie inequalities-padding" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -286,9 +298,7 @@
             </div>
             <div class="solution" data-type="multiple">
                 <div class="sol" data-type="custom">
-                    <div class="instruction">
-                        Drag the points to move both lines into the correct positions.
-                    </div>
+                    <div class="instruction"></div>
                     <div class="guess">[ graph.pointA.coord, graph.pointB.coord,
                         graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? graph.shadetop1 : !graph.shadetop1,
                         graph.dasharray1 === "- " ? false : true,

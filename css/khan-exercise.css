@@ -1261,3 +1261,16 @@ body.debug span.error {
     color: #fcc335;
     font-size: 20px;
 }
+
+body:not(.mobile) ul.inequalities-one-line-radios,
+body:not(.mobile) ul.inequalities-one-line-radios > li {
+    display: inline;
+}
+
+body.mobile ul.inequalities-one-line-radios > li {
+    padding: 7px 0;
+}
+
+.inequalities-padding#grid {
+    margin-bottom: 2em;
+}
