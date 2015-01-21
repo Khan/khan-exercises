@@ -371,7 +371,7 @@ $.extend(KhanUtil, {
             // make the line stick in the state it is in currently,
             // and remove the clickable part
             line.stick = function() {
-                line.point.mouseTarget.getMouseTarget().remove();
+                line.point.mouseTarget.remove();
             };
 
             // if we shouldn't be clickable, stick right now
@@ -523,7 +523,7 @@ $.extend(KhanUtil, {
             // by removing the clicky part
             angle.stick = function() {
                 $(this.point.mouseTarget.getMouseTarget()).unbind();
-                this.point.mouseTarget.getMouseTarget().remove();
+                this.point.mouseTarget.remove();
             };
 
             if (!angle.clickable) {
