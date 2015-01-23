@@ -39,6 +39,7 @@ cp -f "$srcdir"/jquery-migrate/jquery-migrate-1.1.1.js "$destdir"
 cp -f "$srcdir"/jquery/jquery.js "$destdir"
 cp -f "$srcdir"/qTip2/jquery.qtip.js "$destdir"
 cp -f "$srcdir"/underscore/underscore.js "$destdir"
+cp -f "$srcdir"/moment-khansrc/moment.js "$destdir"
 
 cp -f "$webapp_root"/javascript/shared-package/i18n.js "$destdir"
 

@@ -687,7 +687,11 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         skipped: skipped ? 1 : 0,
 
         // Whether the user is opting out of the task
-        opt_out: optOut ? 1 : 0
+        opt_out: optOut ? 1 : 0,
+
+        // The client-reported datetime in local time (not UTC!).
+        // Used by streaks.
+        client_dt: moment().format()
     });
 
     return data;

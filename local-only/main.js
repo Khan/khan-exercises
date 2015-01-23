@@ -9,7 +9,8 @@ requirejs([
     "../local-only/katex/katex.js",
     "../local-only/underscore.js",
     "../local-only/jed.js",
-    "../local-only/localeplanet/icu." + getLang() + ".js"
+    "../local-only/localeplanet/icu." + getLang() + ".js",
+    "../local-only/moment.js"
 ], function($, katex) {
     // Only 'jquery' and 'katex' have amd wrappers (and jQuery sets the global
     // regardless); the other files export globally directly and we don't use
