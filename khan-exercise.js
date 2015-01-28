@@ -1004,7 +1004,7 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
             var weight = $(this).data("weight") || 1;
             _.times(weight, function(){ typeIndex.push(index); });
         });
-        var typeNum = typeIndex[Math.floor(Math.random() * typeIndex.length)];
+        var typeNum = typeIndex[Math.floor(KhanUtil.random() * typeIndex.length)];
         problem = problems.eq(typeNum);
         currentProblemType = $(problem).attr("id") || "" + typeNum;
     }
@@ -1016,7 +1016,7 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
     // This should _never_ happen, and hopefully these autoSubmitIssues will help debug.
     if (!problem.length && problems.length) {
         Khan.autoSubmitIssue("type was for the incorrect problem; failed gracefully");
-        problem = problems.eq(Math.floor(Math.random() * problems.length));
+        problem = problems.eq(Math.floor(KhanUtil.random() * problems.length));
     }
 
     // Find which exercise this problem is from
