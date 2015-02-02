@@ -1854,6 +1854,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             } else {
                 $input = $('<input type="text">');
             }
+            $input.addClass("prime-factorization");
             $(solutionarea).append($input);
 
             var examples = [
@@ -1881,8 +1882,10 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 // Get rid of all the whitespace
                 guess = guess.split(" ").join("").toLowerCase();
-                // Split on x, *, or unicode x
-                guess = guess.split(/x|\*|\u00d7/);
+                // Get rid of LaTeX braces
+                guess = guess.replace(/{|}/g, "");
+                // Split on x, *, unicode x, or LaTeX \times and \cdot
+                guess = guess.split(/x|\*|\u00d7|\\times|\\cdot/);
 
                 // Replace a^b with b lots of axa
                 var terms = [];
