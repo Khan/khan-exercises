@@ -745,6 +745,8 @@ function request(method, data) {
     var deferred = $.Deferred();
 
     attemptHintQueue.queue(function(next) {
+        var requestEndedParameters;
+
         $.kaOauthAjax(params).then(function(data, textStatus, jqXHR) {
             deferred.resolve(data, textStatus, jqXHR);
 
@@ -762,8 +764,15 @@ function request(method, data) {
             // Clear the queue so we don't spit out a bunch of queued up
             // requests after the error
             attemptHintQueue.clearQueue();
+
+            requestEndedParameters = {
+                "error": {
+                    textStatus: textStatus,
+                    errorThrown: errorThrown
+                }
+            };
         }).always(function() {
-            $(Exercises).trigger("apiRequestEnded");
+            $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
             next();
         });
     });
