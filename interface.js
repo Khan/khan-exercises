@@ -366,8 +366,7 @@ function handleAttempt(data) {
 
         $("#check-answer-button")
             .parent()  // .check-answer-wrapper makes shake behave
-            .effect("shake", {times: 3, distance: 5}, 480)
-            .val($._("Try Again"));
+            .effect("shake", {times: 3, distance: 5}, 480);
 
         if (framework === "perseus") {
             // TODO(alpert)?
