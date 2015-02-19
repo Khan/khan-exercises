@@ -166,7 +166,8 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 
 #problemarea a:link,
 #problemarea input,
-#problemarea label { /* HACK(aria): for radios */
+#problemarea label,  /* HACK(aria): for radios */
+#problemarea select {  /* for dropdowns */
     position: relative; z-index: 3; /* interactive-content */
 }
 
