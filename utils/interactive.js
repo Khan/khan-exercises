@@ -1171,15 +1171,15 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         // Plot the function
         graph.style({
-            stroke: KhanUtil.INTERACTIVE
+            stroke: KhanUtil.BLUE
         }, function() {
             interactiveFn.visibleShape = graph.plot(fn, options.range, options.swapAxes);
         });
 
         // Draw a circle that will be used to highlight the point on the function the mouse is closest to
         graph.style({
-            fill: KhanUtil.INTERACTIVE,
-            stroke: KhanUtil.INTERACTIVE
+            fill: KhanUtil.BLUE,
+            stroke: KhanUtil.BLUE
         }, function() {
             interactiveFn.cursorPoint = graph.ellipse([0, fn(0)], [4 / graph.scale[0], 4 / graph.scale[1]]);
         });
@@ -3080,7 +3080,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             xRadius: 2,
             yRadius: 2,
             ellipseNormalStyle: {
-                stroke: KhanUtil.INTERACTIVE,
+                stroke: KhanUtil.BLUE,
                 "fill-opacity": 0
             },
             ellipseBoundaryHideStyle: {
@@ -3089,7 +3089,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             },
             ellipseBoundaryShowStyle: {
                 "fill-opacity": 1,
-                fill: KhanUtil.INTERACTIVE
+                fill: KhanUtil.BLUE
             },
             onMove: function(coordX, coordY) { /* Here to be overriden */ },
             onLeave: function(coordX, coordY) { /* Here to be overriden */ }
