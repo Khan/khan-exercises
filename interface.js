@@ -244,40 +244,14 @@ function handleAttempt(data) {
     var isAnswerEmpty = score.empty && !skipped;
     var attemptMessage = null;
 
-    // A temporary list of exercises participating in the targeted feedback
-    // clues experiment
-    // TODO(ilan): Remove this hack once the exeriment is over
-    var TARGETED_CLUES_EXERCISES = [
-        "dividing-fractions-by-fractions-word-problems",
-        "interpret-features-func-2",
-        "quadratic-formula-with-complex-solutions",
-        "using-zeros-to-graph-polynomials",
-        "naming-shapes-2"
-    ];
-
-    // Is there a message to be shown?
+    // When the user answers incorrectly, we might show a message in response.
+    // It might encourage the user to think about their answer's format (eg.
+    // simplify the fraction) or it might explain to the user why the answer
+    // was wrong (these are referred to as clues in code, though in
+    // conversation we call them rationales). We show nothing at all if that
+    // content doesn't exist.
     if (score.message != null) {
-        if (Exercises.currentCard) {
-            var exerciseName = Exercises.currentCard.attributes.exerciseName;
-            if (TARGETED_CLUES_EXERCISES.indexOf(exerciseName) >= 0) {
-                // Don't show clues to people who are not in the right
-                // experimental group
-                if (score.correct || score.empty || Exercises.cluesEnabled) {
-                    attemptMessage = score.message;
-                    // If the message is a clue
-                    if (!(score.correct || score.empty)) {
-                        if (typeof window.BigBingo !== "undefined") {
-                            window.BigBingo.markConversion("clue_seen_" +
-                                exerciseName.replace(/-/g, "_")); // For BigBingo
-                        }
-                    }
-                }
-            } else {
-                attemptMessage = score.message;
-            }
-        } else {
-            attemptMessage = score.message;
-        }
+        attemptMessage = score.message;
     } else if (isAnswerEmpty) {
         attemptMessage = EMPTY_MESSAGE;
     }
