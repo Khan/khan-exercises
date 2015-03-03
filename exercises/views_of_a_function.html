@@ -175,7 +175,7 @@
                         $(".ttable tr").each(function() {
                             var input = [];
                             $(this).children().each(function() {
-                                input.push($(this).children().val());
+                                input.push($(this).find("input").val());
                             });
                             guess.push(input);
                         });
@@ -206,6 +206,10 @@
                             attempted += 1;
                             validatePoint(guess[i][0]);
                         }
+                    }
+
+                    if (attempted === 0) {
+                        return "";
                     }
 
                     if (attempted &lt; 5) {
