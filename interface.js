@@ -647,9 +647,6 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
 
         user_mission_id: Exercises.userMissionId,
 
-        // The current card data
-        card: JSON.stringify(Exercises.currentCard),
-
         // The current topic, if any
         topic_slug: Exercises.topic && Exercises.topic.get("slug"),
 
