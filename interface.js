@@ -381,9 +381,19 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
+    // If we're in a practice task but not at the end of it (so the
+    // user will be doing another question next), let's make the
+    // request on the multithreaded module: we don't care that much
+    // how long the request takes (it happens while the user is trying
+    // the next question) and it's cheaper.
+    var useMultithreadedModule = (
+        !score.correct ||
+        (Exercises.learningTask && !Exercises.learningTask.isComplete()));
+
     // Save the problem results to the server
     var requestUrl = "problems/" + problemNum + "/attempt";
-    request(requestUrl, attemptData).fail(function(xhr) {
+    request(requestUrl, attemptData,
+            useMultithreadedModule).fail(function(xhr) {
         // Alert any listeners of the error before reload
         $(Exercises).trigger("attemptError");
 
@@ -504,14 +514,23 @@ function onHintButtonClicked() {
     if (!previewingItem && !localMode && !userExercise.readOnly &&
             !Exercises.currentCard.get("preview") && canAttempt) {
 
-        // buildAttemptData reads the number of hints we have taken from hintsUsed.
-        // However, we haven't updated that yet since we haven't gotten a response
-        // back, from, you guessed it, this request itself. So we increment
-        // hintsUsed while forming this request so that it gets the number of hints
-        // that will have been used when this request returns successfully.
+        // buildAttemptData reads the number of hints we have taken
+        // from hintsUsed.  However, we haven't updated that yet since
+        // we haven't gotten a response back, from, you guessed it,
+        // this request itself. So we increment hintsUsed while
+        // forming this request so that it gets the number of hints
+        // that will have been used when this request returns
+        // successfully.
         hintsUsed++;
+        var attemptData = buildAttemptData(false, attempts, "hint",
+                                           timeTaken, false, false);
         hintRequest = request("problems/" + problemNum + "/hint",
-                buildAttemptData(false, attempts, "hint", timeTaken, false, false));
+                              attemptData,
+                              // Always put hints on the (cheaper)
+                              // multithreaded module, since we don't
+                              // care what the API call returns so we
+                              // don't care how slow it is.
+                              true);
         hintsUsed--;
     } else {
         // We don't send a request to the server, so just assume immediate
@@ -679,10 +698,22 @@ $(window).unload(function() {
     }
 });
 
-function request(method, data) {
-    var apiBaseUrl = (Exercises.assessmentMode ?
-            "/api/internal/user/assessment/exercises" :
-            "/api/internal/user/exercises");
+function request(method, data, useMultithreadedModule) {
+    // The multithreaded module is slower but cheaper.  We use it for
+    // all hints, and problem-attempts that we know are not the last
+    // attempt in a task.  (This is because it usually takes people at
+    // least a few seconds to read a hint or attempt the next problem,
+    // which is plenty of time even when on the slower module.)
+    var apiBaseUrl;
+    if (Exercises.assessmentMode && useMultithreadedModule) {
+        apiBaseUrl = "/api/internal/_mt/user/assessment/exercises";
+    } else if (Exercises.assessmentMode) {
+        apiBaseUrl = "/api/internal/user/assessment/exercises";
+    } else if (useMultithreadedModule) {
+        apiBaseUrl = "/api/internal/_mt/user/exercises";
+    } else {
+        apiBaseUrl = "/api/internal/user/exercises";
+    }
 
     var params = {
         // Do a request to the server API
