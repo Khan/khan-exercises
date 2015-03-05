@@ -759,7 +759,10 @@ var Khan = {
                 $("#issue-throbber").hide();
             };
 
-            $.post("/api/internal/bigbingo/mark_conversions", {
+            // /_mt/ puts this on a multithreaded module, which is
+            // slower but cheaper.  We don't care how long this takes,
+            // so it's a good choice for us!
+            $.post("/api/internal/_mt/bigbingo/mark_conversions", {
                 conversion_ids: "exercise_submit_issue"
             });
 
