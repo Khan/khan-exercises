@@ -46,6 +46,10 @@ var toDashed = function(obj) {
 
 // Return the normal and label styles for a given options object
 var getStyles = function(options) {
+    options = _.pick(options, "color", "dashed", "dotted", "fill",
+        "fillOpacity", "font", "fontFamily", "fontSize", "fontWeight",
+        "opacity", "stroke", "strokeDasharray", "strokeOpacity",
+        "strokeWidth");
     // Color overrides stroke and fill if not present
     if (_.has(options, "color")) {
         _.defaults(options, {
