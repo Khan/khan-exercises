@@ -183,7 +183,12 @@
                 }</var>
             </div>
 
-            <p class="question">Fit a line to the data, or mark that no line fits the data well.</p>
+            <p class="question">In the graph below, can a line fit the data well?</p>
+
+            <p class="render-answer-area-here"></p>
+
+            <p class="question">If yes, fit a line to the data.</p>
+
             <div class="problem">
                 <div class="graphie" id="main">
                     graphInit({
@@ -298,17 +303,18 @@
                         <li>
                             <label>
                                 <input id="exists" checked name="linear" onclick="KhanUtil.graphs.main.graph.showLine()" type="radio">
-                                <span>A line fits the data well</span>
+                                <span>Yes</span>
                             </label>
                         </li>
                         <li>
                             <label>
                                 <input id="notexists" name="linear" onclick="KhanUtil.graphs.main.graph.hideLine()" type="radio">
-                                <span>No line fits the data well</span>
+                                <span>No</span>
                             </label>
                         </li>
                     </ul>
                 </div>
+                
                 <div class="guess">[
                     KhanUtil.graphs.main.graph.pointA.coord,
                     KhanUtil.graphs.main.graph.pointB.coord,
