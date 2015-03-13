@@ -23,7 +23,7 @@
             <div class="render-answer-area-here"></div>
             <div class="problem">
                 <div class="graphie" id="perimeter">
-                    init({ range: [[-2, S + 1], [-1, S + 1]], scale: 30 });
+                    init({ range: [[-2, S + 1], [-1, S + 2]], scale: 30 });
                     path([[0, 0], [0, S], [S, S], [S, 0], true], {stroke: BLUE, fill: "#eee"});
                     label([S / 2, S], S + "\\text{ " + UNIT + "}", "above");
                     label([0, S / 2], S + "\\text{ " + UNIT + "}", "left");
@@ -70,7 +70,7 @@
 
             <div class="problem">
                 <div class="graphie" id="perimeter">
-                    init({ range: [[-2, L + 1], [-1, W + 1]], scale: 30 });
+                    init({ range: [[-2, L + 1], [-1, W + 2]], scale: 30 });
                     path([[0, 0], [0, W], [L, W], [L, 0], true], {stroke: BLUE, fill: "#eee"});
                     label([L / 2, W], L + "\\text{ " + UNIT + "}", "above");
                     label([0, W / 2], W + "\\text{ " + UNIT + "}", "left");
@@ -118,7 +118,7 @@
 
             <div class="problem">
                 <div class="graphie" id="perimeter">
-                    init({ range: [[min(X, 0) - 2, max(X, A) + 2], [-1, Y + 1]], scale: 30 });
+                    init({ range: [[min(X, 0) - 2, max(X, A) + 2], [-1, Y + 2]], scale: 30 });
                     path([[0, 0], [A, 0], [X, Y], true], {stroke: BLUE, fill: "#eee"});
                     label([A / 2, 0], A + "\\text{ " + UNIT + "}", "below");
                     label([X / 2 - 0.5, Y / 2], B + "\\text{ " + UNIT + "}", "left");
@@ -172,7 +172,7 @@
 
             <div class="problem">
                 <div class="graphie" id="perimeter">
-                    init({ range: [[-RADIUS - 1, RADIUS + 1], [-RADIUS - 1, RADIUS + 1]], scale: 30 });
+                    init({ range: [[-RADIUS - 1, RADIUS + 1], [-RADIUS - 1, RADIUS + 2]], scale: 30 });
                     graph.path = [];
 
                     _(SIDES).times(function(n) {
