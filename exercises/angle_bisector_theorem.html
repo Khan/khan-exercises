@@ -28,14 +28,14 @@
                 <var id="TR_B">
                     function(){
                         var trB = new Triangle( [0,0],[], 3, {}, [ TR_A.points[ 0 ], TR_A.points[ 1 ], POINT_D ] );
-                        trB.labels = { "angles" : ["{\\theta}^{\\circ}"], "sides" : mergeArray( clearArray( trB.niceSideLengths, SIDES_B[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_B[ 1 ] ) ),  "points": [ "A", "B", "D" ] };
+                        trB.labels = { "angles" : ["\\theta"], "sides" : mergeArray( clearArray( trB.niceSideLengths, SIDES_B[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_B[ 1 ] ) ),  "points": [ "A", "B", "D" ] };
                         return trB;
                     }()
                 </var>
                 <var id="TR_C">
                     function(){
                         var trC = new Triangle( [0,0],[], 3, {}, [ TR_A.points[ 0 ], POINT_D, TR_A.points[ 2 ] ] );
-                        trC.labels = { "angles" : ["{\\theta}^{\\circ}"] , "sides" :  mergeArray( clearArray( trC.niceSideLengths, SIDES_C[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_C[ 1 ] ) ),  "points": [ "", "", "C" ] };
+                        trC.labels = { "angles" : ["\\theta"] , "sides" :  mergeArray( clearArray( trC.niceSideLengths, SIDES_C[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_C[ 1 ] ) ),  "points": [ "", "", "C" ] };
                         return trC;
                         }()
                 </var>
@@ -74,7 +74,7 @@
                     <var id="AC">roundTo( 1, TEMP_AB * TEMP_CD / TEMP_BD )</var>
                 </div>
                 <div class="problem">
-                    <p class="question">What is the length of <code>\overline{AC}</code>?</p>
+                    <p class="question"><code>ABC</code> is a triangle. What is the length of <code>\overline{AC}</code>?</p>
                     <em>Round to one decimal place.</em>
                     <div class="render-answer-area-here"></div>
                 </div>
@@ -92,7 +92,7 @@
                         <var id="SIDES_C">[ [ 1,2 ], [ ]  ]</var>
                 </div>
                 <div class="problem">
-                    <p class="question">What is the length of <code>\overline{AB}</code>?</p>
+                    <p class="question"><code>ABC</code> is a triangle. What is the length of <code>\overline{AB}</code>?</p>
                     <em>Round to one decimal place.</em>
                     <div class="render-answer-area-here"></div>
                 </div>
@@ -110,7 +110,7 @@
                         <var id="SIDES_C">[ [ 2 ], [1 ]  ]</var>
                 </div>
                 <div class="problem">
-                    <p class="question">What is the length of <code>\overline{CD}</code>?</p>
+                    <p class="question"><code>ABC</code> is a triangle. What is the length of <code>\overline{CD}</code>?</p>
                     <em>Round to one decimal place.</em>
                     <div class="render-answer-area-here"></div>
                 </div>
@@ -128,7 +128,7 @@
                         <var id="SIDES_C">[ [ 1, 2 ], [ ]  ]</var>
                 </div>
                 <div class="problem">
-                    <p class="question">What is the length of <code>\overline{BD}</code>?</p>
+                    <p class="question">What is the length of <code>\overline{BD}</code> in <code>\triangle ABC</code>?</p>
                     <em>Round to one decimal place.</em>
                     <div class="render-answer-area-here"></div>
                 </div>
