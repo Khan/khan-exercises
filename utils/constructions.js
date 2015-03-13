@@ -637,9 +637,15 @@ $.extend(KhanUtil, {
             });
 
             construction.tools = staticTools;
-            construction.snapPoints = [];
+            construction.snapPoints =
+                construction.snapPoints.filter(function(point) {
+                    return point.dummy;
+                });
             construction.interPoints = [];
-            construction.snapLines = [];
+            construction.snapLines =
+                construction.snapLines.filter(function(line) {
+                    return line.dummy;
+                });
         };
 
         // detect intersections between existing circles,
@@ -755,6 +761,7 @@ $.extend(KhanUtil, {
                 fixed: true
             })
         };
+        construction.tool.edge.dummy = true;
         // not sure about execution order here (vis-a-vis addConstruction),
         // so be careful
         if (construction.tools == null) {
@@ -773,7 +780,7 @@ $.extend(KhanUtil, {
     // add non-interactive circle
     addDummyCircle: function(center, radius) {
         var construction = KhanUtil.construction;
-        var dummy = {coord: center};
+        var dummy = {coord: center, dummy:true};
 
         KhanUtil.currentGraph.circle(center, {
             r: radius,
@@ -793,7 +800,7 @@ $.extend(KhanUtil, {
     // add non-interactive point (can't just use circle or snapping
     // won't work)
     addDummyPoint: function(coordinates) {
-        var dummy = {coord: coordinates};
+        var dummy = {coord: coordinates, dummy:true};
         KhanUtil.currentGraph.circle(coordinates,
                                 {r: 0.08, fill: "black", stroke: "none"});
 
@@ -812,7 +819,7 @@ $.extend(KhanUtil, {
         construction.tool = {interType: "line", dummy: true,
                       first: {coord: end},
                       second: {coord: other},
-                      edge: {coordA: end, coordZ: other}};
+                      edge: {coordA: end, coordZ: other, dummy:true}};
 
         KhanUtil.currentGraph.line(end, other,
             {stroke: "black", "stroke-width": 2, arrows: "->"});
