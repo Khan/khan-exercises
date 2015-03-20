@@ -256,11 +256,25 @@ function handleAttempt(data) {
         attemptMessage = EMPTY_MESSAGE;
     }
 
+    // We need to alert the user when the given answer is incorrect
+    if (!attemptMessage && !(score.correct || skipped)) {
+        attemptMessage = $._("Incorrect answer, please try again.");
+    }
+
+    var $attemptMessage = $("#check-answer-results > p");
+
     if (attemptMessage) {
-        $("#check-answer-results > p").html(attemptMessage).show().tex();
+        // NOTE(jeresig): If the message is identical to the message that
+        // was there before then the ARIA alert is not triggered. We add in
+        // an extra space to force the alert to trigger.
+        var isIdentical = attemptMessage === $attemptMessage.text();
+
+        $attemptMessage
+            .html(attemptMessage + (isIdentical ? " " : "")).show().tex();
+
         $(Exercises).trigger("attemptMessageShown", attemptMessage);
     } else {
-        $("#check-answer-results > p").hide();
+        $attemptMessage.hide();
     }
 
     // Stop if the user didn't try to skip the question and also didn't yet
@@ -338,14 +352,22 @@ function handleAttempt(data) {
     } else {
         // Wrong answer. Enable all the input elements
 
-        $("#check-answer-button")
-            .parent()  // .check-answer-wrapper makes shake behave
-            .effect("shake", {times: 3, distance: 5}, 480);
+        // NOTE(jeresig): The wrong answer wiggling has been disabled as
+        // it causes a re-focus on the answer button to occur, making it
+        // impossible to hear what the effect of the press was in a
+        // screen reader.
+        //$("#check-answer-button")
+            //.parent()  // .check-answer-wrapper makes shake behave
+            //.effect("shake", {times: 3, distance: 5}, 480);
 
         if (framework === "perseus") {
             // TODO(alpert)?
         } else if (framework === "khan-exercises") {
-            $(Khan).trigger("refocusSolutionInput");
+            // NOTE(jeresig): Auto-focusing back on to the input when an
+            // incorrect answer is given has been disabled. It didn't
+            // happen when using the mouse and if you used the keyboard
+            // it made the screen reader really confused.
+            //$(Khan).trigger("refocusSolutionInput");
         }
     }
 
