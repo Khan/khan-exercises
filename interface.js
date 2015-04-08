@@ -397,12 +397,6 @@ function handleAttempt(data) {
         return false;
     }
 
-    // This needs to be after all updates to Exercises.currentCard (such as the
-    // "problemDone" event) or it will send incorrect data to the server
-    var attemptData = buildAttemptData(
-            score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
-            optOut);
-
     // If we're in a practice task but not at the end of it (so the
     // user will be doing another question next), let's make the
     // request on the multithreaded module: we don't care that much
@@ -412,15 +406,21 @@ function handleAttempt(data) {
         !score.correct ||
         (Exercises.learningTask && !Exercises.learningTask.isComplete()));
 
+    var url = fullUrl(
+            "problems/" + problemNum + "/attempt", useMultithreadedModule);
+
+    // This needs to be after all updates to Exercises.currentCard (such as the
+    // "problemDone" event) or it will send incorrect data to the server
+    var attemptData = buildAttemptData(
+            score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
+            optOut);
+
     // Save the problem results to the server
-    var requestUrl = "problems/" + problemNum + "/attempt";
-    request(requestUrl, attemptData,
-            useMultithreadedModule).fail(function(xhr) {
+    request(url, attemptData).fail(function(xhr) {
         // Alert any listeners of the error before reload
         $(Exercises).trigger("attemptError");
 
-        var requestTimedOut = (xhr.statusText === "timeout");
-        if (xhr && xhr.readyState === 0 && !requestTimedOut) {
+        if (inUnload) {
             // This path gets called when there is a broken pipe during
             // page unload- browser navigating away during ajax request
             // See http://stackoverflow.com/a/1370383.
@@ -434,7 +434,7 @@ function handleAttempt(data) {
         // problem and encourage reloading the page
         $("#problem-and-answer").css("visibility", "hidden");
 
-        if (requestTimedOut) {
+        if (xhr.statusText === "timeout") {
             // TODO(david): Instead of throwing up this error message, try
             //     retrying the request or something. See more details in
             //     comment in request().
@@ -448,26 +448,6 @@ function handleAttempt(data) {
                         {refresh: _.escape(window.location.href)}
                     )
             );
-
-            // Also log this timeout failure to a bunch of places so we can see
-            // how frequently this occurs, and if it's similar to the frequency
-            // that we used to get for the endless spinner at end of task card
-            // logs.
-            var logMessage = "[" + (+new Date()) + "] request to " +
-                requestUrl + " timed out after " + REQUEST_TIMEOUT_MS +
-                "ms with " + Exercises.pendingAPIRequests +
-                " pending API requests " +
-                "(in khan-exercises/interface.js:handleAttempt)";
-
-            // Log to app engine logs... hopefully.
-            $.post("/sendtolog", {message: logMessage, with_user: 1});
-
-            // Also log to Sentry via Raven, just for some redundancy in case
-            // the above request doesn't make it to our server somehow.
-            if (window.Raven) {
-                window.Raven.captureMessage(logMessage,
-                        {tags: {ipaddebugging: true}});
-            }
         } else {
             $(Exercises).trigger("warning",
                     $._("This page is out of date. You need to " +
@@ -479,6 +459,26 @@ function handleAttempt(data) {
                         {refresh: _.escape(window.location.href)}
                     )
             );
+        }
+
+        // Also log this failure to a bunch of places so we can see
+        // how frequently this occurs, and if it's similar to the frequency
+        // that we used to get for the endless spinner at end of task card
+        // logs.
+        var logMessage = "[" + (+new Date()) + "] request to " +
+            url + " failed (" + xhr.status + ", " + xhr.statusText + ") " +
+            "with " + (Exercises.pendingAPIRequests - 1) +
+            " other pending API requests " +
+            "(in khan-exercises/interface.js:handleAttempt)";
+
+        // Log to app engine logs... hopefully.
+        $.post("/sendtolog", {message: logMessage, with_user: 1});
+
+        // Also log to Sentry via Raven, just for some redundancy in case
+        // the above request doesn't make it to our server somehow.
+        if (window.Raven) {
+            window.Raven.captureMessage(
+                    logMessage, {tags: {ipaddebugging: true}});
         }
     });
 
@@ -544,15 +544,13 @@ function onHintButtonClicked() {
         // that will have been used when this request returns
         // successfully.
         hintsUsed++;
+        // Always put hints on the (cheaper) multithreaded module,
+        // since we don't care what the API call returns so we don't
+        // care how slow it is.
+        var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        hintRequest = request("problems/" + problemNum + "/hint",
-                              attemptData,
-                              // Always put hints on the (cheaper)
-                              // multithreaded module, since we don't
-                              // care what the API call returns so we
-                              // don't care how slow it is.
-                              true);
+        hintRequest = request(url, attemptData);
         hintsUsed--;
     } else {
         // We don't send a request to the server, so just assume immediate
@@ -711,6 +709,12 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
 
 var attemptHintQueue = jQuery({});
 
+var inUnload = false;
+
+$(window).on("beforeunload", function() {
+    inUnload = true;
+});
+
 // If there are any requests left in the queue when the window unloads then we
 // will have permanently lost their answers and will need to clear the session
 // cache, to make sure we don't override what is passed down from the servers
@@ -720,7 +724,7 @@ $(window).unload(function() {
     }
 });
 
-function request(method, data, useMultithreadedModule) {
+function fullUrl(method, useMultithreadedModule) {
     // The multithreaded module is slower but cheaper.  We use it for
     // all hints, and problem-attempts that we know are not the last
     // attempt in a task.  (This is because it usually takes people at
@@ -737,9 +741,14 @@ function request(method, data, useMultithreadedModule) {
         apiBaseUrl = "/api/internal/user/exercises";
     }
 
+    return apiBaseUrl + "/" + userExercise.exerciseModel.name + "/" + method;
+}
+
+
+function request(url, data) {
     var params = {
         // Do a request to the server API
-        url: apiBaseUrl + "/" + userExercise.exerciseModel.name + "/" + method,
+        url: url,
         type: "POST",
         data: data,
         dataType: "json",
@@ -785,7 +794,9 @@ function request(method, data, useMultithreadedModule) {
             deferred.reject(jqXHR, textStatus, errorThrown);
 
             // Clear the queue so we don't spit out a bunch of queued up
-            // requests after the error
+            // requests after the error.
+            // TODO(csilvers): do we need to call apiRequestEnded for
+            // all these as well?  Exercises.pendingAPIRequests is now off.
             attemptHintQueue.clearQueue();
 
             requestEndedParameters = {
