@@ -7,8 +7,6 @@
  */
 (function() {
 
-var REQUEST_TIMEOUT_MS = 30000;
-
 // If any of these properties have already been defined, then leave them --
 // this happens in local mode
 _.defaults(Exercises, {
@@ -17,7 +15,9 @@ _.defaults(Exercises, {
     getCurrentFramework: function(userExerciseOverride) {
         return (userExerciseOverride || userExercise).exerciseModel.fileName ?
             "khan-exercises" : "perseus";
-    }
+    },
+
+    requestTimeoutMillis: 30000
 });
 
 _.extend(Exercises, {
@@ -771,7 +771,7 @@ function request(url, data) {
         // the red error bar, which, although jarring, is hopefully less bad
         // than being stuck with an endless spinner before the end of task
         // card and then losing all progress since the first dropped request.
-        timeout: REQUEST_TIMEOUT_MS
+        timeout: Exercises.requestTimeoutMillis
     };
 
     var deferred = $.Deferred();
