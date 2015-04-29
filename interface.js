@@ -468,8 +468,8 @@ function handleAttempt(data) {
         var logMessage = "[" + (+new Date()) + "] request to " +
             url + " failed (" + xhr.status + ", " + xhr.statusText + ") " +
             "with " + (Exercises.pendingAPIRequests - 1) +
-            " other pending API requests " +
-            "(in khan-exercises/interface.js:handleAttempt)";
+            " other pending API requests: " + attemptOrHintQueueUrls +
+            " (in khan-exercises/interface.js:handleAttempt)";
 
         // Log to app engine logs... hopefully.
         $.post("/sendtolog", {message: logMessage, with_user: 1});
@@ -707,7 +707,9 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
 }
 
 
-var attemptHintQueue = jQuery({});
+var attemptOrHintQueue = jQuery({});
+// Used for error reporting: what urls are in the queue when an error happens?
+var attemptOrHintQueueUrls = [];
 
 var inUnload = false;
 
@@ -719,7 +721,7 @@ $(window).on("beforeunload", function() {
 // will have permanently lost their answers and will need to clear the session
 // cache, to make sure we don't override what is passed down from the servers
 $(window).unload(function() {
-    if (attemptHintQueue.queue().length) {
+    if (attemptOrHintQueue.queue().length) {
         $(Exercises).trigger("attemptError");
     }
 });
@@ -776,9 +778,10 @@ function request(url, data) {
 
     var deferred = $.Deferred();
 
-    attemptHintQueue.queue(function(next) {
+    attemptOrHintQueue.queue(function(next) {
         var requestEndedParameters;
 
+        attemptOrHintQueueUrls.push(params.url);
         $.kaOauthAjax(params).then(function(data, textStatus, jqXHR) {
             deferred.resolve(data, textStatus, jqXHR);
 
@@ -788,16 +791,16 @@ function request(url, data) {
                 source: "serverResponse"
             });
         }, function(jqXHR, textStatus, errorThrown) {
-            // Execute passed error function first in case it wants different
-            // behavior depending upon the length of the request queue
-            // TODO(alpert): Huh? Don't think this matters.
+            // Execute passed error function first in case it wants
+            // to log the request queue or something like that.
             deferred.reject(jqXHR, textStatus, errorThrown);
 
             // Clear the queue so we don't spit out a bunch of queued up
             // requests after the error.
             // TODO(csilvers): do we need to call apiRequestEnded for
             // all these as well?  Exercises.pendingAPIRequests is now off.
-            attemptHintQueue.clearQueue();
+            attemptOrHintQueue.clearQueue();
+            attemptOrHintQueueUrls = [];
 
             requestEndedParameters = {
                 "error": {
@@ -806,6 +809,12 @@ function request(url, data) {
                 }
             };
         }).always(function() {
+            var attemptedUrl = attemptOrHintQueueUrls.pop();
+            // Sanity check.  attemptedUrl will be undefined on send-error.
+            if (attemptedUrl && attemptedUrl !== params.url) {
+                KhanUtil.debugLog("We just sent " + params.url + " but " +
+                                  attemptedUrl + " was at queue-front!");
+            }
             $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
             next();
         });
