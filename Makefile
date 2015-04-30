@@ -11,11 +11,14 @@ genfiles/calculator.js: build/calculator/calculator.jison build/calculator/calcu
 	mv genfiles/Calculator.js genfiles/calculator.js
 
 
+deps:
+	npm install
+
 # Pack all files in exercises/ into exercises-packed/, unless the one
 # in exercises-packed is newer.
 # This needs 'bundle' on your system, to install needed ruby modules.
 pack packed: deps
-	args=`cd exercises && find * -name '*.html' | while read infile; do outfile="../exercises-packed/$$infile"; echo "$$outfile" | xargs dirname | xargs mkdir -p; [ "$$outfile" -nt "$$infile" ] || echo "exercises/$$infile::exercises-packed/$$infile"; done`; echo "$$args" | tr ' ' '\012'; [ -z "$$args" ] || env LC_ALL=en_US.UTF-8 bundle exec ruby build/pack.rb $$args
+	args=`cd exercises && find * -name '*.html' | while read infile; do outfile="../exercises-packed/$$infile"; echo "$$outfile" | xargs dirname | xargs mkdir -p; [ "$$outfile" -nt "$$infile" ] || echo "exercises/$$infile::exercises-packed/$$infile"; done`; echo "$$args" | tr ' ' '\012'; [ -z "$$args" ] || node build/pack.js $$args
 
 
 # These need 'pip' on your system, to install lxml/etc.
