@@ -1981,7 +1981,7 @@ function loadExercise(exerciseId, fileName) {
         // into a jQuery object. IE8 will attempt to fetch these external
         // scripts otherwise.
         // See https://github.com/Khan/khan-exercises/issues/10957
-        data = data.replace(/<script(\s)+src=([^<])*<\/script>/, "");
+        data = data.replace(/<script[^>]+src=[^<]*<\/script>/, "");
 
         var newContents = $(data).filter(".exercise");
 
