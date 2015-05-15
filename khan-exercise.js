@@ -1368,23 +1368,17 @@ function showHint() {
     var problem = $(hint).parent();
 
     // Append first so MathJax can sense the surrounding CSS context properly
-    // Also add in some properties so that the hint is navigable by keyboard
-    // The hint is added to "hintalert" instead of "hintsarea" as hintalert
-    // has a role of "alert" set to notify screen readers about the addition
-    // of the hint to the page
+    // Also add in some properties so that the hint is focusable
     $(hint).attr({
-        tabIndex: 0
-    }).appendTo("#hintalert").runModules(problem);
+        tabIndex: "-1"
+    }).appendTo("#hintsarea").runModules(problem);
 
     if (hints.length === 0) {
         $(hint).addClass("last-hint");
     }
 
-    // Voiceover takes, apparently, around 200ms to trigger reading the hint
-    // after which we can safely move it into the main hints area
-    setTimeout(function() {
-        $(hint).appendTo("#hintsarea");
-    }, 200);
+    // Focus the hint, forcing it to be read by a screen reader
+    $(hint).focus();
 
     // TODO(james): figure out a way to trigger hintUsed to ensure that the
     // cards are updated properly, but make sure the ajax calls to
