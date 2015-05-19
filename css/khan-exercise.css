@@ -60,6 +60,11 @@ div.definition {
 #extras li:before { content: "| "; }
 #extras li:first-child:before { content: ""; }
 
+#scratchpad-show {
+	position: relative;
+	z-index: 1;
+}
+
 #answer_area #check-answer-results { overflow: hidden; margin: 5px 0; }
 #answer_area #check-answer-results .check-answer-message { font-size: 12px; line-height: 20px; margin: 0; }
 #sad, #happy { float: left; margin: 0 6px 4px 0; }
