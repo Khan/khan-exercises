@@ -39,7 +39,7 @@ else:
 os.chdir(tempdir)
 
 print "Downloading MathJax..."
-os.system('curl -# -L -o mathjax.zip https://github.com/mathjax/MathJax/zipball/v2.1')
+os.system('curl -# -L -o mathjax.zip https://github.com/mathjax/MathJax/archive/2.1.0.zip')
 
 print "Unzipping..."
 os.system('unzip -q mathjax.zip')
@@ -47,7 +47,7 @@ os.unlink('mathjax.zip')
 
 try:
     os.chdir((path for path in os.listdir(".")
-              if path.startswith("mathjax-")).next())
+              if path.startswith("MathJax-")).next())
 except:
     print "Error unzipping mathjax.js"
     sys.exit(1)
