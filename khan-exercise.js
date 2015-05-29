@@ -609,13 +609,40 @@ var Khan = {
             $("#issue-title, #issue-body").val("");
         });
 
+        // When the Show Answer button of the issue form is clicked,
+        // we need to show all of the hints.
         $("#issue-show-answer").click(function(e) {
             e.preventDefault();
-            while (hints.length > 0) {
-                $("#hint").click();
-            }
-            $(this).addClass("disabled");
+
+            // If there is a hint available, we'll show it by clicking
+            // on the hint button. If there are no hints available,
+            // that means that we're done showing hints so we disable
+            // the Show Answer button.
+            var showHintIfAvailable = function showHintIfAvailable() {
+                // This button runs with both khan-exercise code and
+                // Perseus code. The only common place to look to see
+                // if there are more hints remaining is the state of the
+                // hint button.
+                if ($("#hint").attr("disabled")) {
+                    $(Exercises).off("hintShown", showHintIfAvailable);
+
+                    // "this" is bound to the Show Answer button itself
+                    $(this).addClass("disabled");
+                } else {
+                    $("#hint").click();
+                }
+            }.bind(this);
+
+            // The hintShown event is the key to looping through the
+            // hints. It is our signal that the asynchronously managed
+            // display of a hint has completed so that we can try to
+            // then show the next hint.
+            $(Exercises).on("hintShown", showHintIfAvailable);
+
+            // Kick off the cycle by showing the first hint.
+            showHintIfAvailable();
         });
+                
         $(Exercises).bind("newProblem", function() {
             $("#issue-show-answer").removeClass("disabled");
         });
