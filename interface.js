@@ -319,6 +319,7 @@ function handleAttempt(data) {
 
     $(Exercises).trigger("checkAnswer", {
         correct: score.correct,
+        item: PerseusBridge.getSeedInfo().seed,
         card: Exercises.currentCard,
         optOut: optOut,
         // Determine if this attempt qualifies as fast completion
