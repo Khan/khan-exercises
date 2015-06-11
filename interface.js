@@ -7,122 +7,11 @@
  */
 (function() {
 
-// TODO I don't know how to do an import from ../javascript/shared-package
-//      so I am copying this here but it should be removed later.
-window.LocalStore = {
-    // Bump up "version" any time you want to completely wipe LocalStore results.
-    // This lets us expire values on all users' LocalStores when deploying
-    // a new version, if necessary.
-    version: 4,
-
-    keyPrefix: "ka",
-
-    cacheKey: function(key) {
-        if (!key) {
-            throw new Error("Attempting to use LocalStore without a key");
-        }
-
-        return [this.keyPrefix, this.version, key].join(":");
-    },
-
-    /**
-     * Get whatever data was associated with key. Returns null if no data is
-     * associated with the key, regardless of key's value (null, undefined, "monkey").
-     */
-    get: function(key) {
-        if (!this.isEnabled()) {
-            return undefined;
-        }
-
-        try {
-            var data = window.localStorage[LocalStore.cacheKey(key)];
-            if (data) {
-                return JSON.parse(data);
-            }
-        } catch(e) {
-            // If we had trouble retrieving, like FF's NS_FILE_CORRUPTED
-            // http://stackoverflow.com/questions/18877643/error-in-local-storage-ns-error-file-corrupted-firefox
-        }
-
-        return null;
-    },
-
-    /**
-     * Store data associated with key in localStorage
-     */
-    set: function(key, data) {
-        if (!this.isEnabled()) {
-            throw new Error("LocalStore is not enabled");
-        }
-        var stringified = JSON.stringify(data),
-            cacheKey = LocalStore.cacheKey(key);
-
-        try {
-            window.localStorage[cacheKey] = stringified;
-        } catch (e) {
-            // If we had trouble storing in localStorage, we may've run over
-            // the browser's 5MB limit. This should be rare, but when hit, clear
-            // everything out.
-            LocalStore.clearAll();
-        }
-    },
-
-    /**
-     * Delete whatever data was associated with key
-     */
-    del: function(key) {
-        if (!this.isEnabled()) {
-            return;
-        }
-        var cacheKey = this.cacheKey(key);
-        if (cacheKey in window.localStorage) {
-            // IE throws when deleting a key that's not currently in
-            // localStorage.
-            delete window.localStorage[cacheKey];
-        }
-    },
-
-    isEnabled: function() {
-        var enabled, uid = String(+(new Date));
-        try {
-            window.sessionStorage[uid] = uid;
-            enabled = (window.sessionStorage[uid] === uid);
-            window.sessionStorage.removeItem(uid);
-            return enabled;
-        } catch (e) {
-            return false;
-        }
-    },
-
-    /**
-     * Delete all cached objects from localStorage
-     */
-    clearAll: function() {
-        if (!this.isEnabled()) {
-            return;
-        }
-        try {
-            var i = 0;
-            while (i < localStorage.length) {
-                var key = localStorage.key(i);
-                if (key.indexOf(LocalStore.keyPrefix + ":") === 0) {
-                    delete localStorage[key];
-                } else {
-                    i++;
-                }
-            }
-        } catch(e) {
-            // If we had trouble accessing .length, like FF's NS_FILE_CORRUPTED
-            // http://stackoverflow.com/questions/18877643/error-in-local-storage-ns-error-file-corrupted-firefox
-        }
-    }
-};
-
 var attemptOrHintQueue = jQuery({});
 // Used for error reporting: what urls are in the queue when an error happens?
 var attemptOrHintQueueUrls = [];
 
-var RequestQueue = {
+var ServerRequestQueue = {
     //TODO (phillip) make sure that if the queue is not in local storage kids still can't cheat?
     LOCAL_STORAGE_KEY: "requests_queue",
 
@@ -153,7 +42,6 @@ var RequestQueue = {
      * queuing and dequeueing.
      */
     updateLocalStorage: function() {
-        console.log("Updating storage: " + this.queue);
         LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
     },
 
@@ -172,131 +60,61 @@ var RequestQueue = {
         console.log("Queue Timing out:" +
                     " length=" + this.queue.length +
                     " queue=" + this.queue);
-
-        params = this.peek().params;
-        deferred = this.peek().deferred;
-
-        // NOTE (phillip) Add a function to a queue of functions to be sent
-        attemptOrHintQueue.queue(function(next) {
-            var requestEndedParameters;
-
-            attemptOrHintQueueUrls.push(params.url);
-            // NOTE (phillip) This is where the request is actually made
-            $.kaOauthAjax(params).done(function(data, textStatus, jqXHR) {
-                // NOTE (phillip) this is called if the request succeeds
-                // This line calls any callbacks registered with the promise
-                deferred.resolve(data, textStatus, jqXHR);
-                console.log("SUCCESS");
-                RequestQueue.dequeue();
-
-                // Tell any listeners that we now have new userExercise data
-                $(Exercises).trigger("updateUserExercise", {
-                    userExercise: data,
-                    source: "serverResponse"
-                });
-                if (RequestQueue.queue.length > 0 && !RequestQueue.timeoutSet) {
-                    RequestQueue.timeoutSet = true;
-                    setTimeout(_.bind(RequestQueue.timeout, RequestQueue), 100);
-                }
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                // NOTE (phillip) this is called if request fails
-
-                // Don't take the request out of the queue because we need to try again on the
-                // next timeout
-
-                requestEndedParameters = {
-                    "error": {
-                        textStatus: textStatus,
-                        errorThrown: errorThrown
-                    }
-                };
-                if (RequestQueue.queue.length > 0 && !RequestQueue.timeoutSet) {
-                    RequestQueue.timeoutSet = true;
-                    setTimeout(_.bind(RequestQueue.timeout, RequestQueue), 100);
-                }
-            }).always(function() {
-                var attemptedUrl = attemptOrHintQueueUrls.pop();
-                // Sanity check.  attemptedUrl will be undefined on send-error.
-                if (attemptedUrl && attemptedUrl !== params.url) {
-                    KhanUtil.debugLog("We just sent " + params.url + " but " +
-                                      attemptedUrl + " was at queue-front!");
-                }
-                $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
-                next();
-                // We check for timeoutSet here just in case asyncronous calls
-                // set timeout elsewhere. I don't know if this is actually needed
-                // (phillip)
-            });
-        });
-
-        // Trigger an apiRequestStarted event here, and not in the queued function
-        // because listeners should know an API request is waiting as soon as it
-        // gets queued up.
-        $(Exercises).trigger("apiRequestStarted");
-    },
-
-    // TODO not used but keeping it here just in case
-    sendRequest: function(params, deferred) {
-        // NOTE (phillip) Add a function to a queue of functions to be sent
-        attemptOrHintQueue.queue(function(next) {
-            var requestEndedParameters;
-
-            attemptOrHintQueueUrls.push(params.url);
-            // NOTE (phillip) This is where the request is actually made
-            $.kaOauthAjax(params).then(function(data, textStatus, jqXHR) {
-                // NOTE (phillip) this is called if the request succeeds
-                // This line calls any callbacks registered with the promise
-                deferred.resolve(data, textStatus, jqXHR);
-
-                // Tell any listeners that we now have new userExercise data
-                $(Exercises).trigger("updateUserExercise", {
-                    userExercise: data,
-                    source: "serverResponse"
-                });
-            }, function(jqXHR, textStatus, errorThrown) {
-                // NOTE (phillip) this is called if request fails
-
-                // Execute passed error function first in case it wants
-                // to log the request queue or something like that.
-                deferred.reject(jqXHR, textStatus, errorThrown);
-
-                // Clear the queue so we don't spit out a bunch of queued up
-                // requests after the error.
-                // TODO(csilvers): do we need to call apiRequestEnded for
-                // all these as well?  Exercises.pendingAPIRequests is now off.
-                attemptOrHintQueue.clearQueue();
-                attemptOrHintQueueUrls = [];
-
-                requestEndedParameters = {
-                    "error": {
-                        textStatus: textStatus,
-                        errorThrown: errorThrown
-                    }
-                };
-            }).always(function() {
-                var attemptedUrl = attemptOrHintQueueUrls.pop();
-                // Sanity check.  attemptedUrl will be undefined on send-error.
-                if (attemptedUrl && attemptedUrl !== params.url) {
-                    KhanUtil.debugLog("We just sent " + params.url + " but " +
-                                      attemptedUrl + " was at queue-front!");
-                }
-                $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
-                next();
-            });
-        });
-
-        // Trigger an apiRequestStarted event here, and not in the queued function
-        // because listeners should know an API request is waiting as soon as it
-        // gets queued up.
-        $(Exercises).trigger("apiRequestStarted");
+        this.consumeQueue();
     },
 
     /**
      * Gets and removes next item from queue.
      */
     dequeue: function() {
+        output = this.queue.shift();
         this.updateLocalStorage();
-        return this.queue.shift();
+        return output;
+    },
+
+    /**
+     * This is called either on timeout or when we are still in the process of consuming
+     * the queue. Each time this is called only one action is handled.
+     */
+    consumeQueue: function() {
+        console.log("Consuming queue... " + this.queue.length);
+        if (this.queue.length === 0) {
+            console.log("Queue empty!");
+            return;
+        }
+
+        action = ServerActionEnum[this.peek().action];
+        actionArgs = this.peek().actionArgs;
+        console.log("Action args: " + actionArgs);
+        // add callback to fail
+        // TODO (phillip) should we really pass null as `this` arg?
+        action.apply(null, actionArgs).done(function(xhr) {
+            console.log("SUCCESS");
+            // We succeeded so remove this from the queue and continue on
+            ServerRequestQueue.dequeue();
+            ServerRequestQueue.consumeQueue();
+        }).fail(function(xhr) {
+            console.log("Failing!! " + xhr.statusText);
+            // TODO (phillip) if the server is unreachable or we timeout we should
+            //                stop parsing actions and not remove current action from
+            //                queue. If, however, we fail for some other reason, we
+            //                should remove from queue and continue parsing actions
+            // NOTE (phillip) When the connection is refused (we aren't connected to
+            //                the server) the statusText is 'error'
+            if (xhr.statusText === "error") {
+                // We didn't receive a resonse (I think...) don't remove this from queue and
+                // break from going through actions. (reset timeout as well?)
+                if (!ServerRequestQueue.timeoutSet) {
+                    ServerRequestQueue.timeoutSet = true;
+                    setTimeout(_.bind(ServerRequestQueue.timeout, ServerRequestQueue), 100);
+                }
+            } else {
+                // We failed for some other reason than a timeout. Remove this from
+                // the queue and continue going through actions?
+                ServerRequestQueue.dequeue();
+                ServerRequestQueue.consumeQueue();
+            }
+        });
     },
 
     /**
@@ -311,8 +129,9 @@ var RequestQueue = {
      * If there is nothing in the queue add the new request and call the timeout
      * function. If the queue is not empty then just add the new request.
      */
-    enqueue: function(deferred, params) {
-        this.queue.push({deferred: deferred, params: params});
+    enqueue: function(action, actionArgs) {
+        // NOTE any of the actionArgs must be JSON serializable (i.e. must be representable by a string)
+        this.queue.push({action: action, actionArgs: actionArgs});
         this.updateLocalStorage();
         if (!this.timeoutSet) {
             this.timeoutSet = true;
@@ -320,6 +139,88 @@ var RequestQueue = {
         }
     },
 };
+
+// TODO (phillip) any action MUST return the promise object so we can know when a request fails
+ServerActionEnum = {
+    "makeAttempt": saveAttemptToServer,
+    "hintRequest": request,
+};
+
+// First arg is the action, args is a list of arguments to be passed to action function
+function queueServerAction(action, actionArgs) {
+    ServerRequestQueue.enqueue(action, actionArgs);
+}
+
+function saveAttemptToServer(url, attemptData) {
+    console.log("Saving attempt");
+    // Save the problem results to the server
+    promise = request(url, attemptData).fail(function(xhr) {
+        // Alert any listeners of the error before reload
+        $(Exercises).trigger("attemptError");
+
+        if (inUnload) {
+            // This path gets called when there is a broken pipe during
+            // page unload- browser navigating away during ajax request
+            // See http://stackoverflow.com/a/1370383.
+            return;
+        }
+
+        // Error during submit. Disable the page and ask users to
+        // reload in an attempt to get updated data.
+
+        // Hide the page so users don't continue, then warn the user about the
+        // problem and encourage reloading the page
+        $("#problem-and-answer").css("visibility", "hidden");
+
+        if (xhr.statusText === "timeout") {
+            // TODO(david): Instead of throwing up this error message, try
+            //     retrying the request or something. See more details in
+            //     comment in request().
+            $(Exercises).trigger("warning",
+                    $._("Uh oh, it looks like a network request timed out! " +
+                        "You'll need to " +
+                        "<a href='%(refresh)s'>refresh</a> to continue. " +
+                        "If you think this is a mistake, " +
+                        "<a href='http://www.khanacademy.org/reportissue?" +
+                        "type=Defect'>tell us</a>.",
+                        {refresh: _.escape(window.location.href)}
+                    )
+            );
+        } else {
+            $(Exercises).trigger("warning",
+                    $._("This page is out of date. You need to " +
+                        "<a href='%(refresh)s'>refresh</a>, but don't " +
+                        "worry, you haven't lost progress. If you think " +
+                        "this is a mistake, " +
+                        "<a href='http://www.khanacademy.org/reportissue?" +
+                        "type=Defect'>tell us</a>.",
+                        {refresh: _.escape(window.location.href)}
+                    )
+            );
+        }
+
+        // Also log this failure to a bunch of places so we can see
+        // how frequently this occurs, and if it's similar to the frequency
+        // that we used to get for the endless spinner at end of task card
+        // logs.
+        var logMessage = "[" + (+new Date()) + "] request to " +
+            url + " failed (" + xhr.status + ", " + xhr.statusText + ") " +
+            "with " + (Exercises.pendingAPIRequests - 1) +
+            " other pending API requests: " + attemptOrHintQueueUrls +
+            " (in khan-exercises/interface.js:handleAttempt)";
+
+        // Log to app engine logs... hopefully.
+        $.post("/sendtolog", {message: logMessage, with_user: 1});
+
+        // Also log to Sentry via Raven, just for some redundancy in case
+        // the above request doesn't make it to our server somehow.
+        if (window.Raven) {
+            window.Raven.captureMessage(
+                    logMessage, {tags: {ipaddebugging: true}});
+        }
+    });
+    return promise;
+}
 
 
 
@@ -347,6 +248,7 @@ $.kaOauthAjax = function (options) {
     if ($.oauth) {
         return $.oauth(options);
     } else {
+        console.log("Sending ajax request");
         return $.ajax(options);
     }
 };
@@ -545,6 +447,7 @@ function handleAttempt(data) {
     var optOut = data.optOut;
     var score;
 
+    // Score the attempt
     if (framework === "perseus") {
         score = PerseusBridge.scoreInput();
     } else if (framework === "khan-exercises") {
@@ -731,72 +634,7 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    // Save the problem results to the server
-    request(url, attemptData).fail(function(xhr) {
-        // Alert any listeners of the error before reload
-        $(Exercises).trigger("attemptError");
-
-        if (inUnload) {
-            // This path gets called when there is a broken pipe during
-            // page unload- browser navigating away during ajax request
-            // See http://stackoverflow.com/a/1370383.
-            return;
-        }
-
-        // Error during submit. Disable the page and ask users to
-        // reload in an attempt to get updated data.
-
-        // Hide the page so users don't continue, then warn the user about the
-        // problem and encourage reloading the page
-        $("#problem-and-answer").css("visibility", "hidden");
-
-        if (xhr.statusText === "timeout") {
-            // TODO(david): Instead of throwing up this error message, try
-            //     retrying the request or something. See more details in
-            //     comment in request().
-            $(Exercises).trigger("warning",
-                    $._("Uh oh, it looks like a network request timed out! " +
-                        "You'll need to " +
-                        "<a href='%(refresh)s'>refresh</a> to continue. " +
-                        "If you think this is a mistake, " +
-                        "<a href='http://www.khanacademy.org/reportissue?" +
-                        "type=Defect'>tell us</a>.",
-                        {refresh: _.escape(window.location.href)}
-                    )
-            );
-        } else {
-            $(Exercises).trigger("warning",
-                    $._("This page is out of date. You need to " +
-                        "<a href='%(refresh)s'>refresh</a>, but don't " +
-                        "worry, you haven't lost progress. If you think " +
-                        "this is a mistake, " +
-                        "<a href='http://www.khanacademy.org/reportissue?" +
-                        "type=Defect'>tell us</a>.",
-                        {refresh: _.escape(window.location.href)}
-                    )
-            );
-        }
-
-        // Also log this failure to a bunch of places so we can see
-        // how frequently this occurs, and if it's similar to the frequency
-        // that we used to get for the endless spinner at end of task card
-        // logs.
-        var logMessage = "[" + (+new Date()) + "] request to " +
-            url + " failed (" + xhr.status + ", " + xhr.statusText + ") " +
-            "with " + (Exercises.pendingAPIRequests - 1) +
-            " other pending API requests: " + attemptOrHintQueueUrls +
-            " (in khan-exercises/interface.js:handleAttempt)";
-
-        // Log to app engine logs... hopefully.
-        $.post("/sendtolog", {message: logMessage, with_user: 1});
-
-        // Also log to Sentry via Raven, just for some redundancy in case
-        // the above request doesn't make it to our server somehow.
-        if (window.Raven) {
-            window.Raven.captureMessage(
-                    logMessage, {tags: {ipaddebugging: true}});
-        }
-    });
+    queueServerAction("makeAttempt", [url, attemptData]);
 
     if (skipped && !Exercises.assessmentMode) {
         // Skipping should pull up the next card immediately - but, if we're in
@@ -826,7 +664,6 @@ function onShowExampleClicked() {
     $(PerseusBridge).trigger("showWorkedExample");
 }
 
-var waitingOnHintRequest = false;
 /**
  * Handle the event when a user clicks to use a hint.
  *
@@ -836,13 +673,7 @@ var waitingOnHintRequest = false;
  * that the XHR can be sent after the other items have a chance to respond.
  */
 function onHintButtonClicked() {
-    if (waitingOnHintRequest) {
-        return;
-    }
-    waitingOnHintRequest = true;
-
     var curTime = new Date().getTime();
-    var prevLastAttemptOrHint = lastAttemptOrHint;
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
     lastAttemptOrHint = curTime;
     var logEntry = ["hint-activity", "0", timeTaken];
@@ -866,7 +697,7 @@ function onHintButtonClicked() {
         var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        hintRequest = request(url, attemptData);
+        queueServerAction("hintRequest", [url, attemptData]);
         hintsUsed--;
     } else {
         // We don't send a request to the server, so just assume immediate
@@ -874,54 +705,12 @@ function onHintButtonClicked() {
         hintRequest = $.when();
     }
 
-    // If the hint request fails within TIMEOUT_MS, it probably means that the
-    // student's internet is offline and that maybe they're trying to cheat. To
-    // prevent this, we always wait TIMEOUT_MS before showing a hint; if the
-    // network request fails before the timeout we don't show the hint and
-    // pretend that nothing happened.
-    var TIMEOUT_MS = 50;
-    var showHintD = $.Deferred();
-
-    hintRequest.then(function() {
-        if (showHintD.state() === "pending") {
-            showHintD.resolve();
-        }
-    }, function() {
-        if (showHintD.state() === "pending") {
-            showHintD.reject();
-        }
-    });
-
-    // Always show the hint after TIMEOUT_MS
-    setTimeout(function() {
-        if (showHintD.state() === "pending") {
-            showHintD.resolve();
-        }
-    }, TIMEOUT_MS);
-
-    showHintD.always(function() {
-        waitingOnHintRequest = false;
-    }).done(function() {
-        var framework = Exercises.getCurrentFramework();
-        if (framework === "perseus") {
-            $(PerseusBridge).trigger("showHint");
-        } else if (framework === "khan-exercises") {
-            $(Khan).trigger("showHint");
-        }
-    }).fail(function() {
-        KhanUtil.debugLog("Hint network request failed; not showing hint");
-        // Set global state back to how it was
-        // TODO(alpert): Really we should store this in a snapshottable way
-        // (e.g., with persistent data structures) so that this is easy...
-        lastAttemptOrHint = prevLastAttemptOrHint;
-        // Filter out the hint activity entry in place
-        var ual = Exercises.userActivityLog;
-        for (var i = ual.length; i-- > 0;) {
-            if (ual[i] === logEntry) {
-                ual.splice(i, 1);
-            }
-        }
-    });
+    var framework = Exercises.getCurrentFramework();
+    if (framework === "perseus") {
+        $(PerseusBridge).trigger("showHint");
+    } else if (framework === "khan-exercises") {
+        $(Khan).trigger("showHint");
+    }
 }
 
 function onHintShown(e, data) {
@@ -1089,11 +878,54 @@ function request(url, data) {
     };
 
     var deferred = $.Deferred();
-    RequestQueue.enqueue(deferred, params);
 
-    // TODO (phillip) per the comment above I am slightly worried about idempotency.
-    //                This will need to be something that is especially paid attention
-    //                to in any code reviews
+    attemptOrHintQueue.queue(function(next) {
+        var requestEndedParameters;
+
+        attemptOrHintQueueUrls.push(params.url);
+        $.kaOauthAjax(params).then(function(data, textStatus, jqXHR) {
+            // This line calls any callbacks registered with the promise
+            deferred.resolve(data, textStatus, jqXHR);
+
+            // Tell any listeners that we now have new userExercise data
+            $(Exercises).trigger("updateUserExercise", {
+                userExercise: data,
+                source: "serverResponse"
+            });
+        }, function(jqXHR, textStatus, errorThrown) {
+            // Execute passed error function first in case it wants
+            // to log the request queue or something like that.
+            deferred.reject(jqXHR, textStatus, errorThrown);
+
+            // Clear the queue so we don't spit out a bunch of queued up
+            // requests after the error.
+            // TODO(csilvers): do we need to call apiRequestEnded for
+            // all these as well?  Exercises.pendingAPIRequests is now off.
+            attemptOrHintQueue.clearQueue();
+            attemptOrHintQueueUrls = [];
+
+            requestEndedParameters = {
+                "error": {
+                    textStatus: textStatus,
+                    errorThrown: errorThrown
+                }
+            };
+        }).always(function() {
+            var attemptedUrl = attemptOrHintQueueUrls.pop();
+            // Sanity check.  attemptedUrl will be undefined on send-error.
+            if (attemptedUrl && attemptedUrl !== params.url) {
+                KhanUtil.debugLog("We just sent " + params.url + " but " +
+                                  attemptedUrl + " was at queue-front!");
+            }
+            $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
+            next();
+        });
+    });
+
+    // Trigger an apiRequestStarted event here, and not in the queued function
+    // because listeners should know an API request is waiting as soon as it
+    // gets queued up.
+    $(Exercises).trigger("apiRequestStarted");
 
     return deferred.promise();
 }
@@ -1235,5 +1067,8 @@ function clearExistingProblem() {
 
     Khan.scratchpad.clear();
 }
+
+// Initialize down here so that we have all necessary function definitions
+ServerRequestQueue.initialize();
 
 })();
