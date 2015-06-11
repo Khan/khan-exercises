@@ -7,6 +7,322 @@
  */
 (function() {
 
+// TODO I don't know how to do an import from ../javascript/shared-package
+//      so I am copying this here but it should be removed later.
+window.LocalStore = {
+    // Bump up "version" any time you want to completely wipe LocalStore results.
+    // This lets us expire values on all users' LocalStores when deploying
+    // a new version, if necessary.
+    version: 4,
+
+    keyPrefix: "ka",
+
+    cacheKey: function(key) {
+        if (!key) {
+            throw new Error("Attempting to use LocalStore without a key");
+        }
+
+        return [this.keyPrefix, this.version, key].join(":");
+    },
+
+    /**
+     * Get whatever data was associated with key. Returns null if no data is
+     * associated with the key, regardless of key's value (null, undefined, "monkey").
+     */
+    get: function(key) {
+        if (!this.isEnabled()) {
+            return undefined;
+        }
+
+        try {
+            var data = window.localStorage[LocalStore.cacheKey(key)];
+            if (data) {
+                return JSON.parse(data);
+            }
+        } catch(e) {
+            // If we had trouble retrieving, like FF's NS_FILE_CORRUPTED
+            // http://stackoverflow.com/questions/18877643/error-in-local-storage-ns-error-file-corrupted-firefox
+        }
+
+        return null;
+    },
+
+    /**
+     * Store data associated with key in localStorage
+     */
+    set: function(key, data) {
+        if (!this.isEnabled()) {
+            throw new Error("LocalStore is not enabled");
+        }
+        var stringified = JSON.stringify(data),
+            cacheKey = LocalStore.cacheKey(key);
+
+        try {
+            window.localStorage[cacheKey] = stringified;
+        } catch (e) {
+            // If we had trouble storing in localStorage, we may've run over
+            // the browser's 5MB limit. This should be rare, but when hit, clear
+            // everything out.
+            LocalStore.clearAll();
+        }
+    },
+
+    /**
+     * Delete whatever data was associated with key
+     */
+    del: function(key) {
+        if (!this.isEnabled()) {
+            return;
+        }
+        var cacheKey = this.cacheKey(key);
+        if (cacheKey in window.localStorage) {
+            // IE throws when deleting a key that's not currently in
+            // localStorage.
+            delete window.localStorage[cacheKey];
+        }
+    },
+
+    isEnabled: function() {
+        var enabled, uid = String(+(new Date));
+        try {
+            window.sessionStorage[uid] = uid;
+            enabled = (window.sessionStorage[uid] === uid);
+            window.sessionStorage.removeItem(uid);
+            return enabled;
+        } catch (e) {
+            return false;
+        }
+    },
+
+    /**
+     * Delete all cached objects from localStorage
+     */
+    clearAll: function() {
+        if (!this.isEnabled()) {
+            return;
+        }
+        try {
+            var i = 0;
+            while (i < localStorage.length) {
+                var key = localStorage.key(i);
+                if (key.indexOf(LocalStore.keyPrefix + ":") === 0) {
+                    delete localStorage[key];
+                } else {
+                    i++;
+                }
+            }
+        } catch(e) {
+            // If we had trouble accessing .length, like FF's NS_FILE_CORRUPTED
+            // http://stackoverflow.com/questions/18877643/error-in-local-storage-ns-error-file-corrupted-firefox
+        }
+    }
+};
+
+var attemptOrHintQueue = jQuery({});
+// Used for error reporting: what urls are in the queue when an error happens?
+var attemptOrHintQueueUrls = [];
+
+var RequestQueue = {
+    //TODO (phillip) make sure that if the queue is not in local storage kids still can't cheat?
+    LOCAL_STORAGE_KEY: "requests_queue",
+
+    /**
+     * Filled with request objects that have the keys 'deferred' and 'params'
+     */
+    queue: [],
+    timeoutSet: false,
+
+    /**
+     * Reads requests from local storage. If the queue is empty do nothing,
+     * otherwise attempt to send the requests.
+     */
+    initialize: function() {
+        this.queue = LocalStore.get(this.LOCAL_STORAGE_KEY);
+        if (this.queue === null) {
+            this.queue = [];
+        }
+        console.log ("INITIALIZING");
+        console.log(this.queue);
+        if (this.queue.length > 0) {
+            this.timeout();
+        }
+    },
+
+    /**
+     * Updates local storage with the new queue. This should be called after
+     * queuing and dequeueing.
+     */
+    updateLocalStorage: function() {
+        console.log("Updating storage: " + this.queue);
+        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
+    },
+
+    /**
+     * Attempts to send requests, if all the requests are sent then don't
+     * reset the timeout. Otherwise reset the timeout.
+     * TODO (phillip) Is a timeout the best way to handle this? Should there
+     *                be an exponential backoff? (probably no exp backoff)
+     */
+    timeout: function() {
+        // TODO (phillip) Right now this function only sends one request each time it is called so
+        //      if a large number of requests are queued it may take a while to get through
+        //      them all. Not sure if this is an issue or not
+        this.timeoutSet = false;
+        console.log("TIMING OUT");
+        console.log("Queue Timing out:" +
+                    " length=" + this.queue.length +
+                    " queue=" + this.queue);
+
+        params = this.peek().params;
+        deferred = this.peek().deferred;
+
+        // NOTE (phillip) Add a function to a queue of functions to be sent
+        attemptOrHintQueue.queue(function(next) {
+            var requestEndedParameters;
+
+            attemptOrHintQueueUrls.push(params.url);
+            // NOTE (phillip) This is where the request is actually made
+            $.kaOauthAjax(params).done(function(data, textStatus, jqXHR) {
+                // NOTE (phillip) this is called if the request succeeds
+                // This line calls any callbacks registered with the promise
+                deferred.resolve(data, textStatus, jqXHR);
+                console.log("SUCCESS");
+                RequestQueue.dequeue();
+
+                // Tell any listeners that we now have new userExercise data
+                $(Exercises).trigger("updateUserExercise", {
+                    userExercise: data,
+                    source: "serverResponse"
+                });
+                if (RequestQueue.queue.length > 0 && !RequestQueue.timeoutSet) {
+                    RequestQueue.timeoutSet = true;
+                    setTimeout(_.bind(RequestQueue.timeout, RequestQueue), 100);
+                }
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                // NOTE (phillip) this is called if request fails
+
+                // Don't take the request out of the queue because we need to try again on the
+                // next timeout
+
+                requestEndedParameters = {
+                    "error": {
+                        textStatus: textStatus,
+                        errorThrown: errorThrown
+                    }
+                };
+                if (RequestQueue.queue.length > 0 && !RequestQueue.timeoutSet) {
+                    RequestQueue.timeoutSet = true;
+                    setTimeout(_.bind(RequestQueue.timeout, RequestQueue), 100);
+                }
+            }).always(function() {
+                var attemptedUrl = attemptOrHintQueueUrls.pop();
+                // Sanity check.  attemptedUrl will be undefined on send-error.
+                if (attemptedUrl && attemptedUrl !== params.url) {
+                    KhanUtil.debugLog("We just sent " + params.url + " but " +
+                                      attemptedUrl + " was at queue-front!");
+                }
+                $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
+                next();
+                // We check for timeoutSet here just in case asyncronous calls
+                // set timeout elsewhere. I don't know if this is actually needed
+                // (phillip)
+            });
+        });
+
+        // Trigger an apiRequestStarted event here, and not in the queued function
+        // because listeners should know an API request is waiting as soon as it
+        // gets queued up.
+        $(Exercises).trigger("apiRequestStarted");
+    },
+
+    // TODO not used but keeping it here just in case
+    sendRequest: function(params, deferred) {
+        // NOTE (phillip) Add a function to a queue of functions to be sent
+        attemptOrHintQueue.queue(function(next) {
+            var requestEndedParameters;
+
+            attemptOrHintQueueUrls.push(params.url);
+            // NOTE (phillip) This is where the request is actually made
+            $.kaOauthAjax(params).then(function(data, textStatus, jqXHR) {
+                // NOTE (phillip) this is called if the request succeeds
+                // This line calls any callbacks registered with the promise
+                deferred.resolve(data, textStatus, jqXHR);
+
+                // Tell any listeners that we now have new userExercise data
+                $(Exercises).trigger("updateUserExercise", {
+                    userExercise: data,
+                    source: "serverResponse"
+                });
+            }, function(jqXHR, textStatus, errorThrown) {
+                // NOTE (phillip) this is called if request fails
+
+                // Execute passed error function first in case it wants
+                // to log the request queue or something like that.
+                deferred.reject(jqXHR, textStatus, errorThrown);
+
+                // Clear the queue so we don't spit out a bunch of queued up
+                // requests after the error.
+                // TODO(csilvers): do we need to call apiRequestEnded for
+                // all these as well?  Exercises.pendingAPIRequests is now off.
+                attemptOrHintQueue.clearQueue();
+                attemptOrHintQueueUrls = [];
+
+                requestEndedParameters = {
+                    "error": {
+                        textStatus: textStatus,
+                        errorThrown: errorThrown
+                    }
+                };
+            }).always(function() {
+                var attemptedUrl = attemptOrHintQueueUrls.pop();
+                // Sanity check.  attemptedUrl will be undefined on send-error.
+                if (attemptedUrl && attemptedUrl !== params.url) {
+                    KhanUtil.debugLog("We just sent " + params.url + " but " +
+                                      attemptedUrl + " was at queue-front!");
+                }
+                $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
+                next();
+            });
+        });
+
+        // Trigger an apiRequestStarted event here, and not in the queued function
+        // because listeners should know an API request is waiting as soon as it
+        // gets queued up.
+        $(Exercises).trigger("apiRequestStarted");
+    },
+
+    /**
+     * Gets and removes next item from queue.
+     */
+    dequeue: function() {
+        this.updateLocalStorage();
+        return this.queue.shift();
+    },
+
+    /**
+     * Gets next item from queue without removing it. This is necessary because
+     * if a request fails we don't want to put it at the end of the queue.
+     */
+    peek: function() {
+        return this.queue[0];
+    },
+
+    /**
+     * If there is nothing in the queue add the new request and call the timeout
+     * function. If the queue is not empty then just add the new request.
+     */
+    enqueue: function(deferred, params) {
+        this.queue.push({deferred: deferred, params: params});
+        this.updateLocalStorage();
+        if (!this.timeoutSet) {
+            this.timeoutSet = true;
+            setTimeout(_.bind(this.timeout, this), 100);
+        }
+    },
+};
+
+
+
 // If any of these properties have already been defined, then leave them --
 // this happens in local mode
 _.defaults(Exercises, {
@@ -707,10 +1023,6 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
 }
 
 
-var attemptOrHintQueue = jQuery({});
-// Used for error reporting: what urls are in the queue when an error happens?
-var attemptOrHintQueueUrls = [];
-
 var inUnload = false;
 
 $(window).on("beforeunload", function() {
@@ -777,53 +1089,11 @@ function request(url, data) {
     };
 
     var deferred = $.Deferred();
+    RequestQueue.enqueue(deferred, params);
 
-    attemptOrHintQueue.queue(function(next) {
-        var requestEndedParameters;
-
-        attemptOrHintQueueUrls.push(params.url);
-        $.kaOauthAjax(params).then(function(data, textStatus, jqXHR) {
-            deferred.resolve(data, textStatus, jqXHR);
-
-            // Tell any listeners that we now have new userExercise data
-            $(Exercises).trigger("updateUserExercise", {
-                userExercise: data,
-                source: "serverResponse"
-            });
-        }, function(jqXHR, textStatus, errorThrown) {
-            // Execute passed error function first in case it wants
-            // to log the request queue or something like that.
-            deferred.reject(jqXHR, textStatus, errorThrown);
-
-            // Clear the queue so we don't spit out a bunch of queued up
-            // requests after the error.
-            // TODO(csilvers): do we need to call apiRequestEnded for
-            // all these as well?  Exercises.pendingAPIRequests is now off.
-            attemptOrHintQueue.clearQueue();
-            attemptOrHintQueueUrls = [];
-
-            requestEndedParameters = {
-                "error": {
-                    textStatus: textStatus,
-                    errorThrown: errorThrown
-                }
-            };
-        }).always(function() {
-            var attemptedUrl = attemptOrHintQueueUrls.pop();
-            // Sanity check.  attemptedUrl will be undefined on send-error.
-            if (attemptedUrl && attemptedUrl !== params.url) {
-                KhanUtil.debugLog("We just sent " + params.url + " but " +
-                                  attemptedUrl + " was at queue-front!");
-            }
-            $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
-            next();
-        });
-    });
-
-    // Trigger an apiRequestStarted event here, and not in the queued function
-    // because listeners should know an API request is waiting as soon as it
-    // gets queued up.
-    $(Exercises).trigger("apiRequestStarted");
+    // TODO (phillip) per the comment above I am slightly worried about idempotency.
+    //                This will need to be something that is especially paid attention
+    //                to in any code reviews
 
     return deferred.promise();
 }
