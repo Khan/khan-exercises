@@ -228,11 +228,14 @@ function handleAttempt(data) {
     var skipped = data.skipped;
     var optOut = data.optOut;
     var score;
+    var itemId;
 
     if (framework === "perseus") {
         score = PerseusBridge.scoreInput();
+        itemId = PerseusBridge.getSeedInfo().seed;
     } else if (framework === "khan-exercises") {
         score = Khan.scoreInput();
+        itemId = Khan.getSeedInfo().seed;
     }
 
     if (!canAttempt) {
@@ -319,7 +322,7 @@ function handleAttempt(data) {
 
     $(Exercises).trigger("checkAnswer", {
         correct: score.correct,
-        item: PerseusBridge.getSeedInfo().seed,
+        item: itemId,
         card: Exercises.currentCard,
         optOut: optOut,
         // Determine if this attempt qualifies as fast completion
