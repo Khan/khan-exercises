@@ -7,152 +7,123 @@
  */
 (function() {
 
-var attemptOrHintQueue = jQuery({});
-// Used for error reporting: what urls are in the queue when an error happens?
-var attemptOrHintQueueUrls = [];
-
-var ServerRequestQueue = {
-    //TODO (phillip) make sure that if the queue is not in local storage kids still can't cheat?
+var ServerActionQueue = {
     LOCAL_STORAGE_KEY: "requests_queue",
+    ACTION_TIMEOUT_MS: 100,
 
-    /**
-     * Filled with request objects that have the keys 'deferred' and 'params'
-     */
     queue: [],
     timeoutSet: false,
 
     /**
-     * Reads requests from local storage. If the queue is empty do nothing,
-     * otherwise attempt to send the requests.
+     * Reads queued from local storage. If the queue is empty do nothing,
+     * otherwise call the timeout function to consume the actions.
+     *
+     * WARNING: If this function is called twice and we are in the middle
+     * of a request the second time (i.e. the request has been sent but
+     * the response has not been received yet) there is the possibility
+     * that we will have the same request sent twice because the pending
+     * request is still in the queue.
      */
     initialize: function() {
         this.queue = LocalStore.get(this.LOCAL_STORAGE_KEY);
         if (this.queue === null) {
             this.queue = [];
         }
-        console.log ("INITIALIZING");
-        console.log(this.queue);
         if (this.queue.length > 0) {
             this.timeout();
         }
     },
 
     /**
-     * Updates local storage with the new queue. This should be called after
-     * queuing and dequeueing.
-     */
-    updateLocalStorage: function() {
-        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
-    },
-
-    /**
      * Attempts to send requests, if all the requests are sent then don't
      * reset the timeout. Otherwise reset the timeout.
-     * TODO (phillip) Is a timeout the best way to handle this? Should there
-     *                be an exponential backoff? (probably no exp backoff)
      */
     timeout: function() {
-        // TODO (phillip) Right now this function only sends one request each time it is called so
-        //      if a large number of requests are queued it may take a while to get through
-        //      them all. Not sure if this is an issue or not
         this.timeoutSet = false;
-        console.log("TIMING OUT");
-        console.log("Queue Timing out:" +
-                    " length=" + this.queue.length +
-                    " queue=" + this.queue);
         this.consumeQueue();
     },
 
     /**
-     * Gets and removes next item from queue.
+     * Removes the next action in the queue and returns it.
+     *
+     * @returns {object} The next action from the queue.
      */
     dequeue: function() {
         output = this.queue.shift();
-        this.updateLocalStorage();
+        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
         return output;
     },
 
     /**
-     * This is called either on timeout or when we are still in the process of consuming
-     * the queue. Each time this is called only one action is handled.
+     * If we are connected to the server this will recursively consume the queue of
+     * pending server actions. Otherwise, this will reset the timeout to be called
+     * again later.
      */
     consumeQueue: function() {
-        console.log("Consuming queue... " + this.queue.length);
         if (this.queue.length === 0) {
-            console.log("Queue empty!");
             return;
         }
 
         action = ServerActionEnum[this.peek().action];
         actionArgs = this.peek().actionArgs;
-        console.log("Action args: " + actionArgs);
-        // add callback to fail
-        // TODO (phillip) should we really pass null as `this` arg?
+        // TODO (phillip) should null really be passed as `this` arg?
         action.apply(null, actionArgs).done(function(xhr) {
-            console.log("SUCCESS");
             // We succeeded so remove this from the queue and continue on
-            ServerRequestQueue.dequeue();
-            ServerRequestQueue.consumeQueue();
+            ServerActionQueue.dequeue();
+            ServerActionQueue.consumeQueue();
         }).fail(function(xhr) {
-            console.log("Failing!! " + xhr.statusText);
-            // TODO (phillip) if the server is unreachable or we timeout we should
-            //                stop parsing actions and not remove current action from
-            //                queue. If, however, we fail for some other reason, we
-            //                should remove from queue and continue parsing actions
             // NOTE (phillip) When the connection is refused (we aren't connected to
             //                the server) the statusText is 'error'
             if (xhr.statusText === "error") {
-                // We didn't receive a resonse (I think...) don't remove this from queue and
-                // break from going through actions. (reset timeout as well?)
-                if (!ServerRequestQueue.timeoutSet) {
-                    ServerRequestQueue.timeoutSet = true;
-                    setTimeout(_.bind(ServerRequestQueue.timeout, ServerRequestQueue), 100);
+                // We didn't receive a response don't remove this from queue and
+                // break from going through actions. Reset timeout as well.
+                if (!ServerActionQueue.timeoutSet) {
+                    ServerActionQueue.timeoutSet = true;
+                    setTimeout(_.bind(ServerActionQueue.timeout, ServerActionQueue),
+                               ServerActionQueue.ACTION_TIMEOUT_MS);
                 }
             } else {
+                // TODO (phillip) Perhaps we should retry at least 3 times here?
                 // We failed for some other reason than a timeout. Remove this from
                 // the queue and continue going through actions?
-                ServerRequestQueue.dequeue();
-                ServerRequestQueue.consumeQueue();
+                ServerActionQueue.dequeue();
+                ServerActionQueue.consumeQueue();
             }
         });
     },
 
     /**
-     * Gets next item from queue without removing it. This is necessary because
-     * if a request fails we don't want to put it at the end of the queue.
+     * Returns next item from queue without removing it.
      */
     peek: function() {
         return this.queue[0];
     },
 
     /**
-     * If there is nothing in the queue add the new request and call the timeout
-     * function. If the queue is not empty then just add the new request.
+     * Add a new action to the queue of actions to be called.
+     * @param {string} action - The string mapping to the callback function in
+     *                 ServerActionEnum. The callback MUST return a promise
+     *                 object so we can know if a request fails or succeeds
+     * @param {list} actionArgs - The list of arguments to be passed to the
+     *               callback for the action. All of these arguments must be
+     *               JSON serializable.
      */
     enqueue: function(action, actionArgs) {
-        // NOTE any of the actionArgs must be JSON serializable (i.e. must be representable by a string)
         this.queue.push({action: action, actionArgs: actionArgs});
-        this.updateLocalStorage();
+        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
         if (!this.timeoutSet) {
             this.timeoutSet = true;
-            setTimeout(_.bind(this.timeout, this), 100);
+            setTimeout(_.bind(this.timeout, this), ServerActionQueue.ACTION_TIMEOUT_MS);
         }
     },
 };
 
-// TODO (phillip) any action MUST return the promise object so we can know when a request fails
 ServerActionEnum = {
     "makeAttempt": saveAttemptToServer,
     "hintRequest": request,
 };
 
-// First arg is the action, args is a list of arguments to be passed to action function
-function queueServerAction(action, actionArgs) {
-    ServerRequestQueue.enqueue(action, actionArgs);
-}
-
 function saveAttemptToServer(url, attemptData) {
-    console.log("Saving attempt");
     // Save the problem results to the server
     promise = request(url, attemptData).fail(function(xhr) {
         // Alert any listeners of the error before reload
@@ -223,7 +194,6 @@ function saveAttemptToServer(url, attemptData) {
 }
 
 
-
 // If any of these properties have already been defined, then leave them --
 // this happens in local mode
 _.defaults(Exercises, {
@@ -248,7 +218,6 @@ $.kaOauthAjax = function (options) {
     if ($.oauth) {
         return $.oauth(options);
     } else {
-        console.log("Sending ajax request");
         return $.ajax(options);
     }
 };
@@ -273,7 +242,8 @@ var PerseusBridge = Exercises.PerseusBridge,
     numHints,
     hintsUsed,
     lastAttemptOrHint,
-    lastAttemptContent;
+    lastAttemptContent,
+    currentExercise;
 
 $(Exercises)
     .bind("problemTemplateRendered", problemTemplateRendered)
@@ -367,6 +337,30 @@ function newProblem(e, data) {
     hintsUsed = data.userExercise ? data.userExercise.lastCountHints : 0;
     lastAttemptOrHint = new Date().getTime();
     lastAttemptContent = null;
+
+    storedExercise = LocalStore.get("currentExercise");
+    if (storedExercise != null &&
+        storedExercise.exercise === data.userExercise.exercise &&
+        storedExercise.problemNum === problemNum) {
+
+        currentExercise = storedExercise;
+
+        while (hintsUsed < storedExercise.hintsUsed) {
+            var framework = Exercises.getCurrentFramework();
+            if (framework === "perseus") {
+                $(PerseusBridge).trigger("showHint");
+            } else if (framework === "khan-exercises") {
+                $(Khan).trigger("showHint");
+            }
+        }
+    }
+
+    // Store currentExercise w/ hints used in local storage (above we should check if the
+    // exercise is already stored and update hintsUsed as appropriate)
+    currentExercise = {exercise: data.userExercise.exercise,
+                       hintsUsed: hintsUsed,
+                       problemNum: problemNum};
+    LocalStore.set("currentExercise", currentExercise);
 
     var framework = Exercises.getCurrentFramework();
     $("#problem-and-answer")
@@ -634,7 +628,7 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    queueServerAction("makeAttempt", [url, attemptData]);
+    ServerActionQueue.enqueue("makeAttempt", [url, attemptData]);
 
     if (skipped && !Exercises.assessmentMode) {
         // Skipping should pull up the next card immediately - but, if we're in
@@ -697,7 +691,7 @@ function onHintButtonClicked() {
         var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        queueServerAction("hintRequest", [url, attemptData]);
+        ServerActionQueue.enqueue("hintRequest", [url, attemptData]);
         hintsUsed--;
     } else {
         // We don't send a request to the server, so just assume immediate
@@ -711,6 +705,10 @@ function onHintButtonClicked() {
     } else if (framework === "khan-exercises") {
         $(Khan).trigger("showHint");
     }
+
+    // onHintShown updated the hintsUsed so we should save that to localStorage
+    currentExercise.hintsUsed = hintsUsed;
+    LocalStore.set("currentExercise", currentExercise);
 }
 
 function onHintShown(e, data) {
@@ -847,6 +845,9 @@ function fullUrl(method, useMultithreadedModule) {
     return apiBaseUrl + "/" + userExercise.exerciseModel.name + "/" + method;
 }
 
+var attemptOrHintQueue = jQuery({});
+// Used for error reporting: what urls are in the queue when an error happens?
+var attemptOrHintQueueUrls = [];
 
 function request(url, data) {
     var params = {
@@ -929,7 +930,6 @@ function request(url, data) {
 
     return deferred.promise();
 }
-
 
 function readyForNextProblem(e, data) {
     userExercise = data.userExercise;
@@ -1068,7 +1068,7 @@ function clearExistingProblem() {
     Khan.scratchpad.clear();
 }
 
-// Initialize down here so that we have all necessary function definitions
-ServerRequestQueue.initialize();
+// When this file is sourced, initialize the queue with what is stoed in localstorage
+ServerActionQueue.initialize();
 
 })();
