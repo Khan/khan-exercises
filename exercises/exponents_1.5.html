@@ -13,15 +13,14 @@
             <var id="EXP_RANGE">{0: 5, 1: 5, 2: 5, 3: 4, 4: 3, 5: 3, 6: 2, 7: 2, 8: 2, 9: 2, 10: 2}[abs(BASE)]</var>
             <var id="EXPONENT">randRange(2, EXP_RANGE)</var>
             <var id="EXPANSION">expandExponent(BASE, EXPONENT)</var>
-            <var id="FAKE_FRACTION">"\\dfrac{1}{" + (-BASE) + "^" + EXPONENT + "}"</var>
         </div>
     </div>
 
     <div class="problems">
         <div id="select-expanded">
             <div class="vars">
-                <var id="FAKE_SOLUTION1">BASE ? BASE + " \\cdot " + EXPONENT : 1</var>
-                <var id="FAKE_SOLUTION2">BASE &lt; -1 ? FAKE_FRACTION : BASE + "+" + EXPONENT</var>
+                <var id="FAKE_SOLUTION1">BASE ? negParens(BASE) + " \\cdot " + EXPONENT : 1</var>
+                <var id="FAKE_SOLUTION2">BASE + "+" + EXPONENT</var>
                 <var id="FAKE_SOLUTION3">BASE ? _(EXPONENT).times(function() { return BASE; }).join("+") : EXPONENT</var>
                 <var id="FAKE_SOLUTION4">_(abs(BASE)).times(function() { return EXPONENT; }).join(" \\cdot ")</var>
             </div>
@@ -52,10 +51,12 @@
         <div id="select-exponent">
             <div class="vars">
                 <var id="SOLUTION">negParens(BASE) + "^{" + EXPONENT + "}"</var>
-                <var id="FAKE_SOLUTION1">pow(EXPONENT, BASE) === pow(BASE, EXPONENT) ? BASE * EXPONENT : EXPONENT + "^{" + BASE + "}"</var>
-                <var id="FAKE_SOLUTION2">BASE &lt; -1 ? FAKE_FRACTION : EXPONENT + "^{" + EXPONENT + "}"</var>
-                <var id="FAKE_SOLUTION3">abs(BASE) !== 1 ? negParens(BASE) + "^{" + BASE + "}" : BASE + " + " + BASE</var>
-                <var id="FAKE_SOLUTION4" data-if="BASE < 0 && EXPONENT % 2 === 1">"-(" + (-BASE) + ")^{" + EXPONENT + "}"</var>
+                <var id="FAKE_SOLUTION1">negParens(BASE) + "^{" + (EXPONENT + abs(BASE)) + "}"</var>
+                <var id="FAKE_SOLUTION2">EXPONENT + "^{" + EXPONENT + "}"</var>
+                <var id="FAKE_SOLUTION3">abs(BASE) !== 1 ? negParens(BASE) + "^{" + abs(BASE) + "}" : negParens(BASE) + " + " + negParens(BASE)</var>
+                <var id="FAKE_SOLUTION4">pow(EXPONENT, BASE) === pow(BASE, EXPONENT) ? BASE * EXPONENT : EXPONENT + "^{" + BASE + "}"</var>
+                <var id="FAKE_SOLUTION5">"-(" + (-BASE) + ")^{" + EXPONENT + "}"</var>
+                <var id="FAKE_SOLUTION6">negParens(BASE) + "^{" + (EXPONENT * abs(BASE)) + "}"</var>
             </div>
 
             <p class="question"><code>\Large{<var>EXPANSION[0]</var> = {?}}</code></p>
@@ -64,6 +65,9 @@
                 <li><code><var>FAKE_SOLUTION1</var></code></li>
                 <li><code><var>FAKE_SOLUTION2</var></code></li>
                 <li><code><var>FAKE_SOLUTION3</var></code></li>
+                <li data-if="BASE > 0"><code><var>FAKE_SOLUTION4</var></code></li>
+                <li data-if="BASE < 0 && EXPONENT % 2 === 0"><code><var>FAKE_SOLUTION5</var></code></li>
+                <li data-if="abs(BASE) !== 1"><code><var>FAKE_SOLUTION6</var></code></li>
             </ul>
 
             <div class="hints">
