@@ -8,7 +8,7 @@
 (function() {
 
 var ServerActionQueue = {
-    LOCAL_STORAGE_KEY: "requests_queue",
+    SERVER_ACTION_QUEUE_KEY: "requests_queue",
     ACTION_TIMEOUT_MS: 100,
 
     queue: [],
@@ -25,12 +25,12 @@ var ServerActionQueue = {
      * request is still in the queue.
      */
     initialize: function() {
-        this.queue = LocalStore.get(this.LOCAL_STORAGE_KEY);
+        this.queue = LocalStore.get(this.SERVER_ACTION_QUEUE_KEY);
         if (this.queue === null) {
             this.queue = [];
         }
         if (this.queue.length > 0) {
-            this.timeout();
+            this.onTimeout();
         }
     },
 
@@ -38,7 +38,7 @@ var ServerActionQueue = {
      * Attempts to send requests, if all the requests are sent then don't
      * reset the timeout. Otherwise reset the timeout.
      */
-    timeout: function() {
+    onTimeout: function() {
         this.timeoutSet = false;
         this.consumeQueue();
     },
@@ -50,7 +50,7 @@ var ServerActionQueue = {
      */
     dequeue: function() {
         output = this.queue.shift();
-        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
+        LocalStore.set(this.SERVER_ACTION_QUEUE_KEY, this.queue);
         return output;
     },
 
@@ -66,20 +66,19 @@ var ServerActionQueue = {
 
         action = ServerActionEnum[this.peek().action];
         actionArgs = this.peek().actionArgs;
-        // TODO (phillip) should null really be passed as `this` arg?
         action.apply(null, actionArgs).done(function(xhr) {
             // We succeeded so remove this from the queue and continue on
             ServerActionQueue.dequeue();
             ServerActionQueue.consumeQueue();
         }).fail(function(xhr) {
-            // NOTE (phillip) When the connection is refused (we aren't connected to
-            //                the server) the statusText is 'error'
-            if (xhr.statusText === "error") {
-                // We didn't receive a response don't remove this from queue and
-                // break from going through actions. Reset timeout as well.
+            // When we aren't connected to the sesrver we don't get a proper response
+            // so responseText is undefined
+            if (xhr.responseText === undefined) {
+                // We didn't receive a response from the server, don't remove
+                // this from queue and reset timeout.
                 if (!ServerActionQueue.timeoutSet) {
                     ServerActionQueue.timeoutSet = true;
-                    setTimeout(_.bind(ServerActionQueue.timeout, ServerActionQueue),
+                    setTimeout(_.bind(ServerActionQueue.onTimeout, ServerActionQueue),
                                ServerActionQueue.ACTION_TIMEOUT_MS);
                 }
             } else {
@@ -110,10 +109,10 @@ var ServerActionQueue = {
      */
     enqueue: function(action, actionArgs) {
         this.queue.push({action: action, actionArgs: actionArgs});
-        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
+        LocalStore.set(this.SERVER_ACTION_QUEUE_KEY, this.queue);
         if (!this.timeoutSet) {
             this.timeoutSet = true;
-            setTimeout(_.bind(this.timeout, this), ServerActionQueue.ACTION_TIMEOUT_MS);
+            setTimeout(_.bind(this.onTimeout, this), ServerActionQueue.ACTION_TIMEOUT_MS);
         }
     },
 };
