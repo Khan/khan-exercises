@@ -227,8 +227,8 @@
         </div>
 
         <div>
-            <p>Plot the sample minimum (smallest number):</p><p>
-            </p><p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
+            <p>The sample minimum is the smallest number.</p>
+            <p><code>\qquad \large{\pink{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( [ MIN, -4.5 ], 0.13 );
@@ -237,8 +237,8 @@
         </div>
 
         <div>
-            <p>Plot the sample maximum (largest number):</p>
-            <p><code>\qquad \large{<var>SORTED_DATA.slice( 0, -1 ).join( ", " )</var>, \color{<var>PINK</var>}{<var>MAX</var>}}</code></p>
+            <p>The sample maximum is the largest number.</p>
+            <p><code>\qquad \large{<var>SORTED_DATA.slice( 0, -1 ).join( ", " )</var>, \pink{<var>MAX</var>}}</code></p>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( [ MAX, -4.5 ], 0.13 );
@@ -246,14 +246,29 @@
             </div>
         </div>
 
-        <div data-if="COUNT % 2 === 1">
-            <p>Plot the median (middle number):</p>
-            <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, (COUNT - 1) / 2 ).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>MEDIAN</var>},
-                <var>SORTED_DATA.slice( (COUNT + 1) / 2 ).join( ", " )</var>}
-            </code></p>
-            <p>Since the data has an odd number of elements, we exclude the median from the list when calculating the quartiles.</p>
+        <div>
+            <p>The median is middle number.</p>
+            <div data-if="COUNT % 2 === 1">
+                <p><code>
+                    \qquad \large{<var>SORTED_DATA.slice( 0, (COUNT - 1) / 2 ).join( ", " )</var>,
+                    \pink{<var>MEDIAN</var>},
+                    <var>SORTED_DATA.slice( (COUNT + 1) / 2 ).join( ", " )</var>}
+                </code></p>
+            </div>
+            <div data-else="" data-unwrap="">
+                <p><code>
+                    \qquad \large{<var>SORTED_DATA.slice( 0, COUNT / 2 - 1 ).join( ", " )</var>,
+                    \purple{<var>SORTED_DATA[COUNT / 2 - 1]</var>}
+                    \pink{\ |\ }
+                    \purple{<var>SORTED_DATA[COUNT / 2]</var>},
+                    <var>SORTED_DATA.slice( COUNT / 2 + 1 ).join( ", " )</var>}
+                </code></p>
+                <p>Since there are two middle numbers, the median is the mean of the middle two numbers.</p>
+                <p><code>
+                    \qquad \dfrac{\purple{<var>SORTED_DATA[COUNT / 2 - 1]</var>} + \purple{<var>SORTED_DATA[COUNT / 2]</var>}}{2} =
+                    \pink{<var>MEDIAN</var>}
+                </code></p>
+            </div>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ MEDIAN, -5.5 ], [ MEDIAN, -3.5 ] );
@@ -261,30 +276,27 @@
             </div>
         </div>
 
-        <div data-else>
-            <p>Plot the median (middle number):</p>
-            <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, COUNT / 2 - 1 ).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT / 2 - 1]</var>},
-                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT / 2]</var>},
-                <var>SORTED_DATA.slice( COUNT / 2 + 1 ).join( ", " )</var>}
-            </code></p>
-            <p>The median is the average of the middle numbers, so it's equal to <code>\dfrac{<var>SORTED_DATA[COUNT / 2 - 1]</var> + <var>SORTED_DATA[COUNT / 2]</var>}{2} = <var>MEDIAN</var></code>.</p>
-            <p>Since the data has an even number of elements, we include the middle elements in the list when calculating the quartiles.</p>
-            <div class="graphie" data-update="boxplot">
-                style({ stroke: PINK, strokeWidth: 2 }, function() {
-                    line( [ MEDIAN, -5.5 ], [ MEDIAN, -3.5 ] );
-                });
+        <div>
+            <p>The first quartile is the median of the data points to the <em>left</em> of the median.</p>
+            <div data-if="COUNT % 4 >= 2">
+                <p><code>
+                    \qquad \large{<var>SORTED_DATA.slice(0, floor(COUNT / 4)).join(", ")</var>,
+                    \pink{<var>Q1</var>},
+                    <var>SORTED_DATA.slice(floor(COUNT / 4) + 1, floor(COUNT / 2)).join(", ")</var>}
+                </code></p>
             </div>
-        </div>
-
-        <div data-if="COUNT % 4 >= 2">
-            <p>Plot the first quartile (halfway between the smallest number and the middle number):</p>
-            <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, floor(COUNT / 4) ).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>Q1</var>},
-                <var>SORTED_DATA.slice( floor(COUNT / 4) + 1 ).join( ", " )</var>}
-            </code></p>
+            <div data-else="" data-unwrap="">
+                <p><code>
+                    \qquad \large{<var>SORTED_DATA.slice(0, floor(COUNT / 4) - 1).join(", ")</var>,
+                    \purple{<var>SORTED_DATA[floor(COUNT / 4) - 1]</var>},
+                    \purple{<var>SORTED_DATA[floor(COUNT / 4)]</var>},
+                    <var>SORTED_DATA.slice(floor(COUNT / 4) + 1, floor(COUNT / 2)).join(", ")</var>}
+                </code></p>
+                <p><code>
+                    \qquad Q_1 = \dfrac{\purple{<var>SORTED_DATA[floor(COUNT / 4) - 1]</var>} +
+                    \purple{<var>SORTED_DATA[floor(COUNT / 4)]</var>}}{2} = \pink{<var>Q1</var>}
+                </code></p>
+            </div>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ Q1, -5.5 ], [ Q1, -3.5 ] );
@@ -292,45 +304,27 @@
             </div>
         </div>
 
-        <div data-else>
-            <p>Plot the first quartile (halfway between the smallest number and the middle number):</p>
-            <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, floor(COUNT / 4) - 1 ).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>SORTED_DATA[floor(COUNT / 4) - 1]</var>},
-                \color{<var>PINK</var>}{<var>SORTED_DATA[floor(COUNT / 4)]</var>},
-                <var>SORTED_DATA.slice( floor(COUNT / 4) + 1 ).join( ", " )</var>}
-            </code></p>
-            <p>The first quartile is <code>\dfrac{<var>SORTED_DATA[floor(COUNT / 4) - 1]</var> + <var>SORTED_DATA[floor(COUNT / 4)]</var>}{2} = <var>Q1</var></code>.</p>
-            <div class="graphie" data-update="boxplot">
-                style({ stroke: PINK, strokeWidth: 2 }, function() {
-                    line( [ Q1, -5.5 ], [ Q1, -3.5 ] );
-                });
+        <div>
+            <p>The third quartile is the median of the data points to the <em>right</em> of the median.</p>
+            <div data-if="COUNT % 4 >= 2">
+                <p><code>
+                    \qquad \large{<var>SORTED_DATA.slice(ceil(COUNT / 2), COUNT - 1 - floor(COUNT / 4)).join(", ")</var>,
+                    \pink{<var>SORTED_DATA[COUNT - 1 - floor(COUNT / 4)]</var>},
+                    <var>SORTED_DATA.slice(COUNT - floor(COUNT / 4)).join(", ")</var>}
+                </code></p>
             </div>
-        </div>
-
-        <div data-if="COUNT % 4 >= 2">
-            <p>Plot the third quartile (halfway between the middle number and the largest number):</p>
-            <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, COUNT - 1 - floor(COUNT / 4)).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT - 1 - floor(COUNT / 4)]</var>},
-                <var>SORTED_DATA.slice( COUNT - floor(COUNT / 4) ).join( ", " )</var>}
-            </code></p>
-            <div class="graphie" data-update="boxplot">
-                style({ stroke: PINK, strokeWidth: 2 }, function() {
-                    line( [ Q3, -5.5 ], [ Q3, -3.5 ] );
-                });
-            </div>
-        </div>
-
-        <div data-else>
-            <p>Plot the third quartile (halfway between the middle number and the largest number):</p>
-            <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, COUNT - floor(COUNT / 4) - 1).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT - floor(COUNT / 4) - 1]</var>},
-                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT - floor(COUNT / 4)]</var>},
-                <var>SORTED_DATA.slice( COUNT - floor(COUNT / 4) + 1 ).join( ", " )</var>}
-            </code></p>
-            <p>The third quartile is <code>\dfrac{<var>SORTED_DATA[COUNT - floor(COUNT / 4) - 1]</var> + <var>SORTED_DATA[COUNT - floor(COUNT / 4)]</var>}{2} = <var>Q3</var></code>.</p>
+             <div data-else="" data-unwrap="">
+                <p><code>
+                    \qquad \large{<var>SORTED_DATA.slice(ceil(COUNT / 2), COUNT - floor(COUNT / 4) - 1).join( ", " )</var>,
+                    \purple{<var>SORTED_DATA[COUNT - floor(COUNT / 4) - 1]</var>},
+                    \purple{<var>SORTED_DATA[COUNT - floor(COUNT / 4)]</var>},
+                    <var>SORTED_DATA.slice( COUNT - floor(COUNT / 4) + 1 ).join( ", " )</var>}
+                </code></p>
+                <p><code>
+                    \qquad Q_3 = \dfrac{\purple{<var>SORTED_DATA[COUNT - floor(COUNT / 4) - 1]</var>} +
+                    \purple{<var>SORTED_DATA[COUNT - floor(COUNT / 4)]</var>}}{2} = \pink{<var>Q3</var>}
+                </code>.</p>
+             </div>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ Q3, -5.5 ], [ Q3, -3.5 ] );
