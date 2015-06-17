@@ -18,6 +18,8 @@
                     <var id="LCM">getLCM(DEN_1, DEN_2)</var>
                     <var id="F1">LCM / DEN_1</var>
                     <var id="F2">LCM / DEN_2</var>
+                    <var id="N1">DEN_1 * F1</var>
+                    <var id="N2">DEN_2 * F1</var>
 
                     <var id="SOLUTION">(function() {
                         var f1 = NUM_1 / DEN_1;
@@ -31,7 +33,7 @@
 
                 </div>
                 <div class="problem">
-                    <p>Fill in the blank.</p>
+                    <p>Compare.</p>
                     <p>
                         <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>
                         ____ <code>\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>
@@ -45,16 +47,32 @@
                 </ul>
 
                 <div class="hints">
-                    <p>It is easier to compare these two fractions when they have the same denominator.</p>
-                    <p>Their smallest common denominator is the LCM of <code><var>DEN_1</var></code> and <code><var>DEN_2</var></code>.</p>
-                    <p><code>\lcm(<var>DEN_1</var>, <var>DEN_2</var>) = <var>LCM</var></code></p>
                     <div>
-                        <p data-if="F1 === 1">The first fraction remains <code>\dfrac{<var>NUM_1</var>}{<var>LCM</var>}</code>.</p>
-                        <p data-else="">The first fraction becomes <code>\dfrac{<var>NUM_1 * F1</var>}{<var>LCM</var>}</code>.</p>
-                        <p data-if="F2 === 1">The second fraction remains <code>\dfrac{<var>NUM_2</var>}{<var>LCM</var>}</code>.</p>
-                        <p data-else="">The second fraction becomes <code>\dfrac{<var>NUM_2 * F2</var>}{<var>LCM</var>}</code>.</p>
+                        <p>Let's change the fractions to have a common denominator of <code><var>LCM</var></code>:</p>
+                        <p><code>
+                            \qquad\begin{eqnarray}
+                                \blue{\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}} \times 
+                                \dfrac{<var>F1</var>}{<var>F1</var>} &amp;=&amp; \blue{\dfrac{<var>N1</var>}{<var>LCM</var>}} \\ \\
+                                \green{\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}} \times 
+                                \dfrac{<var>F2</var>}{<var>F2</var>} &amp;=&amp; \green{\dfrac{<var>N2</var>}{<var>LCM</var>}}
+                            \end{eqnarray}
+                        </code></p>
                     </div>
-                    <p>We see that <code>\dfrac{<var>NUM_1 * F1</var>}{<var>LCM</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2 * F2</var>}{<var>LCM</var>}</code>.</p>
+
+                    <div>
+                        <p>Now that our fractions have the same denominator, we compare their numerators:</p>
+                        <p><code>\qquad \blue{<var>N1</var>} <var>SOLUTION</var> \green{<var>N2</var>}</code></p>
+                    </div>
+                    
+                    <p><code>
+                        \qquad \blue{\dfrac{<var>N1</var>}{<var>LCM</var>}} <var>SOLUTION</var>
+                        \green{\dfrac{<var>N2</var>}{<var>LCM</var>}}
+                    </code></p>
+                    
+                    <p><code>
+                        \qquad \blue{\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}} <var>SOLUTION</var>
+                        \green{\dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}}
+                    </code></p>
                 </div>
             </div>
         </div>
