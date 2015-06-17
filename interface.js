@@ -8,11 +8,12 @@
 (function() {
 
 var ServerActionQueue = {
-    SERVER_ACTION_QUEUE_KEY: "requests_queue",
+    LOCAL_STORAGE_KEY: "exercises-server-action-queue",
     ACTION_TIMEOUT_MS: 100,
 
     queue: [],
     timeoutSet: false,
+    timeoutMultiplier: 1,
 
     /**
      * Reads queued from local storage. If the queue is empty do nothing,
@@ -25,7 +26,7 @@ var ServerActionQueue = {
      * request is still in the queue.
      */
     initialize: function() {
-        this.queue = LocalStore.get(this.SERVER_ACTION_QUEUE_KEY);
+        this.queue = LocalStore.get(this.LOCAL_STORAGE_KEY);
         if (this.queue === null) {
             this.queue = [];
         }
@@ -50,8 +51,22 @@ var ServerActionQueue = {
      */
     dequeue: function() {
         output = this.queue.shift();
-        LocalStore.set(this.SERVER_ACTION_QUEUE_KEY, this.queue);
+        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
         return output;
+    },
+
+    /**
+     * Arm the timeout and increment the timeoutMultiplier
+     */
+    armTimeout: function() {
+        if (!this.timeoutSet) {
+            this.timeoutSet = true;
+            setTimeout(_.bind(this.onTimeout, this),
+                       this.ACTION_TIMEOUT_MS * this.timeoutMultiplier);
+        }
+
+        // Increment timeoutMultiplier but max at 20
+        this.timeoutMultiplier = Math.min(20, this.timeoutMultiplier+1);
     },
 
     /**
@@ -66,27 +81,29 @@ var ServerActionQueue = {
 
         action = ServerActionEnum[this.peek().action];
         actionArgs = this.peek().actionArgs;
-        action.apply(null, actionArgs).done(function(xhr) {
-            // We succeeded so remove this from the queue and continue on
+        retriesLeft = this.peek().retriesLeft;
+        action.apply(null, actionArgs).done(function() {
+            // We succeeded so remove this from the queue and reset timeoutMultiplier
+            ServerActionQueue.timeoutMultiplier = 1;
             ServerActionQueue.dequeue();
             ServerActionQueue.consumeQueue();
         }).fail(function(xhr) {
             // When we aren't connected to the sesrver we don't get a proper response
             // so responseText is undefined
-            if (xhr.responseText === undefined) {
-                // We didn't receive a response from the server, don't remove
-                // this from queue and reset timeout.
-                if (!ServerActionQueue.timeoutSet) {
-                    ServerActionQueue.timeoutSet = true;
-                    setTimeout(_.bind(ServerActionQueue.onTimeout, ServerActionQueue),
-                               ServerActionQueue.ACTION_TIMEOUT_MS);
-                }
+            if (xhr.status === 0) {
+                // We didn't receive a response from the server, reset timeout.
+                ServerActionQueue.armTimeout();
             } else {
-                // TODO (phillip) Perhaps we should retry at least 3 times here?
-                // We failed for some other reason than a timeout. Remove this from
-                // the queue and continue going through actions?
-                ServerActionQueue.dequeue();
-                ServerActionQueue.consumeQueue();
+                // We received an error from the server, retry or remove from the queue
+                if (retriesLeft > 0) {
+                    ServerActionQueue.peek().retriesLeft -= 1;
+                    LocalStore.set(ServerActionQueue.LOCAL_STORAGE_KEY,
+                                   ServerActionQueue.queue);
+                    ServerActionQueue.armTimeout();
+                } else {
+                    ServerActionQueue.dequeue();
+                    ServerActionQueue.consumeQueue();
+                }
             }
         });
     },
@@ -106,14 +123,13 @@ var ServerActionQueue = {
      * @param {list} actionArgs - The list of arguments to be passed to the
      *               callback for the action. All of these arguments must be
      *               JSON serializable.
+     * @param {int} retries - Number of retries allowed for server errors
      */
-    enqueue: function(action, actionArgs) {
-        this.queue.push({action: action, actionArgs: actionArgs});
-        LocalStore.set(this.SERVER_ACTION_QUEUE_KEY, this.queue);
-        if (!this.timeoutSet) {
-            this.timeoutSet = true;
-            setTimeout(_.bind(this.onTimeout, this), ServerActionQueue.ACTION_TIMEOUT_MS);
-        }
+    enqueue: function(action, actionArgs, retries) {
+        this.queue.push({action: action, actionArgs: actionArgs,
+                         retriesLeft: retries});
+        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
+        this.armTimeout();
     },
 };
 
@@ -627,7 +643,7 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    ServerActionQueue.enqueue("makeAttempt", [url, attemptData]);
+    ServerActionQueue.enqueue("makeAttempt", [url, attemptData], 3);
 
     if (skipped && !Exercises.assessmentMode) {
         // Skipping should pull up the next card immediately - but, if we're in
@@ -690,7 +706,7 @@ function onHintButtonClicked() {
         var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        ServerActionQueue.enqueue("hintRequest", [url, attemptData]);
+        ServerActionQueue.enqueue("hintRequest", [url, attemptData], 3);
         hintsUsed--;
     } else {
         // We don't send a request to the server, so just assume immediate
