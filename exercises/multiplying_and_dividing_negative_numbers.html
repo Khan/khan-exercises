@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math math-format">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying and dividing negative numbers</title>
@@ -15,26 +15,26 @@
 
         <div class="problems">
             <div id="multiplying">
-                <p class="question"><code><var>A</var> \times <var>B</var> = ?</code></p>
+                <p class="question"><code><var>A</var> \times <var>negParens(B)</var> = ?</code></p>
                 <div class="solution"><var>C</var></div>
                 <div class="hints">
                     <p data-if="A < 0 && B < 0">A negative times a negative is a positive.</p>
                     <p data-else-if="A < 0">A negative times a positive is a negative.</p>
                     <p data-else-if="A != 0">A positive times a negative is a negative.</p>
                     <p data-else=""><code>0</code> times any number is <code>0</code>.</p>
-                    <p><code><var>A</var> \times <var>B</var> = <var>C</var></code></p>
+                    <p><code><var>A</var> \times <var>negParens(B)</var> = <var>C</var></code></p>
                 </div>
             </div>
 
             <div id="dividing">
-                <p class="question"><code><var>C</var> \div <var>B</var> = ?</code></p>
+                <p class="question"><code><var>C</var> \div <var>negParens(B)</var> = ?</code></p>
                 <div class="solution"><var>A</var></div>
                 <div class="hints">
                     <p data-if="C < 0 && B < 0">A negative divided by a negative is a positive.</p>
                     <p data-else-if="C < 0">A negative divided by a positive is a negative.</p>
                     <p data-else-if="C != 0">A positive divided by a negative is a negative.</p>
                     <p data-else=""><code>0</code> divided by any number is <code>0</code>.</p>
-                    <p><code><var>C</var> \div <var>B</var> = <var>A</var></code></p>
+                    <p><code><var>C</var> \div <var>negParens(B)</var> = <var>A</var></code></p>
                 </div>
             </div>
         </div>
