@@ -205,7 +205,6 @@
                         <p><code><var>expr(["*", B2, "y"]) + " = " + expr(["+", ["*", (-1 * A2), "x"], C2])</var></code></p>
                         <p data-if="B2 !== 1"><code><var>"y = " + fractionReduce( -A2, B2 ) + "x + " + fractionReduce( C2, B2 )</var></code></p>
                     </div>
-                    <p data-if="A1 / B1 === A2 / B2">So the two equations describe equal lines.</p>
                 </div>
             </div>
 
@@ -239,6 +238,9 @@
                     <var id="EQ2">expr(["+", ["*", A2, "x"], ["*", B2, "y"]]) + " = " + C2</var>
                 </div>
                 <div class="solution">Equal lines</div>
+                <div class="hints" data-apply="appendContents">
+                    <p>So the two equations describe equal lines.</p>
+                </div>
             </div>
 
             <div id="parallel" data-type="compare-lines">
