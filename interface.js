@@ -643,7 +643,11 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    ServerActionQueue.enqueue("makeAttempt", [url, attemptData], 3);
+    if (KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+        ServerActionQueue.enqueue("makeAttempt", [url, attemptData], 3);
+    } else {
+        saveAttemptToServer(url, attemptData);
+    }
 
     if (skipped && !Exercises.assessmentMode) {
         // Skipping should pull up the next card immediately - but, if we're in
@@ -706,7 +710,11 @@ function onHintButtonClicked() {
         var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        ServerActionQueue.enqueue("hintRequest", [url, attemptData], 3);
+        if (KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+            ServerActionQueue.enqueue("hintRequest", [url, attemptData], 3);
+        } else {
+            request(url, attemptData);
+        }
         hintsUsed--;
     } else {
         // We don't send a request to the server, so just assume immediate
@@ -1083,7 +1091,9 @@ function clearExistingProblem() {
     Khan.scratchpad.clear();
 }
 
-// When this file is sourced, initialize the queue with what is stoed in localstorage
-ServerActionQueue.initialize();
+if (KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+    // When this file is sourced, initialize the queue with what is stoed in localstorage
+    ServerActionQueue.initialize();
+}
 
 })();
