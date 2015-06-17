@@ -69,12 +69,12 @@
             <div class="hints">
                 <div class="graphie" id="circle">
                     initCircle( R );
-
                     drawRadius( R );
                 </div>
+                <p><code>d = 2\color{<var>R_COLOR</var>}{r}</code></p>
+                <p><code>\phantom{d} = 2 \cdot \color{<var>R_COLOR</var>}{<var>R</var>}</code></p>
                 <div>
-                    <p>We know <code>d = 2r</code>, so <code>d = 2 \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>.</p>
-
+                    <p><code>\phantom{d} = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code></p>
                     <div class="graphie" data-update="circle">
                         drawDiameter( R );
                     </div>
@@ -96,12 +96,13 @@
             <div class="hints">
                 <div class="graphie" id="circle">
                     initCircle( R );
-
                     drawDiameter( R );
                 </div>
+                <p><code>\color{<var>D_COLOR</var>}{d} = 2r</code></p>
+                <p><code>r = \dfrac{\color{<var>D_COLOR</var>}{d}}{2}</code></p>
+                <p><code>\phantom{r} = \dfrac{\color{<var>D_COLOR</var>}{<var>2 * R</var>}}{2}</code></p>
                 <div>
-                    <p>We know <code>d = 2r</code>, so <code>r = d / 2</code> and <code>r = \color{<var>D_COLOR</var>}{<var>2 * R</var>} / 2 = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
-
+                    <p><code>\phantom{r} = \color{<var>R_COLOR</var>}{<var>R</var>}</code></p>
                     <div class="graphie" data-update="circle">
                         drawRadius( R );
                     </div>
@@ -123,12 +124,12 @@
             <div class="hints">
                 <div class="graphie" id="circle">
                     initCircle( R );
-
                     drawRadius( R );
                 </div>
+                <p><code>c = 2\pi \color{<var>R_COLOR</var>}{r}</code></p>
+                <p><code>\phantom{c} = 2 \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>}</code></p>
                 <div>
-                    <p>We know <code>c = 2\pi r</code>, so <code>c = 2 \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>.</p>
-
+                    <p><code>\phantom{c} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code></p>
                     <div class="graphie" data-update="circle">
                         drawCircumference( R );
                     </div>
@@ -150,12 +151,13 @@
             <div class="hints">
                 <div class="graphie" id="circle">
                     initCircle( R );
-
                     drawCircumference( R );
                 </div>
+                <p><code>\color{<var>C_COLOR</var>}{c} = 2\pi r</code></p>
+                <p><code>r = \dfrac{\color{<var>C_COLOR</var>}{c}}{2\pi}</code></p>
+                <p><code>\phantom{r} = \dfrac{\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}}{2\pi}</code></p>
                 <div>
-                    <p>We know <code>c = 2\pi r</code>, so <code>r = c / 2\pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi} / 2 \pi = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
-
+                    <p><code>\phantom{r} = \color{<var>R_COLOR</var>}{<var>R</var>}</code></p>
                     <div class="graphie" data-update="circle">
                         drawRadius( R );
                     </div>
@@ -177,12 +179,12 @@
             <div class="hints">
                 <div class="graphie" id="circle">
                     initCircle( R );
-
                     drawDiameter( R );
                 </div>
+                <p><code>c = \pi \color{<var>D_COLOR</var>}{d}</code></p>
+                <p><code>\phantom{c} = \pi \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code></p>
                 <div>
-                    <p>We know <code>c = \pi d</code>, so <code>c = \pi \cdot \color{<var>D_COLOR</var>}{<var>2 * R</var>} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>.</p>
-
+                    <p><code>\phantom{c} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code></p>
                     <div class="graphie" data-update="circle">
                         drawCircumference( R );
                     </div>
@@ -204,12 +206,13 @@
             <div class="hints">
                 <div class="graphie" id="circle">
                     initCircle( R );
-
                     drawCircumference( R );
                 </div>
+                <p><code>\color{<var>C_COLOR</var>}{c} = \pi d</code></p>
+                <p><code>d = \dfrac{\color{<var>C_COLOR</var>}{c}}{\pi}</code></p>
+                <p><code>\phantom{d} = \dfrac{\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}}{\pi}</code></p>
                 <div>
-                    <p>We know <code>c = \pi d</code>, so <code>d = c / \pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi} / \pi = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>.</p>
-
+                    <p><code>\phantom{d} = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code></p>
                     <div class="graphie" data-update="circle">
                         drawDiameter( R );
                     </div>
