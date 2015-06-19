@@ -12,81 +12,78 @@
     -->
     <div class="exercise">
         <div class="vars">
-            <var id="NUM_1">randRange(1, 9)</var>
-            <var id="DEN_1">randRange(3, 9)</var>
+            <var id="DEN_1">randFromArray([2, 3, 4, 6, 8])</var>
+            <var id="NUM_1">randRange(1, DEN_1 * 2)</var>
             <var id="WHOLES">ceil(NUM_1 / DEN_1)</var>
             <var id="FINAL">NUM_1 - (WHOLES - 1) * DEN_1</var>
+            <var id="FRACTION">"\\blue{\\dfrac{1}{" + DEN_1 + "}}"</var>
         </div>
         <div class="problems">
             <div id="pie-chart">
                 <div class="question">
-                        <p data-if="WHOLES === 1">
-                            What fraction of the circle is shaded red?
-                            <span class="render-answer-area-here"></span>
-                        </p>
-                        <div data-else="">
+                    <div>
+                        <div data-if="NUM_1 >= DEN_1">
                             <p>This circle represents one whole.</p>
                             <div class="graphie">
                                 init({
                                     range: [[0, 6], [-2.1, 2.1]],
                                     scale: 25
                                 });
-                                piechart([0, DEN_1], [RED, "#999"], 2, false, 3, 0);
+                                piechart([0, DEN_1], [BLUE, GRAY20], 2, false, 3, 0);
                             </div>
-                            <p>
-                                What fraction is shaded red below?
-                                <span class="render-answer-area-here"></span>
-                            <p>
                         </div>
+                        <p>
+                            What fraction is shaded blue below?
+                            <span class="render-answer-area-here"></span>
+                        <p>
+                    </div>
 
-                        <div class="graphie">
-                            init({
-                                range: [[0, 6 * WHOLES], [-2.1, 2.1]],
-                                scale: 25
-                            });
+                    <div class="graphie">
+                        init({
+                            range: [[0, 6 * WHOLES], [-2.1, 2.1]],
+                            scale: 25
+                        });
 
-                            for (var i = 0; i &lt; WHOLES; i++) {
-                                if (i === 0) {
-                                    piechart([FINAL, DEN_1 - FINAL], [RED, "#999"], 2, false, (i + 1) * 3, 0);
-                                } else {
-                                    piechart([DEN_1, 0], [RED, "#999"], 2, false, i * 6 + 3, 0);
-                                }
+                        for (var i = 0; i &lt; WHOLES; i++) {
+                            if (i === 0) {
+                                piechart([FINAL, DEN_1 - FINAL], [BLUE, GRAY20], 2, false, (i + 1) * 3, 0);
+                            } else {
+                                piechart([DEN_1, 0], [BLUE, GRAY20], 2, false, i * 6 + 3, 0);
                             }
-                        </div>
+                        }
+                    </div>
                 </div>
                 <p class="solution" data-simplify="optional"><var>NUM_1 / DEN_1</var></p>
                 <div class="hints">
-                    <p>To find the numerator, count the red slices.</p>
-                    <p data-if="isSingular(NUM_1)">There is <code><var>NUM_1</var></code> red slice.</p>
-                    <p data-else="">There are <code><var>NUM_1</var></code> red slices.</p>
-                    <p data-if="WHOLES === 1">To find the denominator, count the total number of slices in the circle.</p>
-                    <p data-else="">To find the denominator, count the total number of slices in a circle.</p>
-                    <p data-if="WHOLES === 1">There are <code><var>DEN_1</var></code> slices in the circle.</p>
-                    <p data-else="">There are <code><var>DEN_1</var></code> slices in a circle.</p>
-                    <p>So the answer is <code>\dfrac{\red{<var>NUM_1</var>}}{<var>DEN_1</var>}</code>.</p>
+                    <p>Each blue slice is <code><var>FRACTION</var></code> of the whole.</p>
+                    <p data-if="isSingular(NUM_1)">Only one slice is shaded blue.</p>
+                    <div data-else="">
+                        <p>
+                            <code>\pink{<var>NUM_1</var>}</code> slices are shaded blue, so we add
+                            <code><var>FRACTION</var></code> a total of <code>\pink{<var>NUM_1</var>}</code> times.
+                        </p>
+                        <p><code><var>_.times(NUM_1, function() { return FRACTION; }).join(" + ")</var> = ?</code></p>
+                    </div>
+                    <p>The fraction shaded blue is <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>.</p>
                 </div>
             </div>
 
             <div id="rectangle-area">
                 <div class="question">
-                    <p data-if="WHOLES === 1">
-                        What fraction of the rectangle is shaded red?
-                        <span class="render-answer-area-here"></span>
-                    </p>
-                    <div data-else="">
+                    <div data-if="NUM_1 >= DEN_1">
                         <p>This rectangle represents one whole.</p>
                         <div class="graphie">
                             init({
                                 range: [[0, 1], [0, 1]],
                                 scale: [250, 25]
                             });
-                            rectchart([0, DEN_1], [RED, "#999"], 0);
+                            rectchart([0, DEN_1], [BLUE, GRAY20], 0);
                         </div>
-                        <p>
-                            What fraction is shaded red below?
-                            <span class="render-answer-area-here"></span>
-                        <p>
                     </div>
+                    <p>
+                        What fraction is shaded blue below?
+                        <span class="render-answer-area-here"></span>
+                    <p>
 
                     <div class="graphie">
                         init({
@@ -96,9 +93,9 @@
 
                         for (var i = 0; i &lt; WHOLES; i++) {
                             if (i === 0) {
-                                rectchart([FINAL, DEN_1 - FINAL], [RED, "#999"], i * 2);
+                                rectchart([FINAL, DEN_1 - FINAL], [BLUE, GRAY20], i * 2);
                             } else {
-                                rectchart([DEN_1, 0], [RED, "#999"], i * 2);
+                                rectchart([DEN_1, 0], [BLUE, GRAY20], i * 2);
                             }
                         }
                     </div>
@@ -106,14 +103,16 @@
                 <p class="solution" data-simplify="optional"><var>NUM_1 / DEN_1</var></p>
 
                 <div class="hints">
-                    <p>To find the numerator, count the red blocks.</p>
-                    <p data-if="isSingular(NUM_1)">There is <code><var>NUM_1</var></code> red block.</p>
-                    <p data-else="">There are <code><var>NUM_1</var></code> red blocks.</p>
-                    <p data-if="WHOLES === 1">To find the denominator, count the total blocks in the rectangle.</p>
-                    <p data-else="">To find the denominator, count the total blocks in a rectangle.</p>
-                    <p data-if="WHOLES === 1">There are <code><var>DEN_1</var></code> blocks in the rectangle.</p>
-                    <p data-else="">There are <code><var>DEN_1</var></code> blocks in a rectangle.</p>
-                    <p>So the answer is <code>\dfrac{\red{<var>NUM_1</var>}}{<var>DEN_1</var>}</code>.</p>
+                    <p>Each blue piece is <code><var>FRACTION</var></code> of the whole.</p>
+                    <p data-if="isSingular(NUM_1)">Only one piece is shaded blue.</p>
+                    <div data-else="">
+                        <p>
+                            <code>\pink{<var>NUM_1</var>}</code> piece are shaded blue, so we add
+                            <code><var>FRACTION</var></code> a total of <code>\pink{<var>NUM_1</var>}</code> times.
+                        </p>
+                        <p><code><var>_.times(NUM_1, function() { return FRACTION; }).join(" + ")</var> = ?</code></p>
+                    </div>
+                    <p>The fraction shaded blue is <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>}</code>.</p>
                 </div>
             </div>
         </div>
