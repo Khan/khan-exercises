@@ -1,8 +1,30 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<html data-require="math math-format word-problems">
 <head>
     <title>Fractions as division by a power of 10</title>
     <script data-main="../local-only/main.js" src="../local-only/require.js"></script>
+    <style type="text/css">
+        .ttable {
+            text-align: center;
+        }
+
+        .ttable thead {
+            font-weight: bold;
+        }
+
+        .ttable tr {
+            height: 23px;
+        }
+
+        .ttable td {
+            padding: 5px 10px;
+        }
+
+        .ttable .highlight-row {
+            border-top: 2px solid #ccc;
+            background-color: #ededed;
+        }
+    </style>
 </head>
 
 <body>
@@ -11,51 +33,75 @@
         <div>
             <div class="vars" data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1">
                 <var id="NUMERATOR">randRange(1, 99)</var>
+                <var id="DIGITS">integerToDigits(NUMERATOR)</var>
+                <var id="VALUES">_.map(DIGITS, function(d, i) { return d * pow(10, DIGITS.length - 1 - i); })</var>
                 <var id="PLACES">randRange(1, 2)</var>
                 <var id="DENOMINATOR">pow(10, PLACES)</var>
+                <var id="DECIMAL_DIGITS">(function() {
+                    var digits = [];
+                    var colors = ["blue", "pink"];
+                    var n = 0;
+
+                    for (var i = 0; i &lt; 3; i++) {
+                        if (VALUES[n] &amp;&amp; VALUES[n] &gt;= pow(10, PLACES - i)) {
+                            digits.push("\\" + colors[n] + "{" + DIGITS[n++]  + "}");
+                        } else {
+                            digits.push(0);
+                        }
+                    }
+                    return digits;
+                })()</var>
                 <var id="SOLUTION">roundTo(3, NUMERATOR / DENOMINATOR)</var>
             </div>
-            <p>Express the fraction as a decimal.</p>
-            <p class="question"><code>\large{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}}</code></p>
+            <p class="question">Express <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code> as a decimal.</p>
             <p class="solution" data-type="decimal"><var>SOLUTION</var></p>
             <div class="hints">
-                <p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+                <div data-if="DIGITS.length > 1" data-unwrap="">
+                    <p><code>
+                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = 
+                        \blue{\dfrac{<var>VALUES[0]</var>}{<var>DENOMINATOR</var>}} +
+                        \pink{\dfrac{<var>VALUES[1]</var>}{<var>DENOMINATOR</var>}}
+                    </code></p>
 
-                <p data-if="DENOMINATOR === 10">Dividing by <code><var>DENOMINATOR</var></code> is the same as moving the decimal one position to the left.</p>
-                <p data-else="">Dividing by <code><var>DENOMINATOR</var></code> is the same as moving the decimal two positions to the left.</p>
+                    <p><code>
+                        \phantom{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}} = 
+                        \blue{\dfrac{<var>DIGITS[0]</var>}{<var>DENOMINATOR / 10</var>}} +
+                        \pink{\dfrac{<var>DIGITS[1]</var>}{<var>DENOMINATOR</var>}}
+                    </code></p>
 
-                <div class="graphie">
-                    init({
-                        range: [[-1, 11], [-1, 2.2]],
-                        scale: [20, 40]
-                    });
+                    <p><code>
+                        \phantom{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}} = 
+                        \blue{<var>DIGITS[0]</var> \text{ <var>plural_form(decimalPlaceNames[PLACES - 1], DIGITS[0])</var>}} +
+                        \pink{<var>DIGITS[1]</var> \text{ <var>plural_form(decimalPlaceNames[PLACES], DIGITS[1])</var>}}
+                    </code></p>
+                </div>
+                <div data-else="">
+                    <p><code>
+                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = 
+                        \blue{<var>DIGITS[0]</var> \text{ <var>plural_form(decimalPlaceNames[PLACES], DIGITS[0])</var>}}
+                    </code></p>
+                </div>
 
-                    var digits = KhanUtil.digits(NUMERATOR);
-                    digits.unshift(0);
-                    var digits2 = digits.slice();
-
-                    // Leading zero
-                    if (digits.length &lt; PLACES + 2) {
-                        digits.push( ' ' );
-                        digits2.push( 0 );
-                    }
-
-                    drawDigits(digits.reverse(), 0, 1);
-                    drawDigits(digits2.reverse(), 0, 0);
-
-                    for (var i = 1; i &lt; PLACES + 1; i++) {
-                        // Final arrow
-                        if (i === PLACES) {
-                            style({arrows: "-&gt;"});
-                        }
-
-                        arc([digits.length - (i + 1), 1.5 ], 0.5, 0, 180, { stroke: "blue" });
-                    }
-
-                    //draw a black ellipse to be used as a decimal point
-                    style({fill: "#444", stroke: "#444"});
-                    ellipse([digits.length - 1.5, 0.8], [0.09, 0.06]);
-                    ellipse([digits2.length - PLACES - 1.5, -0.2], [0.09, 0.06]);
+                <div>
+                    <p>We can use a place value chart to help us write a decimal.</p>
+                    <table class="ttable">
+                        <thead>
+                            <tr>
+                                <td>Ones</td>
+                                <td><code>.</code></td>
+                                <td>Tenths</td>
+                                <td>Hundredths</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight-row">
+                                <td><code><var>DECIMAL_DIGITS[0]</var></code></td>
+                                <td><code>.</code></td>
+                                <td><code><var>DECIMAL_DIGITS[1]</var></code></td>
+                                <td><code><var>DECIMAL_DIGITS[2]</var></code></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>SOLUTION</var></code></p>
