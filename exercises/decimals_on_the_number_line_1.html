@@ -68,46 +68,43 @@
             </div>
 
             <div class="hints">
-                <p>Above we've drawn the number line from <code><var>LOWER_BOUND</var></code> to <code><var>UPPER_BOUND</var></code>,
-                divided into <code>10</code> equal pieces.</p>
-
-                <div>
-                    <p>The line is divided into <code>10</code> pieces, which means:</p>
-                    <p>Piece of line <code> = \purple{<var>commafy(MARK_INCREMENT)</var>}</code>
-                </p></div>
-
-                <p><code>\pink{<var>SOLN_TXT</var>} = \purple{<var>commafy(MARK_INCREMENT)</var>} \times \green{<var>TENTHS</var>}</code></p>
-
-                <p data-if="isSingular(TENTHS)">
-                    Therefore, moving the orange dot <code>\green{<var>TENTHS</var>}</code>
-                    place will put it at the position <code>\pink{<var>SOLN_TXT</var>}</code>.
-                </p>
-                <p data-else="">
-                    Therefore, moving the orange dot <code>\green{<var>TENTHS</var>}</code>
-                    places will put it at the position <code>\pink{<var>SOLN_TXT</var>}</code>.
+                <p>
+                    The number line is divided into <code>10</code> equal pieces between
+                    <code><var>LOWER_BOUND</var></code> and <code><var>UPPER_BOUND</var></code>.
                 </p>
 
                 <div>
                     <div class="graphie" data-update="number-line">
-                            var MI = MARK_INCREMENT;
-                            for ( var x = LOWER_BOUND + MI; x &lt; UPPER_BOUND - MI/2; x += MI ) {
-                                label( [ LOWER_BOUND + x, -0.53 ], localeToFixed(x, 1) , "center");
-                            }
+                        var MI = MARK_INCREMENT;
+                        for (var x = LOWER_BOUND + MI; x &lt; UPPER_BOUND - MI/2; x += MI) {
+                            label([LOWER_BOUND + x, -0.53], localeToFixed(x, 1) , "center");
+                        }
                     </div>
+                    <p>Each piece represents a length of <code><var>commafy(MARK_INCREMENT)</var></code>.</p>
                 </div>
 
+                <p data-if="isSingular(TENTHS)">
+                    Starting at <code><var>LOWER_BOUND</var></code>, we move a length of
+                    <code>\blue{<var>commafy(MARK_INCREMENT)</var> \text{ <var>cardinalThrough20(TENTHS)</var> time}}</code>
+                    to get to <code>\pink{<var>SOLN_TXT</var>}</code>.
+                </p>
+                <p data-else="">
+                    Starting at <code><var>LOWER_BOUND</var></code>, we move a length of
+                    <code>\blue{<var>commafy(MARK_INCREMENT)</var> \text{ <var>cardinalThrough20(TENTHS)</var> times}}</code>
+                    to get to <code>\pink{<var>SOLN_TXT</var>}</code>.
+                </p>
+
                 <div>
                     <div class="graphie" data-update="number-line">
-                        style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
-                        line( [ 0, 0 ], [ SOLUTION, 0 ] );
+                        style({ stroke: BLUE, fill: BLUE, strokeWidth: 3.5, arrows: "-&gt;" });
+                        line([0, 0], [SOLUTION, 0]);
                         graph.movablePoint.visibleShape.toFront();
 
-                        label([TENTHS/10, -0.53], SOLN_TXT, "center", { color: PINK });
+                        label([TENTHS / 10, -0.53], SOLN_TXT, "center", { color: PINK });
                         graph.movablePoint.moveTo(SOLUTION, 0);
                     </div>
                     <p>The highlighted number shows where <code>\pink{<var>SOLN_TXT</var>}</code> is on the number line.</p>
                 </div>
-
             </div>
         </div>
     </div>
