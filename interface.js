@@ -353,7 +353,7 @@ function newProblem(e, data) {
     lastAttemptOrHint = new Date().getTime();
     lastAttemptContent = null;
 
-    if (!localMode) {
+    if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
         storedExercise = LocalStore.get("currentExercise");
         if (storedExercise != null &&
             storedExercise.exercise === data.userExercise.exercise &&
