@@ -44,6 +44,10 @@
                 <var id="GIVEN_LABEL">CENTRAL_LABEL</var>
                 <var id="ASKED_LABEL">ANGLE_D_LABEL</var>
             </div>
+            <p class="problem">
+                A circle is centered on point <code>B</code>. Points <code>A</code>, <code>C</code>
+                and <code>D</code> lie on its circumference.
+            </p>
             <p class="question">
                 If <code><var>GIVEN_LABEL</var></code> angle measures <code><var>GIVEN</var>^\circ</code>,
                 what does <code><var>ASKED_LABEL</var></code> angle measure?
@@ -286,18 +290,6 @@
                     </div>
                 </div>
                 <div>
-                    <p>The angles in a triangle sum to <code>180^\circ</code>.</p>
-                    <p><code><var>ANGLE_B_LABEL</var> + <var>ANGLE_C_LABEL</var> + <var>SUBANGLE_2</var> = 180^\circ</code></p>
-                    <div class="graphie" data-update="circle">
-                        style({ stroke: GREEN }, function() {
-                            graph.circle.drawCentralArc(START + CENTRAL, SUBTENDED_POINT);
-                        })
-                        style({ stroke: PINK }, function() {
-                            graph.circle.drawInscribedArc( START + CENTRAL, SUBTENDED_POINT, START + CENTRAL + 180 );
-                        });
-                    </div>
-                </div>
-                <div>
                     <p>
                         The pink sides of triangle <code>CBD</code> are radii, so they must be equal.
                         This means triangle <code>CBD</code> is isosceles and that the base angles,
@@ -308,6 +300,18 @@
                             graph.circle.drawRadius( START + CENTRAL );
                             graph.circle.drawRadius( SUBTENDED_POINT );
                         });
+                        style({ stroke: PINK }, function() {
+                            graph.circle.drawInscribedArc( START + CENTRAL, SUBTENDED_POINT, START + CENTRAL + 180 );
+                        });
+                    </div>
+                </div>
+                <div>
+                    <p>The angles in a triangle sum to <code>180^\circ</code>.</p>
+                    <p><code><var>ANGLE_B_LABEL</var> + <var>ANGLE_C_LABEL</var> + <var>SUBANGLE_3</var> = 180^\circ</code></p>
+                    <div class="graphie" data-update="circle">
+                        style({ stroke: GREEN }, function() {
+                            graph.circle.drawCentralArc(START + CENTRAL, SUBTENDED_POINT);
+                        })
                         style({ stroke: PINK }, function() {
                             graph.circle.drawInscribedArc( START + CENTRAL, SUBTENDED_POINT, START + CENTRAL + 180 );
                         });
@@ -426,7 +430,7 @@
                     </div>
                 </div>
                 <div>
-                    <p>Using the same argument we can find that, <code>\blue{\angle{CBE}} = 2 \cdot \orange{\angle{CBD}}</code>.</p>
+                    <p>Using the same argument we can find that, <code>\blue{\angle{CBE}} = 2 \cdot \orange{\angle{CDB}}</code>.</p>
                     <div class="graphie" data-update="circle">
                         graph.triangle.remove();
                         var arc = innerArc((START + CENTRAL) % 360, (SUBTENDED_POINT + 180) % 360);
