@@ -55,13 +55,13 @@
                     // Get lines going through P
                     var lines = _.filter(guess, function(tool) {
                         if (tool.first != null) {
-                            return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.15);
+                            return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.2);
                         }
                     });
 
                     // Of the lines going through P, does one have the correct angle?
                     var tangentLine = _.filter(lines, function(tool) {
-                        return angleEqual(tool, (ANGLE + 90) % 180, 4);
+                        return angleEqual(tool, (ANGLE + 90) % 180, 5);
                     });
 
                     if (tangentLine.length === 0) {
@@ -70,7 +70,7 @@
 
                     // Of the lines going through P, does one go through C too?
                     var connectingLine = _.filter(lines, function(tool) {
-                        return isPointOnLineSegment([tool.first.coord, tool.second.coord], [0, 0], 0.15);
+                        return isPointOnLineSegment([tool.first.coord, tool.second.coord], [0, 0], 0.2);
                     });
 
                     if (connectingLine.length === 0) {
@@ -81,14 +81,14 @@
                     var compasses = _.filter(guess, function(tool) {
                         if (tool.center != null) {
                             return !distEqual(P, tool.center.coord, 0, 0.15) &amp;&amp;
-                                isPointOnLineSegment([connectingLine[0].first.coord, connectingLine[0].second.coord], tool.center.coord, 0.15);
+                                isPointOnLineSegment([connectingLine[0].first.coord, connectingLine[0].second.coord], tool.center.coord, 0.2);
                         }
                     });
 
                     // Do two of these compasses have and have the same length radii?
                     for (var i = 0; i &lt; compasses.length; i++) {
                         for (var j = i + 1; j &lt; compasses.length; j++) {
-                            if (abs(compasses[i].radius - compasses[j].radius) &lt; 0.1) {
+                            if (abs(compasses[i].radius - compasses[j].radius) &lt; 0.15) {
                                 return true;
                             }
                         }
@@ -283,8 +283,8 @@
                     // Find tangent line
                     var tangent = _.filter(guess, function(tool) {
                         if (tool.first != null) {
-                            if (isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.15)) {
-                                return angleEqual(tool, TANGENT_ANGLES[0], 4) || angleEqual(tool, TANGENT_ANGLES[1], 4);
+                            if (isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.2)) {
+                                return angleEqual(tool, TANGENT_ANGLES[0], 4) || angleEqual(tool, TANGENT_ANGLES[1], 5);
                             }
                         }
                     });
@@ -296,7 +296,7 @@
                     // Get lines going through X
                     var lines = _.filter(guess, function(tool) {
                         if (tool.first != null) {
-                            return isPointOnLineSegment([tool.first.coord, tool.second.coord], X, 0.15);
+                            return isPointOnLineSegment([tool.first.coord, tool.second.coord], X, 0.2);
                         }
                     });
 
@@ -306,13 +306,13 @@
 
                     // Check there is a line going through P and C
                     var connectingLine = _.filter(lines, function(tool) {
-                        return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.15) &amp;&amp;
-                            isPointOnLineSegment([tool.first.coord, tool.second.coord], C, 0.15);
+                        return isPointOnLineSegment([tool.first.coord, tool.second.coord], P, 0.2) &amp;&amp;
+                            isPointOnLineSegment([tool.first.coord, tool.second.coord], C, 0.2);
                     });
 
                     // Check there is a perpendicular bisector of the line PC
                     var bisectingLine = _.filter(lines, function(tool) {
-                        return angleEqual(tool, (ANGLE + 90) % 180, 4);
+                        return angleEqual(tool, (ANGLE + 90) % 180, 5);
                     });
 
                     if (connectingLine.length * bisectingLine.length === 0) {
