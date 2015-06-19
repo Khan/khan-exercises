@@ -21,23 +21,24 @@
     </div>
 
     <div class="hints">
-        <p>
-            The fractions must have the same denominator before you can add them.
-        </p>
+        <p>The fractions must have the same denominator before you can add them.</p>
 
-        <p data-if="D1 === 10">
-            Rewrite <code><var>fraction(N1, D1)</var></code> as <code><var>fraction(N1 * 10, D1 * 10)</var></code>.
-        </p><p data-else="">
-            Rewrite <code><var>fraction(N2, D2)</var></code> as <code><var>fraction(N2 * 10, D2 * 10)</var></code>.
-        </p>
-        <p data-if="D1 === 10">
-            <code><var>fraction(N1 * 10, D1 * 10)</var> + <var>fraction(N2, D2)</var> = {?}</code>
-        </p><p data-else="">
-            <code><var>fraction(N1, D1)</var> + <var>fraction(N2 * 10, D2 * 10)</var> = {?}</code>
-        </p>
-        <p>
-            <code>{} = <var>fraction(SOL_NUM, 100)</var></code>
-        </p>
+        <div data-if="D1 === 10" data-unwrap="">
+            <p>Let's rewrite <code><var>fraction(N1, D1)</var></code> with a denominator of <code>100</code>.</p>
+            <p><code>\dfrac{<var>N1</var> \times 10}{<var>D1</var> \times 10} = <var>fraction(N1 * 10, D1 * 10)</var></code></p>
+            <div>
+                <p>Now we can add.</p>
+                <p><code><var>fraction(N1 * 10, D1 * 10)</var> + <var>fraction(N2, D2)</var> = {?}</code></p>
+            </div>
+        </div><div data-else="" data-unwrap="">
+            <p>Let's rewrite <code><var>fraction(N2, D2)</var></code> with a denominator of <code>100</code>.</p>
+            <p><code>\dfrac{<var>N2</var> \times 10}{<var>D2</var> \times 10} = <var>fraction(N2 * 10, D2 * 10)</var></code></p>
+            <div>
+                <p>Now we can add.</p>
+                <p><code><var>fraction(N1, D1)</var> + <var>fraction(N2 * 10, D2 * 10)</var> = {?}</code></p>
+            </div>
+        </div>
+        <p><code>= <var>fraction(SOL_NUM, 100)</var></code></p>
     </div>
 </div>
 </body>
