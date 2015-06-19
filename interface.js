@@ -353,29 +353,32 @@ function newProblem(e, data) {
     lastAttemptOrHint = new Date().getTime();
     lastAttemptContent = null;
 
-    storedExercise = LocalStore.get("currentExercise");
-    if (storedExercise != null &&
-        storedExercise.exercise === data.userExercise.exercise &&
-        storedExercise.problemNum === problemNum) {
+    if (!localMode) {
+        storedExercise = LocalStore.get("currentExercise");
+        if (storedExercise != null &&
+            storedExercise.exercise === data.userExercise.exercise &&
+            storedExercise.problemNum === problemNum) {
 
-        currentExercise = storedExercise;
+            currentExercise = storedExercise;
 
-        while (hintsUsed < storedExercise.hintsUsed) {
-            var framework = Exercises.getCurrentFramework();
-            if (framework === "perseus") {
-                $(PerseusBridge).trigger("showHint");
-            } else if (framework === "khan-exercises") {
-                $(Khan).trigger("showHint");
+            while (hintsUsed < storedExercise.hintsUsed) {
+                var framework = Exercises.getCurrentFramework();
+                if (framework === "perseus") {
+                    $(PerseusBridge).trigger("showHint");
+                } else if (framework === "khan-exercises") {
+                    $(Khan).trigger("showHint");
+                }
             }
         }
-    }
 
-    // Store currentExercise w/ hints used in local storage (above we should check if the
-    // exercise is already stored and update hintsUsed as appropriate)
-    currentExercise = {exercise: data.userExercise.exercise,
-                       hintsUsed: hintsUsed,
-                       problemNum: problemNum};
-    LocalStore.set("currentExercise", currentExercise);
+        // Store currentExercise w/ hints used in local storage (above we
+        // should check if the exercise is already stored and update hintsUsed
+        // as appropriate)
+        currentExercise = {exercise: data.userExercise.exercise,
+                           hintsUsed: hintsUsed,
+                           problemNum: problemNum};
+        LocalStore.set("currentExercise", currentExercise);
+    }
 
     var framework = Exercises.getCurrentFramework();
     $("#problem-and-answer")
@@ -647,7 +650,7 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    if (KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+    if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
         ServerActionQueue.enqueue("makeAttempt", [url, attemptData], 3);
     } else {
         saveAttemptToServer(url, attemptData);
@@ -714,7 +717,7 @@ function onHintButtonClicked() {
         var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        if (KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+        if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
             ServerActionQueue.enqueue("hintRequest", [url, attemptData], 3);
         } else {
             request(url, attemptData);
@@ -1095,7 +1098,7 @@ function clearExistingProblem() {
     Khan.scratchpad.clear();
 }
 
-if (KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
     // When this file is sourced, initialize the queue with what is stoed in localstorage
     ServerActionQueue.initialize();
 }
