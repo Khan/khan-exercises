@@ -8,27 +8,19 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div>
+        <div id="original" data-weight="1">
             <div class="vars">
                 <var id="N1">randRange( 2, 10 )</var>
                 <var id="N2">randRangeExclude( 2, 15, [ N1 ] )</var>
                 <var id="C">localeToFixed( N1 * randRange( 80, 199 ) / 100, 2)</var>
-                <var id="SOLUTIONS">
-                    (function() {
-                        var solutions = [
-                            "\\dfrac{" + N1 + "}{\\$" + C + "} = \\dfrac{" + N2 + "}{x}",
-                            "\\dfrac{" + N2 + "}{x} = \\dfrac{" + N1 + "}{\\$" + C + "}",
-                            "\\dfrac{" + N1 + "}{" + N2 + "} = \\dfrac{\\$" + C + "}{x}",
-                            "\\dfrac{x}{" + N2 + "} = \\dfrac{\\$" + C + "}{" + N1 + "}"
-                        ];
-                        return solutions;
-                    })()
-                </var>
-                <var id="IDX">randFromArray([0, 1, 2, 2, 2, 3])</var>
-                <var id="SOLUTION">SOLUTIONS[ IDX ]</var>
+                <var id="SOLUTION">"\\dfrac{" + N1 + "}{\\$" + C + "} = \\dfrac{" + N2 + "}{x}"</var>
             </div>
-            <p class="problem"><span data-if="isSingular(N1)" data-unwrap=""><var>N1</var> <var>deskItem( 0 )</var> cost $<var>C</var>.</span><span data-else="" data-unwrap=""><var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> cost $<var>C</var>.</span></p>
-            <p class="question"><span data-if="isSingular(N2)" data-unwrap="">Which equation would help determine the cost of <var>N2</var> <var>deskItem( 0 )</var>?</span><span data-else="" data-unwrap="">Which equation would help determine the cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>?</span></p>
+            <p class="problem">
+                <code><var>N1</var></code> <var>plural_form(deskItem(0), N1)</var> cost <code>\$<var>C</var></code>.
+            </p>
+            <p class="question">
+                Which equation would help determine the cost of <code><var>N2</var></code> <var>plural_form(deskItem(0), N2)</var>?
+            </p>
             <p class="solution"><code><var>SOLUTION</var></code></p>
             <ul class="choices" data-none="true" data-show="5">
                 <li><code>\dfrac{<var>N2</var>}{\$<var>C</var>} = \dfrac{x}{<var>N1</var>}</code></li>
@@ -39,44 +31,93 @@
             </ul>
 
             <div class="hints">
-                <p>There are several equations that could help determine the cost, each with a slightly different approach.</p>
-                <div data-if="IDX === 0" data-unwrap="">
-                    <p data-if="isSingular(N1)">We can write the fact that <var>N1</var> <var>deskItem( 0 )</var> cost $<var>C</var> as a proportion:</p><p data-else="">We can write the fact that <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> cost $<var>C</var> as a proportion:</p>
-                    <p><code>\dfrac{<var>N1</var>}{\$<var>C</var>}</code></p>
-                    <p data-if="isSingular(N2)">Let <code>x</code> represent the unknown cost of <var>N2</var> <var>deskItem( 0 )</var>. Since <var>N2</var> <var>deskItem( 0 )</var> cost <code>x</code>, we have the following proportion:</p><p data-else="">Let <code>x</code> represent the unknown cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>. Since <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var> cost <code>x</code>, we have the following proportion:</p>
-                    <p><code>\dfrac{<var>N2</var>}{x}</code></p>
-                    <p>The cost changes along with the number of <var>deskItem( 0 )</var>s purchased, and so the two proportions are equivalent.</p>
-                </div>
+                <p>
+                    We can write the fact that <code><var>N1</var></code>
+                    <var>plural_form(deskItem(0), N1)</var> cost <code>\$<var>C</var></code> as a proportion:
+                </p>
+                <p><code>\qquad \dfrac{<var>N1</var>}{\$<var>C</var>}</code></p>
+                <p>
+                    Let <code>x</code> represent the unknown cost of <code><var>N2</var></code> <var>plural_form(deskItem(0), N2)</var>.
+                    Since <code><var>N2</var></code> <var>plural_form(deskItem(0), N2)</var> cost <code>x</code>,
+                    we have the following proportion:
+                </p>
+                <p><code>\qquad \dfrac{<var>N2</var>}{x}</code></p>
 
-                <div data-if="IDX === 1" data-unwrap="">
-                    <p data-if="isSingular(N2)">Let <code>x</code> represent the unknown cost of <var>N2</var> <var>deskItem( 0 )</var>. Since <var>N2</var> <var>deskItem( 0 )</var> cost <code>x</code>, we have the following proportion:</p><p data-else="">Let <code>x</code> represent the unknown cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>. Since <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var> cost <code>x</code>, we have the following proportion:</p>
-                    <p><code>\dfrac{<var>N2</var>}{x}</code></p>
-                    <p data-if="isSingular(N1)">We can write the fact that <var>N1</var> <var>deskItem( 0 )</var> cost $<var>C</var> as a proportion:</p><p data-else="">We can write the fact that <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> cost $<var>C</var> as a proportion:</p>
-                    <p><code>\dfrac{<var>N1</var>}{\$<var>C</var>}</code></p>
-                    <p>The cost changes along with the number of <var>deskItem( 0 )</var>s purchased, and so the two proportions are equivalent.</p>
-                </div>
+                <p>
+                    The cost changes along with the number of <var>plural_form(deskItem(0))</var> purchased,
+                    and so the two proportions are equivalent.
+                </p>
 
-                <div data-if="IDX === 2" data-unwrap="">
-                    <p><span data-if="isSingular(N1)">We know the cost of <var>N1</var> <var>deskItem( 0 )</var>.</span><span data-else="">We know the cost of <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var>.</span> <span data-if="isSingular(N2)">We want to know the cost of <var>N2</var> <var>deskItem( 0 )</var>.</span><span data-else="">We want to know the cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>.</span> <span>We can write the numbers of <var>plural_form(deskItem( 0 ))</var> as a proportion:</span></p>
-                    <p><code>\dfrac{<var>N1</var>}{<var>N2</var>}</code></p>
-                    <p>
-                        <span data-if="isSingular(N1)">We know <var>N1</var> <var>deskItem( 0 )</var> costs $<var>C</var>.</span><span data-else="">We know <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> costs $<var>C</var>.</span>
-                        <span data-if="isSingular(N2)">We can let <code>x</code> represent the unknown cost of <var>N2</var> <var>deskItem( 0 )</var>.</span><span data-else="">We can let <code>x</code> represent the unknown cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>.</span>
-                        <span>The proportion of these costs can be expressed as:</span>
-                    </p>
-                    <p><code>\dfrac{\$<var>C</var>}{x}</code></p>
-                    <p>The cost changes along with the number of <var>deskItem( 0 )</var>s purchased, and so the two proportions are equivalent.</p>
-                </div>
+                <p><code>\qquad <var>SOLUTION</var></code></p>
+            </div>
+        </div>
 
-                <div data-if="IDX === 3" data-unwrap="">
-                    <p data-if="isSingular(N2)">If we let <code>x</code> represent the cost of <var>N2</var> <var>deskItem( 0 )</var>, we have the following proportion:</p><p data-else="">If we let <code>x</code> represent the cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>, we have the following proportion:</p>
-                    <p><code>\dfrac{x}{<var>N2</var>}</code></p>
-                    <p data-if="isSingular(N1)">We have to pay $<var>C</var> for <var>N1</var> <var>deskItem( 0 )</var>, and that can be written as a proportion:</p><p data-else="">We have to pay $<var>C</var> for <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var>, and that can be written as a proportion:</p>
-                    <p><code>\dfrac{\$<var>C</var>}{<var>N1</var>}</code></p>
-                    <p>Since the price per <var>deskItem(0)</var> stays the same, these two proportions are equivalent.</p>
-                </div>
+        <div data-type="original" data-weight="1">
+            <div class="vars">
+                <var id="SOLUTION">"\\dfrac{" + N2 + "}{x} = \\dfrac{" + N1 + "}{\\$" + C + "}"</var>
+            </div>
+            <div class="hints">
+                <p>
+                    Let <code>x</code> represent the unknown cost of <code><var>N2</var></code> <var>plural_form(deskItem(0), N2)</var>.
+                    Since <code><var>N2</var></code> <var>plural_form(deskItem(0), N2)</var> cost <code>x</code>,
+                    we have the following proportion:
+                </p>
+                <p><code>\qquad \dfrac{<var>N2</var>}{x}</code></p>
+                <p>
+                    We can write the fact that <code><var>N1</var></code> <var>plural_form(deskItem(0), N1)</var>
+                    cost <code>\$<var>C</var></code> as a proportion:
+                </p>
+                <p><code>\qquad \dfrac{<var>N1</var>}{\$<var>C</var>}</code></p>
+                <p>
+                    The cost changes along with the number of <var>plural_form(deskItem(0))</var> purchased,
+                    and so the two proportions are equivalent.
+                </p>
+                <p><code>\qquad <var>SOLUTION</var></code></p>
+            </div>
+        </div>
 
-                <p><code><var>SOLUTIONS[ IDX ]</var></code></p>
+        <div data-type="original" data-weight="3">
+            <div class="vars">
+                <var id="SOLUTION">"\\dfrac{" + N1 + "}{" + N2 + "} = \\dfrac{\\$" + C + "}{x}"</var>
+            </div>
+            <div class="hints">
+                <p>
+                    We know the cost of <code><var>N1</var></code> <var>plural_form(deskItem(0), N1)</var>.
+                    We want to know the cost of <code><var>N2</var></code> <var>plural_form(deskItem(0), N2)</var>.
+                    We can write the numbers of <var>plural_form(deskItem(0))</var> as a proportion:
+                </p>
+                <p><code>\qquad \dfrac{<var>N1</var>}{<var>N2</var>}</code></p>
+                <p>
+                    We know <code><var>N1</var></code> <var>plural_form(deskItem(0), N1)</var> costs <code>\$<var>C</var></code>.
+                    We can let <code>x</code> represent the unknown cost of <code><var>N2</var></code> <var>plural_form(deskItem(0), N2)</var>.
+                    The proportion of these costs can be expressed as:
+                </p>
+                <p><code>\qquad \dfrac{\$<var>C</var>}{x}</code></p>
+                <p>
+                    The cost changes along with the number of <var>plural_form(deskItem(0))</var> purchased,
+                    and so the two proportions are equivalent.
+                </p>
+                <p><code>\qquad <var>SOLUTION</var></code></p>
+            </div>
+        </div>
+
+        <div data-type="original" data-weight="1">
+            <div class="vars">
+                <var id="SOLUTION">"\\dfrac{x}{" + N2 + "} = \\dfrac{\\$" + C + "}{" + N1 + "}"</var>
+            </div>
+            <div class="hints">
+                <p>
+                    If we let <code>x</code> represent the cost of <code><var>N2</var></code> <var>plural_form(deskItem(0), N2)</var>,
+                    we have the following proportion:
+                </p>
+                <p><code>\qquad \dfrac{x}{<var>N2</var>}</code></p>
+                <p>
+                    We have to pay <code>\$<var>C</var></code> for <code><var>N1</var></code> <var>plural_form(deskItem(0), N1)</var>,
+                    and that can be written as a proportion:
+                </p>
+                <p><code>\qquad \dfrac{\$<var>C</var>}{<var>N1</var>}</code></p>
+                <p>Since the price per <var>deskItem(0)</var> stays the same, these two proportions are equivalent.</p>
+                <p><code>\qquad <var>SOLUTION</var></code></p>
             </div>
         </div>
     </div>
