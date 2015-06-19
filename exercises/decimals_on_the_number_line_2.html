@@ -8,14 +8,15 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div id="section">
+        <div id="one-tenth" data-weight="3">
             <div class="vars">
-                <var id="SECTION_LENGTH">randRange(1, 3)</var>
+                <var id="SECTION_LENGTH">1</var>
                 <var id="NUM_TICKS">SECTION_LENGTH * 10</var>
                 <var id="LOWER_BOUND">randRange(0, 100 - SECTION_LENGTH) / 10</var>
                 <var id="UPPER_BOUND">localeToFixed(LOWER_BOUND + SECTION_LENGTH / 10, 1)</var>
                 <var id="MARK_INCREMENT">0.01</var>
-                <var id="HUNDREDTHS">randRange(1, NUM_TICKS - 1)</var>
+                <var id="LARGE_INCREMENT">MARK_INCREMENT * 10</var>
+                <var id="HUNDREDTHS" data-ensure="HUNDREDTHS % 10 !== 0">randRange(1, NUM_TICKS - 1)</var>
                 <var id="SOLUTION">HUNDREDTHS / 10</var>
                 <var id="SOLN_TXT">localeToFixed(LOWER_BOUND + HUNDREDTHS * MARK_INCREMENT, 2)</var>
             </div>
@@ -36,19 +37,14 @@
                     line([0, 0], [-0.06 * SECTION_LENGTH, 0]);
 
                     style({arrows: ""});
-                    for (var x = 1; x &lt; NUM_TICKS; x++) {
+                    for (var x = 0; x &lt;= NUM_TICKS; x++) {
                         if (x % 10 === 0) {
-                            line([x / 10, -0.2], [x / 10, 0.2]);
+                            line([x / 10, -0.2], [x / 10, 0.2], { stroke: BLUE, strokeWidth: 3.5 });
+                            label([x / 10, -0.53], localeToFixed(LOWER_BOUND + x / 100, 1) , "center", { color: BLUE });
                         } else {
                             line([x / 10, -0.12], [x / 10, 0.12]);
                         }
                     }
-
-                    style({stroke: BLUE, strokeWidth: 3.5});
-                    line([0, -0.2], [0, 0.2]);
-                    label([0, -0.53],  LOWER_BOUND, "center", {color: BLUE});
-                    line([SECTION_LENGTH, -0.2], [SECTION_LENGTH, 0.2]);
-                    label([SECTION_LENGTH, -0.53 ], UPPER_BOUND, "center", {color: BLUE});
 
                     addMouseLayer();
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 0.05 });
@@ -74,56 +70,124 @@
 
             <div class="hints">
                 <p>
-                    Above we've drawn the number line from <code>\blue{<var>LOWER_BOUND</var>}</code>
-                    to <code>\blue{<var>UPPER_BOUND</var>}</code>, divided into <code><var>NUM_TICKS</var></code> equal pieces.
+                    The length between <code>\blue{<var>LOWER_BOUND</var>}</code> and <code>\blue{<var>UPPER_BOUND</var>}</code>
+                    on the number line is <code>\blue{<var>LARGE_INCREMENT</var>}</code>,
+                    or <code>\blue{1 \text{ <var>decimalPlaceNames[1]</var>}}</code>.
                 </p>
 
-                <div>
-                    <p>The line is divided into <code><var>NUM_TICKS</var></code> pieces, which means:</p>
-                    <p>
-                        Piece of line <code> = \dfrac{<var>UPPER_BOUND</var> - <var>LOWER_BOUND</var>}{<var>NUM_TICKS</var>} = 
-                        \purple{<var>MARK_INCREMENT</var>}</code>
-                    </p>
-                </div>
-
-                <div class="graphie" data-update="number-line">
-                    if (SECTION_LENGTH === 1) {
-                        for (var x = 1; x &lt; 10; x++) {
-                            label([x / 10, -0.53], localeToFixed(LOWER_BOUND + x * MARK_INCREMENT, 2), "center");
-                        }
-                    } else {
-                        for (var x = 1; x &lt; SECTION_LENGTH; x++) {
-                            label([x, -0.53], localeToFixed(LOWER_BOUND + x * MARK_INCREMENT * 10, 2), "center");
-                        }
-                    }
-                </div>
-
-                <p><code>
-                    \pink{<var>SOLN_TXT</var>} =
-                    \blue{<var>LOWER_BOUND</var>} + \purple{<var>MARK_INCREMENT</var>} \times \green{<var>HUNDREDTHS</var>}
-                </code></p>
-
-                <p data-if="isSingular(HUNDREDTHS)">
-                    Therefore, moving the orange dot <code>\green{<var>HUNDREDTHS</var>}</code>
-                    place will put it at the position <code>\pink{<var>SOLN_TXT</var>}</code>.
-                </p>
-                <p data-else="">
-                    Therefore, moving the orange dot <code>\green{<var>HUNDREDTHS</var>}</code>
-                    places will put it at the position <code>\pink{<var>SOLN_TXT</var>}</code>.
+                <p>
+                    This <code>\blue{<var>LARGE_INCREMENT</var>}</code> is divided into <code>10</code> equal pieces.
+                    Each piece has a length of <code>\green{<var>MARK_INCREMENT</var>}</code>,
+                    or <code>\green{1 \text{ <var>decimalPlaceNames[2]</var>}}</code>.
                 </p>
 
                 <div>
                     <div class="graphie" data-update="number-line">
-                        style({ stroke: BLUE, fill: BLUE, strokeWidth: 3.5, arrows: "-&gt;" });
-                        line([0, 0], [SOLUTION, 0]);
+                        line([0, 0], [SOLUTION, 0], { stroke: GREEN, strokeWidth: 3.5, arrows: "-&gt;" });
+                    </div>
+                    <p>
+                        From <code>\blue{<var>LOWER_BOUND</var>}</code>, we need to move 
+                        <code>\green{<var>HUNDREDTHS</var> \text{ <var>plural_form(decimalPlaceNames[2], HUNDREDTHS)</var>}}</code>
+                        to the right to get to <code>\pink{<var>SOLN_TXT</var>}</code>.
+                    </p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="number-line">
                         graph.movablePoint.visibleShape.toFront();
-
-                        label([HUNDREDTHS/10, 0.53 ], SOLN_TXT, "center", { color: PINK });
-                        graph.movablePoint.moveTo( SOLUTION, 0 );
+                        label([HUNDREDTHS/10, -0.53], SOLN_TXT, "center", { color: PINK });
+                        graph.movablePoint.moveTo(SOLUTION, 0);
                     </div>
                     <p>The highlighted number shows where <code>\pink{<var>SOLN_TXT</var>}</code> is on the number line.</p>
                 </div>
+            </div>
+        </div>
+        
+        <div id="more-tenths" data-type="one-tenth" data-weight="4">
+            <div class="vars">
+                <var id="SECTION_LENGTH">randRange(2, 3)</var>
+                <var id="TENTHS">floor(SOLUTION)</var>
+                <var id="TENTHS_SOLN">localeToFixed(LOWER_BOUND + TENTHS * LARGE_INCREMENT, 1)</var>
+            </div>
 
+            <div class="hints">
+                <p>
+                    The length between the blue labeled tick marks is <code>\blue{<var>LARGE_INCREMENT</var>}</code>,
+                    or <code>\blue{1 \text{ <var>decimalPlaceNames[1]</var>}}</code>.
+                </p>
+
+                <p>
+                    Each <code>\blue{<var>LARGE_INCREMENT</var>}</code> is divided into <code>10</code> equal pieces
+                    that have a length of <code>\green{<var>MARK_INCREMENT</var>}</code>,
+                    or <code>\green{1 \text{ <var>decimalPlaceNames[2]</var>}}</code>.
+                </p>
+
+                <div data-if="TENTHS !== 0">
+                    <p>First, we want to move to the correct number of tenths.</p>
+                    <p>We move to <code>\blue{<var>TENTHS_SOLN</var>}</code> on the number line.</p>
+                    <div class="graphie" data-update="number-line">
+                        style({ stroke: BLUE, fill: BLUE, strokeWidth: 3.5, arrows: "-&gt;" });
+                        line([0, 0], [floor(SOLUTION), 0]);
+                    </div>
+                </div>
+
+                <div>
+                    <p data-if="TENTHS !== 0">Now, we want to move to the correct number of hundredths.</p>
+                    <p>
+                        From <code>\blue{<var>TENTHS_SOLN</var>}</code>, we need to move
+                        <code>\green{<var>HUNDREDTHS % 10</var> \text{ <var>plural_form(decimalPlaceNames[2], HUNDREDTHS % 10)</var>}}</code>
+                        to the right to get to <code>\pink{<var>SOLN_TXT</var>}</code>.
+                    </p>
+                    <div class="graphie" data-update="number-line">
+                        style({ stroke: GREEN, strokeWidth: 3.5, arrows: "-&gt;" });
+                        line([floor(SOLUTION), 0], [SOLUTION, 0]);
+                    </div>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        graph.movablePoint.visibleShape.toFront();
+                        label([HUNDREDTHS/10, -0.53], SOLN_TXT, "center", { color: PINK });
+                        graph.movablePoint.moveTo(SOLUTION, 0);
+                    </div>
+                    <p>The highlighted number shows where <code>\pink{<var>SOLN_TXT</var>}</code> is on the number line.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ten-hundredths" data-type="more-tenths" data-weight="1">
+            <div class="vars">
+                <var id="HUNDREDTHS">10 * randRange(1, SECTION_LENGTH)</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The length between the blue labeled tick marks is <code>\blue{<var>LARGE_INCREMENT</var>}</code>,
+                    or <code>\blue{1 \text{ <var>decimalPlaceNames[1]</var>}}</code>.
+                </p>
+
+                <p>
+                    Each <code>\blue{<var>LARGE_INCREMENT</var>}</code> is divided into <code>10</code> equal pieces
+                    that have a length of <code>\green{<var>MARK_INCREMENT</var>}</code>,
+                    or <code>\green{1 \text{ <var>decimalPlaceNames[2]</var>}}</code>.
+                </p>
+
+                <div>
+                    <p>We can rewrite the labels as <code>\green{\text{<var>plural_form(decimalPlaceNames[2], 2)</var>}}</code>.</p>
+                    <div class="graphie" data-update="number-line">
+                        for (var x = 0; x &lt;= SECTION_LENGTH; x++) {
+                            label([x, 0.53], localeToFixed(LOWER_BOUND + x / 10, 2) , "center", { color: GREEN });
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        graph.movablePoint.visibleShape.toFront();
+                        label([HUNDREDTHS / 10, 0.53], SOLN_TXT, "center", { color: PINK });
+                        graph.movablePoint.moveTo(SOLUTION, 0);
+                    </div>
+                    <p>The highlighted number shows where <code>\pink{<var>SOLN_TXT</var>}</code> is on the number line.</p>
+                </div>
             </div>
         </div>
     </div>
