@@ -699,7 +699,6 @@ function onHintButtonClicked() {
     var logEntry = ["hint-activity", "0", timeTaken];
     Exercises.userActivityLog.push(logEntry);
 
-    var hintRequest;
     if (!previewingItem && !localMode && !userExercise.readOnly &&
             !Exercises.currentCard.get("preview") && canAttempt) {
 
@@ -723,10 +722,6 @@ function onHintButtonClicked() {
             request(url, attemptData);
         }
         hintsUsed--;
-    } else {
-        // We don't send a request to the server, so just assume immediate
-        // success
-        hintRequest = $.when();
     }
 
     var framework = Exercises.getCurrentFramework();
@@ -736,9 +731,12 @@ function onHintButtonClicked() {
         $(Khan).trigger("showHint");
     }
 
-    // onHintShown updated the hintsUsed so we should save that to localStorage
-    currentExercise.hintsUsed = hintsUsed;
-    LocalStore.set("currentExercise", currentExercise);
+    if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+        // onHintShown updated the hintsUsed so we should save that to
+        // localStorage.
+        currentExercise.hintsUsed = hintsUsed;
+        LocalStore.set("currentExercise", currentExercise);
+    }
 }
 
 function onHintShown(e, data) {
