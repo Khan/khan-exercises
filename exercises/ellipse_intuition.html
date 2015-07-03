@@ -19,15 +19,10 @@
                     <var id="F1">X_AXIS &gt; Y_AXIS ? [H + C, K] : [H, K + C]</var>
                     <var id="F2">X_AXIS &gt; Y_AXIS ? [H - C, K] : [H, K - C]</var>
                     <var id="FOCUS_START">X_AXIS &gt; Y_AXIS ? [[H, K - 1], [H, K + 1]] : [[H - 1, K], [H + 1, K]]</var>
-                    <var id="DUMMY_GRAPH">[]</var>
                 </div>
-        
-                <p class="problem">
-                    The equation of an ellipse is <code>\dfrac{(x - x_1)^2}{a^2} + \dfrac{(y - y_1)^2}{b^2} = 1</code>.
-                </p>
+
                 <p class="question">
                     Find the foci of the ellipse below by moving the orange points to their correct positions.
-                    Then use that information to find the values of <code>x_1</code>, <code>y_1</code>, <code>a</code> and <code>b</code>.
                 </p>
                 <p class="render-answer-area-here"></p>
 
@@ -117,39 +112,36 @@
                                     guess[1][0] === F2[0] &amp;&amp; guess[1][1] === F2[1]) ||
                                    (guess[0][0] === F2[0] &amp;&amp; guess[0][1] === F2[1] &amp;&amp;
                                     guess[1][0] === F1[0] &amp;&amp; guess[1][1] === F1[1]);
-                                
                         </div>
                         <div class="show-guess">
                             graph.focus1.setCoord(guess[0]);
                             graph.focus2.setCoord(guess[1]);
                         </div>
                     </div>
-
-                    <div>
-                        <table class="intuition-equation">
-                            <tr>
-                                <td><code>x_1 = </code></td>
-                                <td><span class="sol short40" data-fallback="0"><var>H</var></span></td>
-                                <td><code>y_1 = </code></td>
-                                <td><span class="sol short40" data-fallback="0"><var>K</var></span></td>
-                                <td><code>a = </code></td>
-                                <td><span class="sol short40"><var>X_AXIS</var></span></td>
-                                <td><code>b = </code></td>
-                                <td><span class="sol short40"><var>Y_AXIS</var></span></td>
-                            </tr>
-                        </table>
-                    </div>
                 </div>
 
                 <div class="hints">
+                    <div>
+                        <p>Both foci must lie along the major axis of the ellipse.</p>
+                        <div class="graphie" data-update="graph">
+                            if (X_AXIS &gt; Y_AXIS) {
+                                path([[H - X_AXIS, K], [H + X_AXIS, K]], { stroke: BLUE, strokeDasharray: "- " });
+                            } else {
+                                path([[H, K - Y_AXIS], [H, K + Y_AXIS]], { stroke: BLUE, strokeDasharray: "- " });
+                            }
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>The foci must be equally distant from the center of the ellipse.</p>
+                        <div class="graphie" data-update="graph">
+                            circle([H, K], 0.25, { stroke: BLUE, fill: BLUE });
+                        </div>
+                    </div>
+
                     <p>
-                        For all points on an ellipse, the sum of the distances to each focus is constant.
-                        There is only one way to arrange the two foci such that this is true.
-                        <!--<button onclick="javascript:
-                            graph = KhanUtil.currentGraph.graph;
-                            graph.focus1.moveTo(graph.f1[0], graph.f1[1]);
-                            graph.focus2.moveTo(graph.f2[0], graph.f2[1]);
-                        ">Show me</button>-->
+                        We can adjust the positions of the foci along the major axis
+                        until we've found the unique state where the sum of the distances is constant.
                     </p>
 
                     <div>
@@ -161,150 +153,6 @@
                             graph.focus1.moveTo(graph.f1[0], graph.f1[1]);
                             graph.focus2.moveTo(graph.f2[0], graph.f2[1]);
                         </div>
-                    </div>
-
-
-                    <p><code>x_1</code> and <code>y_1</code> are the coordinates of the center of the ellipse.</p>
-
-                    <div>
-                        <p>The center of an ellipse is at the midpoint between its two foci.</p>
-                        <p><code>
-                            \left(\dfrac{<var>F1[0]</var> + <var>F2[0]</var>}{2}, \dfrac{<var>F1[1]</var> +
-                            <var>F2[1]</var>}{2}\right) = (<var>H</var>, <var>K</var>)
-                        </code></p>
-                        <p>So, <code>x_1 = <var>H</var></code> and <code>y_1 = <var>K</var></code>.</p>
-                        <div class="graphie" data-update="graph">
-                            circle([H, K], 0.4, { stroke: null, fill: BLUE  });
-                        </div>
-                    </div>
-
-                    <div data-if="X_AXIS > Y_AXIS">
-                        <p>
-                            The <code>x</code>-axis of the ellipse is longer than its <code>y</code>-axis,
-                            so the sum of the distances to each focus is <code>2a</code>.
-                        </p>
-                        <p>Therefore <code>a = <var>X_AXIS</var></code>.</p>
-
-                        <div class="graphie" id="diagram">
-                            var x = 4.5;
-                            var scale = x / X_AXIS;
-                            var y = Y_AXIS * scale;
-                            diagram.scale = scale;
-
-                            init({
-                                range: [[-5, 5], [-y - 0.05, y + 0.05]],
-                                scale: 25
-                            });
-
-                            ellipse([0, 0], [x, y], { stroke: BLUE });
-
-                            var dx = C * scale;
-                            var dy = B * scale;
-
-                            path([[-C * scale, 0], [0, dy]], { stroke: GREEN });
-                            path([[C * scale, 0], [0, dy]], { stroke: GREEN });
-
-                            ellipse([dx, 0], [0.2, 0.2], { fill: ORANGE, stroke: null });
-                            ellipse([-dx, 0], [0.2, 0.2], { fill: ORANGE, stroke: null });
-
-                            label([-dx / 2 - 0.2, dy / 2 + 0.2], "a", {color: BLACK});
-                            label([dx / 2 + 0.2, dy / 2 + 0.2], "a", {color: BLACK});
-                        </div>
-                    </div>
-                    <div data-else="">
-                        <p>
-                            The <code>y</code>-axis of the ellipse is longer than its <code>x</code>-axis,
-                            so the sum of the distances to each focus is <code>2b</code>.
-                        </p>
-                        <p>Therefore <code>b = <var>Y_AXIS</var></code>.</p>
-
-                        <div class="graphie" id="diagram">
-                            var y = 4.5;
-                            var scale = y / Y_AXIS;
-                            var x = X_AXIS * scale;
-                            diagram.scale = scale;
-
-                            init({
-                                range: [[-x - 0.05, x + 0.05], [-5, 5]],
-                                scale: 25
-                            });
-
-                            ellipse([0, 0], [x, y], { stroke: BLUE });
-
-                            var dx = B * scale;
-                            var dy = C * scale;
-
-                            path([[0, -C * scale], [dx, 0]], { stroke: GREEN });
-                            path([[0, C * scale], [dx, 0]], { stroke: GREEN });
-
-                            ellipse([0, dy], [0.2, 0.2], { fill: ORANGE, stroke: null });
-                            ellipse([0, -dy], [0.2, 0.2], { fill: ORANGE, stroke: null });
-
-                            label([dx / 2, dy / 2 + 0.35], "b", {color: BLACK});
-                            label([dx / 2, -dy / 2 - 0.35], "b", {color: BLACK});
-                        </div>
-                    </div>
-
-                    <div>
-                        <p>The <em>focal distance</em>, <code>c</code> is the distance between the center of the ellipse to either focus.</p>
-                        <p>Therefore <code>c = <var>C</var></code>.</p>
-                        <div class="graphie" data-update="diagram">
-                            if (X_AXIS &gt; Y_AXIS) {
-                                path([[0, 0], [diagram.scale * C, 0]], { stroke: BLACK });
-                                label([diagram.scale * C / 2, -0.3], "c", {color: BLACK});
-                            } else {   
-                                path([[0, 0], [diagram.scale * B, 0]], { stroke: BLACK });
-                                label([-0.3, diagram.scale * C / 2], "c", {color: BLACK});
-                            }
-                        </div>
-                    </div>
-
-                    <div data-if="X_AXIS > Y_AXIS" data-unwrap="">
-                        <div>
-                            <p><code>\qquad a^2 = b^2 + c^2</code></p>
-                            <div class="graphie" data-update="diagram">
-                                label([-0.3, diagram.scale * B / 2], "b", {color: BLACK});
-                                path([[0, 0], [0, diagram.scale * B]], { stroke: BLACK });
-                            </div>
-                        </div>
-                        <div>
-                            <div><code>\qquad\begin{align*}
-                                b^2 &amp;= a^2 - c^2 \\
-                                b &amp;= \sqrt{a^2 - c^2} \\
-                                b &amp;= \sqrt{<var>A</var>^2 - <var>C</var>^2} \\
-                                b &amp;= \sqrt{<var>A * A - C * C</var>} \\
-                                b &amp;= <var>B</var>\end{align*}
-                            </code></div>
-                        </div>
-                    </div>
-                    <div data-else="" data-unwrap="">
-                        <div>
-                            <p><code>\qquad a^2 = b^2 + c^2</code></p>
-                            <div class="graphie" data-update="diagram">
-                                path([[0, 0], [0, diagram.scale * C]], { stroke: BLACK });
-                                label([diagram.scale * B / 2, -0.35], "a", {color: BLACK});
-                            </div>
-                        </div>
-                        <div>
-                            <div><code>\qquad\begin{align*}
-                                a^2 &amp;= b^2 - c^2 \\
-                                a &amp;= \sqrt{b^2 - c^2} \\
-                                a &amp;= \sqrt{<var>A</var>^2 - <var>C</var>^2} \\
-                                a &amp;= \sqrt{<var>A * A - C * C</var>} \\
-                                a &amp;= <var>B</var>\end{align*}
-                            </code></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p>
-                            So the equation of the ellipse is
-                            <code>\dfrac{(x - <var>H</var>)^2}{<var>X_AXIS</var>^2} + \dfrac{(y - <var>K</var>)^2}{<var>Y_AXIS</var>^2} = 1</code>.
-                        </p>
-                        <p>
-                            <code>x_1 = <var>H</var></code>, <code>y_1 = <var>K</var></code>,
-                            <code>a = <var>X_AXIS</var></code>, <code>b = <var>Y_AXIS</var></code>.
-                        </p>
                     </div>
                 </div>
             </div>
