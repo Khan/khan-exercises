@@ -71,9 +71,13 @@
             <var id="SINGLE_SOLUTION">
                 !IS_OR &amp;&amp; SOLUTION[0] === SOLUTION[1] &amp;&amp; COMP.indexOf("≤") !== -1 &amp;&amp; COMP.indexOf("≥") !== -1
             </var>
-            <var id="FAKE_ANSWER">tabulate( function() {
+            <var id="FAKE_ANSWER" data-ensure="FAKE_ANSWER[0] !== FAKE_ANSWER[1]">tabulate( function() {
                 return randRange( 2, 9 ) * ( rand( 3 ) &gt; 0 ? 1 : -1 );
             }, 2 )</var>
+            <var id="WRONG_SIMPLIFICATION">[
+                round((RIGHT_INT[0] - ADD_TO_SIMPLIFY[0]) / COEF[0]),
+                round((RIGHT_INT[1] - ADD_TO_SIMPLIFY[1]) / COEF[1])
+            ]</var>
             <var id="CONTAINS">(function() {
                 if ( LESS_THAN[0] &amp;&amp; LESS_THAN[1] ) {
                     if ( SOLUTION[0] === SOLUTION[1] ) {
@@ -158,9 +162,9 @@
                             <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code>
                         </li>
                     </div>
-                    <li data-if="LEFT_INT[0] !== 0 || LEFT_INT[1] !== 0">
-                        <code><var>VARIABLE_NAME + COMP_SOLUTION[0] + round( ( RIGHT_INT[0] - ADD_TO_SIMPLIFY[0] ) / COEF[0] )</var></code> <var>OR</var>
-                        <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + round( ( RIGHT_INT[1] - ADD_TO_SIMPLIFY[1] ) / COEF[1] )</var></code>
+                    <li data-if="(LEFT_INT[0] !== 0 || LEFT_INT[1] !== 0) && WRONG_SIMPLIFICATION[0] !== WRONG_SIMPLIFICATION[1]">
+                        <code><var>VARIABLE_NAME + COMP_SOLUTION[0] + WRONG_SIMPLIFICATION[0]</var></code> <var>OR</var>
+                        <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + WRONG_SIMPLIFICATION[1]</var></code>
                     </li>
                     <li data-if="!ALL_NUMBERS">All real numbers.</li>
                     <li data-if="!NO_SOLUTION">No solution.</li>
