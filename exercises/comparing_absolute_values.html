@@ -22,24 +22,24 @@
                 x = 10 - x;
             }
             numberLine( start, end );
-            graph.style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+            graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE });
+            graph.pt = graph.circle( [ x, 0 ], 0.15 );
+            graph.style({ stroke: KhanUtil.GREEN, fill: KhanUtil.GREEN, strokeWidth: 3.5, arrows: "->" });
             graph.path( [ [ originX, 0 ], [ x, 0 ] ] );
             graph.circle( [ originX, 0 ], 0.10 );
-            graph.style({ stroke: "#6495ED", fill: "#6495ED" });
-            graph.pt = graph.circle( [ x, 0 ], 0.15 );
         }
     </script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div>
+            <div id="integer">
                 <div class="vars">
                     <var id="ABS_1, ABS_2">randFromArray([[1, 1], [1, 0], [0, 1]])</var>
                     <var id="NUM_1">randRange(-10, 10)</var>
                     <var id="NUM_2">(NUM_1 &lt; 0) ? randRange(0, 10) : randRange(-10, -1)</var>
-                    <var id="NUM_1_STRING">ABS_1 ? "\\lvert" + NUM_1 + "\\rvert" : NUM_1</var>
-                    <var id="NUM_2_STRING">ABS_2 ? "\\lvert" + NUM_2 + "\\rvert" : NUM_2</var>
+                    <var id="NUM_1_ABS">ABS_1 ? "\\lvert" + NUM_1 + "\\rvert" : NUM_1</var>
+                    <var id="NUM_2_ABS">ABS_2 ? "\\lvert" + NUM_2 + "\\rvert" : NUM_2</var>
                     <var id="NUM_1_VALUE">ABS_1 ? abs(NUM_1) : NUM_1</var>
                     <var id="NUM_2_VALUE">ABS_2 ? abs(NUM_2) : NUM_2</var>
                     <var id="SOLUTION">(function() {
@@ -52,9 +52,7 @@
 
                 <div class="problem">
                     <p>Fill in the blank.</p>
-                    <p>
-                    <code><var>NUM_1_STRING</var></code> ____ <code><var>NUM_2_STRING</var></code>
-                    </p>
+                    <p><code><var>NUM_1_ABS</var></code> ____ <code><var>NUM_2_ABS</var></code></p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
                 <ul class="choices" data-category="true">
@@ -62,31 +60,128 @@
                     <li><code>&gt;</code></li>
                     <li><code>=</code></li>
                 </ul>
+            </div>
+            <div id="decimal">
+                <div class="vars">
+                    <var id="ABS_1, ABS_2">randFromArray([[1, 1], [1, 0], [0, 1]])</var>
+                    <var id="NUM_1">randRange(-99, 99) / 10</var>
+                    <var id="NUM_2">(NUM_1 &lt; 0) ? randRange(0, 99) / 10 : randRange(-99, -1) / 10</var>
+                    <var id="NUM_1_ABS">ABS_1 ? "\\lvert" + NUM_1 + "\\rvert" : NUM_1</var>
+                    <var id="NUM_2_ABS">ABS_2 ? "\\lvert" + NUM_2 + "\\rvert" : NUM_2</var>
+                    <var id="NUM_1_VALUE">ABS_1 ? abs(NUM_1) : NUM_1</var>
+                    <var id="NUM_2_VALUE">ABS_2 ? abs(NUM_2) : NUM_2</var>
+                    <var id="SOLUTION">(function() {
+                        if ( NUM_1_VALUE === NUM_2_VALUE ) {
+                            return "=";
+                        }
+                        return NUM_1_VALUE &lt; NUM_2_VALUE ? "&lt;" : "&gt;";
+                    })()</var>
+                </div>
+
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p><code><var>NUM_1_ABS</var></code> ____ <code><var>NUM_2_ABS</var></code></p>
+                </div>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
+                </ul>
+            </div>
+            <div id="fraction">
+                <div class="vars">
+                    <div data-ensure="abs(abs(NUMER_1) - abs(NUMER_2)) > 2">
+                        <var id="NUMER_1">randRangeNonZero(-9, 9)</var>
+                        <var id="NUMER_2">(NUM_1 &lt; 0) ? randRange(1, 9) : randRange(-9, -1)</var>
+                    </div>
+                    <var id="ABS_1, ABS_2">randFromArray([[1, 1], [1, 0], [0, 1]])</var>
+                    <var id="DENOM">randFromArray(smallDenominators)</var>
+                    <var id="NUM_1">NUMER_1 / DENOM</var>
+                    <var id="NUM_2">NUMER_2 / DENOM</var>
+                    <var id="NUM_1_STRING">fractionReduce(NUMER_1, DENOM)</var>
+                    <var id="NUM_2_STRING">fractionReduce(NUMER_2, DENOM)</var>
+                    <var id="NUM_1_ABS">ABS_1 ? "\\left\\lvert" + NUM_1_STRING + "\\right\\rvert" : NUM_1_STRING</var>
+                    <var id="NUM_2_ABS">ABS_2 ? "\\left\\lvert" + NUM_2_STRING + "\\right\\rvert" : NUM_2_STRING</var>
+                    <var id="NUM_1_VALUE">ABS_1 ? abs(NUMER_1) : NUMER_1</var>
+                    <var id="NUM_2_VALUE">ABS_2 ? abs(NUMER_2) : NUMER_2</var>
+                    <var id="NUM_1_VALUE_STRING">fractionReduce(NUM_1_VALUE, DENOM)</var>
+                    <var id="NUM_2_VALUE_STRING">fractionReduce(NUM_2_VALUE, DENOM)</var>
+                    <var id="SOLUTION">(function() {
+                        if (NUM_1_VALUE === NUM_2_VALUE) {
+                            return "=";
+                        }
+                        return NUM_1_VALUE &lt; NUM_2_VALUE ? "&lt;" : "&gt;";
+                    })()</var>
+                </div>
+
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p><code><var>NUM_1_ABS</var></code> ____ <code><var>NUM_2_ABS</var></code></p>
+                </div>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
+                </ul>
+
                 <div class="hints">
                     <div data-if="ABS_1">
                         <p>
-                            The "absolute value" of a number is its distance from <code>0</code>.
-                            The distance from <code><var>NUM_1</var></code> to <code>0</code> is <code><var>NUM_1_VALUE</var></code> so:
+                            The absolute value of a number is its distance from zero.
+                            The distance from <code>0</code> to <code><var>NUM_1_STRING</var></code>
+                            is <code><var>NUM_1_VALUE_STRING</var></code> so:
                         </p>
-                        <p><code>\qquad<var>NUM_1_STRING</var> = <var>NUM_1_VALUE</var></code></p>
+                        <p><code>\qquad<var>NUM_1_ABS</var> = <var>NUM_1_VALUE_STRING</var></code></p>
                         <div class="graphie">
                             drawNumberLine(NUM_1);
                         </div>
                     </div>
                     <div data-if="ABS_2">
                         <p data-if="ABS_2">
-                            The "absolute value" of a number can be viewed as its distance from <code>0</code>.
-                            The distance from <code><var>NUM_2</var></code> to <code>0</code> is <code><var>NUM_2_VALUE</var></code> so:
+                            The absolute value of a number is its distance from zero.
+                            The distance from <code>0</code> to <code><var>NUM_2_STRING</var></code>
+                            is <code><var>NUM_2_VALUE_STRING</var></code> so:
                         </p>
-                        <p><code>\qquad<var>NUM_2_STRING</var> = <var>NUM_2_VALUE</var></code></p>
+                        <p><code>\qquad<var>NUM_2_ABS</var> = <var>NUM_1_VALUE_STRING</var></code></p>
                         <div class="graphie">
                             drawNumberLine(NUM_2);
                         </div>
                     </div>
-                    <p>Is <code><var>NUM_1_VALUE</var></code> less than, greater than, or equal to <code><var>NUM_2_VALUE</var></code>?</p>
-                    <p><code><var>NUM_1_VALUE</var> <var>SOLUTION</var> <var>NUM_2_VALUE</var></code></p>
+                    <p>
+                        Is <code><var>NUM_1_VALUE_STRING</var></code> less than, greater than,
+                        or equal to <code><var>NUM_2_VALUE_STRING</var></code>?
+                    </p>
+                    <p><code><var>NUM_1_VALUE_STRING</var> <var>SOLUTION</var> <var>NUM_2_VALUE_STRING</var></code></p>
+                    <p>So, <code><var>NUM_1_ABS</var> <var>SOLUTION</var> <var>NUM_2_ABS</var></code>.</p>
                 </div>
             </div>
+        </div>
+        <div class="hints">
+            <div data-if="ABS_1">
+                <p>
+                    The absolute value of a number is its distance from zero.
+                    The distance from <code>0</code> to <code><var>NUM_1</var></code> is <code><var>NUM_1_VALUE</var></code> so:
+                </p>
+                <p><code>\qquad<var>NUM_1_ABS</var> = <var>NUM_1_VALUE</var></code></p>
+                <div class="graphie">
+                    drawNumberLine(NUM_1);
+                </div>
+            </div>
+            <div data-if="ABS_2">
+                <p data-if="ABS_2">
+                    The absolute value of a number is its distance from zero.
+                    The distance from <code>0</code> to <code><var>NUM_2</var></code> is <code><var>NUM_2_VALUE</var></code> so:
+                </p>
+                <p><code>\qquad<var>NUM_2_ABS</var> = <var>NUM_2_VALUE</var></code></p>
+                <div class="graphie">
+                    drawNumberLine(NUM_2);
+                </div>
+            </div>
+            <p>Is <code><var>NUM_1_VALUE</var></code> less than, greater than, or equal to <code><var>NUM_2_VALUE</var></code>?</p>
+            <p><code><var>NUM_1_VALUE</var> <var>SOLUTION</var> <var>NUM_2_VALUE</var></code></p>
+            <p>So, <code><var>NUM_1_ABS</var> <var>SOLUTION</var> <var>NUM_2_ABS</var></code>.</p>
         </div>
     </div>
 </body>
