@@ -23,10 +23,11 @@
                         return "\\dfrac{" + NUMERATOR + "}{" + el + "}";
                     }).join(",")</var>
                     <var id="SORTER">createSorter()</var>
+                    <var id="COLORS">[["blue", BLUE], ["green", GREEN], ["purple", PURPLE]]</var>
                 </div>
 
                 <div class="question">
-                    <p>Order the following fractions from least to greatest:</p>
+                    <p>Order the following fractions from least to greatest.</p>
                     <ul id="sortable">
                         <li data-each="DENOMINATORS as D">
                             <span class="sort-key"><var>D</var></span>
@@ -34,7 +35,6 @@
                         </li>
                     </ul>
                     <p><var>SORTER.init("sortable")</var></p>
-
                 </div>
 
                 <div class="solution" data-type="custom">
@@ -55,21 +55,36 @@
                 </div>
 
                 <div class="hints">
+                    <p data-if="isSingular(NUMERATOR)">
+                        Each fraction has a numerator of <code><var>NUMERATOR</var></code>.
+                        So, each whole will have <code><var>NUMERATOR</var></code> shaded piece.
+                    </p><p data-else="">
+                        Each fraction has a numerator of <code><var>NUMERATOR</var></code>.
+                        So, each whole will have <code><var>NUMERATOR</var></code> shaded pieces.
+                    </p>
                     <div>
-                        <p>We can draw a picture to compare the fractions.</p>
-                        <div class="graphie">
-                            init({
-                                range: [[-0.1, 1], [0, NUM_ITEMS * 2]],
-                                scale: [400, 25]
-                            });
-                            for (var i = 0; i &lt; NUM_ITEMS; i++) {
-                                var y = (NUM_ITEMS - i - 1) * 2;
-                                rectchart([NUMERATOR, DENOMINATORS[i] - NUMERATOR], [RED, GRAY], y);
-                                label([-0.05, y + 0.5], "\\dfrac{" + NUMERATOR + "}{" + DENOMINATORS[i] + "}");
-                            }
+                        <div data-each="DENOMINATORS as i, denom">
+                            <p>
+                                <code>\<var>COLORS[i][0]</var>{\dfrac{<var>NUMERATOR</var>}{<var>denom</var>}}</code>
+                                shows <code><var>NUMERATOR</var></code> out of a total of
+                                <code>\<var>COLORS[i][0]</var>{<var>denom</var>}</code> pieces shaded.
+                            </p>
+                            <div>
+                                <div class="graphie">
+                                    init({
+                                        range: [[-1, 1], [-1,1]],
+                                        scale: [50,50]
+                                    });
+                                    piechart([NUMERATOR, denom - NUMERATOR], [COLORS[i][1], "#bbb"], 1);
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <p>The order from least to greatest is: <code><var>ANSWER</var></code>.</p>
+                    <p>We can see that when the whole is divided into more pieces, each piece is smaller.</p>
+                    <div>
+                        <p>The fractions from least to greatest are:</p>
+                        <p><code><var>ANSWER</var></code>.</p>
+                    </div>
                 </div>
             </div>
 
@@ -95,28 +110,50 @@
                     <li><code>=</code></li>
                 </ul>
                 <div class="hints">
+                    <p data-if="isSingular(NUMERATOR)">
+                        Each fraction has a numerator of <code><var>NUMERATOR</var></code>.
+                        So, each whole will have <code><var>NUMERATOR</var></code> shaded piece.
+                    </p><p data-else="">
+                        Each fraction has a numerator of <code><var>NUMERATOR</var></code>.
+                        So, each whole will have <code><var>NUMERATOR</var></code> shaded pieces.
+                    </p>
                     <div>
-                        <div><code>\large{&lt;}</code> means "less than".</div>
-                        <div><code>\large{&gt;}</code> means "greater than".</div>
-                        <div><code>\large{=}</code> means "equal to".</div>
-                    </div>
-                    <div>
-                        <p>We can draw a picture to compare the fractions.</p>
+                        <p>
+                            <code>\green{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>}}</code> means
+                            <code><var>NUMERATOR</var></code> out of a total of <code><var>DENOMINATOR_1</var></code> pieces shaded.
+                        </p>
                         <div class="graphie">
                             init({
-                                range: [[-0.1, 1], [0, 5.5]],
-                                scale: [425, 25]
+                                range: [[-1, 1], [-1,1]],
+                                scale: [50,50]
                             });
-
-                            rectchart([NUMERATOR, DENOMINATOR_1 - NUMERATOR], [RED, GRAY], 3);
-                            rectchart([NUMERATOR, DENOMINATOR_2 - NUMERATOR], [RED, GRAY], 1);
-                            label([-0.05, 3.5], "\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_1 + "}");
-                            label([-0.05, 1.5], "\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_2 + "}");
+                            piechart([NUMERATOR, DENOMINATOR_1 - NUMERATOR], [GREEN, "#bbb"], 1);
+                        </div>
+                        <p>
+                            <code>\dfrac{\purple{<var>NUMERATOR</var>}}{\purple{<var>DENOMINATOR_2</var>}}</code> means
+                            <code><var>NUMERATOR</var></code> out of a total of <code><var>DENOMINATOR_2</var></code> pieces shaded.
+                        </p>
+                        <div class="graphie">
+                            init({
+                                range: [[-1, 1], [-1,1]],
+                                scale: [50,50]
+                            });
+                            piechart([NUMERATOR, DENOMINATOR_2 - NUMERATOR], [PURPLE, "#bbb"], 1);
                         </div>
                     </div>
+                    <p data-if="DENOMINATOR_1 < DENOMINATOR_2">
+                        We can see that <code>\green{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>}}</code> is divided into fewer pieces.
+                        So, each piece in <code>\green{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>}}</code> is larger than each piece in
+                        <code>\purple{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_2</var>}}</code>.
+                    </p>
+                    <p data-else>
+                        We can see that <code>\purple{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_2</var>}}</code> is divided into fewer pieces.
+                        So, each piece in <code>\purple{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_2</var>}}</code> is larger than each piece in
+                        <code>\green{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>}}</code>.
+                    </p>
                     <p>
-                        <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>} <var>SOLUTION</var>
-                              \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_2</var>}</code>
+                        <code>\green{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_1</var>}} <var>SOLUTION</var>
+                              \purple{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR_2</var>}}</code>
                     </p>
                 </div>
             </div>
@@ -180,88 +217,130 @@
                 <div class="hints">
                     <div>
                         <p>
+                            <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> means dividing each whole into
+                            <code>\blue{<var>DENOMINATOR_1</var>}</code> equal lengths,
+                            then measuring <code><var>NUMERATOR</var></code> of those lengths.
+                        </p>
+                        <div class="graphie">
+                            var yScale = 1 / 16; // Scaling so the arcs have reasonable proportions
+                            init({
+                                range: [[-0.1, 1.1], [-2/8, 1.5 * yScale]],
+                                scale: [400, 25 / yScale]
+                            });
+
+                            var y = 0;
+                            line([-0.05, y], [1.05, y], { arrows: "&lt;-&gt;" });
+                            line([1.05, y], [-0.05, y], { arrows: "&lt;-&gt;" });
+
+                            var tick = 0.25 * yScale;
+                            for (var i = 0; i &lt;= MAX_NUM * DENOMINATOR_1; i++) {
+                                var x = i / DENOMINATOR_1 / MAX_NUM; 
+                                if (i % DENOMINATOR_1 === 0) {
+                                    label([x, y], roundTo(1, i / DENOMINATOR_1), "above");
+                                    line([x, y - tick], [x, y + tick], { strokeWidth: 3 });
+                                } else {
+                                    line([x, y - tick], [x, y + tick], { strokeWidth: 2 });
+                                }
+                            }
+
+                            var r = 1 / DENOMINATOR_1 / MAX_NUM / 2;
+                            for (var i = 0; i &lt; NUMERATOR; i++) {
+                                var x = (i + 0.5) * r * 2;
+                                if (i &lt; NUMERATOR - 1) {
+                                    arc([x, y], r, 180, 0, { stroke: BLUE });
+                                } else {
+                                    curvyArrow([x, y], r, "bottom", true, { stroke: BLUE });
+                                }
+                            }
+
+                            // Fraction
+                            var x = NUMERATOR / DENOMINATOR_1 / MAX_NUM;
+                            label([x, y - 0.2 * yScale], "\\blue{\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_1 + "}}", "below");
+                        </div>
+                    </div>
+                    <div>
+                        <p>
+                            <code>\dfrac{<var>NUMERATOR</var>}{\pink{<var>DENOMINATOR_2</var>}}</code> means dividing each whole into
+                            <code>\pink{<var>DENOMINATOR_2</var>}</code> equal lengths,
+                            then measuring <code><var>NUMERATOR</var></code> of those lengths.
+                        </p>
+                        <div class="graphie">
+                            var yScale = 1 / 16; // Scaling so the arcs have reasonable proportions
+                            init({
+                                range: [[-0.1, 1.1], [-2/8, 1.5 * yScale]],
+                                scale: [400, 25 / yScale]
+                            });
+
+                            var y = 0;
+                            line([-0.05, y], [1.05, y], { arrows: "&lt;-&gt;" });
+                            line([1.05, y], [-0.05, y], { arrows: "&lt;-&gt;" });
+
+                            var tick = 0.25 * yScale;
+                            for (var i = 0; i &lt;= MAX_NUM * DENOMINATOR_2; i++) {
+                                var x = i / DENOMINATOR_2 / MAX_NUM; 
+                                if (i % DENOMINATOR_2 === 0) {
+                                    label([x, y], roundTo(1, i / DENOMINATOR_2), "above");
+                                    line([x, y - tick], [x, y + tick], { strokeWidth: 3 });
+                                } else {
+                                    line([x, y - tick], [x, y + tick], { strokeWidth: 2 });
+                                }
+                            }
+
+                            var r = 1 / DENOMINATOR_2 / MAX_NUM / 2;
+                            for (var i = 0; i &lt; NUMERATOR; i++) {
+                                var x = (i + 0.5) * r * 2;
+                                if (i &lt; NUMERATOR - 1) {
+                                    arc([x, y], r, 180, 0, { stroke: PINK });
+                                } else {
+                                    curvyArrow([x, y], r, "bottom", true, { stroke: PINK });
+                                }
+                            }
+
+                            // Fraction
+                            var x = NUMERATOR / DENOMINATOR_2 / MAX_NUM;
+                            label([x, y - 0.5 * yScale], "\\pink{\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_2 + "}}", "below");
+                        </div>
+                    </div>
+                    <div>
+                        <p>
                             <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> means dividing <code>1</code> whole into
                             <code>\blue{<var>DENOMINATOR_1</var>}</code> equal segments, then taking <code><var>NUMERATOR</var></code> copies of them.
                         </p>
-                        <div class="graphie" id="hint-line">
+                        <div class="graphie">
+                            var yScale = 1 / 16; // Scaling so the arcs have reasonable proportions
                             init({
-                                range: [[-0.1, 1.1], [0, 3]],
-                                scale: [400, 25]
+                                range: [[-0.1, 1.1], [-2/8, 1.5 * yScale]],
+                                scale: [400, 25 / yScale]
                             });
 
-                            var y = 2;
+                            var y = 0;
                             line([-0.05, y], [1.05, y], { arrows: "&lt;-&gt;" });
                             line([1.05, y], [-0.05, y], { arrows: "&lt;-&gt;" });
 
-                            var tick = 0.25
-                            for (var i = 0; i &lt;= MAX_NUM * DENOMINATOR_1; i++) {
-                                var x = i / DENOMINATOR_1 / MAX_NUM; 
-                                line([x, y - tick], [x, y + tick]);
-                                if (i % DENOMINATOR_1 === 0) {
-                                    label([x, y], roundTo(1, i / DENOMINATOR_1), "above");
+                            var tick = 0.25 * yScale;
+                            var LCM = getLCM(DENOMINATOR_1, DENOMINATOR_2);
+
+                            for (var i = 0; i &lt;= MAX_NUM * LCM; i++) {
+                                var x = i / LCM / MAX_NUM; 
+                                if (i % LCM === 0) {
+                                    label([x, y], roundTo(1, i / LCM), "above");
+                                    line([x, y - tick], [x, y + tick], { strokeWidth: 3 });
+                                } else {
+                                    line([x, y - tick], [x, y + tick], { strokeWidth: 2 });
                                 }
                             }
 
-                            label([
-                                NUMERATOR / DENOMINATOR_1 / MAX_NUM, 1.8],
-                                "\\blue{\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_1 + "}}",
-                                "below"
-                            );
+                            // Fraction
+                            var x = NUMERATOR / DENOMINATOR_1 / MAX_NUM;
+                            label([x, y - 0.5 * yScale], "\\blue{\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_1 + "}}", "below");
+                            line([x, y - tick], [x, y + tick], { strokeWidth: 3, stroke: BLUE });
+
+                            var x = NUMERATOR / DENOMINATOR_2 / MAX_NUM;
+                            label([x, y - 0.5 * yScale], "\\pink{\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_2 + "}}", "below");
+                            line([x, y - tick], [x, y + tick], { strokeWidth: 3, stroke: PINK });
                         </div>
                     </div>
-                    <div>
-                        <p>
-                            <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code> means dividing <code>1</code> whole into
-                            <code>\red{<var>DENOMINATOR_2</var>}</code> equal segments, then taking <code><var>NUMERATOR</var></code> copies of them.
-                        </p>
-                        <div class="graphie" id="hint-line">
-                            init({
-                                range: [[-0.1, 1.1], [0, 3]],
-                                scale: [400, 25]
-                            });
-
-                            var y = 2;
-                            line([-0.05, y], [1.05, y], { arrows: "&lt;-&gt;" });
-                            line([1.05, y], [-0.05, y], { arrows: "&lt;-&gt;" });
-
-                            var tick = 0.25
-                            for (var i = 0; i &lt;= MAX_NUM * DENOMINATOR_2; i++) {
-                                var x = i / DENOMINATOR_2 / MAX_NUM; 
-                                line([x, y - tick], [x, y + tick]);
-                                if (i % DENOMINATOR_2 === 0) {
-                                    label([x, y], roundTo(1, i / DENOMINATOR_2), "above");
-                                }
-                            }
-
-                            label([
-                                NUMERATOR / DENOMINATOR_2 / MAX_NUM, 1.8],
-                                "\\red{\\dfrac{" + NUMERATOR + "}{" + DENOMINATOR_2 + "}}",
-                                "below"
-                            );
-                        </div>
-                    </div>
-                    <p>
-                        The <em>larger</em> the denominator, the <em>smaller</em> the segments,
-                        since the denominator tells us how many equal segments there are in the whole.
-                    </p>
-                    <div>
-                        <p data-if="DENOMINATOR_1 < DENOMINATOR_2">
-                            <code><var>NUMERATOR</var></code> copies of
-                            <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> segments are <em>larger</em> than
-                            <code><var>NUMERATOR</var></code> copies of
-                            <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code> segments.
-                        </p><p data-else="">
-                            <code><var>NUMERATOR</var></code> copies of
-                            <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> segments are <em>smaller</em> than
-                            <code><var>NUMERATOR</var></code> copies of
-                            <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code> segments.
-                        </p>
-                        <p>
-                            <code>\dfrac{<var>NUMERATOR</var>}{\blue{<var>DENOMINATOR_1</var>}}</code> <var>COMPARISON</var>
-                            <code>\dfrac{<var>NUMERATOR</var>}{\red{<var>DENOMINATOR_2</var>}}</code>
-                        </p>
-                    </div>
-                    <p>So number line <code><var>SOLUTION</var></code> is correct.</p>
+                    <p>Number line <code><var>SOLUTION</var></code> is correct.</p>
                 </div>
             </div>
         </div>
