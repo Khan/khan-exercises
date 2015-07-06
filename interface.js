@@ -818,7 +818,7 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         user_mission_id: Exercises.userMissionId,
 
         // The current topic, if any
-        topic_slug: Exercises.topic && Exercises.topic.get("slug"),
+        topic_slug: Exercises.topicSlug,
 
         // The user assessment key if in assessmentMode
         user_assessment_key: Exercises.userAssessmentKey,
