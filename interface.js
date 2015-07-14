@@ -353,7 +353,7 @@ function newProblem(e, data) {
     lastAttemptOrHint = new Date().getTime();
     lastAttemptContent = null;
 
-    if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+    if (!localMode) {
         storedExercise = LocalStore.get("currentExercise");
         if (storedExercise != null &&
             storedExercise.exercise === data.userExercise.exercise &&
@@ -650,7 +650,7 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+    if (!localMode) {
         ServerActionQueue.enqueue("makeAttempt", [url, attemptData], 3);
     } else {
         saveAttemptToServer(url, attemptData);
@@ -716,7 +716,7 @@ function onHintButtonClicked() {
         var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+        if (!localMode) {
             ServerActionQueue.enqueue("hintRequest", [url, attemptData], 3);
         } else {
             request(url, attemptData);
@@ -731,7 +731,7 @@ function onHintButtonClicked() {
         $(Khan).trigger("showHint");
     }
 
-    if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+    if (!localMode) {
         // onHintShown updated the hintsUsed so we should save that to
         // localStorage.
         currentExercise.hintsUsed = hintsUsed;
@@ -1096,7 +1096,7 @@ function clearExistingProblem() {
     Khan.scratchpad.clear();
 }
 
-if (!localMode && KA.GANDALF_EXERCISES_SERVER_QUEUE) {
+if (!localMode) {
     // When this file is sourced, initialize the queue with what is stoed in localstorage
     ServerActionQueue.initialize();
 }
