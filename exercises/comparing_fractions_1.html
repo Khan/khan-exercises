@@ -15,7 +15,7 @@
                 <div class="vars">
                     <var id="NUM_1">randRange(1, 10)</var>
                     <var id="NUM_2">NUM_1</var>
-                    <var id="DEN_1">randFromArray([3, 4, 6, 8])</var>
+                    <var id="DEN_1">randFromArray([2, 3, 4, 6, 8])</var>
                     <var id="DEN_2" data-ensure="DEN_1 !== DEN_2">randFromArray([2, 3, 4, 6, 8])</var>
                     <var id="SOLUTION">DEN_1 &gt; DEN_2 ? "&lt;": "&gt;"</var>
                 </div>
@@ -79,7 +79,7 @@
 
             <div id="same-denominator">
                 <div class="vars">
-                    <var id="DEN_1">randFromArray([2, 3, 4, 6, 8])</var>
+                    <var id="DEN_1">randFromArray([3, 4, 6, 8])</var>
                     <var id="DEN_2">DEN_1</var>
                     <var id="NUM_1">randRange(1, DEN_1 - 1)</var>
                     <var id="NUM_2">randRangeExclude(1, DEN_1 - 1, [NUM_1])</var>
