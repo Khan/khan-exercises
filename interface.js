@@ -50,7 +50,7 @@ var ServerActionQueue = {
      * @returns {object} The next action from the queue.
      */
     dequeue: function() {
-        output = this.queue.shift();
+        var output = this.queue.shift();
         LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
         return output;
     },
@@ -79,9 +79,9 @@ var ServerActionQueue = {
             return;
         }
 
-        action = ServerActionEnum[this.peek().action];
-        actionArgs = this.peek().actionArgs;
-        retriesLeft = this.peek().retriesLeft;
+        var action = ServerActionEnum[this.peek().action];
+        var actionArgs = this.peek().actionArgs;
+        var retriesLeft = this.peek().retriesLeft;
         action.apply(null, actionArgs).done(function() {
             // We succeeded so remove this from the queue and reset timeoutMultiplier
             ServerActionQueue.timeoutMultiplier = 1;
@@ -133,21 +133,21 @@ var ServerActionQueue = {
     },
 };
 
-ServerActionEnum = {
+var ServerActionEnum = {
     "makeAttempt": saveAttemptToServer,
     "hintRequest": request,
 };
 
 function shouldUseServerActionQueue() {
-	return !Exercises.localMode &&
-		typeof LocalStore !== "undefined" &&
-		typeof KA !== "undefined" &&
-		KA.GANDALF_EXERCISES_SERVER_QUEUE;
+    return !Exercises.localMode &&
+        typeof LocalStore !== "undefined" &&
+        typeof KA !== "undefined" &&
+        KA.GANDALF_EXERCISES_SERVER_QUEUE;
 }
 
 function saveAttemptToServer(url, attemptData) {
     // Save the problem results to the server
-    promise = request(url, attemptData).fail(function(xhr) {
+    var promise = request(url, attemptData).fail(function(xhr) {
         // Alert any listeners of the error before reload
         $(Exercises).trigger("attemptError");
 
@@ -361,7 +361,7 @@ function newProblem(e, data) {
     lastAttemptContent = null;
 
     if (shouldUseServerActionQueue()) {
-        storedExercise = LocalStore.get("currentExercise");
+        var storedExercise = LocalStore.get("currentExercise");
         if (storedExercise != null &&
             storedExercise.exercise === data.userExercise.exercise &&
             storedExercise.problemNum === problemNum) {
