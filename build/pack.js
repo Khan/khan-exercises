@@ -29,8 +29,8 @@ var jshint = require("jshint");
 var uglifyjs = require("uglify-js");
 
 
-JSHINT_ENABLED = false;
-JSHINT_OPTIONS = {
+var JSHINT_ENABLED = false;
+var JSHINT_OPTIONS = {
   laxbreak: true,
   eqeqeq: true,
   loopfunc: true,
@@ -82,7 +82,7 @@ var verifyUglifier = function() {
         ["(function() { return 5; })()", "!function(){return 5}();"]
     ];
     tests.forEach(function (inputAndExpected) {
-        output = doMinify(inputAndExpected[0]);
+        var output = doMinify(inputAndExpected[0]);
         if (output !== inputAndExpected[1]) {
             uglifierInsane(output);
         }
@@ -107,7 +107,7 @@ var doUglify = function(js, isExpression) {
 
         var m = compiled.match(/^__khan_exercises_expression__\((.*)\);$/);
         if (!m[1]) {
-            uglifier_insane(compiled);
+            uglifierInsane(compiled);
         }
         return m[1];
     }
@@ -187,7 +187,7 @@ var packFile = function(fileContents) {
             var uglified = doUglify(js, false);
             var m = uglified.match(/^!function\(\)\{(.*)\}\(\);$/);
             if (!m[1]) {
-                uglifier_insane(uglified);
+                uglifierInsane(uglified);
             }
             validatorNode.text(m[1]);
         });
