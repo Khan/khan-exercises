@@ -30,11 +30,6 @@ var uglifyjs = require("uglify-js");
 
 
 var JSHINT_ENABLED = false;
-var JSHINT_OPTIONS = {
-  laxbreak: true,
-  eqeqeq: true,
-  loopfunc: true,
-};
 
 
 var doJshint = function(js) {
