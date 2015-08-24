@@ -408,13 +408,15 @@ function newProblem(e, data) {
         }
     }
 
-    // Render related videos, unless we're on the final stage of mastery.
+    // Render related videos, unless we're on the final stage of mastery or in
+    // a skill check.
     if (Exercises.RelatedVideos && data.userExercise) {
         var userExercise = data.userExercise;
         var nearMastery = userExercise.exerciseProgress.level === "mastery2" ||
                 userExercise.exerciseProgress.level === "mastery3";
         var task = Exercises.learningTask;
-        var hideRelatedVideos = task && task.isMasteryTask() && nearMastery;
+        var hideRelatedVideos = (task && task.isMasteryTask() && nearMastery ||
+            userExercise.isSkillCheck);
         var relatedVideos = data.userExercise.exerciseModel.relatedVideos;
 
         // We have per-problem-type related videos for Perseus
