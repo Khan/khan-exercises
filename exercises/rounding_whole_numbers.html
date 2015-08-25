@@ -11,35 +11,37 @@
     <div class="problems">
         <div id="all-digits-random" data-weight="2">
             <div class="vars">
-                <var id="DIGITS">shuffle( [1, 2, 3, 4, 5, 6, 7, 8, 9], 5 )</var>
-                <var id="NUM">+DIGITS.join( "" )</var>
-                <var id="PLACE">randFromArray([ -2, -3 ])</var>
-                <var id="TPLACE">numberPlaceNames[-PLACE]</var>
-                <var id="TPLACES">plural_form(numberPlaceNames[-PLACE - 1], 2)</var>
-                <var id="ROUNDED">Math.round(roundTo( PLACE, NUM ))</var>
-                <var id="KEYDIGIT">DIGITS[5 + PLACE]</var>
+                <var id="NUM_DIGITS">randRange(3, 7)</var>
+                <var id="MAG">pow(10, NUM_DIGITS - 1)</var>
+                <var id="NUM">randRange(MAG, MAG * 10 - 1)</var>
+                <var id="PLACE">randRange(1, NUM_DIGITS - 1)</var>
+                <var id="TPLACE">numberPlaceNames[PLACE]</var>
+                <var id="TPLACES">plural_form(numberPlaceNames[PLACE - 1], 2)</var>
+                <var id="ROUNDED">Math.round(roundTo(-PLACE, NUM))</var>
+                <var id="KEYDIGIT">digits(NUM)[PLACE - 1]</var>
             </div>
 
-            <p class="question">Round <code><var>NUM</var></code> to the nearest <var>TPLACE</var>.</p>
+            <p class="question">Round <code><var>commafy(NUM)</var></code> to the nearest <var>TPLACE</var>.</p>
             <div class="solution" data-forms="integer"><var>ROUNDED</var></div>
         </div>
         <div id="look-at-five" data-weight="1">
             <div class="vars">
-                <var id="PLACE">randFromArray([ -2, -3 ])</var>
-                <var id="DIGITS">
-                    (function() {
-                        var digits = shuffle( [1, 2, 3, 4, 6, 7, 8, 9], 5 );
-                        digits[ 5 + PLACE ] = 5;
-                        return digits;
-                    })()
-                </var>
-                <var id="NUM">+DIGITS.join( "" )</var>
-                <var id="TPLACE">numberPlaceNames[-PLACE]</var>
-                <var id="TPLACES">plural_form(numberPlaceNames[-PLACE - 1], 2)</var>
-                <var id="ROUNDED">roundTo( PLACE, NUM )</var>
+                <var id="NUM_DIGITS">randRange(3, 7)</var>
+                <var id="MAG">pow(10, NUM_DIGITS - 1)</var>
+                <var id="PLACE">randRange(1, min(6, NUM_DIGITS - 1))</var>
+                <var id="TPLACE">numberPlaceNames[PLACE]</var>
+                <var id="NUM">(function() {
+                    // Get a number with a 5 in PLACE position
+                    var n = NUM_DIGITS - PLACE
+                    var str = "" + randRange(MAG, MAG * 10 - 1);
+                    str = str.substr(0, n) + "5" + str.substr(n + 1);
+                    return parseInt(str, 10);
+                })()</var>
+                <var id="TPLACES">plural_form(numberPlaceNames[PLACE - 1], 2)</var>
+                <var id="ROUNDED">Math.round(roundTo(-PLACE, NUM))</var>
                 <var id="KEYDIGIT">5</var>
             </div>
-            <p class="question">Round <code><var>NUM</var></code> to the nearest <var>TPLACE</var>.</p>
+            <p class="question">Round <code><var>commafy(NUM)</var></code> to the nearest <var>TPLACE</var>.</p>
             <div class="solution" data-forms="integer"><var>ROUNDED</var></div>
         </div>
     </div>
@@ -50,14 +52,14 @@
         </p>
         <p>The digit in the <var>TPLACES</var> place is <code><var>KEYDIGIT</var></code>.</p>
         <p data-if="KEYDIGIT > 5">
-            Because <code><var>KEYDIGIT</var></code> is more than <code>5</code>, we round up to <code><var>ROUNDED</var></code>.
+            Because <code><var>KEYDIGIT</var></code> is more than <code>5</code>, we round up to <code><var>commafy(ROUNDED)</var></code>.
         </p>
         <p data-else-if="KEYDIGIT === 5">
             Because the <var>TPLACES</var> place digit is <code><var>KEYDIGIT</var></code>,
-            we round up to <code><var>ROUNDED</var></code>.
+            we round up to <code><var>commafy(ROUNDED)</var></code>.
         </p>
         <p data-else="">
-            Because <code><var>KEYDIGIT</var></code> is less than <code>5</code>, we round down to <code><var>ROUNDED</var></code>.
+            Because <code><var>KEYDIGIT</var></code> is less than <code>5</code>, we round down to <code><var>commafy(ROUNDED)</var></code>.
         </p>
     </div>
 </div>

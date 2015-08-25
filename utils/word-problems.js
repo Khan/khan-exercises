@@ -238,6 +238,9 @@ KhanUtil.numberPlaceNames = [
     }),
     new Plural(function(num) {
         return $.ngettext("ten thousand", "ten thousands", num);
+    }),
+    new Plural(function(num) {
+        return $.ngettext("hundred thousand", "hundred thousands", num);
     })
 ];
 
