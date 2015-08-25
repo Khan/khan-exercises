@@ -14,29 +14,21 @@
                     <var id="DEGREES">360 * NUMERATOR / DENOMINATOR</var>
                 </div>
 
-                <var id="FRACTION">fractionReduce(NUMERATOR * 2, DENOMINATOR)</var>
-                <var id="RADIANS">FRACTION !== '1' ? FRACTION + "\\pi" : "\\pi"</var>
-                <var id="RADIAN_VALUE">2 * NUMERATOR * Math.PI / DENOMINATOR</var>
-                <var id="USE_RADIANS">rand(2)</var>
-                <var id="CIRCLE_ANGLES">USE_RADIANS ? "2 \\pi" : "360 ^ \\circ"</var>
-
                 <var id="ROTATE_ARC">randRange(0, 359)</var>
                 <var id="DIAGRAM_R">10</var>
 
                 <var id="C">2 * Math.PI * R</var>
                 <var id="A">NUMERATOR / DENOMINATOR * C</var>
 
-                <var id="PRETTY_A">coefficient(fractionReduce(DEGREES * 2 * R, 360)) + "\\pi"</var>
-                <var id="PRETTY_C">"\\blue{" + (2 * R) + "\\pi}"</var>
+                <var id="PRETTY_A">fractionReduce(DEGREES * 2 * R, 360)</var>
+                <var id="PRETTY_C">"\\blue{" + (2 * R) + "}"</var>
             </div>
 
             <div class="problems">
                 <div id="c-angle-to-a">
                     <p class="problem">
                         A circle with circumference <code><var>PRETTY_C</var></code> has an arc with a
-                        <span data-if="USE_RADIANS"><code class="hint_pink"><var>RADIANS</var></code> radians</span>
-                        <span data-else=""><code class="hint_pink"><var>DEGREES</var>^\circ</code></span>
-                        central angle.
+                        <code class="hint_pink"><var>DEGREES</var>^\circ</code> central angle.
                     </p>
                     <p class="question">What is the length of the arc?</p>
                     <div class="render-answer-area-here"></div>
@@ -52,42 +44,24 @@
                         arc([0, 0], DIAGRAM_R, ROTATE_ARC, ROTATE_ARC + DEGREES, { stroke: RED, "stroke-dasharray": "-" });
 
                         graph.cAngle = 180 + ((ROTATE_ARC + DEGREES) + ROTATE_ARC) / 2;
-
                         graph.cL = label(polar(DIAGRAM_R, graph.cAngle), PRETTY_C, labelDirection(graph.cAngle));
 
                         graph.aAngle = (ROTATE_ARC * 2 + DEGREES) / 2;
-
                         graph.angle = arc([0, 0], DIAGRAM_R * 0.12, ROTATE_ARC, ROTATE_ARC + DEGREES, { stroke: PINK });
-
-                        if (USE_RADIANS) {
-                            graph.angleL = label(polar(0.5, graph.aAngle), "\\pink{" + RADIANS + "}", labelDirection(graph.aAngle));
-                        } else {
-                            graph.angleL = label(polar(0.5, graph.aAngle), "\\pink{" + DEGREES + "^\\circ}", labelDirection(graph.aAngle));
-                        }
+                        graph.angleL = label(polar(0.5, graph.aAngle), "\\pink{" + DEGREES + "^\\circ}", labelDirection(graph.aAngle));
 
                         graph.arcL = label(polar(DIAGRAM_R, graph.aAngle), "\\red{" + PRETTY_A + "}", labelDirection(graph.aAngle));
                         $(graph.arcL).hide();
                     </div>
 
-                    <p class="solution" data-type="expression"><var>A</var></p>
+                    <p class="solution" data-type="rational" data-simplify="optional"><var>NUMERATOR / DENOMINATOR * 2 * R</var></p>
 
                     <div class="hints">
-                        <div data-if="USE_RADIANS" data-unwrap="">
-                            <p>
-                                The ratio between the arc's central angle <code>\pink{\theta}</code> and <code>2 \pi</code> radians is equal to the the ratio between the arc length <code>\red{s}</code> and the circle's circumference <code>\blue{c}</code>.
-                            </p>
-
-                            <p><code>\dfrac{\pink{\theta}}{2 \pi} = \dfrac{\red{s}}{\blue{c}}</code></p>
-                            <p><code>\pink{<var>RADIANS</var>} \div 2 \pi = \dfrac{\red{s}}{<var>PRETTY_C</var>}</code></p>
-                        </div>
-
-                        <div data-else="" data-unwrap="">
-                            <p>
-                                The ratio between the arc's central angle <code>\pink{\theta}</code> and <code>360^\circ</code> is equal to the ratio between the arc length <code>\red{s}</code> and the circle's circumference <code>\blue{c}</code>.
-                            </p>
-                            <p><code>\dfrac{\pink{\theta}}{360^\circ} = \dfrac{\red{s}}{\blue{c}}</code></p>
-                            <p><code>\dfrac{\pink{<var>DEGREES</var>}^\circ}{360^\circ} = \dfrac{\red{s}}{\blue{<var>PRETTY_C</var>}}</code></p>
-                        </div>
+                        <p>
+                            The ratio between the arc's central angle <code>\pink{\theta}</code> and <code>360^\circ</code> is equal to the ratio between the arc length <code>\red{s}</code> and the circle's circumference <code>\blue{c}</code>.
+                        </p>
+                        <p><code>\dfrac{\pink{\theta}}{360^\circ} = \dfrac{\red{s}}{\blue{c}}</code></p>
+                        <p><code>\dfrac{\pink{<var>DEGREES</var>}^\circ}{360^\circ} = \dfrac{\red{s}}{\blue{<var>PRETTY_C</var>}}</code></p>
 
                         <p><code><var>fractionReduce(NUMERATOR, DENOMINATOR)</var> = \dfrac{\red{s}}{<var>PRETTY_C</var>}</code></p>
                         <p><code><var>fractionReduce(NUMERATOR, DENOMINATOR)</var> \times <var>PRETTY_C</var> = \red{s}</code></p>
@@ -102,16 +76,20 @@
                 </div>
 
                 <div id="r-angle-to-a" data-type="c-angle-to-a">
+                    <div class="vars">
+                        <var id="PRETTY_A">coefficient(fractionReduce(DEGREES * 2 * R, 360)) + "\\pi"</var>
+                        <var id="PRETTY_C">"\\blue{" + (2 * R) + "\\pi}"</var>
+                    </div>
                     <p class="problem">
                         A circle has a radius of <code>\blue{<var>R</var>}</code>. An arc in this circle has a central angle of
-                        <span data-if="USE_RADIANS"><code class="hint_pink"><var>RADIANS</var></code> radians</span><span data-else=""><code class="hint_pink"><var>DEGREES</var>^\circ</code></span>.
+                        <code class="hint_pink"><var>DEGREES</var>^\circ</code>.
                     </p>
                     <div class="graphie" data-update="circle">
                         $(graph.cL).hide();
-
                         graph.r = path([[0, 0], polar(DIAGRAM_R, graph.cAngle)], { stroke: BLUE });
                         graph.rL = label(polar(DIAGRAM_R / 2, graph.cAngle), "\\blue{" + R + "}", "above");
                     </div>
+                    <p class="solution" data-type="expression"><var>A</var></p>
                     <div class="hints" data-apply="prependContents">
                         <div>
                             <p>First, calculate the circumference of the circle.</p>
@@ -125,16 +103,15 @@
                     </div>
                 </div>
 
-                <div id="c-a-to-angle" data-type="c-angle-to-a">
+                <div id="c-a-to-angle" data-type="c-angle-to-a" data-calculator="">
                     <p class="problem">
                         A circle has a circumference of <code class="hint_blue"><var>PRETTY_C</var></code>.
                         It has an arc of length <code class="hint_red"><var>PRETTY_A</var></code>.
                     </p>
                     <p class="question">
-                        <span data-if="USE_RADIANS">What is the central angle of the arc, in radians?</span>
-                        <span data-else="">What is the central angle of the arc, in degrees?</span>
-                        <div class="render-answer-area-here"></div>
+                        What is the central angle of the arc, in degrees?
                     </p>
+                    <div class="render-answer-area-here"></div>
                     <div class="graphie" data-update="circle">
                         $(graph.angle).hide();
                         $(graph.angleL).hide();
@@ -142,30 +119,21 @@
                     </div>
 
                     <div class="solution" data-type="multiple">
-                        <span data-if="USE_RADIANS">
-                            <span class="sol" data-type="expression"><var>RADIAN_VALUE</var></span>
-                        </span><span data-else="">
-                            <span class="sol"><var>DEGREES</var></span><code>^\circ</code>
-                        </span>
+                        <span class="sol"><var>DEGREES</var></span><code>^\circ</code>
                     </div>
 
                     <div class="hints">
-                        <p data-if="USE_RADIANS">
-                            The ratio between the arc's central angle <code class="hint_pink">\theta</code> and <code>2 \pi</code> radians is equal to the the ratio between the arc length <code class="hint_red">s</code> and the circle's circumference <code class="hint_blue">c</code>.
-                        </p>
-
-                        <p data-else="">
+                        <p>
                             The ratio between the arc's central angle <code class="hint_pink">\theta</code> and <code>360^\circ</code> is equal to the ratio between the arc length <code class="hint_red">s</code> and the circle's circumference <code class="hint_blue">c</code>.
                         </p>
 
-                        <p><code>\dfrac{\pink{\theta}}{<var>CIRCLE_ANGLES</var>} = \dfrac{\red{s}}{\blue{c}}</code></p>
-                        <p><code>\dfrac{\pink{\theta}}{<var>CIRCLE_ANGLES</var>} = \red{<var>PRETTY_A</var>} \div <var>PRETTY_C</var></code></p>
-                        <p><code>\dfrac{\pink{\theta}}{<var>CIRCLE_ANGLES</var>} = <var>fractionReduce(NUMERATOR, DENOMINATOR)</var></code></p>
-                        <p><code>\pink{\theta} = <var>fractionReduce(NUMERATOR, DENOMINATOR)</var> \times <var>CIRCLE_ANGLES</var></code></p>
+                        <p><code>\dfrac{\pink{\theta}}{360^\circ} = \dfrac{\red{s}}{\blue{c}}</code></p>
+                        <p><code>\dfrac{\pink{\theta}}{360^\circ} = \red{<var>PRETTY_A</var>} \div <var>PRETTY_C</var></code></p>
+                        <p><code>\dfrac{\pink{\theta}}{360^\circ} = <var>fractionReduce(NUMERATOR, DENOMINATOR)</var></code></p>
+                        <p><code>\pink{\theta} = <var>fractionReduce(NUMERATOR, DENOMINATOR)</var> \times 360^\circ</code></p>
 
                         <div>
-                            <p data-if="USE_RADIANS"><code>\pink{\theta} = <var>RADIANS</var></code> radians</p>
-                            <p data-else=""><code>\pink{\theta} = <var>DEGREES</var>^\circ</code></p>
+                            <p><code>\pink{\theta} = <var>DEGREES</var>^\circ</code></p>
                             <div class="graphie" data-update="circle">
                                 $(graph.angle).show();
                                 $(graph.angleL).show();
