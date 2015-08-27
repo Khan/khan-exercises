@@ -77,6 +77,83 @@ function saveAttemptToServer(url, attemptData) {
     return promise;
 }
 
+/**
+ * An offline-available record of the hints the user has taken.
+ *
+ * Whenever the user takes a hint, we note the exercise and problem number in
+ * this record, who then saves it to local storage. This is done so that we can
+ * detect the case of a user taking a hint offline, then reconnecting.
+ */
+var OfflineHintRecord = {
+    // The local storage key we'll use to store the set
+    LS_KEY: "khan-exercises-interface-persistent-hint-set",
+
+    /**
+     * Creates an item to store in the set for a given problem.
+     */
+    _makeItem: function(exerciseName, problemNumber) {
+        return exerciseName + ":" + problemNumber;
+    },
+
+    /**
+     * Returns whether the user has taken a hint for a given problem.
+     *
+     * This accesses information stored in local storage by saveHintTakenForLS.
+     *
+     * Note that if local storage is unavailable, this function will *always*
+     * return false, even if there is a hint on screen right now.
+     */
+    hasTakenHintFor: function(exerciseName, problemNumber) {
+        var raw = null;
+        try {
+            raw = localStorage.getItem(OfflineHintRecord.LS_KEY);
+        } catch (e) { /* ignore */ }
+
+        // If we couldn't get anything useful out of local storage, just return
+        // false.
+        if (!raw) {
+            return false;
+        }
+
+        var list = JSON.parse(raw);
+        if (!list) {
+            return false;
+        }
+
+        return _.contains(list, OfflineHintRecord._makeItem(exerciseName,
+                                                            problemNumber));
+    },
+
+    /**
+     * Marks that a user has taken a hint for a given problem.
+     *
+     * This stores information in local storage, to be retrieved later by
+     * hasTakenHintFor.
+     *
+     * Note that if local storage is unavailable, this will fail silently.
+     */
+    saveHintTakenFor: function(exerciseName, problemNumber) {
+        var raw = null;
+        try {
+            raw = localStorage.getItem(OfflineHintRecord.LS_KEY);
+        } catch (e) { /* ignore */ }
+
+        var list = [];
+        if (raw) {
+            list = JSON.parse(raw) || [];
+        }
+
+        list.push(OfflineHintRecord._makeItem(exerciseName, problemNumber));
+
+        // Make sure the list doesn't get too big and make sure all of its
+        // items are unique (this is done as a cheap method of compression).
+        list = _.last(_.unique(list), 40);
+        try {
+            localStorage.setItem(OfflineHintRecord.LS_KEY,
+                                 JSON.stringify(list));
+        } catch(e) { /* ignore */ }
+    },
+};
 
 // If any of these properties have already been defined, then leave them --
 // this happens in local mode
@@ -240,6 +317,15 @@ function newProblem(e, data) {
         while (hintsUsed < numHints) {
             onHintButtonClicked();
         }
+    }
+
+    // This will be true if a user has taken a hint offline and the server
+    // doesn't know yet.
+    if (hintsUsed === 0 && numHints > 0 && data.userExercise &&
+            problemNum !== undefined &&
+            OfflineHintRecord.hasTakenHintFor(
+                data.userExercise.exerciseModel.name, problemNum)) {
+        onHintButtonClicked();
     }
 
     // Render related videos, unless we're on the final stage of mastery or in
@@ -557,6 +643,13 @@ function onHintButtonClicked() {
                                            timeTaken, false, false);
         request(url, attemptData);
         hintsUsed--;
+    }
+
+    // Save the fact that the user has taken a hint for this problem in local
+    // storage to help with cheating.
+    if (userExercise && problemNum !== undefined) {
+        OfflineHintRecord.saveHintTakenFor(userExercise.exerciseModel.name,
+                                           problemNum);
     }
 
     var framework = Exercises.getCurrentFramework();
