@@ -7,144 +7,6 @@
  */
 (function() {
 
-var ServerActionQueue = {
-    LOCAL_STORAGE_KEY: "exercises-server-action-queue",
-    ACTION_TIMEOUT_MS: 100,
-
-    queue: [],
-    timeoutSet: false,
-    timeoutMultiplier: 1,
-
-    /**
-     * Reads queued from local storage. If the queue is empty do nothing,
-     * otherwise call the timeout function to consume the actions.
-     *
-     * WARNING: If this function is called twice and we are in the middle
-     * of a request the second time (i.e. the request has been sent but
-     * the response has not been received yet) there is the possibility
-     * that we will have the same request sent twice because the pending
-     * request is still in the queue.
-     */
-    initialize: function() {
-        this.queue = LocalStore.get(this.LOCAL_STORAGE_KEY);
-        if (this.queue === null) {
-            this.queue = [];
-        }
-        if (this.queue.length > 0) {
-            this.onTimeout();
-        }
-    },
-
-    /**
-     * Attempts to send requests, if all the requests are sent then don't
-     * reset the timeout. Otherwise reset the timeout.
-     */
-    onTimeout: function() {
-        this.timeoutSet = false;
-        this.consumeQueue();
-    },
-
-    /**
-     * Removes the next action in the queue and returns it.
-     *
-     * @returns {object} The next action from the queue.
-     */
-    dequeue: function() {
-        var output = this.queue.shift();
-        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
-        return output;
-    },
-
-    /**
-     * Arm the timeout and increment the timeoutMultiplier
-     */
-    armTimeout: function() {
-        if (!this.timeoutSet) {
-            this.timeoutSet = true;
-            setTimeout(_.bind(this.onTimeout, this),
-                       this.ACTION_TIMEOUT_MS * this.timeoutMultiplier);
-        }
-
-        // Increment timeoutMultiplier but max at 20
-        this.timeoutMultiplier = Math.min(20, this.timeoutMultiplier+1);
-    },
-
-    /**
-     * If we are connected to the server this will recursively consume the queue of
-     * pending server actions. Otherwise, this will reset the timeout to be called
-     * again later.
-     */
-    consumeQueue: function() {
-        if (this.queue.length === 0) {
-            return;
-        }
-
-        var action = ServerActionEnum[this.peek().action];
-        var actionArgs = this.peek().actionArgs;
-        var retriesLeft = this.peek().retriesLeft;
-        action.apply(null, actionArgs).done(function() {
-            // We succeeded so remove this from the queue and reset timeoutMultiplier
-            ServerActionQueue.timeoutMultiplier = 1;
-            ServerActionQueue.dequeue();
-            ServerActionQueue.consumeQueue();
-        }).fail(function(xhr) {
-            // When we aren't connected to the sesrver we don't get a proper response
-            // so responseText is undefined
-            if (xhr.status === 0) {
-                // We didn't receive a response from the server, reset timeout.
-                ServerActionQueue.armTimeout();
-            } else {
-                // We received an error from the server, retry or remove from the queue
-                if (retriesLeft > 0) {
-                    ServerActionQueue.peek().retriesLeft -= 1;
-                    LocalStore.set(ServerActionQueue.LOCAL_STORAGE_KEY,
-                                   ServerActionQueue.queue);
-                    ServerActionQueue.armTimeout();
-                } else {
-                    ServerActionQueue.dequeue();
-                    ServerActionQueue.consumeQueue();
-                }
-            }
-        });
-    },
-
-    /**
-     * Returns next item from queue without removing it.
-     */
-    peek: function() {
-        return this.queue[0];
-    },
-
-    /**
-     * Add a new action to the queue of actions to be called.
-     * @param {string} action - The string mapping to the callback function in
-     *                 ServerActionEnum. The callback MUST return a promise
-     *                 object so we can know if a request fails or succeeds
-     * @param {list} actionArgs - The list of arguments to be passed to the
-     *               callback for the action. All of these arguments must be
-     *               JSON serializable.
-     * @param {int} retries - Number of retries allowed for server errors
-     */
-    enqueue: function(action, actionArgs, retries) {
-        this.queue.push({action: action, actionArgs: actionArgs,
-                         retriesLeft: retries});
-        LocalStore.set(this.LOCAL_STORAGE_KEY, this.queue);
-        this.armTimeout();
-    },
-};
-
-var ServerActionEnum = {
-    "makeAttempt": saveAttemptToServer,
-    "hintRequest": request,
-};
-
-function shouldUseServerActionQueue() {
-    return !Exercises.localMode &&
-        typeof LocalStore !== "undefined" &&
-        typeof KA !== "undefined" &&
-        KA.GANDALF_EXERCISES_SERVER_QUEUE;
-}
-
 function saveAttemptToServer(url, attemptData) {
     // Save the problem results to the server
     var promise = request(url, attemptData).fail(function(xhr) {
@@ -264,8 +126,7 @@ var PerseusBridge = Exercises.PerseusBridge,
     numHints,
     hintsUsed,
     lastAttemptOrHint,
-    lastAttemptContent,
-    currentExercise;
+    lastAttemptContent;
 
 $(Exercises)
     .bind("problemTemplateRendered", problemTemplateRendered)
@@ -359,33 +220,6 @@ function newProblem(e, data) {
     hintsUsed = data.userExercise ? data.userExercise.lastCountHints : 0;
     lastAttemptOrHint = new Date().getTime();
     lastAttemptContent = null;
-
-    if (shouldUseServerActionQueue()) {
-        var storedExercise = LocalStore.get("currentExercise");
-        if (storedExercise != null &&
-            storedExercise.exercise === data.userExercise.exercise &&
-            storedExercise.problemNum === problemNum) {
-
-            currentExercise = storedExercise;
-
-            while (hintsUsed < storedExercise.hintsUsed) {
-                var framework = Exercises.getCurrentFramework();
-                if (framework === "perseus") {
-                    $(PerseusBridge).trigger("showHint");
-                } else if (framework === "khan-exercises") {
-                    $(Khan).trigger("showHint");
-                }
-            }
-        }
-
-        // Store currentExercise w/ hints used in local storage (above we
-        // should check if the exercise is already stored and update hintsUsed
-        // as appropriate)
-        currentExercise = {exercise: data.userExercise.exercise,
-                           hintsUsed: hintsUsed,
-                           problemNum: problemNum};
-        LocalStore.set("currentExercise", currentExercise);
-    }
 
     var framework = Exercises.getCurrentFramework();
     $("#problem-and-answer")
@@ -659,11 +493,7 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    if (shouldUseServerActionQueue()) {
-        ServerActionQueue.enqueue("makeAttempt", [url, attemptData], 3);
-    } else {
-        saveAttemptToServer(url, attemptData);
-    }
+    saveAttemptToServer(url, attemptData);
 
     if (skipped && !Exercises.assessmentMode) {
         // Skipping should pull up the next card immediately - but, if we're in
@@ -725,11 +555,7 @@ function onHintButtonClicked() {
         var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        if (shouldUseServerActionQueue()) {
-            ServerActionQueue.enqueue("hintRequest", [url, attemptData], 3);
-        } else {
-            request(url, attemptData);
-        }
+        request(url, attemptData);
         hintsUsed--;
     }
 
@@ -738,13 +564,6 @@ function onHintButtonClicked() {
         $(PerseusBridge).trigger("showHint");
     } else if (framework === "khan-exercises") {
         $(Khan).trigger("showHint");
-    }
-
-    if (shouldUseServerActionQueue()) {
-        // onHintShown updated the hintsUsed so we should save that to
-        // localStorage.
-        currentExercise.hintsUsed = hintsUsed;
-        LocalStore.set("currentExercise", currentExercise);
     }
 }
 
@@ -1103,11 +922,6 @@ function clearExistingProblem() {
             .show();
 
     Khan.scratchpad.clear();
-}
-
-if (shouldUseServerActionQueue()) {
-    // When this file is sourced, initialize the queue with what is stoed in localstorage
-    ServerActionQueue.initialize();
 }
 
 })();
