@@ -14,7 +14,7 @@
                 <var id="NUM_DIGITS">randRange(3, 7)</var>
                 <var id="MAG">pow(10, NUM_DIGITS - 1)</var>
                 <var id="NUM">randRange(MAG, MAG * 10 - 1)</var>
-                <var id="PLACE">randRange(1, NUM_DIGITS - 1)</var>
+                <var id="PLACE">randRange(1, min(5, NUM_DIGITS - 1))</var>
                 <var id="TPLACE">numberPlaceNames[PLACE]</var>
                 <var id="TPLACES">plural_form(numberPlaceNames[PLACE - 1], 2)</var>
                 <var id="ROUNDED">Math.round(roundTo(-PLACE, NUM))</var>
@@ -28,7 +28,7 @@
             <div class="vars">
                 <var id="NUM_DIGITS">randRange(3, 7)</var>
                 <var id="MAG">pow(10, NUM_DIGITS - 1)</var>
-                <var id="PLACE">randRange(1, min(6, NUM_DIGITS - 1))</var>
+                <var id="PLACE">randRange(1, min(5, NUM_DIGITS - 1))</var>
                 <var id="TPLACE">numberPlaceNames[PLACE]</var>
                 <var id="NUM">(function() {
                     // Get a number with a 5 in PLACE position
