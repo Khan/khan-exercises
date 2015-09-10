@@ -4,5 +4,6 @@ local-only/**
 genfiles/**
 third_party/**
 third_party/MathJax/2.1/config/*
+third_party/MathJax/2.1/extensions/*
 build/third_party/**
 test/**

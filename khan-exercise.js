@@ -2143,7 +2143,7 @@ function loadMathJax() {
     if (window.MathJax) {
         waitForMathJaxReady();
     } else {
-        loadScript(urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-f44d133888282e24c89e102b0a3fa99c", waitForMathJaxReady);
+        loadScript(urlBase + "third_party/MathJax/2.1/MathJax.js?config=KAthJax-186c6982df2f62edb8559effd15b8508", waitForMathJaxReady);
     }
 
     function waitForMathJaxReady() {

@@ -9,6 +9,7 @@ import tempfile
 pack = [
     'extensions/MathEvents.js',
     'extensions/MathMenu.js',
+    'extensions/MathZoom.js',
     'extensions/TeX/AMSmath.js',
     'extensions/TeX/AMSsymbols.js',
     'extensions/TeX/noErrors.js',
