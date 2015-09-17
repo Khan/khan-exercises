@@ -2,7 +2,7 @@ MathJax.Hub.Config({
     messageStyle: "none",
     skipStartupTypeset: true,
     jax: ["input/TeX","output/HTML-CSS"],
-    extensions: ["tex2jax.js", "MathZoom.js"],
+    extensions: ["tex2jax.js"],
     TeX: {
         extensions: [
             "AMSmath.js",
