@@ -2,7 +2,9 @@ script: phantomjs test/runner.js test/index.html
 notifications:
   on_success: change
   on_failure: always
-  hipchat:
+  slack:
     rooms:
-      # Content tools
-      secure: XFtzoGC0qGndavcb7A/TtL90bTmtHhKsQRmalGSxPwCO2HCkXT6VY4A3r1zRLXqR/k5mBvxoEB0OgXm3FdwmBFVYkoCIJ/CqxZbZjoKY0i1pwrRy0oP58uVPUpEDtSCwBHvQhEKiSVtSgQhlgvijpjCmFOoC+zKVCz8W2LAi938=
+      # Generate with
+      #     travis encrypt "khanacademy:<token>" --add notifications.slack.rooms
+      # where <token> is from the Slack integration settings.
+      secure: TnzVhxCX5mQIscOAlLKVgqeRj63Hu9v23CUkWV5mPzAnbPWei+Jr6DH+tqC/4DgTWULmlxQFb2t1+Yj0wyfCDT43xqVoot8FptBlgrUAiSpNKj8iRaDcL779h9DRegKtK0j1FzQcimXRtn9eF6aO6ikzMcgZZ6c/VvCaJXjETzA=
