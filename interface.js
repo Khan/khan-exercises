@@ -325,7 +325,11 @@ function newProblem(e, data) {
             problemNum !== undefined &&
             OfflineHintRecord.hasTakenHintFor(
                 data.userExercise.exerciseModel.name, problemNum)) {
-        onHintButtonClicked();
+        // TODO(eli): Reactivate this by October 5! Students are seeing hints
+        // when they shouldn't, but the problem is crazy hard to repro. We're
+        // trying temporarily disabling this in order to track down the cause
+        // of the bug!
+        // onHintButtonClicked();
     }
 
     // Render related videos, unless we're on the final stage of mastery or in
