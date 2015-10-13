@@ -126,20 +126,63 @@ function addExamplesToInput($input, examples) {
 
 Khan.answerTypes = $.extend(Khan.answerTypes, {
     /*
+     * letters answer type. Inherits from `text` type, with a grammar hint of
+     * `letters`
+     */
+    letters: {
+        setupFunctional: function(solutionarea, solutionText, solutionData) {
+            return Khan.answerTypes.text.setupFunctional(solutionarea, solutionText, solutionData, 'letters');
+        },
+        createValidatorFunctional: function(correct, options) {
+            return Khan.answerTypes.text.createValidatorFunctional(correct, options);
+        },
+    },
+
+    /*
+     * lowers answer type. Inherits from `text` type, with a grammar hint of
+     * `lowers`. Intended for lower-case answers.
+     */
+    lowers: {
+        setupFunctional: function(solutionarea, solutionText, solutionData) {
+            return Khan.answerTypes.text.setupFunctional(solutionarea, solutionText, solutionData, 'lowers');
+        },
+        createValidatorFunctional: function(correct, options) {
+            return Khan.answerTypes.text.createValidatorFunctional(correct, options);
+        },
+    },
+
+    /*
+     * caps answer type. Inherits from `text` type, with a grammar hint of
+     * `caps`
+     */
+    caps: {
+        setupFunctional: function(solutionarea, solutionText, solutionData) {
+            return Khan.answerTypes.text.setupFunctional(solutionarea, solutionText, solutionData, 'caps');
+        },
+        createValidatorFunctional: function(correct, options) {
+            return Khan.answerTypes.text.createValidatorFunctional(correct, options);
+        },
+    },
+
+    /*
      * text answer type
      *
      * Displays a simple text box, and performs direct string matching on the
      * value typed in an the answer provided
+     *
+     * solutionGrammar is a string used by the mobile app to determine what
+     * characters should be allowed.
      */
     text: {
-        setupFunctional: function(solutionarea, solutionText, solutionData) {
+        setupFunctional: function(solutionarea, solutionText, solutionData, solutionGrammar) {
+            solutionGrammar = solutionGrammar || 'text';
             // Add a text box
             var input;
             if (window.Modernizr && Modernizr.touchevents) {
                 // special flag for iOS devices
-                input = $('<input type="text" autocapitalize="off">');
+                input = $('<input data-solution-grammar="' + solutionGrammar + '" type="text" autocapitalize="off">');
             } else {
-                input = $('<input type="text">');
+                input = $('<input data-solution-grammar="' + solutionGrammar + '" type="text">');
             }
             $(solutionarea).append(input);
 
