@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable brace-style, comma-dangle, eqeqeq, indent, max-len, no-redeclare, no-undef, no-unused-vars, one-var, prefer-spread, prefer-template, space-after-keywords */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 define(function(require) {
 
 var MAXERROR_EPSILON = Math.pow(2, -42);

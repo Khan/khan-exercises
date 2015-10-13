@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, eqeqeq, indent, max-len, no-undef, one-var, prefer-template */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 /**
  * Event handlers for when problem history is being viewed.
  */

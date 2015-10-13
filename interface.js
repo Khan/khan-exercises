@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, comma-spacing, eqeqeq, indent, max-len, no-undef, one-var, prefer-template, space-after-keywords, space-before-function-paren */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 /**
  * Interface glue to handle events from 'Exercises' and talk to 'Khan' or some
  * Perseus object, whichever is appropriate for the current exercise.

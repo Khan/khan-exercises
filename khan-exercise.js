@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, eqeqeq, indent, max-len, no-console, no-trailing-spaces, no-undef, no-unused-vars, one-var, prefer-spread, prefer-template, space-before-blocks */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 /* khan-exercise.js
 
     The main entry point here is essentially the onjQueryLoaded method around

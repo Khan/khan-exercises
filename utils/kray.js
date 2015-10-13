@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, comma-spacing, indent */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 /*
  * Ray Utils
  * A ray is an array of an endpoint and another point along the ray.

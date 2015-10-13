@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable brace-style, camelcase, comma-dangle, eqeqeq, indent, max-len, no-console, no-redeclare, no-undef, one-var, prefer-template */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 define(function(require) {
 
 require("./math.js");

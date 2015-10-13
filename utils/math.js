@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, comma-spacing, eqeqeq, indent, max-len, no-constant-condition, no-redeclare, no-undef, no-unused-vars, one-var, prefer-spread, prefer-template, space-infix-ops */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 define(function(require) {
 
 // Minify Raphael ourselves because IE8 has a problem with the 1.5.2 minified release

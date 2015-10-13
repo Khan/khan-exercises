@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, eqeqeq, max-len */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 (function($) {
     $.fn.adhere = function(options) {
         options = $.extend({

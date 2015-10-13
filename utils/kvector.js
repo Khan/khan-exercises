@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, indent, no-trailing-spaces, no-undef, no-unused-vars, prefer-spread */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 /*
  * Vector Utils 
  * A vector is an array of numbers e.g. [0, 3, 4].

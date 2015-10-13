@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, indent, no-undef */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 /*
  * Point Utils
  * A point is an array of two numbers e.g. [0, 0].

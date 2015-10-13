@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable brace-style, comma-dangle, comma-spacing, eqeqeq, indent, max-len, no-redeclare, no-undef, no-unused-vars, one-var, prefer-template, space-before-keywords, space-infix-ops, space-unary-ops */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 define(function(require) {
 
 require("./graphie.js");

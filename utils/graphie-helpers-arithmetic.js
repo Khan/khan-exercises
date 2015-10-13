@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable comma-dangle, comma-spacing, indent, max-len, no-redeclare, no-trailing-spaces, no-undef, no-unused-vars, one-var, prefer-template, space-unary-ops */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 define(function(require) {
 
 var decimalPointSymbol = icu.getDecimalFormatSymbols().decimal_separator;

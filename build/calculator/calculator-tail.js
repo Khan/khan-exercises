@@ -1,3 +1,7 @@
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable brace-style, comma-dangle, eqeqeq, max-len, no-undef, no-unused-vars, prefer-template */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
 window.Calculator = (function(parser) {
     // I18N: calculator error message
     var ERROR_TEXT = $._("Error");
