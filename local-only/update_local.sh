@@ -41,7 +41,20 @@ cp -f "$srcdir"/qTip2/jquery.qtip.js "$destdir"
 cp -f "$srcdir"/underscore/underscore.js "$destdir"
 cp -f "$srcdir"/moment-khansrc/moment.js "$destdir"
 
-cp -f "$webapp_root"/javascript/shared-package/i18n.js "$destdir"
+# Get rid of the require lines -- we just provide all the required
+# libs as globals.  Also get rid of module.exports, which this js
+# system doesn't like.  We also need to wrap this in an IIFE to avoid
+# leaking internal vars.
+( echo "(function() {"
+  sed /module.exports/q "$webapp_root"/javascript/shared-package/i18n.js | grep -v -e '= require("' -e 'module.exports ='
+  # We need to export everything in the i18n namespace
+  echo "window.i18n = i18n;"
+  echo "i18n._ = _;"
+  echo "i18n.ngettext = ngettext;"
+  echo "i18n.ngetpos = ngetpos;"
+  echo "i18n.i18nDoNotTranslate = i18nDoNotTranslate;"
+  echo "})();"
+) > "$destdir"/i18n.js
 
 # We only need some of the jquery-ui files, and we'll concatenate them together
 rm -f "$destdir"/jquery-ui.js
@@ -60,7 +73,7 @@ rm -f "$destdir/localeplanet/icu.__language__.js"
 
 # Update khan-site.css
 python "$webapp_root/kake/build_prod_main.py" shared.css exercises.css \
-   --readable --no-update-manifest
+   --readable
 
 cat "$webapp_root/genfiles/readable_css_packages_prod/en/shared-package.css" \
     "$webapp_root/genfiles/readable_css_packages_prod/en/exercises-package.css" \
