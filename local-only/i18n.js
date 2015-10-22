@@ -18,49 +18,49 @@ var defaultLang = "en";
 //    "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 // which I copied in here verbatim, except I replaced occurrences
 // of "or" with "||".
-var plural_forms = {
-    "af": "nplurals=2; plural=(n != 1)",
-    "ar": "nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5",
-    "az": "nplurals=2; plural=(n != 1)",
-    "bg": "nplurals=2; plural=(n != 1)",
-    "ca": "nplurals=2; plural=(n != 1)",
-    "cs": "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2",
-    "da": "nplurals=2; plural=(n != 1)",
-    "de": "nplurals=2; plural=(n != 1)",
-    "el": "nplurals=2; plural=(n != 1)",
-    "en": "nplurals=2; plural=(n != 1)",
-    "es-ES": "nplurals=2; plural=(n != 1)",
-    "fi": "nplurals=2; plural=(n != 1)",
-    "fr": "nplurals=2; plural=(n > 1)",
-    "he": "nplurals=2; plural=(n != 1)",
-    "hi": "nplurals=2; plural=(n!=1)",
-    "hu": "nplurals=2; plural=(n != 1)",
-    "it": "nplurals=2; plural=(n != 1)",
-    "ja": "nplurals=1; plural=0",
-    "ko": "nplurals=1; plural=0",
-    "nl": "nplurals=2; plural=(n != 1)",
-    "no": "nplurals=2; plural=(n != 1)",
-    "pl": "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
-    "pt-BR": "nplurals=2; plural=(n != 1)",
-    "pt-PT": "nplurals=2; plural=(n != 1)",
-    "ro": "nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2)",
-    "ru": "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
-    "si-LK": "nplurals=2; plural=(n != 1)",
-    "sk": "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2",
-    "sr": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
-    "sv-SE": "nplurals=2; plural=(n != 1) ",
-    "tr": "nplurals=1; plural=0",
-    "uk": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
-    "ur-PK": "nplurals=2; plural=(n != 1)",
-    "vi": "nplurals=1; plural=0",
-    "xh": "nplurals=2; plural=(n != 1)",
-    "zh-CN": "nplurals=1; plural=0",
-    "zh-TW": "nplurals=1; plural=0"
-};
+var plural_forms = { 
+    "af": "nplurals=2; plural=(n != 1)", 
+    "ar": "nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5", 
+    "az": "nplurals=2; plural=(n != 1)", 
+    "bg": "nplurals=2; plural=(n != 1)", 
+    "ca": "nplurals=2; plural=(n != 1)", 
+    "cs": "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", 
+    "da": "nplurals=2; plural=(n != 1)", 
+    "de": "nplurals=2; plural=(n != 1)", 
+    "el": "nplurals=2; plural=(n != 1)", 
+    "en": "nplurals=2; plural=(n != 1)", 
+    "es-ES": "nplurals=2; plural=(n != 1)", 
+    "fi": "nplurals=2; plural=(n != 1)", 
+    "fr": "nplurals=2; plural=(n > 1)", 
+    "he": "nplurals=2; plural=(n != 1)", 
+    "hi": "nplurals=2; plural=(n!=1)", 
+    "hu": "nplurals=2; plural=(n != 1)", 
+    "it": "nplurals=2; plural=(n != 1)", 
+    "ja": "nplurals=1; plural=0", 
+    "ko": "nplurals=1; plural=0", 
+    "nl": "nplurals=2; plural=(n != 1)", 
+    "no": "nplurals=2; plural=(n != 1)", 
+    "pl": "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)", 
+    "pt-BR": "nplurals=2; plural=(n != 1)", 
+    "pt-PT": "nplurals=2; plural=(n != 1)", 
+    "ro": "nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2)", 
+    "ru": "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2", 
+    "si-LK": "nplurals=2; plural=(n != 1)", 
+    "sk": "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", 
+    "sr": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)", 
+    "sv-SE": "nplurals=2; plural=(n != 1) ", 
+    "tr": "nplurals=1; plural=0", 
+    "uk": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)", 
+    "ur-PK": "nplurals=2; plural=(n != 1)", 
+    "vi": "nplurals=1; plural=0", 
+    "xh": "nplurals=2; plural=(n != 1)", 
+    "zh-CN": "nplurals=1; plural=0", 
+    "zh-TW": "nplurals=1; plural=0" };
 
-var getPluralForm = function(lang) {
-    return plural_forms[lang] || plural_forms[defaultLang];
-};
+
+var getPluralForm = function (lang) {
+    return plural_forms[lang] || plural_forms[defaultLang];};
+
 
 // Create a global Jed instance named 'i18n'
 var i18n = new Jed({});
@@ -82,21 +82,21 @@ var interpolationMarker = /%\(([\w_]+)\)s/g;
  *  interpolateStringToFragment("test %(num)s", {num: <Count />}) ->
  *      test <Count />
  */
-var interpolateStringToFragment = function(str, options) {
+var interpolateStringToFragment = function (str, options) {
     options = options || {};
 
     // Split the string into its language fragments and substitutions
     var split = str.split(interpolationMarker);
 
-    var result = {"text_0": split[0]};
+    var result = { "text_0": split[0] };
 
     // Replace the substitutions with the appropriate option
     for (var i = 1; i < split.length; i += 2) {
         var key = split[i];
         var replaceWith = options[key];
         if (replaceWith === undefined) {
-            replaceWith = `%(${key})s`;
-        }
+            replaceWith = "%(" + key + ")s";}
+
 
         // We prefix each substitution key with a number that increments each
         // time it's used, so "test %(num)s %(fruit)s and %(num)s again" turns
@@ -106,17 +106,17 @@ var interpolateStringToFragment = function(str, options) {
         // switch between two translated strings with the same variables.
         // Admittedly, an edge case.
         var j = 0;
-        while (`${j}_${key}` in result) {
-            j++;
-        }
-        result[`${j}_${key}`] = replaceWith;
+        while ("" + j + "_" + key in result) {
+            j++;}
+
+        result["" + j + "_" + key] = replaceWith;
         // Because the regex has one capturing group, the `split` array always
         // has an odd number of elements, so this always stays in bounds.
-        result[`text_${i + 1}`] = split[i + 1];
-    }
+        result["text_" + (i + 1)] = split[i + 1];}
 
-    return createFragment(result);
-};
+
+    return createFragment(result);};
+
 
 /**
     * Simple i18n method with sprintf-like %(name)s replacement
@@ -124,7 +124,7 @@ var interpolateStringToFragment = function(str, options) {
     *   $._("Some string")
     *   $._("Hello %(name)s", {name: "John"})
     */
-var _ = function(str, options) {
+var _ = function (str, options) {
     // Sometimes we're given an argument that's meant for ngettext().  This
     // happens if the same string is used in both $._() and i18n.ngettext()
     // (.g. a = $._(foo); b = i18n.ngettext("foo", "bar", count);
@@ -132,16 +132,16 @@ var _ = function(str, options) {
     // then it gets sent to us for the $._() case too.  No problem, though:
     // we'll just take the singular arg.
     if (typeof str === "object" && str.messages) {
-        str = str.messages[0];
-    }
+        str = str.messages[0];}
+
 
     options = options || {};
 
-    return str.replace(interpolationMarker, function(match, key) {
+    return str.replace(interpolationMarker, function (match, key) {
         var replaceWith = options[key];
-        return replaceWith === undefined ? match : replaceWith;
-    });
-};
+        return replaceWith === undefined ? match : replaceWith;});};
+
+
 
 /**
     * A simple i18n react component-like function to allow for string
@@ -171,12 +171,12 @@ var _ = function(str, options) {
     * other things added to props, such as this.props.ref and
     * this.props.children
     */
-window.$_ = function(options, str) {
+window.$_ = function (options, str) {
     if (arguments.length !== 2 || typeof str !== "string") {
-        return "<$_> must have exactly one child, which must be a string";
-    }
-    return interpolateStringToFragment(str, options);
-};
+        return "<$_> must have exactly one child, which must be a string";}
+
+    return interpolateStringToFragment(str, options);};
+
 
 /**
     * A simple i18n react component-like function to allow for marking a
@@ -189,9 +189,9 @@ window.$_ = function(options, str) {
     * which react/jsx compiles to:
     *    $i18nDoNotTranslate(null, "English only text.")
     */
-window.$i18nDoNotTranslate = function(options, str) {
-    return str;
-};
+window.$i18nDoNotTranslate = function (options, str) {
+    return str;};
+
 
 /**
     * Simple ngettext method with sprintf-like %(name)s replacement
@@ -207,7 +207,7 @@ window.$i18nDoNotTranslate = function(options, str) {
     *     messages: ["%(num)s 猫 %(username)s"]
     *   }, 3, {username: "John"});
     */
-var ngettext = function(singular, plural, num, options) {
+var ngettext = function (singular, plural, num, options) {
     var message_info = singular;
 
     // Fall back to the default lang
@@ -215,17 +215,17 @@ var ngettext = function(singular, plural, num, options) {
 
     // Make sure we have locale_data set for our language
     if (!i18n.options.locale_data[lang]) {
-        i18n.options.locale_data[lang] = {
-            "": {
-                domain: lang,
+        i18n.options.locale_data[lang] = { 
+            "": { 
+                domain: lang, 
                 // Set the language
-                lang: lang,
+                lang: lang, 
                 // Initialize the plural forms to be used with
                 // any pluralization that occurs
-                plural_forms: getPluralForm(lang)
-            }
-        };
-    }
+                plural_forms: getPluralForm(lang) } };}
+
+
+
 
     // If the first argument is an object then we're receiving a plural
     // configuration object
@@ -241,17 +241,17 @@ var ngettext = function(singular, plural, num, options) {
 
         // Add the messages into the Jed.js i18n object.
         // By default the first item in the array is ignored
-        i18n.options.locale_data[lang][singular] =
-            [null].concat(message_info.messages);
-    }
+        i18n.options.locale_data[lang][singular] = 
+        [null].concat(message_info.messages);}
+
 
     // Get the options to substitute into the string
     options = options || {};
     options.num = options.num || num;
 
     // Then pass into $._ for the actual substitution
-    return _(i18n.dngettext(lang, singular, plural, num), options);
-};
+    return _(i18n.dngettext(lang, singular, plural, num), options);};
+
 
 /*
     * Return the ngettext position that matches the given number and locale.
@@ -260,14 +260,14 @@ var ngettext = function(singular, plural, num, options) {
     *  - num: The number upon which to toggle the plural forms.
     *  - lang: The language to use as the basis for the pluralization.
     */
-var ngetpos = function(num, lang) {
+var ngetpos = function (num, lang) {
     lang = lang || "en";
 
     // Generate a function which will give the position of the message
     // which matches the correct plural form of the string
     // TODO(csilvers): maybe roll this ourselves to save some bytes?
-    return Jed.PF.compile(getPluralForm(lang))(num);
-};
+    return Jed.PF.compile(getPluralForm(lang))(num);};
+
 
 /*
     * A dummy identity function.  It's used as a signal to automatic
@@ -286,9 +286,9 @@ var i18nDoNotTranslate = _;
     * This is just used for marking up those fragments that need translation.
     * The translated text is injected at deploy-time.
     */
-var handlebars_underscore = function(options) {
-    return options.fn(this);
-};
+var handlebars_underscore = function (options) {
+    return options.fn(this);};
+
 
 /**
     *  Mark text as not needing translation.
@@ -299,9 +299,9 @@ var handlebars_underscore = function(options) {
     * It does not need to actually do anything and hence returns the contents
     * as is.
     */
-var handlebars_do_not_translate = function(options) {
-    return options.fn(this);
-};
+var handlebars_do_not_translate = function (options) {
+    return options.fn(this);};
+
 
 /**
     * Handlebars ngettext function.
@@ -320,15 +320,15 @@ var handlebars_do_not_translate = function(options) {
     *  - lang: The language to use as the basis for the pluralization.
     *  - pos: The expected plural form (depends upon the language)
     */
-var handlebars_ngettext = function(num, lang, pos, options) {
+var handlebars_ngettext = function (num, lang, pos, options) {
     // This method has two signatures:
     // (num) (the default for when the code is run in dev mode)
     // (num, lang, pos) (for when the code is run in prod mode)
     if (typeof lang !== "string") {
         options = lang;
         lang = "en";
-        pos = 0;
-    }
+        pos = 0;}
+
 
     // Add in 'num' as a magic variable.
     this.num = this.num || num;
@@ -336,23 +336,23 @@ var handlebars_ngettext = function(num, lang, pos, options) {
     // If the result of the plural form function given the specified
     // number matches the expected position then we give the first
     // result, otherwise we give the inverse result.
-    return ngetpos(num) === pos ?
-        options.fn(this) :
-        options.inverse(this);
-};
+    return ngetpos(num) === pos ? 
+    options.fn(this) : 
+    options.inverse(this);};
+
 
 /**
  * Rounds num to X places, and uses the proper decimal seperator.
  * But does *not* insert thousands separators.
  */
-var localeToFixed = function(num, places) {
+var localeToFixed = function (num, places) {
     var decimalSeperator = icu.getDecimalFormatSymbols().decimal_separator;
     var localeFixed = num.toFixed(places).replace(".", decimalSeperator);
     if (localeFixed === "-0") {
-        localeFixed = "0";
-    }
-    return localeFixed;
-};
+        localeFixed = "0";}
+
+    return localeFixed;};
+
 
 // TODO(csilvers): is this still necessary?
 window.i18n = i18n;

@@ -41,12 +41,18 @@ cp -f "$srcdir"/qTip2/jquery.qtip.js "$destdir"
 cp -f "$srcdir"/underscore/underscore.js "$destdir"
 cp -f "$srcdir"/moment-khansrc/moment.js "$destdir"
 
+# Get an es5-friendly version of i18n.js
+(
+   cd "$webapp_root"
+   python kake/build_prod_main.py genfiles/compiled_es6/en/javascript/shared-package/i18n.js
+)
+
 # Get rid of the require lines -- we just provide all the required
 # libs as globals.  Also get rid of module.exports, which this js
 # system doesn't like.  We also need to wrap this in an IIFE to avoid
 # leaking internal vars.
 ( echo "(function() {"
-  sed /module.exports/q "$webapp_root"/javascript/shared-package/i18n.js | grep -v -e '= require("' -e 'module.exports ='
+  sed /module.exports/q "$webapp_root"/genfiles/compiled_es6/en/javascript/shared-package/i18n.js | grep -v -e '= require("' -e 'module.exports ='
   # We need to export everything in the i18n namespace
   echo "window.i18n = i18n;"
   echo "i18n._ = _;"
