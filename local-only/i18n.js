@@ -354,19 +354,23 @@ var localeToFixed = function (num, places) {
     return localeFixed;};
 
 
-// TODO(csilvers): is this still necessary?
-window.i18n = i18n;
+// This is necessary for khan-exercises, perseus, and
+// bootstrap-daterangepicker (live-editor also uses the global i18n
+// var, but defines its own version of it.)  We export the symbols
+// that they need.
+window.i18n = { 
+    _: _, 
+    ngettext: ngettext, 
+    i18nDoNotTranslate: i18nDoNotTranslate, 
+    // khan-exercises is the only client of ngetpos (which is emitted
+    // into khan-exercises by kake/translate-exercises.py).
+    ngetpos: ngetpos };
 
-// TODO(csilvers): remove this once everyone has moved from i18n._ to i18n._
+
+// TODO(csilvers): remove this once everyone has moved from $._ to i18n._
 // Then, we can get rid of the i18n.js entry in third_party_js.py
 jQuery._ = _;
 jQuery.ngettext = ngettext;
-jQuery.ngetpos = ngetpos;
 jQuery.i18nDoNotTranslate = i18nDoNotTranslate;
 
-window.i18n = i18n;
-i18n._ = _;
-i18n.ngettext = ngettext;
-i18n.ngetpos = ngetpos;
-i18n.i18nDoNotTranslate = i18nDoNotTranslate;
 })();

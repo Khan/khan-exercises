@@ -53,12 +53,6 @@ cp -f "$srcdir"/moment-khansrc/moment.js "$destdir"
 # leaking internal vars.
 ( echo "(function() {"
   sed /module.exports/q "$webapp_root"/genfiles/compiled_es6/en/javascript/shared-package/i18n.js | grep -v -e '= require("' -e 'module.exports ='
-  # We need to export everything in the i18n namespace
-  echo "window.i18n = i18n;"
-  echo "i18n._ = _;"
-  echo "i18n.ngettext = ngettext;"
-  echo "i18n.ngetpos = ngetpos;"
-  echo "i18n.i18nDoNotTranslate = i18nDoNotTranslate;"
   echo "})();"
 ) > "$destdir"/i18n.js
 

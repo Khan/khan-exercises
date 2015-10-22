@@ -7162,59 +7162,6 @@ a .icon-flip-vertical:before {
   padding-left: 50px;
   vertical-align: middle;
 }
-.task-preview.tutorial-nav {
-  border: 4px solid transparent;
-  border-radius: 8px;
-  bottom: 0;
-  display: block;
-  height: 55px;
-  margin: auto;
-  position: absolute;
-  width: 55px;
-  top: 0;
-}
-.task-preview.tutorial-nav img,
-.task-preview.tutorial-nav .video-thumbnail-container,
-.task-preview.tutorial-nav .thumbnail-transparent-black {
-  border-radius: 4px;
-  height: 55px;
-  width: 55px;
-}
-.task-preview.tutorial-nav .play-icon-container {
-  line-height: 55px;
-}
-.task-preview.tutorial-nav::before,
-.task-preview.tutorial-nav::after {
-  border: 4px solid #cdcdcd;
-  border-radius: 8px;
-  content: "";
-  height: 55px;
-  position: absolute;
-  top: -4px;
-}
-.task-preview.tutorial-nav::before {
-  border-bottom-right-radius: 0;
-  border-right: 0;
-  border-top-right-radius: 0;
-  left: -4px;
-  width: 29px;
-}
-.task-preview.tutorial-nav::after {
-  border-bottom-left-radius: 0;
-  border-left: 0;
-  border-top-left-radius: 0;
-  left: 29px;
-  width: 26px;
-}
-.task-preview.tutorial-nav + .progress-title {
-  -moz-box-sizing: border-box;
-       box-sizing: border-box;
-  display: table-cell;
-  height: 73px;
-  padding-left: 73px;
-  padding-right: 10px;
-  vertical-align: middle;
-}
 .progress-item:first-child .pipe,
 .tutorial-nav .tutorial-nav-node:first-child .pipe {
   bottom: -1px;
@@ -7326,11 +7273,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .science .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .science .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .science .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #c55f73;
-}
 #outer-wrapper .humanities .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-humanities.svg);
   /*! data-uri */
@@ -7366,11 +7308,6 @@ a .icon-flip-vertical:before {
   background: #ad3434;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #d24a45;
 }
 #outer-wrapper .economics-finance-domain .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-economics.svg);
@@ -7408,11 +7345,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #d1933b;
-}
 #outer-wrapper .cs .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
   /*! data-uri */
@@ -7448,11 +7380,6 @@ a .icon-flip-vertical:before {
   background: #437a39;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
 }
 #outer-wrapper .hour-of-code .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
@@ -7490,11 +7417,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
-}
 #outer-wrapper .computer-programming .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
   /*! data-uri */
@@ -7530,11 +7452,6 @@ a .icon-flip-vertical:before {
   background: #437a39;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
 }
 #outer-wrapper .computing .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
@@ -7572,11 +7489,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
-}
 #outer-wrapper .partner-content .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-partnerContent.svg);
   /*! data-uri */
@@ -7612,11 +7524,6 @@ a .icon-flip-vertical:before {
   background: #218270;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #329a86;
 }
 #outer-wrapper .math .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-math.svg);
@@ -7654,11 +7561,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .math .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .math .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .math .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #4fbad4;
-}
 #outer-wrapper .test-prep .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-testPrep.svg);
   /*! data-uri */
@@ -7694,11 +7596,6 @@ a .icon-flip-vertical:before {
   background: #644172;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #9a72ac;
 }
 #outer-wrapper .progress-container:hover .progress-item:hover .progress-item-link {
   background: #314453;
@@ -7741,11 +7638,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .science .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .science .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .science .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #c55f73;
-}
 #outer-wrapper .humanities .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-humanities.svg);
   /*! data-uri */
@@ -7781,11 +7673,6 @@ a .icon-flip-vertical:before {
   background: #ad3434;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #d24a45;
 }
 #outer-wrapper .economics-finance-domain .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-economics.svg);
@@ -7823,11 +7710,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #d1933b;
-}
 #outer-wrapper .cs .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
   /*! data-uri */
@@ -7863,11 +7745,6 @@ a .icon-flip-vertical:before {
   background: #437a39;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
 }
 #outer-wrapper .hour-of-code .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
@@ -7905,11 +7782,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
-}
 #outer-wrapper .computer-programming .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
   /*! data-uri */
@@ -7945,11 +7817,6 @@ a .icon-flip-vertical:before {
   background: #437a39;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
 }
 #outer-wrapper .computing .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
@@ -7987,11 +7854,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
-}
 #outer-wrapper .partner-content .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-partnerContent.svg);
   /*! data-uri */
@@ -8027,11 +7889,6 @@ a .icon-flip-vertical:before {
   background: #218270;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #329a86;
 }
 #outer-wrapper .math .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-math.svg);
@@ -8069,11 +7926,6 @@ a .icon-flip-vertical:before {
   color: #ffffff;
   text-decoration: none;
 }
-#outer-wrapper .math .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .math .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .math .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #4fbad4;
-}
 #outer-wrapper .test-prep .status.video-node {
   background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-testPrep.svg);
   /*! data-uri */
@@ -8109,421 +7961,6 @@ a .icon-flip-vertical:before {
   background: #644172;
   color: #ffffff;
   text-decoration: none;
-}
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #9a72ac;
-}
-#outer-wrapper .science .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-science.svg);
-  /*! data-uri */
-}
-#outer-wrapper .science .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-science.svg);
-  /*! data-uri */
-}
-#outer-wrapper .science .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-science.svg);
-  /*! data-uri */
-}
-#outer-wrapper .science .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-science.svg);
-  /*! data-uri */
-}
-#outer-wrapper .science .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-science.svg);
-  /*! data-uri */
-}
-#outer-wrapper .science .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-science.svg);
-  /*! data-uri */
-}
-#outer-wrapper .science .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-science.svg);
-  /*! data-uri */
-}
-#outer-wrapper .science .pipe.completed {
-  background-color: #c55f73;
-}
-#outer-wrapper .science .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #94424f;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .science .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .science .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .science .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #c55f73;
-}
-#outer-wrapper .humanities .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-humanities.svg);
-  /*! data-uri */
-}
-#outer-wrapper .humanities .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-humanities.svg);
-  /*! data-uri */
-}
-#outer-wrapper .humanities .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-humanities.svg);
-  /*! data-uri */
-}
-#outer-wrapper .humanities .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-humanities.svg);
-  /*! data-uri */
-}
-#outer-wrapper .humanities .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-humanities.svg);
-  /*! data-uri */
-}
-#outer-wrapper .humanities .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-humanities.svg);
-  /*! data-uri */
-}
-#outer-wrapper .humanities .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-humanities.svg);
-  /*! data-uri */
-}
-#outer-wrapper .humanities .pipe.completed {
-  background-color: #d24a45;
-}
-#outer-wrapper .humanities .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #ad3434;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .humanities .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #d24a45;
-}
-#outer-wrapper .economics-finance-domain .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-economics.svg);
-  /*! data-uri */
-}
-#outer-wrapper .economics-finance-domain .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-economics.svg);
-  /*! data-uri */
-}
-#outer-wrapper .economics-finance-domain .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-economics.svg);
-  /*! data-uri */
-}
-#outer-wrapper .economics-finance-domain .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-economics.svg);
-  /*! data-uri */
-}
-#outer-wrapper .economics-finance-domain .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-economics.svg);
-  /*! data-uri */
-}
-#outer-wrapper .economics-finance-domain .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-economics.svg);
-  /*! data-uri */
-}
-#outer-wrapper .economics-finance-domain .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-economics.svg);
-  /*! data-uri */
-}
-#outer-wrapper .economics-finance-domain .pipe.completed {
-  background-color: #d1933b;
-}
-#outer-wrapper .economics-finance-domain .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #b77033;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .economics-finance-domain .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #d1933b;
-}
-#outer-wrapper .cs .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .cs .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .cs .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .cs .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .cs .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .cs .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .cs .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .cs .pipe.completed {
-  background-color: #689b51;
-}
-#outer-wrapper .cs .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #437a39;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .cs .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
-}
-#outer-wrapper .hour-of-code .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .hour-of-code .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .hour-of-code .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .hour-of-code .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .hour-of-code .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .hour-of-code .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .hour-of-code .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .hour-of-code .pipe.completed {
-  background-color: #689b51;
-}
-#outer-wrapper .hour-of-code .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #437a39;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .hour-of-code .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
-}
-#outer-wrapper .computer-programming .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computer-programming .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computer-programming .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computer-programming .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computer-programming .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computer-programming .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computer-programming .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computer-programming .pipe.completed {
-  background-color: #689b51;
-}
-#outer-wrapper .computer-programming .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #437a39;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .computer-programming .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
-}
-#outer-wrapper .computing .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computing .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computing .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computing .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computing .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computing .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computing .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-cs.svg);
-  /*! data-uri */
-}
-#outer-wrapper .computing .pipe.completed {
-  background-color: #689b51;
-}
-#outer-wrapper .computing .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #437a39;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .computing .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #689b51;
-}
-#outer-wrapper .partner-content .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-partnerContent.svg);
-  /*! data-uri */
-}
-#outer-wrapper .partner-content .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-partnerContent.svg);
-  /*! data-uri */
-}
-#outer-wrapper .partner-content .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-partnerContent.svg);
-  /*! data-uri */
-}
-#outer-wrapper .partner-content .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-partnerContent.svg);
-  /*! data-uri */
-}
-#outer-wrapper .partner-content .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-partnerContent.svg);
-  /*! data-uri */
-}
-#outer-wrapper .partner-content .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-partnerContent.svg);
-  /*! data-uri */
-}
-#outer-wrapper .partner-content .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-partnerContent.svg);
-  /*! data-uri */
-}
-#outer-wrapper .partner-content .pipe.completed {
-  background-color: #329a86;
-}
-#outer-wrapper .partner-content .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #218270;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .partner-content .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #329a86;
-}
-#outer-wrapper .math .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-math.svg);
-  /*! data-uri */
-}
-#outer-wrapper .math .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-math.svg);
-  /*! data-uri */
-}
-#outer-wrapper .math .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-math.svg);
-  /*! data-uri */
-}
-#outer-wrapper .math .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-math.svg);
-  /*! data-uri */
-}
-#outer-wrapper .math .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-math.svg);
-  /*! data-uri */
-}
-#outer-wrapper .math .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-math.svg);
-  /*! data-uri */
-}
-#outer-wrapper .math .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-math.svg);
-  /*! data-uri */
-}
-#outer-wrapper .math .pipe.completed {
-  background-color: #4fbad4;
-}
-#outer-wrapper .math .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #1c758a;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .math .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .math .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .math .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #4fbad4;
-}
-#outer-wrapper .test-prep .status.video-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-video-testPrep.svg);
-  /*! data-uri */
-}
-#outer-wrapper .test-prep .status.exercise-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-exercise-testPrep.svg);
-  /*! data-uri */
-}
-#outer-wrapper .test-prep .status.scratchpad-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-scratchpad-testPrep.svg);
-  /*! data-uri */
-}
-#outer-wrapper .test-prep .status.talkie-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-talkie-testPrep.svg);
-  /*! data-uri */
-}
-#outer-wrapper .test-prep .status.challenge-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-challenge-testPrep.svg);
-  /*! data-uri */
-}
-#outer-wrapper .test-prep .status.article-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-article-testPrep.svg);
-  /*! data-uri */
-}
-#outer-wrapper .test-prep .status.project-node {
-  background-image: url(http://www.khanacademy.org/images/progress-icons/subway-sprites-project-testPrep.svg);
-  /*! data-uri */
-}
-#outer-wrapper .test-prep .pipe.completed {
-  background-color: #9a72ac;
-}
-#outer-wrapper .test-prep .progress-container:hover .progress-item:hover .progress-item-link {
-  background: #644172;
-  color: #ffffff;
-  text-decoration: none;
-}
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-started::before,
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-complete::before,
-#outer-wrapper .test-prep .task-preview.tutorial-nav.progress-complete::after {
-  border-color: #9a72ac;
 }
 #library-content.library-rtl .topic-heading,
 #library-content.library-rtl .topic-desc {
