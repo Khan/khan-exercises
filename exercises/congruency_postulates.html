@@ -22,12 +22,12 @@
                         ( ( TYPE !== 'SSA' ) || ( (TRIANGLE.niceSideLengths[0] + 1) &lt; TRIANGLE.niceSideLengths[1] &amp;&amp; abs(ANGLES[0] - 90) &gt; 10 ) )">
                     <var id="TYPE">randFromArray([ "SSS", "SAS", "SAA", "ASA", "SSA", "SSA", "AAA" ])</var>
                     <var id="NAME">{
-                            "SSS": $._("Side-Side-Side"),
-                            "SAS": $._("Side-Angle-Side"),
-                            "SAA": $._("Side-Angle-Angle"),
-                            "ASA": $._("Angle-Side-Angle"),
-                            "SSA": $._("Side-Side-Angle"),
-                            "AAA": $._("Angle-Angle-Angle")
+                            "SSS": i18n._("Side-Side-Side"),
+                            "SAS": i18n._("Side-Angle-Side"),
+                            "SAA": i18n._("Side-Angle-Angle"),
+                            "ASA": i18n._("Angle-Side-Angle"),
+                            "SSA": i18n._("Side-Side-Angle"),
+                            "AAA": i18n._("Angle-Angle-Angle")
                         }[ TYPE ]
                     </var>
                     <var id="ANGLES">randomTriangleAngles.triangle()</var>
@@ -111,9 +111,9 @@
                         } else if ( guess[0] !== ANSWER ) {
                             return false;
                         } else if ( !isTriangle ) {
-                            return $._("Your answer is almost correct, but you havent constructed a triangle.");
+                            return i18n._("Your answer is almost correct, but you havent constructed a triangle.");
                         } else if ( ANSWER === "No" &amp;&amp; isCongruent ) {
-                            return $._("Your answer is almost correct, but the two triangles are congruent. Prove your answer by trying to construct an incongruent triangle.");
+                            return i18n._("Your answer is almost correct, but the two triangles are congruent. Prove your answer by trying to construct an incongruent triangle.");
                         } else {
                             return true;
                         }

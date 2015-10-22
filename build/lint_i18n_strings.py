@@ -92,7 +92,7 @@ _TEXT_NODES = [
     '//*[contains(@class,"validator-function")]',
 ]
 
-# <var> nodes that might contain $._ strings
+# <var> nodes that might contain i18n._ strings
 _VAR_NODES = [
     '//var[not(ancestor::*[contains(@class,"vars")])]',
 ]
@@ -306,7 +306,7 @@ def lint_file(filename, apply_fix, verbose):
         # (or would have changed, if apply_fix is False)
         nodes_changed += new_nodes_changed
 
-    # Manually pluck out the <var>s to check for $._
+    # Manually pluck out the <var>s to check for i18n._
     text_nodes = root_tree.xpath('|'.join(_VAR_NODES))
 
     filter = StringInVarFilter()
@@ -1167,23 +1167,23 @@ class MathJaxTextFilter(BaseFilter):
     """i18nize usage of \\text{} in exercises.
 
     This ensures that all of the text inside of MathJax \\text{} blocks are
-    internationalized correctly (i.e. wrapped with $._), because the strings
+    internationalized correctly (i.e. wrapped with i18n._), because the strings
     inside of them are not covered by other filters (as they are assumed to not
     be real strings, but instead part of math/javascript). This checks in both
     any javascript portions as well as inside of <code> blocks. It also
     correctly handles spacing inside of the \\text{}.
 
     For example, given:
-        <code>\\frac{10}{3} \\text{ parakeets}</code>
+        <code>\\frac{10}{3} \\text{ keets}</code>
 
     It would become:
-        <code>\\frac{10}{3} \\space\\text{<var>$._("parakeets")</var>}</code>
+        <code>\\frac{10}{3} \\space\\text{<var>i18n._("keets")</var>}</code>
 
     Also, given (inside of a javascript block):
         label("\\text{Parents}")
 
     It would become:
-        label("\\text{" + $._("Parents") + "}")
+        label("\\text{" + i18n._("Parents") + "}")
     """
     # Matches \text{...}
     _regex = re.compile(r'\\text\{([^}]*)\}', re.DOTALL)
@@ -1339,7 +1339,7 @@ class MathJaxTextFilter(BaseFilter):
         This takes a \\\\text{} string from some javascript and does the proper
         i18nization of its inner contents. Sometimes, if javascript variables
         are inside the contents, it will pull them out and do a string
-        interpolation using $._.
+        interpolation using i18n._.
 
         Note that this doesn't currently handle pure string concatenation very
         well, so something like \\\\text{" + "hello " + ", " + "world" + "}
@@ -1347,10 +1347,10 @@ class MathJaxTextFilter(BaseFilter):
 
         Some examples of replacements:
 
-        \\\\text{Hello, world}  =>  \\\\text{" + $._("Hello, world") + "}
+        \\\\text{Hello, world}  =>  \\\\text{" + i18n._("Hello, world") + "}
 
         \\\\text{' + BLAH + ' is happy}  =>
-            \\\\text{' + $._("%(BLAH)s is happy", {BLAH: BLAH}) + '}
+            \\\\text{' + i18n._("%(BLAH)s is happy", {BLAH: BLAH}) + '}
         """
         # Pull out the parts from the match
         # Note that the searching regex is kinda strange, so the string:
@@ -1404,14 +1404,14 @@ class MathJaxTextFilter(BaseFilter):
                         text_content)
 
                 # Re-build our string with the replacements
-                text_content = '%s + $._("%s", %s) + %s' % (
+                text_content = '%s + i18n._("%s", %s) + %s' % (
                         start_quote.group(1),
                         interp_string,
                         MathJaxTextFilter._javascript_dumps(var_dict),
                         end_quote.group(1))
             else:
-                # Otherwise, just wrap in $._
-                text_content = '" + $._("%s") + "' % text_content
+                # Otherwise, just wrap in i18n._
+                text_content = '" + i18n._("%s") + "' % text_content
 
         # Finally, re-assemble the entire thing
         return text_start + text_content + text_end
@@ -1423,14 +1423,14 @@ class MathJaxTextFilter(BaseFilter):
         This takes a \\text{} string from a <code> tag and does the proper
         i18nization of the contents. Sometimes, if there are javascript
         expressions (in the form of <var> tags) inside of the \\text{}, it has
-        to use the string interpolation of $._ to appropriately translate.
+        to use the string interpolation of i18n._ to appropriately translate.
 
         For example:
 
-        \\text{Hello, world}  =>  \\text{<var>$._("Hello, world"}
+        \\text{Hello, world}  =>  \\text{<var>i18n._("Hello, world"}
 
         \\text{<var>BLAH</var> is happy}  =>
-            \\text{<var>$._("%(BLAH)s is happy", {BLAH: BLAH})</var>}
+            \\text{<var>i18n._("%(BLAH)s is happy", {BLAH: BLAH})</var>}
         """
         # Pull out the parts from the match
         (text_start, text_content, text_end) = match.groups()
@@ -1460,10 +1460,10 @@ class MathJaxTextFilter(BaseFilter):
                         MathJaxTextFilter.var_replace_builder(var_dict),
                         text_content)
 
-                text_content = '<var>$._("%s", %s)</var>' % (interp_string,
+                text_content = '<var>i18n._("%s", %s)</var>' % (interp_string,
                         MathJaxTextFilter._javascript_dumps(var_dict))
             else:
-                text_content = '<var>$._("%s")</var>' % text_content
+                text_content = '<var>i18n._("%s")</var>' % text_content
 
         # Build the final string out of the new parts
         return text_start + text_content + text_end
@@ -1489,25 +1489,25 @@ class AmbiguousPluralFilter(BaseFilter):
 
 
 class StringInVarFilter(BaseFilter):
-    """Detect instances of $._ inside of <var>s and report an error."""
-    # Matches $._(...)
-    _regex = re.compile(r'\$\._\s*\((.*?)\)', re.DOTALL)
+    """Detect instances of i18n._ inside of <var>s and report an error."""
+    # Matches i18n._(...) and (the obsolete) $._(...)
+    _regex = re.compile(r'(\$|i18n)\._\s*\((.*?)\)', re.DOTALL)
 
     def find_fixable_vars(self, node):
-        """Return the node if it has $._ in it"""
-        if '$._' in node.text:
+        """Return the node if it has i18n._ in it"""
+        if 'i18n._' in node.text or '$._' in node.text:
             return [node]
         else:
             return []
 
     def get_match(self, fix_node):
-        """Return a match of a string that matches $._(...)"""
+        """Return a match of a string that matches i18n._(...)"""
         return self._regex.search(fix_node.text)
 
     def filter_var(self, match, var_node):
-        """Generate an error in every node that uses $._"""
-        self.errors.append("Using $._ inside of a <var>:\n%s" %
-            _get_outerhtml(var_node))
+        """Generate an error in every node that uses i18n._"""
+        self.errors.append("Using %s._ inside of a <var>:\n%s" %
+                           (match.group(1), _get_outerhtml(var_node)))
 
 
 def get_plural_form(word):

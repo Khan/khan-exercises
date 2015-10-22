@@ -24,16 +24,16 @@
             <div class="vars">
                 <var id="SUBJECT,SUBJECT_FUNC">randFromArray([
                     [new Plural(function(num) {
-                        return $.ngettext("animal", "animals", num);
+                        return i18n.ngettext("animal", "animals", num);
                     }), KhanUtil.animal],
                     [new Plural(function(num) {
-                        return $.ngettext("color", "colors", num);
+                        return i18n.ngettext("color", "colors", num);
                     }), KhanUtil.color],
                     [new Plural(function(num) {
-                        return $.ngettext("fruit", "fruits", num);
+                        return i18n.ngettext("fruit", "fruits", num);
                     }), KhanUtil.fruit],
                     [new Plural(function(num) {
-                        return $.ngettext("course", "courses", num);
+                        return i18n.ngettext("course", "courses", num);
                     }), KhanUtil.course]
                 ])</var>
                 <var id="CATEGORIES">_.times(5, function(n) { return SUBJECT_FUNC(n + 1); } )</var>
@@ -41,13 +41,13 @@
                 <var id="TOTAL">sum(DATA)</var>
                 <var id="RESPONDENT">randFromArray([
                     new Plural(function(num) {
-                        return $.ngettext("student", "students", num);
+                        return i18n.ngettext("student", "students", num);
                     }),
                     new Plural(function(num) {
-                        return $.ngettext("teacher", "teachers", num);
+                        return i18n.ngettext("teacher", "teachers", num);
                     }),
                     new Plural(function(num) {
-                        return $.ngettext("person", "people", num);
+                        return i18n.ngettext("person", "people", num);
                     })
                 ])</var>
                 <var id="SHUFFLED">shuffle(_.zip(DATA, CATEGORIES))</var>
@@ -124,12 +124,12 @@
                         .css("text-transform", "capitalize")
                         .css("font-weight", "bold");
                     label([-1.5, 5],
-                        $._("Number of %(respondent)s", { respondent: plural_form(RESPONDENT) }),
+                        i18n._("Number of %(respondent)s", { respondent: plural_form(RESPONDENT) }),
                         "center", false)
                         .css("font-weight", "bold")
                         .addClass("rotate");
                     label([8, 10.5],
-                        $._("Favorite %(subject)s", { subject: plural_form(SUBJECT) }),
+                        i18n._("Favorite %(subject)s", { subject: plural_form(SUBJECT) }),
                         "above", false)
                         .css("font-weight", "bold");
                 </div>

@@ -28,12 +28,12 @@
                 var n2 = I_NUM / I_DENOM;
 
                 if (n1 - n2 &gt; 1e-9) {
-                    return ["&gt;", $._("is more than")];
+                    return ["&gt;", i18n._("is more than")];
                 } else if (abs(n1 - n2) &lt; 1e-9) {
-                    return ["=", $._("is equal to")];
+                    return ["=", i18n._("is equal to")];
                 }
                 else {
-                    return ["&lt;", $._("is less than")];
+                    return ["&lt;", i18n._("is less than")];
                 }
             })()
             </var>

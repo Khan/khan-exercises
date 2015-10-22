@@ -93,10 +93,10 @@ $.extend(KhanUtil, {
         return digits;
     },
 
-    placesLeftOfDecimal: [$._("one"), $._("ten"), $._("hundred"),
-        $._("thousand")],
-    placesRightOfDecimal: [$._("one"), $._("tenth"), $._("hundredth"),
-        $._("thousandth"),$._("ten thousandth")],
+    placesLeftOfDecimal: [i18n._("one"), i18n._("ten"), i18n._("hundred"),
+        i18n._("thousand")],
+    placesRightOfDecimal: [i18n._("one"), i18n._("tenth"), i18n._("hundredth"),
+        i18n._("thousandth"),i18n._("ten thousandth")],
 
     powerToPlace: function(power) {
         if (power < 0) {

@@ -23,9 +23,9 @@
             <var id="STDDEV">roundTo(1, stdDev(DATA))</var>
             <var id="STDDEV_POP">roundTo(1, stdDevPop(DATA))</var>
             <var id="YEAR">new Plural(function(num) {
-                return $.ngettext("year", "years", num);
+                return i18n.ngettext("year", "years", num);
             })</var>
-            <var id="YEARS_OLD">$._("%(years)s old", {years: plural_form(YEAR, MEAN)})</var>
+            <var id="YEARS_OLD">i18n._("%(years)s old", {years: plural_form(YEAR, MEAN)})</var>
         </div>
 
         <div class="problems">

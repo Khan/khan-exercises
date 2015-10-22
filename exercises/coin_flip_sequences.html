@@ -21,9 +21,9 @@
             return (SEQUENCE.match(RegExp("(?=" + result + ")", "g")) || []).length
         })</var>
         <var id="CHOICES">[
-            $._("Fair coin"),
-            $._("Unfair coin"),
-            $._("Human guesses")
+            i18n._("Fair coin"),
+            i18n._("Unfair coin"),
+            i18n._("Human guesses")
         ]</var>
     </div>
 
@@ -77,7 +77,7 @@
                         range: [[0, 16], [0, 6]],
                         scale: [31, 54]
                     });
-                    label([8, 6], $._("Two-flip streaks"), "below", false).css({
+                    label([8, 6], i18n._("Two-flip streaks"), "below", false).css({
                         "font-size": "16px",
                         "color": "#444444"
                     });
@@ -109,7 +109,7 @@
                         range: [[0, 16], [0, 6]],
                         scale: [31, 54]
                     });
-                    label([8, 6], $._("Three-flip streaks"), "below", false).css({
+                    label([8, 6], i18n._("Three-flip streaks"), "below", false).css({
                         "font-size": "16px",
                         "color": "#444444"
                     });

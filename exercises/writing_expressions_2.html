@@ -23,23 +23,23 @@
             <var id="TERM1">"\\green{" + B + "x}"</var>
 
             <var id="SUM_TEXT1">[
-                $._("The sum of %(A)s and &lt;code&gt;%(TERM)s&lt;/code&gt; is:", { A: CODE_A, TERM: TERM1 }),
-                $._("%(A)s plus &lt;code&gt;%(TERM)s&lt;/code&gt; is:", { A: CODE_A, TERM: TERM1 }),
-                $._("&lt;code&gt;%(TERM)s&lt;/code&gt; add %(A)s is:", { A: CODE_A, TERM: TERM1 })
+                i18n._("The sum of %(A)s and &lt;code&gt;%(TERM)s&lt;/code&gt; is:", { A: CODE_A, TERM: TERM1 }),
+                i18n._("%(A)s plus &lt;code&gt;%(TERM)s&lt;/code&gt; is:", { A: CODE_A, TERM: TERM1 }),
+                i18n._("&lt;code&gt;%(TERM)s&lt;/code&gt; add %(A)s is:", { A: CODE_A, TERM: TERM1 })
             ][SUM1]
             </var>
             <var id="PRODUCT_TEXT1">[
-                $._("The product of %(B)s and &lt;code&gt;\\green{x}&lt;/code&gt; is:", { B: CODE_B }),
-                $._("The quantity of %(B)s times &lt;code&gt;\\green{x}&lt;/code&gt; is:", { B: CODE_B })
+                i18n._("The product of %(B)s and &lt;code&gt;\\green{x}&lt;/code&gt; is:", { B: CODE_B }),
+                i18n._("The quantity of %(B)s times &lt;code&gt;\\green{x}&lt;/code&gt; is:", { B: CODE_B })
             ][PRODUCT1]
             </var>
             <var id="SENTENCE1">[
-                $._("The sum of %(A)s and the product of %(B)s and &lt;code&gt;x&lt;/code&gt;.", { A: CODE_A, B: CODE_B }),
-                $._("The sum of %(A)s and the quantity of %(B)s times &lt;code&gt;x&lt;/code&gt;.", { A: CODE_A, B: CODE_B }),
-                $._("%(A)s plus the product of %(B)s and &lt;code&gt;x&lt;/code&gt;.", { A: CODE_A, B: CODE_B }),
-                $._("%(A)s plus the quantity of %(B)s times &lt;code&gt;x&lt;/code&gt;.", { A: CODE_A, B: CODE_B }),
-                $._("Take the product of %(B)s and &lt;code&gt;x&lt;/code&gt; and add %(A)s.", { A: CODE_A, B: CODE_B }),
-                $._("Take the quantity of %(B)s times &lt;code&gt;x&lt;/code&gt; and add %(A)s.", { A: CODE_A, B: CODE_B })
+                i18n._("The sum of %(A)s and the product of %(B)s and &lt;code&gt;x&lt;/code&gt;.", { A: CODE_A, B: CODE_B }),
+                i18n._("The sum of %(A)s and the quantity of %(B)s times &lt;code&gt;x&lt;/code&gt;.", { A: CODE_A, B: CODE_B }),
+                i18n._("%(A)s plus the product of %(B)s and &lt;code&gt;x&lt;/code&gt;.", { A: CODE_A, B: CODE_B }),
+                i18n._("%(A)s plus the quantity of %(B)s times &lt;code&gt;x&lt;/code&gt;.", { A: CODE_A, B: CODE_B }),
+                i18n._("Take the product of %(B)s and &lt;code&gt;x&lt;/code&gt; and add %(A)s.", { A: CODE_A, B: CODE_B }),
+                i18n._("Take the quantity of %(B)s times &lt;code&gt;x&lt;/code&gt; and add %(A)s.", { A: CODE_A, B: CODE_B })
             ][SUM1 * 2 + PRODUCT1]
             </var>
         </div>
@@ -53,23 +53,23 @@
                     <var id="TERM2">"\\red{" + C + "}(\\green{" + B + "x} \\blue{+ " + A + "})"</var>
 
                     <var id="PRODUCT_TEXT2">[
-                        $._("The product of %(C)s and the above expression is:", { C: CODE_C }),
-                        $._("The quantity of %(C)s times the above expression is:", { C: CODE_C })
+                        i18n._("The product of %(C)s and the above expression is:", { C: CODE_C }),
+                        i18n._("The quantity of %(C)s times the above expression is:", { C: CODE_C })
                     ][PRODUCT2]
                     </var>
                     <var id="SUM_TEXT2">[
-                        $._("The sum of %(D)s and &lt;code&gt;%(TERM)s&lt;/code&gt; is:", { D: CODE_D, TERM: TERM2 }),
-                        $._("%(D)s plus &lt;code&gt;%(TERM)s&lt;/code&gt; is:", { D: CODE_D, TERM: TERM2 }),
-                        $._("&lt;code&gt;%(TERM)s&lt;/code&gt; add %(D)s is:", { D: CODE_D, TERM: TERM2 })
+                        i18n._("The sum of %(D)s and &lt;code&gt;%(TERM)s&lt;/code&gt; is:", { D: CODE_D, TERM: TERM2 }),
+                        i18n._("%(D)s plus &lt;code&gt;%(TERM)s&lt;/code&gt; is:", { D: CODE_D, TERM: TERM2 }),
+                        i18n._("&lt;code&gt;%(TERM)s&lt;/code&gt; add %(D)s is:", { D: CODE_D, TERM: TERM2 })
                     ][SUM1]
                     </var>
                     <var id="SENTENCE2">[
-                        $._("The sum of %(D)s and the product of %(C)s and the above expression.", { C: CODE_C, D: CODE_D }),
-                        $._("The sum of %(D)s and the quantity of %(C)s times the above expression.", { C: CODE_C, D: CODE_D }),
-                        $._("%(D)s plus the product of %(C)s and the above expression.", { C: CODE_C, D: CODE_D }),
-                        $._("%(D)s plus the quantity of %(C)s times the above expression.", { C: CODE_C, D: CODE_D }),
-                        $._("Take the product of %(C)s and the above expression, and then add %(D)s.", { C: CODE_C, D: CODE_D }),
-                        $._("Take the quantity of %(C)s times the above expression, and then add %(D)s.", { C: CODE_C, D: CODE_D })
+                        i18n._("The sum of %(D)s and the product of %(C)s and the above expression.", { C: CODE_C, D: CODE_D }),
+                        i18n._("The sum of %(D)s and the quantity of %(C)s times the above expression.", { C: CODE_C, D: CODE_D }),
+                        i18n._("%(D)s plus the product of %(C)s and the above expression.", { C: CODE_C, D: CODE_D }),
+                        i18n._("%(D)s plus the quantity of %(C)s times the above expression.", { C: CODE_C, D: CODE_D }),
+                        i18n._("Take the product of %(C)s and the above expression, and then add %(D)s.", { C: CODE_C, D: CODE_D }),
+                        i18n._("Take the quantity of %(C)s times the above expression, and then add %(D)s.", { C: CODE_C, D: CODE_D })
                     ][SUM2 * 2 + PRODUCT2]
                     </var>
                 </div>

@@ -12,22 +12,22 @@
                 <div class="vars" data-ensure="NUM_THINGS &gt; NUM_TAKEN">
                     <var id="THING">randFromArray([
                         new Plural(function(num) {
-                            return $.ngettext("shirt", "shirts", num);
+                            return i18n.ngettext("shirt", "shirts", num);
                         }),
                         new Plural(function(num) {
-                            return $.ngettext("tiger", "tigers", num);
+                            return i18n.ngettext("tiger", "tigers", num);
                         }),
                         new Plural(function(num) {
-                            return $.ngettext("book", "books", num);
+                            return i18n.ngettext("book", "books", num);
                         }),
                         new Plural(function(num) {
-                            return $.ngettext("Fabergé egg", "Fabergé eggs", num);
+                            return i18n.ngettext("Fabergé egg", "Fabergé eggs", num);
                         }),
                         new Plural(function(num) {
-                            return $.ngettext("sock", "socks", num);
+                            return i18n.ngettext("sock", "socks", num);
                         }),
                         new Plural(function(num) {
-                            return $.ngettext("action figure", "action figures", num);
+                            return i18n.ngettext("action figure", "action figures", num);
                         })
                     ])</var>
                     <var id="NUM_THINGS">randRange(5,9)</var>

@@ -586,11 +586,11 @@
                 <var id="UNITS">rand(2)</var>
                 <var id="FROM_TEXT, FROM">metricUnits[UNITS]</var>
                 <var id="TO_TEXT,TO">[
-                    [$._("dm"), new Plural(function(num) {
-                        return $.ngettext("decimeter", "decimeters", num);
+                    [i18n._("dm"), new Plural(function(num) {
+                        return i18n.ngettext("decimeter", "decimeters", num);
                     })],
-                    [$._("mm"), new Plural(function(num) {
-                        return $.ngettext("millimeter", "millimeters", num);
+                    [i18n._("mm"), new Plural(function(num) {
+                        return i18n.ngettext("millimeter", "millimeters", num);
                     })]
                 ][UNITS]</var>
                 <var id="VOL">randRangeExclude(2, 11,[3,10])</var>

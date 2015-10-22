@@ -627,12 +627,12 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         var y = -Math.max((digitsB.length - leadingZero) * digitsA.length, 3 + digitsB.length - leadingZero);
 
         graph.label([x, y + 2],
-            $.ngettext("\\text{The top number has 1 digit to the right of the decimal.}", "\\text{The top number has %(num)s digits to the right of the decimal.}", deciA), "right");
+            i18n.ngettext("\\text{The top number has 1 digit to the right of the decimal.}", "\\text{The top number has %(num)s digits to the right of the decimal.}", deciA), "right");
         graph.label([x, y + 1],
-            $.ngettext("\\text{The bottom number has 1 digit to the right of the decimal.}", "\\text{The bottom number has %(num)s digits to the right of the decimal.}", deciB), "right");
+            i18n.ngettext("\\text{The bottom number has 1 digit to the right of the decimal.}", "\\text{The bottom number has %(num)s digits to the right of the decimal.}", deciB), "right");
         // TODO(jeresig): i18n: Should this be pluralized?
         graph.label([x, y],
-                    $._("\\text{The product has %(numA)s + %(numB)s = %(numSum)s digits to the right of the decimal.}",
+                    i18n._("\\text{The product has %(numA)s + %(numB)s = %(numSum)s digits to the right of the decimal.}",
                         {numA: deciA, numB: deciB, numSum: deciA + deciB}),
                     "right");
         graph.style({
@@ -754,7 +754,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
         this.clearArray(decimals);
 
         temporaryLabel = graph.label([dx, 1],
-            $.ngettext("\\text{Shift the decimal 1 to the right.}",
+            i18n.ngettext("\\text{Shift the decimal 1 to the right.}",
                        "\\text{Shift the decimal %(num)s to the right.}",
                        deciDivisor),
             "right");
@@ -778,14 +778,14 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
         }
 
         // TODO(jeresig): i18n: This probably won't work in multiple langs
-        graph.label([dx, 1.2], $._("\\text{Bring the decimal up into the}"), "right");
-        graph.label([dx, 0.8], $._("\\text{answer (the quotient).}"), "right");
+        graph.label([dx, 1.2], i18n._("\\text{Bring the decimal up into the}"), "right");
+        graph.label([dx, 0.8], i18n._("\\text{answer (the quotient).}"), "right");
         this.addDecimals([[digitsDividend.length + deciDiff - 0.5, 0.9]]);
     };
 
     this.showDivisionStep = function(division) {
         // Write question
-        var question = $._("\\text{How many times does }%(divisor)s" +
+        var question = i18n._("\\text{How many times does }%(divisor)s" +
                            "\\text{ go into }\\color{#6495ED}{%(value)s}\\text{?}",
                             {divisor: divisor, value: currentValue});
 
@@ -851,7 +851,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
                 "\\blue{" + currentValue + "}" +
                 "\\div" + divisor + "=" +
                 "\\green{" + result + "}" +
-                "\\text{" + $._(" with a remainder of ") + " }" +
+                "\\text{" + i18n._(" with a remainder of ") + " }" +
                 "\\pink{" + remainder + "}",
                 "right");
         }
@@ -867,15 +867,15 @@ function Divider(divisor, dividend, deciDivisor, deciDividend, decimalRemainder)
         drawDigits([0], index, 0);
         this.addDecimals([[index - 0.5, 0.9], [index - 0.5, -0.1]]);
 
-        graph.label([dx, 1], $._("\\text{Write in a decimal and a zero.}"), "right");
+        graph.label([dx, 1], i18n._("\\text{Write in a decimal and a zero.}"), "right");
     };
 
     this.showRemainder = function(remainder) {
         var txt;
         if (remainder === 0) {
-            txt = "\\text{" + $._("The remainder is 0, so we have our answer.") + "}";
+            txt = "\\text{" + i18n._("The remainder is 0, so we have our answer.") + "}";
         } else {
-            txt = $._("\\text{Since } %(remainder)s \\text{ is less than } %(divisor)s \\text{, it is left as our remainder.}",
+            txt = i18n._("\\text{Since } %(remainder)s \\text{ is less than } %(divisor)s \\text{, it is left as our remainder.}",
                     { remainder: remainder, divisor: divisor });
 
             drawDigits(["\\text{R}"].concat(KhanUtil.integerToDigits(remainder)), digitsDividend.length, 1);

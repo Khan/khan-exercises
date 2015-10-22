@@ -14,7 +14,7 @@
         <div id="square-s-to-P">
             <div class="vars">
                 <var id="S">randRange(1, 8)</var>
-                <var id="PERIMETER">$._("perimeter")</var>
+                <var id="PERIMETER">i18n._("perimeter")</var>
             </div>
 
             <p class="question"><span data-if="isSingular(S)" data-unwrap="">
@@ -90,7 +90,7 @@
                         path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                             { stroke: BLUE, fill: "#eee" });
                         path([[0, 0], [0, 5]], { "stroke": PINK });
-                        label([0, 2.5], "\\text{" + $._("? %(UNIT)s", {UNIT: UNIT}) + "}", "left",
+                        label([0, 2.5], "\\text{" + i18n._("? %(UNIT)s", {UNIT: UNIT}) + "}", "left",
                             { "color": PINK });
                     </div>
                 </div>
@@ -136,7 +136,7 @@
             <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(1, 8)</var>
                 <var id="W">randRange(1, 8)</var>
-                <var id="PERIMETER">$._("perimeter")</var>
+                <var id="PERIMETER">i18n._("perimeter")</var>
             </div>
 
             <p class="question">

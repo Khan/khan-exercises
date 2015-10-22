@@ -227,13 +227,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         score.correct = true;
                     } else {
                         if (guess === guess.toLowerCase()) {
-                            score.message = $._("Your answer is almost correct, but " +
+                            score.message = i18n._("Your answer is almost correct, but " +
                                        "must be in capital letters.");
                         } else if (guess === guess.toUpperCase()) {
-                            score.message = $._("Your answer is almost correct, but " +
+                            score.message = i18n._("Your answer is almost correct, but " +
                                        "must not be in capital letters.");
                         } else {
-                            score.message = $._("Your answer is almost correct, but " +
+                            score.message = i18n._("Your answer is almost correct, but " +
                                        "must be in the correct case.");
                         }
                     }
@@ -295,43 +295,43 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // retrieve the example texts from the different forms
             var exampleForms = {
-                integer: $._("an integer, like <code>6</code>"),
+                integer: i18n._("an integer, like <code>6</code>"),
 
                 proper: (function() {
                         if (options.simplify === "optional") {
-                            return $._("a <em>proper</em> fraction, like " +
+                            return i18n._("a <em>proper</em> fraction, like " +
                                        "<code>1/2</code> or <code>6/10</code>");
                         } else {
-                            return $._("a <em>simplified proper</em> " +
+                            return i18n._("a <em>simplified proper</em> " +
                                        "fraction, like <code>3/5</code>");
                         }
                     })(),
 
                 improper: (function() {
                         if (options.simplify === "optional") {
-                            return $._("an <em>improper</em> fraction, like " +
+                            return i18n._("an <em>improper</em> fraction, like " +
                                        "<code>10/7</code> or <code>14/8</code>");
                         } else {
-                            return $._("a <em>simplified improper</em> " +
+                            return i18n._("a <em>simplified improper</em> " +
                                        "fraction, like <code>7/4</code>");
                         }
                     })(),
 
-                pi: $._("a multiple of pi, like <code>12\\ \\text{pi}</code> " +
+                pi: i18n._("a multiple of pi, like <code>12\\ \\text{pi}</code> " +
                     "or <code>2/3\\ \\text{pi}</code>"),
 
-                log: $._("an expression, like <code>\\log(100)</code>"),
+                log: i18n._("an expression, like <code>\\log(100)</code>"),
 
-                percent: $._("a percent, like <code>%(NUM)s\\%</code>", {NUM: KhanUtil.localeToFixed(12.34, 2)}),
+                percent: i18n._("a percent, like <code>%(NUM)s\\%</code>", {NUM: KhanUtil.localeToFixed(12.34, 2)}),
 
-                mixed: $._("a mixed number, like <code>1\\ 3/4</code>"),
+                mixed: i18n._("a mixed number, like <code>1\\ 3/4</code>"),
 
                 decimal: (function() {
                         if (options.inexact === undefined) {
-                            return $._("an <em>exact</em> decimal, like " +
+                            return i18n._("an <em>exact</em> decimal, like " +
                                 "<code>%(NUM)s</code>", {NUM: KhanUtil.localeToFixed(0.75, 2)});
                         } else {
-                            return $._("a decimal, like <code>%(NUM)s</code>", {NUM: KhanUtil.localeToFixed(0.75, 2)});
+                            return i18n._("a decimal, like <code>%(NUM)s</code>", {NUM: KhanUtil.localeToFixed(0.75, 2)});
                         }
                     })()
             };
@@ -740,14 +740,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             } else if (form === "percent") {
                                 // Otherwise, an error was returned
                                 score.empty = true;
-                                score.message = $._("Your answer is almost correct, " +
+                                score.message = i18n._("Your answer is almost correct, " +
                                           "but it is missing a " +
                                           "<code>\\%</code> at the end.");
                             } else {
                                 if (options.simplify !== "enforced") {
                                     score.empty = true;
                                 }
-                                score.message = $._("Your answer is almost correct, " +
+                                score.message = i18n._("Your answer is almost correct, " +
                                           "but it needs to be simplified.");
                             }
 
@@ -755,7 +755,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         } else if (piApprox &&
                                    predicate(val, Math.abs(val * 0.001))) {
                             score.empty = true;
-                            score.message = $._("Your answer is close, but you may " +
+                            score.message = i18n._("Your answer is close, but you may " +
                                       "have approximated pi. Enter your " +
                                       "answer as a multiple of pi, like " +
                                       "<code>12\\ \\text{pi}</code> or " +
@@ -774,7 +774,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     });
                     if (!interpretedGuess) {
                         score.empty = true;
-                        score.message = $._("We could not understand your answer. " +
+                        score.message = i18n._("We could not understand your answer. " +
                             "Please check your answer for extra text or symbols.");
                         return score;
                     }
@@ -892,9 +892,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var rad = $('<input type="text" autocapitalize="off">');
 
             var examples = (options.simplify === "required") ?
-                [$._("a simplified radical, like <code>\\sqrt{2}</code> " +
+                [i18n._("a simplified radical, like <code>\\sqrt{2}</code> " +
                      "or <code>3\\sqrt{5}</code>")] :
-                [$._("a radical, like <code>\\sqrt{8}</code> or " +
+                [i18n._("a radical, like <code>\\sqrt{8}</code> or " +
                      "<code>2\\sqrt{2}</code>")];
 
             // Add the same example message to both inputs
@@ -970,7 +970,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     if (simplified || options.simplify === "optional") {
                         score.correct = true;
                     } else {
-                        score.message = $._("Your answer is almost correct, but it " +
+                        score.message = i18n._("Your answer is almost correct, but it " +
                                    "needs to be simplified.");
                     }
                 }
@@ -991,9 +991,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var rad = $('<input type="text" autocapitalize="off">');
 
             var examples = (options.simplify === "required") ?
-                [$._("a simplified radical, like <code>\\sqrt[3]{2}</code> " +
+                [i18n._("a simplified radical, like <code>\\sqrt[3]{2}</code> " +
                      "or <code>3\\sqrt[3]{5}</code>")] :
-                [$._("a radical, like <code>\\sqrt[3]{8}</code> or " +
+                [i18n._("a radical, like <code>\\sqrt[3]{8}</code> or " +
                      "<code>2\\sqrt[3]{2}</code>")];
 
             // Add the same example message to both inputs
@@ -1069,7 +1069,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     if (simplified || options.simplify === "optional") {
                         score.correct = true;
                     } else {
-                        score.message = $._("Your answer is almost correct, but it " +
+                        score.message = i18n._("Your answer is almost correct, but it " +
                                    "needs to be simplified.");
                     }
                 }
@@ -1581,7 +1581,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // If showNone, replace the last solution with "None of the above",
             // which reveals the correct answer when it is picked and is right.
             if (showNone) {
-                var $none = $("<span>").html($._("None of the above"));
+                var $none = $("<span>").html(i18n._("None of the above"));
                 $none.data("noneOfTheAbove", true);
 
                 // If the answer is correct, we add some data about what the
@@ -1905,8 +1905,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             $(solutionarea).append($input);
 
             var examples = [
-                $._("a product of prime factors, like <code>2 \\times 3</code>"),
-                $._("a single prime number, like <code>5</code>")
+                i18n._("a product of prime factors, like <code>2 \\times 3</code>"),
+                i18n._("a single prime number, like <code>5</code>")
             ];
 
             addExamplesToInput($input, examples);
@@ -2189,7 +2189,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             });
 
             // Examples
-            var explicitMul = $._("For <code>2\\cdot2</code>, enter <strong>2*2</strong>");
+            var explicitMul = i18n._("For <code>2\\cdot2</code>, enter <strong>2*2</strong>");
             // Will only use the options from the final set-sol
             // but it's unlikely different set-sols will have different times options
             if (options.times) {
@@ -2198,14 +2198,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             var examples = [
                 explicitMul,
-                $._("For <code>3y</code>, enter <strong>3y</strong> or <strong>3*y</strong>"),
-                $._("For <code>\\dfrac{1}{x}</code>, enter <strong>1/x</strong>"),
-                $._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
-                $._("For <code>\\sqrt{x}</code>, enter <strong>sqrt(x)</strong>"),
-                $._("For <code>\\pi</code>, enter <strong>pi</strong>"),
-                $._("For <code>\\sin \\theta</code>, enter <strong>sin(theta)</strong>"),
-                $._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
-                $._("For <code>\\neq</code>, enter <strong>=/=</strong>")
+                i18n._("For <code>3y</code>, enter <strong>3y</strong> or <strong>3*y</strong>"),
+                i18n._("For <code>\\dfrac{1}{x}</code>, enter <strong>1/x</strong>"),
+                i18n._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
+                i18n._("For <code>\\sqrt{x}</code>, enter <strong>sqrt(x)</strong>"),
+                i18n._("For <code>\\pi</code>, enter <strong>pi</strong>"),
+                i18n._("For <code>\\sin \\theta</code>, enter <strong>sin(theta)</strong>"),
+                i18n._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
+                i18n._("For <code>\\neq</code>, enter <strong>=/=</strong>")
             ];
 
             addExamplesToInput($input, examples);

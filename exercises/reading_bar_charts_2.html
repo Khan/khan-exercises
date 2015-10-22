@@ -58,7 +58,7 @@
                 line( [ 0, 0 ], [ 0, 10 ] );
 
                 label( [ 8, -0.8 ],
-                    $._("Student"),
+                    i18n._("Student"),
                     "below", false ).css('font-weight', 'bold');
                 label( [ -1.5, 5 ],
                     "Score (points)",
@@ -71,11 +71,11 @@
                 style({ stroke: "none", fill: "#9ab8ed", opacity: 1.0 });
                 path([ [ 0, -2 ], [ 0.5, -2  ], [ 0.5, -2.5  ], [ 0, -2.5 ], [ 0, -2 ] ]);
                 style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                label( [ 0.5, -2.25 ], $._("Midterm"), "right", false );
+                label( [ 0.5, -2.25 ], i18n._("Midterm"), "right", false );
                 style({ stroke: "none", fill: "#ffc966", opacity: 1.0 });
                 path([ [ 3, -2 ], [ 3.5, -2  ], [ 3.5, -2.5  ], [ 3, -2.5 ], [ 3, -2 ] ]);
                 style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                label( [ 3.5, -2.25 ], $._("Final"), "right", false );
+                label( [ 3.5, -2.25 ], i18n._("Final"), "right", false );
             </div>
         </div>
 
@@ -215,7 +215,7 @@
                     <var id="INDEX">randRange( 0, 4 )</var>
                     <var id="STUDENT">person( INDEX + 1 )</var>
                     <var id="COLUMN">randRange( 0, 1 )</var>
-                    <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
+                    <var id="TEST">[ i18n._("midterm"), i18n._("final exam") ][ COLUMN ]</var>
                     <var id="ANSWER">COLUMN === 0 ? MIDTERM[ INDEX ] : FINAL[ INDEX ]</var>
                 </div>
                 <p id="qn" class="question">How many points did <var>STUDENT</var> earn on the <var>TEST</var>?</p>

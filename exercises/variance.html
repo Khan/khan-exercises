@@ -21,11 +21,11 @@
             <var id="VARIANCE">sum(SQR_DEV) / (DATA_POINTS - 1)</var>
             <var id="VARIANCE_POP">sum(SQR_DEV) / DATA_POINTS</var>
             <var id="YEAR">new Plural(function(num) {
-                return $.ngettext("year", "years", num);
+                return i18n.ngettext("year", "years", num);
             })</var>
-        <var id="YEARS_OLD">$._("%(years)s old", {years: plural_form(YEAR, MEAN)})</var>
-        <var id="YEAR_TEXT">$._("year")</var>
-        <var id="YEARS_TEXT">$._("years")</var>
+        <var id="YEARS_OLD">i18n._("%(years)s old", {years: plural_form(YEAR, MEAN)})</var>
+        <var id="YEAR_TEXT">i18n._("year")</var>
+        <var id="YEARS_TEXT">i18n._("years")</var>
         </div>
 
         <div class="problems">

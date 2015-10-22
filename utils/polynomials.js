@@ -382,14 +382,14 @@ $.extend(KhanUtil, {
             var composedFuncWithVal = composed.name + "(" + val + ")";
 
             hints.push(
-                $._("<p>To solve for the value of <code>%(name)s</code>, we " +
+                i18n._("<p>To solve for the value of <code>%(name)s</code>, we " +
                 "need to solve for the value of " +
                 "<code>%(composedFuncWithVal)s</code>.</p>",
                 {name: this.name, composedFuncWithVal: composedFuncWithVal}));
 
             hints = hints.concat(composed.hint(val));
 
-            hints.push($._("<p>That means <code>%(name)s(%(val)s) = " +
+            hints.push(i18n._("<p>That means <code>%(name)s(%(val)s) = " +
                 "%(hintEvalOf)s</code></p>",
                 {name: this.name, val: val,
                     hintEvalOf: this.hintEvalOf(val, true)}));

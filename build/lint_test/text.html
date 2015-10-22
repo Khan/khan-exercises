@@ -17,7 +17,7 @@
         // Make sure that single and double quotes are replaced correctly
         var f = "\\text{" + NAME + '\'s hat }';
         // Don't re-do interpolation
-        var g = "\\text{" + $._("%(UNIT)s", {UNIT: UNIT}) + "}";
+        var g = "\\text{" + i18n._("%(UNIT)s", {UNIT: UNIT}) + "}";
     </script>
 
     <script>
@@ -33,7 +33,7 @@
     </script>
 </head>
 <body>
-    <!-- Normal $._ replacement -->
+    <!-- Normal i18n._ replacement -->
     <code>\text{word}</code>
 
     <!-- This shouldn't be touched (wrong case) -->
@@ -53,7 +53,7 @@
     <code>Blah <var>"\\text{something}"</var></code>
 
     <!-- Don't re-do interpolation -->
-    <code>\text{ <var>$._("%(something)s", {something: something})</var>}</code>
+    <code>\text{ <var>i18n._("%(something)s", {something: something})</var>}</code>
 
     <!-- Check that it matches in graphie divs -->
     <div class="graphie">
@@ -77,7 +77,7 @@
         "\\text{" + BLAH + "'s " + SOMETHING + " has eaten " + $.shuffle(THINGS) + "}"
     </div>
 
-    <!-- this should not cause the linter to complain about missing $._ -->
+    <!-- this should not cause the linter to complain about missing i18n._ -->
     <code>\text{&gt;&gt; 1 2 3 4 5 6 7 8 9 10 ... 11 12}</code>
 
     <!-- nor this.  These are all math operators or units (R = 'remainder') -->

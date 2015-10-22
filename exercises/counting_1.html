@@ -14,7 +14,7 @@
                     <var id="ANSWER">randRange( 20, 40 )</var>
                     <var id="END">START + ANSWER - 1</var>
                     <var id="DO_BOOL">randRange(0, 1) === 0</var>
-                    <var id="PROBLEMS">DO_BOOL ? $._("problems") : randFromArray([$._("pages"), $._("papers"), $._("articles")]) </var>
+                    <var id="PROBLEMS">DO_BOOL ? i18n._("problems") : randFromArray([i18n._("pages"), i18n._("papers"), i18n._("articles")]) </var>
                     <var id="RAND_1">randRange(0, 3)</var>
                 </div>
                 <p data-if="DO_BOOL">

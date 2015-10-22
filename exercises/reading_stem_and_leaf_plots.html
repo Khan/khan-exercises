@@ -30,13 +30,13 @@
         })</var>
         <var id="LOCATION,LOCATION_DISPLAY">randFromArray([
             ["grocery store", new Plural(function(num) {
-                return $.ngettext("grocery store", "grocery stores", num);
+                return i18n.ngettext("grocery store", "grocery stores", num);
             })],
             ["department store", new Plural(function(num) {
-                return $.ngettext("department store", "department stores", num);
+                return i18n.ngettext("department store", "department stores", num);
             })],
             ["zoo", new Plural(function(num) {
-                return $.ngettext("zoo", "zoos", num);
+                return i18n.ngettext("zoo", "zoos", num);
             })]
         ])</var>
         <var id="ITEM">

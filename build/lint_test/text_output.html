@@ -6,61 +6,61 @@
         // Nothing should happen to this
         var a = "\\text{ " + NAME + "}";
         // Test that string interpolation is done on the two strings
-        var b = "\\text{" + $._("%(NAME)s's hat and %(NAME)s", {NAME: NAME}) + "}";
+        var b = "\\text{" + i18n._("%(NAME)s's hat and %(NAME)s", {NAME: NAME}) + "}";
         // Test that the transformed variable names don't conflict
-        var c = "\\text{" + $._("%(a_NAME_)s and %(a_NAME__)s", {a_NAME_: a(NAME), a_NAME__: a[NAME]}) + "}";
+        var c = "\\text{" + i18n._("%(a_NAME_)s and %(a_NAME__)s", {a_NAME_: a(NAME), a_NAME__: a[NAME]}) + "}";
         // Make sure that this still matches over newlines
-        var d = "\\text{" + $._("%(NAME)s's hat and %(NAME)s", {NAME: NAME}) + "}";
+        var d = "\\text{" + i18n._("%(NAME)s's hat and %(NAME)s", {NAME: NAME}) + "}";
         // Make sure that it detects single quotes
         var e = '\\text{ ' + NAME + '}';
         // Make sure that single and double quotes are replaced correctly
-        var f = "\\text{" + $._("%(NAME)s\'s hat", {NAME: NAME}) + ' }';
+        var f = "\\text{" + i18n._("%(NAME)s\'s hat", {NAME: NAME}) + ' }';
         // Don't re-do interpolation
-        var g = "\\text{" + $._("%(UNIT)s", {UNIT: UNIT}) + "}";
+        var g = "\\text{" + i18n._("%(UNIT)s", {UNIT: UNIT}) + "}";
     </script>
 
     <script>
         // Make sure that <s don't ruin the parsing, and aren't converted
         // to &lt;s
-        "\\text{" + $._("blah") + "}" < "something else"
+        "\\text{" + i18n._("blah") + "}" < "something else"
     </script>
 
     <script>
         // Make sure it matches a single text on multiple lines
-        "\\text{" + $._("%(HELLO)s world", {HELLO: HELLO}) + "}";
+        "\\text{" + i18n._("%(HELLO)s world", {HELLO: HELLO}) + "}";
     </script>
 </head>
 <body>
-    <!-- Normal $._ replacement -->
-    <code>\text{<var>$._("word")</var>}</code>
+    <!-- Normal i18n._ replacement -->
+    <code>\text{<var>i18n._("word")</var>}</code>
 
     <!-- This shouldn't be touched (wrong case) -->
     <code>\TeXt{word}</code>
 
     <!-- text after a var tag inside a code tag -->
-    <code>Blah <var>Something</var> \text{<var>$._("something")</var>}</code>
+    <code>Blah <var>Something</var> \text{<var>i18n._("something")</var>}</code>
 
     <div>
         <p>Blah blah</p>
         <!-- Check that whitespace is preserved correctly -->
-        <code>\text{ <var>$._("word")</var>}</code>
+        <code>\text{ <var>i18n._("word")</var>}</code>
     </div>
 
     <!-- Check that this does javascript interpolation, not
         html interpolation -->
-    <code>Blah <var>"\\text{" + $._("something") + "}"</var></code>
+    <code>Blah <var>"\\text{" + i18n._("something") + "}"</var></code>
 
     <!-- Don't re-do interpolation -->
-    <code>\text{ <var>$._("%(something)s", {something: something})</var>}</code>
+    <code>\text{ <var>i18n._("%(something)s", {something: something})</var>}</code>
 
     <!-- Check that it matches in graphie divs -->
     <div class="graphie">
-        label("\\text{" + $._("word") + "}")
-        label("\\text{ " + $._("word") + "}")
+        label("\\text{" + i18n._("word") + "}")
+        label("\\text{ " + i18n._("word") + "}")
     </div>
 
     <!-- check that it matches in <var> tags -->
-    <var id="blah">"\\text{" + $._("hat of %(NAME)s", {NAME: NAME}) + "}"</var>
+    <var id="blah">"\\text{" + i18n._("hat of %(NAME)s", {NAME: NAME}) + "}"</var>
 
     <!-- check that it matches after a newline in code tags -->
     <code>Something something
@@ -68,14 +68,14 @@
     <!-- check that it preserves whitespace when no interpolation is done -->
     <code>\text{      <var>NAME</var>    }</code>
     <!-- check that interpolation is done correctly -->
-    <code>\text{<var>$._("%(BLAH)s's %(SOMETHING)s has eaten %(__shuffle_THINGS_)s", {BLAH: BLAH, SOMETHING: SOMETHING, __shuffle_THINGS_: $.shuffle(THINGS)})</var>}</code>
+    <code>\text{<var>i18n._("%(BLAH)s's %(SOMETHING)s has eaten %(__shuffle_THINGS_)s", {BLAH: BLAH, SOMETHING: SOMETHING, __shuffle_THINGS_: $.shuffle(THINGS)})</var>}</code>
 
     <!-- check that it works in validator-function divs -->
     <div class="validator-function">
-        "\\text{" + $._("%(BLAH)s's %(SOMETHING)s has eaten %(__shuffle_THINGS_)s", {BLAH: BLAH, SOMETHING: SOMETHING, __shuffle_THINGS_: $.shuffle(THINGS)}) + "}"
+        "\\text{" + i18n._("%(BLAH)s's %(SOMETHING)s has eaten %(__shuffle_THINGS_)s", {BLAH: BLAH, SOMETHING: SOMETHING, __shuffle_THINGS_: $.shuffle(THINGS)}) + "}"
     </div>
 
-    <!-- this should not cause the linter to complain about missing $._ -->
+    <!-- this should not cause the linter to complain about missing i18n._ -->
     <code>\text{&gt;&gt; 1 2 3 4 5 6 7 8 9 10 ... 11 12}</code>
 
     <!-- nor this.  These are all math operators or units (R = 'remainder') -->
@@ -88,6 +88,6 @@
     <code>\text{<var>MY</var> <var>plural_form(MY, 2)</var>:}</code>
 
     <!-- but this should complain even though the first \text is ok. -->
-    <code>\text{12345} + \text{<var>$._("Hello, dolly the sheep!")</var>}</code>
+    <code>\text{12345} + \text{<var>i18n._("Hello, dolly the sheep!")</var>}</code>
 </body>
 </html>

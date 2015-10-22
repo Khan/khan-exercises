@@ -22,8 +22,8 @@
     <div class="vars">
         <!-- I18N: Harry Potter's Hogwarts house names -->
         <var id="HOUSES">
-            [$._("Gryffindor"), $._("Hufflepuff"),
-            $._("Ravenclaw"), $._("Slytherin")]
+            [i18n._("Gryffindor"), i18n._("Hufflepuff"),
+            i18n._("Ravenclaw"), i18n._("Slytherin")]
         </var>
         <var id="INDEX">randRange( 0, HOUSES.length - 1 )</var>
         <var id="VALUES">_.map(randRangeUnique(0, 9, HOUSES.length),
@@ -71,7 +71,7 @@
                 line( [ 0, 0 ], [ 0, 10 ] );
 
                 label( [ 6.5, -0.8 ],
-                    $._("House"),
+                    i18n._("House"),
                     "below", false ).css('font-weight', 'bold');
                 label( [ -1.5, 5 ],
                     "House points",

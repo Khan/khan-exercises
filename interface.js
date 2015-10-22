@@ -36,7 +36,7 @@ function saveAttemptToServer(url, attemptData) {
             //     retrying the request or something. See more details in
             //     comment in request().
             $(Exercises).trigger("warning",
-                    $._("Uh oh, it looks like a network request timed out! " +
+                    i18n._("Uh oh, it looks like a network request timed out! " +
                         "You'll need to " +
                         "<a href='%(refresh)s'>refresh</a> to continue. " +
                         "If you think this is a mistake, " +
@@ -47,7 +47,7 @@ function saveAttemptToServer(url, attemptData) {
             );
         } else {
             $(Exercises).trigger("warning",
-                    $._("This page is out of date. You need to " +
+                    i18n._("This page is out of date. You need to " +
                         "<a href='%(refresh)s'>refresh</a>, but don't " +
                         "worry, you haven't lost progress. If you think " +
                         "this is a mistake, " +
@@ -189,7 +189,7 @@ $.kaOauthAjax = function (options) {
 
 var PerseusBridge = Exercises.PerseusBridge,
 
-    EMPTY_MESSAGE = $._("There are still more parts of this question to answer."),
+    EMPTY_MESSAGE = i18n._("There are still more parts of this question to answer."),
 
     // Store these here so that they're hard to change after the fact via
     // bookmarklet, etc.
@@ -429,7 +429,7 @@ function handleAttempt(data) {
 
     // We need to alert the user when the given answer is incorrect
     if (!attemptMessage && !(score.correct || skipped)) {
-        attemptMessage = $._("Incorrect answer, please try again.");
+        attemptMessage = i18n._("Incorrect answer, please try again.");
     }
 
     var $attemptMessage = $("#check-answer-results > p");
@@ -507,9 +507,9 @@ function handleAttempt(data) {
         $("#check-answer-button").hide();
         var nextButtonText;
         if (Exercises.learningTask &&  Exercises.learningTask.isComplete()) {
-            nextButtonText = $._("Awesome! Show points...");
+            nextButtonText = i18n._("Awesome! Show points...");
         } else {
-            nextButtonText = $._("Correct! Next question...");
+            nextButtonText = i18n._("Correct! Next question...");
         }
 
         $("#next-question-button")
@@ -694,14 +694,14 @@ function updateHintButtonText() {
 
     if (hintsAreFree) {
         $hintButton.val(hintsUsed ?
-                $._("Show next hint (%(hintsLeft)s left)", {hintsLeft: hintsLeft}) :
-                $._("Show hints (%(hintsLeft)s available)", {hintsLeft: hintsLeft}));
+                i18n._("Show next hint (%(hintsLeft)s left)", {hintsLeft: hintsLeft}) :
+                i18n._("Show hints (%(hintsLeft)s available)", {hintsLeft: hintsLeft}));
     } else {
         $hintButton.val(hintsUsed ?
-                $.ngettext("I'd like another hint (1 hint left)",
+                i18n.ngettext("I'd like another hint (1 hint left)",
                            "I'd like another hint (%(num)s hints left)",
                            hintsLeft) :
-                $._("I'd like a hint"));
+                i18n._("I'd like a hint"));
     }
 }
 
@@ -969,7 +969,7 @@ function disableCheckAnswer() {
     $("#check-answer-button")
         .prop("disabled", true)
         .addClass("buttonDisabled")
-        .val($._("Please wait..."));
+        .val(i18n._("Please wait..."));
 
     $("#skip-question-button")
         .prop("disabled", true)
@@ -1014,7 +1014,7 @@ function clearExistingProblem() {
     $("#hint")
         .removeClass("green")
         .addClass("orange")
-        .val($._("I'd like a hint"))
+        .val(i18n._("I'd like a hint"))
         .data("buttonText", false)
         .appendTo("#get-hint-button-container");
     $(".hint-box")

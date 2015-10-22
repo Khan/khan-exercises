@@ -16,12 +16,12 @@
         <var id="GIVEN_MOL">roundTo(3, GIVEN_MASS / GIVEN_MOLAR_MASS)</var>
         <var id="P1_MOL">roundTo(3, GIVEN_MOL * P1_RATIO / GIVEN_RATIO)</var>
         <var id="P1_MASS">roundTo(3, P1_MOL * P1_MOLAR_MASS)</var>
-        <var id="GRAMS_OF">$._("grams of")</var>
-        <var id="MOLAR_MASS_OF">$._("molar mass of")</var>
-        <var id="MOLES_OF">$._("moles of")</var>
-        <var id="OF">$._("of")</var>
+        <var id="GRAMS_OF">i18n._("grams of")</var>
+        <var id="MOLAR_MASS_OF">i18n._("molar mass of")</var>
+        <var id="MOLES_OF">i18n._("moles of")</var>
+        <var id="OF">i18n._("of")</var>
         <var id="MOLE">new Plural(function(num) {
-                return $.ngettext("mole", "moles", num);
+                return i18n.ngettext("mole", "moles", num);
             })</var>
     </div>
     <div class="problem">

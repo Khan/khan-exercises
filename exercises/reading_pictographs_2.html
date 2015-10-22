@@ -27,15 +27,15 @@
     <div class="vars">
         <var id="DATA">randRangeUnique( 1, 7, 5 )</var>
         <var id="BADGE_ID,BADGE">randFromArray([
-            ["meteorite", $._("meteorite")],
-            ["moon", $._("moon")],
-            ["earth", $._("earth")]
+            ["meteorite", i18n._("meteorite")],
+            ["moon", i18n._("moon")],
+            ["earth", i18n._("earth")]
         ])</var>
         <var id="SYMBOL_PL">new Plural(function(num) {
-            return $.ngettext("symbol", "symbols", num);
+            return i18n.ngettext("symbol", "symbols", num);
         })</var>
         <var id="BADGE_PL">new Plural(function(num) {
-            return $.ngettext("badge", "badges", num);
+            return i18n.ngettext("badge", "badges", num);
         })</var>
         <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE_ID + "-small.png'&gt;"</var>
         <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE_ID + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
@@ -113,7 +113,7 @@
                 <var id="PERSON">rand( 5 )</var>
                 <var id="VALUE">DATA[ PERSON ] * VALUE_PER_IMG + HALF[ PERSON ] * VALUE_PER_IMG / 2</var>
                 <var id="NUM_SYMBOLS">mixedFractionFromImproper( toFraction( VALUE / VALUE_PER_IMG, 0.001 )[0], toFraction( VALUE / VALUE_PER_IMG, 0.001 )[1] )</var>
-                <var id="POINTS_PER_BADGE">$._("%(point)s per badge", {point: plural_form(SYMBOL_PL, VALUE_PER_IMG )})</var>
+                <var id="POINTS_PER_BADGE">i18n._("%(point)s per badge", {point: plural_form(SYMBOL_PL, VALUE_PER_IMG )})</var>
             </div>
 
             <p class="question" id="stem"><span data-if="isSingular(VALUE)" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</span><span data-else="" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</span></p>

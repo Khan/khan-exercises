@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable comma-dangle, indent, no-unused-vars */
+/* eslint-disable comma-dangle, indent, no-unused-vars, no-undef */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 define(function(require) {
@@ -17,14 +17,14 @@ $.extend(KhanUtil, {
                 var seq = _arg[0];
                 var h = _arg[1];
                 // I18N: Represents "heads" on a coin
-                return [[$._("H") + seq, h + 1]];
+                return [[i18n._("H") + seq, h + 1]];
             });
 
             var andATail = $.map(preceding, function(_arg, i) {
                 var seq = _arg[0];
                 var h = _arg[1];
                 // I18N: Represents "tails" on a coin
-                return [[$._("T") + seq, h]];
+                return [[i18n._("T") + seq, h]];
             });
 
             return andAHead.concat(andATail);

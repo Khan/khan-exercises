@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>$._ test</title>
+    <title>i18n._ test</title>
 </head>
 <body>
     <div class="vars">
-        <!-- Make sure $._s in .vars aren't errors -->
-        <var id="TEST">$._("Test")</var>
+        <!-- Make sure i18n._s in .vars aren't errors -->
+        <var id="TEST">i18n._("Test")</var>
         <div>
-            <!-- Make sure $._s nested in .vars also aren't errors -->
-            <var id="TEST2">$._("Test 2")</var>
+            <!-- Make sure i18n._s nested in .vars also aren't errors -->
+            <var id="TEST2">i18n._("Test 2")</var>
         </div>
     </div>
-    <!-- Make sure that $._ in vars is an error -->
-    <var>$._("Test")</var>
+    <!-- Make sure that i18n._ in vars is an error -->
+    <var>i18n._("Test")</var>
 
     <!-- Make sure it works over newlines and with single quotes -->
-    <var>$._('Test')</var>
+    <var>i18n._('Test')</var>
 
     <!-- Make sure it works with an interpolation string -->
-    <var>$._("Test", {blah: 1})</var>
+    <var>i18n._("Test", {blah: 1})</var>
 </body>
 </html>

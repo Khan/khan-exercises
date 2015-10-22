@@ -4,20 +4,20 @@
     <title>Test</title>
     <script type="text/javascript">
         // Nothing should happen to this
-        var a = "\\text{ " + $._("This is ok") " + }";
+        var a = "\\text{ " + i18n._("This is ok") " + }";
         // Test that string interpolation is done on the two strings
-        var b = "\\text{ " + $._("This is ok, %(too)s", {too: "too"}) + " }";
+        var b = "\\text{ " + i18n._("This is ok, %(too)s", {too: "too"}) + " }";
     </script>
 </head>
 <body>
-    <code>\text{$._("This is likewise ok")}</code>
-    <code>\text{$._("As is %(this)s", {this: "this"})}</code>
+    <code>\text{i18n._("This is likewise ok")}</code>
+    <code>\text{i18n._("As is %(this)s", {this: "this"})}</code>
     <div class="graphie">
-        label("\\text{$._("Totally ok")}")
+        label("\\text{i18n._("Totally ok")}")
     </div>
-    <var id="blah">"\\text{$._("More than ok")}"</var>
+    <var id="blah">"\\text{i18n._("More than ok")}"</var>
     <div class="validator-function">
-        "\\text{$._("As good as it gets!")}"
+        "\\text{i18n._("As good as it gets!")}"
     </div>
 </body>
 </html>

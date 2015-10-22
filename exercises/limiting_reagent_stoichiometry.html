@@ -9,15 +9,15 @@
 <div class="exercise">
     <div class="vars" data-ensure="abs((R1_MOL * R2_RATIO / R1_RATIO) - R2_MOL) &gt; 0.01">
         <var id="MOLE">new Plural(function(num) {
-            return $.ngettext("mole", "moles", num);
+            return i18n.ngettext("mole", "moles", num);
         })</var>
         <var id="GRAM">new Plural(function(num) {
-            return $.ngettext("gram", "grams", num);
+            return i18n.ngettext("gram", "grams", num);
         })</var>
-        <var id="GRAMS_OF">$._("grams of")</var>
-        <var id="MOLAR_MASS_OF">$._("molar mass of")</var>
-        <var id="MOLES_OF">$._("moles of")</var>
-        <var id="OF">$._("of")</var>
+        <var id="GRAMS_OF">i18n._("grams of")</var>
+        <var id="MOLAR_MASS_OF">i18n._("molar mass of")</var>
+        <var id="MOLES_OF">i18n._("moles of")</var>
+        <var id="OF">i18n._("of")</var>
         <var id="R1_MASS">randRange(1, 40)</var>
         <var id="R2_MASS">randRange(1, 40 * (R2_RATIO * R2_MOLAR_MASS) / (R1_RATIO * R1_MOLAR_MASS))</var>
         <var id="R1_MOL">roundTo(3, R1_MASS / R1_MOLAR_MASS)</var>

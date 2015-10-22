@@ -12,10 +12,10 @@
             <div class="vars">
                 <var id="SLOPE">rand(4)</var>
                 <var id="SLOPE_NAME">[
-                    $._("a positive"),
-                    $._("a negative"),
-                    $._("a zero"),
-                    $._("an undefined")
+                    i18n._("a positive"),
+                    i18n._("a negative"),
+                    i18n._("a zero"),
+                    i18n._("an undefined")
                 ][SLOPE]</var>
                 <var id="POINTS">{}</var>
             </div>
@@ -178,7 +178,7 @@
                 <var id="SLOPE_N">randRangeNonZero(-5, 5)</var>
                 <var id="SLOPE_D">randRange(1, 5)</var>
                 <var id="Y_INT">randRange(-5, 5)</var>
-                <var id="GOAL_NEGATIVE,GOAL">[SLOPE_N &lt; 0, SLOPE_N &lt; 0 ? $._("negative") : $._("positive")]</var>
+                <var id="GOAL_NEGATIVE,GOAL">[SLOPE_N &lt; 0, SLOPE_N &lt; 0 ? i18n._("negative") : i18n._("positive")]</var>
                 <var id="CHANGE,CHANGE_NAME">randFromArray([[0, "greater"], [1, "less"]])</var>
                 <var id="NEW_SLOPE">(function() {
                     if (GOAL_NEGATIVE) {

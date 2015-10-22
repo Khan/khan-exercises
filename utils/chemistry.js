@@ -2609,7 +2609,7 @@ $.fn["chemistryLoad"] = function() {
     };
 
     var periodicTable = $("<div>").appendTo("body");
-    periodicTable.attr("title", $._("Periodic table of the elements"));
+    periodicTable.attr("title", i18n._("Periodic table of the elements"));
     periodicTable.dialog({
         autoOpen: false,
         show: "fade",

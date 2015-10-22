@@ -14,7 +14,7 @@
         <div id="square-find-area">
             <div class="vars">
                 <var id="S">randRange(2, 8)</var>
-                <var id="AREA">$._("area")</var>
+                <var id="AREA">i18n._("area")</var>
             </div>
 
             <p class="question">
@@ -100,10 +100,10 @@
                         path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                             { stroke: BLUE, fill: "#eee" });
                         // I18N: This is something like ? cm
-                        label([2.5, 5], "\\text{" + $._("? %(UNIT)s", {UNIT: UNIT}) + "}", "above",
+                        label([2.5, 5], "\\text{" + i18n._("? %(UNIT)s", {UNIT: UNIT}) + "}", "above",
                             { "color": PINK });
                         // I18N: This is something like ? cm
-                        label([0, 2.5], "\\text{" + $._("? %(UNIT)s", {UNIT: UNIT}) + "}", "left",
+                        label([0, 2.5], "\\text{" + i18n._("? %(UNIT)s", {UNIT: UNIT}) + "}", "left",
                             { "color": PINK });
                     </div>
                 </div>
@@ -139,7 +139,7 @@
             <div class="vars">
                 <var id="W">randRange(2, 8)</var>
                 <var id="L">randRange(W + 1, 9)</var>
-                <var id="AREA">$._("area")</var>
+                <var id="AREA">i18n._("area")</var>
             </div>
 
             <p class="question">

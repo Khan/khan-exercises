@@ -18,15 +18,15 @@
             (function() {
                 if (DIFFERENCE === 1) {
                     return new Plural(function(num) {
-                        return $.ngettext("integer", "integers", num);
+                        return i18n.ngettext("integer", "integers", num);
                     });
                 } else if (isOdd(FIRST_NUM)) {
                     return new Plural(function(num) {
-                        return $.ngettext("odd number", "odd numbers", num);
+                        return i18n.ngettext("odd number", "odd numbers", num);
                     });
                 } else {
                     return new Plural(function(num) {
-                        return $.ngettext("even number", "even numbers", num);
+                        return i18n.ngettext("even number", "even numbers", num);
                     });
                 }
             })()

@@ -11,7 +11,7 @@
             <div id="one-rational">
                 <div class="vars">
                     <var id="TYPE">"One rational solution"</var>
-                    <var id="ANSWER">$._("One rational solution")</var>
+                    <var id="ANSWER">i18n._("One rational solution")</var>
                     <var id="B">randRangeNonZero(-6, 6) * 2</var>
                     <var id="A">randFromArray(getFactors(B * B / 4))</var>
                     <var id="C">(B * B) / (4 * A)</var>
@@ -110,7 +110,7 @@
             <div id="two-rational" data-type="one-rational">
                 <div class="vars" data-apply="replace">
                     <var id="TYPE">"Two rational solutions"</var>
-                    <var id="ANSWER">$._("Two rational solutions")</var>
+                    <var id="ANSWER">i18n._("Two rational solutions")</var>
                     <div data-ensure="DISCRIMINANT &gt; 0 &amp;&amp;
                         sqrt(DISCRIMINANT) - floor(sqrt(DISCRIMINANT)) &lt; 0.001
                         &amp;&amp; DISCRIMINANT &lt;= 144">
@@ -125,7 +125,7 @@
             <div id="two-irrational" data-type="one-rational">
                 <div class="vars" data-apply="replace">
                     <var id="TYPE">"Two irrational solutions"</var>
-                    <var id="ANSWER">$._("Two irrational solutions")</var>
+                    <var id="ANSWER">i18n._("Two irrational solutions")</var>
                     <div data-ensure="DISCRIMINANT &gt; 0 &amp;&amp;
                         sqrt(DISCRIMINANT) - floor(sqrt(DISCRIMINANT)) &gt; 0.001">
                         <var id="A">randRangeNonZero(-9, 9)</var>
@@ -139,7 +139,7 @@
             <div id="two-complex" data-type="one-rational">
                 <div class="vars" data-apply="replace">
                     <var id="TYPE">"Two complex solutions"</var>
-                    <var id="ANSWER">$._("Two complex solutions")</var>
+                    <var id="ANSWER">i18n._("Two complex solutions")</var>
                     <div data-ensure="DISCRIMINANT &lt; 0">
                         <var id="A">randRangeNonZero(-9, 9)</var>
                         <var id="B">randRangeNonZero(-9, 9)</var>

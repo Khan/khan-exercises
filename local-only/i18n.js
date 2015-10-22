@@ -121,15 +121,15 @@ var interpolateStringToFragment = function (str, options) {
 /**
     * Simple i18n method with sprintf-like %(name)s replacement
     * To be used like so:
-    *   $._("Some string")
-    *   $._("Hello %(name)s", {name: "John"})
+    *   i18n._("Some string")
+    *   i18n._("Hello %(name)s", {name: "John"})
     */
 var _ = function (str, options) {
     // Sometimes we're given an argument that's meant for ngettext().  This
-    // happens if the same string is used in both $._() and i18n.ngettext()
-    // (.g. a = $._(foo); b = i18n.ngettext("foo", "bar", count);
+    // happens if the same string is used in both i18n._() and i18n.ngettext()
+    // (.g. a = i18n._(foo); b = i18n.ngettext("foo", "bar", count);
     // In such cases, only the plural form ends up in the .po file, and
-    // then it gets sent to us for the $._() case too.  No problem, though:
+    // then it gets sent to us for the i18n._() case too.  No problem, though:
     // we'll just take the singular arg.
     if (typeof str === "object" && str.messages) {
         str = str.messages[0];}
@@ -249,7 +249,7 @@ var ngettext = function (singular, plural, num, options) {
     options = options || {};
     options.num = options.num || num;
 
-    // Then pass into $._ for the actual substitution
+    // Then pass into i18n._ for the actual substitution
     return _(i18n.dngettext(lang, singular, plural, num), options);};
 
 
@@ -357,7 +357,7 @@ var localeToFixed = function (num, places) {
 // TODO(csilvers): is this still necessary?
 window.i18n = i18n;
 
-// TODO(csilvers): remove this once everyone has moved from $._ to i18n._
+// TODO(csilvers): remove this once everyone has moved from i18n._ to i18n._
 // Then, we can get rid of the i18n.js entry in third_party_js.py
 jQuery._ = _;
 jQuery.ngettext = ngettext;

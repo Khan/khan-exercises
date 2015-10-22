@@ -16,8 +16,8 @@
                 <var id="APEX_X">HYPOT * cos(ANGLE * PI / 180)</var>
                 <var id="APEX_Y">HYPOT * sin(ANGLE * PI / 180)</var>
                 <var id="SOLUTION">roundTo(1, 0.5 * BASE * HYPOT * sin(ANGLE * PI / 180))</var>
-                <var id="BASE_WORD">$._("base")</var>
-                <var id="HEIGHT_WORD">$._("height")</var>
+                <var id="BASE_WORD">i18n._("base")</var>
+                <var id="HEIGHT_WORD">i18n._("height")</var>
             </div>
 
             <p class="question">Find the area of the triangle.</p>
@@ -103,8 +103,8 @@
                 <var id="APEX_X">HYPOT * cos(ANGLE * PI / 180)</var>
                 <var id="APEX_Y">HYPOT * sin(ANGLE * PI / 180)</var>
                 <var id="OTHER_SIDE">round(sqrt((APEX_X - BASE) * (APEX_X - BASE) + APEX_Y * APEX_Y))</var>
-                <var id="BASE_WORD">$._("base")</var>
-                <var id="HEIGHT_WORD">$._("height")</var>
+                <var id="BASE_WORD">i18n._("base")</var>
+                <var id="HEIGHT_WORD">i18n._("height")</var>
             </div>
 
             <p class="question">Write an expression for the area of the triangle.</p>

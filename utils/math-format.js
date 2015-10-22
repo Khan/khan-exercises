@@ -247,11 +247,11 @@ $.extend(KhanUtil, {
     // just return the number itself as a string.  This is superior to
     // cardinal() in that it can be translated easily.
     cardinalThrough20: function(n) {
-        var cardinalUnits = [$._("zero"), $._("one"), $._("two"), $._("three"),
-            $._("four"), $._("five"), $._("six"), $._("seven"), $._("eight"),
-            $._("nine"), $._("ten"), $._("eleven"), $._("twelve"),
-            $._("thirteen"), $._("fourteen"), $._("fifteen"), $._("sixteen"),
-            $._("seventeen"), $._("eighteen"), $._("nineteen"), $._("twenty")];
+        var cardinalUnits = [i18n._("zero"), i18n._("one"), i18n._("two"), i18n._("three"),
+            i18n._("four"), i18n._("five"), i18n._("six"), i18n._("seven"), i18n._("eight"),
+            i18n._("nine"), i18n._("ten"), i18n._("eleven"), i18n._("twelve"),
+            i18n._("thirteen"), i18n._("fourteen"), i18n._("fifteen"), i18n._("sixteen"),
+            i18n._("seventeen"), i18n._("eighteen"), i18n._("nineteen"), i18n._("twenty")];
         if (n >= 0 && n <= 20) {
             return cardinalUnits[n];
         }
@@ -266,13 +266,13 @@ $.extend(KhanUtil, {
     },
 
     ordinalThrough20: function(n) {
-        var ordinalUnits = [$._("zeroth"), $._("first"), $._("second"),
-            $._("third"), $._("fourth"), $._("fifth"), $._("sixth"),
-            $._("seventh"), $._("eighth"), $._("ninth"), $._("tenth"),
-            $._("eleventh"), $._("twelfth"), $._("thirteenth"),
-            $._("fourteenth"), $._("fifteenth"), $._("sixteenth"),
-            $._("seventeenth"), $._("eighteenth"), $._("nineteenth"),
-            $._("twentieth")];
+        var ordinalUnits = [i18n._("zeroth"), i18n._("first"), i18n._("second"),
+            i18n._("third"), i18n._("fourth"), i18n._("fifth"), i18n._("sixth"),
+            i18n._("seventh"), i18n._("eighth"), i18n._("ninth"), i18n._("tenth"),
+            i18n._("eleventh"), i18n._("twelfth"), i18n._("thirteenth"),
+            i18n._("fourteenth"), i18n._("fifteenth"), i18n._("sixteenth"),
+            i18n._("seventeenth"), i18n._("eighteenth"), i18n._("nineteenth"),
+            i18n._("twentieth")];
         if (n >= 0 && n <= 20) {
             return ordinalUnits[n];
         }
@@ -285,22 +285,22 @@ $.extend(KhanUtil, {
     // TODO(csilvers): I18N: this doesn't work at all outside English.
     // cf. https://github.com/kslazarev/numbers_and_words (Ruby, sadly).
     cardinal: function(n) {
-        var cardinalScales = ["", $._("thousand"), $._("million"),
-            $._("billion"), $._("trillion"), $._("quadrillion"),
-            $._("quintillion"), $._("sextillion"), $._("septillion"),
-            $._("octillion"), $._("nonillion"), $._("decillion"),
-            $._("undecillion"), $._("duodecillion"), $._("tredecillion"),
-            $._("quattuordecillion"), $._("quindecillion"),
-            $._("sexdecillion"), $._("septendecillion"), $._("octodecillion"),
-            $._("novemdecillion"), $._("vigintillion")];
-        var cardinalUnits = [$._("zero"), $._("one"), $._("two"), $._("three"),
-            $._("four"), $._("five"), $._("six"), $._("seven"), $._("eight"),
-            $._("nine"), $._("ten"), $._("eleven"), $._("twelve"),
-            $._("thirteen"), $._("fourteen"), $._("fifteen"), $._("sixteen"),
-            $._("seventeen"), $._("eighteen"), $._("nineteen")];
-        var cardinalTens = ["", "", $._("twenty"), $._("thirty"), $._("forty"),
-            $._("fifty"), $._("sixty"), $._("seventy"), $._("eighty"),
-            $._("ninety")];
+        var cardinalScales = ["", i18n._("thousand"), i18n._("million"),
+            i18n._("billion"), i18n._("trillion"), i18n._("quadrillion"),
+            i18n._("quintillion"), i18n._("sextillion"), i18n._("septillion"),
+            i18n._("octillion"), i18n._("nonillion"), i18n._("decillion"),
+            i18n._("undecillion"), i18n._("duodecillion"), i18n._("tredecillion"),
+            i18n._("quattuordecillion"), i18n._("quindecillion"),
+            i18n._("sexdecillion"), i18n._("septendecillion"), i18n._("octodecillion"),
+            i18n._("novemdecillion"), i18n._("vigintillion")];
+        var cardinalUnits = [i18n._("zero"), i18n._("one"), i18n._("two"), i18n._("three"),
+            i18n._("four"), i18n._("five"), i18n._("six"), i18n._("seven"), i18n._("eight"),
+            i18n._("nine"), i18n._("ten"), i18n._("eleven"), i18n._("twelve"),
+            i18n._("thirteen"), i18n._("fourteen"), i18n._("fifteen"), i18n._("sixteen"),
+            i18n._("seventeen"), i18n._("eighteen"), i18n._("nineteen")];
+        var cardinalTens = ["", "", i18n._("twenty"), i18n._("thirty"), i18n._("forty"),
+            i18n._("fifty"), i18n._("sixty"), i18n._("seventy"), i18n._("eighty"),
+            i18n._("ninety")];
         // For formatting numbers less than 1000
         var smallNumberWords = function(n) {
             var hundredDigit = Math.floor(n / 100);
@@ -308,7 +308,7 @@ $.extend(KhanUtil, {
             var str = "";
 
             if (hundredDigit) {
-                str += $._("%(unit)s hundred",
+                str += i18n._("%(unit)s hundred",
                     {unit: cardinalUnits[hundredDigit]});
             }
 
@@ -341,7 +341,7 @@ $.extend(KhanUtil, {
         };
 
         if (n === 0) {
-            return $._("zero");
+            return i18n._("zero");
         } else {
             var neg = false;
             if (n < 0) {
@@ -367,7 +367,7 @@ $.extend(KhanUtil, {
             }
 
             if (neg) {
-                words.unshift($._("negative"));
+                words.unshift(i18n._("negative"));
             }
 
             return words.join(" ");

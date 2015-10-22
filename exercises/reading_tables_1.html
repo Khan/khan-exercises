@@ -15,13 +15,13 @@
                     [ school(1), school(2), school(3), school(4) ],
                     [ person(1), person(2), person(3), person(4) ],
                     [ person(1), person(2), person(3), person(4) ],
-                    [ $._("Alabama"), $._("Michigan"), $._("New York"), $._("Wyoming") ]
+                    [ i18n._("Alabama"), i18n._("Michigan"), i18n._("New York"), i18n._("Wyoming") ]
                 ][ INDEX ]</var>
                 <var id="COLUMNS">[
-                    [ $._("3rd grade"), $._("4th grade"), $._("5th grade"), $._("Total") ],
-                    [ $._("January"), $._("February"), $._("March"), $._("Total") ],
-                    [ $._("1st Quarter"), $._("2nd Quarter"), $._("3rd Quarter"), $._("4th Quarter"), $._("Total") ],
-                    [ $._("Q1"), $._("Q2"), $._("Q3"), $._("Q4"), $._("Total") ] ][ INDEX ]</var>
+                    [ i18n._("3rd grade"), i18n._("4th grade"), i18n._("5th grade"), i18n._("Total") ],
+                    [ i18n._("January"), i18n._("February"), i18n._("March"), i18n._("Total") ],
+                    [ i18n._("1st Quarter"), i18n._("2nd Quarter"), i18n._("3rd Quarter"), i18n._("4th Quarter"), i18n._("Total") ],
+                    [ i18n._("Q1"), i18n._("Q2"), i18n._("Q3"), i18n._("Q4"), i18n._("Total") ] ][ INDEX ]</var>
                 <var id="ENROLLMENTS">
                     (function() {
                         var enrollments = [];
@@ -43,80 +43,80 @@
                 <var id="ROW_INDEX">randRange( 0, ROWS.length - 1 )</var>
                 <var id="ANSWER">ENROLLMENTS[ ROW_INDEX ][ COL_INDEX ]</var>
                 <var id="PROBLEM">[
-                    $._("shows the enrollment at four different elementary schools that have 3rd through 5th grade students"),
-                    $._("shows the number of chickens sold by four farmers from January to March"),
-                    $._("indicates the points scored by four players in a charity basketball game"),
-                    $._("shows solar panel installations by state during the last fiscal year")
+                    i18n._("shows the enrollment at four different elementary schools that have 3rd through 5th grade students"),
+                    i18n._("shows the number of chickens sold by four farmers from January to March"),
+                    i18n._("indicates the points scored by four players in a charity basketball game"),
+                    i18n._("shows solar panel installations by state during the last fiscal year")
                 ][ INDEX ]</var>
                 <var id="QUESTION">(function() {
                     if ( COL_INDEX === COLUMNS.length - 1 ) {
                         var dict = {name: ROWS[ROW_INDEX]};
                         return [
-                            $._("How many students does %(name)s Elementary School have in total?", dict),
-                            $._("How many chickens did %(name)s sell in total?", dict),
-                            $._("How many points did %(name)s have in total?", dict),
-                            $._("How many total solar panels were installed last year in %(name)s?", dict)
+                            i18n._("How many students does %(name)s Elementary School have in total?", dict),
+                            i18n._("How many chickens did %(name)s sell in total?", dict),
+                            i18n._("How many points did %(name)s have in total?", dict),
+                            i18n._("How many total solar panels were installed last year in %(name)s?", dict)
                         ][ INDEX ];
                     } else {
                         return [
-                            $._("How many %(grade)s students does %(name)s Elementary School have?", {grade: COLUMNS[COL_INDEX], name: ROWS[ROW_INDEX]}),
-                            $._("How many chickens did %(name)s sell in %(month)s?", {name: ROWS[ROW_INDEX], month: COLUMNS[COL_INDEX]}),
-                            $._("How many points did %(name)s score in the %(time_period)s?", {name: ROWS[ROW_INDEX], time_period: COLUMNS[COL_INDEX]}),
-                            $._("How many solar panels were installed in %(state)s in %(time_period)s?", {state: ROWS[ROW_INDEX], time_period: COLUMNS[COL_INDEX]})
+                            i18n._("How many %(grade)s students does %(name)s Elementary School have?", {grade: COLUMNS[COL_INDEX], name: ROWS[ROW_INDEX]}),
+                            i18n._("How many chickens did %(name)s sell in %(month)s?", {name: ROWS[ROW_INDEX], month: COLUMNS[COL_INDEX]}),
+                            i18n._("How many points did %(name)s score in the %(time_period)s?", {name: ROWS[ROW_INDEX], time_period: COLUMNS[COL_INDEX]}),
+                            i18n._("How many solar panels were installed in %(state)s in %(time_period)s?", {state: ROWS[ROW_INDEX], time_period: COLUMNS[COL_INDEX]})
                         ][ INDEX ];
                     }
                 })()
                 </var>
                 <var id="HEADER">[
-                    $._("Schools"),
-                    $._("Farmers"),
-                    $._("Players"),
-                    $._("States")
+                    i18n._("Schools"),
+                    i18n._("Farmers"),
+                    i18n._("Players"),
+                    i18n._("States")
                 ][ INDEX ]</var>
                 <var id="UNIT">[
-                    $._("students"),
-                    $._("chicken(s)"),
-                    $._("points"),
-                    $._("solar panels")
+                    i18n._("students"),
+                    i18n._("chicken(s)"),
+                    i18n._("points"),
+                    i18n._("solar panels")
                 ][ INDEX ]</var>
                 <var id="ROW_HINT">[
-                    $._("the student enrollment at %(name)s", {name: ROWS[ROW_INDEX]}),
-                    $._("the number of chickens sold by %(name)s", {name: ROWS[ROW_INDEX]}),
-                    $._("the number of points scored by %(name)s", {name: ROWS[ROW_INDEX]}),
-                    $._("the number of solar panels installed in %(state)s", {state: ROWS[ROW_INDEX]})
+                    i18n._("the student enrollment at %(name)s", {name: ROWS[ROW_INDEX]}),
+                    i18n._("the number of chickens sold by %(name)s", {name: ROWS[ROW_INDEX]}),
+                    i18n._("the number of points scored by %(name)s", {name: ROWS[ROW_INDEX]}),
+                    i18n._("the number of solar panels installed in %(state)s", {state: ROWS[ROW_INDEX]})
                 ][ INDEX ]</var>
                 <var id="COL_HINT">
                     (function() {
                         if ( COL_INDEX === COLUMNS.length - 1 ) {
                             return [
-                                $._("the total number of students at each school"),
-                                $._("the total number of chickens sold by each person"),
-                                $._("the total number of points scored by each person"),
-                                $._("the total number of solar panels installed in each state")
+                                i18n._("the total number of students at each school"),
+                                i18n._("the total number of chickens sold by each person"),
+                                i18n._("the total number of points scored by each person"),
+                                i18n._("the total number of solar panels installed in each state")
                             ][ INDEX ];
                         } else {
                             return [
-                                $._("the number of %(grade)s students at each school", {grade: COLUMNS[COL_INDEX]}),
-                                $._("the number of chickens sold in %(month)s", {month: COLUMNS[COL_INDEX]}),
-                                $._("the number of points scored in the %(time_period)s", {time_period: COLUMNS[COL_INDEX]}),
-                                $._("the number of solar panels installed in %(time_period)s" + COLUMNS[ COL_INDEX ], {time_period: COLUMNS[COL_INDEX]})
+                                i18n._("the number of %(grade)s students at each school", {grade: COLUMNS[COL_INDEX]}),
+                                i18n._("the number of chickens sold in %(month)s", {month: COLUMNS[COL_INDEX]}),
+                                i18n._("the number of points scored in the %(time_period)s", {time_period: COLUMNS[COL_INDEX]}),
+                                i18n._("the number of solar panels installed in %(time_period)s" + COLUMNS[ COL_INDEX ], {time_period: COLUMNS[COL_INDEX]})
                             ][ INDEX ];
                         }
                     })()
                 </var>
                 <var id="FINAL_HINT">[
-                    $._("There are %(num)s %(grade)s students at %(school_name)s.", {num: ANSWER, grade: COLUMNS[COL_INDEX], school_name: ROWS[ROW_INDEX]}),
+                    i18n._("There are %(num)s %(grade)s students at %(school_name)s.", {num: ANSWER, grade: COLUMNS[COL_INDEX], school_name: ROWS[ROW_INDEX]}),
                     (COL_INDEX === COLUMNS.length - 1 ?
-                     $.ngettext("%(name)s sold %(num)s chicken in total.",
+                     i18n.ngettext("%(name)s sold %(num)s chicken in total.",
                                 "%(name)s sold %(num)s chickens in total.", ANSWER, {name: ROWS[ROW_INDEX]}) :
-                     $.ngettext("%(name)s sold %(num)s chicken in %(month)s.",
+                     i18n.ngettext("%(name)s sold %(num)s chicken in %(month)s.",
                                 "%(name)s sold %(num)s chickens in %(month)s.", ANSWER, {name: ROWS[ROW_INDEX], month: COLUMNS[COL_INDEX]})),
                     (COL_INDEX === COLUMNS.length - 1 ?
-                     $._("%(name)s scored %(num)s points in total.", {name: ROWS[ROW_INDEX], num: ANSWER}) :
-                     $._("%(name)s scored %(num)s points in the %(time_period)s.", {name: ROWS[ROW_INDEX], num: ANSWER, time_period: COLUMNS[COL_INDEX]})),
+                     i18n._("%(name)s scored %(num)s points in total.", {name: ROWS[ROW_INDEX], num: ANSWER}) :
+                     i18n._("%(name)s scored %(num)s points in the %(time_period)s.", {name: ROWS[ROW_INDEX], num: ANSWER, time_period: COLUMNS[COL_INDEX]})),
                     (COL_INDEX === COLUMNS.length - 1 ?
-                     $._("There were %(num)s solar panels installed in %(state)s last year.", {num: ANSWER, state: ROWS[ROW_INDEX]}) :
-                     $._("There were %(num)s solar panels installed in %(state)s in %(month)s.", {num: ANSWER, state: ROWS[ROW_INDEX], month: COLUMNS[COL_INDEX]}))
+                     i18n._("There were %(num)s solar panels installed in %(state)s last year.", {num: ANSWER, state: ROWS[ROW_INDEX]}) :
+                     i18n._("There were %(num)s solar panels installed in %(state)s in %(month)s.", {num: ANSWER, state: ROWS[ROW_INDEX], month: COLUMNS[COL_INDEX]}))
                 ][ INDEX ]</var>
             </div>
             <p>The table below <var>PROBLEM</var>.</p>

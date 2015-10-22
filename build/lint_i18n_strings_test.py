@@ -55,7 +55,7 @@ TESTS = {
     'text': {
         'nodes_changed': 12,
         'errors': [
-            'Using $._ inside of a <var>:\n<var>$._("%(something)s", '
+            'Using i18n._ inside of a <var>:\n<var>i18n._("%(something)s", '
                 '{something: something})</var>',
             '12 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
@@ -63,9 +63,10 @@ TESTS = {
     'dollars_in_vars': {
         'nodes_changed': 0,
         'errors': [
-            'Using $._ inside of a <var>:\n<var>$._("Test")</var>',
-            "Using $._ inside of a <var>:\n<var>$._('Test')</var>",
-            'Using $._ inside of a <var>:\n<var>$._("Test", {blah: 1})</var>',
+            'Using i18n._ inside of a <var>:\n<var>i18n._("Test")</var>',
+            "Using i18n._ inside of a <var>:\n<var>i18n._('Test')</var>",
+            ('Using i18n._ inside of a <var>:\n'
+             '<var>i18n._("Test", {blah: 1})</var>'),
         ]
     },
     'ok_text': {

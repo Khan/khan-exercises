@@ -14,7 +14,7 @@
         <div id="square" data-weight="1">
             <div class="vars">
                 <var id="S">randRange(2, 9)</var>
-                <var id="PERIMETER">$._("perimeter")</var>
+                <var id="PERIMETER">i18n._("perimeter")</var>
             </div>
 
             <p class="question">
@@ -60,7 +60,7 @@
             <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(2, 9)</var>
                 <var id="W">randRange(2, 9)</var>
-                <var id="PERIMETER">$._("perimeter")</var>
+                <var id="PERIMETER">i18n._("perimeter")</var>
             </div>
 
             <p class="question">
@@ -108,7 +108,7 @@
                 <var id="A,B,C">randRange(2, 9, 3)</var>
                 <var id="X">((A * A + B * B - C * C) / (2 * A * B)) * B</var>
                 <var id="Y">sqrt(B * B - X * X)</var>
-                <var id="PERIMETER">$._("perimeter")</var>
+                <var id="PERIMETER">i18n._("perimeter")</var>
             </div>
 
             <p class="question">
@@ -155,14 +155,14 @@
             <div class="vars">
                 <var id="S">randRange(2, 3)</var>
                 <var id="SIDES,POLYGON">randFromArray([
-                    [5, $._("pentagon")],
-                    [6, $._("hexagon")],
-                    [8, $._("octagon")]
+                    [5, i18n._("pentagon")],
+                    [6, i18n._("hexagon")],
+                    [8, i18n._("octagon")]
                 ])</var>
                 <var id="ANGLE">(2 * PI) / SIDES</var>
                 <var id="RADIUS">S / (2 * sin(PI / SIDES))</var>
                 <var id="APOTHEM">S / (2 * tan(PI / SIDES))</var>
-                <var id="PERIMETER">$._("perimeter")</var>
+                <var id="PERIMETER">i18n._("perimeter")</var>
             </div>
 
             <p class="question">

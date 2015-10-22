@@ -226,7 +226,7 @@ var Khan = {
     },
 
     warnTimeout: function() {
-        $(Exercises).trigger("warning", [$._("Your internet might be too " +
+        $(Exercises).trigger("warning", [i18n._("Your internet might be too " +
                 "slow to see an exercise. Refresh the page or " +
                 "<a href='' id='warn-report'>report a problem</a>."),
                 false]);
@@ -240,14 +240,14 @@ var Khan = {
     warnFont: function() {
         var warning;
         if ($.browser.msie) {
-            warning = $._("You should " +
+            warning = i18n._("You should " +
                 "<a href='http://missmarcialee.com/2011/08/" +
                 "how-to-enable-font-download-in-internet-explorer-8/' " +
                 "target='_blank'>enable font download</a> " +
                 "to improve the appearance of math expressions."
             );
         } else {
-            warning = $._("You should enable font download in your " +
+            warning = i18n._("You should enable font download in your " +
                 "browser to improve the appearance of math expressions");
         }
 
@@ -400,7 +400,7 @@ var Khan = {
                     }
 
                     $("#scratchpad").show();
-                    $("#scratchpad-show").text($._("Hide scratchpad"));
+                    $("#scratchpad-show").text(i18n._("Hide scratchpad"));
 
                     // If pad has never been created or if it's empty
                     // because it was removed from the DOM, recreate a new
@@ -425,7 +425,7 @@ var Khan = {
                 $("#scratchpad").hide();
                 // Un-outline things floating on top of the scratchpad
                 $(".above-scratchpad").css("border", "");
-                $("#scratchpad-show").text($._("Show scratchpad"));
+                $("#scratchpad-show").text(i18n._("Show scratchpad"));
             },
 
             toggle: function() {
@@ -556,7 +556,7 @@ var Khan = {
             e.preventDefault();
 
             if (typeof KA !== "undefined" && KA.vipIssueReporter) {
-                $("#issue .info-box-header").text($._("VIP Issue Report"));
+                $("#issue .info-box-header").text(i18n._("VIP Issue Report"));
             }
 
             // If the hint button isn't visible, we don't want the user to
@@ -584,15 +584,15 @@ var Khan = {
 
         $("input[name=issue-type]").on("click", function() {
             if ($(this).prop("id") === "issue-hints-wrong") {
-                $("#issue-body").prop("placeholder", $._("Tell us exactly " +
+                $("#issue-body").prop("placeholder", i18n._("Tell us exactly " +
                         "what's wrong with the hints. What answer did " +
                         "you get and how did you get it?"));
             } else if ($(this).prop("id") === "issue-answer-wrong") {
-                $("#issue-body").prop("placeholder", $._("Tell us exactly " +
+                $("#issue-body").prop("placeholder", i18n._("Tell us exactly " +
                         "how you tried to input the answer from the " +
                         "hints. Did a different answer work instead?"));
             } else if ($(this).prop("id") === "issue-confusing") {
-                $("#issue-body").prop("placeholder", $._("Tell us exactly " +
+                $("#issue-body").prop("placeholder", i18n._("Tell us exactly " +
                         "what you found confusing. How would you reword " +
                         "the question or hints to be less confusing?"));
             } else {
@@ -670,7 +670,7 @@ var Khan = {
             var body = $("#issue-body").val();
             if (body === "") {
                 $("#issue-status").addClass("error")
-                    .html($._("Please provide a description of the issue.")).show();
+                    .html(i18n._("Please provide a description of the issue.")).show();
                 return;
             }
             issueInfo.bodyInfo = body + "\n\n" + issueInfo.bodyInfo;
@@ -683,7 +683,7 @@ var Khan = {
             var type = $("input[name=issue-type]:checked").prop("id");
             if (!type) {
                 $("#issue-status").addClass("error")
-                    .html($._("Please specify the issue type.")).show();
+                    .html(i18n._("Please specify the issue type.")).show();
                 return;
             }
 
@@ -757,7 +757,7 @@ var Khan = {
 
                 // show status message
                 $("#issue-status").removeClass("error")
-                    .html($._("<p>Thank you for your feedback! " +
+                    .html(i18n._("<p>Thank you for your feedback! " +
                         "Issue <b>%(bugid)s</b> has been opened and " +
                         "we'll look into it shortly.</p>",
                         {bugid: bugid}))
@@ -775,7 +775,7 @@ var Khan = {
             var onFailure = function() {
                 // show status message
                 $("#issue-status").addClass("error")
-                    .html($._("Communication with issue tracker isn't " +
+                    .html(i18n._("Communication with issue tracker isn't " +
                         "working. Please file the issue manually at " +
                         "<a href='http://github.com/Khan/khan-exercises/issues/new'>GitHub</a>. " +
                         "Please reference item: <b>%(item)s</b>.",
@@ -1320,7 +1320,7 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         parent.jQuery(parent.document).trigger("problemLoaded", [makeProblem, answerData.solution]);
     }
 
-    $("#hint").val($._("I'd like a hint"));
+    $("#hint").val(i18n._("I'd like a hint"));
 
     $(Exercises).trigger("newProblem", {
         numHints: hints.length,
@@ -1354,7 +1354,7 @@ function makeProblem(exerciseId, typeOverride, seedOverride) {
         var checkAnswerButton = $("#check-answer-button");
         var skipQuestionButton = $("#skip-question-button");
         checkAnswerButton.attr("disabled", "disabled").attr(
-            "title", $._("Type in an answer first."));
+            "title", i18n._("Type in an answer first."));
         // Enables the check answer button - added so that people who type
         // in a number and hit enter quickly do not have to wait for the
         // button to be enabled by the key up
@@ -1696,9 +1696,9 @@ function prepareSite() {
 
         var updateAngleMode = function() {
             // I18N: "DEGrees" calculator button (3 chars or less)
-            var deg = $._("DEG");
+            var deg = i18n._("DEG");
             // I18N: "RADians" calculator button (3 chars or less)
-            var rad = $._("RAD");
+            var rad = i18n._("RAD");
             if (Calculator.settings.angleMode === "DEG") {
                 $(".calculator-angle-mode").html(unselected(rad) +
                                                  "<br>" +

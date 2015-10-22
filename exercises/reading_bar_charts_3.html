@@ -62,24 +62,24 @@
                 line( [ 0, 0 ], [ 0, 10 ] );
 
                 label( [ ( NUM_STUDENTS * 3 + 1 ) / 2, -0.8 ],
-                    $._("Student"),
+                    i18n._("Student"),
                     "below", false ).css('font-weight', 'bold');
                 label( [ -1.5, 5 ],
                     "Score (points)",
                     "center", false ).addClass( "rotate" )
                                      .css('font-weight', 'bold');
                 label( [ ( NUM_STUDENTS * 3 + 1 ) / 2, 10.5 ],
-                    $._("Scores on Midterm and Final Exams"),
+                    i18n._("Scores on Midterm and Final Exams"),
                     "above", false ).css('font-weight', 'bold');
 
                 style({ stroke: "none", fill: "#9ab8ed", opacity: 1.0 });
                 path([ [ 0, -2 ], [ 0.5, -2  ], [ 0.5, -2.5  ], [ 0, -2.5 ], [ 0, -2 ] ]);
                 style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                label( [ 0.5, -2.25 ], $._("Midterm"), "right", false );
+                label( [ 0.5, -2.25 ], i18n._("Midterm"), "right", false );
                 style({ stroke: "none", fill: "#ffc966", opacity: 1.0 });
                 path([ [ 3, -2 ], [ 3.5, -2  ], [ 3.5, -2.5  ], [ 3, -2.5 ], [ 3, -2 ] ]);
                 style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                label( [ 3.5, -2.25 ], $._("Final"), "right", false );
+                label( [ 3.5, -2.25 ], i18n._("Final"), "right", false );
             </div>
         </div>
 
@@ -88,7 +88,7 @@
             <div id="average">
                 <div class="vars" data-ensure="NUM_STUDENTS === 5">
                     <var id="COLUMN">randRange( 0, 1 )</var>
-                    <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
+                    <var id="TEST">[ i18n._("midterm"), i18n._("final exam") ][ COLUMN ]</var>
                     <var id="AVERAGE">COLUMN === 0 ? mean( MIDTERM ) : mean( FINAL )</var>
                 </div>
                 <p id="qn" class="question">What was the average student score for the <var>TEST</var>?</p>
@@ -132,7 +132,7 @@
                     <var id="UNBIASED">true</var>
                     <var id="MIDTERM_AVG">mean( MIDTERM )</var>
                     <var id="FINAL_AVG">mean( FINAL )</var>
-                    <var id="ANSWERS">[$._("Midterm"), $._("Final exam"), $._("Same on both")]</var>
+                    <var id="ANSWERS">[i18n._("Midterm"), i18n._("Final exam"), i18n._("Same on both")]</var>
                     <var id="ANSWER">MIDTERM_AVG &gt; FINAL_AVG ? 0 : ( MIDTERM_AVG &lt; FINAL_AVG ? 1 : 2 )</var>
                 </div>
                 <p id="qn" class="question">On average, did the students do better on the midterm or the final exam?</p>
@@ -197,7 +197,7 @@
             <div id="median">
                 <div class="vars">
                     <var id="COLUMN">randRange( 0, 1 )</var>
-                    <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
+                    <var id="TEST">[ i18n._("midterm"), i18n._("final exam") ][ COLUMN ]</var>
                     <var id="MEDIAN">COLUMN === 0 ? median( MIDTERM ) : median( FINAL )</var>
                 </div>
                 <p id="qn" class="question">What was the median score for the <var>TEST</var>?</p>
@@ -248,7 +248,7 @@
             <div id="mode">
                 <div class="vars" data-ensure="MODE">
                     <var id="COLUMN">randRange( 0, 1 )</var>
-                    <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
+                    <var id="TEST">[ i18n._("midterm"), i18n._("final exam") ][ COLUMN ]</var>
                     <var id="MODE">COLUMN === 0 ? mode( MIDTERM ) : mode( FINAL )</var>
                 </div>
                 <p id="qn" class="question">What was the mode for the <var>TEST</var> scores?</p>
@@ -298,7 +298,7 @@
             <div id="range">
                 <div class="vars">
                     <var id="COLUMN">randRange( 0, 1 )</var>
-                    <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
+                    <var id="TEST">[ i18n._("midterm"), i18n._("final exam") ][ COLUMN ]</var>
                     <var id="MIN">COLUMN === 0 ? Math.min.apply( null, MIDTERM ) : Math.min.apply( null, FINAL )</var>
                     <var id="MAX">COLUMN === 0 ? Math.max.apply( null, MIDTERM ) : Math.max.apply( null, FINAL )</var>
                     <var id="RANGE">MAX - MIN</var>
@@ -344,7 +344,7 @@
             <div id="midrange">
                 <div class="vars">
                     <var id="COLUMN">randRange( 0, 1 )</var>
-                    <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
+                    <var id="TEST">[ i18n._("midterm"), i18n._("final exam") ][ COLUMN ]</var>
                     <var id="MIN">COLUMN === 0 ? Math.min.apply( null, MIDTERM ) : Math.min.apply( null, FINAL )</var>
                     <var id="MAX">COLUMN === 0 ? Math.max.apply( null, MIDTERM ) : Math.max.apply( null, FINAL )</var>
                     <var id="MIDRANGE">(MAX + MIN) / 2</var>

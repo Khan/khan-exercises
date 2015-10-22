@@ -15,15 +15,15 @@
                     <var id="Y">randRangeNonZero( -10, 10 )</var>
 
                     <!-- I18N: This is the letter placed at the beginning of a quadrant, as in "Q1" for the first quadrant -->
-                    <var id="Q">$._("Q")</var>
+                    <var id="Q">i18n._("Q")</var>
                     <!-- I18N: This is a quadrant label, as in "the first quadrant" -->
-                    <var id="QI">$._("QI")</var>
+                    <var id="QI">i18n._("QI")</var>
                     <!-- I18N: This is a quadrant label, as in "the second quadrant" -->
-                    <var id="QII">$._("QII")</var>
+                    <var id="QII">i18n._("QII")</var>
                     <!-- I18N: This is a quadrant label, as in "the third quadrant" -->
-                    <var id="QIII">$._("QIII")</var>
+                    <var id="QIII">i18n._("QIII")</var>
                     <!-- I18N: This is a quadrant label, as in "the forth quadrant" -->
-                    <var id="QIV">$._("QIV")</var>
+                    <var id="QIV">i18n._("QIV")</var>
                     <var id="QUADRANT">X &gt; 0 ? (Y &gt; 0 ? QI : QIV) : (Y &gt; 0 ? QII : QIII)</var>
                 </div>
                 <p class="question">
@@ -73,7 +73,7 @@
                         <span class="validator-function">
                             if (guess[0] === 0 &amp;&amp; guess[1] === 0) {
                                 // TODO: Replace this string with "" when clues are added
-                                return $._("Drag the orange point on the graph to the right position.");
+                                return i18n._("Drag the orange point on the graph to the right position.");
                             }
                             return guess[0] === X &amp;&amp; guess[1] === Y;
                         </span>

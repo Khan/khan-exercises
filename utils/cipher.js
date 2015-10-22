@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable brace-style, comma-dangle, indent, max-len, no-redeclare, no-unused-vars, one-var */
+/* eslint-disable brace-style, comma-dangle, indent, max-len, no-redeclare, no-unused-vars, one-var, no-undef */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 define(function(require) {
@@ -9,11 +9,11 @@ $.extend(KhanUtil, {
     /* A set of cipher messages to diversify exercises */
     getCipherMessage: function(num) {
         return [
-            $._("i have learned all kinds of different things from using khan academy"),
-            $._("the world is filled with secrets and mysteries just waiting to be discovered"),
-            $._("when a message contains a single character by itself, it is most likely either the letter i or a"),
-            $._("words which have repeating letters like too and all can also give a hint to what the secret message is"),
-            $._("you have just cracked a caesar cipher and obtained the title of code breaker")
+            i18n._("i have learned all kinds of different things from using khan academy"),
+            i18n._("the world is filled with secrets and mysteries just waiting to be discovered"),
+            i18n._("when a message contains a single character by itself, it is most likely either the letter i or a"),
+            i18n._("words which have repeating letters like too and all can also give a hint to what the secret message is"),
+            i18n._("you have just cracked a caesar cipher and obtained the title of code breaker")
         ][num - 1];
     },
 
