@@ -94,9 +94,33 @@ var OfflineHintRecord = {
 
     /**
      * Creates an item to store in the set for a given problem.
+     *
+     * This function assumes that its arguments are valid (see _areArgsValid
+     * for the definition of "valid").
      */
-    _makeItem: function(exerciseName, problemNumber) {
-        return exerciseName + ":" + problemNumber;
+    _makeItem: function(userExercise, problemNumber) {
+        return (
+            userExercise.user + ":" +
+            userExercise.exerciseModel.name + ":" +
+            problemNumber);
+    },
+
+    /**
+     * Returns true if the parameters are valid.
+     *
+     * This is used to make sure we have all the data we need when checking the
+     * hint record, and when we store things in the hint record.
+     */
+    _areArgsValid: function(userExercise, problemNumber) {
+        return (
+            // If we have a unique way to identify the exercise
+            userExercise && userExercise.exerciseModel.name &&
+
+            // If the problem number is useable
+            _.isNumber(problemNumber) &&
+
+            // If we have a unique way to identify the user
+            userExercise && userExercise.user);
     },
 
     /**
@@ -107,7 +131,20 @@ var OfflineHintRecord = {
      * Note that if local storage is unavailable, this function will *always*
      * return false, even if there is a hint on screen right now.
      */
-    hasTakenHintFor: function(exerciseName, problemNumber) {
+    hasTakenHintFor: function(userExercise, problemNumber) {
+        if (!OfflineHintRecord._areArgsValid(userExercise, problemNumber)) {
+            // TODO(johnsullivan): Remove this by Nov 1. This was added to
+            //     collect stats on how often the cheating detection code
+            //     fires.
+            if (!_.isNumber(problemNumber)) {
+                $.post("/sendtolog",
+                       {message: "hasTakenHintFor: Problem number isn't " +
+                                 "numbery"});
+            }
+
+            return false;
+        }
+
         var raw = null;
         try {
             raw = localStorage.getItem(OfflineHintRecord.LS_KEY);
@@ -124,7 +161,7 @@ var OfflineHintRecord = {
             return false;
         }
 
-        return _.contains(list, OfflineHintRecord._makeItem(exerciseName,
+        return _.contains(list, OfflineHintRecord._makeItem(userExercise,
                                                             problemNumber));
     },
 
@@ -136,7 +173,20 @@ var OfflineHintRecord = {
      *
      * Note that if local storage is unavailable, this will fail silently.
      */
-    saveHintTakenFor: function(exerciseName, problemNumber) {
+    saveHintTakenFor: function(userExercise, problemNumber) {
+        if (!OfflineHintRecord._areArgsValid(userExercise, problemNumber)) {
+            // TODO(johnsullivan): Remove this by Nov 13. This was added to
+            //     collect stats on how often the cheating detection code
+            //     fires.
+            if (!_.isNumber(problemNumber)) {
+                $.post("/sendtolog",
+                       {message: "saveHintTakenFor: Problem number isn't " +
+                                 "numbery"});
+            }
+
+            return false;
+        }
+
         var raw = null;
         try {
             raw = localStorage.getItem(OfflineHintRecord.LS_KEY);
@@ -147,7 +197,7 @@ var OfflineHintRecord = {
             list = JSON.parse(raw) || [];
         }
 
-        list.push(OfflineHintRecord._makeItem(exerciseName, problemNumber));
+        list.push(OfflineHintRecord._makeItem(userExercise, problemNumber));
 
         // Make sure the list doesn't get too big and make sure all of its
         // items are unique (this is done as a cheap method of compression).
@@ -323,17 +373,20 @@ function newProblem(e, data) {
         }
     }
 
-    // This will be true if a user has taken a hint offline and the server
-    // doesn't know yet.
-    if (hintsUsed === 0 && numHints > 0 && data.userExercise &&
-            problemNum !== undefined &&
-            OfflineHintRecord.hasTakenHintFor(
-                data.userExercise.exerciseModel.name, problemNum)) {
-        // TODO(eli): Reactivate this by October 5! Students are seeing hints
-        // when they shouldn't, but the problem is crazy hard to repro. We're
-        // trying temporarily disabling this in order to track down the cause
-        // of the bug!
+    // Check whether the user has taken hints offline that we don't already
+    // know about (note that the call to hasTakenHintFor will validate its
+    // args and return false if there's no userExercise or the problemNum is
+    // non-numeric).
+    if (hintsUsed === 0 && numHints > 0 &&
+            OfflineHintRecord.hasTakenHintFor(data.userExercise, problemNum)) {
+        // TODO(johnsullivan): (Hopefully) reactivate this after removing the
+        //     AJAX call below.
         // onHintButtonClicked();
+
+        // TODO(johnsullivan): Remove this by Nov 1. This was added to collect
+        //     stats on how often the cheating detection code fires.
+        $.post("/sendtolog",
+               {message: "Offline cheating detected! Beep boop!"});
     }
 
     // Render related videos, unless we're on the final stage of mastery or in
@@ -654,11 +707,10 @@ function onHintButtonClicked() {
     }
 
     // Save the fact that the user has taken a hint for this problem in local
-    // storage to help with cheating.
-    if (userExercise && problemNum !== undefined) {
-        OfflineHintRecord.saveHintTakenFor(userExercise.exerciseModel.name,
-                                           problemNum);
-    }
+    // storage to help with cheating (note that the args are validated in the
+    // function and this will no-op if there's no userExercise or the problem
+    // num is non-numeric).
+    OfflineHintRecord.saveHintTakenFor(userExercise, problemNum);
 
     var framework = Exercises.getCurrentFramework();
     if (framework === "perseus") {
