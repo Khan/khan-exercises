@@ -1490,12 +1490,12 @@ class AmbiguousPluralFilter(BaseFilter):
 
 class StringInVarFilter(BaseFilter):
     """Detect instances of i18n._ inside of <var>s and report an error."""
-    # Matches i18n._(...) and (the obsolete) $._(...)
-    _regex = re.compile(r'(\$|i18n)\._\s*\((.*?)\)', re.DOTALL)
+    # Matches i18n._(...)
+    _regex = re.compile(r'(i18n)\._\s*\((.*?)\)', re.DOTALL)
 
     def find_fixable_vars(self, node):
         """Return the node if it has i18n._ in it"""
-        if 'i18n._' in node.text or '$._' in node.text:
+        if 'i18n._' in node.text:
             return [node]
         else:
             return []

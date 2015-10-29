@@ -52,6 +52,10 @@ cp -f "$srcdir"/moment-khansrc/moment.js "$destdir"
 # system doesn't like.  We also need to wrap this in an IIFE to avoid
 # leaking internal vars.
 ( echo "(function() {"
+  echo "// Perseus running in local mode depends on \$_, which is defined here"
+  echo "if (typeof React !== 'undefined') {"
+  echo "    var createFragment = React.__internalAddons.createFragment;"
+  echo "}\n"
   sed /module.exports/q "$webapp_root"/genfiles/compiled_es6/en/javascript/shared-package/i18n.js | grep -v -e '= require("' -e 'module.exports ='
   echo "})();"
 ) > "$destdir"/i18n.js

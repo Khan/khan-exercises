@@ -1,4 +1,9 @@
 (function() {
+// Perseus running in local mode depends on $_, which is defined here
+if (typeof React !== 'undefined') {
+    var createFragment = React.__internalAddons.createFragment;
+}
+
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
 /* eslint-disable camelcase, comma-dangle, max-len, no-undef, prefer-template */
 /* To fix, remove an entry above, run "make linc", and fix errors. */
@@ -366,11 +371,5 @@ window.i18n = {
     // into khan-exercises by kake/translate-exercises.py).
     ngetpos: ngetpos };
 
-
-// TODO(csilvers): remove this once everyone has moved from $._ to i18n._
-// Then, we can get rid of the i18n.js entry in third_party_js.py
-jQuery._ = _;
-jQuery.ngettext = ngettext;
-jQuery.i18nDoNotTranslate = i18nDoNotTranslate;
 
 })();
