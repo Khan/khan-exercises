@@ -4,14 +4,6 @@ if (typeof React !== 'undefined') {
     var createFragment = React.__internalAddons.createFragment;
 }
 
-/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable camelcase, comma-dangle, max-len, no-undef, prefer-template */
-/* To fix, remove an entry above, run "make linc", and fix errors. */
-
-
-// If no language is specified, or if an unknown language is specified,
-// then fall back to using "en" as the base language
-var defaultLang = "en";
 
 // The plural language strings for all the languages we have
 // listed in crowdin.  The values here need to match what crowdin
@@ -21,57 +13,72 @@ var defaultLang = "en";
 // and looking a the .po files in all.zip.  Each .po file has a
 // header line that say something like:
 //    "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-// which I copied in here verbatim, except I replaced occurrences
-// of "or" with "||".
-var plural_forms = { 
-    "af": "nplurals=2; plural=(n != 1)", 
-    "ar": "nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5", 
-    "az": "nplurals=2; plural=(n != 1)", 
-    "bg": "nplurals=2; plural=(n != 1)", 
-    "ca": "nplurals=2; plural=(n != 1)", 
-    "cs": "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", 
-    "da": "nplurals=2; plural=(n != 1)", 
-    "de": "nplurals=2; plural=(n != 1)", 
-    "el": "nplurals=2; plural=(n != 1)", 
-    "en": "nplurals=2; plural=(n != 1)", 
-    "es-ES": "nplurals=2; plural=(n != 1)", 
-    "fi": "nplurals=2; plural=(n != 1)", 
-    "fr": "nplurals=2; plural=(n > 1)", 
-    "he": "nplurals=2; plural=(n != 1)", 
-    "hi": "nplurals=2; plural=(n!=1)", 
-    "hu": "nplurals=2; plural=(n != 1)", 
-    "it": "nplurals=2; plural=(n != 1)", 
-    "ja": "nplurals=1; plural=0", 
-    "ko": "nplurals=1; plural=0", 
-    "nl": "nplurals=2; plural=(n != 1)", 
-    "no": "nplurals=2; plural=(n != 1)", 
-    "pl": "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)", 
-    "pt-BR": "nplurals=2; plural=(n != 1)", 
-    "pt-PT": "nplurals=2; plural=(n != 1)", 
-    "ro": "nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2)", 
-    "ru": "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2", 
-    "si-LK": "nplurals=2; plural=(n != 1)", 
-    "sk": "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", 
-    "sr": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)", 
-    "sv-SE": "nplurals=2; plural=(n != 1) ", 
-    "tr": "nplurals=1; plural=0", 
-    "uk": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)", 
-    "ur-PK": "nplurals=2; plural=(n != 1)", 
-    "vi": "nplurals=1; plural=0", 
-    "xh": "nplurals=2; plural=(n != 1)", 
-    "zh-CN": "nplurals=1; plural=0", 
-    "zh-TW": "nplurals=1; plural=0" };
+// which I copied in here with the following changes:
+//    1) I only take the 'plural=' section, which I wrapped in a function
+//    2) Changed 'or' to '||'
+// These functions return either true or false or a number.  We map
+// true to 1 and false to 0 below, to always get a number out of this.
 
+/* eslint-disable space-infix-ops, eqeqeq, max-len */
+var likeEnglish = function (n) {return n != 1;};
 
-var getPluralForm = function (lang) {
-    return plural_forms[lang] || plural_forms[defaultLang];};
+// TODO(csilvers): auto-generate this list from the foo.po files (in dropbox)
+var allPluralForms = { 
+    "accents": likeEnglish, // a 'fake' langauge
+    "af": likeEnglish, 
+    "ar": function (n) {return n == 0 ? 0 : n == 1 ? 1 : n == 2 ? 2 : n % 100 >= 3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;}, 
+    "az": likeEnglish, 
+    "bg": likeEnglish, 
+    "bn": likeEnglish, 
+    "boxes": likeEnglish, // a 'fake' langauge
+    "ca": likeEnglish, 
+    "cs": function (n) {return n == 1 ? 0 : n >= 2 && n <= 4 ? 1 : 2;}, 
+    "da": likeEnglish, 
+    "de": likeEnglish, 
+    "el": likeEnglish, 
+    "empty": likeEnglish, // a 'fake' langauge
+    "en": likeEnglish, 
+    "en-pt": likeEnglish, // a 'fake' language, used by crowdin for JIPT
+    "es": likeEnglish, 
+    "fa": function (n) {return 0;}, 
+    "fa-af": function (n) {return 0;}, 
+    "fi": likeEnglish, 
+    "fr": function (n) {return n > 1;}, 
+    "he": likeEnglish, 
+    "hi": likeEnglish, 
+    "hu": likeEnglish, 
+    "hy": likeEnglish, 
+    "id": function (n) {return 0;}, 
+    "it": likeEnglish, 
+    "ja": function (n) {return 0;}, 
+    "ko": function (n) {return 0;}, 
+    "lol": likeEnglish, // a 'fake' langauge
+    "mn": likeEnglish, 
+    "ms": function (n) {return 0;}, 
+    "nb": likeEnglish, 
+    "nl": likeEnglish, 
+    "pl": function (n) {return n == 1 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2;}, 
+    "pt": likeEnglish, 
+    "pt-pt": likeEnglish, 
+    "ro": function (n) {return n == 1 ? 0 : n == 0 || n % 100 > 0 && n % 100 < 20 ? 1 : 2;}, 
+    "ru": function (n) {return n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2;}, 
+    "si-LK": likeEnglish, 
+    "sk": function (n) {return n == 1 ? 0 : n >= 2 && n <= 4 ? 1 : 2;}, 
+    "sr": function (n) {return n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2;}, 
+    "sv-SE": likeEnglish, 
+    "sw": likeEnglish, 
+    "te": likeEnglish, 
+    "th": function (n) {return 0;}, 
+    "tr": function (n) {return 0;}, 
+    "uk": function (n) {return n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2;}, 
+    "ur": likeEnglish, 
+    "vi": function (n) {return 0;}, 
+    "xh": likeEnglish, 
+    "zh-hans": function (n) {return 0;}, 
+    "zh-hant": function (n) {return 0;}, 
+    "zu": likeEnglish };
 
-
-// Create a global Jed instance named 'i18n'
-var i18n = new Jed({});
-
-// We will set the locale-data lazily, as we need it
-i18n.options.locale_data = {};
+/* eslint-enable */
 
 var interpolationMarker = /%\(([\w_]+)\)s/g;
 /**
@@ -176,7 +183,7 @@ var _ = function (str, options) {
     * other things added to props, such as this.props.ref and
     * this.props.children
     */
-window.$_ = function (options, str) {
+var $_ = function (options, str) {
     if (arguments.length !== 2 || typeof str !== "string") {
         return "<$_> must have exactly one child, which must be a string";}
 
@@ -194,7 +201,7 @@ window.$_ = function (options, str) {
     * which react/jsx compiles to:
     *    $i18nDoNotTranslate(null, "English only text.")
     */
-window.$i18nDoNotTranslate = function (options, str) {
+var $i18nDoNotTranslate = function (options, str) {
     return str;};
 
 
@@ -213,49 +220,38 @@ window.$i18nDoNotTranslate = function (options, str) {
     *   }, 3, {username: "John"});
     */
 var ngettext = function (singular, plural, num, options) {
-    var message_info = singular;
-
     // Fall back to the default lang
-    var lang = message_info.lang || defaultLang;
-
-    // Make sure we have locale_data set for our language
-    if (!i18n.options.locale_data[lang]) {
-        i18n.options.locale_data[lang] = { 
-            "": { 
-                domain: lang, 
-                // Set the language
-                lang: lang, 
-                // Initialize the plural forms to be used with
-                // any pluralization that occurs
-                plural_forms: getPluralForm(lang) } };}
-
-
-
+    var lang;
+    var messages;
 
     // If the first argument is an object then we're receiving a plural
     // configuration object
-    if (typeof message_info === "object") {
+    if (typeof singular === "object") {
+        lang = singular.lang;
+        messages = singular.messages;
         // We only have a messages object no plural string
         // thus we need to shift all the arguments over by one.
         options = num;
-        num = plural;
-
-        // Get the actual singular form of the string for lookups
-        // We just ignore the plural form as it's generated automatically.
-        singular = message_info.messages[0];
-
-        // Add the messages into the Jed.js i18n object.
-        // By default the first item in the array is ignored
-        i18n.options.locale_data[lang][singular] = 
-        [null].concat(message_info.messages);}
+        num = plural;} else 
+    {
+        lang = "en"; // We're using text written into the source code
+        messages = [singular, plural];}
 
 
-    // Get the options to substitute into the string
+    // Get the translated string
+    var idx = ngetpos(num, lang);
+    var translation = "";
+    if (idx < messages.length) {// the common (non-error) case
+        translation = messages[idx];}
+
+
+    // Get the options to substitute into the string.
+    // We automatically add in the 'magic' option-variable 'num'.
     options = options || {};
     options.num = options.num || num;
 
     // Then pass into i18n._ for the actual substitution
-    return _(i18n.dngettext(lang, singular, plural, num), options);};
+    return _(translation, options);};
 
 
 /*
@@ -266,12 +262,10 @@ var ngettext = function (singular, plural, num, options) {
     *  - lang: The language to use as the basis for the pluralization.
     */
 var ngetpos = function (num, lang) {
-    lang = lang || "en";
-
-    // Generate a function which will give the position of the message
-    // which matches the correct plural form of the string
-    // TODO(csilvers): maybe roll this ourselves to save some bytes?
-    return Jed.PF.compile(getPluralForm(lang))(num);};
+    var pluralForm = allPluralForms[lang] || allPluralForms["en"];
+    var pos = pluralForm(num);
+    // Map true to 1 and false to 0, keep any numeric return value the same.
+    return pos === true ? 1 : pos ? pos : 0;};
 
 
 /*
@@ -291,7 +285,7 @@ var i18nDoNotTranslate = _;
     * This is just used for marking up those fragments that need translation.
     * The translated text is injected at deploy-time.
     */
-var handlebars_underscore = function (options) {
+var handlebarsUnderscore = function (options) {
     return options.fn(this);};
 
 
@@ -304,7 +298,7 @@ var handlebars_underscore = function (options) {
     * It does not need to actually do anything and hence returns the contents
     * as is.
     */
-var handlebars_do_not_translate = function (options) {
+var handlebarsDoNotTranslate = function (options) {
     return options.fn(this);};
 
 
@@ -325,7 +319,7 @@ var handlebars_do_not_translate = function (options) {
     *  - lang: The language to use as the basis for the pluralization.
     *  - pos: The expected plural form (depends upon the language)
     */
-var handlebars_ngettext = function (num, lang, pos, options) {
+var handlebarsNgettext = function (num, lang, pos, options) {
     // This method has two signatures:
     // (num) (the default for when the code is run in dev mode)
     // (num, lang, pos) (for when the code is run in prod mode)
@@ -371,5 +365,9 @@ window.i18n = {
     // into khan-exercises by kake/translate-exercises.py).
     ngetpos: ngetpos };
 
+
+// TODO(csilvers): is it still necessary to make these globals?
+window.$_ = $_;
+window.$i18nDoNotTranslate = $i18nDoNotTranslate;
 
 })();

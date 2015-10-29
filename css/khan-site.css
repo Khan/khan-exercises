@@ -8663,10 +8663,10 @@ legend + .control-group {
   position: static;
   color: #ffffff;
   background: #639b24;
-  height: 300px;
+  height: 200px;
 }
 .notification-bar.donate-notification .small-notification-text {
-  font-size: 22px;
+  font-size: 15px;
 }
 .notification-bar.donate-notification .donate-notification-table {
   display: table;
@@ -8687,7 +8687,7 @@ legend + .control-group {
   width: 38%;
 }
 .notification-bar.donate-notification .donate-notification-left .donate-notification-mission-text {
-  font-size: 1.7rem;
+  font-size: 1.3rem;
 }
 .notification-bar.donate-notification .donate-notification-right {
   display: table-cell;
@@ -8704,7 +8704,7 @@ legend + .control-group {
   margin-right: 3px;
 }
 .notification-bar.donate-notification .donate-notification-text {
-  font-size: 22px;
+  font-size: 15px;
 }
 .notification-bar.donate-notification .donate-notification-buttons {
   margin-top: 5px;

@@ -34,7 +34,6 @@ srcdir="$webapp_root/third_party/javascript-khansrc"
 destdir="$exercises_root/local-only"
 
 # Copy stuff from the webapp repo into local-only.
-cp -f "$srcdir"/jed/jed.js "$destdir"
 cp -f "$srcdir"/jquery-migrate/jquery-migrate-1.1.1.js "$destdir"
 cp -f "$srcdir"/jquery/jquery.js "$destdir"
 cp -f "$srcdir"/qTip2/jquery.qtip.js "$destdir"

@@ -8,7 +8,6 @@ requirejs([
     "jquery",
     "../local-only/katex/katex.js",
     "../local-only/underscore.js",
-    "../local-only/jed.js",
     "../local-only/localeplanet/icu." + getLang() + ".js",
     "../local-only/moment.js"
 ], function($, katex) {
