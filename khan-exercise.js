@@ -583,7 +583,25 @@ var Khan = {
         });
 
         $("input[name=issue-type]").on("click", function() {
-            if ($(this).prop("id") === "issue-hints-wrong") {
+            if ($(this).prop("id") === "issue-wrong-answer") {
+                $("#issue-body").prop("placeholder", i18n._("Tell us what " +
+                        "the correct answer should be, and how you got " +
+                        "that answer."));
+            } else if ($(this).prop("id") === "issue-typo") {
+                $("#issue-body").prop("placeholder", i18n._("Tell us what " +
+                        "the incorrect text says and what it should say " +
+                        "instead."));
+            } else if ($(this).prop("id") === "issue-confusing") {
+                $("#issue-body").prop("placeholder", i18n._("Tell us exactly " +
+                        "what you found confusing. How would you reword " +
+                        "the question or hints to be less confusing?"));
+            } else if ($(this).prop("id") === "issue-bug") {
+                $("#issue-body").prop("placeholder", i18n._("Tell us exactly " +
+                        "what happened and what you had expected to happen " +
+                        "instead."));
+                // TODO(csilvers): the following two are obsolete and
+                // can be removed.
+            } else if ($(this).prop("id") === "issue-hints-wrong") {
                 $("#issue-body").prop("placeholder", i18n._("Tell us exactly " +
                         "what's wrong with the hints. What answer did " +
                         "you get and how did you get it?"));
@@ -591,10 +609,6 @@ var Khan = {
                 $("#issue-body").prop("placeholder", i18n._("Tell us exactly " +
                         "how you tried to input the answer from the " +
                         "hints. Did a different answer work instead?"));
-            } else if ($(this).prop("id") === "issue-confusing") {
-                $("#issue-body").prop("placeholder", i18n._("Tell us exactly " +
-                        "what you found confusing. How would you reword " +
-                        "the question or hints to be less confusing?"));
             } else {
                 $("#issue-body").prop("placeholder", "");
             }
@@ -688,10 +702,14 @@ var Khan = {
             }
 
             issueInfo.type = {
+                "issue-wrong-answer": "Wrong answer",
+                "issue-typo": "Typo",
+                "issue-confusing": "Question or hints confusing",
+                "issue-bug": "Bug",
+                "issue-i18n": "Not translated",
+                // TODO(csilvers): these are obsolete and can be removed.
                 "issue-hints-wrong": "Answer in hints is wrong",
                 "issue-answer-wrong": "Answer in hints not accepted",
-                "issue-confusing": "Question or hints confusing",
-                "issue-i18n": "Not translated"
             }[type];
 
 
