@@ -839,6 +839,32 @@
         start();
     });
 
+    asyncTest("multiple with a single custom item", 9, function() {
+        setupSolutionArea();
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<div class='solution' data-type='multiple'>" +
+                "<div class='instruction'>" +
+                    "<input type='text' id='custom-input'>" +
+                "</div>" +
+                "<div class='sol' data-type='custom'>" +
+                    "<div class='guess'>[$('#custom-input').val()]</div>" +
+                    "<div class='validator-function'>" +
+                        "return guess[0] == 'empty' ? '' : guess[0] == 5;" +
+                    "</div>" +
+                "</div>" +
+            "</div>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["5"], "right", "right answer is right");
+        testMultipleAnswer(answerData, ["empty"], "empty", "empty answer is empty");
+        testMultipleAnswer(answerData, ["1"], "wrong", "wrong answer is wrong");
+
+        start();
+    });
+
     asyncTest("set with no things", 15, function() {
         setupSolutionArea();
         var $problem = jQuery("#qunit-fixture .problem").append(

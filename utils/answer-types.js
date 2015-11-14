@@ -1216,11 +1216,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         // otherwise correct or not before forwarding on the
                         // message.
                         blockGradingMessage = pass.message;
+                        score.empty = false;
                     } else {
                         score.empty = score.empty && pass.empty;
                         score.correct = score.correct && pass.correct;
                         // TODO(eater): This just forwards one message
-                        score.message = score.message || pass.message;
+                        if (pass.message) {
+                            score.message = pass.message;
+                        }
                     }
                 });
 
@@ -1232,7 +1235,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         guess: guess
                     };
                 } else {
-                    score.empty = false;
                     return score;
                 }
             };
