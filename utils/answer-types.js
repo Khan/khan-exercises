@@ -1221,7 +1221,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         score.empty = score.empty && pass.empty;
                         score.correct = score.correct && pass.correct;
                         // TODO(eater): This just forwards one message
-                        if (pass.message) {
+                        if (!score.message && pass.message) {
                             score.message = pass.message;
                         }
                     }
