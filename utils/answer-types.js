@@ -1221,9 +1221,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         score.empty = score.empty && pass.empty;
                         score.correct = score.correct && pass.correct;
                         // TODO(eater): This just forwards one message
-                        if (!score.message && pass.message) {
-                            score.message = pass.message;
-                        }
+                        score.message = score.message || pass.message;
                     }
                 });
 
@@ -1879,7 +1877,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return {
                         empty: pass === "",
                         correct: pass === true,
-                        message: typeof pass === "string" ? pass : null,
+                        message: typeof pass === "string" && pass !== "" ? pass : null,
                         guess: guess
                     };
                 }
