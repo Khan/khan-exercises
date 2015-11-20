@@ -821,13 +821,11 @@ var Khan = {
             };
 
             var onFailure = function() {
-                // show status message
-                $("#issue-status").addClass("error")
-                    .html(i18n._("Communication with issue tracker isn't " +
-                        "working. Please file the issue manually at " +
-                        "<a href='http://github.com/Khan/khan-exercises/issues/new'>GitHub</a>. " +
-                        "Please reference item: <b>%(item)s</b>.",
-                        {item: issueInfo.exercise + "/" + issueInfo.item}))
+                // Sometimes communication to JIRA will fail and there's not
+                // much we can do. Instead, just thank the user for taking the
+                // time to give feedback.
+                // TODO(eater): Figure out why JIRA occasionally fails
+                $("#issue-status").html(i18n._("Thank you for your feedback!"))
                     .show();
 
                 // enable the inputs
