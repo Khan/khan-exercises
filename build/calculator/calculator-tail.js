@@ -16,8 +16,32 @@ window.Calculator = (function(parser) {
     };
 
     var userID = window.KA && window.KA.getUserID();
-    var settings = window.localStorage == null ? {} : $.parseJSON(
-            window.localStorage["calculator_settings:" + userID] || "{}");
+    var settings = {};
+    if (window.localStorage != null) {
+        try {
+            settings = $.parseJSON(
+                window.localStorage["calculator_settings:" + userID]);
+        } catch (e) {
+            // Some IE11 users can get into a situation where
+            // window.localStorage exists (the "Enable DOM Storage" GPO is
+            // set), but where it is not actually usable (likely because
+            // %APPDATA%\..\LocalLow has bad integrity settings). In this
+            // situation, the above attempt to access window.localStorage will
+            // succeed--i.e., it won't be == null--but attempting to access it
+            // will throw an error. Instead, we catch here and move on with
+            // our lives.
+            //
+            // To repro this/verify that any changes you do don't make this
+            // problem worse, grab a Windows box, make an account, and then,
+            // from an elevated ("Administrator") command prompt, run
+            //
+            //    icacls %APPDATA%\..\LocalLow /t /setintegritylevel (OI)(CI)H
+            //
+            // To undo the damage when you're done testing, run
+            //
+            //    icacls %APPDATA%\..\LocalLow /t /setintegritylevel (OI)(CI)L
+        }
+    }
     if (settings.angleMode == null) {
         settings.angleMode = "DEG";
     }
