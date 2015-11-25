@@ -191,9 +191,9 @@
                     <var id="A, B, C">randFromArray([[3, 4, 5], [6, 8, 10], [9, 12, 15], [5, 12, 13]])</var>
                     <var id="A2">A * A</var>
                     <var id="B2">B * B</var>
-                    <var id="MAX_Y">18 - C</var>
-                    <var id="H">randRange(-5, 5)</var>
-                    <var id="K">randRange(-MAX_Y, MAX_Y)</var>
+                    <var id="MAX_X">18 - C</var>
+                    <var id="H">randRange(-MAX_X, MAX_X)</var>
+                    <var id="K">randRange(-5, 5)</var>
                 </div>
 
                 <div class="question">
@@ -258,12 +258,12 @@
                         $("#problemarea span.focus2-y-label").html("&lt;code&gt;" + coordY + "&lt;/code&gt;").tex();
                     };
 
-                    graph.func1 = addInteractiveFn(function(x) {
-                        return K + sqrt(A2 / B2 * (x - H) * (x - H) + A2);
+                    graph.func1 = addInteractiveFn(function(y) {
+                        return H + sqrt(A2 / B2 * (y - K) * (y - K) + A2);
                     }, { swapAxes: true });
 
-                    graph.func2 = addInteractiveFn(function(x) {
-                        return K - sqrt(A2 / B2 * (x - H) * (x - H) + A2);
+                    graph.func2 = addInteractiveFn(function(y) {
+                        return H - sqrt(A2 / B2 * (y - K) * (y - K) + A2);
                     }, { swapAxes: true });
 
                     doHyperbolaInteraction(graph.func1, graph.focus1, graph.focus2);
@@ -290,9 +290,9 @@
                                 return "";
                             }
 
-                            return guess[0][1] === H &amp;&amp; guess[1][1] === H &amp;&amp;
-                                (guess[0][0] === K - C &amp;&amp; guess[1][0] === K + C) ||
-                                (guess[0][0] === K + C &amp;&amp; guess[1][0] === K - C)
+                            return guess[0][1] === K &amp;&amp; guess[1][1] === K &amp;&amp;
+                                (guess[0][0] === H - C &amp;&amp; guess[1][0] === H + C) ||
+                                (guess[0][0] === H + C &amp;&amp; guess[1][0] === H - C)
                         </div>
                         <div class="show-guess">
                             graph.focus1.setCoord(guess[0]);
@@ -305,11 +305,11 @@
                         <table class="intuition-equation">
                             <tr>
                                 <td><code>x_1 = </code></td>
-                                <td><span class="sol short40" data-fallback="0"><var>K</var></span></td>
+                                <td><span class="sol short40" data-fallback="0"><var>H</var></span></td>
                             </tr>
                             <tr>
                                 <td><code>y_1 = </code></td>
-                                <td><span class="sol short40" data-fallback="0"><var>H</var></span></td>
+                                <td><span class="sol short40" data-fallback="0"><var>K</var></span></td>
                             </tr>
                             <tr>
                                 <td><code>a = </code></td>
@@ -329,15 +329,15 @@
                         There is only one way to arrange the two foci such that this is true.
                         <button onclick="javascript:
                             graph = KhanUtil.currentGraph.graph;
-                            graph.focus1.moveTo(graph.K + graph.C, graph.H);
-                            graph.focus2.moveTo(graph.K - graph.C, graph.H);
+                            graph.focus1.moveTo(graph.H + graph.C, graph.K);
+                            graph.focus2.moveTo(graph.H - graph.C, graph.K);
                         ">Show me</button>
                     </p>
-                    <p>One focus is <code>(<var>K - C</var>, <var>H</var>)</code> and the other is <code>(<var>K + C</var>, <var>H</var>)</code>.</p>
+                    <p>One focus is <code>(<var>H - C</var>, <var>K</var>)</code> and the other is <code>(<var>H + C</var>, <var>K</var>)</code>.</p>
                     <p><code>x_1</code> and <code>y_1</code> are the coordinates of the center of the hyperbola.</p>
                     <div>
                         <p>The center of a hyperbola is at the midpoint of its two foci.</p>
-                        <p><code>\left(\dfrac{<var>K - C</var> + <var>K + C</var>}{2}, \dfrac{<var>H</var> + <var>H</var>}{2}\right) = (<var>K</var>, <var>H</var>)</code></p>
+                        <p><code>\left(\dfrac{<var>H - C</var> + <var>H + C</var>}{2}, \dfrac{<var>K</var> + <var>K</var>}{2}\right) = (<var>H</var>, <var>K</var>)</code></p>
                     </div>
                     <p>The absolute value of the distance from one focus minus the distance to the other focus is equal to <code>2a</code></p>
                     <div>
@@ -359,7 +359,7 @@
                     </div>
                     <p>
                         So the equation of the hyperbola is
-                        <code>\dfrac{(x - <var>K</var>)^2}{<var>A</var>^2} - \dfrac{(y - <var>H</var>)^2}{<var>B</var>^2} = 1</code>.
+                        <code>\dfrac{(x - <var>H</var>)^2}{<var>A</var>^2} - \dfrac{(y - <var>K</var>)^2}{<var>B</var>^2} = 1</code>.
                     </p>
                 </div>
             </div>
