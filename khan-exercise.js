@@ -140,9 +140,11 @@ var primes = [197, 3, 193, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
     exerciseFilePromises = {},
 
     // A promise for each loaded or loading module, keyed by module filename
-    // (module.src) -- will be resolved when the module is loaded (on the live
-    // site, immediately)
+    // (module.src), as well as a single promise for the loading of the base
+    // modules that are common to every exercise. These will be resolved when
+    // the module is loaded (on the live site, immediately)
     modulePromises = {},
+    baseModulesPromise = null;
     initialModulesPromise = $.Deferred(),
 
     urlBase = localMode ?  "../" :
@@ -255,16 +257,44 @@ var Khan = {
     },
 
     // TODO(alpert): This doesn't need to be in the Khan object.
+    // TODO(charlie): It'd be nice to get rid of this now that we have the
+    // `loadBaseModules` method, but these are also needed elsewhere (e.g.,
+    // in the `runModules` method), so we'll always have some duplication.
     getBaseModules: function() {
-        var mods = [];
         // Base modules required for every problem.  These are specified
         // as filenames (minus the .js extension) relative to util/.
         // subhints is here to support the intervention experiment.
-        mods.push(
-            "answer-types", "tmpl", "tex", "jquery.adhesion",
-            "scratchpad", "subhints");
+        // Note: if you update these, you should also update the loading
+        // of the base modules in `loadBaseModules`.
+        return [
+            "answer-types", "tmpl", "tex", "jquery.adhesion", "scratchpad",
+            "subhints"
+        ];
+    },
 
-        return mods;
+    loadBaseModules: function() {
+        if (baseModulesPromise) {
+            return baseModulesPromise;
+        } else {
+            baseModulesPromise = $.Deferred();
+        }
+        debugLog("loadBaseModules");
+
+        // Load the base modules. These should be in sync with the results of
+        // `getBaseModules`, but are required here explicitly as strings so
+        // that they can be detected by JavaScript bundlers.
+        require([
+            "./utils/answer-types.js",
+            "./utils/tmpl.js",
+            "./utils/tex.js",
+            "./utils/jquery.adhesion.js",
+            "./utils/scratchpad.js",
+            "./utils/subhints.js",
+        ], function() {
+            baseModulesPromise.resolve();
+        });
+
+        return baseModulesPromise;
     },
 
     resetModules: function(exerciseId) {
@@ -660,7 +690,7 @@ var Khan = {
             // Kick off the cycle by showing the first hint.
             showHintIfAvailable();
         });
-                
+
         $(Exercises).bind("newProblem", function() {
             $("#issue-show-answer").removeClass("disabled");
         });
@@ -864,19 +894,17 @@ function onjQueryLoaded() {
 
         // Load all base modules, and if this is local mode, any specified
         // in the data-require on <html>
-        var mods = Khan.getBaseModules();
+        promises.push(Khan.loadBaseModules());
         if (localMode) {
             var modString = document.documentElement.getAttribute(
                     "data-require") || "";
             var exMods = modString.length ? modString.split(" ") : [];
 
             Khan.exerciseModulesMap[currentExerciseId] = exMods;
-            mods.push.apply(mods, exMods);
+            $.each(exMods, function(i, mod) {
+                promises.push(loadModule(mod));
+            });
         }
-
-        $.each(mods, function(i, mod) {
-            promises.push(loadModule(mod));
-        });
 
         promises.push(Khan.mathJaxLoaded);
 
@@ -2047,10 +2075,11 @@ function loadExercise(exerciseId, fileName) {
             requires = [];
         }
 
-        $.each(requires.concat(Khan.getBaseModules()), function(i, mod) {
+        $.each(requires, function(i, mod) {
             debugLog("loadExercise submod " + (mod.src || mod));
             subpromises.push(loadModule(mod));
         });
+        subpromises.push(Khan.loadBaseModules());
 
         // Store the module requirements in exerciseModulesMap
         Khan.exerciseModulesMap[exerciseId] = requires;
