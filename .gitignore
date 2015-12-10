@@ -1,5 +1,20 @@
-*.pyc
-.bundle
-node_modules
-exercises-packed
-exercises-packed.zip
+# Netbeans
+/nbproject/private/
+/dist/
+/build/
+manifest.mf
+
+# Eclipse
+.project
+.classpath
+/bin/
+/.settings/
+
+# OS generated files
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
