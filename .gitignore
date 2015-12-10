@@ -18,3 +18,8 @@ manifest.mf
 ehthumbs.db
 Thumbs.db
 
+*.pyc
+.bundle
+node_modules
+exercises-packed
+exercises-packed.zip
