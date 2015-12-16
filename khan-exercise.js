@@ -227,16 +227,21 @@ var Khan = {
         "constructions": ["kmatrix"]
     },
 
-    warnTimeout: function() {
-        $(Exercises).trigger("warning", [i18n._("Your internet might be too " +
-                "slow to see an exercise. Refresh the page or " +
+    warn: function(msg) {
+        $(Exercises).trigger("warning", [msg + i18n._(" Refresh the page or " +
                 "<a href='' id='warn-report'>report a problem</a>."),
                 false]);
         // TODO(alpert): This event binding is kind of gross
         $("#warn-report").click(function(e) {
             e.preventDefault();
-            $("#report").click();
+            $(".report-issue-link").click();
         });
+
+    },
+
+    warnMathJaxError: function(file) {
+        Khan.warn(i18n._("Sorry!  There seems to be an issue with our math " +
+                    "renderer loading the file: %(file)s.", {file: file}));
     },
 
     warnFont: function() {
@@ -2116,7 +2121,15 @@ function loadExercise(exerciseId, fileName) {
         });
     }).fail(function(xhr, status) {
         debugLog("loadExercise err " + xhr.status + " " + fileName);
-        Khan.warnTimeout();
+        if (status === "timeout") {
+            Khan.warn(i18n._("Your internet might be too slow to see an " +
+                             "exercise."));
+        } else if (xhr.status === 404) {
+            Khan.warn(i18n._("Oops!  We can't seem to find this exercise."));
+        } else {
+            Khan.warn(i18n._("Oops!  There was a problem loading this " +
+                             "exercise."));
+        }
     });
 
     return promise;

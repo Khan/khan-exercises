@@ -119,7 +119,7 @@ MathJax.Ajax.timeout = 60 * 1000;
 MathJax.Ajax.loadError = (function( oldLoadError ) {
     return function( file ) {
         if (window.Khan) {
-          Khan.warnTimeout();
+          Khan.warnMathJaxError(file);
         }
         // Otherwise will receive unresponsive script error when finally finish loading
         MathJax.Ajax.loadComplete = function( file ) { };
