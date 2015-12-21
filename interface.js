@@ -133,15 +133,6 @@ var OfflineHintRecord = {
      */
     hasTakenHintFor: function(userExercise, problemNumber) {
         if (!OfflineHintRecord._areArgsValid(userExercise, problemNumber)) {
-            // TODO(johnsullivan): Remove this by Nov 1. This was added to
-            //     collect stats on how often the cheating detection code
-            //     fires.
-            if (!_.isNumber(problemNumber)) {
-                $.post("/sendtolog",
-                       {message: "hasTakenHintFor: Problem number isn't " +
-                                 "numbery"});
-            }
-
             return false;
         }
 
@@ -175,15 +166,6 @@ var OfflineHintRecord = {
      */
     saveHintTakenFor: function(userExercise, problemNumber) {
         if (!OfflineHintRecord._areArgsValid(userExercise, problemNumber)) {
-            // TODO(johnsullivan): Remove this by Nov 13. This was added to
-            //     collect stats on how often the cheating detection code
-            //     fires.
-            if (!_.isNumber(problemNumber)) {
-                $.post("/sendtolog",
-                       {message: "saveHintTakenFor: Problem number isn't " +
-                                 "numbery"});
-            }
-
             return false;
         }
 
@@ -379,14 +361,7 @@ function newProblem(e, data) {
     // non-numeric).
     if (hintsUsed === 0 && numHints > 0 &&
             OfflineHintRecord.hasTakenHintFor(data.userExercise, problemNum)) {
-        // TODO(johnsullivan): (Hopefully) reactivate this after removing the
-        //     AJAX call below.
-        // onHintButtonClicked();
-
-        // TODO(johnsullivan): Remove this by Nov 1. This was added to collect
-        //     stats on how often the cheating detection code fires.
-        $.post("/sendtolog",
-               {message: "Offline cheating detected! Beep boop!"});
+        onHintButtonClicked();
     }
 
     // Render related videos, unless we're on the final stage of mastery or in
