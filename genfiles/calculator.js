@@ -77,7 +77,8 @@ yy: {},
 symbols_: {"error":2,"expressions":3,"e":4,"EOF":5,"+":6,"-":7,"*":8,"/":9,"^":10,"!":11,"FN":12,"(":13,")":14,"E":15,"PI":16,"ANS":17,"NUM":18,"$accept":0,"$end":1},
 terminals_: {2:"error",5:"EOF",6:"+",7:"-",8:"*",9:"/",10:"^",11:"!",12:"FN",13:"(",14:")",15:"E",16:"PI",17:"ANS",18:"NUM"},
 productions_: [0,[3,2],[4,3],[4,3],[4,3],[4,3],[4,3],[4,2],[4,2],[4,4],[4,3],[4,1],[4,1],[4,1],[4,1]],
-performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
+performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */
+/**/) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
@@ -575,7 +576,8 @@ stateStackSize:function stateStackSize() {
         return this.conditionStack.length;
     },
 options: {},
-performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
+performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START
+/**/) {
 
 var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
@@ -624,7 +626,11 @@ function Parser () {
 }
 Parser.prototype = parser;parser.Parser = Parser;
 return new Parser;
-})();window.Calculator = (function(parser) {
+})();/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable brace-style, comma-dangle, eqeqeq, max-len, no-undef, no-unused-vars, prefer-template */
+/* To fix, remove an entry above, run ka-lint, and fix errors. */
+
+window.Calculator = (function(parser) {
     // I18N: calculator error message
     var ERROR_TEXT = i18n._("Error");
     var CalculatorError = function(message) {
@@ -638,8 +644,32 @@ return new Parser;
     };
 
     var userID = window.KA && window.KA.getUserID();
-    var settings = window.localStorage == null ? {} : $.parseJSON(
-            window.localStorage["calculator_settings:" + userID] || "{}");
+    var settings = {};
+    if (window.localStorage != null) {
+        try {
+            settings = $.parseJSON(
+                window.localStorage["calculator_settings:" + userID] || "{}");
+        } catch (e) {
+            // Some IE11 users can get into a situation where
+            // window.localStorage exists (the "Enable DOM Storage" GPO is
+            // set), but where it is not actually usable (likely because
+            // %APPDATA%\..\LocalLow has bad integrity settings). In this
+            // situation, the above attempt to access window.localStorage will
+            // succeed--i.e., it won't be == null--but attempting to access it
+            // will throw an error. Instead, we catch here and move on with
+            // our lives.
+            //
+            // To repro this/verify that any changes you do don't make this
+            // problem worse, grab a Windows box, make an account, and then,
+            // from an elevated ("Administrator") command prompt, run
+            //
+            //    icacls %APPDATA%\..\LocalLow /t /setintegritylevel (OI)(CI)H
+            //
+            // To undo the damage when you're done testing, run
+            //
+            //    icacls %APPDATA%\..\LocalLow /t /setintegritylevel (OI)(CI)L
+        }
+    }
     if (settings.angleMode == null) {
         settings.angleMode = "DEG";
     }

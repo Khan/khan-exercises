@@ -20,7 +20,7 @@ window.Calculator = (function(parser) {
     if (window.localStorage != null) {
         try {
             settings = $.parseJSON(
-                window.localStorage["calculator_settings:" + userID]);
+                window.localStorage["calculator_settings:" + userID] || "{}");
         } catch (e) {
             // Some IE11 users can get into a situation where
             // window.localStorage exists (the "Enable DOM Storage" GPO is
