@@ -1649,8 +1649,10 @@ function prepareSite() {
     assessmentMode = !localMode && Exercises.assessmentMode;
 
     // Load and initialize the calculator
-    require(["./genfiles/calculator.js", "./utils/init-calculator.js"], function() {
-        Calculator.init();
+    require(["./genfiles/calculator.js"], function() {
+        require(["./utils/init-calculator.js"], function() {
+            Calculator.init();
+        });
     });
 
     Khan.initReportIssueLink("#extras .report-issue-link");
