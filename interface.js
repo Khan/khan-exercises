@@ -6,6 +6,25 @@
  * Interface glue to handle events from 'Exercises' and talk to 'Khan' or some
  * Perseus object, whichever is appropriate for the current exercise.
  *
+ * Specifically, this module does three things:
+ * - listen for DOM click events on various buttons.
+ *
+ *    In the mobile context, these are all triggered programmatically by
+ *    `mobile-client-webview-resources/javascript/
+ *    exercises-package/mobile-exericses.js`.
+ *
+ *   - check answer
+ *   - skip question
+ *   - opt out
+ *   - show next hint
+ *   - show worked example
+ *   - next question
+ *   - toggle scratchpad
+ *
+ * - trigger events for khan-exercises / perseus on the global `Exercises`
+ *   event bus.
+ * - send network requests.
+ *
  * In general, khan-exercises and perseus will want to trigger events on
  * Exercises but only listen to their own events.
  */
@@ -206,7 +225,14 @@ _.defaults(Exercises, {
 
 _.extend(Exercises, {
     guessLog: undefined,
-    userActivityLog: undefined
+    userActivityLog: undefined,
+
+    // These functions allow a client to interact imperatively with the
+    // exercises machinery, instead of simulating button clicks, listening for
+    // events, etc.
+    imperativeAPI: {
+        handleAttempt: handleAttempt,
+    },
 });
 
 // The iOS app doesn't use cookies, so we need to send this as an oauth request
@@ -406,16 +432,25 @@ function newProblem(e, data) {
 }
 
 function handleCheckAnswer() {
-    return handleAttempt({skipped: false});
+    return handleAttemptEvent({skipped: false});
 }
 
 function handleSkippedQuestion() {
-    return handleAttempt({skipped: true});
+    return handleAttemptEvent({skipped: true});
 }
 
 function handleOptOut() {
     Exercises.AssessmentQueue.end();
-    return handleAttempt({skipped: true, optOut: true});
+    return handleAttemptEvent({skipped: true, optOut: true});
+}
+
+function handleAttemptEvent(data) {
+    // NOTE(jared): The return value of handleAttempt was added to accommodate
+    // an imperative (as opposed to event-based) API. handleAttemptEvent is
+    // used to respond to DOM events, and so returns `false` to cancel the
+    // event.
+    handleAttempt(data);
+    return false;
 }
 
 function handleAttempt(data) {
@@ -437,7 +472,9 @@ function handleAttempt(data) {
     if (!canAttempt) {
         // Just don't allow further submissions once a correct answer or skip
         // has been called or sometimes the server gets confused.
-        return false;
+        return {
+            status: "problem-already-answered",
+        };
     }
 
     var isAnswerEmpty = score.empty && !skipped;
@@ -479,7 +516,12 @@ function handleAttempt(data) {
     // Stop if the user didn't try to skip the question and also didn't yet
     // enter a response
     if (isAnswerEmpty) {
-        return false;
+        return {
+            status: "incomplete-answer",
+            data: {
+                attemptMessage: attemptMessage,
+            },
+        };
     }
 
     if (score.correct || skipped) {
@@ -500,7 +542,12 @@ function handleAttempt(data) {
     // smashing Enter.
     if (!skipped &&
             stringifiedGuess === lastAttemptContent && millisTaken < 1000) {
-        return false;
+        return {
+            status: "too-fast",
+            data: {
+                attemptMessage: attemptMessage,
+            },
+        };
     }
     lastAttemptContent = stringifiedGuess;
 
@@ -509,14 +556,18 @@ function handleAttempt(data) {
             score.correct ? "correct-activity" : "incorrect-activity",
             stringifiedGuess, timeTaken]);
 
-    if (score.correct || skipped) {
+    var isDone = score.correct || skipped;
+    if (isDone) {
         $(Exercises).trigger("problemDone", {
             card: Exercises.currentCard,
             attempts: attempts
         });
     }
 
-    $(Exercises).trigger("checkAnswer", {
+    var checkAnswerData = {
+        attemptMessage: attemptMessage,
+        isDone: isDone,
+        attempts: attempts,
         correct: score.correct,
         item: itemId,
         card: Exercises.currentCard,
@@ -525,7 +576,9 @@ function handleAttempt(data) {
         fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken,
         // Used by mobile for skipping problems in a mastery task
         skipped: skipped
-    });
+    };
+
+    $(Exercises).trigger("checkAnswer", checkAnswerData);
 
     // Update interface corresponding to correctness
     if (skipped || Exercises.assessmentMode) {
@@ -587,14 +640,20 @@ function handleAttempt(data) {
 
     if (localMode || Exercises.currentCard.get("preview")) {
         // Skip the server; just pretend we have success
-        return false;
+        return {
+            status: "skip-server",
+            data: checkAnswerData,
+        };
     }
 
     if (previewingItem) {
         $("#next-question-button").prop("disabled", true);
 
         // Skip the server; just pretend we have success
-        return false;
+        return {
+            status: "previewing",
+            data: checkAnswerData,
+        };
     }
 
     // If we're in a practice task but not at the end of it (so the
@@ -634,7 +693,10 @@ function handleAttempt(data) {
             Exercises.AssessmentQueue.answered(score.correct);
         },10);
     }
-    return false;
+    return {
+        status: "normal",
+        data: checkAnswerData,
+    };
 }
 
 /**
