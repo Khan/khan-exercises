@@ -232,6 +232,7 @@ _.extend(Exercises, {
     // events, etc.
     imperativeAPI: {
         handleAttempt: handleAttempt,
+        showHint: showHint,
     },
 });
 
@@ -708,6 +709,31 @@ function onShowExampleClicked() {
 }
 
 /**
+ * Show a hint
+ *
+ * In order to make this call idempotent, the client supplies how many hints
+ * it hints are left. If correct (are there are actually hints left), a new
+ * hint is shown.
+ *
+ * Returns the new number of hints left.
+ */
+function showHint(hintsLeft) {
+  if (hintsLeft <= 0) {
+    return 0;
+  }
+  var realHintsLeft = numHints - hintsUsed;
+  if (hintsLeft !== realHintsLeft) {
+    return realHintsLeft;
+  }
+
+  // TODO(jared): refactor such that onHintButtonClicked can return the new
+  // number of hints left. Right now, there are event passing things (that are
+  // nevertheless synchronous), so it's not possible.
+  onHintButtonClicked();
+  return hintsLeft - 1;
+}
+
+/**
  * Handle the event when a user clicks to use a hint.
  *
  * This deals with the internal work to do things like sending the event up
@@ -761,6 +787,13 @@ function onHintShown(e, data) {
     // Grow the scratchpad to cover the new hint
     Khan.scratchpad.resize();
 
+    // TODO(jared): it looks like this code depends on `onHintShown` being
+    // called *synchronously* by ke and perseus, even though the flow control
+    // is handled by events. This feels very prone to breakage, but I'm not
+    // sure how to fix it well without dealing with the global state in this
+    // file in a more comprehensive way. We could change the flow control such
+    // that `onHintButtonClicked` calls PerseusBridge.showHint() (or
+    // something) directly, and then calls `onHintShown`.
     hintsUsed++;
     updateHintButtonText();
 
