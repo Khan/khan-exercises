@@ -227,6 +227,12 @@ _.extend(Exercises, {
     guessLog: undefined,
     userActivityLog: undefined,
 
+    interactiveAPI: {
+        checkAnswer: handleCheckAnswer,
+        goToNextProblem: triggerNextProblem,
+        skipQuestion: handleSkippedQuestion,
+        showHint: onHintButtonClicked,
+    },
     // These functions allow a client to interact imperatively with the
     // exercises machinery, instead of simulating button clicks, listening for
     // events, etc.
@@ -281,7 +287,6 @@ $(Exercises)
     .bind("clearExistingProblem", clearExistingProblem)
     .bind("showOptOut", showOptOut);
 
-
 function problemTemplateRendered(e, data) {
     previewingItem = Exercises.previewingItem;
 
@@ -316,7 +321,7 @@ function problemTemplateRendered(e, data) {
 
         // Next question button
         $("#next-question-button").click(function() {
-            $(Exercises).trigger("gotoNextProblem");
+            triggerNextProblem();
 
             // Disable next question button until next time
             // TODO(alpert): Why? Is blurring not enough?
@@ -351,6 +356,10 @@ function problemTemplateRendered(e, data) {
     // These shouldn't interfere...
     $(PerseusBridge).trigger("problemTemplateRendered", [Khan.mathJaxLoaded]);
     $(Khan).trigger("problemTemplateRendered");
+}
+
+function triggerNextProblem() {
+    $(Exercises).trigger("gotoNextProblem");
 }
 
 function newProblem(e, data) {
