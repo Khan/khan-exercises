@@ -282,67 +282,71 @@ $(Exercises)
     .bind("showOptOut", showOptOut);
 
 
-function problemTemplateRendered() {
+function problemTemplateRendered(e, data) {
     previewingItem = Exercises.previewingItem;
-    // Setup appropriate img URLs
-    $("#issue-throbber").attr("src",
-            Exercises.khanExercisesUrlBase + "css/images/throbber.gif");
 
-    $("#positive-reinforcement").hide();
-    if (localMode) {
-        // The /khan-exercises/images/ folder isn't available in GAE prod so
-        // don't change the src there, even though it would kind of work.
-        $("#positive-reinforcement > img").attr("src",
-                Exercises.khanExercisesUrlBase + "images/face-smiley.png");
-    }
+    if (!data.skipDOMManipulation) {
+        // Setup appropriate img URLs
+        $("#issue-throbber").attr("src",
+                Exercises.khanExercisesUrlBase + "css/images/throbber.gif");
 
-    // 'Check Answer' or 'Submit Answer'
-    originalCheckAnswerText = $("#check-answer-button").val();
-
-    // Solution submission
-    $("#check-answer-button").click(handleCheckAnswer);
-    $("#answerform").submit(handleCheckAnswer);
-    $("#skip-question-button").click(handleSkippedQuestion);
-    $("#opt-out-button").click(handleOptOut);
-
-    // Hint button
-    $("#hint").click(onHintButtonClicked);
-
-    // Worked example button
-    $("#worked-example-button").click(onShowExampleClicked);
-
-    // Next question button
-    $("#next-question-button").click(function() {
-        $(Exercises).trigger("gotoNextProblem");
-
-        // Disable next question button until next time
-        // TODO(alpert): Why? Is blurring not enough?
-        $(this)
-            .attr("disabled", true)
-            .addClass("buttonDisabled");
-    });
-
-    // If happy face is clicked, pass click on through.
-    $("#positive-reinforcement").click(function() {
-        $("#next-question-button").click();
-    });
-
-    // Let users close the warning bar when appropriate
-    $("#warning-bar-close a").click(function(e) {
-        e.preventDefault();
-        $("#warning-bar").fadeOut("slow");
-    });
-
-    // Scratchpad toggle
-    $("#scratchpad-show").click(function(e) {
-        e.preventDefault();
-        Khan.scratchpad.toggle();
-
-        if (!localMode && userExercise.user) {
-            LocalStore.set("scratchpad:" + userExercise.user,
-                    Khan.scratchpad.isVisible());
+        $("#positive-reinforcement").hide();
+        if (localMode) {
+            // The /khan-exercises/images/ folder isn't available in GAE prod
+            // so don't change the src there, even though it would kind of
+            // work.
+            $("#positive-reinforcement > img").attr("src",
+                    Exercises.khanExercisesUrlBase + "images/face-smiley.png");
         }
-    });
+
+        // 'Check Answer' or 'Submit Answer'
+        originalCheckAnswerText = $("#check-answer-button").val();
+
+        // Solution submission
+        $("#check-answer-button").click(handleCheckAnswer);
+        $("#answerform").submit(handleCheckAnswer);
+        $("#skip-question-button").click(handleSkippedQuestion);
+        $("#opt-out-button").click(handleOptOut);
+
+        // Hint button
+        $("#hint").click(onHintButtonClicked);
+
+        // Worked example button
+        $("#worked-example-button").click(onShowExampleClicked);
+
+        // Next question button
+        $("#next-question-button").click(function() {
+            $(Exercises).trigger("gotoNextProblem");
+
+            // Disable next question button until next time
+            // TODO(alpert): Why? Is blurring not enough?
+            $(this)
+                .attr("disabled", true)
+                .addClass("buttonDisabled");
+        });
+
+        // If happy face is clicked, pass click on through.
+        $("#positive-reinforcement").click(function() {
+            $("#next-question-button").click();
+        });
+
+        // Let users close the warning bar when appropriate
+        $("#warning-bar-close a").click(function(e) {
+            e.preventDefault();
+            $("#warning-bar").fadeOut("slow");
+        });
+
+        // Scratchpad toggle
+        $("#scratchpad-show").click(function(e) {
+            e.preventDefault();
+            Khan.scratchpad.toggle();
+
+            if (!localMode && userExercise.user) {
+                LocalStore.set("scratchpad:" + userExercise.user,
+                        Khan.scratchpad.isVisible());
+            }
+        });
+    }
 
     // These shouldn't interfere...
     $(PerseusBridge).trigger("problemTemplateRendered", [Khan.mathJaxLoaded]);
