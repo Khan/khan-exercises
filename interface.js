@@ -290,7 +290,7 @@ $(Exercises)
 function problemTemplateRendered(e, data) {
     previewingItem = Exercises.previewingItem;
 
-    if (!data.skipDOMManipulation) {
+    if (!data || !data.skipDOMManipulation) {
         // Setup appropriate img URLs
         $("#issue-throbber").attr("src",
                 Exercises.khanExercisesUrlBase + "css/images/throbber.gif");
