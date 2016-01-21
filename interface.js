@@ -266,6 +266,8 @@ var PerseusBridge = Exercises.PerseusBridge,
     userExercise,
     problemNum,
 
+    interfaceFunctions,
+
     canAttempt,
     hintsAreFree,
     attempts,
@@ -351,11 +353,11 @@ function problemTemplateRendered(e, data) {
                         Khan.scratchpad.isVisible());
             }
         });
+        $(Khan).trigger("problemTemplateRendered");
     }
 
     // These shouldn't interfere...
     $(PerseusBridge).trigger("problemTemplateRendered", [Khan.mathJaxLoaded]);
-    $(Khan).trigger("problemTemplateRendered");
 }
 
 function triggerNextProblem() {
@@ -380,11 +382,16 @@ function newProblem(e, data) {
             .removeClass("framework-perseus")
             .addClass("framework-" + framework);
 
-    // Enable/disable the get hint button
-    $(".hint-box").toggle(numHints !== 0);
-    updateHintButtonText();
-    $("#hint").attr("disabled", hintsUsed >= numHints);
-    enableCheckAnswer();
+    if (interfaceFunctions) {
+        interfaceFunctions.setHintsRemaining(numHints - hintsUsed);
+        // TODO(michelle): maybe also enable the check answer?
+    } else {
+        // Enable/disable the get hint button
+        $(".hint-box").toggle(numHints !== 0);
+        updateHintButtonText();
+        $("#hint").attr("disabled", hintsUsed >= numHints);
+        enableCheckAnswer();
+    }
 
     if (typeof KA !== "undefined" && KA.language === "en-PT" &&
             previewingItem) {
@@ -511,20 +518,23 @@ function handleAttempt(data) {
         attemptMessage = i18n._("Incorrect answer, please try again.");
     }
 
-    var $attemptMessage = $("#check-answer-results > p");
-
-    if (attemptMessage) {
-        // NOTE(jeresig): If the message is identical to the message that
-        // was there before then the ARIA alert is not triggered. We add in
-        // an extra space to force the alert to trigger.
-        var isIdentical = attemptMessage === $attemptMessage.text();
-
-        $attemptMessage
-            .html(attemptMessage + (isIdentical ? " " : "")).show().tex();
-
-        $(Exercises).trigger("attemptMessageShown", attemptMessage);
+    if (interfaceFunctions) {
+        interfaceFunctions.setAttemptMessage(attemptMessage);
     } else {
-        $attemptMessage.hide();
+        var $attemptMessage = $("#check-answer-results > p");
+        if (attemptMessage) {
+            // NOTE(jeresig): If the message is identical to the message that
+            // was there before then the ARIA alert is not triggered. We add in
+            // an extra space to force the alert to trigger.
+            var isIdentical = attemptMessage === $attemptMessage.text();
+
+            $attemptMessage
+                .html(attemptMessage + (isIdentical ? " " : "")).show().tex();
+
+            $(Exercises).trigger("attemptMessageShown", attemptMessage);
+        } else {
+            $attemptMessage.hide();
+        }
     }
 
     // Stop if the user didn't try to skip the question and also didn't yet
@@ -599,23 +609,27 @@ function handleAttempt(data) {
         disableCheckAnswer();
     } else if (score.correct) {
         // Correct answer, so show the next question button.
-        $("#check-answer-button").hide();
         var nextButtonText;
-        if (Exercises.learningTask &&  Exercises.learningTask.isComplete()) {
+        if (Exercises.learningTask && Exercises.learningTask.isComplete()) {
             nextButtonText = i18n._("Awesome! Show points...");
         } else {
             nextButtonText = i18n._("Correct! Next question...");
         }
+        if (interfaceFunctions) {
+            interfaceFunctions.showNextQuestionButton();
+        } else {
+            $("#check-answer-button").hide();
 
-        $("#next-question-button")
-            .prop("disabled", false)
-            .removeClass("buttonDisabled")
-            .val(nextButtonText)
-            .show()
-            .focus();
-        $("#positive-reinforcement").show();
-        $("#skip-question-button").prop("disabled", true);
-        $("#opt-out-button").prop("disabled", true);
+            $("#next-question-button")
+                .prop("disabled", false)
+                .removeClass("buttonDisabled")
+                .val(nextButtonText)
+                .show()
+                .focus();
+            $("#positive-reinforcement").show();
+            $("#skip-question-button").prop("disabled", true);
+            $("#opt-out-button").prop("disabled", true);
+        }
     } else {
         // Wrong answer. Enable all the input elements
 
@@ -640,16 +654,20 @@ function handleAttempt(data) {
 
     if (!hintsAreFree) {
         hintsAreFree = true;
-        $(".hint-box")
-            .css("position", "relative")
-            .animate({top: -10}, 250)
-            .find(".info-box-header")
-                .slideUp(250)
-                .end()
-            .find("#hint")
-                .removeClass("orange")
-                .addClass("green");
-        updateHintButtonText();
+        if (interfaceFunctions) {
+            interfaceFunctions.setHintsAreFree();
+        } else {
+            $(".hint-box")
+                .css("position", "relative")
+                .animate({top: -10}, 250)
+                .find(".info-box-header")
+                    .slideUp(250)
+                    .end()
+                .find("#hint")
+                    .removeClass("orange")
+                    .addClass("green");
+            updateHintButtonText();
+        }
     }
 
     if (localMode || Exercises.currentCard.get("preview")) {
@@ -661,7 +679,11 @@ function handleAttempt(data) {
     }
 
     if (previewingItem) {
-        $("#next-question-button").prop("disabled", true);
+        if (interfaceFunctions) {
+            interfaceFunctions.setPreviewingItem();
+        } else {
+            $("#next-question-button").prop("disabled", true);
+        }
 
         // Skip the server; just pretend we have success
         return {
@@ -797,9 +819,6 @@ function onHintButtonClicked() {
 }
 
 function onHintShown(e, data) {
-    // Grow the scratchpad to cover the new hint
-    Khan.scratchpad.resize();
-
     // TODO(jared): it looks like this code depends on `onHintShown` being
     // called *synchronously* by ke and perseus, even though the flow control
     // is handled by events. This feels very prone to breakage, but I'm not
@@ -808,14 +827,19 @@ function onHintShown(e, data) {
     // that `onHintButtonClicked` calls PerseusBridge.showHint() (or
     // something) directly, and then calls `onHintShown`.
     hintsUsed++;
-    updateHintButtonText();
-
     $(Exercises).trigger("hintUsed", data);
-    // If there aren't any more hints, disable the get hint button
-    if (hintsUsed === numHints) {
-        $("#hint").attr("disabled", true);
-    }
 
+    if (interfaceFunctions) {
+        interfaceFunctions.setHintsRemaining(numHints - hintsUsed);
+    } else {
+        // Grow the scratchpad to cover the new hint
+        Khan.scratchpad.resize();
+        updateHintButtonText();
+        // If there aren't any more hints, disable the get hint button
+        if (hintsUsed === numHints) {
+            $("#hint").attr("disabled", true);
+        }
+    }
     // When a hint is shown, clear the "last attempt content" that is used to
     // detect duplicate, repeated attempts. Once the user clicks on a hint, we
     // consider their next attempt to be unique and legitimate even if it's the
@@ -1026,6 +1050,7 @@ function request(url, data) {
 function readyForNextProblem(e, data) {
     userExercise = data.userExercise;
     problemNum = userExercise.totalDone + 1;
+    interfaceFunctions = data.interfaceFunctions;
 
     $(Exercises).trigger("updateUserExercise", {userExercise: userExercise});
 
@@ -1126,38 +1151,42 @@ function subhintExpand(e, subhintName) {
 }
 
 function clearExistingProblem() {
-    $("#happy").hide();
+    if (interfaceFunctions) {
+        interfaceFunctions.resetInterfaceForNewProblem();
+    } else {
+        $("#happy").hide();
 
-    // Toggle the navigation buttons
-    $("#check-answer-button").show();
-    $("#next-question-button").blur().hide();
-    $("#positive-reinforcement").hide();
+        // Toggle the navigation buttons
+        $("#check-answer-button").show();
+        $("#next-question-button").blur().hide();
+        $("#positive-reinforcement").hide();
 
-    // #solutionarea might have been moved by makeProblem(), so put it back
-    // to the default location (which is also where Perseus expects it to be)
-    $(".solutionarea-placeholder").after($("#solutionarea"));
+        // #solutionarea might have been moved by makeProblem(), so put it back
+        // to the default location (which is also where Perseus expects it to be)
+        $(".solutionarea-placeholder").after($("#solutionarea"));
 
-    // Wipe out any previous problem
-    PerseusBridge.cleanupProblem() || Khan.cleanupProblem();
-    $("#workarea, #hintsarea, #solutionarea").empty();
+        // Wipe out any previous problem
+        PerseusBridge.cleanupProblem() || Khan.cleanupProblem();
+        $("#workarea, #hintsarea, #solutionarea").empty();
 
-    // Take off the event handlers for disabling check answer; we'll rebind
-    // if we actually want them
-    $("#solutionarea").off(".emptyAnswer");
+        // Take off the event handlers for disabling check answer; we'll rebind
+        // if we actually want them
+        $("#solutionarea").off(".emptyAnswer");
 
-    // Restore the hint button's original appearance
-    $("#hint")
-        .removeClass("green")
-        .addClass("orange")
-        .val(i18n._("I'd like a hint"))
-        .data("buttonText", false)
-        .appendTo("#get-hint-button-container");
-    $(".hint-box")
-        .css("top", 0)
-        .find(".info-box-header")
-            .show();
+        // Restore the hint button's original appearance
+        $("#hint")
+            .removeClass("green")
+            .addClass("orange")
+            .val(i18n._("I'd like a hint"))
+            .data("buttonText", false)
+            .appendTo("#get-hint-button-container");
+        $(".hint-box")
+            .css("top", 0)
+            .find(".info-box-header")
+                .show();
 
-    Khan.scratchpad.clear();
+        Khan.scratchpad.clear();
+    }
 }
 
 })();
