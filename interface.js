@@ -1153,6 +1153,7 @@ function subhintExpand(e, subhintName) {
 function clearExistingProblem() {
     if (interfaceFunctions) {
         interfaceFunctions.resetInterfaceForNewProblem();
+        PerseusBridge.cleanupProblem() || Khan.cleanupProblem();
     } else {
         $("#happy").hide();
 
