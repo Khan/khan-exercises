@@ -231,7 +231,7 @@ window.Triangle = function(center, angles, scale, labels, points) {
     this.labels = labels;
     if (fromPoints) {
         this.points = points;
-        this.sides = [[this.points[0], this.points[1]], [this.points[1], this.points[2]] , [this.points[2], this.points[0]]];
+        this.sides = [[this.points[0], this.points[1]], [this.points[1], this.points[2]], [this.points[2], this.points[0]]];
         this.sideLengths = $.map(this.sides, lineLength);
         this.angles = anglesFromSides(this.sideLengths);
     }
@@ -254,188 +254,191 @@ window.Triangle = function(center, angles, scale, labels, points) {
     //http://en.wikipedia.org/wiki/Triangle#Using_trigonometry. Using the ASA equation in the link, we find the length of one side.
     var a = Math.sqrt((2 * this.scale * this.sines[1]) / (this.sines[0] * this.sines[2]));
     var b = a * this.sines[2] / this.sines[1];
-    if (! fromPoints) {
+    if (!fromPoints) {
         this.points = [[this.x, this.y], [b + this.x, this.y], [this.cosines[0] * a + this.x, this.sines[0] * a + this.y]];
     }
-    this.sides = [[this.points[0], this.points[1]], [this.points[1], this.points[2]] , [this.points[2], this.points[0]]];
+    this.sides = [[this.points[0], this.points[1]], [this.points[1], this.points[2]], [this.points[2], this.points[0]]];
 
     this.sideLengths = $.map(this.sides, lineLength);
 
-    this.niceSideLengths = $.map(this.sideLengths, function(x) { return parseFloat(x.toFixed(1)); });
+    this.niceSideLengths = $.map(this.sideLengths, function(x) {
+        return parseFloat(x.toFixed(1));
+    });
 
     this.set = "";
-    this.niceAngles = $.map(this.angles, function(x) { return x + "^{\\circ}"; });
-    this.labelObjects = { "sides": [] , "angles" : [], "points" : [], "name" : [] };
-
-
-    this.angleScale = function(ang) {
-        if (ang > 150) {
-            return 0.8;
-        }
-        else if (ang > 140) {
-            return 0.7;
-        }
-        else if (ang > 130) {
-            return 0.6;
-        }
-        else if (ang > 90) {
-            return 0.5;
-        }
-        else if (ang > 40) {
-            return 0.6;
-        }
-        else if (ang > 25) {
-            return 0.7;
-        }
-        return 0.8;
-    };
-
-    this.draw = function() {
-        this.set = this.set || KhanUtil.currentGraph.raphael.set();
-        this.set.push(KhanUtil.currentGraph.path(this.points.concat([this.points[0]])));
-        return this.set;
-    };
+    this.niceAngles = $.map(this.angles, function(x) {
+        return x + "^{\\circ}";
+    });
+    this.labelObjects = {"sides": [], "angles": [], "points": [], "name": []};
 
     this.color = "black";
-    this.createLabel = function(p, v) {
-        this.set = this.set || KhanUtil.currentGraph.raphael.set();
-        this.set.push(KhanUtil.currentGraph.label(p, v, "center", { color: this.color }));
-    };
 
-    this.boxOut = function(pol, amount) {
-        var shouldMove = areIntersecting(pol, this.sides);
-        while (areIntersecting(pol, this.sides)) {
-            this.translate(amount);
-        }
-        if (shouldMove) {
-            this.translate(amount);
-        }
-    };
-
-    this.boundingRange = function(margin) {
-        margin = margin || 0;
-        var X = $.map(this.points, function(p) { return p[0]; });
-        var Y = $.map(this.points, function(p) { return p[1]; });
-        return [[_.min(X) - margin, _.max(X) + margin],
-             [_.min(Y) - margin, _.max(Y) + margin]];
-    };
-
-    this.findCenterPoints = function() {
-        var Ax = this.points[0][0];
-        var Ay = this.points[0][1];
-        var Bx = this.points[1][0];
-        var By = this.points[1][1];
-        var Cx = this.points[2][0];
-        var Cy = this.points[2][1];
-        var D = 2 * (Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By));
-        var a = this.sideLengths[1];
-        var b = this.sideLengths[2];
-        var c = this.sideLengths[0];
-        var P = a + b + c;
-        var x1 = (a * Ax + b * Bx + c * Cx) / P;
-        var y1 = (a * Ay + b * By + c * Cy) / P;
-        var x = ((Ay * Ay + Ax * Ax) * (By - Cy) + (By * By + Bx * Bx) * (Cy - Ay) + (Cy * Cy + Cx * Cx) * (Ay - By)) / D;
-        var y = ((Ay * Ay + Ax * Ax) * (Cx - Bx) + (By * By + Bx * Bx) * (Ax - Cx) + (Cy * Cy + Cx * Cx) * (Bx - Ax)) / D;
-        this.circumCenter = [x, y];
-        this.centroid = [1 / 3 * (Ax + Bx + Cx), 1 / 3 * (Ay + By + Cy)];
-        this.inCenter = [x1, y1];
-    };
-
-    this.findCenterPoints();
-
-    this.findRadii = function() {
-        this.semiperimeter = (this.sideLengths[0] + this.sideLengths[1] + this.sideLengths[2]) / 2;
-        this.inradius = this.scale / this.semiperimeter;
-        this.circumradius = this.sideLengths[0] * this.sideLengths[1] * this.sideLengths[2] / (4 * this.semiperimeter * this.inradius);
-    };
-
+    this.findCenterPoints();    // defines this.centroid
     this.rotationCenter = this.centroid;
+};
 
-    this.rotate = function(amount) {
-        amount = amount * Math.PI / 180;
-        var tr = this;
-        this.points = $.map(this.points, function(el, i) {
-                return [tr.rotatePoint(el, amount)];
-        });
-        this.genSides();
-        this.findCenterPoints();
-    };
+window.Triangle.prototype.angleScale = function(ang) {
+    if (ang > 150) {
+        return 0.8;
+    }
+    else if (ang > 140) {
+        return 0.7;
+    }
+    else if (ang > 130) {
+        return 0.6;
+    }
+    else if (ang > 90) {
+        return 0.5;
+    }
+    else if (ang > 40) {
+        return 0.6;
+    }
+    else if (ang > 25) {
+        return 0.7;
+    }
+    return 0.8;
+};
 
-    this.genSides = function() {
-        this.sides = [];
-        var x = 0;
-        for (x = 0; x < this.points.length; x++) {
-            this.sides.push([this.points[x], this.points[(x + 1) % this.points.length]]);
+window.Triangle.prototype.draw = function() {
+    this.set = this.set || KhanUtil.currentGraph.raphael.set();
+    this.set.push(KhanUtil.currentGraph.path(this.points.concat([this.points[0]])));
+    return this.set;
+};
+
+window.Triangle.prototype.createLabel = function(p, v) {
+    this.set = this.set || KhanUtil.currentGraph.raphael.set();
+    this.set.push(KhanUtil.currentGraph.label(p, v, "center", { color: this.color }));
+};
+
+window.Triangle.prototype.boxOut = function(pol, amount) {
+    var shouldMove = areIntersecting(pol, this.sides);
+    while (areIntersecting(pol, this.sides)) {
+        this.translate(amount);
+    }
+    if (shouldMove) {
+        this.translate(amount);
+    }
+};
+
+window.Triangle.prototype.boundingRange = function(margin) {
+    margin = margin || 0;
+    var X = $.map(this.points, function(p) { return p[0]; });
+    var Y = $.map(this.points, function(p) { return p[1]; });
+    return [[_.min(X) - margin, _.max(X) + margin],
+         [_.min(Y) - margin, _.max(Y) + margin]];
+};
+
+window.Triangle.prototype.findCenterPoints = function() {
+    var Ax = this.points[0][0];
+    var Ay = this.points[0][1];
+    var Bx = this.points[1][0];
+    var By = this.points[1][1];
+    var Cx = this.points[2][0];
+    var Cy = this.points[2][1];
+    var D = 2 * (Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By));
+    var a = this.sideLengths[1];
+    var b = this.sideLengths[2];
+    var c = this.sideLengths[0];
+    var P = a + b + c;
+    var x1 = (a * Ax + b * Bx + c * Cx) / P;
+    var y1 = (a * Ay + b * By + c * Cy) / P;
+    var x = ((Ay * Ay + Ax * Ax) * (By - Cy) + (By * By + Bx * Bx) * (Cy - Ay) + (Cy * Cy + Cx * Cx) * (Ay - By)) / D;
+    var y = ((Ay * Ay + Ax * Ax) * (Cx - Bx) + (By * By + Bx * Bx) * (Ax - Cx) + (Cy * Cy + Cx * Cx) * (Bx - Ax)) / D;
+    this.circumCenter = [x, y];
+    this.centroid = [1 / 3 * (Ax + Bx + Cx), 1 / 3 * (Ay + By + Cy)];
+    this.inCenter = [x1, y1];
+};
+
+window.Triangle.prototype.findRadii = function() {
+    this.semiperimeter = (this.sideLengths[0] + this.sideLengths[1] + this.sideLengths[2]) / 2;
+    this.inradius = this.scale / this.semiperimeter;
+    this.circumradius = this.sideLengths[0] * this.sideLengths[1] * this.sideLengths[2] / (4 * this.semiperimeter * this.inradius);
+};
+
+window.Triangle.prototype.rotate = function(amount) {
+    amount = amount * Math.PI / 180;
+    var tr = this;
+    this.points = $.map(this.points, function(el, i) {
+            return [tr.rotatePoint(el, amount)];
+    });
+    this.genSides();
+    this.findCenterPoints();
+};
+
+window.Triangle.prototype.genSides = function() {
+    this.sides = [];
+    var x = 0;
+    for (x = 0; x < this.points.length; x++) {
+        this.sides.push([this.points[x], this.points[(x + 1) % this.points.length]]);
+    }
+};
+
+window.Triangle.prototype.translate = function(amount) {
+    this.points = $.map(this.points, function(el, i) {
+        return [movePoint(el, amount)];
+    });
+    this.genSides();
+    this.findCenterPoints();
+};
+
+window.Triangle.prototype.rotatePoint = function(pos, theta) {
+    theta = theta || this.rotation;
+    return [this.rotationCenter[0] + (pos[0] - this.rotationCenter[0]) * Math.cos(theta) + (pos[1] - this.rotationCenter[1]) * Math.sin(theta), this.rotationCenter[1] + (-1) * ((pos[0] - this.rotationCenter[0]) * Math.sin(theta)) + ((pos[1] - this.rotationCenter[1]) * Math.cos(theta))];
+};
+
+window.Triangle.prototype.drawLabels = function() {
+    var i = 0;
+    var s = KhanUtil.currentGraph.scaleVector([1, 1])[0];
+
+    if ("points" in this.labels) {
+        //Need to change the position of placement into label objects
+        for (i = this.angles.length - 1; i >= 0; i--) {
+            var n = (i + 1) % this.angles.length;
+            var coord = bisectAngle(reverseLine(this.sides[n]), this.sides[i], 12 / s)[1];
+            this.labelObjects.points.push(this.createLabel(coord, this.labels.points[n]));
         }
-    };
+    }
 
-    this.translate = function(amount) {
-        this.points = $.map(this.points, function(el, i) {
-            return [movePoint(el, amount)];
-        });
-        this.genSides();
-        this.findCenterPoints();
-    };
-
-    this.rotatePoint = function(pos, theta) {
-        theta = theta || this.rotation;
-        return [this.rotationCenter[0] + (pos[0] - this.rotationCenter[0]) * Math.cos(theta) + (pos[1] - this.rotationCenter[1]) * Math.sin(theta), this.rotationCenter[1] + (-1) * ((pos[0] - this.rotationCenter[0]) * Math.sin(theta)) + ((pos[1] - this.rotationCenter[1]) * Math.cos(theta))];
-    };
-
-    this.drawLabels = function() {
-        var i = 0;
-        var s = KhanUtil.currentGraph.scaleVector([1, 1])[0];
-
-        if ("points" in this.labels) {
-            //Need to change the position of placement into label objects
-            for (i = this.angles.length - 1; i >= 0; i--) {
-                var n = (i + 1) % this.angles.length;
-                var coord = bisectAngle(reverseLine(this.sides[n]), this.sides[i], 12 / s)[1];
-                this.labelObjects.points.push(this.createLabel(coord, this.labels.points[n]));
-            }
+    if ("angles" in this.labels) {
+        for (i = this.angles.length - 1; i >= 0; i--) {
+            var n = (i + 1) % this.angles.length;
+            var coord = bisectAngle(this.sides[n], reverseLine(this.sides[i]), this.angleScale(this.angles[n]) * 45 / s)[1];
+            this.labelObjects.angles.push(this.createLabel(coord, this.labels.angles[n]));
         }
+    }
 
-        if ("angles" in this.labels) {
-            for (i = this.angles.length - 1; i >= 0; i--) {
-                var n = (i + 1) % this.angles.length;
-                var coord = bisectAngle(this.sides[n], reverseLine(this.sides[i]), this.angleScale(this.angles[n]) * 45 / s)[1];
-                this.labelObjects.angles.push(this.createLabel(coord, this.labels.angles[n]));
-            }
+    if ("sides" in this.labels) {
+        for (i = 0; i < this.sides.length; i++) {
+            //http://www.mathworks.com/matlabcentral/newsreader/view_thread/142201
+            var midPoint = kline.midpoint(this.sides[i]);
+            var t = lineLength([this.sides[i][1], midPoint]);
+            var d = 15 / s;
+            var x3 = midPoint[0] + (this.sides[i][1][1] - midPoint[1]) / t * d;
+            var y3 = midPoint[1] - (this.sides[i][1][0] - midPoint[0]) / t * d;
+            this.labelObjects.sides.push(this.createLabel([x3, y3], this.labels.sides[i]));
         }
+    }
 
-        if ("sides" in this.labels) {
-            for (i = 0; i < this.sides.length; i++) {
-                //http://www.mathworks.com/matlabcentral/newsreader/view_thread/142201
-                var midPoint = kline.midpoint(this.sides[i]);
-                var t = lineLength([this.sides[i][1], midPoint]);
-                var d = 15 / s;
-                var x3 = midPoint[0] + (this.sides[i][1][1] - midPoint[1]) / t * d;
-                var y3 = midPoint[1] - (this.sides[i][1][0] - midPoint[0]) / t * d;
-                this.labelObjects.sides.push(this.createLabel([x3, y3], this.labels.sides[i]));
-            }
-        }
-
-        if ("name" in this.labels) {
-            this.labelObjects["name"] = this.createLabel(bisectAngle(reverseLine(this.sides[2]), this.sides[1], 0.3)[1], this.labels.name);
-        }
+    if ("name" in this.labels) {
+        this.labelObjects["name"] = this.createLabel(bisectAngle(reverseLine(this.sides[2]), this.sides[1], 0.3)[1], this.labels.name);
+    }
 
 
 //DEPRECATED
-        if ("c" in this.labels) {
-            this.createLabel([(this.points[0][0] + this.points[1][0]) / 2, (this.points[0][1] + this.points[1][1]) / 2 - 0.4] , labels.c);
-        }
-        if ("a" in this.labels) {
-            this.createLabel([(this.points[1][0] + this.points[2][0]) / 2 + 0.4, (this.points[1][1] + this.points[2][1]) / 2] , labels.a);
-        }
-        if ("b" in this.labels) {
-            this.createLabel([(this.points[0][0] + this.points[2][0]) / 2 - 0.4, (this.points[0][1] + this.points[2][1]) / 2] , labels.b);
-        }
+    if ("c" in this.labels) {
+        this.createLabel([(this.points[0][0] + this.points[1][0]) / 2, (this.points[0][1] + this.points[1][1]) / 2 - 0.4] , labels.c);
+    }
+    if ("a" in this.labels) {
+        this.createLabel([(this.points[1][0] + this.points[2][0]) / 2 + 0.4, (this.points[1][1] + this.points[2][1]) / 2] , labels.a);
+    }
+    if ("b" in this.labels) {
+        this.createLabel([(this.points[0][0] + this.points[2][0]) / 2 - 0.4, (this.points[0][1] + this.points[2][1]) / 2] , labels.b);
+    }
 
 
-        return this.set;
-    };
-
+    return this.set;
 };
+
 window.Quadrilateral = function(center, angles, sideRatio, labels, size) {
 
     this.sideRatio = sideRatio;
@@ -453,61 +456,6 @@ window.Quadrilateral = function(center, angles, sideRatio, labels, size) {
     this.labels = labels || {};
     this.sides = [];
 
-    this.generatePoints = function() {
-        var once = false;
-        while ((! once) || this.isCrossed() || this.sideTooShort()) {
-            var len = Math.sqrt(2 * this.scale * this.scale * this.sideRatio * this.sideRatio - 2 * this.sideRatio * this.scale * this.scale * this.sideRatio * this.cosines[3]);
-            once = true;
-            var tX = [0, this.scale * this.sideRatio * this.cosines[0] , len * Math.cos((this.angles[0] - (180 - this.angles[3]) / 2) * Math.PI / 180), this.scale, this.scale + Math.cos((180 - this.angles[1]) * Math.PI / 180)];
-            var tY = [0, this.scale * this.sideRatio * this.sines[0] , len * Math.sin((this.angles[0] - (180 - this.angles[3]) / 2) * Math.PI / 180), 0, Math.sin((180 - this.angles[1]) * Math.PI / 180)];
-
-            var denominator = (tY[4] - tY[3]) * (tX[2] - tX[1]) - (tX[4] - tX[3]) * (tY[2] - tY[1]);
-
-            var ua = ((tX[4] - tX[3]) * (tY[1] - tY[3]) - (tY[4] - tY[3]) * (tX[1] - tX[3])) / denominator;
-
-            this.points = [[this.x, this.y], [this.x + this.scale * this.sideRatio * this.cosines[0], this.y + this.scale * this.sideRatio * this.sines[0]], [this.x + tX[1] + ua * (tX[2] - tX[1]), this.y + tY[1] + ua * (tY[2] - tY[1])], [this.x + this.scale, this.y]];
-
-            this.sides = [[this.points[0], this.points[3]], [this.points[3], this.points[2]], [this.points[2], this.points[1]], [this.points[1], this.points[0]]];
-            this.sideLengths = $.map(this.sides, lineLength);
-            this.niceSideLengths = $.map(this.sideLengths, function(x) { return parseFloat(x.toFixed(1)); });
-
-            if (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0) {
-                this.sideRatio -= 0.3;
-            }
-
-            if (vectorProduct([this.points[0], this.points[3]], [this.points[0], this.points[2]]) < 0) {
-                this.sideRatio += 0.3;
-            }
-
-            var tooShort = this.sideTooShort();
-            if (tooShort) {
-                if (tooShort.whichSide % 2 === 0) {
-                    this.sideRatio -= 0.05;
-                }
-                else {
-                    this.sideRatio += 0.05;
-                }
-            }
-        }
-    };
-
-    this.sideTooShort = function() {
-        if (this.sideRatio === 1) {
-            return false;
-        }
-        var shortestSide = _.min(this.sideLengths);
-        var allSides = _.reduce(this.sideLengths, function(acc,n) { return acc+n; }, 0);
-        return shortestSide/allSides < 0.12 && {whichSide:_.indexOf(this.sideLengths,shortestSide)};
-    };
-
-    this.isCrossed = function() {
-        return (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0) || (vectorProduct([this.points[0], this.points[3]], [this.points[0], this.points[2]]) < 0);
-    };
-
-    this.genSides = function() {
-        this.sides = [[this.points[0], this.points[3]], [this.points[3], this.points[2]], [this.points[2], this.points[1]], [this.points[1], this.points[0]]];
-    };
-
     this.generatePoints();
 
     var area = 0.5 * vectorProduct([this.points[0], this.points[2]], [this.points[3], this.points[1]]);
@@ -518,8 +466,62 @@ window.Quadrilateral = function(center, angles, sideRatio, labels, size) {
 
 };
 
-
 Quadrilateral.prototype = new Triangle([0, 0], [30, 30, 30], 3, "");
+
+window.Quadrilateral.prototype.generatePoints = function() {
+    var once = false;
+    while ((! once) || this.isCrossed() || this.sideTooShort()) {
+        var len = Math.sqrt(2 * this.scale * this.scale * this.sideRatio * this.sideRatio - 2 * this.sideRatio * this.scale * this.scale * this.sideRatio * this.cosines[3]);
+        once = true;
+        var tX = [0, this.scale * this.sideRatio * this.cosines[0] , len * Math.cos((this.angles[0] - (180 - this.angles[3]) / 2) * Math.PI / 180), this.scale, this.scale + Math.cos((180 - this.angles[1]) * Math.PI / 180)];
+        var tY = [0, this.scale * this.sideRatio * this.sines[0] , len * Math.sin((this.angles[0] - (180 - this.angles[3]) / 2) * Math.PI / 180), 0, Math.sin((180 - this.angles[1]) * Math.PI / 180)];
+
+        var denominator = (tY[4] - tY[3]) * (tX[2] - tX[1]) - (tX[4] - tX[3]) * (tY[2] - tY[1]);
+
+        var ua = ((tX[4] - tX[3]) * (tY[1] - tY[3]) - (tY[4] - tY[3]) * (tX[1] - tX[3])) / denominator;
+
+        this.points = [[this.x, this.y], [this.x + this.scale * this.sideRatio * this.cosines[0], this.y + this.scale * this.sideRatio * this.sines[0]], [this.x + tX[1] + ua * (tX[2] - tX[1]), this.y + tY[1] + ua * (tY[2] - tY[1])], [this.x + this.scale, this.y]];
+
+        this.sides = [[this.points[0], this.points[3]], [this.points[3], this.points[2]], [this.points[2], this.points[1]], [this.points[1], this.points[0]]];
+        this.sideLengths = $.map(this.sides, lineLength);
+        this.niceSideLengths = $.map(this.sideLengths, function(x) { return parseFloat(x.toFixed(1)); });
+
+        if (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0) {
+            this.sideRatio -= 0.3;
+        }
+
+        if (vectorProduct([this.points[0], this.points[3]], [this.points[0], this.points[2]]) < 0) {
+            this.sideRatio += 0.3;
+        }
+
+        var tooShort = this.sideTooShort();
+        if (tooShort) {
+            if (tooShort.whichSide % 2 === 0) {
+                this.sideRatio -= 0.05;
+            }
+            else {
+                this.sideRatio += 0.05;
+            }
+        }
+    }
+};
+
+window.Quadrilateral.prototype.sideTooShort = function() {
+    if (this.sideRatio === 1) {
+        return false;
+    }
+    var shortestSide = _.min(this.sideLengths);
+    var allSides = _.reduce(this.sideLengths, function(acc,n) { return acc+n; }, 0);
+    return shortestSide/allSides < 0.12 && {whichSide:_.indexOf(this.sideLengths,shortestSide)};
+};
+
+window.Quadrilateral.prototype.isCrossed = function() {
+    return (vectorProduct([this.points[0], this.points[1]], [this.points[0], this.points[2]]) > 0) || (vectorProduct([this.points[0], this.points[3]], [this.points[0], this.points[2]]) < 0);
+};
+
+window.Quadrilateral.prototype.genSides = function() {
+        this.sides = [[this.points[0], this.points[3]], [this.points[3], this.points[2]], [this.points[2], this.points[1]], [this.points[1], this.points[0]]];
+    };
 
 //From http://en.wikipedia.org/wiki/Law_of_cosines
 window.anglesFromSides = function(sides) {
