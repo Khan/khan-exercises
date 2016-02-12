@@ -515,7 +515,7 @@ function handleAttempt(data) {
 
     // We need to alert the user when the given answer is incorrect
     if (!attemptMessage && !(score.correct || skipped)) {
-        attemptMessage = i18n._("Incorrect answer, please try again.");
+        attemptMessage = i18n._("Not correct yet, please try again.");
     }
 
     if (interfaceFunctions) {
