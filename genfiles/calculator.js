@@ -643,7 +643,7 @@ window.Calculator = (function(parser) {
         throw new CalculatorError(ERROR_TEXT);
     };
 
-    var userID = window.KA && window.KA.getUserID();
+    var userID = window.KA && window.KA.getUserID && window.KA.getUserID();
     var settings = {};
     if (window.localStorage != null) {
         try {
