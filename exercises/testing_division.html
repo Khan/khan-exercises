@@ -17,7 +17,7 @@
                     <var id="MAX_DIVIDEND_DECIMAL">DIVIDEND &lt; 10000 ? 2 : 5</var>
                     <var id="DIVIDEND_DECIMAL">randRange( Math.max( DIVISOR_DECIMAL, 1 ), MAX_DIVIDEND_DECIMAL)</var>
                     <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
-                    <var id="DUMMY">[]</var>
+                    <var id="DUMMY">Array(new Divider(DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL).getNumHints())</var>
                 </div>
 
                 <div class="graphie" id="numbers">

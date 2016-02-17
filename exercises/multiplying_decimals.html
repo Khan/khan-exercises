@@ -18,7 +18,7 @@
             <var id="SMALL_FACTOR_DIGITS">padDigitsToNum( digits( SMALL_FACTOR ), SMALL_FACTOR_DECIMAL + 1 )</var>
             <var id="BIG_FACTOR_DIGITS">padDigitsToNum( digits( BIG_FACTOR ), BIG_FACTOR_DECIMAL + 1 )</var>
             <var id="ANSWER">PRODUCT / pow(10, BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL)</var>
-            <var id="DUMMY">[]</var>
+            <var id="DUMMY">Array( new Multiplier(BIG_FACTOR, SMALL_FACTOR, BIG_FACTOR_DIGITS, SMALL_FACTOR_DIGITS, BIG_FACTOR_DECIMAL, SMALL_FACTOR_DECIMAL).getNumHints() )</var>
         </div>
 
         <div class="problems">

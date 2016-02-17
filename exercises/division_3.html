@@ -12,7 +12,7 @@
             <var id="PRE_DIVIDEND">rand(2) ? randRange(100, 999) : randRange(1000, 9999)</var>
             <var id="QUOTIENT">floor(PRE_DIVIDEND / DIVISOR)</var>
             <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
-            <var id="DUMMY">[]</var>
+            <var id="DUMMY">Array(new Divider( DIVISOR, DIVIDEND ).getNumHints())</var>
         </div>
 
         <div class="problems">
