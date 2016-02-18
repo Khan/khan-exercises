@@ -14,8 +14,9 @@
                     <var id="DIVISOR">round(randRange(2, 9) * BOOST)</var>
                     <var id="QUOTIENT">roundTo(1, randRange(2, 9) / BOOST)</var>
                     <var id="DIVIDEND">round(DIVISOR * QUOTIENT)</var>
+                    <var id="DUMMY">Array(new Divider(DIVISOR, DIVIDEND, 0, 0, true).getNumHints())</var>
                 </div>
-                
+
                 <p class="question"><code>\Large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = ?}</code></p>
                 <p><em>Please give your answer in decimal form.</em></p>
                 <div class="render-answer-area-here"></div>
