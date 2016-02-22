@@ -919,7 +919,13 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
 
         // The client-reported datetime in local time (not UTC!).
         // Used by streaks.
-        client_dt: moment().format()
+        // NOTE(jeresig): We should always use a locale of 'en' here to ensure
+        // that the formatting of the date matches our expectations. Namely
+        // some locales use non-latin characters to represent numbers, such as
+        // Bengali and Nepalese. This change shouldn't have a negative impact
+        // as `.format()` only returns a string that looks like this:
+        // `"2016-02-22T16:34:51-05:00"`.
+        client_dt: moment().locale("en").format()
     });
 
     return data;
