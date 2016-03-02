@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable brace-style, comma-dangle, eqeqeq, max-len, no-undef, no-unused-vars, prefer-template */
+/* eslint-disable brace-style, comma-dangle, max-len, no-undef, no-var */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 window.Calculator = (function(parser) {

@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable eqeqeq, indent, no-unused-vars, prefer-template */
+/* eslint-disable indent, no-var */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 define(function(require) {

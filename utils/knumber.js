@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable camelcase, comma-dangle, eqeqeq, indent, no-undef, no-unused-vars, one-var, space-infix-ops */
+/* eslint-disable camelcase, comma-dangle, indent, no-undef, no-var, one-var, space-infix-ops */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 /*

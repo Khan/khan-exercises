@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable brace-style, comma-dangle, eqeqeq, indent, max-len, no-redeclare, no-undef, no-unused-vars, prefer-template, space-before-function-paren */
+/* eslint-disable brace-style, comma-dangle, indent, max-len, no-redeclare, no-undef, no-var, space-before-function-paren */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 define(function(require) {

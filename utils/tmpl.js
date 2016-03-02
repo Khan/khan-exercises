@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable comma-dangle, eqeqeq, indent, max-len, no-alert, no-redeclare, no-undef, no-unused-vars, no-with, one-var, prefer-template */
+/* eslint-disable comma-dangle, indent, max-len, no-alert, no-redeclare, no-undef, no-var, no-with, one-var */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 define(function(require) {

@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable comma-dangle, comma-spacing, eqeqeq, indent, max-len, no-unused-vars, one-var, prefer-template, space-infix-ops */
+/* eslint-disable comma-dangle, comma-spacing, indent, max-len, no-var, one-var, space-infix-ops */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 MathJax.Hub.Config({

@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable comma-dangle, eqeqeq, indent, max-len, no-console, no-trailing-spaces, no-undef, no-unused-vars, one-var, prefer-spread, prefer-template, space-before-blocks */
+/* eslint-disable comma-dangle, indent, max-len, no-console, no-undef, no-unused-vars, no-var, one-var, prefer-spread, space-before-blocks */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 /* khan-exercise.js
