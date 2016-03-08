@@ -9,9 +9,9 @@
  * Specifically, this module does three things:
  * - listen for DOM click events on various buttons.
  *
- *    In the mobile context, these are all triggered programmatically by
+ *    In the mobile context, some of these are triggered programmatically by
  *    `mobile-client-webview-resources/javascript/
- *    exercises-package/mobile-exericses.js`.
+ *    exercises-package/mobile-exercises.js`.
  *
  *   - check answer
  *   - skip question
@@ -230,9 +230,9 @@ _.extend(Exercises, {
     userActivityLog: undefined,
 
     interactiveAPI: {
-        checkAnswer: handleCheckAnswer,
+        checkAnswer: handleCheckAnswerEvent,
         goToNextProblem: triggerNextProblem,
-        skipQuestion: handleSkippedQuestion,
+        skipQuestion: handleSkipEvent,
         showHint: onHintButtonClicked,
     },
     // These functions allow a client to interact imperatively with the
@@ -312,10 +312,10 @@ function problemTemplateRendered(e, data) {
         originalCheckAnswerText = $("#check-answer-button").val();
 
         // Solution submission
-        $("#check-answer-button").click(handleCheckAnswer);
-        $("#answerform").submit(handleCheckAnswer);
-        $("#skip-question-button").click(handleSkippedQuestion);
-        $("#opt-out-button").click(handleOptOut);
+        $("#check-answer-button").click(handleCheckAnswerEvent);
+        $("#answerform").submit(handleCheckAnswerEvent);
+        $("#skip-question-button").click(handleSkipEvent);
+        $("#opt-out-button").click(handleOptOutEvent);
 
         // Hint button
         $("#hint").click(onHintButtonClicked);
@@ -364,6 +364,26 @@ function problemTemplateRendered(e, data) {
 
 function triggerNextProblem() {
     $(Exercises).trigger("gotoNextProblem");
+}
+
+// TODO(charlie): As soon as assessment mode is removed, all calls to this
+// method should be replaced with calls to triggerNextProblem.
+function triggerNextProblemWithAssessmentGuard() {
+    // Skipping should pull up the next card immediately - but, if we're in
+    // assessment mode, we don't know what the next card will be yet, so
+    // wait for the special assessment mode triggers to fire instead.
+    if (Exercises.assessmentMode) {
+        // Tell the assessment queue that the current question has been
+        // answered so that it can serve up the next question when its ready
+        // Set a small timeout to give the browser a chance to show the
+        // disabled check-answer button.  Otherwise in chrome it doesn't show
+        // Please wait...
+        setTimeout(function() {
+            Exercises.AssessmentQueue.answered(score.correct);
+        }, 10);
+    } else {
+        triggerNextProblem();
+    }
 }
 
 function newProblem(e, data) {
@@ -454,30 +474,37 @@ function newProblem(e, data) {
     }
 }
 
-function handleCheckAnswer() {
-    return handleAttemptEvent({skipped: false});
+// NOTE(jared): The return value of handleAttempt was added to accommodate
+// an imperative (as opposed to event-based) API. These event-suffixed methods
+// are used to respond to DOM events, and so return `false` to cancel the
+// events.
+// NOTE(charlie): These event handlers are meant to be used by web clients.
+// As such, in response to API errors, they'll want to hide the problem UI.
+// On mobile, we use imperativeAPI.handleAttempt directly and override the
+// onNetworkError callback, since we handle these errors ourselves (e.g.,
+// by overlaying a modal over the problem UI, rather than hiding it).
+function handleCheckAnswerEvent() {
+    handleAttempt({skipped: false}, hideProblemUIOnError);
+    return false;
 }
 
-function handleSkippedQuestion() {
-    return handleAttemptEvent({skipped: true});
+function handleSkipEvent() {
+    var result = handleAttempt({skipped: true}, hideProblemUIOnError);
+    if (result.status === "normal") {
+        triggerNextProblemWithAssessmentGuard();
+    }
+    return false;
 }
 
-function handleOptOut() {
+function handleOptOutEvent() {
     Exercises.AssessmentQueue.end();
-    return handleAttemptEvent({skipped: true, optOut: true});
-}
 
-function handleAttemptEvent(data) {
-    // NOTE(jared): The return value of handleAttempt was added to accommodate
-    // an imperative (as opposed to event-based) API. handleAttemptEvent is
-    // used to respond to DOM events, and so returns `false` to cancel the
-    // event.
-    // NOTE(charlie): These event handlers are meant to be used by web clients.
-    // As such, in response to API errors, they'll want to hide the problem UI.
-    // On mobile, we use imperativeAPI.handleAttempt directly and override the
-    // onNetworkError callback, since we handle these errors ourselves (e.g.,
-    // by overlaying a modal over the problem UI, rather than hiding it).
-    handleAttempt(data, hideProblemUIOnError);
+    var result = handleAttempt(
+        {skipped: true, optOut: true}, hideProblemUIOnError
+    );
+    if (result.status === "normal") {
+        triggerNextProblemWithAssessmentGuard();
+    }
     return false;
 }
 
@@ -719,23 +746,6 @@ function handleAttempt(data, onNetworkError) {
 
     saveAttemptToServer(url, attemptData, onNetworkError);
 
-    if (skipped && !Exercises.assessmentMode) {
-        // Skipping should pull up the next card immediately - but, if we're in
-        // assessment mode, we don't know what the next card will be yet, so
-        // wait for the special assessment mode triggers to fire instead.
-        $(Exercises).trigger("gotoNextProblem");
-    }
-
-    if (Exercises.assessmentMode) {
-        // Tell the assessment queue that the current question has been
-        // answered so that it can serve up the next question when its ready
-        // Set a small timeout to give the browser a chance to show the
-        // disabled check-answer button.  Otherwise in chrome it doesn't show
-        // Please wait...
-        setTimeout(function() {
-            Exercises.AssessmentQueue.answered(score.correct);
-        },10);
-    }
     return {
         status: "normal",
         data: checkAnswerData,
