@@ -4,6 +4,10 @@ if (typeof React !== 'undefined') {
     var createFragment = React.__internalAddons.createFragment;
 }
 
+/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
+/* eslint-disable no-var */
+/* To fix, remove an entry above, run "make linc", and fix errors. */
+
 
 // The plural language strings for all the languages we have
 // listed in crowdin.  The values here need to match what crowdin
