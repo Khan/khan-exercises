@@ -210,8 +210,7 @@ Calculator.init = function() {
                     Calculator.settings.angleMode === "DEG" ?
                     "RAD" : "DEG";
                 if (typeof window.localStorage !== "undefined") {
-                    var userID = window.KA && window.KA.getUserID &&
-                        window.KA.getUserID();
+                    var userID = window.KA && window.KA.userId;
                     window.localStorage["calculator_settings:" +
                         userID] = JSON.stringify(
                         Calculator.settings);
