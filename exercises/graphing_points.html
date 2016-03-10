@@ -131,7 +131,9 @@
                                         }, function() {
                                             line( [ X, 0 ], [ X, Y ] );
                                         });
-                                        graph.movablePoint.toFront();
+                                        if (graph.point) {
+                                            graph.point.toFront();
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +152,9 @@
                                     line( [ X - 0.25, Y - 0.25 ], [ X + 0.25, Y + 0.25 ] );
                                     line( [ X + 0.25, Y - 0.25 ], [ X - 0.25, Y + 0.25 ] );
                                 });
-                                graph.movablePoint.toFront();
+                                if (graph.point) {
+                                    graph.point.toFront();
+                                }
                             </div>
                         </div>
                     </div>
