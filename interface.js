@@ -30,7 +30,40 @@
  */
 (function() {
 
-function saveAttemptToServer(url, attemptData) {
+function hideProblemUIOnError(statusText) {
+    // Hide the page so users don't continue, then warn the user about the
+    // problem and encourage reloading the page
+    $("#problem-and-answer").css("visibility", "hidden");
+
+    if (statusText === "timeout") {
+        // TODO(david): Instead of throwing up this error message, try
+        //     retrying the request or something. See more details in
+        //     comment in request().
+        $(Exercises).trigger("warning",
+                i18n._("Uh oh, it looks like a network request timed out! " +
+                    "You'll need to " +
+                    "<a href='%(refresh)s'>refresh</a> to continue. " +
+                    "If you think this is a mistake, " +
+                    "<a href='http://www.khanacademy.org/reportissue?" +
+                    "type=Defect'>tell us</a>.",
+                    {refresh: _.escape(window.location.href)}
+                )
+        );
+    } else {
+        $(Exercises).trigger("warning",
+                i18n._("This page is out of date. You need to " +
+                    "<a href='%(refresh)s'>refresh</a>, but don't " +
+                    "worry, you haven't lost progress. If you think " +
+                    "this is a mistake, " +
+                    "<a href='http://www.khanacademy.org/reportissue?" +
+                    "type=Defect'>tell us</a>.",
+                    {refresh: _.escape(window.location.href)}
+                )
+        );
+    }
+}
+
+function saveAttemptToServer(url, attemptData, onError) {
     // Save the problem results to the server
     var promise = request(url, attemptData).fail(function(xhr) {
         // Alert any listeners of the error before reload
@@ -43,39 +76,8 @@ function saveAttemptToServer(url, attemptData) {
             return;
         }
 
-        // Error during submit. Disable the page and ask users to
-        // reload in an attempt to get updated data.
-
-        // Hide the page so users don't continue, then warn the user about the
-        // problem and encourage reloading the page
-        $("#problem-and-answer").css("visibility", "hidden");
-
-        if (xhr.statusText === "timeout") {
-            // TODO(david): Instead of throwing up this error message, try
-            //     retrying the request or something. See more details in
-            //     comment in request().
-            $(Exercises).trigger("warning",
-                    i18n._("Uh oh, it looks like a network request timed out! " +
-                        "You'll need to " +
-                        "<a href='%(refresh)s'>refresh</a> to continue. " +
-                        "If you think this is a mistake, " +
-                        "<a href='http://www.khanacademy.org/reportissue?" +
-                        "type=Defect'>tell us</a>.",
-                        {refresh: _.escape(window.location.href)}
-                    )
-            );
-        } else {
-            $(Exercises).trigger("warning",
-                    i18n._("This page is out of date. You need to " +
-                        "<a href='%(refresh)s'>refresh</a>, but don't " +
-                        "worry, you haven't lost progress. If you think " +
-                        "this is a mistake, " +
-                        "<a href='http://www.khanacademy.org/reportissue?" +
-                        "type=Defect'>tell us</a>.",
-                        {refresh: _.escape(window.location.href)}
-                    )
-            );
-        }
+        // Trigger any custom callbacks.
+        onError && onError(xhr.statusText);
 
         // Also log this failure to a bunch of places so we can see
         // how frequently this occurs, and if it's similar to the frequency
@@ -470,11 +472,16 @@ function handleAttemptEvent(data) {
     // an imperative (as opposed to event-based) API. handleAttemptEvent is
     // used to respond to DOM events, and so returns `false` to cancel the
     // event.
-    handleAttempt(data);
+    // NOTE(charlie): These event handlers are meant to be used by web clients.
+    // As such, in response to API errors, they'll want to hide the problem UI.
+    // On mobile, we use imperativeAPI.handleAttempt directly and override the
+    // onNetworkError callback, since we handle these errors ourselves (e.g.,
+    // by overlaying a modal over the problem UI, rather than hiding it).
+    handleAttempt(data, hideProblemUIOnError);
     return false;
 }
 
-function handleAttempt(data) {
+function handleAttempt(data, onNetworkError) {
     var framework = Exercises.getCurrentFramework();
     var skipped = data.skipped;
     var optOut = data.optOut;
@@ -710,7 +717,7 @@ function handleAttempt(data) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    saveAttemptToServer(url, attemptData);
+    saveAttemptToServer(url, attemptData, onNetworkError);
 
     if (skipped && !Exercises.assessmentMode) {
         // Skipping should pull up the next card immediately - but, if we're in
