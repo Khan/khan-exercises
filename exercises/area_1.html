@@ -61,7 +61,10 @@
                 </p>
                 <div>
                     <div class="graphie" data-update="area">
-                        SHAPE.labelSquares();
+                        _.each(SHAPE.squares, function(square, n) {
+                            KhanUtil.currentGraph.label([square[0] + 0.5, square[1] - 0.5],
+                                n + 1, "center", false);
+                        });
                     </div>
                     <p>Count the number of squares covered.</p>
                 </div>
