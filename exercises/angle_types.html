@@ -34,6 +34,7 @@
                     var ANGLE_TWO = ANGLE_ONE + DIFF;
                     var ANGLE_ONE_R = toRadians(ANGLE_ONE);
                     var ANGLE_TWO_R = toRadians(ANGLE_TWO);
+                    angle = {};
                     angle.COS1 = cos(ANGLE_ONE_R);
                     angle.SIN1 = sin(ANGLE_ONE_R);
                     angle.COS2 = cos(ANGLE_TWO_R);
@@ -53,8 +54,8 @@
                         arc([0, 0], 1, ANGLE_ONE, ANGLE_TWO);
                     }
 
-                    addMouseLayer();
-                    graph.protractor = protractor([14, -8]);
+                    //addMouseLayer();
+                    //graph.protractor = protractor([14, -8]);
                 </div>
             </div>
 
@@ -66,10 +67,6 @@
             </ul>
 
             <div class="hints">
-                <div class="graphie" data-update="angle">
-                    graph.protractor.moveTo( 0, 0 );
-                    graph.protractor.rotateTo( 540 - ANGLE_ONE - DIFF );
-                </div>
                 <div>
                     <p>The shown angle measures less than <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
@@ -88,10 +85,6 @@
             <div class="solution">Right</div>
 
             <div class="hints">
-                <div class="graphie" data-update="angle">
-                    graph.protractor.moveTo( 0, 0 );
-                    graph.protractor.rotateTo( 540 - ANGLE_ONE - DIFF );
-                </div>
                 <div>
                     <p>The shown angle measures <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
@@ -110,10 +103,6 @@
             <div class="solution">Obtuse</div>
 
             <div class="hints">
-                <div class="graphie" data-update="angle">
-                    graph.protractor.moveTo( 0, 0 );
-                    graph.protractor.rotateTo( 540 - ANGLE_ONE - DIFF );
-                </div>
                 <div>
                     <p>The shown angle measures more than <code>90^\circ</code>.</p>
                     <div class="graphie" data-update="angle">
