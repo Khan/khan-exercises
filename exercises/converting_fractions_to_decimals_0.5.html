@@ -58,50 +58,37 @@
             <div class="hints">
                 <div data-if="DIGITS.length > 1" data-unwrap="">
                     <p><code>
-                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = 
+                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} =
                         \blue{\dfrac{<var>VALUES[0]</var>}{<var>DENOMINATOR</var>}} +
                         \pink{\dfrac{<var>VALUES[1]</var>}{<var>DENOMINATOR</var>}}
                     </code></p>
 
                     <p><code>
-                        \phantom{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}} = 
+                        \phantom{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}} =
                         \blue{\dfrac{<var>DIGITS[0]</var>}{<var>DENOMINATOR / 10</var>}} +
                         \pink{\dfrac{<var>DIGITS[1]</var>}{<var>DENOMINATOR</var>}}
                     </code></p>
 
                     <p><code>
-                        \phantom{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}} = 
+                        \phantom{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}} =
                         \blue{<var>DIGITS[0]</var> \text{ <var>plural_form(decimalPlaceNames[PLACES - 1], DIGITS[0])</var>}} +
                         \pink{<var>DIGITS[1]</var> \text{ <var>plural_form(decimalPlaceNames[PLACES], DIGITS[1])</var>}}
                     </code></p>
                 </div>
                 <div data-else="">
                     <p><code>
-                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = 
+                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} =
                         \blue{<var>DIGITS[0]</var> \text{ <var>plural_form(decimalPlaceNames[PLACES], DIGITS[0])</var>}}
                     </code></p>
                 </div>
 
                 <div>
                     <p>We can use a place value chart to help us write a decimal.</p>
-                    <table class="ttable">
-                        <thead>
-                            <tr>
-                                <td>Ones</td>
-                                <td><code>.</code></td>
-                                <td>Tenths</td>
-                                <td>Hundredths</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="highlight-row">
-                                <td><code><var>DECIMAL_DIGITS[0]</var></code></td>
-                                <td><code>.</code></td>
-                                <td><code><var>DECIMAL_DIGITS[1]</var></code></td>
-                                <td><code><var>DECIMAL_DIGITS[2]</var></code></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <p>
+                        Ones | . | Tenths | Hundredths __NEWLINE__
+                        :-: | :-: | :-: | :-: __NEWLINE__
+                        <code><var>DECIMAL_DIGITS[0]</var></code> | <code>.</code> | <code><var>DECIMAL_DIGITS[1]</var></code> | <code><var>DECIMAL_DIGITS[2]</var></code>
+                    </p>
                 </div>
 
                 <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>SOLUTION</var></code></p>
