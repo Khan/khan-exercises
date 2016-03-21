@@ -544,9 +544,31 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         possibilities = _.reduce(Khan.answerTypes.predicate.defaultForms.split(/\s*,\s*/), function(memo, form) {
                             return memo.concat(forms[form](text));
                         }, []);
-                        $.each(possibilities, function(ix, possibility) {
-                            possibility.piApprox = true;
-                        });
+                        // If the answer is a floating point number that's
+                        // near a multiple of pi, mark is as being possibly
+                        // an approximation of pi.  We actually check if
+                        // it's a plausible approximation of pi/12, since
+                        // sometimes the correct answer is like pi/3 or pi/4.
+                        // We also say it's a pi-approximation if it involves
+                        // x/7 (since 22/7 is an approximation of pi.)
+                        // Never mark an integer as being an approximation
+                        // of pi.
+                        var approximatesPi = false;
+                        var number = parseFloat(text);
+                        if (!isNaN(number) && number !== parseInt(text)) {
+                            var piMult = Math.PI / 12;
+                            var roundedNumber = piMult * Math.round(number / piMult);
+                            if (Math.abs(number - roundedNumber) < 0.01) {
+                                approximatesPi = true;
+                            }
+                        } else if (text.match(/\/\s*7/)) {
+                            approximatesPi = true;
+                        }
+                        if (approximatesPi) {
+                            $.each(possibilities, function(ix, possibility) {
+                                possibility.piApprox = true;
+                            });
+                        }
                         return possibilities;
                     }
 

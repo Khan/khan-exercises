@@ -1,4 +1,4 @@
-.FAKE: pack packed lint fix_lint
+.FAKE: serve pack packed lint fix_lint
 
 # This needs 'npm' on your system, to install jison.
 # The output file has to be named 'Calculator' because that's how jison
@@ -9,6 +9,14 @@ genfiles/calculator.js: build/calculator/calculator.jison build/calculator/calcu
 	node_modules/.bin/jison -m js build/calculator/calculator.jison -o genfiles/Calculator.js
 	cat build/calculator/calculator-tail.js >>genfiles/Calculator.js
 	mv genfiles/Calculator.js genfiles/calculator.js
+
+
+serve:
+	python -m SimpleHTTPServer
+
+
+check:
+	echo "Run 'make serve' then visit http://localhost:8000/test"
 
 
 deps:

@@ -1363,4 +1363,34 @@
         }, 400);
     });
 
+    asyncTest("number pi (approximation is not overzealous 1)", 6, function() {
+        setupSolutionArea();
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number' data-forms='pi'>565.5</p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "565.5", "right", "right answer is right");
+        testAnswer(answerData, "565", "wrong", "wrong answer is wrong");
+
+        start();
+    });
+
+    asyncTest("number pi (approximation is not overzealous 2)", 6, function() {
+        setupSolutionArea();
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number' data-forms='pi'>0.833333333333333333</p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "5/6", "right", "right answer is right");
+        testAnswer(answerData, ".833", "wrong", "wrong answer is wrong");
+
+        start();
+    });
+
 })();
