@@ -128,6 +128,7 @@
                         graph.r = path([[0, 0], polar(DIAGRAM_R, graph.cAngle)], { stroke: PINK });
                         graph.rL = label(polar(DIAGRAM_R / 2, graph.cAngle), "\\pink{" + R + "}", "above");
                     </div>
+                    <p class="solution" data-forms="integer, proper, improper, mixed, pi"><var>A_S</var></p>
 
                     <div class="hints">
                         <p>First, calculate the area of the whole circle.</p>
@@ -168,7 +169,7 @@
 
                         <div>
                             <p><code><var>PRETTY_A_S</var> = \green{A_s}</code></p>
-                            <div class="graphie" data-update="circle">
+                            <div class="graphie" data-update="circle2">
                                 label(polar(DIAGRAM_R * 0.65, graph.aAngle), "\\green{" + PRETTY_A_S + "}");
                             </div>
                         </div>
