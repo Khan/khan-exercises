@@ -771,8 +771,10 @@ var Khan = {
             issueInfo.debugInfo += "\n\n" + debugLogLog.join("\n");
 
 
-            // Flag special users
-            var profile = typeof KA !== "undefined" && KA.getUserProfile();
+            // Flag special users.
+            // TODO(csilvers): figure out how to get this information
+            // back into perseus (if this code is even used there).
+            var profile = typeof KA !== "undefined" && KA.getUserProfile && KA.getUserProfile();
             var powerUser = profile && profile.get("points") >= 500000;
             var vip = typeof KA !== "undefined" && KA.vipIssueReporter;
             issueInfo.userFlags = [];
