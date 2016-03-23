@@ -1004,7 +1004,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             });
         };
 
-        if (movablePoint.visible && !movablePoint.constraints.fixed) {
+        if (movablePoint.visible && !movablePoint.constraints.fixed && graph.mouseLayer) {
             // the invisible shape in front of the point that gets mouse events
             if (!movablePoint.mouseTarget) {
                 movablePoint.mouseTarget = graph.mouselayer.circle(
