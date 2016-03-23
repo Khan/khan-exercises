@@ -128,11 +128,39 @@
                 </p>
             </div>
         </div>
-        <div id="find-central-on-1" data-type="find-angle-1">
+
+        <div id="find-central-on-1">
             <div class="vars">
+                <var id="SUBTENDED_POINT">(START + 180) % 360</var>
                 <var id="GIVEN">CENTRAL / 2</var>
                 <var id="GIVEN_LABEL">ANGLE_D_LABEL</var>
                 <var id="ASKED_LABEL">CENTRAL_LABEL</var>
+            </div>
+            <p class="problem">
+                A circle is centered on point <code>B</code>. Points <code>A</code>, <code>C</code>
+                and <code>D</code> lie on its circumference.
+            </p>
+            <p class="question">
+                If <code><var>GIVEN_LABEL</var></code> measures <code><var>GIVEN</var>^\circ</code>,
+                what does <code><var>ASKED_LABEL</var></code> measure?
+            </p>
+            <div class="render-answer-area-here"></div>
+            <div class="graphie" id="circle">
+                init({
+                range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ]
+                });
+                addMouseLayer();
+                graph.circle = new Circle( RADIUS );
+
+                style({ stroke: BLUE, fill: BLUE });
+                graph.circle.drawCenter("B", START + CENTRAL / 2 + 180);
+                graph.circle.drawPoint(START, "A");
+                graph.circle.drawPoint(START + CENTRAL, "C");
+                graph.circle.drawCentralAngle(START, START + CENTRAL);
+
+                style({ stroke: INTERACTIVE, fill: INTERACTIVE, color: INTERACTIVE });
+                graph.circle.drawInscribedAngle(SUBTENDED_POINT, START, START + CENTRAL, 0.5, "D");
+                graph.circle.drawMovablePoint(SUBTENDED_POINT, START + CENTRAL, START, "D");
             </div>
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer, decimal"><var>CENTRAL</var></span> <code>^\circ</code>
@@ -192,13 +220,46 @@
                 </p>
             </div>
         </div>
-        <div id="find-angle-2" data-type="find-angle-1">
+
+        <div id="find-angle-2">
             <div class="vars">
+                <var id="GIVEN">CENTRAL</var>
+                <var id="GIVEN_LABEL">CENTRAL_LABEL</var>
+                <var id="ASKED_LABEL">ANGLE_D_LABEL</var>
                 <var id="SUBTENDED_POINT">randRange(START + 180 + 20, START + CENTRAL + 180 - 20) % 360</var>
                 <var id="SUBANGLE_1">"\\blue{\\angle CBE}"</var>
                 <var id="SUBANGLE_2">"\\blue{\\angle ABE}"</var>
                 <var id="SUBANGLE_3">"\\orange{\\angle CDE}"</var>
                 <var id="SUBANGLE_4">"\\orange{\\angle ADE}"</var>
+            </div>
+            <p class="problem">
+                A circle is centered on point <code>B</code>. Points <code>A</code>, <code>C</code>
+                and <code>D</code> lie on its circumference.
+            </p>
+            <p class="question">
+                If <code><var>GIVEN_LABEL</var></code> measures <code><var>GIVEN</var>^\circ</code>,
+                what does <code><var>ASKED_LABEL</var></code> measure?
+            </p>
+            <div class="render-answer-area-here"></div>
+            <div class="graphie" id="circle">
+                init({
+                range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ]
+                });
+                addMouseLayer();
+                graph.circle = new Circle( RADIUS );
+
+                style({ stroke: BLUE, fill: BLUE });
+                graph.circle.drawCenter("B", START + CENTRAL / 2 + 180);
+                graph.circle.drawPoint(START, "A");
+                graph.circle.drawPoint(START + CENTRAL, "C");
+                graph.circle.drawCentralAngle(START, START + CENTRAL);
+
+                style({ stroke: INTERACTIVE, fill: INTERACTIVE, color: INTERACTIVE });
+                graph.circle.drawInscribedAngle(SUBTENDED_POINT, START, START + CENTRAL, 0.5, "D");
+                graph.circle.drawMovablePoint(SUBTENDED_POINT, START + CENTRAL, START, "D");
+            </div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer, decimal"><var>CENTRAL / 2</var></span> <code>^\circ</code>
             </div>
 
             <div class="hints">
@@ -264,11 +325,43 @@
                 <p><code><var>ASKED_LABEL</var> = \frac{1}{2} \cdot \blue{<var>CENTRAL</var>}^\circ = \orange{<var>CENTRAL / 2</var>^\circ}</code></p>
             </div>
         </div>
-        <div id="find-central-on-2" data-type="find-angle-2">
+
+        <div id="find-central-on-2">
             <div class="vars">
+                <var id="SUBTENDED_POINT">randRange(START + 180 + 20, START + CENTRAL + 180 - 20) % 360</var>
+                <var id="SUBANGLE_1">"\\blue{\\angle CBE}"</var>
+                <var id="SUBANGLE_2">"\\blue{\\angle ABE}"</var>
+                <var id="SUBANGLE_3">"\\orange{\\angle CDE}"</var>
+                <var id="SUBANGLE_4">"\\orange{\\angle ADE}"</var>
                 <var id="GIVEN">CENTRAL / 2</var>
                 <var id="GIVEN_LABEL">ANGLE_D_LABEL</var>
                 <var id="ASKED_LABEL">CENTRAL_LABEL</var>
+            </div>
+            <p class="problem">
+                A circle is centered on point <code>B</code>. Points <code>A</code>, <code>C</code>
+                and <code>D</code> lie on its circumference.
+            </p>
+            <p class="question">
+                If <code><var>GIVEN_LABEL</var></code> measures <code><var>GIVEN</var>^\circ</code>,
+                what does <code><var>ASKED_LABEL</var></code> measure?
+            </p>
+            <div class="render-answer-area-here"></div>
+            <div class="graphie" id="circle">
+                init({
+                range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ]
+                });
+                addMouseLayer();
+                graph.circle = new Circle( RADIUS );
+
+                style({ stroke: BLUE, fill: BLUE });
+                graph.circle.drawCenter("B", START + CENTRAL / 2 + 180);
+                graph.circle.drawPoint(START, "A");
+                graph.circle.drawPoint(START + CENTRAL, "C");
+                graph.circle.drawCentralAngle(START, START + CENTRAL);
+
+                style({ stroke: INTERACTIVE, fill: INTERACTIVE, color: INTERACTIVE });
+                graph.circle.drawInscribedAngle(SUBTENDED_POINT, START, START + CENTRAL, 0.5, "D");
+                graph.circle.drawMovablePoint(SUBTENDED_POINT, START + CENTRAL, START, "D");
             </div>
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer, decimal"><var>CENTRAL</var></span> <code>^\circ</code>
@@ -337,8 +430,12 @@
                 <p><code><var>ASKED_LABEL</var> = 2 \cdot \orange{<var>CENTRAL / 2</var>}^\circ = \blue{<var>CENTRAL</var>^\circ}</code></p>
             </div>
         </div>
-        <div id="find-inscribed-outside-3" data-type="find-angle-1">
+
+        <div id="find-inscribed-outside-3">
             <div class="vars">
+                <var id="GIVEN">CENTRAL</var>
+                <var id="GIVEN_LABEL">CENTRAL_LABEL</var>
+                <var id="ASKED_LABEL">ANGLE_D_LABEL</var>
                 <var id="SUBTENDED_POINT">
                     randFromArray([
                         randRange(START + CENTRAL + 30, START + 180 - 30),
@@ -352,6 +449,36 @@
                 })()
                 </var>
             </div>
+            <p class="problem">
+                A circle is centered on point <code>B</code>. Points <code>A</code>, <code>C</code>
+                and <code>D</code> lie on its circumference.
+            </p>
+            <p class="question">
+                If <code><var>GIVEN_LABEL</var></code> measures <code><var>GIVEN</var>^\circ</code>,
+                what does <code><var>ASKED_LABEL</var></code> measure?
+            </p>
+            <div class="render-answer-area-here"></div>
+            <div class="graphie" id="circle">
+                init({
+                range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ]
+                });
+                addMouseLayer();
+                graph.circle = new Circle( RADIUS );
+
+                style({ stroke: BLUE, fill: BLUE });
+                graph.circle.drawCenter("B", START + CENTRAL / 2 + 180);
+                graph.circle.drawPoint(START, "A");
+                graph.circle.drawPoint(START + CENTRAL, "C");
+                graph.circle.drawCentralAngle(START, START + CENTRAL);
+
+                style({ stroke: INTERACTIVE, fill: INTERACTIVE, color: INTERACTIVE });
+                graph.circle.drawInscribedAngle(SUBTENDED_POINT, START, START + CENTRAL, 0.5, "D");
+                graph.circle.drawMovablePoint(SUBTENDED_POINT, START + CENTRAL, START, "D");
+            </div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer, decimal"><var>CENTRAL / 2</var></span> <code>^\circ</code>
+            </div>
+
             <div class="hints">
                 <div>
                     <p>First add a diameter.</p>
@@ -460,14 +587,161 @@
                 </p>
             </div>
         </div>
-        <div id="find-central-3" data-type="find-inscribed-outside-3">
+
+        <div id="find-central-3">
             <div class="vars">
+                <var id="SUBTENDED_POINT">
+                    randFromArray([
+                    randRange(START + CENTRAL + 30, START + 180 - 30),
+                    randRange(START + CENTRAL + 180 + 30, START + 360 - 30)
+                    ]) % 360
+                </var>
+                <var id="ORDER">(function() {
+                    var arc_AD = innerArc(START, SUBTENDED_POINT);
+                    var arc_CD = innerArc((START + CENTRAL) % 360, SUBTENDED_POINT);
+                    return abs(arc_AD.end - arc_AD.start) &lt; abs(arc_CD.end - arc_CD.start);
+                    })()
+                </var>
                 <var id="GIVEN">CENTRAL / 2</var>
                 <var id="GIVEN_LABEL">ANGLE_D_LABEL</var>
                 <var id="ASKED_LABEL">CENTRAL_LABEL</var>
             </div>
+            <p class="problem">
+                A circle is centered on point <code>B</code>. Points <code>A</code>, <code>C</code>
+                and <code>D</code> lie on its circumference.
+            </p>
+            <p class="question">
+                If <code><var>GIVEN_LABEL</var></code> measures <code><var>GIVEN</var>^\circ</code>,
+                what does <code><var>ASKED_LABEL</var></code> measure?
+            </p>
+            <div class="render-answer-area-here"></div>
+            <div class="graphie" id="circle">
+                init({
+                range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ]
+                });
+                addMouseLayer();
+                graph.circle = new Circle( RADIUS );
+
+                style({ stroke: BLUE, fill: BLUE });
+                graph.circle.drawCenter("B", START + CENTRAL / 2 + 180);
+                graph.circle.drawPoint(START, "A");
+                graph.circle.drawPoint(START + CENTRAL, "C");
+                graph.circle.drawCentralAngle(START, START + CENTRAL);
+
+                style({ stroke: INTERACTIVE, fill: INTERACTIVE, color: INTERACTIVE });
+                graph.circle.drawInscribedAngle(SUBTENDED_POINT, START, START + CENTRAL, 0.5, "D");
+                graph.circle.drawMovablePoint(SUBTENDED_POINT, START + CENTRAL, START, "D");
+            </div>
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer, decimal"><var>CENTRAL</var></span> <code>^\circ</code>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>First add a diameter.</p>
+                    <div class="graphie" data-update="circle">
+                        style({stroke: GRAY, "stroke-dasharray": "-"}, function() {
+                        graph.circle.drawChord(SUBTENDED_POINT, SUBTENDED_POINT + 180);
+                        style({ fill: GRAY, stroke: GRAY });
+                        graph.circle.drawPoint(SUBTENDED_POINT + 180, "E");
+                        });
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        The triangle <code>\pink{ABD}</code> is isosceles as
+                        <code>\pink{AB}</code> and <code>\pink{BD}</code> are radii, so must be equal.
+                    </p>
+                    <div class="graphie" data-update="circle">
+                        graph.triangle = path([[0, 0], polar(RADIUS, START), polar(RADIUS, SUBTENDED_POINT), [0, 0]], { stroke: PINK, fill: "none" });
+                    </div>
+                </div>
+                <div>
+                    <p>Therefore, <code>\pink{\angle{BAD}}</code> and <code>\orange{\angle{ADB}}</code> are equal.</p>
+                    <div class="graphie" data-update="circle">
+                        var arc = innerArc(START, (SUBTENDED_POINT + 180) % 360);
+                        var arc2 = innerArc(SUBTENDED_POINT, (START + 180) % 360);
+                        style({ stroke: ORANGE });
+                        graph.orangeAngle2 = graph.circle.drawInscribedArc(SUBTENDED_POINT, arc.start, arc.end, 0.7);
+                        style({ stroke: PINK });
+                        graph.pinkAngle = graph.circle.drawInscribedArc(START, arc2.start, arc2.end, 0.7);
+                    </div>
+                </div>
+                <div>
+                    <p>Since, the angles in a triangle sum to <code>180^\circ</code></p>
+                    <p><code>
+                        \begin{eqnarray}
+                        \green{\angle{ABD}} + \pink{\angle{BAD}} + \orange{\angle{ADB}} &amp;=&amp; 180^\circ \\
+                        \green{\angle{ABD}} + 2 \cdot \orange{\angle{ADB}} &amp;=&amp; 180^\circ \\
+                        \green{\angle{ABD}} &amp;=&amp; 180^\circ - 2 \cdot \orange{\angle{ADB}}
+                        \end{eqnarray}
+                    </code></p>
+                    <div class="graphie" data-update="circle">
+                        style({ stroke: GREEN });
+                        var arc = innerArc(START, SUBTENDED_POINT);
+                        graph.greenAngle = graph.circle.drawCentralArc(arc.start, arc.end, 0.7);
+                    </div>
+                </div>
+                <div>
+                    <p><code>\green{\angle{ABD}}</code> and <code>\blue{\angle{ABE}}</code> are supplementary.</p>
+                    <p><code>
+                        \begin{eqnarray}
+                        \green{\angle{ABD}} + \blue{\angle{ABE}} &amp;=&amp; 180^\circ \\
+                        \blue{\angle{ABE}} &amp;=&amp; 180^\circ - \green{\angle{ABD}} \\
+                        \blue{\angle{ABE}} &amp;=&amp; 180^\circ - (180^\circ - 2 \cdot \orange{\angle{ADB}})
+                        \end{eqnarray}
+                    </code></p>
+                    <div class="graphie" data-update="circle">
+                        style({ stroke: BLUE });
+                        var arc = innerArc(START, (SUBTENDED_POINT + 180) % 360);
+                        graph.blueAngle2 = graph.circle.drawCentralArc(arc.start, arc.end, 0.7);
+                    </div>
+                </div>
+                <div>
+                    <p>So, <code>\blue{\angle{ABE}} = 2 \cdot \orange{\angle{ADB}}</code>.</p>
+                    <div class="graphie" data-update="circle">
+                        graph.pinkAngle.remove();
+                        graph.greenAngle.remove();
+                        graph.blueAngle2.animate({ opacity: 0.4 });
+                        graph.orangeAngle2.animate({ opacity: 0.4 });
+                        graph.triangle.remove();
+                    </div>
+                </div>
+                <div>
+                    <p>We can also created an isosceles triangle, <code>\pink{BCD}</code>.</p>
+                    <div class="graphie" data-update="circle">
+                        graph.triangle = path([[0, 0], polar(RADIUS, START + CENTRAL), polar(RADIUS, SUBTENDED_POINT), [0, 0]], { stroke: PINK, fill: "none" });
+                    </div>
+                </div>
+                <div>
+                    <p>Using the same argument we can find that, <code>\blue{\angle{CBE}} = 2 \cdot \orange{\angle{CDB}}</code>.</p>
+                    <div class="graphie" data-update="circle">
+                        graph.triangle.remove();
+                        var arc = innerArc((START + CENTRAL) % 360, (SUBTENDED_POINT + 180) % 360);
+                        style({ stroke: BLUE, opacity: 0.4 });
+                        graph.circle.drawCentralArc(arc.start, arc.end, 0.9);
+                        style({ stroke: ORANGE, opacity: 0.4 });
+                        graph.circle.drawInscribedArc(SUBTENDED_POINT, arc.start, arc.end, 0.9);
+                    </div>
+                </div>
+                <p data-if="ORDER">
+                    <code>\blue{\angle{ABC}} = \blue{\angle{ABE}} - \blue{\angle{CBE}}</code><br>
+                    <code>\orange{\angle{ADC}} = \orange{\angle{ADE}} - \orange{\angle{CDE}}</code>
+                </p><p data-else="">
+                <code>\blue{\angle{ABC}} = \blue{\angle{CBE}} - \blue{\angle{ABE}}</code><br>
+                <code>\orange{\angle{ADC}} = \orange{\angle{CDE}} - \orange{\angle{ADE}}</code>
+            </p>
+                <p>
+                    Since <code>\blue{\angle{ABE}} = 2 \cdot \orange{\angle{ADE}}</code> and
+                    <code>\blue{\angle{CBE}} = 2 \cdot \orange{\angle{CDE}}</code>,
+                    <code>\blue{\angle{ABC}} = 2 \cdot \orange{\angle{ADC}}</code>
+                </p>
+                <p data-if="GIVEN === CENTRAL">
+                    So, <code>\orange{\angle{ADC}} = \frac{1}{2} \cdot \blue{<var>GIVEN</var>^\circ} = <var>GIVEN / 2</var>^\circ</code>.
+                </p><p data-else="">
+                <!-- This hint only used in the following exercise -->
+                So, <code>\blue{\angle{ABC}} = 2 \cdot \orange{<var>GIVEN</var>^\circ} = <var>GIVEN * 2</var>^\circ</code>.
+            </p>
             </div>
         </div>
     </div>
