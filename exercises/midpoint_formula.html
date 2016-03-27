@@ -102,10 +102,10 @@
                         <p><code>x = \dfrac{1}{2}(<var>X1 + X2</var>)</code></p>
                         <p><code>x = \purple{<var>XM</var>}</code></p>
                     </div>
-                    <span class="graphie" data-update="graph">
+                    <div class="graphie" data-update="graph">
                         style( midPtStyle );
                         graph.vert = path( [ [ XM, -10], [ XM, 10] ] );
-                    </span>
+                    </div>
                     <p>The <span class="hint_purple"><code>y</code> coordinate of the midpoint</span> is the average of the
                         <code>y</code> coordinates <code>\blue{A}</code> and <code>\green{B}</code>.</p>
                     <div>
@@ -113,9 +113,9 @@
                         <p><code>y = \dfrac{1}{2}(<var>Y1 + Y2</var>)</code></p>
                         <p><code>y = \purple{<var>YM</var>}</code></p>
                     </div>
-                    <span class="graphie" data-update="graph">
+                    <div class="graphie" data-update="graph">
                         graph.horiz = path( [ [ -10, YM], [ 10, YM ] ] );
-                    </span>
+                    </div>
                     <div>
                         <p>The midpoint is <code>(\purple{<var>XM</var>}, \purple{<var>YM</var>})</code>.</p>
 
@@ -165,7 +165,7 @@
 
                 <div class="hints">
                     <p>
-                        The average of the <code>x</code> coordinates of point <code>\blue{A}</code> and point <code>\green{B}</code> 
+                        The average of the <code>x</code> coordinates of point <code>\blue{A}</code> and point <code>\green{B}</code>
                         should be <code>\purple{<var>XM</var>}</code>.
                     </p>
                     <div>
@@ -174,13 +174,13 @@
                         <p><code>\blue{<var>X1</var>} + \green{x} = <var>2 * XM</var></code></p>
                         <p><code>\green{x} = <var>X2</var></code></p>
 
-                        <span class="graphie" data-update="graph">
+                        <div class="graphie" data-update="graph">
                             style( point2Style );
                             graph.vert = path( [ [ X2, -10], [ X2, 10] ] );
-                        </span>
+                        </div>
                     </div>
                     <p>
-                        The average of the <code>y</code> coordinates of point <code>\blue{A}</code> and point <code>\green{B}</code> 
+                        The average of the <code>y</code> coordinates of point <code>\blue{A}</code> and point <code>\green{B}</code>
                         should be <code>\purple{<var>YM</var>}</code>.
                     </p>
                     <div>
@@ -189,21 +189,21 @@
                         <p><code>\blue{<var>Y1</var>} + \green{y} = <var>2 * YM</var></code></p>
                         <p><code>\green{y} = <var>Y2</var></code></p>
 
-                        <span class="graphie" data-update="graph">
+                        <div class="graphie" data-update="graph">
                             graph.horiz = path( [ [ -10, Y2 ], [ 10, Y2 ] ] );
-                        </span>
+                        </div>
                     </div>
                     <div>
                         <p>Point <code>\green{B}</code> is <code>(\green{<var>X2</var>}, \green{<var>Y2</var>})</code>.</p>
 
-                        <span class="graphie" data-update="graph">
+                        <div class="graphie" data-update="graph">
                             path([[X1, Y1], [X2, Y2]], {stroke:"#000000"});
                             circle([X2, Y2], 0.15);
                             label([X2, Y2], "B", getPos([X2, Y2], [XM, YM]));
 
                             graph.first.toFront();
                             graph.midpoint.toFront();
-                        </span>
+                        </div>
                     </div>
                     <div class="graphie" data-update="graph">
                         graph.vert.remove();
