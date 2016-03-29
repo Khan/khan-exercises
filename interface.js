@@ -363,6 +363,9 @@ function problemTemplateRendered(e, data) {
 }
 
 function triggerNextProblem() {
+    if (interfaceFunctions) {
+        interfaceFunctions.setAttemptMessage("", "unanswered");
+    }
     $(Exercises).trigger("gotoNextProblem");
 }
 
@@ -553,7 +556,8 @@ function handleAttempt(data, onNetworkError) {
     }
 
     if (interfaceFunctions) {
-        interfaceFunctions.setAttemptMessage(attemptMessage);
+        var answerStatus = score.correct ? "correct" : "incorrect";
+        interfaceFunctions.setAttemptMessage(attemptMessage, answerStatus);
     } else {
         var $attemptMessage = $("#check-answer-results > p");
         if (attemptMessage) {
