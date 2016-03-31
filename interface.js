@@ -408,8 +408,8 @@ function newProblem(e, data) {
             .addClass("framework-" + framework);
 
     if (interfaceFunctions) {
-        interfaceFunctions.setHintsRemaining(numHints - hintsUsed);
-        // TODO(michelle): maybe also enable the check answer?
+        interfaceFunctions.setHintsRemaining(numHints - hintsUsed, hintsUsed);
+        // TODO(oliver): maybe also enable the check answer?
     } else {
         // Enable/disable the get hint button
         $(".hint-box").toggle(numHints !== 0);
@@ -851,7 +851,7 @@ function onHintShown(e, data) {
     $(Exercises).trigger("hintUsed", data);
 
     if (interfaceFunctions) {
-        interfaceFunctions.setHintsRemaining(numHints - hintsUsed);
+        interfaceFunctions.setHintsRemaining(numHints - hintsUsed, hintsUsed);
     } else {
         // Grow the scratchpad to cover the new hint
         Khan.scratchpad.resize();
