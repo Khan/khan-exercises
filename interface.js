@@ -63,43 +63,113 @@ function hideProblemUIOnError(statusText) {
     }
 }
 
-function saveAttemptToServer(url, attemptData, onError) {
+/**
+ * Make an HTTP request with the given parameters, retrying on failure
+ * according to the retry strategy provided, and returning a Promise that
+ * resolves or rejects with the results of the request.
+ *
+ * params -- the parameters of the HTTP request
+ * determineWhetherRequestShouldRetry -- a function that takes a retry index
+ *   and returns a Promise that resolves to `true` if the request should be
+ *   retried, and `false` if not. The default strategy is to never retry.
+ */
+function requestForParamsWithRetry(params,
+                                   determineWhetherRequestShouldRetry) {
+    // Given a function `f`, which returns a Promise, attempt to
+    // resolve the returned Promise, retrying on failure based on
+    // the responses of `determineWhetherRequestShouldRetry`.
+    function retry(f, retryIndex) {
+        retryIndex = retryIndex || 0;
+        return f().catch(function(error) {
+            if (determineWhetherRequestShouldRetry) {
+                return determineWhetherRequestShouldRetry(retryIndex).then(
+                    function(shouldRetry) {
+                        if (shouldRetry) {
+                            return retry(f, retryIndex + 1);
+                        } else {
+                            throw error;
+                        }
+                    }
+                );
+            } else {
+                throw error;
+            }
+        });
+    }
+
+    function makeRequest() {
+        var request = $.kaOauthAjax(params);
+        // Convert the jQuery.Deferred object to a true Promise, which
+        // can only take one value on resolution or rejection.
+        return new Promise(function(resolve, reject) {
+            request.done(function(data, textStatus, jqXHR) {
+                resolve({
+                    data: data,
+                    textStatus: textStatus,
+                    jqXHR: jqXHR
+                });
+            });
+            request.fail(function(jqXHR, textStatus, errorThrown) {
+                reject({
+                    jqXHR: jqXHR,
+                    textStatus: textStatus,
+                    errorThrown: errorThrown
+                });
+            });
+        });
+    }
+
+    return retry(makeRequest);
+}
+
+function saveAttemptToServer(url, attemptData, onError,
+                             determineWhetherRequestShouldRetry) {
+    var requestForParams = function(params) {
+        return requestForParamsWithRetry(
+            params, determineWhetherRequestShouldRetry
+        );
+    };
+
     // Save the problem results to the server
-    var promise = request(url, attemptData).fail(function(xhr) {
-        // Alert any listeners of the error before reload
-        $(Exercises).trigger("attemptError");
+    var requestProm = request(url, attemptData, requestForParams).catch(
+        function(error) {
+            // Alert any listeners of the error before reload
+            $(Exercises).trigger("attemptError");
 
-        if (inUnload) {
-            // This path gets called when there is a broken pipe during
-            // page unload- browser navigating away during ajax request
-            // See http://stackoverflow.com/a/1370383.
-            return;
+            if (inUnload) {
+                // This path gets called when there is a broken pipe during
+                // page unload- browser navigating away during ajax request
+                // See http://stackoverflow.com/a/1370383.
+                return;
+            }
+
+            // Trigger any custom callbacks.
+            onError && onError(error.statusText);
+
+            // Also log this failure to a bunch of places so we can see
+            // how frequently this occurs, and if it's similar to the frequency
+            // that we used to get for the endless spinner at end of task card
+            // logs.
+            var logMessage = "[" + (+new Date()) + "] request to " +
+                url + " failed (" + error.jqXHR.status + ", " +
+                error.statusText + ") " + "with " +
+                (Exercises.pendingAPIRequests - 1) +
+                " other pending API requests: " +
+                attemptOrHintQueueUrls +
+                " (in khan-exercises/interface.js:handleAttempt)";
+
+            // Log to app engine logs... hopefully.
+            $.post("/sendtolog", {message: logMessage, with_user: 1});
+
+            // Also log to Sentry via Raven, just for some redundancy in case
+            // the above request doesn't make it to our server somehow.
+            if (window.Raven) {
+                window.Raven.captureMessage(
+                        logMessage, {tags: {ipaddebugging: true}});
+            }
         }
-
-        // Trigger any custom callbacks.
-        onError && onError(xhr.statusText);
-
-        // Also log this failure to a bunch of places so we can see
-        // how frequently this occurs, and if it's similar to the frequency
-        // that we used to get for the endless spinner at end of task card
-        // logs.
-        var logMessage = "[" + (+new Date()) + "] request to " +
-            url + " failed (" + xhr.status + ", " + xhr.statusText + ") " +
-            "with " + (Exercises.pendingAPIRequests - 1) +
-            " other pending API requests: " + attemptOrHintQueueUrls +
-            " (in khan-exercises/interface.js:handleAttempt)";
-
-        // Log to app engine logs... hopefully.
-        $.post("/sendtolog", {message: logMessage, with_user: 1});
-
-        // Also log to Sentry via Raven, just for some redundancy in case
-        // the above request doesn't make it to our server somehow.
-        if (window.Raven) {
-            window.Raven.captureMessage(
-                    logMessage, {tags: {ipaddebugging: true}});
-        }
-    });
-    return promise;
+    );
+    return requestProm;
 }
 
 /**
@@ -241,6 +311,9 @@ _.extend(Exercises, {
     imperativeAPI: {
         handleAttempt: handleAttempt,
         showHint: showHint,
+        // TODO(charlie): When iOS adopts the ProblemViewController API,
+        // deprecate this endpoint in favor of `showHint`.
+        showNextHint: showNextHint,
     },
 });
 
@@ -423,7 +496,7 @@ function newProblem(e, data) {
         // On translate.ka.org when previewing the exercise, we want to open up
         // all the hints to make it easy to translate immediately.
         while (hintsUsed < numHints) {
-            onHintButtonClicked();
+            showNextHint();
         }
     }
 
@@ -433,7 +506,7 @@ function newProblem(e, data) {
     // non-numeric).
     if (hintsUsed === 0 && numHints > 0 &&
             OfflineHintRecord.hasTakenHintFor(data.userExercise, problemNum)) {
-        onHintButtonClicked();
+        showNextHint();
     }
 
     // Render related videos, unless we're on the final stage of mastery or in
@@ -511,7 +584,8 @@ function handleOptOutEvent() {
     return false;
 }
 
-function handleAttempt(data, onNetworkError) {
+function handleAttempt(data, onNetworkError,
+                       determineWhetherRequestShouldRetry) {
     var framework = Exercises.getCurrentFramework();
     var skipped = data.skipped;
     var optOut = data.optOut;
@@ -748,7 +822,8 @@ function handleAttempt(data, onNetworkError) {
             score.correct, ++attempts, stringifiedGuess, timeTaken, skipped,
             optOut);
 
-    saveAttemptToServer(url, attemptData, onNetworkError);
+    saveAttemptToServer(url, attemptData, onNetworkError,
+        determineWhetherRequestShouldRetry);
 
     return {
         status: "normal",
@@ -773,7 +848,7 @@ function onShowExampleClicked() {
  *
  * Returns the new number of hints left.
  */
-function showHint(hintsLeft) {
+function showHint(hintsLeft, determineWhetherRequestShouldRetry) {
   if (hintsLeft <= 0) {
     return 0;
   }
@@ -782,22 +857,32 @@ function showHint(hintsLeft) {
     return realHintsLeft;
   }
 
-  // TODO(jared): refactor such that onHintButtonClicked can return the new
-  // number of hints left. Right now, there are event passing things (that are
+  // TODO(jared): refactor such that showNextHint can return the newnumber of
+  // hints left. Right now, there are event passing things (that are
   // nevertheless synchronous), so it's not possible.
-  onHintButtonClicked();
+  showNextHint(determineWhetherRequestShouldRetry);
   return hintsLeft - 1;
 }
 
 /**
  * Handle the event when a user clicks to use a hint.
  *
+ * Note that we can't use `showNextHint` directly, or else we'll pass the DOM
+ * event up as the `determineWhetherRequestShouldRetry` parameter.
+ */
+function onHintButtonClicked() {
+    showNextHint(null /* never retry */);
+}
+
+/**
+ * Reveal the next hint.
+ *
  * This deals with the internal work to do things like sending the event up
  * to the server, as well as triggering the external event "hintUsed" so that
  * other parts of the UI may update first. It's separated into two events so
  * that the XHR can be sent after the other items have a chance to respond.
  */
-function onHintButtonClicked() {
+function showNextHint(determineWhetherRequestShouldRetry) {
     var curTime = new Date().getTime();
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
     lastAttemptOrHint = curTime;
@@ -821,7 +906,12 @@ function onHintButtonClicked() {
         var url = fullUrl("problems/" + problemNum + "/hint", true);
         var attemptData = buildAttemptData(false, attempts, "hint",
                                            timeTaken, false, false);
-        request(url, attemptData);
+        var requestForParams = function(params) {
+            return requestForParamsWithRetry(
+                params, determineWhetherRequestShouldRetry
+            );
+        };
+        request(url, attemptData, requestForParams);
         hintsUsed--;
     }
 
@@ -845,8 +935,8 @@ function onHintShown(e, data) {
     // is handled by events. This feels very prone to breakage, but I'm not
     // sure how to fix it well without dealing with the global state in this
     // file in a more comprehensive way. We could change the flow control such
-    // that `onHintButtonClicked` calls PerseusBridge.showHint() (or
-    // something) directly, and then calls `onHintShown`.
+    // that `showNextHint` calls PerseusBridge.showHint() (or something)
+    // directly, and then calls `onHintShown`.
     hintsUsed++;
     $(Exercises).trigger("hintUsed", data);
 
@@ -992,7 +1082,17 @@ var attemptOrHintQueue = jQuery({});
 // Used for error reporting: what urls are in the queue when an error happens?
 var attemptOrHintQueueUrls = [];
 
-function request(url, data) {
+/**
+ * Make a POST request to the given URL, returning a promise that resolves with
+ * the response data or rejects with the relevant error parameters.
+ *
+ * url -- the URL against which the request should be made
+ * data -- the data to incude in the request
+ * requestForParams -- a function that takes a set of request parameters and
+ *                     returns a promise that resolves to the response of the
+ *                     request, or rejects with the error received
+ */
+function request(url, data, requestForParams) {
     var params = {
         // Do a request to the server API
         url: url,
@@ -1021,48 +1121,54 @@ function request(url, data) {
         timeout: Exercises.requestTimeoutMillis
     };
 
-    var deferred = $.Deferred();
+    var requestProm = new Promise(function(resolve, reject) {
+        attemptOrHintQueue.queue(function(next) {
+            attemptOrHintQueueUrls.push(params.url);
 
-    attemptOrHintQueue.queue(function(next) {
-        var requestEndedParameters;
-
-        attemptOrHintQueueUrls.push(params.url);
-        $.kaOauthAjax(params).then(function(data, textStatus, jqXHR) {
-            // This line calls any callbacks registered with the promise
-            deferred.resolve(data, textStatus, jqXHR);
-
-            // Tell any listeners that we now have new userExercise data
-            $(Exercises).trigger("updateUserExercise", {
-                userExercise: data,
-                source: "serverResponse"
-            });
-        }, function(jqXHR, textStatus, errorThrown) {
-            // Execute passed error function first in case it wants
-            // to log the request queue or something like that.
-            deferred.reject(jqXHR, textStatus, errorThrown);
-
-            // Clear the queue so we don't spit out a bunch of queued up
-            // requests after the error.
-            // TODO(csilvers): do we need to call apiRequestEnded for
-            // all these as well?  Exercises.pendingAPIRequests is now off.
-            attemptOrHintQueue.clearQueue();
-            attemptOrHintQueueUrls = [];
-
-            requestEndedParameters = {
-                "error": {
-                    textStatus: textStatus,
-                    errorThrown: errorThrown
+            function onRequestEnded(requestEndedParameters) {
+                var attemptedUrl = attemptOrHintQueueUrls.pop();
+                // Sanity check.  attemptedUrl will be undefined on send-error.
+                if (attemptedUrl && attemptedUrl !== params.url) {
+                    KhanUtil.debugLog("We just sent " + params.url + " but " +
+                                      attemptedUrl + " was at queue-front!");
                 }
-            };
-        }).always(function() {
-            var attemptedUrl = attemptOrHintQueueUrls.pop();
-            // Sanity check.  attemptedUrl will be undefined on send-error.
-            if (attemptedUrl && attemptedUrl !== params.url) {
-                KhanUtil.debugLog("We just sent " + params.url + " but " +
-                                  attemptedUrl + " was at queue-front!");
+                $(Exercises).trigger(
+                    "apiRequestEnded", requestEndedParameters
+                );
+                next();
             }
-            $(Exercises).trigger("apiRequestEnded", requestEndedParameters);
-            next();
+
+            requestForParams(params).then(function(result) {
+                // This line calls any callbacks registered with the promise
+                resolve(result);
+
+                // Tell any listeners that we now have new userExercise data
+                $(Exercises).trigger("updateUserExercise", {
+                    userExercise: result.data,
+                    source: "serverResponse"
+                });
+
+                // No parameters to pass on to completion.
+                return {};
+            }, function(error) {
+                // Execute passed error function first in case it wants
+                // to log the request queue or something like that.
+                reject(error);
+
+                // Clear the queue so we don't spit out a bunch of queued up
+                // requests after the error.
+                // TODO(csilvers): do we need to call apiRequestEnded for
+                // all these as well?  Exercises.pendingAPIRequests is now off.
+                attemptOrHintQueue.clearQueue();
+                attemptOrHintQueueUrls = [];
+
+                return {
+                    "error": {
+                        textStatus: error.textStatus,
+                        errorThrown: error.errorThrown
+                    }
+                };
+            }).then(onRequestEnded, onRequestEnded);
         });
     });
 
@@ -1071,7 +1177,7 @@ function request(url, data) {
     // gets queued up.
     $(Exercises).trigger("apiRequestStarted");
 
-    return deferred.promise();
+    return requestProm;
 }
 
 function readyForNextProblem(e, data) {
