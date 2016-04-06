@@ -82,7 +82,9 @@ function requestForParamsWithRetry(params,
         retryIndex = retryIndex || 0;
         return f().catch(function(error) {
             if (determineWhetherRequestShouldRetry) {
-                return determineWhetherRequestShouldRetry(retryIndex).then(
+                return determineWhetherRequestShouldRetry(
+                    retryIndex, error
+                ).then(
                     function(shouldRetry) {
                         if (shouldRetry) {
                             return retry(f, retryIndex + 1);
