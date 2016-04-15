@@ -81,6 +81,26 @@ function requestForParamsWithRetry(params,
     function retry(f, retryIndex) {
         retryIndex = retryIndex || 0;
         return f().catch(function(error) {
+            // If the server sent back a more up-to-date UserExercise in
+            // response to a retried request, then we need to use it.
+            // TODO(charlie): Validate that the UserExercise that has been
+            // returned matches up with expectation, in that it represents a
+            // valid state transition. Right now, this validation is only done
+            // by the server.
+            if (retryIndex > 0) {
+                var repeatedAttemptStatusCode = 460;
+                var responseJSON = error.jqXHR.responseJSON;
+                if (responseJSON &&
+                        responseJSON.code === repeatedAttemptStatusCode &&
+                        responseJSON.latestUserExercise) {
+                    return {
+                        data: responseJSON.latestUserExercise,
+                        textStatus: 'Accepted latest UserExercise',
+                        jqXHR: error.jqXHR
+                    };
+                }
+            }
+
             if (determineWhetherRequestShouldRetry) {
                 return determineWhetherRequestShouldRetry(
                     retryIndex, error
