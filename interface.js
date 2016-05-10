@@ -1,5 +1,5 @@
 /* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable comma-dangle, comma-spacing, indent, max-len, no-undef, no-var, one-var, space-after-keywords, space-before-function-paren */
+/* eslint-disable comma-dangle, indent, max-len, no-undef, no-var, one-var, space-after-keywords, space-before-function-paren */
 /* To fix, remove an entry above, run ka-lint, and fix errors. */
 
 /**
@@ -289,11 +289,6 @@ var OfflineHintRecord = {
 _.defaults(Exercises, {
     khanExercisesUrlBase: "/khan-exercises/",
 
-    getCurrentFramework: function(userExerciseOverride) {
-        return (userExerciseOverride || userExercise).exerciseModel.fileName ?
-            "khan-exercises" : "perseus";
-    },
-
     requestTimeoutMillis: 30000
 });
 
@@ -335,7 +330,6 @@ var PerseusBridge = Exercises.PerseusBridge,
 
     // Store these here so that they're hard to change after the fact via
     // bookmarklet, etc.
-    localMode = Exercises.localMode,
     previewingItem,
 
     originalCheckAnswerText,
@@ -375,13 +369,6 @@ function problemTemplateRendered(e, data) {
                 Exercises.khanExercisesUrlBase + "css/images/throbber.gif");
 
         $("#positive-reinforcement").hide();
-        if (localMode) {
-            // The /khan-exercises/images/ folder isn't available in GAE prod
-            // so don't change the src there, even though it would kind of
-            // work.
-            $("#positive-reinforcement > img").attr("src",
-                    Exercises.khanExercisesUrlBase + "images/face-smiley.png");
-        }
 
         // 'Check Answer' or 'Submit Answer'
         originalCheckAnswerText = $("#check-answer-button").val();
@@ -425,7 +412,7 @@ function problemTemplateRendered(e, data) {
             e.preventDefault();
             Khan.scratchpad.toggle();
 
-            if (!localMode && userExercise.user) {
+            if (userExercise.user) {
                 LocalStore.set("scratchpad:" + userExercise.user,
                         Khan.scratchpad.isVisible());
             }
@@ -476,11 +463,7 @@ function newProblem(e, data) {
     lastAttemptOrHint = new Date().getTime();
     lastAttemptContent = null;
 
-    var framework = Exercises.getCurrentFramework();
-    $("#problem-and-answer")
-            .removeClass("framework-khan-exercises")
-            .removeClass("framework-perseus")
-            .addClass("framework-" + framework);
+    $("#problem-and-answer").addClass("framework-perseus");
 
     if (interfaceFunctions) {
         interfaceFunctions.setHintsRemaining(numHints - hintsUsed, hintsUsed);
@@ -523,26 +506,24 @@ function newProblem(e, data) {
         var relatedVideos = data.userExercise.exerciseModel.relatedVideos;
 
         // We have per-problem-type related videos for Perseus
-        if (framework === "perseus") {
-            var problemTypeName = PerseusBridge.getSeedInfo().problem_type;
+        var problemTypeName = PerseusBridge.getSeedInfo().problem_type;
 
-            // Filter out related videos that correspond to other problem types
-            var problemTypes = data.userExercise.exerciseModel.problemTypes;
-            var otherProblemTypes = _.filter(problemTypes, function(type) {
-                return type.name !== problemTypeName;
+        // Filter out related videos that correspond to other problem types
+        var problemTypes = data.userExercise.exerciseModel.problemTypes;
+        var otherProblemTypes = _.filter(problemTypes, function(type) {
+            return type.name !== problemTypeName;
+        });
+        relatedVideos = _.filter(relatedVideos, function(video) {
+            return _.all(otherProblemTypes, function(problemType) {
+                // Note: we have to cast IDs to strings for backwards
+                // compatability as older videos have pure integer IDs.
+                var stringIDs = _.map(problemType.relatedVideos,
+                    function(id) {
+                        return "" + id;
+                    });
+                return !_.contains(stringIDs, "" + video.id);
             });
-            relatedVideos = _.filter(relatedVideos, function(video) {
-                return _.all(otherProblemTypes, function(problemType) {
-                    // Note: we have to cast IDs to strings for backwards
-                    // compatability as older videos have pure integer IDs.
-                    var stringIDs = _.map(problemType.relatedVideos,
-                        function(id) {
-                            return "" + id;
-                        });
-                    return !_.contains(stringIDs, "" + video.id);
-                });
-            });
-        }
+        });
 
         if (hideRelatedVideos) {
             Exercises.RelatedVideos.render([]);
@@ -588,20 +569,14 @@ function handleOptOutEvent() {
 
 function handleAttempt(data, onNetworkError,
                        determineWhetherRequestShouldRetry) {
-    var framework = Exercises.getCurrentFramework();
     var skipped = data.skipped;
     var optOut = data.optOut;
     var score;
     var itemId;
 
     // Score the attempt
-    if (framework === "perseus") {
-        score = PerseusBridge.scoreInput();
-        itemId = PerseusBridge.getSeedInfo().seed;
-    } else if (framework === "khan-exercises") {
-        score = Khan.scoreInput();
-        itemId = Khan.getSeedInfo().seed;
-    }
+    score = PerseusBridge.scoreInput();
+    itemId = PerseusBridge.getSeedInfo().seed;
 
     if (!canAttempt) {
         // Just don't allow further submissions once a correct answer or skip
@@ -711,7 +686,7 @@ function handleAttempt(data, onNetworkError,
         card: Exercises.currentCard,
         optOut: optOut,
         // Determine if this attempt qualifies as fast completion
-        fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken,
+        fast: userExercise.secondsPerFastProblem >= timeTaken,
         // Used by mobile for skipping problems in a mastery task
         skipped: skipped
     };
@@ -755,15 +730,7 @@ function handleAttempt(data, onNetworkError,
             //.parent()  // .check-answer-wrapper makes shake behave
             //.effect("shake", {times: 3, distance: 5}, 480);
 
-        if (framework === "perseus") {
-            // TODO(alpert)?
-        } else if (framework === "khan-exercises") {
-            // NOTE(jeresig): Auto-focusing back on to the input when an
-            // incorrect answer is given has been disabled. It didn't
-            // happen when using the mouse and if you used the keyboard
-            // it made the screen reader really confused.
-            //$(Khan).trigger("refocusSolutionInput");
-        }
+        // TODO(alpert): trigger something?
     }
 
     if (!hintsAreFree) {
@@ -784,7 +751,7 @@ function handleAttempt(data, onNetworkError,
         }
     }
 
-    if (localMode || Exercises.currentCard.get("preview")) {
+    if (Exercises.currentCard.get("preview")) {
         // Skip the server; just pretend we have success
         return {
             status: "skip-server",
@@ -891,7 +858,7 @@ function showNextHint(determineWhetherRequestShouldRetry) {
     var logEntry = ["hint-activity", "0", timeTaken];
     Exercises.userActivityLog.push(logEntry);
 
-    if (!previewingItem && !localMode && !userExercise.readOnly &&
+    if (!previewingItem && !userExercise.readOnly &&
             !Exercises.currentCard.get("preview") && canAttempt) {
 
         // buildAttemptData reads the number of hints we have taken
@@ -923,12 +890,7 @@ function showNextHint(determineWhetherRequestShouldRetry) {
     // num is non-numeric).
     OfflineHintRecord.saveHintTakenFor(userExercise, problemNum);
 
-    var framework = Exercises.getCurrentFramework();
-    if (framework === "perseus") {
-        $(PerseusBridge).trigger("showHint");
-    } else if (framework === "khan-exercises") {
-        $(Khan).trigger("showHint");
-    }
+    $(PerseusBridge).trigger("showHint");
 }
 
 function onHintShown(e, data) {
@@ -980,14 +942,9 @@ function updateHintButtonText() {
 // Build the data to pass to the server
 function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
                           skipped, optOut) {
-    var framework = Exercises.getCurrentFramework();
     var data;
 
-    if (framework === "perseus") {
-        data = PerseusBridge.getSeedInfo();
-    } else if (framework === "khan-exercises") {
-        data = Khan.getSeedInfo();
-    }
+    data = PerseusBridge.getSeedInfo();
 
     _.extend(data, {
         // Ask for camel casing in returned response
@@ -1189,13 +1146,7 @@ function readyForNextProblem(e, data) {
 
     $(Exercises).trigger("updateUserExercise", {userExercise: userExercise});
 
-    // (framework depends on userExercise set above)
-    var framework = Exercises.getCurrentFramework();
-    if (framework === "perseus") {
-        $(PerseusBridge).trigger("readyForNextProblem", data);
-    } else if (framework === "khan-exercises") {
-        $(Khan).trigger("readyForNextProblem", data);
-    }
+    $(PerseusBridge).trigger("readyForNextProblem", data);
 }
 
 function warning(e, message, showClose) {
@@ -1214,31 +1165,16 @@ function warning(e, message, showClose) {
 }
 
 function upcomingExercise(e, data) {
-    var framework = Exercises.getCurrentFramework(data.userExercise);
-    if (framework === "perseus") {
-        $(PerseusBridge).trigger("upcomingExercise", data);
-    } else if (framework === "khan-exercises") {
-        $(Khan).trigger("upcomingExercise", data);
-    }
+    $(PerseusBridge).trigger("upcomingExercise", data);
 }
 
 
 function gotoNextProblem() {
-    var framework = Exercises.getCurrentFramework();
-    if (framework === "perseus") {
-        // TODO(alpert)
-    } else if (framework === "khan-exercises") {
-        $(Khan).trigger("gotoNextProblem");
-    }
+    // TODO(alpert)
 }
 
 function updateUserExercise(e, data) {
-    var framework = Exercises.getCurrentFramework();
-    if (framework === "perseus") {
-        // TODO(alpert)
-    } else if (framework === "khan-exercises") {
-        $(Khan).trigger("updateUserExercise", data);
-    }
+    // TODO(alpert)
 }
 
 function showOptOut() {
@@ -1278,17 +1214,15 @@ function disableCheckAnswer() {
 function subhintExpand(e, subhintName) {
     // write to KALOG capturing the subhint-expand
     // click
-    if (!localMode) {
-        $.post("/api/internal/misc/subhint_expand", {
-            subhintName: subhintName
-        });
-    }
+    $.post("/api/internal/misc/subhint_expand", {
+        subhintName: subhintName
+    });
 }
 
 function clearExistingProblem() {
     if (interfaceFunctions) {
         interfaceFunctions.resetInterfaceForNewProblem();
-        PerseusBridge.cleanupProblem() || Khan.cleanupProblem();
+        PerseusBridge.cleanupProblem();
     } else {
         $("#happy").hide();
 
@@ -1302,7 +1236,7 @@ function clearExistingProblem() {
         $(".solutionarea-placeholder").after($("#solutionarea"));
 
         // Wipe out any previous problem
-        PerseusBridge.cleanupProblem() || Khan.cleanupProblem();
+        PerseusBridge.cleanupProblem();
         $("#workarea, #hintsarea, #solutionarea").empty();
 
         // Take off the event handlers for disabling check answer; we'll rebind
