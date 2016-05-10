@@ -688,23 +688,6 @@ function onjQueryLoaded() {
     });
 }
 
-function renderDebugInfo() {
-    debugLog("renderDebugInfo()");
-    // triggered on newProblem
-
-    if (userExercise == null || Khan.query.debug != null) {
-        $("#problem-permalink").text("Permalink: " +
-                                     currentProblemType + " #" +
-                                     currentProblemSeed)
-            .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug&problem=" + currentProblemType + "&seed=" + currentProblemSeed);
-    }
-}
-
-function renderExerciseBrowserPreview() {
-    debugLog("renderExerciseBrowserPreview()");
-    // triggered on newProblem
-}
-
 /**
  * Called once each time an exercise page is initialized.
  * For multi-exercise pages, this can be called multiple times!
@@ -738,11 +721,7 @@ function prepareSite() {
 function initEvents() {
     // This function gets called as soon as jQuery is loaded -- on the live
     // site, that's immediately upon execution
-    $(Khan)
-        .bind("problemTemplateRendered", prepareSite);
-    $(Exercises)
-        .bind("newProblem", renderDebugInfo)
-        .bind("newProblem", renderExerciseBrowserPreview);
+    $(Khan).bind("problemTemplateRendered", prepareSite);
 }
 
 // Load a script by URL, then execute callback
