@@ -493,7 +493,7 @@ var Khan = {
 
             e.preventDefault();
 
-            var issueInfo = PerseusBridge.getIssueInfo();
+            var issueInfo = Exercises.PerseusBridge.getIssueInfo();
 
             // don't do anything if the user clicked a second time quickly
             if ($("#issue .issue-form").css("display") === "none") {
