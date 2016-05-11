@@ -301,6 +301,7 @@ _.extend(Exercises, {
         goToNextProblem: triggerNextProblem,
         skipQuestion: handleSkipEvent,
         showHint: onHintButtonClicked,
+        initReportIssueLink: Khan.initReportIssueLink,
     },
     // These functions allow a client to interact imperatively with the
     // exercises machinery, instead of simulating button clicks, listening for
