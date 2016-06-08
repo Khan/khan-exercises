@@ -56,36 +56,8 @@
 }
 @font-face {
   font-family: 'KaTeX_Math';
-  src: url('fonts/KaTeX_Math-BoldItalic.eot');
-  src: url('fonts/KaTeX_Math-BoldItalic.eot#iefix') format('embedded-opentype'), url('fonts/KaTeX_Math-BoldItalic.woff2') format('woff2'), url('fonts/KaTeX_Math-BoldItalic.woff') format('woff'), url('fonts/KaTeX_Math-BoldItalic.ttf') format('ttf');
-  font-weight: bold;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'KaTeX_Math';
   src: url('fonts/KaTeX_Math-Italic.eot');
   src: url('fonts/KaTeX_Math-Italic.eot#iefix') format('embedded-opentype'), url('fonts/KaTeX_Math-Italic.woff2') format('woff2'), url('fonts/KaTeX_Math-Italic.woff') format('woff'), url('fonts/KaTeX_Math-Italic.ttf') format('ttf');
-  font-weight: normal;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'KaTeX_Math';
-  src: url('fonts/KaTeX_Math-Regular.eot');
-  src: url('fonts/KaTeX_Math-Regular.eot#iefix') format('embedded-opentype'), url('fonts/KaTeX_Math-Regular.woff2') format('woff2'), url('fonts/KaTeX_Math-Regular.woff') format('woff'), url('fonts/KaTeX_Math-Regular.ttf') format('ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'KaTeX_SansSerif';
-  src: url('fonts/KaTeX_SansSerif-Bold.eot');
-  src: url('fonts/KaTeX_SansSerif-Bold.eot#iefix') format('embedded-opentype'), url('fonts/KaTeX_SansSerif-Bold.woff2') format('woff2'), url('fonts/KaTeX_SansSerif-Bold.woff') format('woff'), url('fonts/KaTeX_SansSerif-Bold.ttf') format('ttf');
-  font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'KaTeX_SansSerif';
-  src: url('fonts/KaTeX_SansSerif-Italic.eot');
-  src: url('fonts/KaTeX_SansSerif-Italic.eot#iefix') format('embedded-opentype'), url('fonts/KaTeX_SansSerif-Italic.woff2') format('woff2'), url('fonts/KaTeX_SansSerif-Italic.woff') format('woff'), url('fonts/KaTeX_SansSerif-Italic.ttf') format('ttf');
   font-weight: normal;
   font-style: italic;
 }
@@ -145,26 +117,24 @@
 }
 .katex-display > .katex {
   display: inline-block;
-}
-math.katex {
-  font-size: 1.21em;
-  line-height: 1.2;
+  text-align: initial;
 }
 .katex {
   font: normal 1.21em KaTeX_Main;
   line-height: 1.2;
   white-space: nowrap;
+  text-indent: 0;
 }
 .katex .katex-html {
   display: inline-block;
 }
 .katex .katex-mathml {
-  position: absolute !important;
+  position: absolute;
   clip: rect(1px, 1px, 1px, 1px);
-  padding: 0 !important;
-  border: 0 !important;
-  height: 1px !important;
-  width: 1px !important;
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
   overflow: hidden;
 }
 .katex .base {
@@ -177,8 +147,34 @@ math.katex {
   font-family: KaTeX_Math;
   font-style: italic;
 }
+.katex .mathbf {
+  font-family: KaTeX_Main;
+  font-weight: bold;
+}
 .katex .amsrm {
   font-family: KaTeX_AMS;
+}
+.katex .mathbb {
+  font-family: KaTeX_AMS;
+}
+.katex .mathcal {
+  font-family: KaTeX_Caligraphic;
+}
+.katex .mathfrak {
+  font-family: KaTeX_Fraktur;
+}
+.katex .mathtt {
+  font-family: KaTeX_Typewriter;
+}
+.katex .mathscr {
+  font-family: KaTeX_Script;
+}
+.katex .mathsf {
+  font-family: KaTeX_SansSerif;
+}
+.katex .mainit {
+  font-family: KaTeX_Main;
+  font-style: italic;
 }
 .katex .textstyle > .mord + .mop {
   margin-left: 0.16667em;
@@ -426,19 +422,22 @@ math.katex {
 }
 .katex .rule {
   display: inline-block;
-  border-style: solid;
+  border: solid 0;
   position: relative;
 }
-.katex .overline .overline-line {
+.katex .overline .overline-line,
+.katex .underline .underline-line {
   width: 100%;
 }
-.katex .overline .overline-line:before {
+.katex .overline .overline-line:before,
+.katex .underline .underline-line:before {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   content: "";
   display: block;
 }
-.katex .overline .overline-line:after {
+.katex .overline .overline-line:after,
+.katex .underline .underline-line:after {
   border-bottom-style: solid;
   border-bottom-width: 0.04em;
   content: "";
@@ -463,6 +462,10 @@ math.katex {
   content: "";
   display: block;
   margin-top: -1px;
+}
+.katex .sqrt > .root {
+  margin-left: 0.27777778em;
+  margin-right: -0.55555556em;
 }
 .katex .sizing,
 .katex .fontsize-ensurer {
@@ -911,4 +914,21 @@ math.katex {
 .katex .accent .accent-body.accent-vec > span {
   position: relative;
   left: 0.326em;
+}
+.katex .mtable .vertical-separator {
+  display: inline-block;
+  margin: 0 -0.025em;
+  border-right: 0.05em solid black;
+}
+.katex .mtable .arraycolsep {
+  display: inline-block;
+}
+.katex .mtable .col-align-c > .vlist {
+  text-align: center;
+}
+.katex .mtable .col-align-l > .vlist {
+  text-align: left;
+}
+.katex .mtable .col-align-r > .vlist {
+  text-align: right;
 }
