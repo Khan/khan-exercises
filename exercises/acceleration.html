@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Acceleration problem</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+	<div class="exercise">
+	<div class="problems">
+	
+<!--	    Solve for velocity-->
+		<div>
+			<div class="vars" data-ensure="ACC > 0">
+				<var id="ACC">randRange(10, 20)</var>
+                <var id="TIME">randRange(8, 16)</var>
+				<var id="TOP_SPEED">ACC * TIME</var>
+			</div>
+
+			<div class="question">
+				<p> <var>person(1)</var> is a race driver on a straight track (like in Fast and Furious). <var>he(1)</var> starts accelerating with <code><var>ACC</var>\frac{m}{s^2}</code> and keeps that rate until the finish line. <var>he(1)</var> crosses the line after <var>TIME</var> seconds. What was <var>his(1)</var> top speed? </p>
+			</div>
+			<div class="solution"><var>TOP_SPEED</var></div>
+
+			<div class="hints">
+				<p>The top speed is achieved at the end of the race, <var>TIME</var> seconds after the start.</p>
+				<p>Since the track is straight the direction of the acceleration is allway the same (forward) and therefore the direction of the velocity is the same.  </p>
+				<p>The acceleration is the velocity divided by the time <code>\vec{a} = \frac{\vec{v}}{t} </code>. Therefore the velocity is the time multiplied by the acceleration <code>\vec{v} = \vec{a}\times t </code></p>
+				<p> <code>\vec{v} = \vec{a}\times t = <var>ACC</var>\frac{m}{s^2}\times <var>TIME</var>s = <var>TOP_SPEED</var>\frac{m}{s}</code></p>
+				<p></p>				
+			</div>
+		</div>
+		
+		
+		
+<!--	    Solve for time-->	
+		<div>
+			<div class="vars" data-ensure="ACC > 0">
+				<var id="ACC">randRange(10, 20)</var>
+                <var id="TIME">randRange(8, 16)</var>
+				<var id="TOP_SPEED">ACC * TIME</var>
+			</div>
+
+			<div class="question">
+				<p> <var>person(1)</var> is a race driver on a straight track (like in Fast and Furious). <var>he(1)</var> starts accelerating with <code><var>ACC</var>\frac{m}{s^2}</code> and keeps that rate until the finish line. <var>he(1)</var> crosses the line with a top speed of <var>TOP_SPEED</var><code>\frac{m}{s}</code>. What is the race duration? </p>
+			</div>
+			<div class="solution"><var>TIME</var></div>
+
+			<div class="hints">
+				<p>Since the track is straight the direction of the acceleration is allway the same (forward) and therefore the direction of the velocity is the same.  </p>
+				<p>The acceleration is the velocity divided by the time <code>\vec{a} = \frac{\vec{v}}{t} </code>. Therefore the time is the velocity divided by the acceleration <code> t = \frac{\vec{v}}{\vec{a}} </code></p>
+				<p> <code>t = \frac{\vec{v}}{\vec{a}}= \frac{<var>TOP_SPEED</var>\frac{m}{s}}{<var>ACC</var>\frac{m}{s^2}} = <var>TIME</var>s</code></p>
+				<p></p>				
+			</div>
+		</div>		
+		
+		
+<!--	    Solve for acceleration-->	
+		<div>
+			<div class="vars" data-ensure="ACC > 0">
+				<var id="ACC">randRange(10, 20)</var>
+                <var id="TIME">randRange(8, 16)</var>
+				<var id="TOP_SPEED">ACC * TIME</var>
+			</div>
+
+			<div class="question">
+				<p> <var>person(1)</var> is a race driver on a straight track (like in Fast and Furious). <var>he(1)</var> crosses the line with a top speed of <var>TOP_SPEED</var><code>\frac{m}{s}</code> after <var>TIME</var> seconds. What is <var>his(1)</var> average acceleration? </p>
+			</div>
+			<div class="solution"><var>ACC</var></div>
+
+			<div class="hints">
+				<p>Since the track is straight the direction of the acceleration is allway the same (forward) and therefore the direction of the velocity is the same.  </p>
+				<p>The acceleration is the velocity divided by the time <code>\vec{a} = \frac{\vec{v}}{t} </code></code></p>
+				<p> <code>\vec{a} = \frac{\vec{v}}{t}= \frac{<var>TOP_SPEED</var>\frac{m}{s}}{<var>TIME</var>s} = <var>ACC</var>\frac{m}{s^2}</code></p>
+				<p></p>				
+			</div>
+		</div>				
+
+	</div>
+</body>
+</html>
