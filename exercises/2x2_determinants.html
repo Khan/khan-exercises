@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html data-require="math">
+	<head>
+		<title>2X2 Determinants</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="A">[randRange(-9,9,2),randRange(-9,9,2)]</var>
+				<var id="DET">A[0][0]*A[1][1] - A[0][1]*A[1][0]</var>
+			</div>
+
+			<div class="problems">
+				<div id="No Variable">
+					<p class="problem"><!-- An overview of the problem including all needed info. --></p>
+					<p class="question">Find 
+						<code>
+							\left|
+							\begin{array}{rcl}
+							<var>A[0][0]</var>&<var>A[0][1]</var>\\
+							<var>A[1][0]</var>&<var>A[1][1]</var>
+							\end{array}
+							\right|
+						</code>:</p>
+					<p class="solution"><var>DET</var></p>
+				</div>
+				
+				<div id="Variable">
+					<p class="problem"><b>A</b> = 
+						<code>
+							\left[
+							\begin{array}{rcl}
+							<var>A[0][0]</var>&<var>A[0][1]</var>\\
+							<var>A[1][0]</var>&<var>A[1][1]</var>
+							\end{array}
+							\right]
+						</code></p>
+					<p class="question">Find Det(<b>A</b>):</p>
+					<p class="solution"><var>DET</var></p>
+				</div>
+			</div>
+
+			<div class="hints">
+				<p>
+					Remember, to find the determinant of a 2x2 matrix, subtract the product of the off
+					diagonal terms from the product of the main diagonal terms.<br><br>
+					<code>
+						\left|
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{a}&\color{<var>GREEN</var>}{b}\\
+						\color{<var>ORANGE</var>}c&\color{<var>PINK</var>}d\\
+						\end{array}
+						\right|
+						= \color{<var>BLUE</var>}{a}\color{<var>PINK</var>}{d}
+						- \color{<var>GREEN</var>}{b}\color{<var>ORANGE</var>}{c}
+					</code>
+				</p>
+			
+				<p>
+					<code>
+						\left|
+						\begin{array}{rcl}
+						\color{<var>BLUE</var>}{<var>A[0][0]</var>}&\color{<var>GREEN</var>}{<var>A[0][1]</var>}\\
+						\color{<var>ORANGE</var>}{<var>A[1][0]</var>}&\color{<var>PINK</var>}{<var>A[1][1]</var>}
+						\end{array}
+						\right|
+						= \color{<var>BLUE</var>}{(<var>A[0][0]</var>)}\color{<var>PINK</var>}{(<var>A[1][1]</var>)}
+						- \color{<var>GREEN</var>}{(<var>A[0][1]</var>)}\color{<var>ORANGE</var>}{(<var>A[1][0]</var>)}
+					</code>
+				</p>
+				
+				<p><code>= <var>A[0][0]*A[1][1]</var> - <var>A[0][1]*A[1][0]</var></code></p>
+				<p><code>= <var>A[0][0]*A[1][1]-A[0][1]*A[1][0]</var></code></p>
+			</div>
+		</div>
+	</body>
+</html>
