@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Logarithms 4</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars" data-ensure="A < LARGEST_NUMBER && B < LARGEST_NUMBER">
+		<var id="LARGEST_NUMBER">1000</var>
+		<var id="BASE">randRange( 2, 16 )</var>
+		<var id="X1">randRange( 2, 5 )</var>
+		<var id="X2">randRange( 2, 5 )</var>
+		<var id="X3">randRange( 2, 5 )</var>
+		<var id="A">pow( BASE, X1 )</var>
+		<var id="B">pow( BASE, X2 )</var>
+		<var id="C">X2*A</var>
+		<var id="POWER">randRange( 2, 9 )</var>
+	</div>
+
+
+	<div class="problems">
+		<div>
+			<p class="problem">Evaluate using the properties of logarithms.</p>
+			<p class="question"><code>\log_{<var>BASE</var>}((\frac{<var>A</var>}{<var>B</var>})^<var>POWER</var>) = {?}</code></p>
+			<p class="solution" data-forms="integer"><var>(X1 - X2)*POWER</var></p>
+
+			<div class="hints">
+				<p>First use the rule: <code>n \cdot \log(a) = \log(a^{n})</code>.</p>
+				<p><code>\log_{<var>BASE</var>}((\frac{<var>A</var>}{<var>B</var>})^<var>POWER</var>) = <var>POWER</var>\cdot \log_{<var>BASE</var>}(\frac{<var>A</var>}{<var>B</var>})</code></p>
+				<p>Next use the rule: <code>\log(a) - \log(b) = \log(\frac{a}{b})</code>.</p>
+				<p><code><var>POWER</var>\cdot \log_{<var>BASE</var>}(\frac{<var>A</var>}{<var>B</var>}) = <var>POWER</var>\cdot (\log_{<var>BASE</var>}(<var>A</var>) - \log_{<var>BASE</var>}(<var>B</var>))</code></p>
+				<p><code>= <var>POWER</var>\cdot (<var>X1</var> - <var>X2</var>)</code></p>
+				<p><code>= <var>POWER*(X1 - X2)</var></code></p>
+			</div>
+		</div>
+
+		<div>
+			<p class="problem">Evaluate using the properties of logarithms.</p>
+			<p class="question"><code>\log_{<var>BASE</var>}((<var>A</var> \cdot <var>B</var>)^<var>POWER</var>) = {?}</code></p>
+			<p class="solution" data-forms="integer"><var>(X1 + X2)*POWER</var></p>
+
+			<div class="hints">
+				<p>First use the rule: <code>n \cdot \log(a) = \log(a^{n})</code>.</p>
+				<p><code>\log_{<var>BASE</var>}(({<var>A</var> \cdot <var>B</var>})^<var>POWER</var>) = <var>POWER</var>\cdot \log_{<var>BASE</var>}(\frac{<var>A</var>}{<var>B</var>})</code></p>
+				<p>Next use the rule: <code>\log(a) + \log(b) = \log(a \cdot b)</code>.</p>
+				<p><code><var>POWER</var>\cdot \log_{<var>BASE</var>}(<var>A</var> \cdot <var>B</var>) = <var>POWER</var>\cdot (\log_{<var>BASE</var>}(<var>A</var>) + \log_{<var>BASE</var>}(<var>B</var>))</code></p>
+				<p><code>= <var>POWER</var>\cdot (<var>X1</var> + <var>X2</var>)</code></p>
+				<p><code>= <var>POWER*(X1 + X2)</var></code></p>
+			</div>
+		</div>
+		<div>
+			<p class="problem">Evaluate using the properties of logarithms.</p>
+			<p class="question"><code>\log_{<var>BASE</var>}(<var>C</var>^<var>X3</var>) - \log_{<var>BASE</var>}(<var>X2</var>^<var>X3</var>) = {?}</code></p>
+			<p class="solution" data-forms="integer"><var>(X1 * X3)</var></p>
+
+			<div class="hints">
+				<p>First use the rule: <code>\log(a) - \log(b) = \log(\frac{a}{b})</code>.</p>
+				<p><code>\log_{<var>BASE</var>}(<var>C</var>^<var>X3</var>) - \log_{<var>BASE</var>}(<var>X2</var>^<var>X3</var>) = \log_{<var>BASE</var>}(\frac{<var>C</var>^<var>X3</var>}{<var>X2</var>^<var>X3</var> })</code></p>
+				<p>Next use the rule: <code>n \cdot \log(a) = \log(a^{n})</code>.</p>
+
+				<p><code>\log_{<var>BASE</var>}(\frac{<var>C</var>^<var>X3</var>}{<var>X2</var>^<var>X3</var> }) = \log_{<var>BASE</var>}((\frac{<var>C</var>}{<var>X2</var>})^<var>X3</var>) = <var>X3</var> \cdot \log_{<var>BASE</var>}(\frac{<var>C</var>}{<var>X2</var>})</code></p>
+
+				<p><code> =<var>X3</var> \cdot \log_{<var>BASE</var>}(<var>A</var>)</code></p>
+				<p><code> =<var>X3</var> \cdot <var>X1</var></code></p>
+				<p><code> =<var>X3 * X1</var></code></p>
+			</div>
+		</div>
+		<div>
+
+			<div class="vars">
+				<var id="X4">randRange( 6, 20 )</var>
+				<var id="D">pow( BASE , 2 )</var>
+			</div>
+			<p class="problem">Evaluate using the properties of logarithms.</p>
+			<p class="question"><code>\frac{\log_{<var>X4</var>}(<var>A</var>) + \log_{<var>X4</var>}(<var>D</var>)}{\log_{<var>X4</var>}(<var>BASE</var>)} = {?}</code></p>
+			<p class="solution" data-forms="integer"><var>(X1 + 2)</var></p>
+
+			<div class="hints">
+				<p>First use the rule: <code>\log(a) + \log(b) = \log(a \cdot b)</code>.</p>
+				<p><code>\frac{\log_{<var>X4</var>}(<var>A</var>) + \log_{<var>X4</var>}(<var>D</var>)}{\log_{<var>X4</var>}(<var>BASE</var>)} = \frac{\log_{<var>X4</var>}(<var>A*D</var>)}{\log_{<var>X4</var>}(<var>BASE</var>)}</code></p>
+				<p>Next use the rule: <code>\log_b(a) = \frac{\log(a)}{\log(b)}</code></p>
+				<p><code>\frac{\log_{<var>X4</var>}(<var>A*D</var>)}{\log_{<var>X4</var>}(<var>BASE</var>)}=\log_{<var>BASE</var>}(<var>A*D</var>)</code></p>
+				<p><code>=<var>X1+2</var></var></code></p>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>
