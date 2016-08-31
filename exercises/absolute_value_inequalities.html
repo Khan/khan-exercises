@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie graphie-helpers interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Absolute Value Inequalities</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        var interactiveGraph;
+        var circlesFilled;
+        var centerFilled;
+        var circleRadius = 0.4;
+        var graphBounds = [-10, 10];
+        var graphScale = 24;
+         
+        function setCirclesFilled(val) {
+            circlesFilled = val;
+            interactiveGraph.drawLines();
+        }
+
+        function setCenterFilled(val) {
+            centerFilled = val;
+            interactiveGraph.drawLines();
+        }
+
+        function renderGraph(graph, leftX, rightX, circlesFilled, centerFilled) {
+            graph.style({ stroke: KhanUtil.BLUE, fill: circlesFilled ? KhanUtil.BLUE : null });
+            graph.ptL = graph.circle( [ leftX, 0 ], circleRadius );
+            graph.ptR = graph.circle( [ rightX, 0 ], circleRadius );
+            if (centerFilled) {
+                graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "" });
+                graph.centerLine = graph.path( [ [ leftX + circleRadius, 0 ], [ rightX - circleRadius, 0 ]  ] );
+            }
+            else {
+                graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "->" });
+                graph.leftLine = graph.path( [ [ leftX - circleRadius, 0 ], [ graphBounds[0], 0 ]  ] );
+                graph.rightLine = graph.path( [ [ rightX + circleRadius, 0 ], [ graphBounds[1], 0 ]  ] );
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRangeNonZero(-5, 5)</var>
+        <var id="B" data-ensure="B !== A">randRange(1, 5)</var>
+        <var id="START_PT_A" data-ensure="START_PT_A !== A &amp;&amp; START_PT_A !== B">randRange(-9, 9)</var>
+        <var id="START_PT_B" data-ensure="START_PT_A !== A &amp;&amp; START_PT_A !== B &amp;&amp; START_PT_B !== START_PT_A">randRange(-9, 9)</var>
+        <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+        <var id="INCLUSIVE">REL === "&le;" || REL === "&ge;"</var>
+        <var id="LESS_THAN">REL === "&lt;" || REL === "&le;"</var>
+        <var id="NEG_A">A &lt; 0</var>
+        <var id="SOLUTION_LEFT">(-1 * A) - B</var>
+        <var id="SOLUTION_RIGHT">(-1 * A) + B</var>
+    </div>
+
+    <div class="problems">
+        <div id="line_from_inequality">
+            <div class="question">
+                <p>Graph the inequality represented by the equation:<br />
+                    <code>
+                        |x + <var>A</var>| <var>REL</var> <var>B</var>
+                    </code>
+                </p>
+
+                <div class="graphie">
+                    circlesFilled = false;
+                    centerFilled = true;
+ 
+                    graph = interactiveGraph = KhanUtil.currentGraph;
+                    graph.init({
+                        range: [ graphBounds, [-1, 1] ],
+                        scale: graphScale
+                    });
+	 		
+                    numberLine( graphBounds[0], graphBounds[1], null, graphBounds[0], 0 );
+ 
+                    KhanUtil.addMouseLayer();
+                    graph.pointA = KhanUtil.addMovablePoint({
+                        coord: [ START_PT_A, 0 ],
+                        snapX: 1,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                         },
+                        constraints: {
+                            constrainY: true
+                        }
+                    });
+                    graph.pointB = KhanUtil.addMovablePoint({
+                        coord: [ START_PT_B, 0 ],
+                        snapX: 1,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        },
+                        constraints: {
+                            constrainY: true
+                        }
+                    });
+                    graph.pointA.onMove = function( x, y ) {
+                        graph.pointA.coord = [ x, y ];
+                        graph.drawLines();
+                    };
+                    graph.pointB.onMove = function( x, y ) {
+                        graph.pointB.coord = [ x, y ];
+                        graph.drawLines();
+                    };
+ 
+                    graph.drawLines = function() {
+                        //Clear out display
+                        var elements = [graph.ptL, graph.ptR, graph.centerLine, graph.leftLine, graph.rightLine];
+                        for (var i = 0; i &lt; elements.length; i++) {
+                            if (elements[i]) {
+                                elements[i].remove();
+                            }
+                        }
+                        var leftX = Math.min(graph.pointA.coord[0], graph.pointB.coord[0]);
+                        var rightX = Math.max(graph.pointA.coord[0], graph.pointB.coord[0]);
+                        renderGraph(graph, leftX, rightX, circlesFilled, centerFilled);
+                 
+                        graph.pointA.toFront();
+                        graph.pointB.toFront();
+                    };
+ 
+                    graph.drawLines();
+                </div>
+            </div>
+            <form>
+                <label>
+                    <input name="circleradio" type="radio" value="unfilled" checked onClick="javascript:
+                        setCirclesFilled(false);
+                    " />
+                    Empty circles
+                </label>
+                <label>
+                    <input name="circleradio" type="radio" value="filled" onClick="javascript:
+                        setCirclesFilled(true);
+                    " />
+                    Solid circles
+                </label>
+                <br />
+                <label>
+                    <input name="lineradio" type="radio" value="center" checked onClick="javascript:
+                        setCenterFilled(true);
+                    " />
+                    Line between points
+                </label>
+                <label>
+                    <input name="lineradio" type="radio" value="outside" onClick="javascript:
+                        setCenterFilled(false);
+                    " />
+                    Line outside points
+                </label>
+            </form>
+
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the two points into the correct position.
+                </div>
+                <div class="example">graph the inequality</div>
+                <div class="example">make sure the line is correctly between or outside the points</div>
+                <div class="example">make sure the points are correctly shown as solid or empty</div>
+                <div class="guess">
+                    [ Math.min(interactiveGraph.pointA.coord[0], interactiveGraph.pointB.coord[0]),
+                      Math.max(interactiveGraph.pointA.coord[0], interactiveGraph.pointB.coord[0]),
+                      circlesFilled,
+                      centerFilled ]
+                </div>
+                <div class="validator-function">
+                    return SOLUTION_LEFT == guess[0]
+                        &amp;&amp; SOLUTION_RIGHT == guess[1]
+                        &amp;&amp; INCLUSIVE == guess[2]
+                        &amp;&amp; LESS_THAN == guess[3];
+                </div>
+                <div class="show-guess">
+                    graph.pointA.setCoord( [guess[0], 0] );
+                    graph.pointB.setCoord( [guess[1], 0] );
+                    circlesFilled = guess[2];
+                    centerFilled = guess[3];
+                    $( "input[name=circleradio][value=" + (circlesFilled ? "filled" : "unfilled") +"]" ).attr( "checked", true );
+                    $( "input[name=lineradio][value=" + (centerFilled ? "center" : "outside") +"]" ).attr( "checked", true );
+                    graph.drawLines();
+                </div>
+            </div>
+            <div class="hints">
+                <div data-if="LESS_THAN">
+                    <p>
+                        The part inside the absolute value must be greater than<span data-if="INCLUSIVE"> or equal to</span> <var>B</var>
+                        and less than<span data-if="INCLUSIVE"> or equal to</span> -<var>B</var>:
+                    </p>
+                    <p>
+                        <code>
+                            x + <var>A</var> <span data-if="INCLUSIVE">&ge;</span><span data-else>&gt;</span> -<var>B</var>
+                        </code>
+                        and
+                        <code>
+                            x + <var>A</var> <span data-if="INCLUSIVE">&le;</span><span data-else>&lt;</span> <var>B</var>
+                        </code>
+                    </p>
+                </div><div data-else>
+                    <p>
+                        The part inside the absolute value must be less than<span data-if="INCLUSIVE"> or equal to</span> -<var>B</var>
+                        or greater than<span data-if="INCLUSIVE"> or equal to</span> <var>B</var>:
+                    </p>
+                    <p>
+                        <code>
+                            x + <var>A</var> <span data-if="INCLUSIVE">&le;</span><span data-else>&lt;</span> -<var>B</var>
+                        </code>
+                        or
+                        <code>
+                            x + <var>A</var> <span data-if="INCLUSIVE">&ge;</span><span data-else>&gt;</span> <var>B</var>
+                        </code>
+                    </p>
+                </div>
+
+                <div data-if="LESS_THAN">
+                    <p data-if="NEG_A">
+                    	Add <var>-1 * A</var> to both sides of each equation:<br />
+                    </p><p data-else>
+                        Subtract <var>A</var> from both sides of each equation:<br />
+                    </p>
+                    <p>
+                        <code>
+                            x <span data-if="INCLUSIVE">&ge;</span><span data-else>&gt;</span> <var>(-1 * B) - A</var>
+                        </code>
+                        and
+                        <code>
+                            x <span data-if="INCLUSIVE">&le;</span><span data-else>&lt;</span> <var>B - A</var>
+                        </code>
+                    </p>
+                </div><div data-else>
+                    <p data-if="NEG_A">
+                    	Add <var>-1 * A</var> to both sides of each equation:<br />
+                    </p><p data-else>
+                        Subtract <var>A</var> from both sides of each equation:<br />
+                    </p>
+                    <p>
+                        <code>
+                            x <span data-if="INCLUSIVE">&le;</span><span data-else>&lt;</span> <var>(-1 * B) - A</var>
+                        </code>
+                        or
+                        <code>
+                            x <span data-if="INCLUSIVE">&ge;</span><span data-else>&gt;</span> <var>B - A</var>
+                        </code>
+                    </p>
+                </div>
+
+                <div>
+                    <p>Which is represented on the number line like this:</p>
+                    <div class="graphie">
+                        graph = KhanUtil.currentGraph;
+
+                        graph.init({
+                            range: [ graphBounds, [-1, 1] ],
+                            scale: graphScale
+                        });
+                        
+                        numberLine( graphBounds[0], graphBounds[1], null, graphBounds[0], 0 );
+                        renderGraph(graph, SOLUTION_LEFT, SOLUTION_RIGHT, INCLUSIVE, LESS_THAN)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
