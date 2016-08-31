@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Naming points</title>
+        <script src="../khan-exercise.js"></script>
+        <style type="text/css">
+            #answer_area .short input[type=text] {
+                width: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="POINT">
+                    (function() {                        
+                        return [ randRangeNonZero( -10, 10 ), randRangeNonZero( -10, 10 ) ];                        
+                    })()
+                </var>
+            </div>
+
+            <div class="problems">
+                <div>
+                    <div class="problem">
+                        <p>What ordered pair defines the point below:</p>                        
+                    </div>
+
+                    <div class="question">
+                        <div class="graphie" id="grid">
+                            graphInit({
+                                range: 11,
+                                scale: 20,
+                                axisArrows: "&lt;-&gt;",
+                                tickStep: 1,
+                                labelStep: 1,
+                                gridOpacity: 0.05,
+                                axisOpacity: 0.2,
+                                tickOpacity: 0.4,
+                                labelOpacity: 0.5
+                            });
+
+                            label( [ 0, 11 ], "y", "above" );
+                            label( [ 11, 0 ], "x", "right" );
+                            style({
+                                stroke: ORANGE,
+                                fill: ORANGE
+                              }, function() {
+                                  circle( POINT, 0.15 );
+                              });                            
+                        </div>
+                    </div>
+                    
+                    <div class="solution" data-type="multiple">
+                      <p class="short"><code>(</code><span class="sol" data-fallback="1"><var>POINT[0]</var></span> <code>,</code><span class="sol" data-fallback="1"><var>POINT[1]</var></span> <code>)</code></p>                      
+                    </div>
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>Coordinates are listed as <code>(\blue{x},\green{y})</code>.</p>
+                
+                <div>
+                    <p>
+                        For our <span class="hint_blue"><code>x</code>-coordinate</span> we look to the <span data-if="POINT[0] > 0">right</span><span data-else>left</span> 
+                        of the <span class="hint_green"><code>y</code>-axis</span> and look for which <code>\blue{x}</code> value the point corresponds to.                                        
+                    </p>
+                    <div class="graphie" data-update="grid">
+                        style({
+                            stroke: BLUE,
+                            strokeWidth: 3,
+                            arrows: "-&gt;"
+                        }, function() {
+                            line( [ 0, 0 ], [ POINT[0], 0 ])                                
+                        });
+                        style({
+                          stroke: ORANGE,
+                          fill: ORANGE
+                        }, function() {
+                            circle( POINT, 0.15 );
+                        });  
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        For our <span class="hint_green"><code>y</code>-coordinate</span> we look <span data-if="POINT[1] > 0">above</span><span data-else>below</span> 
+                        the <span class="hint_blue"><code>x</code>-axis</span> and look for which <code>\green{y}</code> value the point corresponds to.                                        
+                    </p>
+                    <div class="graphie" data-update="grid">
+                        style({
+                            stroke: GREEN,
+                            strokeWidth: 3,
+                            arrows: "-&gt;"
+                        }, function() {
+                            line( [ POINT[0], 0 ], POINT )                                
+                        });
+                        style({
+                          stroke: ORANGE,
+                          fill: ORANGE
+                        }, function() {
+                            circle( POINT, 0.15 );
+                        });  
+                    </div>
+                </div>
+                <p>
+                    Since our <span class="hint_blue"><code>x</code>-coordinate</span> is <var>POINT[0]</var> and our <span class="hint_green"><code>y</code>-coordinate</span> 
+                    is <var>POINT[1]</var>, our point is <code>(<var>POINT[0]</var>, <var>POINT[1]</var>)</code>.
+                </p>                
+            </div>
+        </div>
+    </body>
+</html>
