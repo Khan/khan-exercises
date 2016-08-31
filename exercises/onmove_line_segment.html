@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>test</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+        </div>
+        <div class="problems">
+            <div id="test">
+                <div class="problem">
+                    <div class="graphie">
+                        init({ range: [ [ -5, 5 ], [ -5, 5 ] ] });
+                        addMouseLayer();
+                        var makePointLabel = function (x, y) {
+                            return label([0, 4], "x="+x.toFixed(3)+",y="+y.toFixed(3), "above");
+                        }
+                        var makeLineLabel = function (x, y) {
+                            return label([0, -4], "x="+x.toFixed(3)+",y="+y.toFixed(3), "below");
+                        }
+                        var pointLabel = makePointLabel(0, 0);
+                        var lineLabel = makeLineLabel(0, 0);
+                        addMovablePoint({
+                            coord: [0, 3],
+                            onMove: function(x, y) {
+                                pointLabel.remove();
+                                pointLabel = makePointLabel(x, y);
+                                return true;
+                                }
+                        });
+                        addMovableLineSegment({
+                            coordA: [0, 0],
+                            coordZ: [0, -3],
+                            onMove: function(x, y) {
+                                lineLabel.remove();
+                                lineLabel = makeLineLabel(x, y);
+                                return true;
+                                }
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
