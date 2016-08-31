@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+  <html data-require="math">
+      <head>
+          <title>Simplifying Expressions</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="X">1+rand(5)</var>
+                  <var id="Y">2+rand(5)</var>
+                  <var id="Z">((X*Y)%2 == 0 ? 2 : 1)</var>
+                  <var id="A">(Y+Z)</var>
+                  <var id="ANS">(X*Y/Z)</var>
+                  <var id="LETTERS">"abcxyz"</var>
+				  <var id="L">LETTERS[rand(5)]</var>
+              </div>
+
+              <div class="problems">
+                  <div id="problem-type-or-description">
+                  	  <p class="problem">Find <var>L</var></p>
+                      <p class="question"><code><var>Y</var>(<var>L</var>+<var>X</var>)= <var>A</var><var>L</var>.</code></p>
+                      <p class="solution" data-type="decimal"><var>ANS</var></p>
+                  </div>
+              </div>
+              
+              <div class="hints">
+                  	<p>Open out the bracket. You get <code><var>Y</var><var>L</var> + <var>X*Y</var>= <var>A</var><var>L</var></code></p>
+                  	<p>Subtract both sides by <code><var>Y</var><var>L</var></code>. You end up with <code><var>Y</var><var>L</var>-<var>Y</var><var>L</var>+<var>Y*X</var>=<var>A</var><var>L</var>-<var>Y</var><var>L</var></code></p>
+                  	<p>Therefore, <code><var>L</var>=<var>ANS</var></code></p>
+                  </div>
+          	  </div>
+      </body>
+</html>
