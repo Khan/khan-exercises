@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Preserving similarity</title>
+    <script src="../khan-exercise.js"></script>
+    <!--
+    A prototype exercise on "preserving similarity" [version 3, February 8, 2013]
+    
+    * based on https://trello.com/card/2-preserving-similarity/4d87e664967a0775082939ab/350
+    * for now, triangles only
+    * for now, only two cases/transforms (of others mentioned on the Trello card):
+        * multiply all side lengths by constant (preserves similarity)
+        * add constant to all side lengths (removes similarity)
+    * there should probably be a label on the slider: "k=1.2"
+    * only the dot/knob of the slider is mouse-sensitive, maybe the whole "track" should be.
+    * parts of this ("mini 2d library", the slider) probably duplicate Khan library code...
+    -->
+    <script type="text/javascript">
+        // mini 2d library
+        var add2d = function (a, b) {return [a[0]+b[0], a[1]+b[1]];}
+        var sub2d = function (a, b) {return [a[0]-b[0], a[1]-b[1]];}
+        var dot2d = function (a, b) {return (a[0]*b[0]) + (a[1]*b[1]);}
+        var scale2d = function (s, v) {return [s*v[0], s*v[1]];}
+        var length2d = function (v) {return Math.sqrt(dot2d(v, v));}
+        var normalize2d = function (v) {
+            var d=length2d(v);
+            return (d > 0) ? scale2d(1/d, v) : v;
+        }
+        var normalize2d = function (v) {var d=length2d(v); return (d>0)?scale2d(1/d, v):v;}
+        var interpolate = function (alpha, value0, value1) {
+            return (value0 + (alpha * (value1 - value0)));
+        }
+        var interpolate2d = function (alpha, value0, value1) {
+            return [interpolate(alpha, value0[0], value1[0]),
+                    interpolate(alpha, value0[1], value1[1])];
+        }
+        var triangleAreaByVerts = function (a, b, c) {
+            return Math.abs((a[0]*(b[1]-c[1]) + b[0]*(c[1]-a[1]) + c[0]*(a[1]-b[1])) / 2.0);
+        }
+        var triangleAreaBySides = function (a, b, c) {
+            var p = (a+b+c)/2; // half the perimeter
+            return Math.sqrt(p*(p-a)*(p-b)*(p-c));
+        }
+        var checkTriangle = function (side0, side1, side2) {
+            var longSide = Math.max (side0, side1, side2);
+            var shortSide = Math.min (side0, side1, side2);
+            return ((longSide/shortSide > 1.2) &&
+                    (triangleAreaBySides(side0, side1, side2) > 0.15));
+        }
+        // find angle, in degrees, between two vectors defined by three points
+        var vertexAngleDeg = function (v0, v1, v2) {
+            var d0 = normalize2d(sub2d(v1, v0));
+            var d1 = normalize2d(sub2d(v2, v0));
+            var angleInRadians = Math.acos(dot2d(d0, d1));
+            return angleInRadians * 180/Math.PI;
+        }
+        var clip = function (x, min, max) {return (x > max) ? max : ((x < min) ? min : x);}
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <div data-ensure="checkTriangle(LENGTH0, LENGTH1, LENGTH2)">
+                <var id="VERTEX0">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+                <var id="VERTEX1">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+                <var id="VERTEX2">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+                <var id="LENGTH0">length2d(sub2d(VERTEX0, VERTEX1))</var>
+                <var id="LENGTH1">length2d(sub2d(VERTEX1, VERTEX2))</var>
+                <var id="LENGTH2">length2d(sub2d(VERTEX2, VERTEX0))</var>
+            </div>
+        </div>
+        <div class="problems">
+
+
+            <div id="scale_sides">
+                <div class="question">
+                    Given two congruent triangles A and B, then <b>multiply</b> the length of each 
+                    side of B by the same number <em>k</em>.  (To help visualize the result, move 
+                    the orange dot on the slider to adjust <em>k.</em>)  Is A similar to B?
+                </div>
+                <div class="solution">
+                    Yes
+                </div>
+                <ul class="choices" data-category="true">
+                    <li>Yes</li>
+                    <li>No</li>
+                </ul>
+                <div class="hints">
+                    <p>Similar triangles are the same shape,
+                       but not necessarily the same size or orientation.</p>
+                    <p>As you move the slider, do the vertex angles seem to change?
+                       Corresponding angles of similar triangles are identical.</p>
+                    <p>As you move the slider, do the sides remain parallel?
+                       If so the triangles are similar.</p>
+                </div>
+                <div class="vars">
+                    <var id="TRIANGLE_ADJUST_TYPE">0</var> <!-- select interactive adjustment of SCALING -->
+                </div>
+                <div class="problem">
+                    <div class="graphie">
+                        init({ range: [ [ -1, 1 ], [ -1, 1 ] ], scale: 250 });
+                        addMouseLayer();
+                        var v0 = [<var>VERTEX0</var>]; <!-- should these be called a0,a1,a2 ? -->
+                        var v1 = [<var>VERTEX1</var>];
+                        var v2 = [<var>VERTEX2</var>];
+                        var annotationColor = "rgb(127,127,127)";
+                        var colorTriangleA = "rgb(100,50,100)";
+                        var colorTriangleB = "rgb(75,75,150)";
+                        <!-- draw slider track and tick mark -->
+                        var sliderHeight = 0.9;
+                        style({stroke: annotationColor});
+                        path([[-sliderHeight, sliderHeight], [sliderHeight, sliderHeight]]);
+                        path([[0, sliderHeight+0.04], [0, sliderHeight-0.04]]);
+                        path([[-sliderHeight, sliderHeight+0.04], [-sliderHeight, sliderHeight-0.04]]);
+                        path([[sliderHeight, sliderHeight+0.04], [sliderHeight, sliderHeight-0.04]]);
+                        var perimeter = LENGTH0 + LENGTH1 + LENGTH2;
+                        var center = scale2d(1.0/3.0, add2d(v0, add2d(v1, v2)));
+                        var label0 = label(v0, "", "left", {});
+                        var label1 = label(v1, "", "left", {});
+                        var label2 = label(v2, "", "left", {});
+                        <!-- draw original triangle A -->
+                        style({stroke: colorTriangleA});
+                        var triangleA = path([v0, v1, v2, v0]);
+                        var triangleB = path([]);
+                        <!-- draw adjusted triangle B -->
+                        var drawTriangleB = function (b0, b1, b2) {
+                            style({stroke: colorTriangleB});
+                            triangleB.remove();
+                            triangleB = path([b0, b1, b2, b0]);
+                            label0 = updatedVertexLabel(label0, b0, b1, b2);
+                            label1 = updatedVertexLabel(label1, b1, b2, b0);
+                            label2 = updatedVertexLabel(label2, b2, b0, b1);
+                        }
+                        <!-- make a new label for a vertex showing its angle in degrees -->
+                        var updatedVertexLabel = function (vertexLabel, b0, b1, b2) {
+                            vertexLabel.remove();
+                            var away = add2d(b0, scale2d(0.1, normalize2d(sub2d(b0, center))));
+                            var angle = vertexAngleDeg(b0, b1, b2);
+                            return label(away, angle.toFixed(1)+"^{\\circ}", "center",
+                                        {labelDistance: 0, color: annotationColor});
+                        }
+                        <!-- draw animation of scaling side lengths -->
+                        var scaleTriangleSides = function (scale) {
+                            var b0 = interpolate2d (scale, center, v0);
+                            var b1 = interpolate2d (scale, center, v1);
+                            var b2 = interpolate2d (scale, center, v2);
+                            drawTriangleB(b0, b1, b2);
+                        }
+                        <!-- return new v0 which better approximates desired side lengths -->
+                        var addSideAdjustVertex = function (delta, v0, v1, v2, len0, len1, len2) {
+                            var side0 = sub2d(v0,v1);
+                            var side2 = sub2d(v0,v2);
+                            var currentLength0 = length2d(side0);
+                            var currentLength2 = length2d(side2);
+                            var error0 = (len0 + delta) - currentLength0;
+                            var error2 = (len2 + delta) - currentLength2;
+                            var desiredSide0 = scale2d(1.0 + error0, side0)
+                            var desiredSide2 = scale2d(1.0 + error2, side2)
+                            var dif0 = sub2d(desiredSide0, side0);
+                            var dif2 = sub2d(desiredSide2, side2);
+                            return add2d(v0, scale2d(0.25, add2d(dif0, dif2)));
+                        }
+                        <!-- draw animation of adding k to side lengths -->
+                        var addToTriangleSides = function (delta) {
+                            var b0 = v0, b1 = v1, b2 = v2;
+                            for (var i = 0; i &LT; 10; i++) {
+                                b0 = addSideAdjustVertex (delta, b0, b1, b2, LENGTH0, LENGTH1, LENGTH2);
+                                b1 = addSideAdjustVertex (delta, b1, b2, b0, LENGTH1, LENGTH2, LENGTH0);
+                                b2 = addSideAdjustVertex (delta, b2, b0, b1, LENGTH2, LENGTH0, LENGTH1);
+                            }
+                            drawTriangleB(b0, b1, b2);
+                        }
+                        <!-- draw slider "knob" as dot -->
+                        var sliderKnob = addMovablePoint({
+                            coord: [0, sliderHeight],
+                            onMove: function(x, y) {
+                                        var h = clip (x, -sliderHeight, sliderHeight);
+                                        var adjust = (h+sliderHeight)/(2*sliderHeight);
+                                        sliderKnob.setCoord([h, sliderHeight]);
+                                        if (<var>TRIANGLE_ADJUST_TYPE</var> == 0)
+                                            scaleTriangleSides(interpolate(adjust, 0.1, 1.9));
+                                        else
+                                            addToTriangleSides(interpolate(adjust,
+                                                                           perimeter * -0.4,
+                                                                           perimeter * 0.4));
+                                        return false;
+                                    }
+                        });
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="add_sides" data-type="scale_sides">
+                <div class="question">
+                    Given two congruent triangles A and B, then <b>add</b> a constant 
+                    <em>k</em> to the length of each side of B. (To help visualize the result, 
+                    move the orange dot on the slider to adjust <em>k.</em>) Is A similar to B?
+                </div>
+                <div class="solution">No</div>
+                <div class="vars"><var id="TRIANGLE_ADJUST_TYPE">1</var></div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html>
