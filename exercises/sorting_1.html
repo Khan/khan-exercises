@@ -1,0 +1,62 @@
+<!DOCTYPE html> 
+<html data-require="word-problems"> 
+	<head> 
+		<title>Sorting 1</title> 
+		<script src="../khan-exercise.js"></script> 
+		<script>
+		var solutions = {
+			merge: {
+				best: "O(n log n)",
+				average: "O(n log n)",
+				worst: "O(n log n)"
+			},
+			insertion: {
+				best: "O(n)",
+				average: "O(n^2)",
+				worst: "O(n^2)"
+			},
+			bubble: {
+				best: "O(n)",
+				average: "O(n^2)",
+				worst: "O(n^2)"
+			},
+			quicksort: {
+				best: "O(n log n)",
+				average: "O(n log n)",
+				worst: "O(n^2)"
+			}
+
+		};
+		var runtime = function(sort, type) {
+			return solutions[sort][type];
+		}
+		</script>
+	</head> 
+	<body> 
+		<div class="exercise"> 
+			<div class="vars"> 
+				<ul id="CASE1"> 
+					<li>"best"</li> 
+					<li>"average"</li> 
+					<li>"worst"</li> 
+				</ul> 
+				<ul id="SORT">
+					<li>"merge"</li>
+					<li>"insertion"</li>
+					<li>"bubble"</li>
+					<li>"quicksort"</li>
+				</ul>
+			</div> 
+			<div class="problems"> 
+				<div id="problem-type-or-description"> 
+					<p class="question">What is the <var>CASE1</var> case performance of <var>SORT</var> sort?</p> 
+					<p class="solution"><var>runtime(SORT, CASE1)</var></p> 
+				</div> 
+			</div> 
+ 
+			<div class="hints"> 
+				<!-- Any hints to show to the student. --> 
+			</div> 
+		</div> 
+	</body> 
+</html> 
