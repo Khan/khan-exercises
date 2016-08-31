@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html data-require="math expressions graphie">
+<head>
+	<title>Parabola - Vertex</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	    <div class="vars">
+	        <var id="RandomQuadratic">(function (){ 
+		  var a = randRangeNonZero(-5,5);
+		  var h = randRange(-5,5);
+		  var k = randRange(-5,5);	
+		  return {a: a, b:-2*a*h, c:(a*h*h+k), h: h, k: k, f:(function(x){ return a*(x-h)*(x-h)+k})};
+		  })
+		</var>
+	        <var id="TranslateQuadratic">(function (q,s,t){ 
+		  var h = q.h+s;  
+		  var k = q.k+t;
+		  return {a: q.a, b:-2*q.a*h, c:(q.a*h*h+k), h: h, k: k, f:(function(x){ return q.a*(x-h)*(x-h)+k})};
+		  })
+		</var>
+		<var id="P">RandomQuadratic()</var>
+		<var id="Q">TranslateQuadratic(P, -2*P.h,      0)</var>
+		<var id="R">TranslateQuadratic(P,      0, -2*P.k)</var>
+		<var id="S">TranslateQuadratic(P, -2*P.h, -2*P.k)</var>
+		<var id="COLORS">shuffle(["yellow", "blue", "green", "red"],7)</var>
+	    </div>
+	    
+	    <div class="problems">
+	      <div>
+	          <div class="problem">
+		      <p class="question">
+			  <p>Four parabolas are shown below. </p>
+			  <p>One of them is the graph of the 
+ 			     quadratic <code><var>expr(["+",["*", P.a,  ["^", ["+", "x", -P.h], 2] ] , P.k])</Var></code>.
+			  </p> 
+			  <p> Which one?</p>
+			  </p>
+		          <div id="grid" class="graphie">
+			      init({
+		                range: [ [ -10, 10 ], [ -10, 10 ] ],
+		                scale: [ 30, 30 ]
+			      });
+			      grid( [ -10, 10 ], [ -10, 10 ], { stroke: "#e2e2e2" } );
+			      // draw axes
+			      style({ stroke: "#000000", strokeWidth: 2 });
+			      path( [ [-10,  0], [10,  0 ] ] );
+			      path( [ [0,  -10], [ 0, 10 ] ] );
+			      // graph
+			      style({ strokeWidth: 2 });
+			      style({ stroke: COLORS[0] });  plot( Q.f , [-10,10] );
+			      style({ stroke: COLORS[1] });  plot( R.f , [-10,10] );
+			      style({ stroke: COLORS[2] });  plot( S.f , [-10,10] );
+			      // The correct one is drawn last (so it is on top)
+			      style({ stroke: COLORS[3] });  plot( P.f , [-10,10] );
+			  </div>
+                     </p>
+                     <div class="solution" data-type="multiple">
+  		         <span class="sol" data-type="list" data-choices="['yellow', 'blue', 'green', 'red']"><var>COLORS[3]</var></span>		      
+		     </div>
+	          </div>		    
+  	          <div class="hints">
+		     <p>The quadratic <code>a\cdot(x-h)^2+k</code> has its vertex at <code>(h,k)</code>.</p>
+		     <p><code><var>expr(["+",["*", P.a,  ["^", ["+", "x", -P.h], 2] ] , P.k])</var> 
+			    = <var>expr(["+",["*", P.a,  ["^", ["-", "x",  P.h], 2] ] , P.k])</var></code></p>
+		     <p>The vertex is at <code>(h,k)=(<var>P.h</var>,<var>P.k</var>)</code>.</p>
+		     <p>The parabola with vertex <code>(<var>P.h</var>,<var>P.k</var>)</code> is the <var>COLORS[3]</var> one.</p>
+		  </div>
+	  </div>
+	</div>
+</body>
+</html>
