@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Rigid transformation of lines</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="line-segment">
+            <div class="vars">
+                <var id="SHAPE">$._("line segment")</var>
+                <var id="MATCH">random() &lt; 0.7</var>
+                <var id="ANGLE">randRange(1, 12) * PI / 12</var>
+
+                <var id="LENGTH">randRange(3, 8)</var>
+                <var id="LENGTH2" data-ensure="MATCH || abs(LENGTH - LENGTH2) &gt; 1">MATCH ? LENGTH : randRange(2, 8)</var>
+                <var id="THETA">0</var>
+                <var id="THETA2">0</var>
+                <var id="GAP">0</var>
+                <var id="GAP2">0</var>
+
+                <var id="MIDX">randRange(LENGTH / 2 - 10, 10 - LENGTH / 2)</var>
+                <var id="MIDY">randRange(LENGTH / 2 - 10, 10 - LENGTH / 2)</var>
+                <var id="ROTATION_POINT">[MIDX, MIDY]</var>
+                <var id="HANDLE_POINTS">[
+                    [MIDX + LENGTH * cos(ANGLE) / 2, MIDY + LENGTH * sin(ANGLE) / 2],
+                    [MIDX - LENGTH * cos(ANGLE) / 2, MIDY - LENGTH * sin(ANGLE) / 2]
+                ]</var>
+                <var id="LINES">[[1, 2]]</var>
+
+                <div data-ensure="abs(MIDX2 - MIDX) + abs(MIDY2 - MIDY) &gt; 3">
+                    <var id="ANGLE2">randRange(1, 12) * PI / 12</var>
+                    <var id="MIDX2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
+                    <var id="MIDY2">randRange(LENGTH2 / 2 - 10, 10 - LENGTH2 / 2)</var>
+                </div>
+                <var id="TARGET">[
+                    [MIDX2, MIDY2],
+                    [MIDX2 + LENGTH2 * cos(ANGLE2) / 2, MIDY2 + LENGTH2 * sin(ANGLE2) / 2],
+                    [MIDX2 - LENGTH2 * cos(ANGLE2) / 2, MIDY2 - LENGTH2 * sin(ANGLE2) / 2]
+                ]</var>
+                <var id="TARGET_ANGLE">atan2(TARGET[0][1] - TARGET[1][1], TARGET[0][0] - TARGET[1][0])</var>
+                <var id="GRAPH">{}</var>
+            </div>
+
+            <p class="question">
+                Can you transform the blue <var>SHAPE</var> into the green <var>SHAPE</var> using translations and rotations?
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+                    addMouseLayer();
+
+                    _.map(LINES, function(line) {
+                        var point1 = TARGET[line[0]]
+                        var point2 = TARGET[line[1]]
+                        path([point1, point2], { stroke: GREEN, "stroke-width": 3 });
+                    })
+
+                    graph.points = [addMovablePoint({
+                        coord: ROTATION_POINT,
+                        visible: false
+                    })];
+
+                    _.map(HANDLE_POINTS, function(point) {
+                        graph.points.push(addMovablePoint({ coord: point }));
+                    });
+
+                    graph.lines = [];
+
+                    _.map(LINES, function(line) {
+                        var point1 = graph.points[line[0]]
+                        var point2 = graph.points[line[1]]
+
+                        graph.lines.push(addMovableLineSegment({
+                            pointA: point1,
+                            pointZ: point2,
+                            onMove: function(dX, dY) {
+                                graph.updatePolygon(dX, dY);
+                            }
+                        }));
+
+                        path([point1.coord, point2.coord], { stroke: GRAY, strokeDasharray: "- " });
+                    });
+
+                    graph.showLine = function() {
+                        _.map(graph.points.slice(1), function(point) {
+                            point.visibleShape.show();
+                            point.mouseTarget.show();
+                        });
+                        _.map(graph.lines, function(line) {
+                            line.visibleLine.show();
+                        });
+                    };
+
+                    graph.hideLine = function() {
+                        _.map(graph.points.slice(1), function(point) {
+                            point.visibleShape.hide();
+                            point.mouseTarget.hide();
+                        });
+                        _.map(graph.lines, function(line) {
+                            line.visibleLine.hide();
+                        });
+                    };
+
+                    graph.matchMidPoint = function() {
+                        var dX = MIDX2 - graph.points[0].coord[0];
+                        var dY = MIDY2 - graph.points[0].coord[1];
+                        graph.updatePolygon(dX, dY);
+                    }
+
+                    graph.matchRotation = function() {
+                        var cx = graph.points[0].coord[0];
+                        var cy = graph.points[0].coord[1];
+                        var currentAngle = atan2(cy - graph.points[1].coord[1], cx - graph.points[1].coord[0]);
+                        graph.rotatePolygon(TARGET_ANGLE - currentAngle);
+                    }
+
+                    _.each(graph.points, function(point) {
+                        point.onMove = function(x, y) {
+                            var cx = graph.points[0].coord[0];
+                            var cy = graph.points[0].coord[1];
+                            var oldAngle = atan2(this.coord[1] - cy, this.coord[0] - cx);
+                            var newAngle = atan2(y - cy, x - cx);
+
+                            graph.rotatePolygon(newAngle - oldAngle);
+                            return false;
+                        }
+                    });
+
+                    graph.rotatePolygon = function(rad) {
+                        var degrees = roundToNearest(15, rad * 180 / PI);
+                        rad = degrees * PI / 180;
+                        var c = cos(rad);
+                        var s = sin(rad);
+                        var cx = graph.points[0].coord[0];
+                        var cy = graph.points[0].coord[1];
+
+                        _.each(graph.points, function(point) {
+                            point.setCoord([
+                                cx + (point.coord[0] - cx) * c + (cy - point.coord[1]) * s,
+                                cy + (point.coord[0] - cx) * s + (point.coord[1] - cy) * c
+                            ]);
+                            point.updateLineEnds();
+                        });
+                    };
+
+                    graph.updatePolygon = function(dX, dY) {
+                        dX = round(dX);
+                        dY = round(dY);
+
+                        _.each(graph.points, function(point) {
+                            point.setCoord([
+                                point.coord[0] += dX,
+                                point.coord[1] += dY
+                            ]);
+                            point.updateLineEnds();
+                        });
+                    };
+
+                    GRAPH = graph;
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <ul>
+                        <li>
+                            <label>
+                                <input id="exists" checked name="transform" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
+                                <span>Yes, the blue <var>SHAPE</var> can be transformed into the green <var>SHAPE</var></span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input id="notexists" name="transform" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
+                                <span>No, the blue <var>SHAPE</var> cannot be transformed into the green <var>SHAPE</var></span>
+                            </label>
+                        </li>
+                    </ul>
+                    Your graph is also part of your answer.
+                </div>
+                <div class="guess">[_.map(graph.points, function(point) {
+                        return point.coord;
+                    }), $("input[name='transform']:checked").attr("id")]
+                </div>
+                <div class="validator-function">
+                    if (guess[1] === "notexists") {
+                        return !MATCH;
+                    } else {
+
+                        // Ignore mid point when matching
+                        var guessPoints = guess[0].slice(1);
+                        var targetPoints = TARGET.slice(1);
+
+                        var match = _.all(guessPoints, function(point, i) {
+                            return abs(point[0] - targetPoints[i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - targetPoints[i][1]) &lt; 0.1;
+                        });
+
+                        if (match) {
+                            return true;
+                        } else {
+                            // Check opposite order
+                            var n = guessPoints.length - 1;
+                            return _.all(guessPoints, function(point, i) {
+                                return abs(point[0] - targetPoints[n - i][0]) &lt; 0.1 &amp;&amp; abs(point[1] - targetPoints[n - i][1]) &lt; 0.1;
+                            });
+                        }
+                    }
+                </div>
+                <div class="show-guess">
+                    _.each(graph.points, function(point, n) {
+                        point.setCoord(guess[n]);
+                        point.updateLineEnds();
+                    });
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>First try translating the blue <var>SHAPE</var> so its middle is in the same place as the middle of the green <var>SHAPE</var>.</p>
+                    <div>
+                        <button onclick="javascript: KhanUtil.currentGraph.graph.matchMidPoint(); ">Show me</button>
+                    </div>
+                </div>
+                <div>
+                    <p>Now try rotating the blue <var>SHAPE</var> so has the same orientation as the green <var>SHAPE</var>.</p>
+                    <div>
+                        <button onclick="javascript: KhanUtil.currentGraph.graph.matchRotation(); ">Show me</button>
+                    </div>
+                </div>
+                <p data-if="MATCH">
+                    The blue <var>SHAPE</var> completely overlaps the green <var>SHAPE</var>, so it is possible to transform one into the other.
+                </p>
+                <p data-else="">
+                    The blue <var>SHAPE</var> does not completely overlap the green <var>SHAPE</var> so you cannot transform one into the other using just translation and rotation transformations.
+                </p>
+            </div>
+        </div>
+
+        <div id="angle" data-type="line-segment">
+            <div class="vars">
+                <var id="SHAPE">$._("angle")</var>
+                <var id="THETA">randRange(1, 6) * PI / 12</var>
+                <var id="THETA2" data-ensure="MATCH || abs(THETA - THETA2) !== 0">MATCH ? THETA : randRange(1, 6) * PI / 12</var>
+                
+                <var id="MIDX">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDY">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDX2">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDY2">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                
+                <var id="HANDLE_POINTS">[
+                    [MIDX + LENGTH * cos(ANGLE), MIDY + LENGTH * sin(ANGLE)],
+                    [MIDX + LENGTH * cos(ANGLE + THETA), MIDY + LENGTH * sin(ANGLE + THETA)]
+                ]</var>
+                <var id="LINES">[[0, 1], [0, 2]]</var>
+                <var id="TARGET">[
+                    [MIDX2, MIDY2],
+                    [MIDX2 + LENGTH * cos(ANGLE2), MIDY2 + LENGTH * sin(ANGLE2)],
+                    [MIDX2 + LENGTH * cos(ANGLE2 + THETA2), MIDY2 + LENGTH * sin(ANGLE2 + THETA2)]
+                ]</var>
+                <var id="GRAPH">{}</var>
+            </div>
+        </div>
+
+        <div id="parallel" data-type="line-segment">
+            <div class="vars">
+                <var id="SHAPE">$._("set of parallel lines")</var>
+                <var id="GAP">randRange(2, 6) / 2</var>
+                <var id="GAP2" data-ensure="MATCH || abs(GAP - GAP2) !== 0">MATCH ? GAP : randRange(2, 6) / 2</var>
+                
+                <var id="MIDX">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDY">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDX2">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                <var id="MIDY2">randRange(LENGTH - 10, 10 - LENGTH)</var>
+                
+                <var id="HANDLE_POINTS">[
+                    [MIDX + LENGTH * cos(ANGLE) / 2 + GAP * cos(ANGLE + PI/2),
+                     MIDY + LENGTH * sin(ANGLE) / 2 + GAP * sin(ANGLE + PI/2)],
+                    [MIDX - LENGTH * cos(ANGLE) / 2 + GAP * cos(ANGLE + PI/2),
+                     MIDY - LENGTH * sin(ANGLE) / 2 + GAP * sin(ANGLE + PI/2)],
+                    [MIDX + LENGTH * cos(ANGLE) / 2 - GAP * cos(ANGLE + PI/2),
+                     MIDY + LENGTH * sin(ANGLE) / 2 - GAP * sin(ANGLE + PI/2)],
+                    [MIDX - LENGTH * cos(ANGLE) / 2 - GAP * cos(ANGLE + PI/2),
+                     MIDY - LENGTH * sin(ANGLE) / 2 - GAP * sin(ANGLE + PI/2)]
+                ]</var>
+                <var id="LINES">[[1, 2], [3, 4]]</var>
+                <var id="TARGET">[
+                    [MIDX2, MIDY2],
+                    [MIDX2 + LENGTH * cos(ANGLE2) / 2 + GAP2 * cos(ANGLE2 + PI/2),
+                     MIDY2 + LENGTH * sin(ANGLE2) / 2 + GAP2 * sin(ANGLE2 + PI/2)],
+                    [MIDX2 - LENGTH * cos(ANGLE2) / 2 + GAP2 * cos(ANGLE2 + PI/2),
+                     MIDY2 - LENGTH * sin(ANGLE2) / 2 + GAP2 * sin(ANGLE2 + PI/2)],
+                    [MIDX2 + LENGTH * cos(ANGLE2) / 2 - GAP2 * cos(ANGLE2 + PI/2),
+                     MIDY2 + LENGTH * sin(ANGLE2) / 2 - GAP2 * sin(ANGLE2 + PI/2)],
+                    [MIDX2 - LENGTH * cos(ANGLE2) / 2 - GAP2 * cos(ANGLE2 + PI/2),
+                     MIDY2 - LENGTH * sin(ANGLE2) / 2 - GAP2 * sin(ANGLE2 + PI/2)]
+                ]</var>
+                <var id="GRAPH">{}</var>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
