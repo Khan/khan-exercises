@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Eigenvalues</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="lambda1">randRange(-5, 5)</var>
+		<var id="lambda2">randRange(-5, 5)</var>
+		<var id="lambda3">randRange(-5, 5)</var>
+		<var id="A">randRange(-8, 8)</var>
+		<var id="C">randRange(-8, 8)</var>
+		<var id="I">randRange(-8, 8)</var>
+
+		<div data-ensure="BDistToInt == 0 && DDistToInt == 0 && EDistToInt == 0 && FDistToInt == 0">
+			<var id="G">randRangeExclude(-8, 8, [0])</var>
+			<var id="H">randRangeExclude(-8, 8, [0])</var>
+
+			<var id="B">H*(A-lambda1)/G</var>
+			<var id="D">(-A*G-G*I+G*lambda2+G*lambda3)/H</var>
+			<var id="E">lambda1 + lambda2 + lambda3 - A - I</var>
+			<var id="F">(-C*G-I*I+I*lambda2+I*lambda3-lambda2*lambda3)/H</var>
+
+			<var id="BDistToInt">B - round(B)</var>
+			<var id="DDistToInt">D - round(D)</var>
+			<var id="EDistToInt">E - round(E)</var>
+			<var id="FDistToInt">F - round(F)</var>
+		</div>
+
+		<var id="const2">A*E + A*I + E*I - B*D - C*G - H*F</var>
+		<var id="const3">lambda1*lambda2 + lambda1*lambda3 + lambda2*lambda3</var>
+		<var id="const4">-A*E*I+A*F*H+B*D*I-B*F*G-C*D*H+C*E*G</var>
+		<var id="const5">-lambda1*lambda2*lambda3</var>
+		
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Determine the eigenvalues of <code>A = \begin{bmatrix}
+					<var>A</var> & <var>B</var> & <var>C</var> \\
+					<var>D</var> & <var>E</var> & <var>F</var> \\
+					<var>G</var> & <var>H</var> & <var>I</var>
+				\end{bmatrix}</code>.</p>
+			</div>
+
+			<div class="solution" data-type="set">
+				<div class="set-sol"><var>lambda1</var></div>
+				<div class="set-sol"><var>lambda2</var></div>
+				<div class="set-sol"><var>lambda3</var></div>
+				<div class="input-format">
+					<p><code>\lambda = \quad </code><span class="entry"></span></p>
+					<p><code>\lambda = \quad </code><span class="entry"></span></p>
+					<p><code>\lambda = \quad </code><span class="entry"></span></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="hints">
+		<p>First write the characteristic polynomial</p>
+		<p><code>p(\lambda) 
+			= \det(I \cdot \lambda - A)  
+			= \det \begin{bmatrix}
+					\color{blue}{\lambda + <var>-A</var>} & \color{pink}{<var>-B</var>} & \color{purple}{<var>-C</var>} \\
+					\color{orange}{<var>-D</var>} & \color{red}{\lambda + <var>-E</var>} & \color{cyan}{<var>-F</var>} \\
+					\color{magenta}{<var>-G</var>} & \color{yellow}{<var>-H</var>} & \color{green}{\lambda+<var>-I</var>}
+				\end{bmatrix}</code>.</p>
+		<div>
+		<p><code>\hphantom{p(\lambda)}
+			= (\color{blue}{\lambda + <var>-A</var>})\cdot(\color{red}{\lambda + <var>-E</var>})\cdot(\color{green}{\lambda + <var>-I</var>}) 
+				+ (\color{orange}{<var>-D</var>}) \cdot (\color{yellow}{<var>-H</var>}) \cdot (\color{purple}{<var>-C</var>}) 
+				+ (\color{magenta}{<var>-G</var>}) \cdot (\color{pink}{<var>-B</var>}) \cdot (\color{cyan}{<var>-F</var>})
+		</code></p>
+		<p><code>\hphantom{p(\lambda)}
+				\qquad - (\color{blue}{\lambda + <var>-A</var>}) \cdot (\color{yellow}{<var>-H</var>}) \cdot (\color{cyan}{<var>-F</var>}) 
+				- (\color{orange}{<var>-D</var>}) \cdot (\color{pink}{<var>-B</var>}) \cdot (\color{green}{\lambda + <var>-I</var>})
+				- (\color{magenta}{<var>-G</var>}) \cdot (\color{red}{\lambda + <var>-E</var>}) \cdot (\color{purple}{<var>-C</var>})
+		</code></p>
+		<p><code>\hphantom{p(\lambda)}
+				= \lambda^3 + <var>-lambda1-lambda2-lambda3</var> \lambda^2 
+					+ <var>const3</var> \lambda + <var>const5</var>
+		</code></p>
+		</div>
+		<p>Then factor it</p>
+		<p><code>\hphantom{p(\lambda)}
+				= (\lambda - <var>lambda1</var>) 
+					\cdot (\lambda - <var>lambda2</var>)
+					\cdot (\lambda - <var>lambda3</var>)
+		</code></p>
+		<p>The eigenvalues are the roots of the characteristic polynomial</p>
+		<p><code>\lambda = <var>lambda1</var></code>, 
+			<code>\lambda = <var>lambda2</var></code> and
+			<code>\lambda = <var>lambda3</var></code>.
+		</p>
+	</div>
+	</div>
+</body>
+</html>
