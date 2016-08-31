@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+  <html data-require="math math-format">
+      <head>
+          <title>Solving for time</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="distance">50 + rand(50)</var>
+                  <var id="speed">11 + rand(70)</var>
+                  <var id="direction">randFromArray(['north', 'south', 'east', 'west'])</var>
+              </div>
+
+              <div class="problems">
+                  <div id="problem-type-or-description">
+                      <p class="problem"><!-- An overview of the problem including all needed info. --></p>
+                      <p class="question">
+                          Alice is traveling at a constant velocity of <var>speed</var> km/h <var>direction</var>.
+                          <br/>
+                          How many minutes will it take her to travel <var>distance</var> km.
+                          <br/>
+                          Round to the nearest minute.
+                      </p>
+                      <p class="solution" data-type="decimal"><var>roundTo(0, distance/speed*60)</var></span> minute</p>
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p>Remember the formula: <code>velocity = \dfrac{distance}{time}</code></p>
+                  <p>Solve for time: <code>time = \dfrac{distance}{velocity}</code></p>
+                  <p>Substitute in the known variables: <code>time = \dfrac{<var>distance</var> km}{<var>speed</var> km/h}</code></p>
+                  <p>Don't forget to convert the answer from hours to minutes.</p>
+              </div>
+          </div>
+      </body>
+  </html>
+
