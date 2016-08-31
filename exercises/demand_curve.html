@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Demand curve of normal goods intuition</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="template">
+            <div class="vars">
+                <var id="TEXT">rand(3)</var>
+                <var id="RESULT">0</var>
+                <var id="hint1" data-if="TEXT == 0">'What happens if nothing changes?'</var>
+                <var id="hint1" data-if="TEXT == 1">'Price change doesn&lsquo;t shift the demand curve.'</var>
+                <var id="hint1" data-if="TEXT == 2">'Because people expect that price will go down, demand curve should move left. But recent award will shift demand curve to the right.'
+                </var>
+               
+            </div>
+            <div class="question">
+                <p><span class="hint_gray">Gray</span> demand curve (behind the <span class="hint_blue">blue</span> demand curve) shows initial demand.
+                Move the demand curve according to the given situation:</p>
+                <span class="text" id="question-statement">
+                    <p data-if="TEXT == 0">
+                        You did a survey in your country about a car&lsquo;s price.
+                        Your survey shows that people expect that this car&lsquo;s price won&lsquo;t change.
+                    </p>
+                    <p data-if="TEXT == 1">
+                        Recently, England government put a higher tax on cigars.
+                        How will it change demand for cigars?
+                    </p>
+                    <p data-if="TEXT == 2">
+                        You did a survey in your country about a laptop&lsquo;s price.
+                        Your survey shows that people expect that this laptop will be cheaper, but recently this laptop got a &bdquo;best laptop ever&rdquo; award. 
+                        (Both situations have equal effect on demand)
+                    </p>
+                </span>
+                <div class="graphie problem" id="grid">
+                    graphInit({
+                        range: [[-1, 19], [-1, 19]],
+                        scale: [18, 18]
+                    });
+                    
+                    label( [ 0, 19], "P", "below left");
+                    label( [ 19, 0], "Q", "below left");
+
+                    arc([22.9, 22.9], 21, 170, 320,{
+                        stroke: GRAY,
+                        strokeWidth: 1,
+                    });
+
+                    func = arc([22.9, 22.9], 21, 170, 320,{
+                        stroke: BLUE
+                    });
+                        
+                    addMouseLayer();
+
+                    movablePoint = addMovablePoint({ coord: [ 8, 8 ], snapY: 1, snapX: 1, });
+                    movablePoint.constraints.fixedAngle = {
+                        angle: 0,
+                        vertex: { coord: [ 0, 0 ]},
+                        ref: { coord: [ 20, 20 ]}
+                    }
+
+                    movablePoint.onMove = function( x, y ) {
+                        func.remove();
+                        func = arc([24.9 - (10 - x), 24.9 - (10 - y)],  21, 170, 320,{
+                            stroke: BLUE
+                        });
+                    };
+                </div>
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <p>Drag <span class="hint_orange">orange</span> dot to move demand curve.</p>
+                </div>
+                    <div class="guess">
+                        (function(){
+                            return ;
+                        })()
+                    </div>
+                    <div class="validator-function">
+                        answer = movablePoint.coord[0] - 8;
+                        switch (RESULT){
+                            case 0:
+                                return answer < 0.1 && answer > -0.1;
+                            case 1:
+                                return answer > 0.1;
+                            case -1:
+                                return answer < -0.1;
+                        }
+                    </div>
+            </div>
+             
+            <div class="hints">
+                <p><var>hint1</var></p>
+                <div>
+                    <p>
+                        Demand curve doesn't change:
+                    </p>
+                    <div class="graphie" style="margin-left: 60px">  
+                        graphInit({
+                            range: [[-1, 10], [-1, 10]],
+                            scale: [14, 14]
+                        });
+                        
+                        label( [ 0, 10], "P", "below left");
+                        label( [ 10, 0], "Q", "below left");
+                        
+                        arc([19.9, 19.9],  21, 170, 320,{
+                            stroke: BLUE
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="increase-in-demand" data-type="template">
+            <div class="vars" data-apply="replace">  
+                <var id="TEXT">rand(6)</var>
+                <var id="RESULT">1</var>
+                <var id="CHANGE" data-if="TEXT == 0">'people expect that future prices will go up'</var>
+                <var id="CHANGE" data-if="TEXT == 1">'price of substitutes goes up'</var>
+                <var id="CHANGE" data-if="TEXT == 2">'price of complements goes down'</var>
+                <var id="CHANGE" data-if="TEXT == 3">'everyone&lsquo;s income goes up'</var>
+                <var id="CHANGE" data-if="TEXT == 4">'population goes up'</var>
+                <var id="CHANGE" data-if="TEXT == 5">'preferences goes up'</var> 
+            </div>
+            <span class="text" id="question-statement" data-apply="replace">
+                <p data-if="TEXT == 0">
+                    You did a survey in your country about a laptop&lsquo;s price.
+                    Your survey shows that people expect that this laptop will be more expensive.
+                </p>
+                <p data-if="TEXT == 1">
+                    How will rise in the average price of second-hand cars, will change demand of new cars?
+                </p>
+                <p data-if="TEXT == 2">
+                    In Italy people like to eat pasta with cheese. 
+                    How will demand of pasta change if price of cheese goes down?
+                </p>
+                <p data-if="TEXT == 3">
+                    You are selling cars in Russia. 
+                    The average salary in Russia increased.
+                    How will this affect the demand for your cars?
+                </p>
+                <p data-if="TEXT == 4">
+                    Government announces a rise in the number of migrants living and working in London. 
+                    How will it change demand for rented property?
+                </p>
+                <p data-if="TEXT == 5">
+                    You are selling an e-book. And your book got a &bdquo;best book ever&rdquo; award. 
+                    How will this award change your book's demand?
+                </p>
+                
+            </span>
+            <div class="hints" data-apply="replace">
+                <p>What happens with demand curve when <b><var>CHANGE</var></b>?</p>
+                <div>
+                    <p>
+                        Demand curve moves to the right:
+                    </p>
+                    <div class="graphie" style="margin-left: 60px">  
+                    
+                        graphInit({
+                            range: [[-1, 10], [-1, 10]],
+                            scale: [14, 14]
+                        });
+                        
+                        label( [ 0, 10], "P", "below left");
+                        label( [ 10, 0], "Q", "below left");
+                        
+                        arc([19.9, 19.9],  21, 170, 320,{
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                        });
+                        
+                        arc([20.9, 20.9],  21, 170, 320,{
+                            stroke: BLUE
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div id="decrease-in-demand" data-type="template">
+            <div class="vars" data-apply="replace">
+                <var id="TEXT">rand(6)</var>
+                <var id="RESULT" >-1</var>
+                <var id="CHANGE" data-if="TEXT == 0">'people expect that future prices will go down'</var>
+                <var id="CHANGE" data-if="TEXT == 1">'price of substitutes goes down'</var>
+                <var id="CHANGE" data-if="TEXT == 2">'price of complements goes up'</var>
+                <var id="CHANGE" data-if="TEXT == 3">'everyone&lsquo;s income goes down'</var>
+                <var id="CHANGE" data-if="TEXT == 4">'population goes down'</var>
+                <var id="CHANGE" data-if="TEXT == 5">'preferences go down'</var>
+            </div>
+
+            <span class="text" id="question-statement" data-apply="replace">
+                <p data-if="TEXT == 0">
+                    You did a survey in your country about a laptop&lsquo;s price.
+                    Your survey shows that people expect that this laptop will be cheaper.
+                </p>
+                <p data-if="TEXT == 1">
+                    How will fall in the average price of second-hand cars, will change demand of new cars?
+                </p>
+                <p data-if="TEXT == 2">
+                    In Italy people like to eat pasta with cheese. 
+                    How will demand of pasta change if price of cheese goes up?
+                </p>
+                <p data-if="TEXT == 3">
+                    You are selling cars in Russia. 
+                    The average salary in Russia decreased.
+                    How will this affect the demand for your cars?
+                </p>
+                <p data-if="TEXT == 4">
+                    Government announces a fall in the number of migrants living and working in London. 
+                    How will it change demand for rented property?
+                </p>
+                <p data-if="TEXT == 5">
+                    You are selling an e-book. And your book got a bad rating in recent reviews. 
+                    How will bad rating change your book's demand?
+                </p>
+            </span>
+            
+            <div class="hints" data-apply="replace">
+                <p>What happens with demand curve when <b><var>CHANGE</var></b>?</p>
+                <div>
+                    <p>
+                        Demand curve moves to the left:
+                    </p>
+                    <div class="graphie" style="margin-left: 60px">  
+                        graphInit({
+                            range: [[-1, 10], [-1, 10]],
+                            scale: [14, 14]
+                        });
+                        
+                        label( [ 0, 10], "P", "below left");
+                        label( [ 10, 0], "Q", "below left");
+                        
+                        arc([19.9, 19.9],  21, 170, 320,{
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                        });
+                        
+                        arc([18.9, 18.9],  21, 170, 320,{
+                            stroke: BLUE
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
