@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Converting multi-digit repeating decimals to fractions</title>
@@ -24,66 +24,137 @@
     </div>
 
     <div class="problems">
-        <div id="onedigit">
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.\overline{<var>N2</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
-        </div>
-        <div id="twodigit">
-            <div class="vars">
-                <var id="N4">N1 + N3 / 99</var>
-                <var id="D2">2</var>
-            </div>
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.\overline{<var>N3</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
-        </div>
-        <div id="oneandone">
-            <div class="vars">
-                <var id="N3" data-ensure="N2 !== N3">randRange( 1, 8 )</var>
-                <var id="N4">N1 + N2 / 10 + N3 / 90</var>
-                <var id="D1">1</var>
-                <var id="D2">2</var>
-            </div>
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
-        </div>
-        <div id="hardone">
-            <div class="vars">
-                <var id="N2">randRange( 1, 9 )</var>
-                <var id="N4">N1 + N2 / 10 + N3 / 990</var>
-                <var id="D1">1</var>
-                <var id="D2">3</var>
-            </div>
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
-        </div>
-        <div id="hardtwo">
-            <div class="vars">
-                <var id="N2">randRange( 1, 8 )</var>
-                <var id="N4">N1 + N3 / 100 + N2 / 900</var>
-                <var id="D1">2</var>
-                <var id="D2">3</var>
-            </div>
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.<var>N3</var>\overline{<var>N2</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
-        </div>
-    </div>
+		<div id="d2f-onedigit">
+			<p class="question">Rewrite as a simplified fraction.</p>
+			<p><code>\large{<var>N1</var>.\overline{<var>N2</var>} = {?}}</code></p>
+			<p class="solution" data-type="rational"><var>N4</var></p>
+			<div class="hints">
+				<p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+				<p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
+				<var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
+				<div>
+					<p>Subtracting the two equations, we have:</p>
+					<p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+				</div>
+				<p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+				<p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+			</div>
+		</div>
+		<div id="d2f-twodigit">
+			<div class="vars">
+				<var id="N4">N1 + N3 / 99</var>
+				<var id="D2">2</var>
+			</div>
+			<p class="question">Rewrite as a simplified fraction.</p>
+			<p><code>\large{<var>N1</var>.\overline{<var>N3</var>} = {?}}</code></p>
+			<p class="solution" data-type="rational"><var>N4</var></p>
+			<div class="hints">
+				<p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+				<p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
+				<var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
+				<div>
+					<p>Subtracting the two equations, we have:</p>
+					<p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+				</div>
+				<p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+				<p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+			</div>
+		</div>
+		<div id="d2f-oneandone">
+			<div class="vars">
+				<var id="N3" data-ensure="N2 !== N3">randRange( 1, 8 )</var>
+				<var id="N4">N1 + N2 / 10 + N3 / 90</var>
+				<var id="D1">1</var>
+				<var id="D2">2</var>
+			</div>
+			<p class="question">Rewrite as a simplified fraction.</p>
+			<p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
+			<p class="solution" data-type="rational"><var>N4</var></p>
+			<div class="hints">
+				<p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+				<p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
+				<var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
+				<div>
+					<p>Subtracting the two equations, we have:</p>
+					<p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+				</div>
+				<p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+				<p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+			</div>
+		</div>
+		<div id="d2f-hardone">
+			<div class="vars">
+				<var id="N2">randRange( 1, 9 )</var>
+				<var id="N4">N1 + N2 / 10 + N3 / 990</var>
+				<var id="D1">1</var>
+				<var id="D2">3</var>
+			</div>
+			<p class="question">Rewrite as a simplified fraction.</p>
+			<p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
+			<p class="solution" data-type="rational"><var>N4</var></p>
+			<div class="hints">
+				<p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+				<p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
+				<var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
+				<div>
+					<p>Subtracting the two equations, we have:</p>
+					<p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+				</div>
+				<p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+				<p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+			</div>
+		</div>
+		<div id="d2f-hardtwo">
+			<div class="vars">
+				<var id="N2">randRange( 1, 8 )</var>
+				<var id="N4">N1 + N3 / 100 + N2 / 900</var>
+				<var id="D1">2</var>
+				<var id="D2">3</var>
+			</div>
+			<p class="question">Rewrite as a simplified fraction.</p>
+			<p><code>\large{<var>N1</var>.<var>N3</var>\overline{<var>N2</var>} = {?}}</code></p>
+			<p class="solution" data-type="rational"><var>N4</var></p>
+			<div class="hints">
+				<p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+				<p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
+				<var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
+				<div>
+					<p>Subtracting the two equations, we have:</p>
+					<p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+				</div>
+				<p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+				<p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+			</div>
+		</div>
+		<div id="f2d">
+			<div class="vars" data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1 &amp;&amp; NUMERATOR % DENOMINATOR != 0 &amp;&amp; (DENOMINATOR % 3 === 0 || DENOMINATOR % 11 === 0) &amp;&amp; DENOMINATOR % 7 != 0 &amp;&amp; DENOMINATOR % 13 != 0">
+				<var id="NUMERATOR">randRange(1,9)</var>
+				<var id="DENOMINATOR">randRange(1,50)</var>
+				<var id="DECIMAL">roundTo(10, NUMERATOR/DENOMINATOR)</var>
+			</div>
+			<p class="question">Rewrite as a repeating decimal.</p>
+			<p class="extra-info">Express your answer to 10 decimal places.</p>
+			<p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+			<p class="solution" data-type="decimal"><var>DECIMAL</var></p>
+			<div class="hints">
+				<p>Divide <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+				
+				<div class="graphie" id="nmbrs">
+                    graph.divider = new Divider( DENOMINATOR, NUMERATOR * 100000, 0, 5 );
+                    graph.divider.show();
+                    DUMMY = Array( graph.divider.getNumHints() );
+                </div>
 
-    <div class="hints">
-        <p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
-        <p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
-        <var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
-        <div>
-            <p>Subtracting the two equations, we have:</p>
-            <p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
-        </div>
-        <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
-        <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+                <div class="graphie" data-update="nmbrs">
+                    graph.divider.shiftDecimals();
+                </div>
+
+                <div class="graphie" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 100000, 0, 5 ) times" data-update="nmbrs">
+                    graph.divider.showHint();
+                </div>
+			</div>
+		</div>
     </div>
-    </div>
+	</div>
 </body>
 </html>
