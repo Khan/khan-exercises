@@ -1,0 +1,221 @@
+  <!DOCTYPE html>
+  <html data-require="math math-format graphie graphie-helpers">
+      <head>
+          <title>Visualizing Equivalent Fractions</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <!-- Get useful fractions -->
+
+                  <!-- Temp Values-->
+                  <var id="TDENOMINATOR_A">randFromArray([2,3,4,5])</var>
+                  <var id="TNUMERATOR_A">randRange(0, TDENOMINATOR_A)</var>
+                  <var id="TDENOMINATOR_B">
+                      (function(firstDenominator) {
+                          switch(firstDenominator)
+                          {
+                              case 2:
+                                  return randFromArray([4,6,8,10,12]);
+                              case 3:
+                                  return randFromArray([6,12]);
+                              case 4:
+                                  return randFromArray([8,12]);
+                              case 5:
+                                  return 10;
+                          }
+                      })(TDENOMINATOR_A) 
+
+                  </var>
+                  <var id="TN">TDENOMINATOR_B/TDENOMINATOR_A</var>                                        
+                  <var id="TNUMERATOR_B">TN * TNUMERATOR_A</var>
+                  <var id="randomVar">randFromArray([0,1])</var>
+
+                  <!-- Actual Values-->
+                  <var id="DENOMINATOR_A"> (function(x,y) {if (randomVar == 1) return x; else return y;})(TDENOMINATOR_B, TDENOMINATOR_A)</var>
+                  <var id="NUMERATOR_A">(function(x,y) {if (randomVar == 1) return x; else return y;})(TNUMERATOR_B, TNUMERATOR_A)</var>
+                  <var id="DENOMINATOR_B">(function(x,y) {if (randomVar == 1) return x; else return y;})(TDENOMINATOR_A, TDENOMINATOR_B)</var>
+                  <var id="NUMERATOR_B">(function(x,y) {if (randomVar == 1) return x; else return y;})(TNUMERATOR_A, TNUMERATOR_B)</var>
+                  <var id="N">(function(x,y) {if (randomVar == 1) return x; else return y;})(1/TN, TN)</var>--> 
+                  <var id="upTo">-1</var>
+                  <var id="lastIndex">-1</var>
+                  <var id="pathArray">{}</var>
+                  <var id="backGround">{}</var>
+
+              </div>
+
+              <div class="problems">
+                  <div id="model-rectangle">
+                      <!-- An overview of the problem including all needed info. -->
+                      <p class="problem">   
+
+                          <p class="question">
+                              An area model of the fraction to match is shown below in blue.
+                              Create an equivalent area model with a denominator of <var>DENOMINATOR_B</var>.
+                          </p>
+
+                          <p>Fraction to match: <code>\dfrac{<var>NUMERATOR_A</var>}{<var>DENOMINATOR_A</var>}</code>  Your fraction:
+                          <code id="guessFrac">\dfrac{<var>(upTo+1)</var>}{<var>DENOMINATOR_B</var>}</code></p>
+
+                          <p><!-- For Visual Spacing --></p>
+
+                          <div class="graphie">
+                              init({ range: [ [0, 1], [0, 1] ], scale: [475, 50] });
+                              rectchart( [NUMERATOR_A, DENOMINATOR_A - NUMERATOR_A], [BLUE, GRAY] );
+                          </div>
+
+                          <p><!-- For Visual Spacing --></p>
+
+                          <div id="selectable" class="graphie">
+                              init({ range: [ [0, DENOMINATOR_B], [0, 1] ], scale: [475, 50] });
+                              rectSet = rectchart( [DENOMINATOR_B], [GRAY] );
+
+                              backGround = $("#selectable svg");
+                              pathArray = $("#selectable path");
+
+                              clickHandler = 
+                              function(i)
+                                  {
+                                      if (upTo == i)
+                                      {
+                                        var subArray = pathArray.slice(0,upTo+1);
+                                        upTo = -1;
+                                        subArray.fadeTo(75, 0.2);
+                                        subArray.attr("fill", "GRAY");
+                                        subArray.attr("stroke", "GRAY");
+                                        subArray.fadeTo(300, 1.0);
+                                      }
+                                      else
+                                      {
+                                        upTo = i;
+                                        var subArray = pathArray.slice(0,upTo+1);
+                                        subArray.fadeTo(75, 0.2);
+                                        subArray.attr("fill", "RED");
+                                        subArray.attr("stroke", "RED");
+                                        subArray.fadeTo(300, 1.0);
+                                      }
+
+                                      $("#guessFrac").attr("data-math-formula", "\\dfrac{"+(upTo+1)+"}{"+DENOMINATOR_B+"}")
+                                      KhanUtil.processAllMath($("#guessFrac")[0], true);
+                                  }
+
+                              backGround.click(
+                                  function()
+                                  {
+                                      clickHandler(lastIndex);
+                                  }
+                              );  
+
+                              backGround.mouseleave(
+                                  function()
+                                  {
+                                      var subArray = pathArray.slice(0,upTo+1);
+                                      pathArray.attr("fill", "GRAY");
+                                      pathArray.attr("stroke", "GRAY");
+                                      subArray.attr("fill", "RED");
+                                      subArray.attr("stroke", "RED");
+                                  }
+                              );                        
+
+                              pathArray.click(
+                                  function(e)
+                                  {
+                                      var i = pathArray.index(this);
+                                      clickHandler(i);
+                                      e.stopPropagation();
+                                  }
+                              );
+
+                              pathArray.mouseenter(
+                                  function()
+                                  {
+                                      var i = pathArray.index(this);
+                                      lastIndex = i;
+                                      pathArray.attr("fill", "GRAY");
+                                      pathArray.attr("stroke", "GRAY");
+                                      var subArray = pathArray.slice(0,i+1);
+                                      subArray.attr("fill", "#DB7474");
+                                      subArray.attr("stroke", "#DB7474");
+                                  }
+                              );
+                          </div>
+                      </p>
+
+                      <div class="solution" data-type="custom">
+                          <div class="instruction">
+                              Move the mouse over the red area model and then click to set it.
+                              When you are done, click check answer below.
+                          </div>
+
+                          <div class="guess"> (upTo+1) </div>
+
+                          <div class="validator-function">
+                              return (guess == NUMERATOR_B);
+                          </div>
+
+                          <div class="show-guess">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="hints">
+
+
+                  <div id="numerical_equivalence">
+                    <p> Recall that equivalent fractions are related to one another by some factor. If that factor was labeled N, then:</p>
+
+                    <code>\dfrac{A}{B} </code> =
+                    <code> \dfrac{A*N}{B*N}</code> 
+
+                  </div>
+
+                  <div id="area_equivalence">
+                      <p>Recall that equivalent fractions have area models that take up the same amount of space.
+                      Compare visually
+                      <code>\dfrac{3}{6}</code> 
+                      in blue to 
+                      <code>\dfrac{6}{12}</code> 
+                      in red, noting the identical areas.
+                      </p>
+                      <p></p>
+                      <div class="graphie">
+                            init({ range: [ [0, 1], [0, 1] ], scale: [475, 50] });
+                            rectchart( [3, 6], [BLUE, GRAY] );
+                      </div>
+                      <p></p>
+                      <div class="graphie">
+                            init({ range: [ [0, 1], [0, 1] ], scale: [475, 50] });
+                            rectchart( [6, 12], [RED, GRAY] );
+                      </div>
+                  </div>
+
+                  <div id="numerical_equivalence2">
+                      <p> In this problem N is <var>N</var></p>
+
+                      <code>\dfrac{<var>NUMERATOR_A</var>}{<var>DENOMINATOR_A</var>}</code> =
+                      <code> \dfrac{<var>NUMERATOR_A</var>*<var>N</var>}{<var>DENOMINATOR_A</var>*<var>N</var>}</code> 
+                  </div>
+
+                  <div id="final_result">
+                      <p> The equivalent fractions and area models are shown below.</p>
+
+                      <code>\dfrac{<var>NUMERATOR_A</var>}{<var>DENOMINATOR_A</var>}</code> =
+                      <code> \dfrac{<var>NUMERATOR_B</var>}{<var>DENOMINATOR_B</var>}</code>
+
+                      <p></p>
+                      <div class="graphie">
+                              init({ range: [ [0, 1], [0, 1] ], scale: [475, 50] });
+                              rectchart( [NUMERATOR_A, DENOMINATOR_A - NUMERATOR_A], [BLUE, GRAY] );
+                      </div>
+                      <p></p>
+                      <div class="graphie">
+                            init({ range: [ [0, 1], [0, 1] ], scale: [475, 50] });
+                            rectchart( [NUMERATOR_B, DENOMINATOR_B - NUMERATOR_B], [RED, GRAY] );
+                      </div>  
+                  </div>
+              </div>
+          </div>
+      </body>
+  </html>
