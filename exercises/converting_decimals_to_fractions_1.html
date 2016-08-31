@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div id="to-the-tenth">
+        <!--<div id="to-the-tenth">
             <div class="vars">
                 <var id="D">randRange( 1, 9 ) / 10</var>
                 <var id="T">floor( D * 10 )</var>
@@ -52,8 +52,36 @@
                     <p><code>= <var>fraction( T * 10 + H, 100 )</var></code></p>
                 </div>
             </div>
+        </div>-->
+
+        <div id="tenth-fraction">
+            <div class="vars">
+                <var id="N">randRange(1,9)</var>
+                <var id="D">N/10</var>
+            </div>
+            <p class="question">Express <code><var>N</var>/10</code> as a decimal.</p>
+            <p class="solution" data-simplify="optional" data-type="decimal"><var>N/10</var></p>
+            <div class="hints">
+                <p>We have <code><var>N</var></code> over <code>10</code>, so there are <code><var>N</var></code> tenths.</p>
+                <p>If we have <code><var>N</var></code> tenths, we can write them as <code><var>N/10</var></code></p>
+            </div>
         </div>
-    </div>
+
+        <div id="hundredth-fraction">
+            <div class="vars">
+                <var id="N">randRange(1,99)</var>
+                <var id="D">N/100</var>
+            </div>
+            <p class="question"> Express <code><var>N</var>/100</code> as a decimal.</p>
+            <p class="solution"> <var>N/100</var></p>
+            <div class="hints">
+                <p>We have <code><var>N</var></code> over <code>100</code>, so there are <code><var>floor(N / 10)</var></code> tenths.</p>
+                <p>There are <code><var>floor(N % 10)</var></code> hundredths.</p>
+                <p>If we have <code><var>floor(N / 10)</var></code> tenths, we can write them as <code><var>(N - floor(N % 10))/100</var></code>.</p>
+                <p>If we have <code><var>floor(N % 10)</var></code> hundredths, we can write them as <code><var>floor(N % 10)/100</var></code>.</p>
+                <p>If we have <code><var>floor(N / 10)</var></code> tenths and <code><var>floor(N % 10)</var></code> hundredths, we can write them as <code><var>N/100</var></code>.</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
