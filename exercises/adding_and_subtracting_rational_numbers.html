@@ -28,7 +28,7 @@
                         if (t === "fraction") {
                             return fraction(NUMERATORS[i], DENOMINATORS[i]);
                         } else if (t === "percentage") {
-                            return roundTo(3, 100 * DECIMALS[i]) + "\\%";
+                            return 100 * DECIMALS[i] + "\\%";
                         } else {
                             return DECIMALS[i];
                         }
