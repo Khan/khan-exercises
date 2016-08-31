@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding Numeric Vectors</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+		<var id="VALUES">shuffle([0,1,2,3,4,5,6,7])</var>
+		<var id="VALUES3"></var>
+		<var id="A1">VALUES[0]</var>
+		<var id="A2">VALUES[1]</var>
+        <var id="A3">VALUES[2]</var>
+        <var id="A4">VALUES[3]</var>
+        <var id="B1">VALUES[4]</var>
+        <var id="B2">VALUES[5]</var>
+        <var id="B3">VALUES[6]</var>
+        <var id="B4">VALUES[7]</var>
+        <var id="C1">A1 + B1</var>
+        <var id="C2">A2 + B2</var>
+        <var id="C3">A3 + B3</var>
+        <var id="C4">A4 + B4</var>
+	</div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is the sum of the two vectors?</p><p>
+				<code>\left[\begin{array}{cccc}<var>A1</var> \\ <var>A2</var>\\<var>A3</var> \\ <var>A4</var>\end{array}\right]
+				+\left[\begin{array}{cccc}<var>B1</var> \\ <var>B2</var>\\<var>B3</var> \\ <var>B4</var>\end{array}\right]</code></p>
+            </div>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="rational"><var>C1</var></span></p>
+				<p><span class="sol" data-type="rational"><var>C2</var></span></p>
+				<p><span class="sol" data-type="rational"><var>C3</var></span></p>
+				<p><span class="sol" data-type="rational"><var>C4</var></span></p>
+			</div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div><p>The sum of two vectors is the vector obtained by adding the respective components, i.e., adding 
+		the first two components of each vector, the second two components of each vector, and so on.
+		</p></div>
+        <div><p>In particular, the sum of two vectors with four components is given by the following formula:</p>
+		<p>
+		<code>
+		\left[\begin{array}{cccc}\color{orange}{a_1} \\ \color{blue}{a_2} \\ \color{red}{a_3} \\ \color{green}{a_4}\end{array}\right]+
+		\left[\begin{array}{cccc}\color{orange}{b_1} \\ \color{blue}{b_2} \\ \color{red}{b_3} \\ \color{green}{b_4}\end{array}\right]=
+		\left[\begin{array}{cccc}
+		\color{orange}{a_1+b_1}\\ 
+		\color{blue}{a_2+b_2}\\
+		\color{red}{a_3+b_3}\\ 
+		\color{green}{a_4+b_4}\end{array}\right]</code>
+		</p></div>
+        <div><p>Using the formula, we get:</p>
+		<p>
+		<code>
+		\left[\begin{array}{cccc}\color{orange}{<var>A1</var>} \\ \color{blue}{<var>A2</var>} \\ \color{red}{<var>A3</var>} \\ \color{green}{<var>A4</var>}\end{array}\right]+
+		\left[\begin{array}{cccc}\color{orange}{<var>B1</var>} \\ \color{blue}{<var>B2</var>} \\ \color{red}{<var>B3</var>} \\ \color{green}{<var>B4</var>}\end{array}\right]=
+		\left[\begin{array}{cccc}
+		\color{orange}{<var>A1</var> + <var>B1</var>}\\ 
+		\color{blue}{<var>A2</var> + <var>B2</var>}\\
+		\color{red}{<var>A3</var> + <var>B3</var>}\\ 
+		\color{green}{<var>A4</var> + <var>B4</var>}
+		\end{array}\right]=
+		\left[\begin{array}{cccc}
+		\color{orange}{<var>C1</var>}\\
+		\color{blue}{<var>C2</var>}\\
+		\color{red}{<var>C3</var>}\\ 
+		\color{green}{<var>C4</var>}
+		\end{array}\right]</code>
+		</p></div>
+    </div>
+    </div>
+</body>
+</html>
