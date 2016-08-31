@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Recognizing solutions for differential equations</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<!--
+Look at "utils/graphie-helpers.js:redrawParabola" for updating function based on "handles" 
+where certain coefficients in the equation can be changed.
+-->
+<body>
+    <div class="exercise">
+    <div class="vars">
+
+		<var id="C1a">randRange(1, 6) / 6</var>
+		<var id="C1b">1 + C1a</var>
+		<var id="C2a">randRange(2, 4)</var>
+		<var id="C2b">C2a</var>
+		<var id="C3a">randRange(1, 3) / 3</var>
+		<var id="C3b">1+C3a</var>
+		<var id="C4a">randRange(1, 6) / 6</var>
+		<var id="C4b">1+C4a</var>
+
+		<var id="FNC1a">function (x) {return 0.2*exp(C1a*x)}</var>
+		<var id="FNC1b">function (x) {return 0.2*exp(C1b*x)}</var>
+		<var id="FNC2a">function (x) {return (2/(1+2*exp(-C2a*x)))}</var>
+		<var id="FNC2b">function (x) {return (3/(1+2*exp(-C2b*x)))}</var>
+		<var id="FNC3a">function (x) {return C3a*x*x}</var>
+		<var id="FNC3b">function (x) {return C3b*x*x}</var>
+		<var id="FNC4a">function (x) {return C4a*x}</var>
+		<var id="FNC4b">function (x) {return C4b*x}</var>
+
+		<!-- Permute array with differential equations and their solutions. -->
+		<var id="SolutionsRaw">[
+    			{ func: FNC1a, diffeqn: "\\frac{dy}{dx} = " + toFractionTex(C1a) + "y"},
+    			{ func: FNC1b, diffeqn: "\\frac{dy}{dx} = " + toFractionTex(C1b) + "y"},
+    			{ func: FNC2a, diffeqn: "\\frac{dy}{dx} = " + toFractionTex(C2a) + "y (2 - y)"},
+    			{ func: FNC2b, diffeqn: "\\frac{dy}{dx} = " + toFractionTex(C2b) + "y (3 - y)"},
+    			{ func: FNC3a, diffeqn: "\\frac{dy}{dx} = " + toFractionTex(2*C3a) + "x"},
+    			{ func: FNC3b, diffeqn: "\\frac{dy}{dx} = " + toFractionTex(2*C3b) + "x"},
+    			{ func: FNC4a, diffeqn: "\\frac{dy}{dx} = " + toFractionTex(C4a)},
+    			{ func: FNC4b, diffeqn: "\\frac{dy}{dx} = " + toFractionTex(C4b)}]</var>
+		<var id="Solutions">shuffle(SolutionsRaw)</var>
+        <var id="Func">eval(Solutions[0].func)</var>
+        <var id="DiffEqnAnswer">Solutions[0].diffeqn</var>
+        <var id="DiffEqnWrong1">Solutions[1].diffeqn</var>
+        <var id="DiffEqnWrong2">Solutions[2].diffeqn</var>
+        <var id="DiffEqnWrong3">Solutions[3].diffeqn</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <div id="graph" class="graphie">
+                        graphInit({
+                            range: 5,
+                            scale: 40,
+                            tickStep: 1,
+                            labelStep: 1,
+                            axisArrows: "<->"
+                        });
+
+                        style({
+                            stroke: "#6495ED",
+                        });
+                        plot( Func, [-5, 5]);
+                 </div>
+ 				<p>The blue curve is a solution to one a differential 
+				equation, which?</p>
+           </div>
+
+<p class="solution"><code><var>DiffEqnAnswer</var></code></p>
+<ul class="choices">
+      <li><code><var>DiffEqnWrong1</var></code></li>
+      <li><code><var>DiffEqnWrong2</var></code></li>
+      <li><code><var>DiffEqnWrong3</var></code></li>
+</ul>
+        </div>
+    </div>
+    <div class="hints">
+		<p>hej</p>
+    </div>
+    </div>
+</body>
+</html>
