@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry">
+    <head>
+        <title>Angles in a Triangle</title>
+        <script src="../khan-exercise.js"></script>
+        <script>
+            function createTriangle(){
+                while(! a || a < 25 || b < 25 || c < 25){
+                    var a = KhanUtil.randRange(25, 150);
+                    var b = KhanUtil.randRange(25, 180 - a);
+                    var c = 180 - a - b;
+                }
+
+                // The three angles.
+                return [a, b, c];
+            }
+        </script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="TRIANGLE">createTriangle()</var>
+            </div>
+
+            <div class="problems">
+                <div id="problem-type-or-description">
+                    <p class="problem">In the triangle below, what is the value of angle labeled <code>X</code>?</p>
+                    <p class="question">
+                        <div class="graphie">
+                            init({ range: [[-1, 15 ], [ -8, 1 ]] })
+                            var tr = new Triangle([ 2, -5 ], TRIANGLE, 9, { "points": ['A', 'B', 'C'], "angles" : [TRIANGLE[0]  + "^{\\circ}", TRIANGLE[1] + "^{\\circ}",  "X"] });
+                            tr.rotate(randRange(0, 90));
+                            tr.boxOut([[[-10, 1], [-10, 1]]], [0, -0.5])
+                            tr.draw();
+                            tr.drawLabels();
+                        </div>
+                    </p>
+                    <div class="solution" data-type="multiple">
+                        <p><code>X =</code> <span class="sol" data-forms="integer"><var>TRIANGLE[2]</var></span><code>\Large{^\circ}</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>Remember that the three angles in any triangle sum to 180<code>{^\circ}</code>.</p>
+                <p>We know two angles of the triangle, so the third angle is 180<code>{^\circ}</code> minus the other two.</p>
+                <p><code>X = 180{^\circ} - <var>TRIANGLE[0]</var>{^\circ} - <var>TRIANGLE[1]</var>{^\circ} = <var>TRIANGLE[2]</var>{^\circ}</code></p>
+            </div>
+        </div>
+    </body>
+</html>
