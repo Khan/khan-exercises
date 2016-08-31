@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html data-require="math math-format expressions">
+
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Exponent Properties 1</title>
+
+        <script src="../khan-exercise.js"></script>
+
+    </head>
+
+    <body>
+
+        <div class="exercise">
+
+            <div class="problems">
+
+                <div id="no-coefficients">
+
+                    <div class="vars">
+
+                        <var id="BASE">randVar()</var>
+                        <var id="EXP1">randRange(2,9)</var>
+                        <var id="EXP2">randRange(2,9)</var>
+                        <var id="COEF1">randRange(2,9)</var>
+                        <var id="COEF2">randRange(2,9)</var>
+
+                    </div>
+
+                    <div class="question">
+                        <p>Simplify the following expression:</p>
+                        <p><code>(<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>})(<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>})</code></p>
+                    </div>
+
+                    <p class="solution" data-type="multiple">
+                        <span class="sol short20" data-forms="integer"><var>COEF1*COEF2</var></span> <code><var>BASE</var></code> <span class="sol exp short20" data-forms="integer"><var>EXP1+EXP2</var></span>
+                    </p>
+
+                    <div class="hints">
+
+                        <div>
+                            <p>When multiplying two terms with the same base, add the exponents:</p>
+                            <p><code>(\color{green}{x^n})(\color{#D55704}{x^m}) = x^{(\color{green}{n}+\color{#D55704}{m})}</code></p>
+                        </div>
+
+                        <div>
+                            <p>Try expanding the terms:</p>
+                            <p>
+                                <code>\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}}</code> is the same as <code>\color{green}{<var>COEF1</var> \cdot <var>exprExpandIntegerPower(BASE, EXP1)</var>}</code><br>
+                                <code>\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}}</code> is the same as <code>\color{#D55704}{<var>COEF2</var> \cdot <var>exprExpandIntegerPower(BASE, EXP2)</var>}</code>
+                            </p>
+                        </div>
+
+                        <div>
+                            <p>Multiply them:</p>
+                            <p><code>
+                                (\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}})(\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}})=
+                                \color{green}{<var>COEF1</var> \cdot <var>exprExpandIntegerPower(BASE, EXP1)</var>} \cdot \color{#D55704}{<var>COEF2</var> \cdot <var>exprExpandIntegerPower(BASE, EXP2)</var>}
+                            </code></p>
+                        </div>
+
+                        <p class='final-answer'><code>
+                            \hphantom{(\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}})(\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}})}=
+                            <var>COEF1*COEF2</var><var>BASE</var>^{<var>EXP1+EXP2</var>}
+                        </code></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>
