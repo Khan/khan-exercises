@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Magnetic Flux 2</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div>
+			<div class="question">
+					<p>
+             Consider the hemispherical closed surface of radius R as shown in the figure. 
+            <p> <img width="296" alt="hemisphere.png" src="../images/hemisphere.png" height="272" /></p>
+             The hemisphere is inside a uniform magnetic field <code> \mathbf{B} </code> that
+             makes an angle of T with the vertical as shown. 
+             Recall that magnetic flux through a surface of area <code>\mathbf{A}</code> is given 
+             by the integral <code>\displaystyle \Phi = \int \mathbf{B} \cdot d\mathbf{A} </code>. 
+          </p>
+          <p>
+             Calculate the magnetic flux through the curved part of the surface
+          </p>
+			</div>
+
+				<p class="solution"> 
+					<code> \Phi = B  \cos\left( T \right) \pi R^2 </code>
+				</p>
+
+				<ul class="choices" data-show="6" data-none="true">
+          <li><code> \Phi = 2 \pi R B  \cos\left( T \right) </code></li>
+          <li><code> \Phi = - B  \sin \left( T \right) \pi R^2 </code></li>
+          <li><code> \Phi = - B \frac{4}{6} \pi R^3 \cos\left( T \right) </code></li>
+          <li><code> \Phi = B \frac{4}{6} \pi R^3 \cos\left( T \right) </code></li>
+				</ul>
+			</div>
+		</div>
+
+	<div class="hints">
+		<div>
+			<p> 
+					Gauss' law says that the total magnetic flux through the closed surface is zero,
+					<code> \displaystyle \oint \mathbf{B} \cdot d\mathbf{A} = 0 </code>.
+			</p>
+		</div>
+		<div>
+			<p>
+					The outward flux through the flat circular part of the surface is given by
+					<code> \displaystyle \Phi = - B \pi R^2  \cos \left( T \right) </code>.
+			</p>
+		</div>
+		<div>
+ 	     <p>
+					Thus, the outward flux through the curved part of the surface is equal to
+					<code> \displaystyle \Phi = B \pi R^2  \cos \left( T \right) </code>.
+			</p>
+		</div>
+	</div>
+</div>
+</body>
+</html>
