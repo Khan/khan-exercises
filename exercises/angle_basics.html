@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+    <head>
+        <title>Angle Basics - Naming Angles</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+            	<var id="letters">["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]</var>
+                <var id="index">randRange( 0, 23 )</var>
+                <var id="labelsArray">[letters[index],letters[index+1],letters[index+2]]</var>
+                <var id="labels">shuffle(labelsArray)</var>   
+                <var id="answer1">labels.join("")</var>
+                <var id="labelsRev">[labels[2],labels[1],labels[0]]</var>
+                <var id="answer2">labelsRev.join("")</var>
+            </div>
+
+            <div class="problems">
+                <div id="problem-type-or-description">
+                    <p class="problem"><!-- An overview of the problem including all needed info. --></p>
+                    <p class="question">What are the two possible names for the following angle?</p>
+					<div class="graphie">
+						init({
+							range: [ [-10, 10], [-10, 10] ],
+							scale: 20
+						});	
+						//set up arrays for 3 points
+						var pointA = [0,0];
+						var pointB = [0,0];
+						var pointC = [0,0];
+						
+						//set up quads array and shuffle to randomize quad location for each point
+						var quads = [0,1,2,3];
+						quads = shuffle(quads);
+						
+						//set up arrays to assign coord and label location
+						var multVars = [[1,1],[-1,1],[-1,-1],[1,-1]];
+						var labelsPos = ["right", "left", "left", "right"];
+						
+						//function to calculate the coordinates of a point based on the quad it is assigned to
+						var calcCoords = function(x) {
+							coords=[floor(random()*x[0]*9) + 2, floor(random()*x[1]*9) + 2];
+							return coords;
+						};
+						
+						//calculate coords for each point
+						pointA = calcCoords(multVars[quads[0]]);
+						pointB = calcCoords(multVars[quads[1]]);
+						pointC = calcCoords(multVars[quads[2]]);
+							
+						//draw lines to make angle	
+						line(pointA, pointB);
+						line(pointB, pointC);
+							
+						//labels points
+						label(pointA, labels[0], labelsPos[quads[0]]);
+						label(pointB, labels[1], labelsPos[quads[1]]);
+						label(pointC, labels[2], labelsPos[quads[2]]);
+						
+						//log answer for degubbing
+						console.log(answer1);
+						console.log(answer2);
+					</div>
+					<div class="solution" data-type="set">
+						<div class="set-sol" data-type="multiple">
+							<span class="sol" data-type="text"><var>answer1</var></span>
+							<span class="sol" data-type="text"><var>answer2</var></span>
+						</div>
+						<div class="set-sol" data-type="multiple">
+							<span class="sol" data-type="text"><var>answer2</var></span>
+							<span class="sol" data-type="text"><var>answer1</var></span>
+						</div>
+					
+						<div class="input-format">
+							<p class="entry" data-type="multiple">
+								<code>\angle</code><span class="sol" data-type="text"></span><br />
+								<code>\angle</code><span class="sol" data-type="text"></span><br />
+							</p>
+						</div>
+						<p class="example">The order of the names does not matter.</p>
+					</div>
+                </div>
+            </div>
+
+            <div class="hints">
+                  <p>Remember that the name of an angle is made of the <span class="hint_red">three</span> letters that represent the angle's three points.</p>
+                  <p>The letters must match <span class="hint_red">exactly</span>.  (If the diagram shows uppercase letters, the answer should have uppercase letters.)
+                  <p>The letter that represents the <span class="hint_red">vertex</span> of the angle should always be in the middle of the name.</p>
+                  <p>The vertex of the angle is the point where the two lines meet.  In this problem, the vertex is represented by <span class="hint_red"><var>labels[1]</var></span>.</p>
+                  <p>One of the possible names is <code class="hint_red">\angle</code><span class="hint_red"><var>answer1</var></span>.</p>
+                  <p>The second name is <code class="hint_red">\angle</code><span class="hint_red"><var>answer2</var></span>.</p>
+            </div>
+        </div>
+    </body>
+</html>
