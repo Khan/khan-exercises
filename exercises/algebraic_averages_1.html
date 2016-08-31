@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<title>Algebraic averages 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="N_TERMS">randRangeNonZero( 3, 5 )</var>
+	
+		<div data-ensure="A1 + A2 + A3 !== 0 && A1 + A2 + A3 + A4 !== 0 && A1 + A2 + A3 + A4 + A5 !== 0">
+			<var id="A1">randRangeNonZero( -10, 10 )</var>
+			<var id="A2">randRangeNonZero( -10, 10 )</var>
+			<var id="A3">randRangeNonZero( -10, 10 )</var>
+			<var id="A4">( N_TERMS > 3 ? randRangeNonZero( -10, 10 ) : 0 )</var>
+			<var id="A5">( N_TERMS > 4 ? randRangeNonZero( -10, 10 ) : 0 )</var>
+		</div>
+		<var id="GCD1">getGCD( A1 + A2 + A3 + A4 + A5 , N_TERMS )</var>
+			
+		<div data-ensure="B1 + B2 + B3 !== 0 && B1 + B2 + B3 + B4 !== 0 && B1 + B2 + B3 + B4 + B5 !== 0">
+			<var id="B1">randRangeNonZero( -10, 10 )</var>
+			<var id="B2">randRangeNonZero( -10, 10 )</var>
+			<var id="B3">randRangeNonZero( -10, 10 )</var>
+			<var id="B4">( N_TERMS > 3 ? randRangeNonZero( -10, 10 ) : 0 )</var>
+			<var id="B5">( N_TERMS > 4 ? randRangeNonZero( -10, 10 ) : 0 )</var>
+		</div>
+		<var id="GCD2">getGCD( B1 + B2 + B3 + B4 + B5 , N_TERMS )</var>
+	</div>
+
+	<div class="problems">
+		<div id="original" data-weight="1">
+			<p class="problem">What is the average (arithmetic mean) of the following <var>N_TERMS</var> expressions:</p>
+			<div class="question">
+				<p><code><var>plus( A1 + "x", B1 )</var></code>, 
+				   <code><var>plus( A2 + "x", B2 )</var></code>, 
+				   <code><var>plus( A3 + "x", B3 )</var></code>
+				   <span data-if="N_TERMS > 3">, <code><var>plus( A4 + "x", B4 )</var></code></span>
+				   <span data-if="N_TERMS > 4">, <code><var>plus( A5 + "x", B5 )</var>{?}</code></p>
+			</div>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="improper"><var>( A1 + A2 + A3 + A4 + A5 ) / N_TERMS</var></span> x +
+				   <span class="sol" data-type="improper"><var>( B1 + B2 + B3 + B4 + B5 ) / N_TERMS</var></span></p>
+				<p class="example">an integer, like <code>6</code></p>
+				<p class="example">a <em>simplified proper</em> fraction, like <code>3/5</code></p>
+				<p class="example">a <em>simplified improper</em> fraction, like <code>7/4</code></p>
+			</div>
+
+			<div class="hints">
+				<p>To find the average of a set of numbers, even if they’re algebraic expressions, simply add them up and divide by the number of terms:</p>
+
+				<div>
+					<p>Combine into one fraction:</p>
+					<p><code>\dfrac{ (<var>plus( A1 + "x" , B1 )</var>) + (<var>plus( A2 + "x" , B2 )</var>) + (<var>plus( A3 + "x" , B3 )</var>)
+					   <span data-if="N_TERMS > 3">+ (<var>plus( A4 + "x" , B4 )</var>)</span><span data-if="N_TERMS > 4"> + (<var>plus( A5 + "x" , B5 )</var>)</span> }{ <var>N_TERMS</var> }</code></p>
+				</div>
+
+				<div>
+					<p>Group like terms:</p>
+					<p>= <code>\dfrac{ (<var>plus( A1 + "x" , A2 + "x" , A3 + "x" , A4 + "x" , A5 + "x" )</var>) }{ <var>N_TERMS</var> } + \dfrac{ (<var>plus( B1 , B2 , B3 , B4 , B5 )</var>) }{ <var>N_TERMS</var> }</code></p>
+				</div>
+
+				<div>
+					<p>Separate the variable:</p>
+					<p>= <code>\dfrac{ (<var>plus( A1 , A2 , A3 , A4 , A5)</var>)x }{ <var>N_TERMS</var> } + \dfrac{ (<var>plus( B1 , B2 , B3 , B4 , B5 )</var>) }{ <var>N_TERMS</var> }</code></p>
+				</div>
+
+				<div>
+					<p>Add the coefficients together<span data-if="GCD1 * GCD2 === 1"> for the final answer</span>:</p>
+					<p><code>= <var>plus( fraction( A1 + A2 + A3 + A4 + A5 , N_TERMS ) + "x", fraction( B1 + B2 + B3 + B4 + B5 , N_TERMS ))</code></p>
+				</div>
+				
+				<div data-if="GCD1 > 1">
+					<p>Reduce the first term<span data-if="GCD 2 === 1"> for the final answer</span>:</p>
+					<p><code>= <var>plus( fractionReduce( A1 + A2 + A3 + A4 + A5 , N_TERMS ) + "x", fraction( B1 + B2 + B3 + B4 + B5 , N_TERMS ))</code></p>
+				</div>
+				
+				<div data-if="GCD2 > 1">
+					<p>Reduce the second term for the final answer:</p>
+					<p><code>= <var>plus( fractionReduce( A1 + A2 + A3 + A4 + A5 , N_TERMS ) + "x", fractionReduce( B1 + B2 + B3 + B4 + B5 , N_TERMS ))</code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
