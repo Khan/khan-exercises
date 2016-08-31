@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+    <head>
+        <title>What is a Variable?</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="randLetters">randVar()</var>
+                <var id="VARIABLE">randLetters</var>
+                <var id="VALUE">randRangeNonZero(-40, 40)</var>
+                <!-- Your variables in here... -->
+            </div>
+
+            <div class="problems">
+                <div id="problem-type-or-description">
+                    <p class="problem">Identify the variable in the following.</p>
+                    <p class="question"><code><var> VARIABLE </var></code> = <code><var> VALUE </var></code></p>
+                    <p class="solution"><var>VARIABLE</var></p>
+                    <ul class="choices" data-category="true">
+                        <li><var>VARIABLE</var></li>
+                        <li><var>VALUE</var></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="hints">
+                <p class="hints">In <var>VARIABLE</var> = <var>VALUE</var><br><var>VALUE</var> is the value being assign to the variable <var>VARIABLE</var></p>
+            </div>
+        </div>
+    </body>
+</html>
