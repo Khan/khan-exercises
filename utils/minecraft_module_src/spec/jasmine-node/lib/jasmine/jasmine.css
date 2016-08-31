@@ -1,0 +1,86 @@
+body {
+  font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+}
+
+
+body .run_spec {
+  float:right; 
+}
+
+.runner.running {
+  background-color: yellow;
+}
+
+
+
+.runner {
+  border: 1px solid gray;
+  margin: 5px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+
+
+.suite {
+  border: 1px outset gray;
+  margin: 5px;
+  padding-left: 1em;
+}
+
+.suite.passed {
+  background-color: #cfc;
+}
+
+.suite.failed {
+  background-color: #fdd;
+}
+
+.spec {
+  margin: 5px;
+  clear: both;
+}
+
+.passed {
+  background-color: #cfc;
+}
+
+.failed {
+  background-color: #fdd;
+}
+
+.skipped {
+  color: #777;
+  background-color: #eee;
+}
+
+/*.resultMessage {*/
+  /*white-space: pre;*/
+/*}*/
+
+.resultMessage span.result {
+  display: block;
+  line-height: 2em;
+  color: black;
+}
+
+.resultMessage .mismatch {
+  color: black;
+}
+
+.stackTrace {
+  white-space: pre;
+  font-size: .8em;
+  margin-left: 10px;
+  height: 5em;
+  overflow: auto;
+  border: 1px inset red;
+  padding: 1em;
+  background: #eef;
+}
+
+
+#jasmine_content {
+  position:fixed;
+  left: 100%;
+}
