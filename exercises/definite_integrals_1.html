@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Definite Integrals of Algebraic Functions 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="N">randRange( 1, 3 )</var>
+		<div data-ensure="C !== 0">
+			<var id="C">randRange(  -10, 10 )</var>
+		</div>
+		<div data-ensure="A < B">
+			<var id="A">randRange( -9, 9  )</var>
+			<var id="B">randRange( -9, 9  )</var>
+		</div>
+		<var id="INTEGRAL">roundTo(2, C * pow( B, ( N+1 ) ) / (N+1) - 
+					        C * pow( A, ( N+1 ) ) / (N+1) )</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<p class="problem">
+				Evaluate the definite integral of the algebraic function. Round to the nearest hundredth.</p>
+			<div class="question">
+				<code>\large{\int_{<var>A</var>}^{<var>B</var>}{<var>C</var>x^<var>N</var>} dx}</code>
+			</div>
+			<div class="solution" data-type="decimal"><var>INTEGRAL</var></div>
+			<div class="hints">
+				<p>By the Fundamental Theorem of Calculus, <code>\int_{a}^{b}f(x)dx = F(b) - F(a).</code></p>
+				<p>Remember that <code>\int{u^n}du = \dfrac{u^{n+1}}{n+1} + C,\: n \neq -1.</code></p>
+				<p><code> F(x) = \dfrac{<var>C</var>x^<var>N + 1</var>}{<var>N + 1</var>}.</code></p>
+				<p><code>\Rightarrow \int_{<var>A</var>}^{<var>B</var>}{<var>C</var>x} dx = \left[\dfrac{<var>C</var>x^<var>N + 1</var>}{<var>N + 1</var>}\right]_{<var>A</var>}^{<var>B</var>}.</code></p>
+				<p><code> = \left(\dfrac{(<var>C</var>)(<var>B</var>)^<var>N + 1</var>}{<var>N+1</var>}-\dfrac{(<var>C</var>)(<var>A</var>)^<var>N + 1</var>}{<var>N+1</var>}\right).</code></p>
+				<p> = <var>INTEGRAL</var></p>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
