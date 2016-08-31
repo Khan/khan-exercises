@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html data-require="math math-format calculus calculus-integrals polynomials expressions">
+<head>
+	<meta charset="UTF-8" />
+	<title>Basic Indefinite Integrals</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="EXPR">KhanUtil.randBasicIntegral()</var>
+			<var id="RESULT">new KhanUtil.integrateBasic(EXPR)</var>
+		</div> <!-- vars -->
+
+		<div class="problems">
+			<div>
+				<p class="problem">
+					Find the indefinite integral. Assume C = 0.<br />
+
+					<!--<code><var>RESULT.answer</var></code>-->
+				</p>
+
+				<p class="question"><code>\int <var>EXPR.text()</var>~dx = {?}</code></p>
+
+				<p class="solution"><code><var>RESULT.answer</var></code></p>
+				<ul class="choices" data-show="5" data-none="true">
+					<li><code><var>RESULT.wrongs[0]</var></code></li>
+					<li><code><var>RESULT.wrongs[1]</var></code></li>
+					<li><code><var>RESULT.wrongs[2]</var></code></li>
+					<li><code><var>RESULT.wrongs[3]</var></code></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>In order to compute the indefinite integral of this expression, we can invert the rules we learned for derivatives.<br />
+				<!-- Power Rule -->
+				<code>\displaystyle \int Bx^{n} dx = B\frac{1}{n+1}x^{n+1} + C, n \not= -1</code><br /><br />
+				<!-- Constant Rule -->
+				<code>\displaystyle \int K dx = Kx + C</code>, where K is a constant.<br /><br />
+				Notice that the problem says C = 0, so we can ignore it.
+			</p>
+			<!-- Note the Sum Rule (but only if the problem has more than 1 term -->
+			<p data-if="EXPR.getNumberOfTerms() > 1">
+				We can integrate each term individually.
+				<br />
+				<code><var>RESULT.hint_addition</var></code>
+			</p>
+			<!-- Show each step -->
+			<p data-each="RESULT.hint_integration as hint"><code><var>hint</var></code><br /></p>
+			<!-- Show answer -->
+			<p>
+				And the answer is: <br /><code><var>RESULT.answer</var></code>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
