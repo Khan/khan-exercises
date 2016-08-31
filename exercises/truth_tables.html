@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html data-require="math MPL graphie">
+    <head>
+        <title>Truth tables</title>
+        <script src="../khan-exercise.js"></script>
+        <style>
+            .truth_table > span {
+                padding: 5px;
+                text-align: center;
+            }
+
+            .truth_table > span:first-child {
+                width: 50px;
+            }
+
+            .truth_table > span:nth-child(2) {
+                margin-left: -4px;
+                width: 50px;
+                border-right: 2px solid #CCCCCC;
+            }
+
+            .truth_table > span:last-child {
+                margin-left: -4px;
+                width: 200px;
+            }
+
+            .truth_table input {
+                width: 50px;
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="PROPVARS">['p', 'q']</var>
+                <var id="RAND_POS_OR_NEG">function() { return !randRangeWeighted(0, 1, 0, .67) ? '' : '~'; }</var>
+                <var id="BINARIES">['&', '|', '->', '<->']</var>
+                <var id="BINARY_COUNT">randRange(1, 2)</var>
+                <var id="FORMULA">
+                    (function() {
+                        var formula = RAND_POS_OR_NEG() + randFromArray(PROPVARS);
+                        _(BINARY_COUNT).times(function() {
+                            if(randRange(0, 1)) {
+                                formula = RAND_POS_OR_NEG() + '(' + formula + randFromArray(BINARIES) + RAND_POS_OR_NEG() + randFromArray(PROPVARS) + ')';
+                            } else {
+                                formula = RAND_POS_OR_NEG() + '(' + RAND_POS_OR_NEG() + randFromArray(PROPVARS) + randFromArray(BINARIES) + formula + ')';
+                            }
+                        });
+
+                        return new MPL.Wff(formula);
+                    })()
+                </var>
+                <var id="ROWS">[{p: false, q: false}, {p: false, q: true}, {p: true, q: false}, {p: true, q: true}]</var>
+                <var id="ROW_COUNT">ROWS.length</var>
+                <var id="MODEL">
+                    (function() {
+                        var model = new MPL.Model();
+                        _(ROWS).each(function(row) {
+                            model.addState(row);
+                        });
+                        
+                        return model;
+                    })()
+                </var>
+                <var id="SOLUTIONS">
+                    _.map(_.range(ROW_COUNT), function(index) {
+                        return MPL.truth(MODEL, index, FORMULA) ? 'T' : 'F';
+                    })
+                </var>
+                <var id="WORKED_SOLUTIONS">
+                    _.map(ROWS, function(row, index) {
+                        var solution = FORMULA.latex();
+                        solution = solution.replace(/p/g, '\\green{\\mathrm{' + (row.p ? 'T' : 'F') + '}}')
+                                           .replace(/q/g, '\\orange{\\mathrm{' + (row.q ? 'T' : 'F') + '}}');
+                        solution += '=\\mathrm{' + SOLUTIONS[index] + '}';
+
+                        return solution;
+                    })
+                </var>
+            </div>
+
+            <div class="problems">
+                <div>
+                    <p class="question">Complete the truth table below, using T for true and F for false:</p>
+                    <div class="fake_header truth_table">
+                        <span><code>p</code></span>
+                        <span><code>q</code></span>
+                        <span><code><var>FORMULA.latex()</var></code></span>
+                    </div>
+                    <div class="fake_row truth_table" data-each="ROWS as row">
+                        <span><span data-if="row.p">T</span><span data-else>F</span></span>
+                        <span><span data-if="row.q">T</span><span data-else>F</span></span>
+                        <span><input type="text" maxlength="1"></span>
+                    </div>
+                    
+                    <div class="graphie" style="z-index:-10;">
+                        // Focus the first input
+                        $('.truth_table input').eq(0).focus();
+
+                        // Pressing enter submits the answer
+                        $('.truth_table input').on('keypress', function(e) {
+                            if (e.which === 13) {
+                                $('form#answerform').submit();
+                                return false;
+                            }
+                        });
+                    </div>
+
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            Complete the truth table by entering the correct truth value, either T or F, into each box.
+                        </div>
+                        <div class="guess">
+                            _.map($('.truth_table input'), function(el) { return $(el).val(); })
+                        </div>
+                        <div class="validator-function">
+                            return _(guess).every(function(g, i) { return SOLUTIONS[i] === g.toUpperCase(); });
+                        </div>
+                        <div class="show-guess">
+                            _(guess).each(function(g, i) { $('.truth_table input').eq(i).val(g); });
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>
+                    In each row, use the truth values of <code>p</code> and <code>q</code> to calculate the truth value of the larger formula.
+                </p>
+                <p>
+                    Start by plugging in the values for the variables, then work your way outward&mdash;just as you would when evaluating an algebraic expression. 
+                </p>
+                <div>
+                    <p>
+                        The <span class="hint_red">negation</span> symbol (<code>\lnot</code>) means 'not'.
+                        <br><code>\lnot p</code> is true just when <code>p</code> is false.
+                    </p>
+                    <p>
+                        The <span class="hint_blue">conjunction</span> symbol (<code>\land</code>) means 'and'.
+                        <br><code>p \land q</code> is true just when both <code>p</code> and <code>q</code> are true.
+                    </p>
+                    <p>
+                        The <span class="hint_blue">disjunction</span> symbol (<code>\lor</code>) means 'or'.
+                        <br><code>p \lor q</code> is true just when at least one of <code>p</code> and <code>q</code> is true.
+                    </p>
+                    <p>
+                        The <span class="hint_purple">implication</span> symbol (<code>\rightarrow</code>) means 'if... then...' or 'implies'.
+                        <br><code>p \rightarrow q</code> is true just when <code>p</code> is false or <code>q</code> is true.
+                    </p>
+                    <p>
+                        The <span class="hint_purple">equivalence</span> symbol (<code>\leftrightarrow</code>) means 'if and only if'.
+                        <br><code>p \leftrightarrow q</code> is true just when <code>p</code> and <code>q</code> have the same truth value.
+                    </p>
+                </div>
+                <div>
+                    <p>The missing values are:</p>
+                    <div data-each="WORKED_SOLUTIONS as solution"><code><var>solution</var></code></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
