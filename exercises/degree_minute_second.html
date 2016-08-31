@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+    <html data-require="math math-format">
+	<meta charset="UTF-8" />
+	<head>
+            <title>Decimal Degree and Degree Minute Seconds</title>
+            <script src="../khan-exercise.js"></script>
+			<script>
+			function convtoDD( DEG,MIN,SEC ) {
+			var DD = 0;
+			DD = DEG + MIN*(1/60) + SEC*(1/3600);
+			return DD;
+			}
+			
+			</script>
+			<style type="text/css">
+			#answer_area .short input[type=text] {
+			width: 30px;
+			}
+			</style>
+		</head>
+        <body>
+            <div class="exercise">
+                <div class="vars">
+                   		   <var id="DEG">randRange( 0, 359 )</var>
+				   <var id="MIN">randRange( 0, 59 )</var>
+				   <var id="SEC">randRange( 0, 59 )</var>
+				   <var id="DECSEC">randRange( 0, 99 )/100</var>
+				   <var id="SECCOMPLT">SEC+DECSEC</var>
+				   <var id="DECDEG">convtoDD(DEG,MIN,SECCOMPLT)</var>
+				   <var id="DECDEGSHORT">roundTo(6,DECDEG)</var>
+				  
+                </div>
+
+                <div class="problems">
+                    <div id="ToDMS">
+                        <p class="problem">This exercise gives you practice converting between Decimal Degrees to Degree, Minutes, Seconds Units.<Br/>  Both are commonly used in navigation.</p>
+                        <p class="question">What is the Degree Minute Second equivalent to <var>DECDEGSHORT</var><code>^{\circ}</code>?<br/> Please answer to the hundredths of seconds.</p>
+                        <div class="solution" data-type="multiple">
+						<p class="short">The Angle is <span class="sol"><var>DEG</var></span>deg<span class="sol"><var>MIN</var></span>min <span class="sol"><var>SECCOMPLT</var></span>sec</p>
+						</div>
+               
+
+					<div class="hints">
+					<p>Conversion from Decimal Degrees to Degrees Minutes Seconds uses the Modulo operation in Math.<br/>  The Modulo function keeps track of the remainder of some division, in this case division by 1.<br/> When you "take the remainder" of some division you are using the modulo function. </p>
+					<p>The Whole Number <var>DEG</var> Degrees remain the same and you multiply the decimal portion <code><var>roundTo(6,DECDEG%1)</var></code> by (<code>\frac{60 min}{1 degree}</code>) to get "decimal" minutes.</p>
+					<p><code><var>roundTo(6,DECDEG%1)</var></code> * (<code>\frac{60 min}{1 degree}</code>) = <code><var>roundTo(6,(DECDEG%1)*60)</var></code> minutes</p>
+					<p>Now the take the value for decimal minutes <code><var>roundTo(6,(DECDEG%1)*60)</var></code> and repeat the operation with the decimal portion to get decimal seconds.</p>
+					<p><code><var>roundTo(6,(((DECDEG%1)*60)%1))</var></code> * (<code>\frac{60 sec}{1 minute}</code>) = <code><var>roundTo(6,(((DECDEG%1)*60)%1)*60)</var></code> seconds</p>
+					<p>Rounding to the hundreths place for seconds gives you the final answer of<br/><br/> <VAR>DEG</VAR> degrees <VAR>MIN</VAR> minutes <VAR>SECCOMPLT</VAR> seconds.<br/><br/> For reference 0.01 seconds of latitude is equal to about  30 cm or 1 foot in distance.<p>
+					
+					</div>
+					</div>
+			<div id="ToDD">
+                        <p class="problem">This exercise gives you practice converting from  Degree, Minutes, Seconds to Decimal Degrees.<br/>  Both are commonly used in navigation.</p>
+                        <p class="question">What is the Decimal Degree equivalent to <var>DEG</var><code>^{\circ}</code> <var>MIN</VAR>' <VAR>SECCOMPLT</VAR>"?<br/>(Please answer to 6 decimal places)</p>
+                        <div class="solution" >
+						<var>DECDEGSHORT</var></p>
+						</div>
+               
+
+					<div class="hints">
+					<p>Each minute is <code>\frac{1}{60}</code> of a degree</p>
+					<p>Each second is <code>\frac{1}{60}</code> of a minute or <code>\frac{1}{3600}</code> of a degree.</p>
+					<p><var>DEG</var><code>^{\circ}</code> + <var>MIN</var> * <code>\frac{1}{60}</code> + <var>SECCOMPLT</var> * <code>\frac{1}{3600}</code></p>
+					<p>The Decimal Equivalent to <var>DEG</var><code>^{\circ}</code> <var>MIN</VAR>' <VAR>SECCOMPLT</VAR>" is <VAR>DECDEGSHORT</var><br/><br/>For reference 0.000001 of a degree of latitude is equal to about 10 cm or 4 inches.</p>
+					</div>
+					</div>
+			</div>
+		</div>
+        </body>
+    </html>
