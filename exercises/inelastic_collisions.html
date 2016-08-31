@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html data-require="math graphie collisions">
+<head>
+	<meta charset="UTF-8" />
+	<title>Inelastic collisions</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="MASS1 !== MASS2">
+		<var id="MASS1">randRange(5, 15)</var>
+		<var id="MASS2">randRange(5, 15)</var>
+		<var id="VELOCITY1">randRange(15, 35)</var>
+	</div>
+
+	<div class="problems">
+		<div id="original" data-weight="3">
+			<div class="vars" data-ensure="VELOCITY1 > VELOCITY2">
+				<var id="VELOCITY2">randRange(10, 20)</var>
+				<var id="VELOCITY4">randRange(10, 20)</var>
+				<var id="DIRECTION">randFromArray([ "toward", "away from"])</var>
+				<var id="DIRECTIONSIGN">{"toward": "negative", "away from": "positive"}[DIRECTION]</var>
+				<var id="INITVELOCITY">{"toward": -VELOCITY2, "away from": VELOCITY2}[DIRECTION]</var>
+				<var id="SOLUTION">{"toward": (MASS1*VELOCITY1 - MASS2*VELOCITY2 - MASS2*VELOCITY4)/MASS1,
+					"away from": (MASS1*VELOCITY1 + MASS2*VELOCITY2 - MASS2*VELOCITY4)/MASS1}[DIRECTION]</var>
+			</div>
+
+			<p class="problem">
+				<p>A mass of <var>MASS1</var> kg is traveling toward a second mass of <var>MASS2</var> kg along a line. The first mass is traveling at <var>VELOCITY1</var> m/s and the second mass is traveling <var>DIRECTION</var> the first mass at <var>VELOCITY2</var> m/s. Assume that the positive direction is to the right.</p>
+				<div class="graphie" id="collision-1">
+					initCollision( MASS1, MASS2, DIRECTIONSIGN, VELOCITY1, VELOCITY2 );
+				</div>
+			
+			<p class="question">If the <var>MASS2</var> kg mass has a final velocity of <var>VELOCITY4</var> m/s to the right, what is the velocity of the <var>MASS1</var> kg mass after the collision? Round your answer to the nearest tenth.</p>
+			<p class="solution" data-type="decimal" data-inexact data-max-error="0.1"><var>SOLUTION.toFixed(1)</var></p>
+			<div class="hints">
+				<div class="graphie" data-update="collision-1">
+					collision1( DIRECTIONSIGN, VELOCITY4, MASS1, MASS2, SOLUTION );
+				</div>
+				<p>In all collisions, momentum is conserved. <code>P_i = P_f</code></p>
+				<p>Since the second mass is traveling <var>DIRECTION</var> the first mass, its initial velocity will be <var>DIRECTIONSIGN</var> relative to our positive direction, which is to the right.</p>
+				<p>The equation of momentum is <code>mv</code>.</p>
+				<p>The initial momentum is <code>m_1v_1 + m_2v_2 = (<var>MASS1</var> kg)(<var>VELOCITY1</var> m/s) + (<var>MASS2</var> kg)(<var>INITVELOCITY</var> m/s)</code> = <var>MASS1*VELOCITY1 + MASS2*INITVELOCITY.toFixed(2)</var> kg m/s.</p>
+				<p>The final momentum is <code>m_1v_3 + m_2v_4 = m_1v_3 + (<var>MASS2</var> kg)(<var>VELOCITY4</var> m/s) = m_1v_3 + <var>MASS2*VELOCITY4</var></code> kg m/s.</p>
+				<p><code><var>MASS1*VELOCITY1 + MASS2*INITVELOCITY.toFixed(2)</var> = <var>MASS1</var>v_3 + <var>MASS2*VELOCITY4</var></code>.</p>
+				<p>The final velocity, <code>v_3</code> is equal to <var>SOLUTION.toFixed(1)</var> m/s. Remember that a negative sign, if it exists, means that the mass is traveling to the left after the collision.</p>
+			</div>
+		</div>
+
+		<div id="one-at-rest" data-weight="2">
+			<p class="problem">
+				<p>A mass of <var>MASS1</var> kg is traveling toward a second mass of <var>MASS2</var> kg along a line. The first mass is traveling at <var>VELOCITY1</var> m/s and the second mass is at rest. Assume the positive direction is to the right.</p>
+					<div class="graphie" id="graph-2">
+						initCollision( MASS1, MASS2, "none", VELOCITY1, 0 );
+					</div>
+				<p class="question">If the <var>MASS1</var> kg mass is at rest after the collision, what is the final velocity of the
+					<var>MASS2</var> kg mass?</p>
+				<p class="solution" data-type="decimal" data-inexact data-max-error="0.1"><var>(MASS1*VELOCITY1)/MASS2</var></p>
+				<div class="hints">
+					<div class="graphie" data-update="graph-2">
+						collision2( MASS1, MASS2 );
+					</div>
+					<p>In all collisions, momentum is conserved. <code>P_i = P_f</code></p>
+					<p>The equation of momentum is <code>mv</code>.</p>
+					<p>The initial momentum is <code>m_1v_1 + m_2v_2</code> = <code>m_1v_1 + 0 = (<var>MASS1</var> kg)(<var>VELOCITY1</var> m/s) = <var>(MASS1*VELOCITY1).toFixed(2)</var> kg m/s.</code></p>
+					<p>The final momentum is <code>m_1v_3 + m_2v_4</code> = <code>0 + m_2v_4</code> = <var>MASS2</var><code>v_4.</code></p>
+					<p><code><var>(MASS1*VELOCITY1).toFixed(2)</var>\text{m/s} = <var>MASS2</var>v_4</code></p>
+					<p>The final velocity, <code>v_4</code> is equal to <var>((MASS1*VELOCITY1)/MASS2).toFixed(1)</var> m/s.</p>
+				</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
