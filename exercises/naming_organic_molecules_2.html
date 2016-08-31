@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html data-require="math graphie organic-chem">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Alkanes, Alkenes and Alkynes</title>
+  <script src="../khan-exercise.js"></script>
+  <style>
+    .molFormat{
+      font-size:1.2em;font-style:italic;font-family:'Georgia', Georgia, serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="exercise">
+  
+    <div class="vars">
+      <var id="HYDROCARBON">
+        function() {
+          parentHydrocarbon = new StraightChainHydrocarbon( Math.floor( KhanUtil.random() * 9 ) + 2 , 1 );
+          
+          // A chance of adding a double or triple bond      
+          if( KhanUtil.random() < 0.5 ){
+            parentHydrocarbon.addRandomDoubleBond();
+          }else if( KhanUtil.random() < 0.75 ){
+            parentHydrocarbon.addRandomTripleBond();
+          }
+          
+          if( parentHydrocarbon.length >= 3){
+            // another chance of adding a double or triple bond
+            if( KhanUtil.random() < 0.33 ){
+              parentHydrocarbon.addRandomDoubleBond();
+            } else if( KhanUtil.random() < 0.5 ){
+              parentHydrocarbon.addRandomTripleBond();
+            }
+
+            if( parentHydrocarbon.length >= 5){
+              // another chance of adding a double or triple bond
+              if( KhanUtil.random() < 0.33 ){
+                parentHydrocarbon.addRandomDoubleBond();
+              }
+            }
+          }
+
+          return parentHydrocarbon.getName();
+      }()
+      </var>
+      <var id="RENDER_METHOD">getRenderMethod()</var>
+      <var id="SETTING">setTestForAlkenes(true)</var>
+      <var id="PREFIX">getParentHydrocarbonPrefix()</var>
+      <var id="SUFFIX">getParentHydrocarbonSuffix()</var>
+      <var id="HAS_ENE">getHasEne()</var>
+      <var id="HAS_YNE">getHasYne()</var>
+      <var id="ENE_NUMBERS">getEneNumbers()</var>
+      <var id="YNE_NUMBERS">getYneNumbers()</var>
+      <var id="WRONG_CHOICES">getWrongAnswers()</var>
+    </div>
+
+    <div class="problems">
+      <div>
+        <p class="question">What is the name of this molecule?</p>
+        <p class="solution"><span class="molFormat"><var>HYDROCARBON</var></span></p>
+        
+        <ul class="choices" data-show="4">          
+          <li data-each="WRONG_CHOICES as choice"><span class="molFormat"><var>choice</var></span></li>    
+        </ul>
+        
+        <div class="graphie" id="molecule">
+          init({
+            range: [ [-5, 31], [-2, 3] ],
+            scale: 20
+          });
+          
+          graph.pl = parentHydrocarbon;
+          graph.pl.draw();
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="hints">
+    
+      <div>      
+        <p style="margin-bottom: 2px;">Here are the names of prefixes for hydrocarbons with 1 to 20 carbons, and prefixes for multiples of functional groups (eg: <ul>di</ul>ene).</p>
+        <div class="molFormat">        
+          <table style="margin-bottom: 20px;">
+            <tr>
+              <td style="font-size:1.0em;width:100px;">
+                <span class="hint_orange">1:</span> <span class="hint_blue">meth</span><br/>
+                <span class="hint_orange">2:</span> <span class="hint_blue">eth</span><br/>
+                <span class="hint_orange">3:</span> <span class="hint_blue">prop</span><br/>
+                <span class="hint_orange">4:</span> <span class="hint_blue">but</span><br/>
+                <span class="hint_orange">5:</span> <span class="hint_blue">pent</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">        
+                <span class="hint_orange">6:</span> <span class="hint_blue">hex</span><br/>
+                <span class="hint_orange">7:</span> <span class="hint_blue">hept</span><br/>
+                <span class="hint_orange">8:</span> <span class="hint_blue">oct</span><br/>
+                <span class="hint_orange">9:</span> <span class="hint_blue">non</span><br/>
+                <span class="hint_orange">10:</span> <span class="hint_blue">dec</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">
+                <span class="hint_orange">11:</span> <span class="hint_blue">undec</span><br/>
+                <span class="hint_orange">12:</span> <span class="hint_blue">dodec</span><br/>
+                <span class="hint_orange">13:</span> <span class="hint_blue">tridec</span><br/>
+                <span class="hint_orange">14:</span> <span class="hint_blue">tetradec</span><br/>
+                <span class="hint_orange">15:</span> <span class="hint_blue">pentadec</span><br/>
+              </td>
+              <td style="font-size:1.0em;width:100px;">
+                <span class="hint_orange">16:</span> <span class="hint_blue">hexadec</span><br/>
+                <span class="hint_orange">17:</span> <span class="hint_blue">heptadec</span><br/>
+                <span class="hint_orange">18:</span> <span class="hint_blue">octadec</span><br/>
+                <span class="hint_orange">19:</span> <span class="hint_blue">nonadec</span><br/>
+                <span class="hint_orange">20:</span> <span class="hint_blue">icos</span><br/>
+              </td>            
+              <td style="font-size:1.0em;width:100px;">
+                <span class="hint_orange">1:</span> <span class="hint_purple">(none)</span><br/>
+                <span class="hint_orange">2:</span> <span class="hint_purple">di</span><br/>
+                <span class="hint_orange">3:</span> <span class="hint_purple">tri</span><br/>
+                <span class="hint_orange">4:</span> <span class="hint_purple">tetra</span><br/>
+                <span class="hint_orange">5+:</span> <span class="hint_purple">poly</span><br/>
+              </td>
+            </tr>
+          </table>        
+        </div>
+      </div>
+           
+      <div data-if="SUFFIX === 'ane'"><!-- Draw carbons as squiggly lines with inferred hydrogens -->
+        <p>Count the carbons starting at one end by numbering the points at the end of each line and line intersection.</p>
+        <div class="graphie" data-update="molecule">          
+          graph.pl.hint();
+        </div>
+      </div>
+
+      <div data-if="SUFFIX !== 'ane'"><!-- Draw carbons as squiggly lines with inferred hydrogens -->
+        <p>Count the carbons starting at the end with the nearest functional group (double or triple bond). If it's a tie, continue counting until you get to 
+          the next functional group and so on. If everything is still equal, use the end with the first <span class="molFormat"><span class="hint_green">ene</span></span> group (double bond). </p>
+        <div class="graphie" data-update="molecule">          
+          graph.pl.hint();
+        </div>
+      </div>
+
+      <div data-if="HAS_ENE === true || HAS_YNE === true" >
+        <p>Count and number the <span class="molFormat"><span class="hint_green">ene</span></span> groups (double bonds) from the correct end of the hydrocarbon, the number of 
+          the first carbon involved in the Pi bond is the index used for that <span class="molFormat"><span class="hint_green">ene</span></span> group. Do the same for the 
+        <span class="molFormat"><span class="hint_red">yne</span></span> groups (triple bonds).
+        </p>
+      </div>
+
+      <div data-if="SUFFIX === 'ene'">
+        <p>This is an alk<span class="molFormat"><span class="hint_green">ene</span></span> since it has at least 1 double bond and no triple bonds. We know now that the 
+          name will end with <span class="molFormat"><span class="hint_green">ene</span></span>.</p>
+      </div>
+
+      <div data-if="SUFFIX === 'yne'">
+        <p> This is an alk<span class="molFormat;hint_red">yne</span> since it has at least 1 triple bond. We know now that the name will end with
+        <span class="molFormat"><span class="hint_red">yne</span></span>.</p>
+      </div>
+
+      <div data-if="HAS_ENE === true && HAS_YNE === true" >
+        <p> This molecule has <span class="molFormat"><span class="hint_green">ene</span></span> group(s) at 
+          <span class="molFormat"><span class="hint_green"><var>ENE_NUMBERS</var></span></span>
+          and <span class="molFormat"><span class="hint_red">yne</span></span> group(s) at <span class="molFormat"><span class="hint_red"><var>YNE_NUMBERS</var></span></span>. </p>
+      </div>
+
+      <div data-if="HAS_ENE === true && HAS_YNE === false" >
+        <p> This molecule has <span class="molFormat"><span class="hint_green">ene</span></span> group(s) at 
+          <span class="molFormat"><span class="hint_green"><var>ENE_NUMBERS</var></span></span>. </p>
+      </div>
+
+      <div data-if="HAS_ENE === false && HAS_YNE === true" >
+        <p> This molecule has <span class="molFormat"><span class="hint_red">yne</span></span> group(s) at 
+          <span class="molFormat"><span class="hint_red"><var>YNE_NUMBERS</var></span></span>.</p>
+      </div>
+            
+      <div data-if="SUFFIX === 'ane'">
+        <p>Since there are no double bonds and no triple bonds, this is an alkane. End the word with <span class="molFormat"><span class="hint_grey">ane</span></span>. </p>
+      </div>
+      
+    </div>
+    
+  </div>
+</body>
+</html>
