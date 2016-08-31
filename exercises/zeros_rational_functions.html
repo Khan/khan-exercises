@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html data-require="math math-format interactive polynomials graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Finding Zeros of Rational Functions</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+
+    <div class="exercise">
+
+        <div class="problems">
+            <div id="polynomial" data-weight="4">
+                <div class="vars">
+                                       
+                    <var id="ZERO1">randRange(-8, 3)</var>
+                    <var id="NEG_ZERO1">ZERO1*-1</var>
+            		<var id="ZERO2">randRange(4, 8)</var>
+            		<var id="NEG_ZERO2">ZERO2*-1</var>
+            		<var id="ASYM">randRange(ZERO1+1, ZERO2-1)</var>
+            		<var id="NEG_ASYM">ASYM*-1</var>
+            		 
+            		<var id="FACTOR1">new Polynomial(0, 1, [ZERO1, 1], "x")</var>
+            		<var id="FACTOR1_TEXT">FACTOR1.text()</var>
+            		
+            		<var id="FACTOR2">new Polynomial(0, 1, [ZERO2, 1], "x")</var>
+            		<var id="FACTOR2_TEXT">FACTOR2.text()</var>
+            		
+            		<var id="FACTOR3">new Polynomial(0, 1, [ASYM, 1], "x")</var>
+            		<var id="FACTOR3_TEXT">FACTOR3.text()</var>
+
+            		<var id= "NUMERATOR">new Polynomial(0, 2, [ZERO1*ZERO2, ZERO1+ZERO2, 1], "x")</var>
+            		<var id="NUMERATOR_TEXT">NUMERATOR.text()</var>
+                                                                     
+                    <var id="FNX">function(x) {return NUMERATOR.evalOf(x)/FACTOR3.evalOf(x);}</var>
+                    
+                    <var id="XRANGE">[-10, 10]</var>
+                 	<var id="YRANGE">[-10, 10]</var>
+                    <var id="OPTIONS">{}</var>     
+                </div>
+
+                <div class="question">
+                    <p>
+                    	<code class="hint_blue">h(x) = \dfrac{<var>NUMERATOR_TEXT</var>}{<var>FACTOR3_TEXT</var>}</code>
+                    </p>
+                    <p>
+                    	This function has two x-intercepts (also known as zeros).  Find the coordinates of the zeros, and  
+                    	drag the <span class="hint_red">red</span> points to the x-intercepts on the graph.
+                    </p>
+                </div>
+
+                <div class="problem">
+                    <div class="graphie" id="rationals">
+                       
+                       initAutoscaledGraph([ XRANGE, YRANGE], OPTIONS);
+
+                        addMouseLayer();
+                        
+            			graph.pointA = addMovablePoint({
+                		coord: [ -8, 8 ],
+                		snapX: 0.5,
+                		snapY: 0.5,
+                		normalStyle: {
+                    		stroke: KhanUtil.RED,
+                    		fill: KhanUtil.RED
+              			  }
+            });
+
+            			graph.pointB = addMovablePoint({
+                		coord: [-7, 8],
+                		snapX: 0.5,
+                		snapY: 0.5,
+                		normalStyle: {
+                    		stroke: KhanUtil.RED,
+                    		fill: KhanUtil.RED
+              			  }
+            });
+            				            
+                    </div>
+                </div>
+
+                <div class="solution" data-type="custom">
+                	<div class="instruction">
+                   		
+                   	Find the x-intercepts of the function.
+                   	<br>
+                   	<br>
+                   	When you correctly answer the question, click "Show Solution" to see
+                   	a sketch of the graph. 
+
+        	        </div>
+
+                    <div class="guess"> [graph.pointA.coord, graph.pointB.coord]</div>
+
+
+                    <div class="validator-function">
+                    
+                    if (guess[0][0] == -8 && guess[0][1] == 8 && guess[1][0] == -7 && guess[1][1] == 8){
+                  		return "";}
+                    
+                    part1A = (guess[0][1] == 0 && guess[0][0] == -1*<var>ZERO1</var>);                   	                  
+                  	part2A = (guess[1][1] == 0 && guess[1][0] == -1*<var>ZERO2</var>);
+                  	
+                  	optionA = part1A && part2A;
+                  	
+                  	part1B = (guess[0][1] == 0 && guess[0][0] == -1*<var>ZERO2</var>);                   	                  
+                  	part2B = (guess[1][1] == 0 && guess[1][0] == -1*<var>ZERO1</var>);
+                  	
+                  	optionB = part1B && part2B;
+                  	
+                  	if (optionA || optionB){
+                  		return true;}
+                  	
+                  	if (part1A || part2A || part1B || part2B){
+                  		return "One x-intercept is incorrect.";}
+                  	
+                  	return "Both x-intercepts are incorrect.";
+                
+                    </div>
+                    <div class="show-guess">
+                      
+                    graph.pointA.setCoord(guess[0]);
+                    graph.pointB.setCoord(guess[1]);
+					</div>                      
+
+                </div>
+
+                <div class="hints">
+                    <div>
+                        <p>
+                            (1) What is an x-intercept (also known as a zero)? An x-intercept 
+                            is a point on the graph where the function crosses the x axis.  
+                            The point therefore lies on the x axis.  In order to lie on the
+                            x axis, the y coordinate of the point must be 0.  So any x-intercept
+                            has coordinates (a, 0).  Now we must figure out how to find the
+                            value of a.
+                        </p>
+                    </div>
+                    
+                    <div>
+                    	<p>
+                    		(2) The y value of a point is determined by plugging the x
+                    		value into the function, and seeing what is evaluated.  In other 
+                    		words, (10, <var>FNX(10)</var>) is a point, because <var>FNX(10)</var>
+                    		is the value we get when we plug 10 into f(x).  
+                    		
+                    		<br>
+                    		<br>
+                    		
+                    		So to find the x values of the x-intercepts, we need to find which
+                    		numbers, when plugged into f(x), evaluate to 0 (which is the
+                    		desired y value).  
+                    		
+                    	</p>
+                    </div>
+                    
+                	<div>
+                    	<p>
+                    		(3) f(x) is a fraction, and since we want the whole fraction
+                    		to equal zero for specific x values, we care that the numerator
+                    		of the fraction is zero.  Why? Because 0 divided by any number
+                    		(other than 0) equals 0.  0/3 = 0. 0/8 = 0. 0/-4 = 0. 
+                    		(0/0 is undefined).
+                    		
+                    		<br>
+                    		<br>
+                    		
+                    		So our problem boils down to finding the x values that make
+                    		the numerator of f(x) equal to zero. 
+                    		
+                    	</p>
+                    </div>		
+                    		
+                    <div>
+                    	<p>
+                    		(4) The numerator of f(x) is a quadratic, so we can
+                    		try to factor it.  To factor it, we are looking to 
+                    		"backwards FOIL."  In other words, we want to find the values for 
+                    		P and Q that make (x + P)(x + Q) = <var>NUMERATOR_TEXT</var>.
+                    		When we FOIL (x + P)(x + Q), we get x^2 + Px + Qx + PQ, and
+                    		we want that to equal <var>NUMERATOR_TEXT</var>.  So we match
+                    		them up with the x^2 terms, x terms, and constant terms.  
+                    		Doing so, we find that P + Q must equal <var>ZERO1+ZERO2</var>
+                    		and PQ must equal <var>ZERO1*ZERO2</var>.
+                    	
+                    		<br>
+                    		<br>
+                    		
+                    		So we are looking for values (called P and Q, in the example above)
+                    		that when added get us <var>ZERO1+ZERO2</var> and when multiplied
+                    		get us <var>ZERO1*ZERO2</var>.
+                    	</p>
+                    </div>
+                    
+                    <div>
+                    	<p>
+                    		(5) Those values are <var>ZERO1</var> and <var>ZERO2</var>. In
+                    		other words, we can rewrite the numerator as 
+                    		(<var>FACTOR1_TEXT</var>)(<var>FACTOR2_TEXT</var>).  What was
+                    		the point of all this? To find the x values that made the
+                    		numerator equal to zero.
+                    		
+                    		<br>
+                    		<br>
+                    		
+                    		Why does this help us?  If either (<var>FACTOR1_TEXT</var>) OR
+                    		(<var>FACTOR2_TEXT</var>) equals zero when we plug in a certain
+                    		x value, the whole numerator will equal zero, and the whole fraction,
+                    		evaluated at that x value, will equal zero.  So when does <var>FACTOR1_TEXT</var>
+                    		equal zero? When x equals <var>NEG_ZERO1</var>.  When does <var>FACTOR2_TEXT</var>
+                    		equal zero? When x equals <var>NEG_ZERO2</var>.
+
+                    	</p>
+                    </div>			
+                    
+                	<div>
+                		<p>
+                		
+                		The x-intercepts of the function are:
+                		
+                		(<var>NEG_ZERO1</var>, 0) and (<var>NEG_ZERO2</var>, 0)
+
+						<br>
+						<br>
+						
+						The rest of the function is sketched so that you can see
+						where the x-intercepts fit in with the whole graph.
+
+                		</p>
+                		
+                        <div class="graphie" data-update="rationals">
+                            style({
+                            stroke: "#6495ED",
+                            strokeWidth: 3
+                        }, function() {
+                                plot( function( x ) {
+                                    return FNX( x );
+                                }, XRANGE );
+                        }); 
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

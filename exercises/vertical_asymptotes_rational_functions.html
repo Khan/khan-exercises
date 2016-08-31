@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html data-require="math math-format interactive polynomials graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Vertical Asymptotes of Rational Functions</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+
+    <div class="exercise">
+
+        <div class="problems">
+            <div id="polynomial" data-weight="4">
+                <div class="vars">
+                                       
+                    <var id="ZERO">randRange(-4, 4)</var>
+                    <var id="NEG_ZERO">ZERO*-1</var>
+            		<var id="ASYM1">randRange(-7, ZERO-1)</var>
+            		<var id="NEG_ASYM1">ASYM1*-1</var>
+            		<var id="ASYM2">randRange(ZERO+1, 8)</var>
+            		<var id="NEG_ASYM2">ASYM2*-1</var>
+            		
+            		<var id="NEG_ASYM1_M1">NEG_ASYM1-.5</var>
+            		<var id="NEG_ASYM1_M2">NEG_ASYM1-.1</var>
+            		<var id="NEG_ASYM1_M3">NEG_ASYM1-.01</var>
+            		<var id="NEG_ASYM1_M4">NEG_ASYM1-.001</var>
+            		<var id="NEG_ASYM1_M5">NEG_ASYM1-.0001</var>
+            		
+            		<var id="NEG_ASYM1_P1">NEG_ASYM1+.5</var>
+            		<var id="NEG_ASYM1_P2">NEG_ASYM1+.1</var>
+            		<var id="NEG_ASYM1_P3">NEG_ASYM1+.01</var>
+            		<var id="NEG_ASYM1_P4">NEG_ASYM1+.001</var>
+            		<var id="NEG_ASYM1_P5">NEG_ASYM1+.0001</var>
+            		 
+            		<var id="FACTOR1">new Polynomial(0, 1, [ZERO, 1], "x")</var>
+            		<var id="FACTOR1_TEXT">FACTOR1.text()</var>
+
+            		<var id="FACTOR2">new Polynomial(0, 1, [ASYM1, 1], "x")</var>
+            		<var id="FACTOR2_TEXT">FACTOR2.text()</var>
+            		
+            		<var id="FACTOR3">new Polynomial(0, 1, [ASYM2, 1], "x")</var>
+            		<var id="FACTOR3_TEXT">FACTOR3.text()</var>
+
+            		<var id= "DENOMINATOR">new Polynomial(0, 2, [ASYM1*ASYM2, ASYM1+ASYM2, 1], "x")</var>
+            		<var id="DENOMINATOR_TEXT">DENOMINATOR.text()</var>
+                                                                     
+                    <var id="FNX">function(x) {return FACTOR1.evalOf(x)/DENOMINATOR.evalOf(x);}</var>
+                    
+                    <var id="XRANGE">[-10, 10]</var>
+                 	<var id="YRANGE">[-10, 10]</var>
+                    <var id="OPTIONS">{}</var>     
+                </div>
+
+                <div class="question">
+                    <p>
+                    	<code class="hint_blue">h(x) = \dfrac{<var>FACTOR1_TEXT</var>}{<var>DENOMINATOR_TEXT</var>}</code>
+                    </p>
+                    <p>
+                    	This function has two vertical asymptotes.  Find the x coordinates of these asymptotes, and  
+                    	drag the <span class="hint_red">red</span> asymptotes to the appropriate places.
+                    </p>
+                </div>
+
+                <div class="problem">
+                    <div class="graphie" id="rationals">
+                       
+                       initAutoscaledGraph([ XRANGE, YRANGE], OPTIONS);
+
+                        addMouseLayer();
+                        
+                        graph.line1 = addMovableLineSegment({
+            			coordA: [-9, 0],
+            			coordZ: [-9, 1],
+            			snapX: 0.5,
+            			extendLine: true,
+            			normalStyle:{
+            				stroke: KhanUtil.RED,
+            				strokeWidth: 1}
+            			});
+            			
+            			graph.line2 = addMovableLineSegment({
+            			coordA: [-8, 0],
+            			coordZ: [-8, 1],
+            			snapX: 0.5,
+            			extendLine: true,
+            			normalStyle:{
+            				stroke: KhanUtil.RED,
+            				strokeWidth: 1}
+            			});
+
+            				            
+                    </div>
+                </div>
+
+                <div class="solution" data-type="custom">
+                	<div class="instruction">
+                   		
+                   	Find the vertical asymptotes of the function.
+                   	<br>
+                   	<br>
+                   	When you correctly answer the question, click "Show Solution" to see
+                   	a sketch of the graph. 
+
+        	        </div>
+
+                    <div class="guess"> [graph.line1.coordA, graph.line2.coordA]</div>
+					
+					
+                    <div class="validator-function">
+                    
+                    if (guess[0][0] == -9 && guess[1][0] == -8){
+                  		return "";}
+                  			
+                    part1A = (guess[0][0] == <var>NEG_ASYM1</var>);
+                    part1B = (guess[1][0] == <var>NEG_ASYM2</var>);                 	                  
+                  	
+                  	part1 = (part1A && part1B);
+                  	
+                  	part2A = (guess[0][0] == <var>NEG_ASYM2</var>);
+                  	part2B = (guess[1][0] == <var>NEG_ASYM1</var>); 
+                  	
+                  	part2 = (part2A && part2B);
+                  	
+					if (part1 || part2){
+						return true;}
+                  	
+                  	if (part1A || part1B || part2A || part2B){
+                  		return "One asymptote is incorrect";}
+
+                  	return "Both asymptotes are incorrect.";
+                
+                    </div>
+                    <div class="show-guess">
+                      
+                    graph.line1.setCoordA(guess[0]);
+                    graph.line2.setCoordA(guess[1]);
+					</div>                      
+
+                </div>
+
+                <div class="hints">
+                    <div>
+                        <p>
+                            (1) What is a vertical asymptote?  A vertical asymptote is an x
+                            coordinate on the graph where (a) the function is undefined and (b) the 
+                            function evaluates to larger and larger y values (in either
+                            the positive or negative direction) as the x values get
+                            closer and closer to this x coordinate.
+                            
+                            <br>
+                            <br>
+                            
+                            For example, say we have some function g(x), and it has a vertical asymptote
+                            at x = 9. What would that mean? First, it would mean that if we plugged in
+                            x = 9 (i.e. we evaluated g(9)), we would get an undefined y value.  Second,
+                            it would mean that if we plugged in x values closer and closer to 9, our y values
+                            would get larger and larger.  So g(8) might equal 10, g(8.5) might equal 150,
+                            g(8.9) might equal 995, g(8.99) might equal 20,000, and so on.
+                            
+                    </div>
+                    
+                    <div>
+                    	<p>
+                    		(2) How do we go about finding vertical asymptotes?  Let's start
+                    		by seeing when f(x) is undefined.  A rational function such as f(x)
+                    		is undefined when the denominator is equal to zero.  How can we
+                    		determine which x values make the denominator evaluate to zero?
+                    		Let's try factoring.  Doing so, we find that the denominator
+                    		can be rewritten as (x + <var>ASYM1</var>)(x + <var>ASYM2</var>).
+                    		So if x = <var>NEG_ASYM1</var> or if x = <var>NEG_ASYM2</var>,
+                    		our denominator equals zero and our function is undefined.
+                    		
+                    		<br>
+                    		<br>
+							
+							Now we need to check whether the y values approach positive or
+							negative infinity as the x values approach <var>NEG_ASYM1</var>
+							and <var>NEG_ASYM2</var>.
+                    	</p>
+                    </div>
+                    
+                	<div>
+                    	<p>
+                    		(3) How do we do that?  Simple - plug in numbers.  Let's examine
+                    		the x values close to <var>NEG_ASYM1</var>.  
+                    		<br>
+                    		f(<var>NEG_ASYM1_M1</var>)=<var>FNX(NEG_ASYM1_M1)</var>
+                    		<br>
+                    		f(<var>NEG_ASYM1_M2</var>)=<var>FNX(NEG_ASYM1_M2)</var>
+                    		<br>
+                    		f(<var>NEG_ASYM1_M3</var>)=<var>FNX(NEG_ASYM1_M3)</var>
+                    		<br>
+                    		f(<var>NEG_ASYM1_M4</var>)=<var>FNX(NEG_ASYM1_M4)</var>
+							<br>
+							f(<var>NEG_ASYM1_M5</var>)=<var>FNX(NEG_ASYM1_M5)</var>
+							<br>
+							<br>
+							These y values are getting more and more negative the closer
+							we get to x = <var>NEG_ASYM1</var> from the left side. Now
+							let's check the other side.
+							<br>
+							<br>
+                    		f(<var>NEG_ASYM1_P1</var>)=<var>FNX(NEG_ASYM1_P1)</var>
+                    		<br>
+                    		f(<var>NEG_ASYM1_P2</var>)=<var>FNX(NEG_ASYM1_P2)</var>
+                    		<br>
+                    		f(<var>NEG_ASYM1_P3</var>)=<var>FNX(NEG_ASYM1_P3)</var>
+                    		<br>
+                    		f(<var>NEG_ASYM1_P4</var>)=<var>FNX(NEG_ASYM1_P4)</var>
+                    		<br>
+                    		f(<var>NEG_ASYM1_P5</var>)=<var>FNX(NEG_ASYM1_P5)</var>
+                    		<br>
+                    		<br>
+                    		These y values are getting more and more positive the closer
+                    		we get to x = <var>NEG_ASYM1</var> from the right side. So
+                    		x = <var>NEG_ASYM1</var> is indeed a vertical asymptote!
+							
+                    		
+                    	</p>
+                    </div>		
+                    		
+                    <div>
+                    	<p>
+                    		(4) Following similar steps for x=<var>NEG_ASYM2</var> we find
+                    		that there is another vertical asymptote there.  Note that the
+                    		vertical asymptotes can also approach positive infinity from the left
+                    		side and negative infinity from the right, or positive infinity
+                    		from both sides, or negative infinity from both sides.  The key
+                    		to determining is plugging in x values that are very close to
+                    		the asymptote on both sides.
+                    	</p>
+                    </div>		
+                    
+                	<div>
+                		<p>
+                		
+                		The vertical asymptotes of the function are:
+                		
+                		x = <var>NEG_ASYM1</var> and x = <var>NEG_ASYM2</var>
+
+						<br>
+						<br>
+						
+						The rest of the function is sketched so that you can see
+						where the vertical asymptotes fit in with the whole graph.
+
+                		</p>
+                		
+                        <div class="graphie" data-update="rationals">
+                            style({
+                            stroke: "#6495ED",
+                            strokeWidth: 3
+                        }, function() {
+                                plot( function( x ) {
+                                    return FNX( x );
+                                }, XRANGE );
+                        }); 
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
