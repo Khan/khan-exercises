@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive">
+<head>
+	<meta charset="UTF-8" />
+	<title>Graphing Points on a Coordinate Plane</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="PointX">randRangeNonZero( -9, 9 )</var>
+		<var id="PointY">randRangeNonZero( -9, 9 )</var>
+	</div>
+	<div class="problems">
+		<div class="graphing-points">
+			<div class="question">
+				<p>Drag the Point to <var>PointX</var>, 
+				<var>PointY</var> on the Coordinate Plane.</p>				
+					
+				<div class="graphie" id="grid">
+					graphInit({
+						range: 10,
+						scale: 30,
+						axisArrows: "&lt;-&gt;",
+						tickStep: 1,
+						labelStep: 1
+					});
+
+					addMouseLayer();
+					this.movablePoint = addMovablePoint({ 
+					snapX: 0.5, snapY: 0.5, 
+					coord: [ 0, 0 ],
+					normalStyle: 
+					{
+					stroke: KhanUtil.BLUE,
+					fill: KhanUtil.BLUE
+					}
+					});
+
+					movablePoint.onMove = function( x, y ) 
+					{
+						jQuery("#solutionarea input").val( x, y );
+					};
+					
+				</div>
+			</div>
+				<!-- This works fine as long as there is only one variable.... -->
+				<div class="solution" data-type="multiple">
+				Move the Blue Dot to the correct position on the graph.
+					<div class="sol" data-type="decimal" style="visibility:hidden"><var>PointX</var>
+					<!-- ... however if the second field is hidden, it breaks down :( -->
+					<!-- 
+					<div class="sol" data-type="decimal" style="visibility:hidden"><var>PointY</var>
+					 -->
+					</div>
+				</div>
+				
+	<!-- This worked for me 1 time, then I changed one thing and could not make it work again, !
+		could anybody maybe tell me what I am doing wrong? -->
+<!--
+			<div class="solution" data-type="custom">
+				<div class="guess">
+					jQuery("#solutionarea input").val( x, y ); 
+				</div>
+				<div class="validator-function">
+					return abs( PointX - x ) &lt; 0.001 &amp;&amp; abs( PointY - y ) &lt; 0.001;
+				</div>
+				<div class="show-guess">
+					movablePoint.moveTo( x, y );
+				</div>
+			</div>
+-->
+			<div class="hints">
+				<p>Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.<br>
+				The first number in <var>PointX</var>, <var>PointY</var> represents left and right on the coordinate plane,<br>
+				while the second number represent up and down.</p>
+				<p>Numbers to the left of the vertical line are negative, while numbers to the right are positive.<br>
+				Numbers which are below the horizontal line line are negative, while numbers that are above it are positive.</p>
+				<div>
+					<div class="graphie" data-update="grid">
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
+						line( [ 0, 0 ], [ PointX, 0 ] );
+						movablePoint.visibleShape.toFront();
+					</div>
+					<p>The blue dot should be <var>plural( abs( PointX ), "position")</var> to the <span data-if="PointX &lt; 0">left</span><span data-else>right</span> of 0.</p>
+				</div>
+				<div>
+					<div class="graphie" data-update="grid">
+						label( [ PointX, -0.53 ],  PointX, "center", { color: "#FFA500" });
+						movablePoint.moveTo( PointX, 0 );
+					</div>
+					<p>The orange number shows where <var>PointX</var> is on the number line.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
