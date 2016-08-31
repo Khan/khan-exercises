@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems">
+<head>
+	<title>Geometric Mean</title>
+	<script src="../khan-exercise.js"></script>
+
+	<style type="text/css">
+		#number_set_or_formula {
+			font-size: 1.6em;
+			text-align: center
+		}
+		#reminder {
+			font-size: .9em;
+			font-style: italic
+		}
+	</style>
+</head>
+
+<body>
+	<div class="exercise">
+
+		<div class="problems">
+
+			<div id="normal_type">
+				<div class="vars">
+					<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
+					<!-- # of els will be 2-5 -->
+					<var id="ARRAY_OF_NUMS">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = randRange( 2, 10 )
+					}
+					return arr;
+					})()</var>
+					<var id="PROD">(function() {
+					var prod = 1;
+					jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
+					prod *= el;
+						} );
+					return prod;
+					})()</var>
+					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var> 
+					<var id="SOL_UNROUNDED">Math.pow( PROD, 1/ARRAY_LENGTH )</var>
+					<var id="SOL">Math.round(( SOL_UNROUNDED )*10 )/10</var>
+				</div>
+
+				<p class="problem">
+					<p>What is the geometric mean of the following numbers?</p>
+					<p id="number_set_or_formula"><code><var>ARRAY_OF_NUMS</var></code></p>
+					<p id="reminder">Round to the nearest tenth.</p>
+				</p>
+
+				<p class="solution" data-type="decimal">
+					<var>SOL</var>
+				</p>
+
+				<div class="hints">
+					<p>Central tendency of a number set can be found with the geometric mean.<br/>
+					<div>
+						<p>Geometric means, or geometric averages, can be achieved with this formula:</p>
+						<p id="number_set_or_formula"><code>\sqrt[n]{ Product\ of\ Number\ Set }</code></p>
+						<p> In the formula, <span class="hint_blue"><code>Product\ of\ Number\ Set</code> represents the value when all
+						numbers of the number set are multiplied by each other.</span></p>
+					</div>
+					<p>Also in the formula, <span class="hint_blue"><code>n</code> stands for the amount of numbers in the number set;</span> 
+					<code>n</code> can be found by basic counting.<br/>
+					<code>n</code>, when applied to this formula, changes the type of the radical.<br/><br/>
+					Understand <code>n</code>'s affect of the formula in this way:
+					if <code>n</code> becomes greater, there must be more roots of <code>Product\ of\ Number\ Set</code> taken.<br/>
+					<span class="hint_gray">(For example, if there are six numbers in a number set, <code>n</code> = 6. When taking the geometric mean 
+					in this example, there would have to be six roots taken of the number set's product.)</span></p>
+					<p>Begin finding the geometric mean through computing <code>Product\ of\ Number\ Set</code>.<br/>
+					The necessary action is multiply these numbers: <var>ARRAY_OF_NUMS</var>.</p>
+					<p><span class="hint_purple">The value of <code>Product\ of\ Number\ Set</code> produced is <var>PROD</var>.</span></p>
+					<p>Shifting attention, deduce <code>n</code>'s value by counting the amount of 
+					numbers in the given number set.</p>
+					<p><span class="hint_purple">There are <var>ARRAY_LENGTH</var> elements, therefore <code>n</code> = <var>ARRAY_LENGTH</var>.</span></p>
+					<p>Both necessary facets of the formula have been found. Plug in <code>n</code> and 
+					<code>Product\ of\ Number\ Set</code> using the formula above.</p>
+					<p>After inserting the values, <span class="hint_purple">the geometric mean can be represented by the following expression:
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></span>.</p>
+					<p>Now evaluate the expression.</p>
+					<p>After evaluating the expression, you should have a result similar to this: <var>SOL_UNROUNDED</var>.</p>
+					<p>Before answering in haste, recognise the additional rule for this problem; <span class="hint_orange">the result must be rounded to the nearest tenth.</span><p>
+					<p><span class="hint_green">Once rounded, the geometric mean is <var>SOL</var></span>.</p>
+				</div>
+			</div>
+
+			<div id="big_num_type">
+				<div class="vars">
+					<var id="WATER_SOURCE">
+					(function() {
+					var num = randRange( 0, 3 );
+					switch(num){
+					case 0: type = "lake";
+					break;
+					case 1: type = "river";
+					break;
+					case 2: type = " petri dish";
+					break;
+					case 3: type = "pond";
+					break;
+					}
+					return type;
+					})()</var>
+					<var id="SIZE_OF_SET">randRange( 2, 4 )</var>
+					<!-- Large# included in array to show Geomean's resistance to distant #s; # of els will be 3-5 -->
+					<var id="ARRAY_OF_NUMS">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = randRange( 15, 600 )
+					}
+					num = randRange(0,2)
+					arr.splice( num, 1, randRange( 1200 , 2200 ) ) // Replaces el wtih large num
+					return arr;
+					})()</var>
+					<var id="PROD">(function() {
+					var prod = 1;
+					jQuery.each( ARRAY_OF_NUMS, function( i, el ) {
+					prod *= el;
+						} );
+					return prod;
+					})()</var>
+					<var id="ARRAY_LENGTH">ARRAY_OF_NUMS.length</var>
+					<var id="SOL">Math.round( Math.pow( PROD, 1/ARRAY_LENGTH ))</var>
+				</div>
+
+				<p class="problem">
+					<p><var>person( 1 )</var> measures the amount of bacteria in different parts of a 
+					<var>WATER_SOURCE</var>.<br/>
+					What is the geometric mean of the bacteria amounts?</p>
+					<p id="number_set_or_formula"><code><var>ARRAY_OF_NUMS</var></code></p>
+					<p id="reminder">Round to the nearest positive integer.<br/>
+					Each number represents a different measurement of bacteria.</p>
+				</p>
+
+				<p class="solution" data-type="decimal">
+					<var>SOL</var>
+				</p>
+
+				<div class="hints">
+					<p>Remember that the geometric mean can be found with this formula: <code>\sqrt[n]{Product}</code></p>
+					<div>
+						<p>In the formula, <code>n</code> stands for the number of elements being multiplied.</p>
+						<p>Also in the formula, <code>Product</code> stands for the number achieved when all
+						elements are multiplied.</p>
+					</div>
+					<p>Find the product of all of the bacteria listed. <code><var>PROD</var></code></p>
+					<p>After counting the number of measurements in the set, you'll then find there are <br/>
+					<code><var>ARRAY_LENGTH</var></code> elements.</p>
+					<p>Take the appropriate root to the product, based on the number of measurements.<br/>
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></p>
+					<p>Once rounded, the result is <code><var>SOL</var></code></p>
+				</div>
+			</div>
+
+			<div id="financial_type">
+				<div class="vars">
+					<var id="SIZE_OF_SET">randRange( 1, 4 )</var>
+					<var id="ARRAY_OF_VALS">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = randRangeNonZero( -55, 55 )
+					}
+					return arr;
+					})()</var>
+					<var id="ARRAY_LENGTH">ARRAY_OF_VALS.length</var>
+					<!-- ARRAY_OF_VALS + % symbol -->
+					<var id="ARRAY_W_PERCENT">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = ARRAY_OF_VALS[i] +"\\%"
+					}
+					return arr;
+					})()</var>
+					<!-- Takes %s to their decimal multiplier equivalents -->
+					<var id="ARR_W_PER_TO_NUM">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = ( 100 + ARRAY_OF_VALS[i] )/100
+					}
+					return arr;
+					})()</var>
+					<var id="PROD">(function() {
+					var prod = 1;
+
+					jQuery.each( ARR_W_PER_TO_NUM, function( i, el ) {
+					prod *= el;
+						} );
+					return prod;
+					})()</var>
+					<!-- Gets the Geomean -->
+					<var id="GEO_MEAN">Math.pow( PROD , 1/ARRAY_LENGTH )</var>
+					<!-- Converts GEO_MEAN to a percentage, and rounds -->
+					<var id="SOL">Math.round(( GEO_MEAN - 1 ) *100 ) +"\\%"</var>
+					<!-- Provides an arr for hint -->
+					<var id="HINT_1">(function() {
+					arr = [];
+					for( i = 0; i <= SIZE_OF_SET; i++ ) {
+					arr[i] = ARRAY_W_PERCENT[i] +"\=" +ARR_W_PER_TO_NUM[i]
+					}
+					return arr;
+					})()</var>
+				</div>
+
+				<p class="problem">
+					<p><var>person( 1 )</var> invests money in a company; each year the investment return value changes.
+					<br/>Of the years, find the overall rate of the investment returns.</p>
+					<p id="number_set_or_formula"><code><var>ARRAY_W_PERCENT</var></code></p>
+					<p id="reminder">Round the percentage to the nearest integer.<br/>
+					Each percentage represents the investment return value for each year.</p>
+				</p>
+
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-type="decimal"><var>SOL</var></span><code>\%</code></p>
+				</div>
+
+				<div class="hints">
+					<p>Remember that the geometric mean can be found with this formula: <code>\sqrt[n]{Product}</code></p>
+					<div>
+						<p>In the formula, <code>n</code> stands for the number of elements being multiplied.</p>
+						<p>Also in the formula, <code>Product</code> stands for the number achieved when all
+						elements are multiplied.</p>
+					</div>
+					<p>To find the geometric mean of percentages, convert the percentages to 
+					their decimal multiplier equivalents.<br/><code><var>HINT_1</var></code></p>
+					<p>Find the product of the decimal multiplier equivalents. <code><var>PROD</var></code></p>
+					<p>After counting the number of elements in the set, you will then find there are <br/>
+					<code><var>ARRAY_LENGTH</var></code> elements.</p>
+					<p>Take the appropriate root to the product, based on the number of elements.<br/>
+					<code>\sqrt[<var>ARRAY_LENGTH</var>]{<var>PROD</var>}</code></p>
+					<p>The result should be <code><var>GEO_MEAN</var></code>, or close to it.</p>
+					<p>Convert the decimal multiplier equivalent result to its according percent.</p>
+					<p>Once rounded, the rate of the investment returns are <code><var>SOL</var></code></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
