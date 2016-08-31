@@ -1443,6 +1443,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                     // If we have a check answer message
                     if (typeof correct === "string") {
+                        score.correct = false;
                         score.message = correct;
                         score.correct = false;
                     }
