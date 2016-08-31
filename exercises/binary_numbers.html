@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Binary numbers</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+	function updateBlueNums( x, y ) {
+		var graph = KhanUtil.currentGraph;
+		
+		graph.graph.digits[x].remove();
+		graph.graph.binaryDisplay.remove();
+		
+		if( y > 1 ) {
+			graph.graph.digits[x] = graph.label( [ ( 3.5 * x ) - 6.75, 2.14 ], "\\large{" + "1" + "}", { color: KhanUtil.BLUE } );
+		}
+		else {
+			graph.graph.digits[x] = graph.label( [ ( 3.5 * x ) - 6.75, 2.14 ], "\\large{" + "0" + "}", { color: KhanUtil.BLUE } );
+		}
+		
+		var binaryDigits = "";
+		var i = 0;
+		while( graph.graph.digitArray[i] === 0 && i < 6 ) {
+			i++;
+		}
+		if( i === 6 ) {
+			binaryDigits += "" + 0;
+		}
+		else {
+			for( var j = i; j < 6; j++ ) {
+				binaryDigits += "" + graph.graph.digitArray[j];
+			}
+		}
+		
+		graph.graph.binaryDisplay = graph.label( [ 2, -1.2 ], "\\Huge{" + binaryDigits + "_{2}}", "left", {color: KhanUtil.BLUE } );
+	}
+
+	function updateGreenNums( x, y ) {
+		var graph = KhanUtil.currentGraph;
+		
+		graph.graph.decimalTotal[0].remove();
+		graph.graph.decimalTotal[1].remove();
+		var binaryTotal = 0;
+		for( var i = 0; i < 6; i++ ) {
+			binaryTotal += ( graph.graph.digitArray[i] * Math.pow( 2, 5 - i ) );
+		}
+		
+		if( y > 1 ) {
+			graph.graph.greenNums[ x ].css({ color: KhanUtil.GREEN });
+		}
+		else {
+			graph.graph.greenNums[ x ].css({ color: "#bbb" });
+		}
+		
+		graph.graph.decimalTotal[0] = graph.label( [ 14, 2.15 ], "\\large{" + binaryTotal + "}", { color: KhanUtil.GREEN } );
+		graph.graph.decimalTotal[1] = graph.label( [ 3.48, -1.18 ], "\\Huge{" + binaryTotal + "}", "right", { color: KhanUtil.GREEN } );
+	}
+	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="BASE10">randRange( 0, 63 )</var>
+			<var id="BASE2">
+			(function() {
+				var binaryDigits = [];			
+				var numTotal = BASE10;
+				var i = 0;
+				
+				while( pow( 2, 5 - i ) &gt; numTotal &amp;&amp; i &lt; 6 ) {
+					i++;
+				}
+				
+				if( i === 6 ) {
+					binaryDigits.push( 0 );
+				}
+				
+				else {
+					for( var j = i; j &lt; 6; j++ ) {
+						if( pow( 2, 5 - j ) &lt;= numTotal ) {
+							binaryDigits.push( 1 );
+							numTotal -= pow( 2, 5 - j );
+						}
+						else {
+							binaryDigits.push( 0 );
+						}
+					}
+				}
+
+				return digitsToInteger( binaryDigits );
+
+			})()
+			</var>
+			<var id="BINARYQUOTIENTS">
+			(function() {
+				var binaryQuotients = [];			
+				var numTotal = floorTo( 0, BASE10 / 2 );
+
+				while( numTotal !== 0 ) {
+					binaryQuotients.push( numTotal );
+					numTotal = floorTo( 0, numTotal / 2 );
+				}
+
+				return binaryQuotients;
+
+			})()
+			</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="question">
+					Convert <code class="hint_green"><var>BASE10</var></code> into base-2 (binary). 
+					Drag the points up and down to change the digits of the <span class="hint_blue">binary number</span>.
+				</p>
+				<div class="problem">
+					<div class="graphie" id="binary">
+						init({
+							range: [ [ -8, 14 ], [ -2, 3.25 ] ],
+							scale: [30, 45]
+						});
+						
+						graph.digits = [];
+						graph.digitArray = [];
+						graph.greenNums = [];
+						graph.decimalTotal = [];
+						graph.digitPoints = [];
+						for ( var i = 0; i &lt; 6; i++ ) {
+							label( [ -6 + 3.5 * i, 2.2 ], "\\large{" + "( \\quad" + "\\times" + "\\enspace" + "2^{" + ( 5 - i ) + "})" + "}" );
+							line([ -6 + 3.5 * i, 0 ], [ -6 + 3.5 * i, 1.5], { stroke: "#bbb" } );
+							if( i &lt; 5 ) {
+								label( [ -4.25 + 3.5 * i, 2.2 ], "+" );
+							}
+							graph.digits[i] = label( [ -6.75 + 3.5 * i, 2.14 ], "\\large{" + "0" + "}", { color: BLUE } );
+							graph.digitArray[i] = 0;
+							graph.greenNums[i] = label( [ -6 + 3.5 * i, 3 ], "\\large{" + pow( 2, 5 - i ) + "}", { color: "#bbb" } );
+						}
+							
+						label( [ 13.25, 2.2 ], "=" );
+						label( [ 2.75, -1.3 ], "\\Huge{" + "=" + "}" );
+						graph.decimalTotal[0] = label( [ 14, 2.15 ], "\\large{" + "0" + "}", { color: GREEN } );
+						graph.binaryDisplay = label( [ 2, -1.2 ], "\\Huge{" + "0" + "_{2}}", "left", {color: BLUE } );
+						graph.decimalTotal[1] = label( [ 3.48, -1.18 ], "\\Huge{" + "0" + "}", "right", { color: GREEN } );
+
+						addMouseLayer();
+						for ( var i = 0; i &lt; 6; i++ ) {
+							graph.digitPoints[i] = addMovablePoint({ coord: [-6 + 3.5 * i, 0], constraints: { constrainX: true }, snapY: 1.5, });
+							graph.digitPoints[i].onMove = function( x, y ) {
+
+								if ( y &lt; 0 || 1.5 &lt; y ) {
+									return false; // don't allow the point to move past the bounds
+								}
+
+								else {
+									graph.digitArray[roundTo( 0, ( this.coord[0] + 6 ) / 3.5 )] = floorTo( 0, y );
+									updateBlueNums( roundTo( 0, ( this.coord[0] + 6 ) / 3.5 ), y );
+									updateGreenNums( roundTo( 0, ( this.coord[0] + 6 ) / 3.5 ), y );
+									return [this.coord[0], y];
+								}
+
+							};
+						}
+						
+					</div>
+				</div>
+
+				<div class="solution" data-forms="integer"><var>BASE2</var></div>
+
+				<div class="hints">
+					<div>
+						<div class="graphie" data-update="binary">
+							for( var i = 0; i &lt; 6; i++ ) {
+								graph.digitPoints[i].moveTo( graph.digitPoints[i].coord[0], 0 );
+							}
+						</div>
+						<p>One method we can use to convert any number into binary is to keep dividing by <code>2</code>, 
+						recording the remainder each time, until we reach <code>0</code>. The remainders, written from right to left, 
+						make up the digits of the binary number.</p>
+					</div>
+					<div>	
+						<p>Begin the process with <code class="hint_green"><var>BASE10</var></code>:</p>
+						<p><code>\large{<var>BASE10</var> \div 2 = <var>floorTo( 0, BASE10 / 2 )</var> \enspace \text{R} \enspace \color{<var>BLUE</var>}{<var>BASE10 % 2</var>}}</code></p>
+					</div>
+					<div>
+						<div class="graphie" data-update="binary">
+							graph.digitPoints[5].moveTo( graph.digitPoints[5].coord[0], ( BASE10 % 2 ) * 1.5 );
+						</div>
+						<p>Thus, the last digit of our binary number is <code class="hint_blue"><var>BASE10 % 2</var></code>.</p>
+					</div>
+					<div data-each="BINARYQUOTIENTS as index, binaryquotient" data-if="BASE10 > 1">
+						<p data-if="index === 0">Continue with <code><var>floorTo( 0, BASE10 / 2 )</var></code>, the quotient from the previous step. Keep repeating until arriving at a quotient of <code>0</code>.</p>
+						<p><code>\large{<var>binaryquotient</var> \div 2 = <var>floorTo( 0, binaryquotient / 2 )</var> \enspace \text{R} \enspace \color{<var>BLUE</var>}{<var>binaryquotient % 2</var>}}</code></p>
+						<div class="graphie" data-update="binary">
+							graph.digitPoints[4 - index].moveTo( graph.digitPoints[4 - index].coord[0], ( binaryquotient % 2 ) * 1.5 );
+						</div>
+					</div>
+					<div>
+						<p><span data-if="BASE10 > 1">Finish by writing the digits from right to left. </span><span data-else>We don't need to 
+						go any further since the quotient from the previous step is <code>0</code>. </span>
+						<p><code>\LARGE{\color{<var>GREEN</var>}{<var>BASE10</var>} \text{ becomes }  
+						\color{<var>BLUE</var>}{<var>BASE2</var>} \text{ in binary.}}</code></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
