@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html data-require="math spin foreign-language">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Regular Spanish Verbs in the Present</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="CHANCE">spin( "{erRegular|irRegular|arRegular}" )</var>
+			<var id= "DICT">esVerb(CHANCE,1)</var>
+			<var id= "INFINITIVE">DICT[0]</var>
+			<var id= "TRANSLATION">DICT[1]</var>
+			<var id="SUBJECT">esPronoun(1)</var> 
+			<var id= "CONJUGATION">esConjugate("presIndic",SUBJECT,CHANCE,INFINITIVE)</var>
+			<var id="NOACCENT">usFriendly(CONJUGATION,"es")</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>What is the present tense congujation of <b><var>INFINITIVE</var></b>, the verb "<var>TRANSLATION</var>", for the subject <u><var>SUBJECT</var></u>? </p>
+					<p class "extra-info">The present indicative conjugation of the verb is wanted.</p>
+				</div>
+
+				<div class="solution" data-type = "set">
+					<div class ="set-sol" data-type ="text"><var>CONJUGATION</var></div>
+					<div class ="set-sol" data-type ="text"><var>NOACCENT</var></div>
+					<div class="input-format">
+						<p><var>SUBJECT</var> <span class="entry"></span></p>
+					</div>
+					<p class="example">A conjugated verb. In English, this is something like "jump" or "swims"</p>
+					<p class ="example">For convenience, you may enter characters without the accent (eg. <b>a</b> and <b>á</b> will work)</p> 
+				</div>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p><b><var>INFINITIVE</var></b> is a regular verb. That means it follows a regular pattern.</p>
+			<p data-if= "CHANCE === 'arRegular'">First, take the "ar" off of the verb <b><var>INFINITIVE</var></b> to get the stem.</p>
+			<p data-else-if= "CHANCE === 'erRegular'">First, take the "er" off of the verb <b><var>INFINITIVE</var></b> to get the stem.</p>
+			<p data-else>First, take the "ir" off of the verb <b><var>INFINITIVE</var></b> to get the stem.</p>
+			<p>Then all you need is the appropriate ending.</p>
+			<table border="1" data-if="CHANCE==='erRegular'">
+				<p data-if="CHANCE==='erRegular'"> For ER verbs:</p>
+				<tr>
+					<th><b>Subject</b></th>
+					<th><b>Ending</b></th>
+				</tr>
+				<tr>
+					<td>yo</td>
+					<td>o</td>
+				</tr>
+				<tr>
+					<td>t&uacute;</td>
+					<td>es</td>
+				</tr>
+				<tr>
+					<td>&eacute;l/usted</td>
+					<td>e</td>
+				</tr>
+				<tr>
+					<td>nosotros/nosotras</td>
+					<td>emos</td>
+				</tr>
+				<tr>
+					<td>vosotros/vosotras</td>
+					<td>&eacute;is</td>
+				</tr>
+				<tr>
+					<td>ellos/ellas/ustedes</td>
+					<td>en</td>
+				</tr>
+			</table>
+			<table border="1" data-if="CHANCE ==='arRegular'">
+				<p data-if="CHANCE==='arRegular'"> For AR verbs:</p>
+				<tr>
+					<th><b>Subject</b></th>
+					<th><b>Ending</b></th>
+				</tr>
+				<tr>
+					<td>yo</td>
+					<td>o</td>
+				</tr>
+				<tr>
+					<td>t&uacute;</td>
+					<td>as</td>
+				</tr>
+				<tr>
+					<td>&eacute;l/ella/usted</td>
+					<td>a</td>
+				</tr>
+				<tr>
+					<td>nosotros/nosotras</td>
+					<td>amos</td>
+				</tr>
+				<tr>
+					<td>vosotros/vosotras</td>
+					<td>&aacute;is</td>
+				</tr>
+				<tr>
+					<td>ellos/ellas/ustedes</td>
+					<td>an</td>
+				</tr>
+			</table>
+			<table border="1" data-if="CHANCE==='irRegular'">
+				<p data-if="CHANCE==='irRegular'"> For IR verbs:</p>
+				<tr>
+					<th><b>Subject</b></th>
+					<th><b>Ending</b></th>
+				</tr>
+				<tr>
+					<td>yo</td>
+					<td>o</td>
+				</tr>
+				<tr>
+					<td>t&uacute;</td>
+					<td>es</td>
+				</tr>
+				<tr>
+					<td>&eacute;l/ella/usted</td>
+					<td>e</td>
+				</tr>
+				<tr>
+					<td>nosotros/nosotras</td>
+					<td>imos</td>
+				</tr>
+				<tr>
+					<td>vosotros/vosotras</td>
+					<td>&iacute;s</td>
+				</tr>
+				<tr>
+					<td>ellos/ellas/ustedes</td>
+					<td>en</td>
+				</tr>
+			</table>
+			<p>The subject in this case is <u><var>SUBJECT</var></u>.</p>
+			<p>So, the answer is <b><var>CONJUGATION</var></b>.</p>
+		</div>
+	</div>
+</body>
+</html>
