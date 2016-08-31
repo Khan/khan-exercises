@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!-- Binary 2 Exercise - Eliot Van Uytfanghe -->
+<html data-require="math binary">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Binary 2</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="A">generateBinary( 8 )</var>
+            </div>
+                    
+            <div class="problems">
+                <div id="AND">
+                    <div class="vars">
+                        <var id="B">generateBinary( 8 )</var>
+                    </div>
+                  
+                    <p class="question">Solve this binary with the bitwise operator AND.</p>
+                    <p><var>formatBinary( A )</var> &amp; <var>formatBinary( B )</var></p>
+                    <p>Input the answer without the leading zero digits!</p>
+                    <div class="solution" data-forms="integer"><var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) & binaryToDecimal(B, 8), 8) )</var></div>
+                    
+                    <div class="hints">
+                        <p>Only keep the digits with an equal value.</p>
+                    </div>
+                </div>
+                
+                <div id="OR">
+                    <div class="vars">
+                        <var id="B">generateBinary( 8 )</var>
+                    </div>
+                  
+                    <p class="question">Solve this binary with the bitwise operator OR.</p>
+                    <p><var>formatBinary( A )</var> | <var>formatBinary( B )</var></p>
+                    <p>Input the answer without the leading zero digits!</p>
+                    <div class="solution" data-forms="integer"><var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) | binaryToDecimal(B, 8), 8) )</var></div>
+                    
+                    <div class="hints">
+                        <p>Combine the positive digits.</p>
+                        <p>
+                            Left-operand digits combined with the positive digits of the right-operand
+                            becomes <var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) | binaryToDecimal(B, 8)) )</var>
+                        </p>
+                    </div>
+                </div>
+                
+                <div id="XOR">
+                    <div class="vars">
+                        <var id="B">generateBinary( 8 )</var>
+                    </div>
+                  
+                    <p class="question">Solve this binary with the bitwise operator XOR.</p>
+                    <p><var>formatBinary( A )</var> ^ <var>formatBinary( B )</var></p>
+                    <p>Input the answer without the leading zero digits!</p>
+                    <div class="solution" data-forms="integer"><var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) ^ binaryToDecimal(B, 8), 8) )</var></div>
+                    
+                    <div class="hints">
+                        <p>Start from left to right. For each equal digit value, input 0 or 1 if not equal.</p>
+                    </div>
+                </div>
+                
+                <!-- Commented because solution is always 0(TODO:FIX)<div id="NOT">
+<p class="question">Solve this binary with the bitwise operator NOT.</p>
+<p>~<var>formatBinary( A )</var></p>
+<p>Input the answer without the leading zero digits!</p>
+<div class="solution" data-forms="string"><var>formatBinary( decimalToBinary(~binaryToDecimal(A, 8), 8) )</var></div>
+<div class="hints">
+<p>Reverse each digit from positive to negative and vice-versa.</p>
+</div>
+</div>-->
+                
+                <div id="LSH">
+                    <div class="vars">
+                        <var id="B">Math.round( generateDecimal(3) )</var>
+                    </div>
+                  
+                    <p class="question">Solve this binary with the bitwise operator LSH(Arithmetic.)</p>
+                    <p><var>formatBinary( A )</var> << <var>B</var></p>
+                    <p>Input the answer without the leading zero digits!</p>
+                    <div class="solution" data-forms="integer"><var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) << B, 8) )</var></div>
+                    
+                    <div class="hints">
+                        <p>Move the digits one by one to the left, and discard the ones on the left.</p>
+                    </div>
+                </div>
+                
+                <div id="RSH">
+                    <div class="vars">
+                        <var id="B">Math.round( generateDecimal(3) )</var>
+                    </div>
+                  
+                    <p class="question">Solve this binary with the bitwise operator RSH(Arithmetic).</p>
+                    <p><var>formatBinary( A )</var> >> <var>B</var></p>
+                    <p>Input the answer without the leading zero digits!</p>
+                    <div class="solution" data-forms="integer"><var>formatBinary( decimalToBinary(binaryToDecimal(A, 8) >> B, 8) )</var></div>
+                    
+                    <div class="hints">
+                        <p>Move the digits one by one to the right, and discard the ones on the right.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
