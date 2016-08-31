@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+	<title>Arithmetic sequences</title>
+	<script src="../khan-exercise.js"></script>
+	<script type="text/javascript">
+		function createSequence( init, add ) {
+			var array = [];
+			while ( array.length < 10 ) {
+				array.push(init + add * array.length);
+			}
+			return array;
+		}
+	</script>
+</head>
+
+<body>
+<div class="exercise">
+	<div class="vars">
+		<var id="INIT">randRange( -20, 20 )</var>
+		<var id="ADD">randRangeExclude( -12 , 12 , [ -1, 0, 1 ] )</var>
+		<var id="S_ARRAY">createSequence( INIT, ADD )</var>
+	</div>
+
+	<div class="problems">
+
+		<div id="find-num-terms">
+			<div class="vars">
+				<var id="TERM_N">randRange( 15, 30 )</var>
+				<var id="LAST">INIT + ADD * ( TERM_N - 1 )</var>
+			</div>
+			<p class="problem">Find the number of terms in the following sequence:</p>
+			<p class="question"><var>S_ARRAY.slice( 0 , 4 ).join ( ", " )</var>, ..., <var>LAST</var></p>
+			<div class="solution" data-type="text"><var>TERM_N</var></div>
+
+			<div class="hints">
+				<p>The <code>n</code>-th term of an arithmetic sequence can be calculated using <code>a_n = a + (n – 1)d</code>.</p>
+				<p>Thus, if we know <code>a_n, a</code> and <code>d</code>, we can calculate n.</p>
+				<p><code>a_n= <var>LAST</var></code>.</p>
+				<p>The first term is always <code>a</code>, so <code>a = <var>INIT</var></code>.</p>
+				<p>From observation, we can see that the difference is always <var>ADD</var> so <code>d = <var>ADD</var></code>.</p>
+				<div>
+					<p>Substituting into the formula:</p>
+					<p><code><var>LAST</var> = <var>INIT</var> + (n – 1)(<var>ADD</var>)</code></p>
+				</div>
+				<div>
+					<p>Solving for n:</p>
+					<p><code>n = (\dfrac{ <var>plus( LAST , -INIT ) </var>}{ <var>ADD</var> }) + 1</code></p>
+				</div>
+				<p><code>n = <var>TERM_N</var></code></p>
+
+			</div>
+		</div>
+
+		<div id="term-from-two-terms">
+			<div class="vars">
+				<var id="TERM_1">randRange( 2, 5 )</var>
+				<var id="TERM_2">randRange( TERM_1 + 2, 10 )</var>
+				<var id="TERM_N">randRange( 12, 25 )</var>
+
+				<var id="NEW_2">TERM_2 - TERM_1 + 1</var>
+				<var id="NEW_N">TERM_N - TERM_1 + 1</var>
+
+				<var id="ADD_X">randRangeNonZero( -4, 4 )</var>
+				<var id="ADD_I">randRangeNonZero( -8, 8 )</var>
+			</div>
+			<p class="problem">Find <code>t_{<var>TERM_N</var>}</code> for an arithmetic sequence where:</p>
+			<p class="question"><code>t_{<var>TERM_1</var>} = <var>plus( INIT + ( TERM_1 - 1 ) * ADD_X , ( TERM_1 - 1 ) * ADD_I + "i" )</var></code> and <code>t_{<var>TERM_2</var>} = <var>plus( INIT + ( TERM_2 - 1 ) * ADD_X , ( TERM_2 - 1 ) * ADD_I + "i" )</var></code></p>
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-type="text"><var>INIT + ( TERM_N - 1 ) * ADD_X</var></span> +
+				   <span class="sol" data-type="text"><var>( TERM_N - 1 ) * ADD_I</var></span> <code>i</code></p>
+				<p class="example">an integer, like <code>6</code></p>
+			</div>
+			<div class="hints">
+				<div>
+					<p>Before we get into the calculations, let's simplify the question by relabelling the terms.</p>
+					<p><code>t_{<var>TERM_1</var>}, t_{<var>TERM_2</var>}, t_{<var>TERM_N</var>}</code> of one sequence can be thought of as simply <code>t_1, t_{<var>NEW_2</var>}, t_{<var>NEW_N</var>}</code> of a different sequence that simply has the original <code>t_{<var>TERM_1</var>}</code> as its first term (just imagine you get rid of the first <var>TERM_1 - 1</var> terms).</p>
+					<p>
+				</div>
+				
+				<div>
+					<p>Rewriting the problem for clarity:</p>
+					<p>Find <code>t_{<var>NEW_N</var>}</code> for an arithmetic sequence where: <code>t_1 = <var>plus( INIT + ( TERM_1 - 1 ) * ADD_X , ( TERM_1 - 1 ) * ADD_I + "i" )</var></code> and <code>t_{<var>NEW_2</var>} = <var>plus( INIT + ( TERM_2 - 1 ) * ADD_X , ( TERM_2 - 1 ) * ADD_I + "i" )</var></code></p>
+				</div>
+				<p>Now, the <code>n</code>-th term of an arithmetic sequence can be calculated using <code>t_n = t + (n – 1)d</code>.</p>
+				<p>We have to find <code>d</code>, and then substitute <code>d</code> and <var>NEW_N</var> for <code>n</code> in the above formula.</p>
+				<p>We know that there are <code><var>TERM_2 - TERM_1</var></code> terms between <code>t_1</code> and <code>t_{<var>NEW_2</var>}</code>. This means that:</p>
+				<p><code><var>TERM_2 - TERM_1</var>d = t_{<var>NEW_2</var>}</code> - <code>t_1</code></p>
+				<p><code><var>TERM_2 - TERM_1</var>d = (<var>plus( INIT + ( TERM_2 - 1 ) * ADD_X , ( TERM_2 - 1 ) * ADD_I + "i" )</var>) - (<var>plus( INIT + ( TERM_1 - 1 ) * ADD_X , ( TERM_1 - 1 ) * ADD_I + "i" )</var>)</code></p>
+				<p><code><var>TERM_2 - TERM_1</var>d = <var>plus(( TERM_2 - TERM_1 ) * ADD_X , ( TERM_2 - TERM_1 ) * ADD_I + "i" )</var></code></p>
+				<p><code>d = <var>plus(ADD_X , ADD_I + "i" )</var></code></p>
+				<p>Substituting into <code>t_n = t + (n – 1)d</code>, we get:</p>
+				<p><code>t_{<var>NEW_N</var>} = <var>plus( INIT + ( TERM_1 - 1 ) * ADD_X , ( TERM_1 - 1 ) * ADD_I + "i" )</var> + (<var>NEW_N</var> – 1)(<var>plus(ADD_X , ADD_I + "i" )</var>)</code></p>
+				<p><code>t_{<var>NEW_N</var>} = <var>INIT + ( TERM_N - 1 ) * ADD_X</var> + <var>( TERM_N - 1 ) * ADD_I</var> i</code></p>
+				
+			</div>
+		</div>
+
+		<div id="find-term">
+			<div class="vars">
+				<var id="TERM_N">randRange( 8, 20 )</var>
+			</div>
+			<p class="problem">Find <code>a_{<var>TERM_N</var>}</code> for the following sequence:</p>
+			<p class="question"><var>S_ARRAY.slice( 0 , 4 ).join ( ", " )</var>, ...</p>
+			<div class="solution" data-type="text"><var>INIT + ADD * ( TERM_N - 1 )</var></div>
+
+			<div class="hints">
+				<p>The <code>n</code>-th term of an arithmetic sequence can be calculated using <code>a_n = a + (n – 1)d</code>.</p>
+				<p>The initial term or <code>a</code> is <var>INIT</var>.  The difference or <code>d</code> is <var>ADD</var>.</p>
+				<p>Substituting, we get <code>a_{<var>TERM_N</var>} = <var>INIT</var> + (<var>TERM_N</var> – 1)(<var>ADD</var>)</code>.</p>
+				<p><code>a_{<var>TERM_N</var>} = <var>INIT + ADD * ( TERM_N - 1 )</var></code>.</p>
+				
+			</div>
+		</div>
+
+		<div id="find-x">
+			<div class="vars">
+				<var id="TERM_X">randRange( 2, 5 )</var>
+				<var id="SOLN">S_ARRAY[ TERM_X ]</var>
+				<var id="S_STR">S_ARRAY.slice( 0 , TERM_X ).concat( "x" , S_ARRAY.slice( TERM_X + 1 , 10 )).join( ", " )</var>
+			</div>
+			<p class="problem">In the sequence:</p>
+			<p class="question"><var>S_STR</var></p>
+			<p>... what is the most straightforward value of x?</p>
+			<div class="solution" data-type="text"><var>SOLN</var></div>
+
+			<div class="hints">
+				<div>
+					<p>Through observation, we can see that the difference between terms is <var>ADD</var> and thus <code>x</code> = <var>SOLN</var>.</p>
+					<p>The rest of the hints introduce a method useful for harder sequences: the method of common differences.</p>
+				</div>
+				<p>The trick to solve sequences (even though we know this is an arithmetic sequence) is to see or find the pattern. To find the pattern, let's list the numbers, and find the differences for each pair of numbers.</p>
+				<div>
+					<p>This is called the method of common differences:</p>
+					<div class="graphie" id="differences-tree">
+						init({
+							range: [ [-1, 2 * S_ARRAY.length], [ -2 * 2, 1] ],
+							scale: [30, 30]
+						});
+						
+						for ( var i = 0; i &lt; 10; i++ ) {
+							if (i === TERM_X) {
+								label( [1 + 2 * i, 0], "x" );
+								circle( [1 + 2 * i, 0], 0.5);
+							} else {
+								label( [1 + 2 * i, 0], S_ARRAY[ i ] );
+							}
+						}
+						for ( var i = 0; i &lt; 9; i++ ) {
+							path( [ [2 * i + 1.2, -0.5], [2 * i + 1.8, -1.5] ] );
+							path( [ [2 * i + 2.2, -1.5], [2 * i + 2.8, -0.5] ] );
+
+							if ( i === TERM_X - 1 || i === TERM_X ) {
+								label( [2 + 2 * i, -2], "?" );
+							} else {
+								label( [2 + 2 * i, -2], S_ARRAY[ i + 1 ] - S_ARRAY[ i ] );
+							}
+						}
+					</div>
+				</div>
+				<p>Through observation, we can see that the difference between each term is <var>ADD</var>, so x = <var>SOLN</var></p>
+				
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>
