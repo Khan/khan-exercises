@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta charset="UTF-8" />
+	<title>Combinations</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="COMBINATIONS &lt 50">
+			<!-- CONSTANTS -->
+			<!-- max and min values for number of items -->
+			<var id="MAX_NUMBER_OF_ITEMS">8</var>
+			<var id="MIN_NUMBER_OF_ITEMS">3</var>
+			<var id="MAX_NUMBER_OF_SPACES">4</var>
+
+			<!-- PROBLEM-SPECIFIC VALUES -->
+			<!-- random range for number of items -->
+			<var id="NUM_ITEMS">randRange(MIN_NUMBER_OF_ITEMS, MAX_NUMBER_OF_ITEMS)</var>
+
+			<!-- random range for number of spaces -->
+			<var id="NUM_SPACES">randRange(2,min(MAX_NUMBER_OF_SPACES,NUM_ITEMS-1))</var>
+			
+			<!-- randomly select a set of names for the items and spaces -->
+			<var id="RAND_NAME_INDEX">randRange(0,4)</var>
+			<var id="ITEM_NAME_SET">["balls","people","cars","hamsters","cats"]</var>
+			<var id="ITEM_NAME_SINGULAR_SET">["ball","person","car","hamster","cat"]</var>
+			<var id="SPACE_NAME_SET">["cups","seats","parking spots","hamster wheels","hats"]</var>
+			<var id="SPACE_NAME_SINGULAR_SET">["cup","seat","parking spot","hamster wheel","hat"]</var>
+			<var id="ITEM_NAME">ITEM_NAME_SET[RAND_NAME_INDEX]</var>
+			<var id="ITEM_NAME_SINGULAR">ITEM_NAME_SINGULAR_SET[RAND_NAME_INDEX]</var>
+			<var id="SPACE_NAME">SPACE_NAME_SET[RAND_NAME_INDEX]</var>
+			<var id="SPACE_NAME_SINGULAR">SPACE_NAME_SINGULAR_SET[RAND_NAME_INDEX]</var>
+			
+			<!-- calculate the number of permutations -->
+			<var id="PERMUTATIONS">
+				(function() {
+					var perms = 1
+					for (var i = NUM_ITEMS; i > (NUM_ITEMS - NUM_SPACES); i--) {
+						perms=perms*i;
+					}
+					return perms;
+				})()
+			</var>
+	
+			<!-- calculate the number of ways to arrange items within the number of spaces we've selected -->
+			<var id="PERMS_IN_SPACES">
+				(function() {
+
+					var perms1 = 1
+					for (var i = NUM_SPACES; i > 0; i--) {
+						perms1=perms1*i;
+					}
+					return perms1;
+				})()
+			</var>
+
+			<!-- calculate the number of combinations -->
+			<var id="COMBINATIONS">PERMUTATIONS/PERMS_IN_SPACES</var>			
+			
+		</div>
+
+		<div class="problems">
+			<div>
+				<p class="problem">You have <code><var>NUM_ITEMS</var></code> <var>ITEM_NAME</var> and <code><var>NUM_SPACES</var></code> <var>SPACE_NAME</var>.</p>
+				<p class="question">How many different sets of <var>ITEM_NAME</var> can you place in the <var>SPACE_NAME</var>?</p><p>Stated differently,</p><p><code> \dbinom{<var>NUM_ITEMS</var>}{<var>NUM_SPACES</var>} =  _<var>NUM_ITEMS</var>C_<var>NUM_SPACES</var> = {?}</code></p>
+				<p class="solution" data-forms="integer"><var>COMBINATIONS</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<!-- hint to think about difference between permutations and combinations -->
+			<p>What is the relationship between permutations and combinations?</p>
+			
+			<!-- hint explaining the difference between permutations and combinations -->
+			<p>With a permutation, order matters.  With a combination, order doesn't matter.  This means that there are many permutations for each combination.  For example, the combination <code>(A, B, C)</code> has are six permutations: <code>(A, B, C), (A, C, B), (B, A, C), (B, C, A), (C, A, B), and (C, B, A)</code>.</p>
+			
+			<!-- hint asking how many permutations there are for the stated number of items and places -->
+			<p>How many different permutations are there for <code><var>NUM_ITEMS</var></code> <var>ITEM_NAME</var> and <code><var>NUM_SPACES</var></code> <var>SPACE_NAME</var>?</p>
+			
+			<!-- hint showing how to calculate the number of permutations, with the result -->
+			<p>We can place <code><var>NUM_ITEMS</var></code> <var>ITEM_NAME</var> in <code><var>NUM_SPACES</var></code> <var>SPACE_NAME</var> in <code>_<var>NUM_ITEMS</var>P_<var>NUM_SPACES</var> = <var>PERMUTATIONS</var></code> ways.</p>
+			
+			<!-- hint asking how many permutations there are for each combination -->
+			<p>How many different ways can we arrange any set of <code><var>NUM_SPACES</var></code> <var>ITEM_NAME</var> in <code><var>NUM_SPACES</var></code> <var>SPACE_NAME</var>?</p>
+			
+			<!-- hint showing how to calculate the number of permutations for any given set, with the result -->
+			<p>We can arrange a set of <code><var>NUM_SPACES</var></code> <var>ITEM_NAME</var> in <code><var>NUM_SPACES</var></code> <var>SPACE_NAME</var> in <code><var>NUM_SPACES</var>! = <var>PERMS_IN_SPACES</var></code> ways.</p>
+			
+			<!-- hint showing the formula for the answer -->
+			<p>To get the number of unique sets of N items we can place in R spaces, we divide the permutations of N items in R spaces by R!, the number of ways we can arrange any set of R items in R spaces: <code>\dbinom{N}{R} =  _NC_R = \dfrac{_NP_R}{R!}=  \dfrac{N!}{R!*(N-R)!}</code></p>
+			
+			<!-- hint giving the answer -->
+			<p><code>\dbinom{<var>NUM_ITEMS</var>}{<var>NUM_SPACES</var>} =  _<var>NUM_ITEMS</var>C_<var>NUM_SPACES</var> = \dfrac{<var>NUM_ITEMS</var>!}{<var>NUM_SPACES</var>!*(<var>NUM_ITEMS</var>-<var>NUM_SPACES</var>)!} = <var>COMBINATIONS</var></code></p>
+
+		</div>
+	</div>
+</body>
+</html>
