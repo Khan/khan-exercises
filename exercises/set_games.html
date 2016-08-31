@@ -1,0 +1,213 @@
+<!--
+The purpose of this program is to enrich current existing Khan Academy exercises
+and for exploration of the environment in Khan Academy exercise platform.
+
+This is not a full SET card games, but can be if there exist such demands :)
+
+this program does not own or claim to own any of the copyright of SET games.
+Contact me at : samsu.sempena@gmail.com
+-->
+<!DOCTYPE HTML>
+<html data-require="math graphie math-format">
+<head>
+  <title>SET Games</title>
+  <script src="../khan-exercise.js"></script>
+  <meta name="description" content="A practice for SET card game">
+  <meta name="keywords" content="SET card games, Khan Academy">
+  <meta name="author" content="Samsu Sempena">
+</head>
+<body>
+  <div class="exercise">
+    <div class="vars">
+      <var id="PROPS">["color", "count", "shade", "shape"]</var>
+      <var id="COLORS">["red", "green", "purple"]</var>
+      <var id="SHADES">["block", "none", "strip"]</var>
+      <var id="COUNTS">["one", "two", "three"]</var>
+      <var id="SHAPES">["squiggle", "oval", "diamond"]</var>
+      <var id="CARD_WIDTH">15</var>
+      <var id="CARD_HEIGHT">12</var>
+      <var id="CARD_COLUMN">3</var>
+      <var id="CARD_ROW">7</var>
+      <var id="CANVAS_WIDTH">CARD_WIDTH * CARD_COLUMN</var>
+      <var id="CANVAS_HEIGHT">CARD_HEIGHT * CARD_ROW</var>
+      <var id="SEGMENT_WIDTH">CARD_WIDTH/3 - 1</var>
+      <var id="SELECTED_CARDS">[]</var>
+      <var id="CARDS">{}</var>
+      <var id="SET_FOUND">{}</var>
+      <var id="CHECK_SET">
+        function(idx1, idx2, idx3) {
+          var c1 = CARDS[idx1], c2 = CARDS[idx2], c3 = CARDS[idx3], isSet = true;
+
+          _.each(PROPS, function(v,i) {
+            if ((c1[v]===c2[v]&&c2[v]===c3[v]) || (c1[v]!==c2[v]&&c2[v]!==c3[v]&&c1[v]!==c3[v])) isSet &= true;
+            else isSet = false;
+          });
+          return isSet;
+        }
+      </var>
+      <var id="DRAW">
+      function(g, x, y, idx) {
+
+        var color = CARDS[idx].color, shade = CARDS[idx].shade, count = CARDS[idx].count, shape = CARDS[idx].shape;
+
+        var DrawShape = {
+          oval : function(x,y,size, offset, style) {
+            x = x + size / 2 + offset;
+            y = y + CARD_HEIGHT / 2;
+
+            v = "M451 984 c-34 -17 -62 -41 -79 -67 l-27 -40 -3 -301 c-2 -166 0 -316 3 -334 8 -43 76 -118 122 -133 19 -6 64 -9 99 -7 76 5 126 38 162 108 21 43 22 53 22 343 0 334 -1 341 -74 405 -65 57 -144 66 -225 26z"
+            var paper = g.raphael.path(v).attr(style);
+            var cardWidth = paper.paper.width / CARD_COLUMN;
+            var cardHeight = paper.paper.height / CARD_ROW;
+
+            paper.scale(-0.08,0.08,0,0).translate(x / CARD_WIDTH * cardWidth + 40, -y / CARD_HEIGHT * cardHeight - 40);
+            // height = 130   528  x 4
+            // width = 165    495  x 3
+            return paper;
+          },
+          diamond : function(x,y,size, offset, style) {
+            x = x + size / 2 + offset;
+            y = y + CARD_HEIGHT / 2;
+
+            var s = SEGMENT_WIDTH / 2,
+            v = [[x - s, y],[x, y + 1.5 * s], [x + s, y], [x, y - 1.5 * s]];
+            v.push(true);
+
+            return g.path(v, style);
+          },
+          squiggle : function(x,y,size, offset, style) {
+            x = x + size / 2 + offset;
+            y = y + CARD_HEIGHT / 2;
+
+            v = "M 363 979 c -34 -10 -73 -51 -73 -78 0 -10 14 -39 31 -66 66 -103 71 -151 33 -270 -51 -161 -33 -279 58 -360 55 -50 95 -65 175 -65 120 0 143 44 78 148 -60 99 -63 176 -9 303 37 90 44 208 16 272 -43 97 -187 151 -309 116 z";
+            var paper = g.raphael.path(v).attr(style);
+            var cardWidth = paper.paper.width / CARD_COLUMN;
+            var cardHeight = paper.paper.height / CARD_ROW;
+
+            paper.scale(-0.08,0.08,0,0).translate(x / CARD_WIDTH * cardWidth + 40, -y / CARD_HEIGHT * cardHeight - 40);
+            return paper;
+          }
+        };
+
+        //var style = { fill: BLUE, stroke: BLUE, "fill-opacity": 0.5 };
+        var style = {};
+
+        // COLOR
+        if (color === "red") { style["fill"] = style["stroke"] = "#f00"; }
+        else if (color === "green") { style["fill"] = style["stroke"] = "#0b0"; }
+        else { style["fill"] = style["stroke"] = "#707"; }
+
+        // SHADE
+        if (shade === "none") {
+          style["fill-opacity"] = 0;
+        }
+        else if (shade === "strip") {
+          var pair = "-" + style["fill"] + "-#fff";
+          for (var i=0;i<3;i++) pair += pair;
+          style["fill"] = "90" + pair;
+        }
+
+        style["stroke-width"] = 3;
+
+        // COUNT
+        var px = x * CARD_WIDTH;
+        var py = - (y+1) * CARD_HEIGHT;
+        var offset = 0.8;
+
+        var cardSet = g.raphael.set();
+
+        if (count === "three") {
+          cardSet.push(DrawShape[shape](px , py , CARD_WIDTH/3 , offset, style));
+          cardSet.push(DrawShape[shape](px + CARD_WIDTH / 3 , py, CARD_WIDTH/3, 0, style));
+          cardSet.push(DrawShape[shape](px + CARD_WIDTH * 2 / 3, py, CARD_WIDTH/3, - offset, style));
+        }
+        else if (count === "two") {
+          cardSet.push(DrawShape[shape](px ,py, CARD_WIDTH/2, offset, style));
+          cardSet.push(DrawShape[shape](px + CARD_WIDTH/2 , py, CARD_WIDTH/2 , -offset, style));
+        }
+        else {
+          cardSet.push(DrawShape[shape](px,py, CARD_WIDTH, 0, style));
+        }
+
+        cardSet.push(g.rect(x * CARD_WIDTH, - (y+1) * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT).attr({stroke : "#bbb", "fill" : "#fff", "fill-opacity":0}));
+
+        cardSet.click(function(e) {
+          if (SELECTED_CARDS.length >= 3) {
+            $(Exercises).trigger("warning", ["Remove one card to proceed", true]);
+          }
+          else {
+            var selBox = g.rect(x * CARD_WIDTH, - (y+1) * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT).attr({stroke : "#f62", "stroke-width": 3, "fill" : "#ccc", "fill-opacity":0.5});
+            selBox.click(function(e) {
+              var cardIdx = SELECTED_CARDS.indexOf(idx);
+              if (cardIdx > -1) {
+                SELECTED_CARDS.splice(cardIdx,1);
+              }
+              this.remove();
+            });
+
+            SELECTED_CARDS.push(idx);
+          }
+        });
+      }
+      </var>
+    </div>
+    <div class="problems">
+      <div>
+        <div class="graphie">
+          var g = init({ range: [[0, CANVAS_WIDTH], [-CANVAS_HEIGHT, 0]], scale: [11, 11] });
+
+          for (var i=0; i<81;i++) {
+            CARDS[i] = {
+              color : COLORS[i%3],
+              shade : SHADES[~~(i/3) %3],
+              count : COUNTS[~~(i/9) %3],
+              shape : SHAPES[~~(i/27) %3]
+            }
+          }
+
+          var deck = [];
+          for (var i=0;i < 81;i++) {
+            var cardIndex = randRange(0,80);
+            while (deck.indexOf(cardIndex) > -1) {
+              cardIndex = randRange(0,80);
+            }
+            deck.push(cardIndex);
+          }
+
+          for (var i=0;i< (CARD_COLUMN * CARD_ROW);i++) {
+            DRAW(g, i%3, ~~(i/3),  deck[i]);
+          }
+          g.rect(0, -CANVAS_HEIGHT, CANVAS_WIDTH ,CANVAS_HEIGHT).attr({"stroke" : "#0f0", "stroke-width":3});
+
+        </div>
+
+      </div>
+    </div>
+    <div class="solution" data-type="custom">
+      <div class="instruction">
+        Each card has a color (red, green, purple), number (1, 2, 3), shape (oval, diamond, squiggle), and shading (empty, shaded, striped).
+        A set is a collection of three cards such that in every category (color, number, shape, shading), each card is all the same or all different.
+      </div>
+      <!--<div class="guess"></div>
+      <div class="show-guess"></div>-->
+      <div class="guess">
+        (function(){
+          return [];
+        })()
+      </div>
+      <div class="validator-function">
+        if (SELECTED_CARDS.length === 3) {
+          var s = SELECTED_CARDS;
+          return (CHECK_SET(s[0],s[1],s[2])===1);
+        }
+        else
+          return false;
+      </div>
+    </div>
+    <div class="question"><h2>Can you find at least a <b>set</b> ?</h2></div>
+    <div class="extra-infro"><p>It is guaranteed there would be at least a SET within 21 cards deck
+      <a href="http://en.wikipedia.org/wiki/Set_(game)">more</a> </p>
+    </div>
+  </div>
+</body>
+</html>
