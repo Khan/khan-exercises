@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Logarithms 3</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+
+    <div class="vars" data-ensure="A < LARGEST_NUMBER && B < LARGEST_NUMBER & A !== B">
+        <var id="LARGEST_NUMBER">1000</var>
+        <var id="BASE">randRange( 2, 16 )</var>
+        <var id="X1">randRange( 2, 5 )</var>
+        <var id="X2">randRange( 2, 5 )</var>
+        <var id="A">pow( BASE, X1 )</var>
+        <var id="B">pow( BASE, X2 )</var>
+        <var id="MULT">randRange( 2, 9 )</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <p class="problem">Evaluate using the properties of logarithms.</p>
+            <p class="question"><code>\frac{\log(<var>pow( X2, X1 )</var>)}{\log(<var>X2</var>)} = {?}</code></p>
+            <p class="solution" data-forms="integer"><var>X1</var></p>
+
+            <div class="hints">
+                <p>First use the rule: <code>\log_b(a) = \frac{\log(a)}{\log(b)}</code></p>
+                <p><code>\frac{\log(<var>pow( X2, X1 )</var>)}{\log(<var>X2</var>)} = \log_<var>X2</var>(<var>pow( X2, X1 )</var>)</code></p>
+                <p><code>= <var>X1</var></code></p>
+            </div>
+        </div>
+
+        <div>
+            <p class="problem">Evaluate using the properties of logarithms.</p>
+            <p class="question"><code><var>MULT</var> \cdot \log_{<var>BASE</var>}(<var>BASE</var>^<var>X1</var> \cdot <var>B</var>) = {?}</code></p>
+            <p class="solution" data-forms="integer"><var>MULT*(X1+X2)</var></p>
+
+            <div class="hints">
+                <p>First use the rule: <code>\log(a) + \log(b) = \log(a \cdot b)</code>.</p>
+                <p><code><var>MULT</var> \cdot \log_{<var>BASE</var>}(<var>BASE</var>^<var>X1</var> \cdot <var>B</var>) = <var>MULT</var> \cdot (\log_{<var>BASE</var>}(<var>BASE</var>^<var>X1</var>) + \log_{<var>BASE</var>}(<var>B</var>)) </code>.</p>
+                <p><code>= <var>MULT</var> \cdot (<var>X1</var> + <var>X2</var>) </code>.</p>
+                <p><code>= <var>MULT*(X1 + X2)</var></code></p>
+            </div>
+        </div>
+
+        <div>
+            <p class="problem">Evaluate using the properties of logarithms.</p>
+            <p class="question"><code>\log_{<var>BASE</var>}(\frac{<var>A</var>}{<var>B</var>}) = {?}</code></p>
+            <p class="solution" data-forms="integer"><var>(X1 - X2)</var></p>
+
+            <div class="hints">
+                <p>First use the rule: <code>\log(a) - \log(b) = \log(\frac{a}{b})</code>.</p>
+                <p><code>\log_{<var>BASE</var>}(\frac{<var>A</var>}{<var>B</var>}) = \log_{<var>BASE</var>}(<var>A</var>) - \log_{<var>BASE</var>}(<var>B</var>)</code></p>
+                <p><code>= (<var>X1</var> - <var>X2</var>)</code></p>
+                <p><code>= <var>(X1 - X2)</var></code></p>
+            </div>
+        </div>
+
+        <div>
+            <p class="problem">Evaluate using the properties of logarithms.</p>
+            <p class="question"><code>\log_{<var>BASE</var>}(<var>A</var>^<var>MULT</var>) = {?}</code></p>
+            <p class="solution" data-forms="integer"><var>X1*MULT</var></p>
+
+            <div class="hints">
+                <p>First use the rule: <code>n \cdot \log(a) = \log(a^{n})</code>.</p>
+                <p><code>\log_{<var>BASE</var>}(<var>A</var>^<var>MULT</var>) = <var>MULT</var>\cdot \log_{<var>BASE</var>}(<var>A</var>)</code></p>
+                <p><code>= <var>MULT</var>\cdot <var>X1</var></code></p>
+                <p><code>= <var>MULT*X1</var></code></p>
+            </div>
+        </div>
+
+        <div>
+            <div class="vars" data-ensure="C < LARGEST_NUMBER & ALTBASE !== BASE">
+                <var id="ALTBASE">randRange( 2, 16 )</var>
+                <var id="C">pow( ALTBASE, X2 )</var>
+            </div>
+            <p class="problem">Evaluate using the properties of logarithms.</p>
+            <p class="question"><code>\log_{<var>BASE</var>}(<var>A</var>^<var>MULT</var>) - \log_{<var>ALTBASE</var>}(<var>C</var>^<var>MULT</var>)</code></p>
+            <p class="solution" data-forms="integer"><var>(X1 - X2) * MULT</var></p>
+
+            <div class="hints">
+                <p>First use the rule: <code>n \cdot \log(a) = \log(a^{n})</code>.</p>
+                <p><code>\log_{<var>BASE</var>}(<var>A</var>^<var>MULT</var>) - \log_{<var>ALTBASE</var>}(<var>C</var>^<var>MULT</var>) = <var>MULT</var> \cdot \log_{<var>BASE</var>}(<var>A</var>) - <var>MULT</var> \cdot \log_{<var>ALTBASE</var>}(<var>C</var>) </code></p>
+                <p><code> = <var>MULT</var> \cdot (\log_{<var>BASE</var>}(<var>A</var>) - \log_{<var>ALTBASE</var>}(<var>C</var>))</code></p>
+                <p>Remember we can only use the property <code>\log(a) - \log(b) = \log(\frac{a}{b})</code> if both logarithms have the same base.</p>
+                <p>Solve each logarithm seperately.</p>
+                <p><code><var>MULT</var> \cdot (\log_{<var>BASE</var>}(<var>A</var>) - \log_{<var>ALTBASE</var>}(<var>C</var>)) = <var>MULT</var>\cdot (<var>X1</var> - <var>X2</var>)</code></p>
+                <p><code>= <var>MULT</var>\cdot (<var>X1</var> - <var>X2</var>)</code></p>
+                <p><code>= <var>MULT*(X1 - X2)</var></code></p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
