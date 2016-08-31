@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Ideal gas</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<var id="DIAMETER">randRange( 8, 15 )</var>
+		<var id="PRESSURE">randRange(740, 760)</var>
+		<var id="TEMPERATURE">randRange(50, 90)</var>
+		<var id="RANKINE">roundTo( 2, (TEMPERATURE + 459.67) )</var>
+		<var id="VOLUME">roundTo(2, ( (4/3) * 3.14 * (DIAMETER / 2) * (DIAMETER / 2) * (DIAMETER / 2) ) )</var>
+		<var id="MOLES">roundTo(3, ( (PRESSURE * VOLUME)/(6850.2 * RANKINE) ) )</var>
+		<var id="MASS">roundTo(2, ( MOLES * 4 ) )</var>
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>A helium-filled spherical balloon is tied to a bench in an outdoor park. The temperature is a constant <var>TEMPERATURE</var> degrees Fahrenheit and the atmospheric pressure is a constant <var>PRESSURE</var> millimeters mercury. If the diameter of the balloon is currently <var>DIAMETER</var> inches, how many grams of helium does the balloon contain? You may round your answer to the nearest hundredth.</p>
+				<p>You can assume that the helium acts as an ideal gas and may assume the balloon walls do not exert any forces inward or outward. Assume the molar mass of helium is <code>4 \frac{grams}{moles}</code> and the ideal gas constant <code>R = 6850.2 \frac{inches^3 \; \times \; millimeters \; mercury}{degrees \; Rankine \; \times \; moles}</code>. To convert between temperature in degrees Fahrenheit (<code>T_{Fahrenheit}</code>) and temperature in degrees Rankine (<code>T_{Rankine}</code>), use this formula: <code>T_{Rankine} = T_{Fahrenheit} + 459.67</code>.</p>
+			</div>
+			<div class="solution" data-type="multiple">
+					<p>
+						<span class="sol short" data-type="decimal" data-inexact data-max-error="0.015"><var>MASS</var></span> grams of helium
+					</p>
+				<div class="example">a decimal, like <code>0.07</code></div>
+				<div class="example">answers within <code>\pm 0.015</code> are accepted to allow for rounding part-way through</div>
+			</div><!-- solution -->
+		</div>
+	</div>
+
+	<div class="hints">
+		<div>
+			<p>If the balloon's diameter is not changing, the forces exerted on the balloon's walls must be equal on both sides.  Pressure is an expression of force acting per unit area on a container's walls, so the pressure on the inside and outside of the balloon must be equal. This means the pressure of the helium inside the balloon is equal to the atmospheric pressure (<var>PRESSURE</var> millimeters mercury).</p>
+			<p>Note that in reality, the elasticity of the balloon would be exerting a pressure on the gas it contains.  The pressure inside the balloon would be slightly higher than the atmospheric pressure in order to counter the balloon's inward pressure.</p>
+		</div>
+		<p>The ideal gas law is <code>P \times V = n \times R \times T</code>, where <code>P</code> is pressure of the gas, <code>V</code> is volume of the gas, <code>n</code> is the number of moles of the gas, <code>R</code> is the ideal gas constant, and <code>T</code> is the temperature of the gas.</p>
+		<p>The mass present of a given element is <code>m = n \times M</code>, where <code>m</code> is the mass of element present, <code>n</code> is the number of moles of the element present, and <code>M</code> is the molar mass of the element (in this case helium has a molar mass of <code>4 \frac{grams}{moles}</code>).</p>
+		<p>The volume of a sphere is given by <code>V = \frac{4}{3} \times \pi \times r^3</code>. You can approximate <code>\pi \approx 3.14</code>.</p>
+		<p>The relationship between diameter <code>d</code> and radius <code>r</code> of a circle or sphere is <code>d = 2 \times r</code>.</p>
+		<div>
+			<p><strong>Solution:</strong></p>
+			<p>We need to solve for <em>mass</em> (<code>m</code>) of helium inside the balloon, which by <code>m = n \times M</code> is related to the <em>number of moles</em> (<code>n</code>) of helium inside the balloon.  The first step, then, is to solve the ideal gas equation for <code>n</code>.</p>
+			<p><code>P \times V = n \times R \times T \; \; \; \; \Longrightarrow \; \; \; \; n = \frac{P \; \times \; V}{R \; \times \; T}</code></p>
+			<p>We must now substitute values for the variables on the right hand side of the equation. The ideal gas constant was given as <code>R = 6850.2 \frac{inches^3 \; \times \; millimeters \; mercury}{degrees \; Rankine \; \times \; moles}</code>.  For <code>n</code> to have the correct units (<code>moles</code>), the remaining variables must have units that match units present in <code>R</code>.  We obtain:</p> 
+			<p><code>n = \frac{P_{millimeters \; mercury} \; millimeters \; mercury \; \times \; V_{inches^3} \; inches^3 }{ 6850.2 \frac{inches^3 \; \times \; millimeters \; mercury}{degrees \; Rankine \; \times \; moles} \; \times \; T_{degrees \; Rankine} \; degrees \; Rankine }  </code></p>
+			<p>Separating the units into their own fraction:</p>
+			<p><code>n = \frac{P_{millimeters \; mercury} \; \times \; V_{inches^3} }{ 6850.2 \; \times \; T_{degrees \; Rankine}  } \times \frac{millimeters \; mercury \; \times \; inches^3 }{ \frac{inches^3 \; \times \; millimeters \; mercury}{degrees \; Rankine \; \times \; moles} \; \times \; degrees \; Rankine }</code></p>
+			<p>We can now reduce the units fraction:</p>
+			<p><code>n = \frac{P_{millimeters \; mercury} \; \times \; V_{inches^3} }{ 6850.2 \; \times \; T_{degrees \; Rankine}  } \times \frac{1}{\frac{1}{moles}} </code></p>
+			<p>Which simplifies to:</p>
+			<p><code>n = \frac{P_{millimeters \; mercury} \; \times \; V_{inches^3} }{ 6850.2 \; \times \; T_{degrees \; Rankine}  } \; moles </code></p>
+			<p>From the problem statement, we know <code>P_{millimeters \; mercury} = <var>PRESSURE</var></code>. </p>
+			<p><code>T_{Rankine} = T_{Fahrenheit} + 459.67 = <var>TEMPERATURE</var> + 459.67 = <var>RANKINE</var></code></p>
+			<p><code>V_{inches^3} = \frac{4}{3} \times \pi \times r^3 = \frac{4}{3} \times 3.14 \times <var>roundTo(1, (DIAMETER / 2) )</var>^3 = <var>VOLUME</var></code></p>
+			<p>Substituting these values into our current equation for <code>n</code>:</p>
+			<p><code>n = \frac{<var>PRESSURE</var> \; \times \; <var>VOLUME</var>}{6850.2 \; \times \; <var>RANKINE</var>} \; moles = <var>MOLES</var> \; moles</code></p>
+			<p>Having calculated the number of moles of helium present inside the balloon, we can now calculate the mass:</p>
+			<p><code>m = n \times M = <var>MOLES</var> \; moles \times 4 \frac{grams}{moles} = <var>MASS</var> \; grams</code> 
+
+		</div>
+	</div>
+</body>
+</html>
