@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie interactive">
+  <head>
+	  <title>Coulomb's Law</title>
+	  <script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+	  <div class="exercise">
+		  <div class="vars">
+		      <var id="RAND_MAG_Q1">randRange(1, 3)</var>
+			  <var id="RAND_DIR_Q1">randRange(0, 1) == 0 ? -1 : 1</var>
+			  <var id="ORIG_Q1">RAND_MAG_Q1*RAND_DIR_Q1</var>
+			  <var id="RAND_MAG_Q2">randRange(1, 1)</var>
+			  <var id="RAND_DIR_Q2">randRange(0, 1) == 0 ? -1 : 1</var>
+			  <var id="ORIG_Q2">RAND_MAG_Q2*RAND_DIR_Q2</var>
+			  <var id="ORIG_F">ORIG_Q1*ORIG_Q2/2.0</var>
+			  <var id="RAND_MAG">randRange(2, 3)</var>
+			  <var id="RAND_DIR">randRange(0, 1) == 0 ? -1 : 1</var>
+			  <var id="CHARGE_FACTOR">RAND_MAG * RAND_DIR</var>
+			  <var id="NEW_Q1">CHARGE_FACTOR*ORIG_Q1/2.0</var>
+			  <var id="NEW_F">NEW_Q1*ORIG_Q2</var>
+			  
+		  </div>
+
+		  <div class="problems">
+			  <div id="charge-variation">
+				  <div class="question">
+						<p>
+						Two static charges <code>q1</code> and  <code>q2</code> interact electrostatically. The magnitude and direction of the 
+						force <code>F_{12}</code> generated over charge by <code>q1</code> is represented by the line in the figure.  
+							
+						</p>
+						<p>
+						If the value of the first charge is changed to <code><var>CHARGE_FACTOR</var> q1</code>: What is the magnitude and direction of the new force <code>F_{12}'</code>?.
+						</p>
+						
+				  </div>
+				  
+				  <div class="problem">
+					  <div class="graphie">
+					  
+						 var originalConfig =  [ 0, 4 ];
+						 var originalQ1Pos =  [ -2, 2 ];
+						 var originalQ2Pos =  [ 2, 2 ];		
+						 var originalForcePos = [-2 + ORIG_F, 2]				 
+						 var newConfig =  [ 0, 0 ];
+						 var newQ1Pos =  [ -2, -2 ];
+						 var newQ2Pos =  [ 2, -2 ];
+						 var newForcePos = [-2 + ORIG_F, -2]
+
+						 var chargeSize = 0.15;
+						 
+						 var xBounds = [ -8, 8 ];
+						 var yBounds = [ -8, 8 ];
+								
+						 init({
+							  range: [ xBounds, yBounds ],
+							  scale: [ 30, 30 ]
+						  });		  
+						 
+						
+						// Grids always go through the origin
+						grid( xBounds, yBounds , {
+							stroke: "gray",
+							step: [ 0.5, 0.5 ],
+							opacity: 0.4
+						});
+						
+						label( originalConfig, "Original", "below" );
+						
+						
+						line(originalQ1Pos, originalForcePos);						
+						label( originalForcePos, "F_{12}", "above left" );
+						
+					    circle( originalQ1Pos, chargeSize, {
+							fill: "gray",
+							stroke: "black",
+							strokeWidth: 2
+						});						
+						label( originalQ1Pos, "q1", "below left" );
+						
+						circle( originalQ2Pos, chargeSize, {
+							fill: "gray",
+							stroke: "black",
+							strokeWidth: 2
+						});						
+						label( originalQ2Pos, "q2", "below left" );
+
+						label( newConfig, "New", "below" );
+						
+						addMouseLayer();
+						//var constraints = new Object();
+						//constraints.fixed = true;
+						
+						
+						graph.point1 = addMovablePoint({
+							  coord: newQ1Pos
+						});	
+						graph.point1.constraints.fixed = true;
+													
+						label( newQ1Pos, ""+CHARGE_FACTOR+"q1", "below left" );
+						
+						graph.point2 = addMovablePoint({
+							  coord: newForcePos,
+							  snapX: 0.5,
+							  snapY: 0.5
+						});
+						graph.point2.constraints.constrainY = true;
+						
+						circle( newQ2Pos, chargeSize, {
+							fill: "gray",
+							stroke: "black",
+							strokeWidth: 2
+						});						
+						label( newQ2Pos, "q2", "below left" );
+						
+						graph.line1 = addMovableLineSegment({
+							  pointA: graph.point1,
+							  pointZ: graph.point2,
+							  snap: 0.5,
+							  fixed: true
+						});
+						label( newForcePos, "F_{12}'", "above left" );
+						
+						circle( newQ1Pos, chargeSize, {
+							fill: "gray",
+							stroke: "black",
+							strokeWidth: 2
+						});
+						
+						
+						
+							
+					  </div>
+				  </div>
+				  
+				  <div class="solution" data-type="custom">
+					<div class="instruction">
+						Drag the <span class="hint_orange">orange</span> point to adjust the force.
+					</div>
+					<div class="guess"> graph.point2.coord </div>
+					<div class="validator-function">
+						var x = guess[0];
+						var y = guess[1];
+						var solX = -2 + NEW_F;
+						var solY = -2;
+						//alert("X: "+ x + ", SolX:" + solX);
+						return (x == solX &amp;&amp;  y == solY);
+					</div>
+					<div class="show-guess">
+						graph.point2.setCoord( guess );
+						graph.line1.transform( true );
+					</div>
+					<div class="example">acceptable answer format goes here</div>
+				</div>
+				  <div class="hints">
+				     <p>
+                        The magnitude of the electric force is proportional to the magnitude of the multiplication of both charges.
+                    </p>
+					<p>
+                        Charges with the same sign repel; charges with different sign attract.
+                    </p>
+					<p>
+                        According to Coulomb's Law the electric force in the original situation is: <code>F_{12} = k \times \frac{q1 \times q2}{d^2}</code>.
+                    </p>
+					<p>
+                        According to Coulomb's Law the electric force in the new situation is: <code>F_{12}' = k \times \frac{<var>CHARGE_FACTOR</var>q1 \times q2}{d^2}</code>.
+                    </p>
+					<p>
+                        The relation between the original and new force is the following: <code>F_{12}' = <var>CHARGE_FACTOR</var> \times F_{12}</code>.
+                    </p>
+			      </div>
+				  
+			  </div>
+		  </div>
+
+		  
+	  </div>
+  </body>
+</html>
