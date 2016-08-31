@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+  <html data-require="math">
+      <head>
+          <title>SA: first optimization</title>
+          <script src="../khan-exercise.js"></script>
+          <style type="text/css">
+               #answer_area .short input[type=text] {
+                   width: 30px;
+               }
+          </style>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+
+                  <var id="b">randRange( 2, 3 )</var>
+                  <var id="s">randRange( 1, 2 )</var>
+                  <var id="t">randRange( 1, 2 )</var>
+                  <var id="a">b*b*s</var>
+                  <var id="c">b*t</var>
+                  <var id="x0">randRange( 1, 7 )</var>
+                  <var id="y0">randRange( 1, 7 )</var>
+
+                  <!--<var id="b">2</var>
+                  <var id="s">3</var>
+                  <var id="t">2</var>
+                  <var id="a">b*b*s</var>
+                  <var id="c">b*t</var>
+                  <var id="x0">5</var>
+                  <var id="y0">1</var>-->
+
+                  <var id="constcoeff">-x0-s*c+s*b*y0</var>
+                  <var id="lincoeff">1+s*s*b*b</var>
+                  <!-- Your variables in here... -->
+              </div>
+
+              <div class="problems">
+                  <div id="problem-type-or-description">
+                      <p class="problem">This is an optimization problem. It is based on OLD Homework 0510-9 at<br>
+                                               <a href="http://www.math.umn.edu/~adams/MATH1271/hmwrkMATH1271.html">
+                                                        http://www.math.umn.edu/~adams/MATH1271/hmwrkMATH1271.html</a>.</p>
+                      <div class="question">Let <code>L</code> be the line <code><var>a</var>x+<var>b</var>y=<var>c</var></code>.
+                                          Find the point on <code>L</code> that is closest to
+                                          <code>(<var>x0</var>,<var>y0</var>)</code>.</div><br>
+                      Express your answer in the form
+                           "&nbsp;&nbsp;(&nbsp;&nbsp;<code>p</code>&nbsp;/&nbsp;<var>lincoeff</var>&nbsp;&nbsp;,&nbsp;&nbsp;
+                                       <code>q</code>&nbsp;/&nbsp;<var>lincoeff</var>&nbsp;&nbsp;)&nbsp;&nbsp;",<br>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           where <code>p</code> and <code>q</code> are integers.
+                      <p class="solution" data-type="multiple">
+                          (&nbsp;&nbsp;<span class="sol"><var>-constcoeff</var></span>&nbsp;/&nbsp;<var>lincoeff</var>&nbsp;&nbsp;,<br>
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <span class="sol"><var>t*lincoeff+s*b*constcoeff</var></span>&nbsp;/&nbsp;<var>lincoeff</var>&nbsp;&nbsp;)
+                      </p>
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p>Solving <code><var>a</var>x+<var>b</var>y=<var>c</var></code> for <code>y</code>,<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     we get <code>y=<var>t</var>-<var>s*b</var>x</code>.</p>
+                  <p>Let <code>f(x)</code> be the square of the distance from
+                               <code>(x,y)</code> to <code>(<var>x0</var>,<var>y0</var>)</code>,<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     with <code>y=<var>t</var>-<var>s*b</var>x</code>.</p>
+                  <p>Then <code>f(x)</code> is the square of the distance from
+                               <code>(x,<var>t</var>-<var>s*b</var>x</code>)</code> to <code>(<var>x0</var>,<var>y0</var>)</code>.</p>
+                  <p>Then <code>f(x)=[x-<var>x0</var>]^2+[<var>t</var>-<var>b*s</var>x-<var>y0</var>]^2</code>.</p>
+                  <p>Then <code>f'(x)=2[x-<var>x0</var>]+
+                               2[<var>t</var>-<var>b*s</var>x-<var>y0</var>][-<var>b*s</var>]</code>.</p>
+                  <div data-if="constcoeff>=0">
+                      <p>Expanding, collecting terms, and factoring out <code>2</code>,<br>
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <code>f'(x)=2(<var>lincoeff</var>x+<var>constcoeff</var>)</code>.</p>
+                  </div>
+                  <div data-else>
+                      <p>Expanding, collecting terms, and factoring out <code>2</code>,<br>
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <code>f'(x)=2(<var>lincoeff</var>x-<var>-constcoeff</var>)</code>.</p>
+                  </div>
+                  <p>Then <code>f'(x)=0</code> if and only if <code>x = <var>-constcoeff</var>/<var>lincoeff</var> </code>.</p>
+                  <p>Also, <code>f'(x)</code> is negative on <code>x < <var>-constcoeff</var>/<var>lincoeff</var> </code><br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     and positive on <code>x > <var>-constcoeff</var>/<var>lincoeff</var> </code>.</p>
+                  <p>Then <code>f(x)</code> is decreasing on <code>x < <var>-constcoeff</var>/<var>lincoeff</var> </code><br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     and increasing on <code>x > <var>-constcoeff</var>/<var>lincoeff</var> </code>.</p>
+                  <p>Then <code>f(x)</code> attains its minimum at <code>x = <var>-constcoeff</var>/<var>lincoeff</var> </code>.</p>
+                  <p>Since <code>y=<var>t</var>-<var>s*b</var>x</code> it follows that,<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     when <code>x = <var>-constcoeff</var>/<var>lincoeff</var> </code>,<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     we get <code>y=<var>t*lincoeff+s*b*constcoeff</var>/<var>lincoeff</var></code>.</p>
+                  <p>In the "Answer" box, fill in <code><var>-constcoeff</var></code>
+                                              and <code><var>t*lincoeff+s*b*constcoeff</var></code>,<br>
+                     so that it reads:<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <code>(<var>-constcoeff</var>/<var>lincoeff</var>,</code><br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <code><var>t*lincoeff+s*b*constcoeff</var>/<var>lincoeff</var>)</code></p>
+              </div>
+          </div>
+      </body>
+  </html>
+
+<!--
+<i><var>xcoeff</var>x+<var>ycoeff</var>y=<var>rhs</var></i>
+<var></var>
+<i></i>
+<i>(<var>xcoord</var>,<var>ycoord</var>)</i>
+-->
