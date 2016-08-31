@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Proportionality constants</title>
+	<script src="../khan-exercise.js"></script>
+
+	<style>
+		.sol input {
+			width: 25px !important;
+		}
+	</style>
+</head>
+<body>
+	<div class = "exercise">
+		<div class = "problems">
+			<div id = "direct">
+				<div class = "vars">
+					<var id = "k">randRangeNonZero( -10, 10 )</var>
+					<var id = "X1">randRangeNonZero( -10, 10 )</var>
+					<var id = "X2">randRangeExclude( -10, 10, [ X1 ] )</var>
+					<var id = "Y1">k * X1</var>
+					<var id = "Y2">k * X2</var>
+				</div>
+				
+				<p class = "question" > <code>Y</code> is directly proportional to <code>X</code>.  If <code>Y = <var>Y1</var></code> when <code>X = <var>X1</var></code>, what is <code>Y</code> when <code>X = <var>X2</var></code>?</p>
+				
+				<div class = "solution" data-forms="integer">	<var>Y2</var></div>
+				
+				<div class = "hints">
+					<p>Since <code>X</code> is directly proportional to <code>Y</code>, we know that <code>Y = k X</code> for some number <code>k</code>.</p>
+				  
+					<p>In particular, since <code>Y = <var>Y1</var></code> when <code>X = <var>X1</var></code>, we know that <code><var>Y1</var> = k ( <var>X1</var> )</code>.</p>
+				  
+					<p>Solving for <code>k</code>, we see that <code>k = <var>Y1</var>/<var>X1</var> = <var>k</var></code>, so <code>Y = <var>k</var>X</code> in general.</p>
+					
+					<p>Plugging in <code><var>X2</var></code> for <code>X</code>, we see that <code>Y = <var>k</var>( <var>X2</var> ) = <var>Y2</var></code> when <code>X = <var>X2</var></code>.</p>
+				</div>
+			</div> <!-- exercise direct -->
+
+			<div id = "inverse">
+				<div class = "vars">
+					<var id = "a">randRangeNonZero( -10, 10 )</var>
+					<var id = "b">randRangeExclude( -10, 10, [ 0, 1 ] )</var>
+					<var id = "c">randRangeNonZero( -10, 10 )</var>
+					<var id = "X1"> a * b </var>
+					<var id = "Y1"> c </var>
+					<var id = "X2"> a </var>
+					<var id = "Y2"> b * c </var>
+					<var id = "k"> a * b * c </var>
+				</div>
+				
+				<p class = "question" > <code>Y</code> is inversely proportional to <code>X</code>.  If <code>Y = <var>Y1</var></code> when <code>X = <var>X1</var></code>, what is <code>Y</code> when <code>X = <var>X2</var></code>?</p>
+				
+				<div class = "solution" data-forms="integer">	<var>Y2</var></div>
+				
+				<div class = "hints">
+					<p>Since <code>X</code> is directly proportional to <code>Y</code>, we know that <code>X Y = k</code> for some number <code>k</code>.</p>
+				  
+					<p>In particular, since <code>Y = <var>Y1</var></code> when <code>X = <var>X1</var></code>, we know that <code>k = <var>X1</var>( <var>Y1</var> ) = <var>k</var></code>.</p>
+				  
+					<p>Therefore, <code>X Y = <var>k</var></code> in general.</p>
+					
+					<p>Plugging in <code><var>X2</var></code> for <code>X</code>, we see that <code><var>X2</var>Y = <var>k</var></code>.</p>
+					
+					<p>Solving, we see that <code>Y = <var>Y2</var></code> when <code>X = <var>X2</var></code>.</p>
+				</div>
+			</div> <!-- exercise inverse -->
+		</div> <!-- problems -->
+	</div> <!-- exercise -->
+</body>
