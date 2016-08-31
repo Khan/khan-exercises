@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+	<meta charset="UTF-8" />
+	<title>Determinant of a Square Matrix (2x2) and (3x3)</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="a11">randRange(-9,9)</var>
+			<var id="a12">randRange(-9,9)</var>
+			<var id="a13">randRange(-9,9)</var>
+			<var id="a14">randRange(-9,9)</var>
+			<var id="a21">randRange(-9,9)</var>
+			<var id="a22">randRange(-9,9)</var>
+			<var id="a23">randRange(-9,9)</var>
+			<var id="a24">randRange(-9,9)</var>
+			<var id="a31">randRange(-9,9)</var>
+			<var id="a32">randRange(-9,9)</var>
+			<var id="a33">randRange(-9,9)</var>
+			<var id="a34">randRange(-9,9)</var>
+			<var id="a41">randRange(-9,9)</var>
+			<var id="a42">randRange(-9,9)</var>
+			<var id="a43">randRange(-9,9)</var>
+			<var id="a44">randRange(-9,9)</var>
+			
+			
+			
+			
+		</div>
+		
+		<div class="problems">
+			<div>
+				<p class="question">Find the determinant of the square matrix <code>{\bf A}</code> shown below: </p>
+				<div><code>{\Large A =\begin{bmatrix} <var>a11</var> & <var>a12</var> \\ <var>a21</var> & <var>a22</var> \end{bmatrix}}</code></div>
+				<div class="vars">
+					<var id="Answer">a_{11}*a_{22} - a_{12}*a_{21}</var>
+				</div>
+				<p class="solution" data-type="rational"><var>Answer</var></p>
+				
+				<div class="hints">
+					<div>
+						<p>The determinant of a square 2x2 matrix can be calculated by multiplying the diagonal elements <code>a_{11}*a_{22}</code> and subtracting the left diagonal elements <code>a_{21}*a_{12}</code>.</p>
+						<p>det(A) = <code>\left| \begin{array}{cc} \color{blue}{a_{11}} & \color{red}{a_{12}} \\ \color{red}{a_{21}} & \color{blue}{a_{22}} \end{array} \right| = \color{blue}{a_{11}*a_{22}} - \color{red}{a_{21}*a_{12}}</code></p>
+					</div>
+					<div>
+						<p>det(A) = <code>\color{blue}{<var>a11</var>(<var>a22</var>)} -  \color{red}{<var>a12</var>(<var>a21</var>)}</code></p>
+					</div>
+					<div>
+						<p>det(A) = <var>a11*a22 - a21*a12 </var></p>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="vars">
+					<var id="a">fractionReduce(a11,3)</var>
+					<var id="b">fractionReduce(a12,4)</var>
+					<var id="c">fractionReduce(a21,5)</var>
+					<var id="d">fractionReduce(a22,2)</var>
+				</div>
+				<p class="question">Find the determinant of the square matrix <code>{\bf A}</code> shown below: </p>
+				<div><code>{\Large A =\begin{bmatrix} <var>a</var> & <var>b</var> \\ <var>c</var> & <var>d</var> \end{bmatrix}}</code></div>
+				<div class="vars">
+					<var id="Answer">(a11*a22)/6 - (a12*a21)/20</var>
+				</div>
+				<p class="solution" data-type="rational"><var>Answer</var></p>
+				
+				<div class="hints">
+					<div class="vars">
+						<var id="ans">fractionReduce((a11*a22*20+a12*a21*6),120)</var>
+					</div>
+					<div>
+						<p>The determinant of a square 2x2 matrix can be calculated by multiplying the diagonal elements
+						<code>a_{11}*a_{22}</code> and subtracting the left diagonal elements <code>a_{21}*a_{12}</code>.</p>
+						<p>det(A) = <code>\left| \begin{array}{cc} \color{blue}{a_{11}} & \color{red}{a_{12}} \\ \color{red}{a_{21}} & \color{blue}{a_{22}} \end{array} \right|
+						= \color{blue}{a_{11}*a_{22}} - \color{red}{a_{21}*a_{12}}</code></p>
+					</div>
+					<div>
+						<p>det(A) = <code>\color{blue}{<var>a</var>(<var>d</var>)} -  \color{red}{<var>b</var>(<var>c</var>)}</code></p>
+					</div>
+					<div>
+						<p>det(A) = <code><var>ans</var></code></p>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div>
+				<p class="question">Find the determinant of the square matrix <code>{\bf A}</code> shown below: </p>
+				<div><code>{\Large A =\begin{bmatrix} <var>a11</var> & <var>a12</var> & <var>a13</var> \\ <var>a21</var> & <var>a22</var> & <var>a23</var>\\<var>a31</var> & <var>a32</var> & <var>a33</var> \end{bmatrix}}</code></div>
+				<div class="vars">
+					<var id="Answer">a11*(a22*a33-a23*a32) - a12*(a21*a33-a23*a31) + a13*(a21*a32-a22*a31)</var>
+				</div>
+				<p class="solution" data-type="rational"><var>Answer</var></p>
+				
+				<div class="hints">
+					<div>
+						<p>The determinant of a square 3X3 matrix can be calculated by multiplying the first element a11 by the determinant of the
+						2x2 matrix left over when row and column where <code>a_{11}</code> exists are eliminated (Eliminate row 1 and column 1).</p>
+						<p>You then add that result to <code>-a_{12}</code>*determinate of 2x2 matrix left over when row one 1 column 2 are eliminated.</p>
+						<p>Finally that result is added to <code>a_{13}</code>*determinate of 2x2 matrix left over when row 1 and column 3 are eliminated.</p>
+						<p>det(A) = <code>\color{blue}{a_{11}} \left| \begin{array}{cc} \color{green}{a_{22}} & \color{green}{a_{23}} \\ \color{green}{a_{32}} & \color{green}{a_{33}} \end{array}\right| \color{red}{-}  \color{blue}{a_{21}} \left| \begin{array}{cc} \color{green}{a_{21}} & \color{green}{a_{23}} \\ \color{green}{a_{31}} & \color{green}{a_{33}} \end{array} \right| + \color{blue}{a_{13}} \left| \begin{array}{cc} \color{green}{a_{21}} & \color{green}{a_{22}} \\ \color{green}{a_{31}} & \color{green}{a_{32}} \end{array} \right| </code></p>
+					</div>
+					<div>
+						<p>Recall that the determinant of a 2x2 matrix is as follows: <code> \left| \begin{array}{cc} a_{11} & a_{12} \\ a_{21} & a_{22} \end{array} \right| = a_{11}*a_{22} - a_{12}*a_{21} </code> </p>
+						<p>After evaluating the determinants of the 2x2 matricies, the following line should result:</p>
+						<p>det(A)= <code>\color{blue}{a_{11}}*[ \color{green}{(a_{22}*a_{33})  -  (a_{23}*a_{32})}] \color{red}{-} \color{blue}{a_{12}}*[ \color{green}{(a_{21}*a_{33})   -   (a_{23}*a_{31})}] + \color{blue}{a_{13}}*[\color{green}{(a_{21}*a_{32})   -    (a_{22}*a_{31})}] </code></p>
+					</div>
+					<div>
+						<p>For the matrix given above this would yield:</p>
+						<p>det(A)= <code>\color{blue}{<var>a11</var>}*[\color{green}{(<var>a22</var>*<var>a33</var>)  -  (<var>a23</var>*<var>a32</var>)}]  \color{red}{-}  \color{blue}{<var>a12</var>}*[\color{green}{(<var>a21</var>*<var>a33</var>)  -  (<var>a23</var>*<var>a31</var>)}]  +   \color{blue}{<var>a13</var>}*[\color{green}{(<var>a21</var>*<var>a32</var>)  -  (<var>a22</var>*<var>a31</var>)}] </code></p>
+					<div>
+						<p>det(A)= <var>a11*(a22*a33-a23*a32)-a12*(a21*a33-a23*a31)+a13*(a21*a32-a22*a31)</var></p>
+					</div>
+					
+				</div>
+				
+				
+			</div>
+			
+		</div>
+	</div>
+</body>
+			
+			
