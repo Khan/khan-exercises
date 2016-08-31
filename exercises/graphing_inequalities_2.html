@@ -185,7 +185,7 @@
                     <ul>
                         <li>
                             <label>
-                                <input id="yes" checked name="isSolution" type="radio">
+                                <input id="yes" name="isSolution" type="radio">
                                 <span>Yes</span>
                             </label>
                         </li>
@@ -206,7 +206,7 @@
                         $("input[name='isSolution']:checked").attr("id")]
                     </div>
                     <div class="validator-function">
-                        if (_.isEqual(guess, [[-5, 5], [5, 5], false, true])) {
+                        if (_.isEqual(guess.slice(0, 4), [[-5, 5], [5, 5], false, true]) || guess[4] === null) {
                             return "";
                         }
 
