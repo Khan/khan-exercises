@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie">
+<head>
+  <meta charset="UTF-8" />
+  <title>Converting between point-slope and standard form</title>
+  <script src="../khan-exercise.js"></script>
+  <style type="text/css">
+    #answer_area input[type=text] {
+      width: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="exercise">
+  <div class="problems">
+    <div id="standard-to-point-slope" data-weight="2">
+      <div class="vars">
+        <var id="A">randRangeNonZero( -5, 5 )</var>
+        <!-- -3 and 3 are excluded from the range in order to ensure that the slope is a terminating decimal. -->
+        <var id="B">randRangeExclude( -5, 5, [-3, 0, 3] )</var>
+        <var id="C">randRangeNonZero( -5, 5 )</var>
+        <var id="X1">[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]</var>
+        <var id="Y1">$.map(X1, function(x){ return ( C - A * x ) / B; })</var>
+        <var id="HINT_X1">randRange( -5, 5 )</var>
+        <var id="HINT_Y1">(C - A * HINT_X1) / B</var>
+        <var id="SLOPE">-A / B</var>
+        <var id="Y_INTERCEPT">C / B</var>
+      </div>
+      <p class="question">Convert the following equation from standard form to point-slope.</p>
+      <code><var>expr(['*', A, 'x'])</var> + <var>expr(['*', B, 'y'])</var> = <var>C</var></code>
+      <!-- Custom validation is used to allow for x to be any value.  If we allowed a finite range for x, then we could have a set of solutions.-->
+      <div class="solution" data-type="custom">
+        <div class="instruction">
+          <p><code>(y - \space</code><input id="solution_y" type="text"></input><code>) = \space</code><input id="solution_m" type="text"></input><code>(x - \space</code><input id="solution_x" type="text"></input><code>)</code></p>
+        </div>
+        <div class="guess">
+          [$('#solution_x').val(), $('#solution_y').val(), $('#solution_m').val()]
+        </div>
+        <!-- I'm sure the framework handles floating point errors in the general case, but they only come into play if the user does not choose an integer for x. -->
+        <div class="validator-function">
+          var answer_x = guess[0];
+          var answer_y = guess[1];
+          var answer_slope = guess[2];
+          return (answer_y == (C - A * answer_x) / B) && answer_slope == SLOPE;
+        </div>
+
+      </div>
+      <div class="hints">
+        <div>
+          <p>First, solve for the slope of the equation.</p>
+          <p><code>m = -\dfrac{A}{B} = <var>SLOPE</var></code></p>
+         </div>
+        <div>
+          <p>Given that the slope is <var>SLOPE</var>, the equation in point-slope form will be</p>
+          <p><code>(y - y_{1}) = <var>expr(['*', SLOPE, "x-x_{1}"])</var></code></p>
+          <p>where <code>(x_{1}, y_{1})</code> is any point on the line.</p>
+        </div>
+        <div>
+          <p>Since the problem asks us to pick a value for <code>x_{1}</code>, 
+            let's choose <var>HINT_X1</var>.</p>
+        </div>
+        <div>
+          <p>Plug in <var>HINT_X1</var> as the value of <code>x</code> 
+            in the original equation in order to get <code>y_{1}</code>.</p>
+          <p><code><var>expr(['*', A, HINT_X1])</var> + <var>expr(['*', B, 'y'])</var> = <var>C</var></code></p>
+        </div>
+        <div>
+          <p><code>y = <var>(-A * HINT_X1 + C) / B</var></code></p>
+          <p>Thus, <code>(<var>expr(['-', 'y', HINT_Y1])</var>) = 
+            <var>expr(['*', SLOPE, expr(['-', "x", HINT_X1])])</var></code></p>
+        </div>
+        <div>
+          <p><code>\begin{align*}x_{1} &amp;= <var>HINT_X1</var>\\
+            y_{1} &amp;= <var>HINT_Y1</var>\\
+            m &amp;= <var>SLOPE</var>\end{align*}</code></p>
+        </div>
+        <div>
+          <p>Behold the magic of math! The given point <code>(<var>HINT_X1</var>,<var>HINT_Y1</var>)</code> 
+              is on the line with slope <code><var>SLOPE</var></code>!</p>
+          <div class="graphie" id="grid">
+            graphInit({
+              range: 10,
+              scale: 20,
+              axisArrows: "&lt;-&gt;",
+              tickStep: 1,
+              labelStep: 1
+            });
+
+            style({ stroke: BLUE, fill: BLUE });
+
+            plot(function( x ) {
+              return x * SLOPE + Y_INTERCEPT;
+            }, [ -10, 10 ]);
+
+            circle([HINT_X1,HINT_Y1], .25);
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="point-slope-to-standard" data-weight="2">
+      <div class="vars">
+        <var id="X1">randRangeNonZero( -5, 5 )</var>
+        <var id="Y1">randRangeNonZero( -5, 5 )</var>
+        <var id="SLOPE">randRangeNonZero( -5, 5 )</var>
+        <var id="A">SLOPE &lt; 0 ? -SLOPE : SLOPE</var>
+        <var id="B">SLOPE &lt; 0 ? 1 : -1</var>
+        <var id="C">SLOPE &lt; 0 ? Y1 - SLOPE * X1 : SLOPE * X1 - Y1</var>
+        <var id="Y_INTERCEPT">C / B</var>
+      </div>
+      <p class="question">Convert the following equation from point-slope to standard form.</p>
+      <p>In other words, if the equation is rewritten to look like <code>Ax + By = C</code>, 
+        what are the values of <code>A</code>, <code>B</code>, and <code>C</code>?</p>
+      <p>Assume <code>A</code> is positive.</p>
+      <p><code>y - <var>Y1</var> = <span data-if="abs( SLOPE ) !== 1"><var>SLOPE</var></span>
+          <span data-if="SLOPE === -1">-</span>( x - <var>X1</var> )</code></p>
+      <div class="solution" data-type="multiple">
+        <p><code>A</code> = <span class="sol"><var>A</var></span></p>
+        <p><code>B</code> = <span class="sol"><var>B</var></span></p>
+        <p><code>C</code> = <span class="sol"><var>C</var></span></p>
+      </div>
+      <div class="hints">
+        <div data-if="SLOPE !== 1">
+          <p>Multiply out the right side of the equation.</p>
+          <p><code><var>expr(['+', "y", -1 * Y1])</var> = 
+             <var>expr(['*', SLOPE, "x"])</var> - <var>SLOPE * X1</var></code></p>
+        </div>
+        <div>
+          <p>Move the <code><var>expr(['*', SLOPE, "x"])</var></code> term to the left side of the equation.</p>
+          <p><code><var>expr(['*', -SLOPE, "x"])</var> + y - <var>Y1</var> = <var>-SLOPE * X1</var> </code></p>
+        </div>
+        <div>
+          <p>Move the constant of <code><var>-1 * Y1</var></code> to the right side of the equation.</p>
+          <p><code><var>expr(['*', -SLOPE, "x"])</var> + y = <var>(-SLOPE * X1) + Y1</var> </code></p>
+        </div>
+        <div data-if="SLOPE >= 0">
+          <p>Multiply both sides by -1.</p>
+          <p><code><var>expr(['*', SLOPE, "x"])</var> - y = <var>-Y1 + (SLOPE * X1)</var></code></p>
+        </div>
+        <div>
+          <p>The equation is now in standard form.</p>
+          <p><code>\begin{align*}A &amp;= <var>A</var>\\
+            B &amp;= <var>B</var>\\
+            C &amp;= <var>C</var>\end{align*}</code></p>
+        </div>
+        <div>
+          <p>Behold the magic of math! The line
+            <code>
+              <span data-if="SLOPE >= 0">
+                <var>expr(['*', SLOPE, "x"])</var> - y = <var>-Y1 + (SLOPE * X1)</var>
+              </span>
+              <span data-else>
+                <var>expr(['*', -SLOPE, "x"])</var> + y = <var>(-SLOPE * X1) + Y1</var> 
+              </span>
+            </code>
+              has a slope of <code><var>SLOPE</var></code> and passes through the point
+            <code>(<var>X1</var>,<var>Y1</var>)</code>.
+            These values were given in the initial equation written in point slope form.</p>
+          <div class="graphie" id="grid">
+            graphInit({
+              range: 10,
+              scale: 20,
+              axisArrows: "&lt;-&gt;",
+              tickStep: 1,
+              labelStep: 1
+            });
+
+            style({ stroke: BLUE, fill: BLUE });
+
+            plot(function( x ) {
+              return x * SLOPE + Y_INTERCEPT;
+            }, [ -10, 10 ]);
+
+            circle([ X1, Y1 ], .25);
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+</html>
