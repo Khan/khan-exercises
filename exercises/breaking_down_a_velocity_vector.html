@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+    <head>
+        <title>Projectile Motion 0.5</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="ANGLE">20+rand(60)</var>
+                <var id="VELOCITY">10+rand(15)</var>
+            </div>
+
+            <div class="problems">
+
+                <div id="horizontal" data-calculator>
+                    <p class="problem">A projectile is launched at an angle of <var>ANGLE</var> degrees with an initial velocity of <var>VELOCITY</var> m/s.</p>
+
+                    <div class="question">
+                        <p>What is the initial velocity in the horizontal direction? Round your answer to one decimal place.</p>
+                        <div class="graphie" id="diagram">
+                            init({range: [[-2, 8], [-1, 7]], scale: [20, 20] });
+                            line([-2, 0], [8, 0]); <!--- ground --->
+                            style({strokeWidth: 3, arrows: "-&gt;"});
+                            line([0, 0], [6*cos(ANGLE * PI / 180), 6*sin(ANGLE * PI / 180)]);
+                            label([-ANGLE/50+2.6, ANGLE<35 ? 0.4 : 0.5], ANGLE + "^{\\circ}", "center");
+                            label([(-ANGLE/20)+2.5, 2], VELOCITY + "\\space \\text{m/s}", "center");
+                        </div>
+                    </div>
+
+                    <div class="solution" data-type="multiple">
+                        <span class="sol" data-inexact data-type="decimal">
+                            <var>roundTo(1, cos(ANGLE * PI / 180)*VELOCITY)</var>
+                        </span> m/s
+                    </div>
+
+                    <div class="hints">
+                        <div>
+                            <p>If we break down the vector into its <span class="hint_orange">vertical</span> and <span class="hint_green">horizontal</span> components, we can see that it forms a right triangle.</p>
+                            <div class="graphie" data-update="diagram">
+                                style({ stroke: "#28AE7B", strokeWidth: 3, arrows: "-&gt;"});
+                                line([0, 0], [6*cos(ANGLE * PI / 180), 0]);
+                                style({ stroke: "#FFA500", strokeWidth: 3, arrows: "-&gt;"});
+                                line([6*cos(ANGLE * PI / 180), 0], [6*cos(ANGLE * PI / 180), 6*sin(ANGLE * PI / 180)] );
+                            </div>
+                        </div>
+                        <div>
+                            <p>Now we can use our trig functions to find the <span class="hint_green">horizontal</span> velocity (<code class="hint_green">\vec{v}_x</code>).</p>
+                            <div class="graphie" data-update="diagram">
+                                label([3*cos(ANGLE * PI / 180), -0.7], "\\vec{v}_x", "center", {color: "#28AE7B"});
+                            </div>
+                        </div>
+                        <p>The cosine of an angle is equal to the adjacent side over the hypotenuse.</p>
+                        <p><code>\mathrm{cos}(<var>ANGLE</var>^{\circ}) =</code> <code class="hint_green">\vec{v}_x</code><code>/<var>VELOCITY</var></code></p>
+                        <p><code class="hint_green">\vec{v}_x</code> <code>= \mathrm{cos}(<var>ANGLE</var>^{\circ}) \times <var>VELOCITY</var></code></p>
+                        <p data-if="ANGLE === 60"><code class="hint_green">\vec{v}_x</code> <code> = <var>roundTo(1, cos(ANGLE * PI / 180)*VELOCITY)</var> \space m/s</code></p>
+                        <p data-else><code class="hint_green">\vec{v}_x</code> <code> \approx <var>roundTo(1, cos(ANGLE * PI / 180)*VELOCITY)</var> \space m/s</code></p>
+                    </div>
+
+                </div>
+
+                <div id="vertical" data-calculator>
+                    <p class="problem">A projectile is launched at an angle of <var>ANGLE</var> degrees with an initial velocity of <var>VELOCITY</var> m/s.</p>
+
+                    <div class="question">
+                        <p>What is the initial velocity in the vertical direction? Round your answer to one decimal place.</p>
+                        <div class="graphie" id="diagram">
+                            init({range: [[-2, 8], [-1, 7]], scale: [20, 20] });
+                            line([-2, 0], [8, 0]); <!--- ground --->
+                            style({strokeWidth: 3, arrows: "-&gt;"});
+                            line([0, 0], [6*cos(ANGLE * PI / 180), 6*sin(ANGLE * PI / 180)]);
+                            label([-ANGLE/50+2.6, ANGLE<35 ? 0.4 : 0.5], ANGLE + "^{\\circ}", "center");
+                            label([(-ANGLE/20)+2.5, 2], VELOCITY + "\\space \\text{m/s}", "center");
+                        </div>
+                    </div>
+
+                    <div class="solution" data-type="multiple">
+                        <span class="sol" data-inexact data-type="decimal">
+                            <var>roundTo(1, sin(ANGLE * PI / 180)*VELOCITY)</var>
+                        </span> m/s
+                    </div>
+                      
+                    <div class="hints">
+                        <div>
+                            <p>If we break down the vector into its <span class="hint_orange">vertical</span> and <span class="hint_green">horizontal</span> components, we can see that it forms a right triangle.</p>
+                            <div class="graphie" data-update="diagram">
+                                style({ stroke: "#28AE7B", strokeWidth: 3, arrows: "-&gt;"});
+                                line([0, 0], [6*cos(ANGLE * PI / 180), 0]);
+                                style({ stroke: "#FFA500", strokeWidth: 3, arrows: "-&gt;"});
+                                line([ 6*cos(ANGLE * PI / 180), 0], [6*cos(ANGLE * PI / 180), 6*sin(ANGLE * PI / 180)] );
+                            </div>
+                        </div>
+                        <div>
+                            <p>Now we can use our trig functions to find the <span class="hint_orange">vertical</span> velocity (<code class="hint_orange">\vec{v}_y</code>).</p>
+                            <div class="graphie" data-update="diagram">
+                                label([6*cos(ANGLE * PI / 180)+1, 3*sin(ANGLE * PI / 180)], "\\vec{v}_y", "center", {color: "#FFA500"});
+                            </div>
+                        </div>
+                        <p>The sine of an angle is equal to the opposite side over the hypotenuse.</p>
+                        <p><code>\mathrm{sin}(<var>ANGLE</var>^{\circ}) =</code> <code class="hint_orange">\vec{v}_y</code><code>/<var>VELOCITY</var></code></p>
+                        <p><code class="hint_orange">\vec{v}_y</code> <code>= \mathrm{sin}(<var>ANGLE</var>^{\circ}) \times <var>VELOCITY</var></code></p>
+                        <p data-if="ANGLE === 30"><code class="hint_orange">\vec{v}_y</code> <code> = <var>roundTo(1, sin(ANGLE * PI / 180)*VELOCITY)</var> \space m/s</code></p>
+                        <p data-else><code class="hint_orange">\vec{v}_y</code> <code> \approx <var>roundTo(1, sin(ANGLE * PI / 180)*VELOCITY)</var> \space m/s</code></p>
+                    </div>
+
+                </div>
+            </div> <!-- problems -->
+        </div> <!-- exercise -->
+    </body>
+</html>
