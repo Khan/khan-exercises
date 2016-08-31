@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+	<head>
+		<title>Recognizing mixed numbers and improper fractions</title>
+		<script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+		<div class="exercise">
+			<div class="vars">
+				<var id="WHOLE">randRange( 1, 5 )</var>
+
+				<var id="M_DENOM">randRange( 2, 15 )</var>
+				<var id="M_NUM">randRange( 1, M_DENOM - 1 )</var>
+
+				<var id="M_REDUCED_NUM">M_NUM / getGCD( M_NUM, M_DENOM )</var>
+				<var id="M_REDUCED_DENOM">M_DENOM / getGCD( M_NUM, M_DENOM )</var>
+
+				<var id="I_NUM">WHOLE * M_REDUCED_DENOM + M_REDUCED_NUM</var>
+				<var id="I_DENOM">M_REDUCED_DENOM</var>
+
+                <!-- Pick a target fraction type at random -->
+				<var id="FRACTION_TYPE">['Mixed Number', 'Improper Fraction', 'Proper Fraction'][randRange(0, 2)]</var>
+			</div>
+
+			<div class="problems">
+				<div id="identify-whole-number">
+                    <p class="question">Given <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>, what is the whole number component?</p>
+					<p class="solution" data-forms="integer"><var>WHOLE</var></p>
+					<div class="hints">
+						<div>
+							<p><code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code> is a <span class="hint_green">mixed number</span>, which means it gets its value from adding together its <span class="hint_green">whole number</span> component, and its <span class="hint_green">fraction</span> component.</p>
+						</div>
+						<div>
+                            <p>A <span class="hint_green">whole number</span> is either 0, or a counting number. It does not need to be represented as a <span class="hint_green">fraction</span> or with a decimal point. If you want to have a whole number of a certain item, you don't need to break any of the items into pieces.</p>
+						</div>
+						<div>
+                            <p>In the number <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>, the <span class="hint_green">fraction</span> component is <code><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code></p>
+						</div>
+						<div>
+                            <p>In the number <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>, the <span class="hint_green">whole number</span> component is <code><var>WHOLE</var></code></p>
+						</div>
+					</div>
+				</div>
+                
+				<div id="identify-fraction-type">
+					<p class="question">What type of fraction is
+                        <span data-if="FRACTION_TYPE==='Mixed Number'">
+                            <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>
+                        </span>
+                        <span data-if="FRACTION_TYPE==='Improper Fraction'">
+                            <code><var>fraction( I_NUM, I_DENOM, false, false )</var></code>
+                        </span>
+                        <span data-if="FRACTION_TYPE==='Proper Fraction'">
+                            <code><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code>
+                        </span>
+                        ?
+                    </p>
+					<p class="solution"><var>FRACTION_TYPE</var></p>
+                    <ul class="choices" data-category="true">
+                        <li>Mixed Number</li>
+                        <li>Improper Fraction</li>
+                        <li>Proper Fraction</li>
+                    </ul>
+					<div class="hints">
+						<div>
+                            <ul>
+                                <li>A <span class="hint_orange">Proper Fraction</span> is a fraction where the numerator is smaller than the denominator.</li>
+                                <li>An <span class="hint_orange">Improper Fraction</span> is a fraction where the numerator is greater than or equal to the denominator.</li>
+                                <li>A <span class="hint_orange">Mixed Number</span> is a <span class="hint_green">whole number</span> with a proper fraction added to it.</li>
+                            </ul>
+						</div>
+						<div>
+                            <p>A <span class="hint_green">whole number</span> is either 0, or a counting number. It does not need to be represented as a <span class="hint_green">fraction</span> or with a decimal point. If you want to have a whole number of a certain item, you don't need to break any of the items into pieces. A <span class="hint_green">fraction</span>, on the other hand, has a numerator and a denominator. The value of a fraction may be between two whole numbers, so if you want a fractional amount of something you usually have to break an item into pieces.</p>
+						</div>
+						<div>
+                            <span data-if="FRACTION_TYPE==='Mixed Number'">
+                                <code><var>WHOLE</var><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code> is a mixed number.
+                            </span>
+                            <span data-if="FRACTION_TYPE==='Improper Fraction'">
+                                <code><var>fraction( I_NUM, I_DENOM, false, false )</var></code> is an improper fraction.
+                            </span>
+                            <span data-if="FRACTION_TYPE==='Proper Fraction'">
+                                <code><var>fraction( M_REDUCED_NUM, M_REDUCED_DENOM, false, false )</var></code> is a proper fraction.
+                            </span>
+						</div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</body>
+</html>
