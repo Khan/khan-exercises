@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Basic integrals - trigonometric functions</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+			<var id="A">randRange(2, 5)</var>
+            <var id="PossibleFunctions">[
+				{ dfx: "\\exp(x)", fx: "\\exp(x)"}, 
+				{ dfx: "\\sin(x)", fx: "-\\cos(x)"}, 
+				{ dfx: "-\\sin(x)", fx: "\\cos(x)"}, 
+				{ dfx: "\\cos(x)", fx: "\\sin(x)"},
+				{ dfx: "-\\cos(x)", fx: "-\\sin(x)"}]</var>
+			<var id="ChosenFunction">randFromArray(PossibleFunctions)</var>
+			<var id="Function">ChosenFunction.dfx</var>
+			<var id="AntiDerivative">ChosenFunction.fx</var>
+        </div>
+        <div class="problems">
+            <div id="basic-integration">
+				<p class="problem">Problem</p>
+                <p class="question">Determine the following integral.
+					<code>\int <var>Function</var> dx</code>
+				</p>
+				
+				<p class="solution"><code><var>AntiDerivative</var></code></p>
+				<ul class="choices" data-category="true">
+					<li><code>\exp(x)</code></li>
+					<li><code>\sin(x)</code></li>
+					<li><code>\cos(x)</code></li>
+					<li><code>-\cos(x)</code></li>
+					<li><code>-\sin(x)</code></li>
+				</ul>
+
+                <div class="hints">
+					<p>Multiply with fractions with the value one.</p>
+                </div>
+            </div> 
+        </div> <!-- problems -->
+    </div> <!-- exercise -->
+</body>

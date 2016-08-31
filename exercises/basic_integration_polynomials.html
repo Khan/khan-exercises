@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Basic integrals - polynomials</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="PossibleFunctions">[
+				{ dfx: "1", fx: "x"}, 
+				{ dfx: "x", fx: "\\frac{1}{2} x^2"}, 
+				{ dfx: "x^2", fx: "\\frac{1}{3} x^3"},
+				{ dfx: "x^3", fx: "\\frac{1}{4} x^4"}]</var>
+			<var id="ChosenFunction">randFromArray(PossibleFunctions)</var>
+			<var id="Function">ChosenFunction.dfx</var>
+			<var id="AntiDerivative">ChosenFunction.fx</var>
+        </div>
+        <div class="problems">
+            <div id="basic-integration">
+				<p class="problem">Problem</p>
+                <p class="question">Determine the following integral.
+					<code>\int <var>Function</var> dx</code>
+				</p>
+				
+				<p class="solution"><code><var>AntiDerivative</var></code></p>
+				<ul class="choices" data-category="true">
+					<li><code>x</code></li>
+					<li><code>\frac{1}{2} x^2</code></li>
+					<li><code>\frac{1}{3} x^3</code></li>
+					<li><code>\frac{1}{4} x^4</code></li>
+				</ul>
+
+                <div class="hints">
+					<p>Multiply with fractions with the value one.</p>
+                </div>
+            </div> 
+        </div> <!-- problems -->
+    </div> <!-- exercise -->
+</body>

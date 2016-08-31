@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Basic integrals - substitution</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+			<!-- Construct inner function -->
+			<var id="A">randRange(2,5)</var>
+			<var id="B">randRange(2,5)</var>
+			<var id="innerFunction">A + "x + " + B</var> 
+			<var id="innerFunctionDerivative">A + ""</var> 
+			<var id="dUFactor">"\\frac{1}{" + A + "}"</var>
+
+			<!-- Construct outer function -->
+			<var id="possibleOuterFunctions">[
+				{function: "\\sin", antiderivative: "\\cos"},
+				{function: "\\exp", antiderivative: "\\exp"},
+				]</var>
+			<var id="outerFunctionAllDetails">randFromArray(possibleOuterFunctions)</var>
+			<var id="outerFunction">outerFunctionAllDetails.function</var> <!-- Outer function -->
+			<var id="outerFunctionAntiderivative">outerFunctionAllDetails.antiderivative</var>
+
+			<!-- Construct false answer elements -->
+			<div data-ensure="outerFunction !== outerFunctionFalse">
+				<var id="outerFunctionFalseAllDetails">randFromArray(possibleOuterFunctions)</var>
+				<var id="outerFunctionFalse">outerFunctionFalseAllDetails.function</var> <!-- Outer function -->
+				<var id="outerFunctionFalseAntiderivative">outerFunctionFalseAllDetails.antiderivative</var>
+			</div>
+			<var id="innerFunctionFalse1">(A + 1) + "x + " + B</var> 
+			<var id="innerFunctionFalse2">(A + 1) + "x + " + (B + 1)</var> 
+			<var id="innerFunctionFalse3">(A + 1) + "x + " + (B - 1)</var> 
+			<var id="innerFunctionFalse4">(A - 1) + "x + " + B</var> 
+			<var id="innerFunctionFalse5">(A - 1) + "x + " + (B + 1)</var> 
+			<var id="innerFunctionFalse6">(A - 1) + "x + " + (B - 1)</var> 
+			<var id="dUFactorFalse1">"\\frac{1}{" + (A + 1) + "}"</var>
+			<var id="dUFactorFalse2">"\\frac{1}{" + (A - 1) + "}"</var>
+
+        </div>
+        <div class="problems">
+            <div id="basic-integration">
+				<p class="problem">Problem</p>
+                <p class="question">Determine the following integral.
+					<code>\int <var>outerFunction</var>(<var>innerFunction</var>) dx</code>
+				</p>
+				
+				<p class="solution">
+					<code><var>dUFactor</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></p>
+				<ul class="choices" data-show="5">
+					<li><code><var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactor</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse1</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse2</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse3</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse4</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse5</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse6</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse1</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse2</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse3</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse4</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse5</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunctionFalse6</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse1</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse2</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse3</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse4</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse5</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse6</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse1</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse2</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse3</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse4</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse5</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunctionFalse6</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse2</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+					<li><code><var>dUFactorFalse1</var> <var>outerFunctionFalseAntiderivative</var>(<var>innerFunction</var>)</code></li>
+				</ul>
+
+                <div class="hints">
+					<p>Recognize that the integral can be written in the form <code>\int f(g(x)) dx</code>.</p>	
+					<p>Introduce a new variable <code>U = <var>innerFunction</var></code>.</p> 
+					<p>Determine the derivative of <code>U</code> with respect to <code>x</code>.</p>
+					<p>This gives <code>dU = <var>innerFunctionDerivative</var> dx</code>.</p> 
+					<p>Now substitute <code><var>innerFunction</var></code> with <code>U</code> and <code>dx</code> with <code><var>dUFactor</var> dU</code>.</p>
+					<p>We now have the integral <code>\int <var>outerFunction</var>(U) <var>dUFactor</var> dU</code>.</p>
+					<p>This is rewritten to <code><var>dUFactor</var> \int <var>outerFunction</var>(U) dU</code>.</p>
+					<p>Which is found to be <code><var>dUFactor</var> <var>outerFunctionAntiderivative</var>(U) + C</code>.</p>
+					<p>Then replace <code>U</code> with <code><var>innerFunction</var></code>.</p>
+					<p>The answer is then <code><var>dUFactor</var> <var>outerFunctionAntiderivative</var>(<var>innerFunction</var>) + C</code>.</p>
+                </div>
+            </div> 
+        </div> <!-- problems -->
+    </div> <!-- exercise -->
+</body>
