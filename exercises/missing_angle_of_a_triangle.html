@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+  <html data-require="math graphie graphie-geometry word-problems">
+      <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+          <title>Missing angle of a triangle</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <!-- make each angle no less than 30 degrees so it won't draw like crazy -->
+              <div class="vars" data-ensure="X + Y <= 150">
+                  <var id="X">randRange( 30, 120 )</var>
+                  <var id="Y">randRange( 30, 120 )</var>
+              </div>
+
+              <div class="problems">
+                  <div id="problem-type-or-description">
+                      <p class="problem">
+                          Given angle X in picture below is <var>X</var>° and Y is <var>Y</var>°. What is the degree of Z?
+                      </p>
+                      <p class="extra-info"><i>(Extra Info: the degrees of three angles inside the triangle add up to 180°.)</i></p>
+                      <p class="question">
+                          <div class="graphie" id="triangle">
+                              init({
+                                  range: [[-4, 6], [-4, 6]]
+                              });
+                              var angles = [X, Y, 180 - X - Y];
+                              var triangle = new Triangle( [0, 0], angles, 5, {'angles' : ['X', 'Y', 'Z']});
+                              triangle.draw();
+                              triangle.drawLabels();
+                        </div>
+                      </p>
+                      <p class="solution">
+                          <span class="sol" data-forms="integer">
+                              <var>180 - X - Y</var>
+                          </span>
+                      </p>
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p>From extra info above we know since X, Y, Z are three different angles of a triangle, then (degree of X) + (degree of Y) + (degree of Z) = 180°. Here we know degree of X = <var>X</var>° and degree of Y = <var>Y</var>°, so what is degree of Z?</p>
+                  <p>degree of Z = 180° - (degree of X) - (degree of Y) = 180° - <var>X</var>° - <var>Y</var>° = <var>180 - X - Y</var>°</p>
+              </div>
+          </div>
+      </body>
+  </html>
