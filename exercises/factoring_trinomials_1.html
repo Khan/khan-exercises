@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html data-require="math graphie ast polynomial-model">
+  <head>
+	<meta charset="UTF-8" />
+	<title>Factoring Trinomials 1</title>
+	<script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+	<div class="exercise">
+	  <div class="problems">
+	<div id="">
+	  <div class="vars">
+		<var id="a_val">randRangeNonZero(-4, 4)</var>
+		<var id="b_val">randRange(6, 19)</var>
+		<var id="c_val">randRange(20, 29)</var>
+		<var id="M">PolynomialModel.init()</var>
+		<var id="A">M.expr(1)</var>
+		<var id="B">M.expr(a_val+b_val)</var>
+		<var id="C">M.expr(a_val*b_val)</var>
+		<var id="P">M.expr(["+", ["+", ["^", "x", "2"], ["*", B, "x"]], C])</var>
+		<var id="S">M.expr(["*", ["+", "x", a_val], ["+", "x", b_val]])</var>
+		<var id="C1">M.expr(["*", ["+", "x", a_val], ["+", "x", b_val]])</var>
+		<var id="C2">M.expr(["*", ["+", "x", a_val], ["+", "x", a_val]])</var>
+		<var id="C3">M.expr(["*", ["+", "x", c_val], ["+", "x", b_val]])</var>
+		<var id="H1">M.expr([",", ["=", "a", a_val], ["=", "b", b_val]])</var>
+		<var id="H2">M.expr(["=", "B", ["+", "a", "b"]])</var>
+		<var id="H3">M.expr(["=", "C", ["*", "a", "b"]])</var>
+		<var id="H4">M.expr([",", ["=", "B", B], ["=", "C", C]])</var>
+		<var id="H5">M.expr(["+", ["+", ["^", "x", 2], "Bx"], "C"])</var>
+		<var id="H6">M.expr(["*", ["+", "x", "a"], ["+", "x", "b"]])</var>
+		<var id="B_sym">M.expr("B")</var>
+		<var id="C_sym">M.expr("C")</var>
+		<var id="a_sym">M.expr("a")</var>
+		<var id="b_sym">M.expr("b")</var>
+	  </div>
+	  <div>
+	    <div class="question">
+	      Factor the following expression:
+	    </div>
+	    <div class="graphie">
+	      P.graph("expr").draw()	
+	    </div>
+	  </div>
+	  <div class="solution"><code><var>S.format()</var></code></div>
+	  <ul class="choices" data-none="true">
+		<li><code><var>C1.format()</var></code></li>
+		<li><code><var>C2.format()</var></code></li>
+		<li><code><var>C3.format()</var></code></li>
+	  </ul>
+	  <div class="hints">
+		<div>
+		  1. Recognize that the expression is of the form 
+		  <code><var>H5.format()</var></code>.
+		</div>
+		<div>
+		  2. Recall that expressions of the form 
+		  <code><var>H5.format()</var></code> can be rewritten in the form 
+		  <code><var>H6.format()</var></code> where 
+		  <code><var>H2.format()</var></code> and 
+		  <code><var>H3.format()</var></code>.
+		</div>
+		<div>
+		  3. Identify  
+		  <code><var>B_sym.format()</code> and
+		  <code><var>C_sym.format()</var></code> in the original expression.
+		</div>
+		<div class="graphie">
+		  H4.graph("hint").draw()
+		</div>
+		<div>
+		  4. Find the factors of the value of 
+		  <code><var>C_sym.format()</var></code> whose sum is the value of 
+		  <code><var>B_sym.format()</var></code>.
+		</div>
+		<div class="graphie">
+		  H1.graph("hint").draw()
+		</div>
+		<div>
+		  5. Compute the solution by substituting the values of 
+		  <code><var>a_sym.format()</var></code> and 
+		  <code><var>b_sym.format()</var></code> in 
+		  <code><var>H6.format()</var></code>.
+		</div>
+		<div class="graphie">
+		  S.graph("hint").draw()
+		</div>
+	  </div>
+	</div>
+	  </div>
+	</div>
+  </body>
+</html>
