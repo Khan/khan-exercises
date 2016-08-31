@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html data-require="math interactive graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Naming points</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="summary">Plotting points on a coordinate plane and name point.
+    </div>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="X">randRange( -10, 10 )</var>
+                    <var id="Y">randRange( -10, 10 )</var>
+                </div>
+                <p class="question">
+                    What ordered pair defines the point on the graph below?
+                </p>
+                <div class="problem">
+                    <br />
+                    <div class="graphie" id="grid">
+                        graphInit({
+                            range: 11,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 1,
+                            gridOpacity: 0.05,
+                            axisOpacity: 0.2,
+                            tickOpacity: 0.4,
+                            labelOpacity: 0.5
+                        });
+
+                        label([0, 11], "y", "above");
+                        label([11, 0], "x", "right");
+
+                        graph.point = circle([X, Y], 0.2, { stroke: ORANGE, fill: ORANGE });
+
+                    </div>
+                </div>
+                <p class="solution" data-type="multiple"><code>(</code>
+                    <span class="sol short"><var>X</var></span>
+                    <code> , </code>
+                    <span class="sol short" data-fallback="1"><var>Y</var></span>
+                    <code>)</code>
+                </p>
+
+                <div class="hints">
+                    <p>We can find the ordered pair of a point by finding the <code>\blue{x}</code> and <code>\pink{y}</code> value that corresponds to the point.</p>
+
+                    <div>
+                        <p>
+                           The <code>\blue{x}</code> value, which goes first, is found by looking first at the horizontal <span class="hint_blue"><code>x</code>-axis</span> and finding the value on that axis that is lined up vertically with the point.  For this point that is <code>\blue{x = <var>X</var>}</code>.
+                        </p>
+                        <div class="graphie" data-update="grid">
+                            style({
+                                stroke: BLUE,
+                                strokeWidth: 1.5,
+                            }, function() {
+                                line([X, -11], [X, 11]);
+                            });
+
+                            graph.point.toFront();
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>
+                           The <code>\pink{y}</code> value, which always goes second in an ordered pair, is found by looking at the vertical <span class="hint_pink"><code>y</code>-axis</span> and finding the value on that axis that is lined up horizontally with the point.  For this point, that value is <code>\pink{y = <var>Y</var>}</code>.
+                        </p>
+                        <div class="graphie" data-update="grid">
+                            style({
+                                stroke: PINK,
+                                strokeWidth: 1.5,
+                            }, function() {
+                                line([-11, Y], [11, Y]);
+                            });
+
+                            graph.point.toFront();
+                        </div>
+                    </div>
+
+                    <p class="final_answer">
+                        Since we found that <code>\blue{x = <var>X</var>}</code> and <code>\pink{y = <var>Y</var>}</code> for this point, the ordered pair is (<span class="hint_blue"><var>X</var></span>, <span class="hint_pink"><var>Y</var></span>).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
