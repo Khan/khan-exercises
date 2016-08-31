@@ -590,7 +590,7 @@ var Khan = {
 
                 var bugid = data.key;
                 // VIPs get a link to the issue
-                if (vip) {
+                (vip) {
                     bugid = "<a href='https://khanacademy.atlassian.net/browse/" +
                             data.key + "'>" + data.key + "</a>";
                 }
