@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Vector dot product</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+	<div class="exercise">
+	<div class="vars">
+		<!-- option chooses between 3 cases: random vectors, parallel vectors, or orthogonal vectors-->
+		<!-- we wanted a higher chance of parallel or orthogonal vectors -->
+		<var id="option"> rand(100) </var>
+		<var id="randomVectorPercent"> 70 </var>
+		
+		<!-- choose vector A randomly -->
+		<!-- if its a parallel or orthogonal problem make it shorter -->
+		<var id="AX"> option >= randomVectorPercent ? randRangeNonZero( -3, 3) : randRangeNonZero( -9, 9) </var>
+		<var id="AY"> option >= randomVectorPercent ? randRangeNonZero( -3, 3 ) : randRangeNonZero( -9, 9) </var>
+
+		<!-- generate a vector for each of the 3 cases-->
+		<var id="scale"> randRangeNonZero(-3, 3) </var>
+		<var id="randomBX"> randRangeNonZero( -9, 9 ) </var>
+		<var id="randomBY"> randRangeNonZero( -9, 9 ) </var>
+		<var id="orthogonalBX"> AY * scale </var>
+		<var id="orthogonalBY"> AX * -scale </var>
+		<var id="parallelBX"> AX*scale </var>
+		<var id="parallelBY"> AY*scale </var>
+		<!-- Use option to set B appropriately -->
+		<var id="BX"> option < randomVectorPercent ? randomBX : (option < 9 ? parallelBX : orthogonalBX) </var>
+		<var id="BY"> option < randomVectorPercent ? randomBY : (option < 9 ? parallelBY : orthogonalBY) </var>
+
+
+	</div>
+
+	<div class="problems">
+		<div>
+			<div class="question">
+				<div id="graph" class="graphie" style="float: right">
+					graphInit({
+						range: 10,
+						scale: 20,
+						tickStep: 1,
+						labelStep: 1,
+						unityLabels: false,
+						labelFormat: function( s ) { return "\\small{" + s + "}"; },
+						axisArrows: "<->"
+					});
+
+					line( [0, 0], [AX, AY], { stroke: "#6495ed", arrows: "->" } );
+					line( [0, 0], [BX, BY], { stroke: "#28ae7b", arrows: "->" } );
+
+					var AF = 1 + 0.8 / sqrt( AX * AX + AY * AY );
+					label( [AF * AX, AF * AY], "\\vec a", { color: "#6495ed" } );
+
+					var BF = 1 + 0.8 / sqrt( BX * BX + BY * BY );
+					label( [BF * BX, BF * BY], "\\vec b", { color: "#28ae7b" } );
+				</div>
+
+				<p>What is <code>\vec a \cdot \vec b</code>?</p>
+
+				<p><code>\begin{align*}
+					\vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
+					\vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
+				\end{align*}</code></p>
+
+			</div>
+
+			<div class="solution" data-type="multiple">
+				<p><span class="sol" data-fallback="1"><var>(AX*BX)+(AY*BY)</var></span></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="hints">
+		<p>Multiply the <code>\hat\imath</code> and <code>\hat\jmath</code> components separately and add the results</p>
+
+		<div>
+			<p><code>\hat a \cdot \hat b = (<var>AX</var> * <var>BX</var>)  + (<var>AY</var> * <var>BY</var>)</code></p>
+		</div>
+		<div>
+			<p><code>\hphantom{\hat a \cdot \hat b} = <var>AX * BX</var> + <var>AY * BY</var></code></p>
+		</div>
+		<div>
+			<p><code>\hphantom{\hat a \cdot \hat b} = <var>AX * BX + AY * BY</var></code></p>
+		</div>
+
+	</div>
+
+	</div>
+</body>
+</html>
