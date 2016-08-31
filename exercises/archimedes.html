@@ -1,0 +1,73 @@
+<!-- Writen by Andrew J. Privette aprivett@mit.edu -->
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta charset="UTF-8" />
+	<title>Archimedes Principle</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars" data-ensure="DENSE_FLUID <= DENSE_OBJ">
+		<var id="DENSE_FLUID">randRange(500, 1500)</var>
+        <var id="DENSE_OBJ">randRange(1000, 2000)</var>
+        <var id="WEIGHT_OBJ">randRange(1, 50)</var>
+        <var id="WEIGHT_FLUID">roundTo (1,DENSE_FLUID * WEIGHT_OBJ / DENSE_OBJ)</var>
+	</div>
+
+	<div class="problems">
+		<div id="solve-for-WEIGHT_FLUID">
+			<div class="question">
+				<p><var>person( 1 )</var> drops an object which weighs <var>WEIGHT_OBJ</var> kilograms into a fluid with a denisty of <var>DENSE_FLUID</var> <code>\frac{\text{kilograms}}{\text{meter}^3}</code>.  If the density of the object is <var>DENSE_OBJ</var> <code>\frac{\text{kilograms}}{\text{meter}^3}</code>, what is the weight of the displaced fluid (in kilograms)? (Round to the nearest tenth)</p> 
+			</div>
+			<div class="solution"><var>WEIGHT_FLUID</var></div>
+            <div class="hints">
+	<p> Any object, wholly or partially immersed in a fluid, is buoyed up by a force equal to the weight of the fluid displaced by the object. </p>
+    <p><code>\frac{\text{density of object}}{\text{density of fluid}}=\frac{\text{weight of object}}{\text{weight of displaced fluid}}</code></p>
+    <p><code>\text{weight of displaced fluid}=\frac{\text{density of fluid}*\text{weight of object}}{\text{density of object}}=\frac{<var>DENSE_FLUID</var>*<var>WEIGHT_OBJ</var>}{<var>DENSE_OBJ</var>}</code></p>
+    <p><code> \text{The answer is } <var>WEIGHT_FLUID</var></code></p>
+	</div>
+		</div> 
+        <div id="solve-for-WEIGHT_OBJ">
+			<div class="question">
+				<p><var>person( 1 )</var> drops an object into a fluid with a denisty of <var>DENSE_FLUID</var> <code>\frac{\text{kilograms}}{\text{meter}^3}</code> and <var>WEIGHT_FLUID</var> kilograms of fluid is displaced.  If the density of the object is <var>DENSE_OBJ</var> <code>\frac{\text{kilograms}}{\text{meter}^3}</code>, what is the weight of the object (in kilograms)? (Round to the nearest tenth)</p> 
+			</div>
+			<div class="solution"><var>WEIGHT_OBJ</var></div>
+            <div class="hints">
+	<p> Any object, wholly or partially immersed in a fluid, is buoyed up by a force equal to the weight of the fluid displaced by the object. </p>
+    <p><code>\frac{\text{density of object}}{\text{density of fluid}}=\frac{\text{weight of object}}{\text{weight of displaced fluid}}</code></p>
+    <p><code>\text{weight of object}=\frac{\text{density of object}*\text{weight of displaced fluid}}{\text{density of fluid}}=\frac{<var>DENSE_OBJ</var>*<var>WEIGHT_FLUID</var>}{<var>DENSE_FLUID</var>}</code></p>
+    <p><code> \text{The answer is } <var>WEIGHT_OBJ</var></code></p>
+	</div>
+		</div> 
+        <div id="solve-for-DENSE_FLUID">
+			<div class="question">
+				<p><var>person( 1 )</var> drops an object with a weight of <var>WEIGHT_OBJ</var> kilograms and a density of <var>DENSE_OBJ</var> <code>\frac{\text{kilograms}}{\text{meter}^3}</code> into a fluid with an unknown denisty.  If the weight of the displaced fluid is <var>WEIGHT_FLUID</var> kilograms, what is the density of the fluid in <code>\frac{\text{kilograms}}{\text{meter}^3}</code>? (Round to the nearest tenth)</p> 
+			</div>
+			<div class="solution"><var>DENSE_FLUID</var></div>
+            <div class="hints">
+	<p> Any object, wholly or partially immersed in a fluid, is buoyed up by a force equal to the weight of the fluid displaced by the object. </p>
+    <p><code>\frac{\text{density of object}}{\text{density of fluid}}=\frac{\text{weight of object}}{\text{weight of displaced fluid}}</code></p>
+    <p><code>\text{density of fluid}=\frac{\text{weight of displaced fluid}*\text{density of object}}{\text{weight of object}}=\frac{<var>DENSE_OBJ</var>*<var>WEIGHT_FLUID</var>}{<var>WEIGHT_OBJ</var>}</code></p>
+    <p><code> \text{The answer is } <var>DENSE_FLUID</var></code></p>
+	</div>
+		</div> 
+        
+           <div id="solve-for-DENSE_OBJECT">
+			<div class="question">
+				<p><var>person( 1 )</var> drops an object with a weight of <var>WEIGHT_OBJ</var> kilograms into a fluid with a denisty <var>DENSE_FLUID</var> <code>\frac{\text{kilograms}}{\text{meter}^3}</code>.  If the weight of the displaced fluid is <var>WEIGHT_FLUID</var> kilograms, what is the density of the object in <code>\frac{\text{kilograms}}{\text{meter}^3}</code>? (Round to the nearest tenth)</p> 
+			</div>
+			<div class="solution"><var>DENSE_OBJ</var></div>
+            <div class="hints">
+	<p> Any object, wholly or partially immersed in a fluid, is buoyed up by a force equal to the weight of the fluid displaced by the object. </p>
+    <p><code>\frac{\text{density of object}}{\text{density of fluid}}=\frac{\text{weight of object}}{\text{weight of displaced fluid}}</code></p>
+    <p><code>\text{density of object}=\frac{\text{weight of object}*\text{density of fluid}}{\text{weight of displace fluid}}=\frac{<var>DENSE_FLUID</var>*<var>WEIGHT_OBJ</var>}{<var>WEIGHT_FLUID</var>}</code></p>
+    <p><code> \text{The answer is } <var>DENSE_OBJ</var></code></p>
+	</div>
+		</div>
+	</div>
+
+	
+	</div>
+</body>
+</html>
