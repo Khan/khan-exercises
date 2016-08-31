@@ -1,0 +1,111 @@
+<!DOCTYPE html> 
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>United States Presidential History</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" >
+
+
+
+        <var id="IMG">"img class=flashcard src="</var>
+            <!-- use the form [IMAGE_PATHNAME, ANSWER] -->
+
+
+         <var id="F_NAME">randFromArray([
+        ["image/GW.jpg", "George Washington","first",['"never telling a lie"',],],
+        ["image/JA.jpg","John Adams","second",["writing the Massachusetts Constitution",],],
+        ["image/TJ.jpg","Thomas Jefferson","third",["the Louisiana Purchase",],],
+        ["image/JM.jpg","James Madison","fourth",["for writing the Constitution",],],
+        ["image/JMo.jpg","James Monroe","fifth",["the Monroe Doctrine",],],
+        ["image/JQA.jpg","John Quincy Adams","sixth",["helping prevent a war with France",],],
+        ["image/AJ.jpg","Andrew Jackson","seventh",["being a self-made man",],],
+        ["image/MVB.jpg","Martin Van Buren","eighth",["being one of Andrew Jackson's biggest supporters",],],
+        ["image/WHH.jpg","William Henry Harrison","ninth",["having the shortest term",],],
+        ["image/JT.jpg","John Tyler","tenth",["being the first president who wasn't elected",],],
+        ["image/JKP.jpg","James K. Polk","eleventh",["annexing the southwest",],],
+        ["image/ZT.jpg","Zachary Tayler","twelfth",["being a hero of the Mexican American War",],],
+        ["image/MF.jpg","Millard Fillmore","thirteenth",["being the last of the Whig party",],],
+        ["image/FP.jpg","Franklin Pierce","fourteenth",['being a "doughface"',],],
+        ["image/JB.jpg","James Buchanan","fifteenth",["presiding over secession",],],
+        ["image/AL.jpg","Abraham Lincoln","sixteenth",["leading during the Civil War",],],
+        ["image/AJo.jpg","Andrew Johnson","seventeenth",["being the first president to be impeached",],],
+        ["image/USG.jpg","Ulysses S. Grant","eighteenth",["leading the Union Army",],],
+        ["image/RH.jpg","Rutherford B. Hayes","nineteenth",["helping compromise on Reconstruction",],],
+        ["image/JG.jpg","James Garfield","twentieth",["serving nine terms in Congress",],],
+        ["image/CAA.jpg","Chester A. Arthur","twenty first",["reforming civil service",],],
+        ["image/GC.jpg","Grover Cleveland","twenty second",["serving two nonconsecutive terms",],],
+        ["image/BH.jpg","Benjamin Harrison","twenty third",["being the grandson of a previous president",],],
+        ["image/GC.jpg","Grover Cleveland","twenty fourth",["serving two nonconsecutive terms",],],
+        ["image/WM.jpg","William Mckinely","twenty fifth",['being helped to office by the "robber barons"'],],
+        ["image/TR.jpg","Theodore Roosevelt","twenty sixth",["being a hero of the Spanish American War",],],
+        ["image/WHT.jpg","William Howard Taft","twenty seventh",["being tough on trusts"],],
+        ["image/WW.jpg","Woodrow Wilson","twenty eighth",["presiding over World War 1",],],
+        ["image/WH.jpg","Warren G. Harding","twenty ninth",["corruption in his administration",],],
+        ["image/CC.jpg","Calvin Coolidge","thirtieth",["reducing the size of government",],],
+        ["image/HH.jpg","Herbert Hoover","thirty first",["starting the CWA"],],
+        ["image/FDR.jpg","Franklin D. Roosevelt","thirty second",['creating a "New Deal"',],],
+        ["image/HST.jpg","Harry S Truman","thirty third",["dealing with tough decisions at the end of World War II",],],
+        ["image/DDE.jpg","Dwight D. Eisenhower","thirty fourth",["being a hero of World War II",],],
+        ["image/JFK.jpg","John F. Kennedy","thiry fifth",["challenging the country to reach the moon",],],
+        ["image/LBJ.jpg","Lyndon B. Johnson","thirty sixth",['creating a "Great Society"',],],
+        ["image/RN.jpg","Richard Nixon","thirty seventh",["having to resign from office",],],
+        ["image/GF.jpg","Gerald Ford","thirty eighth",["pardoning Nixon",],],
+        ["image/JC.jpg","Jimmy Carter","thirty ninth",["stagflation",],],
+        ["image/RR.jpg","Ronald Reagan","fortieth",['being the "Great Communicator"',],],
+        ["image/GHWB.jpg","George H. W. Bush","forty first",["Iraq and Desert Storm",],],
+        ["image/BC.jpg","Bill Clinton","forty second",["a series of scandals, and being persecuted by the opposition",],],
+        ["image/GWB.jpeg","George W. Bush","forty third",["the second Iraq War",],],
+        ["image/BO.jpg","Barack Obama","forty fourth",["reenvisioning healthcare",],],
+
+        ])</var>
+
+        
+        <var id="redHerring">shuffle(["George Washington","Thomas Jefferson","John Adams","James Madison","James Monroe","John Quincy Adams","Andrew Jackson","Andrew Jackson","Martin Van Buren","William Henry Harrison","John Tyler","James K. Polk","Zachary Taylor","Millard Fillmore","Franklin Pierce","James Buchanan","Abraham Lincoln","Andrew Johnson","Ulysses S. Grant","Rutherford B. Hayes","James Garfield","Chester A. Arthur","Grover Cleveland","Benjamin Harrison","William Mckinely","Theodore Roosevelt","William Howard Taft","Woodrow Wilson","Warren G. Harding","Calvin Coolidge","Herbert Hoover","Franklin D. Roosevelt","Harry S Truman","Dwight D. Eisenhower","John F. Kennedy","Lyndon B. Johnson","Richard Nixon","Gerald Ford","Jimmy Carter","Ronald Reagan","George H. W. Walker","Bill Clinton","George W. Bush","Barack Obama",],3)</var>
+
+        <var id="goofy">shuffle(["Bill Murray","Michael Jackson","Justin Bieber","Benedict Arnold","Napoleon Bonaparte","Winston Churchill","Albert Einstein","Luke Wilson","Al Gore","Michael Jordan","Anderson Cooper","Ron Howard","George Clooney","Brad Pitt","Ryan Gosling","Neil Armstrong","Morgan Freeman","Justin Timberlake","Mark Zuckerberg","John Kerry","John McCain","Mitt Romney",],1)</var>
+
+        <var id="IMG_STR">  
+        ( function() {
+
+                        var qstn =  "<"+IMG+F_NAME[0]+">";
+
+                        return qstn;
+                    } )()
+
+        </var>
+
+
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>Who is the <var>F_NAME[2]</var> President of the United States?</p>
+                <p><var>IMG_STR</var></p>
+            </div>
+
+            <div class="solution"><var>F_NAME[1]</var></div>
+            <ul class="choices">
+                <li><var data-ensure="redHerring[0] !== F_NAME[1]">redHerring[0]</var></li>
+                <li><var data-ensure="redHerring[1] !== F_NAME[1]">redHerring[1]</var></li>
+                <li><var data-ensure="redHerring[2] !== F_NAME[1]">redHerring[2]</var></li>
+                <li><var>goofy</var></li>
+            </ul>
+            <div class="hints">
+             <p>He was best known for: <var>F_NAME[3][0]</var>.</p>
+            <p>It is not <var>goofy</var>, or <var>redHerring[0]</var>.</p>
+            <p>It is not <var>redHerring[1]</var>, or <var>redHerring[2]</var>.</p>
+            <p>It is <var>F_NAME[1]</var>.</p>
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+</body>
+</html>

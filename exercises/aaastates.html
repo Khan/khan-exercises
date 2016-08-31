@@ -1,0 +1,118 @@
+<!DOCTYPE html> 
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>State Capitals</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" >
+
+
+
+        <var id="IMG">"img class=flashcard src="</var>
+            <!-- use the form [IMAGE_PATHNAME, ANSWER] -->
+
+        <var id="TEST">randFromArray([
+        ["test/state/AL.jpg", "Montgomery","Alabama",["Birmingham","Huntsville","Tuscaloosa","Mobile",],],
+        ["test/state/AK.jpg", "Juneau","Alaska",["Anchorage","Fairbanks","Sitka","Ketchikan",],],
+        ["test/state/AZ.jpg", "Phoenix","Arizona",["Phoenix","Tucson","Mesa","Chandler","Glendale",],],
+        ["test/state/AR.jpg", "Little Rock","Arkansas",["Fort Smith","Fayettville","Springdale","Jonesboro",],],
+        ["test/state/CA.jpg", "Sacramento","California",["Los Angeles","San Diego","San Jose","Fresno",],],
+        ["test/state/CO.jpg", "Denver","Colorado",["Colorado Springs","Aurora","Fort Collins","Lakewood",],],       
+        ["test/state/CT.jpg", "Hartford","Connecticut",["Bridgeport","New Haven","Stamford","Waterbury",],],
+        ["test/state/DE.jpg", "Dover","Delaware",["Wilmington","Newark","Middletown","Smyrna",],],
+        ["test/state/FL.jpg", "Tallahassee","Florida",["Jacksonville","Miami","Tampa","St. Petersburg",],],
+        ["test/state/GA.jpg", "Atlanta","Georgia",["Augusta","Columbus","Savannah","Athens",],],
+        ["test/state/HI.jpg", "Honolulu","Hawaii",["Hilo","Kailua","Kapolei","Kaneohe",],],
+        ["test/state/IA.jpg", "Des Moines","Iowa",["Cedar Rapids","Davenport","Sioux City","Waterloo",],],
+        ["test/state/ID.jpg", "Boise","Idaho",["Nampa","Meridian","Idaho Falls","Pocatello",],],
+        ["test/state/IL.jpg", "Springfield","Illinois",["Chicago","Aurora","Rockford","Joliet",],],
+        ["test/state/IN.jpg", "Indianapolis","Indiana",["Fort Wayne","Evansville","South Bend","Carmel",],],
+        ["test/state/KS.jpg", "Topeka","Kansas",["Wichita","Overland Park","Kansas City","Olathe",],],
+        ["test/state/KY.jpg", "Frankfort","Kentucky",["Louisville","Lexington","Bowling Green","Owensboro",],], 
+        ["test/state/LA.jpg", "Baton Rouge","Louisiana",["New Orleans","Shreveport","Lafayette","Lake Charles",],],
+        ["test/state/MA.jpg", "Boston","Massachusetts",["Worcester","Springfield","Lowell","Cambridge",],], 
+        ["test/state/ME.jpg", "Augusta","Maine",["Portland","Lewiston","Bangor","Auburn",],],
+        ["test/state/MD.jpg", "Annapolis","Maryland",["Baltimore","Columbia","Germantown","Silver Spring",],],
+        ["test/state/MI.jpg", "Lansing","Michigan",["Detroit","Grand Rapids","Ann Arbor","Kalamazoo",],],
+        ["test/state/MN.jpg", "St. Paul","Minnesota",["Minneapolis","Rochester","Duluth","Bloomington",],],
+        ["test/state/MO.jpg", "Jefferson City","Missouri",["Kansas City","Saint Louis","Springfield","Independence",],],
+        ["test/state/MS.jpg", "Jackson","Mississippi",["Gulfport","Hattiesburg","Southaven","Biloxi",],],        
+        ["test/state/MT.jpg", "Helena","Montana",["Billings","Missoula","Great Falls","Butte",],],
+        ["test/state/NE.jpg", "Lincoln","Nebraska",["Omaha","Bellevue","Grand Island","Kearney",],],
+        ["test/state/NH.jpg", "Concord","New Hampshire",["Manchester","Nashua","Derry","Rochester",],],
+        ["test/state/NV.jpg", "Carson City","Nevada",["Las Vegas","Henderson","Reno","Sparks",],],
+        ["test/state/NJ.jpg", "Trenton","New Jersey",["Newark","Jersey City","Paterson","Elizabeth",],],
+        ["test/state/NM.jpg", "Santa Fe","New Mexico",["Albuquerque","Las Cruces","Rio Rancho","Roswell",],],
+        ["test/state/NY.jpg", "Albany","New York",["New York City","Buffalo","Rochester","Syracuse",],],
+        ["test/state/NC.jpg", "Raleigh","North Carolina",["Charlotte","Greensboro","Durham","Winston-Salem",],],
+        ["test/state/ND.jpg", "Bismarck","North Dakota",["Fargo","Grand Forks","Minot","West Fargo",],],
+        ["test/state/OH.jpg", "Columbus","Ohio",["Cleveland","Cincinnati","Toledo","Akron",],],
+        ["test/state/OK.jpg", "Oklahoma City","Oklahoma",["Tulsa","Norman","Broken Arrow","Lawton",],],
+        ["test/state/OR.jpg", "Salem","Oregon",["Portland","Eugene","Gresham","Hillsboro",],],
+        ["test/state/PA.jpg", "Harrisburg","Pennsylvania",["Philadelphia","Pittsburgh","Allentown","Erie",],],
+        ["test/state/RI.jpg", "Providence","Rhode Island",["Warwick","Cranston","Pawtucket","East Providence",],],
+        ["test/state/SC.jpg", "Columbia","South Carolina",["Charleston","Greenville","Mount Pleasant","Rock Hill",],],
+        ["test/state/SD.jpg", "Pierre","South Dakota",["Sioux Falls","Rapid City","Aberdeen","Brookings",],], 
+        ["test/state/TN.jpg", "Nashville","Tennessee",["Memphis","Knoxville","Chattanooga","Clarksville",],],
+        ["test/state/TX.jpg", "Austin","Texas",["Houston","San Antonio","Dallas","Fort Worth",],],
+        ["test/state/UT.jpg", "Salt Lake City","Utah",["West Valley City","Provo","West Jordan","Orem",],],
+        ["test/state/VA.jpg", "Richmond","Virginia",["Virginia Beech","Norfolk","Chesapeake","Newport News",],],
+        ["test/state/VT.jpg", "Montpelier","Vermont",["Burlington","Essex","Colchester","Rutland",],],
+        ["test/state/WA.jpg", "Olympia","Washington",["Seattle","Spokane","Tacoma","Vancouver",],],
+        ["test/state/WI.jpg", "Madison","Wisconsin",["Milwaukee","Green Bay","Kenosha","Racine",],],
+        ["test/state/WV.jpg", "Charleston","West Virginia",["Huntington","Parkersburg","Morgantown","Wheeling",],],
+        ["test/state/WY.jpg", "Cheyenne","Wyoming",["Casper","Laramie","Gillette","Rock Springs",],],
+        ])
+        </var>
+
+        <var id="SOL">shuffle([TEST[1],TEST[3][0],TEST[3][1],TEST[3][2],TEST[3][3],],5)</var>        
+
+        <var id="SOL_1">shuffle([TEST[1],TEST[3][0],TEST[3][1],TEST[3][2],TEST[3][3],],5)</var>
+
+        <var id="SOL_2">shuffle([TEST[1],TEST[3][0],TEST[3][1],TEST[3][2],],4)</var>
+
+        <var id="SOL_3">shuffle([TEST[1],TEST[3][0],TEST[3][1],3)</var>
+
+        <var id="IMG_STR">  
+        ( function() {
+
+                        var qstn =  "<"+IMG+TEST[0]+">";
+
+                        return qstn;
+                    } )()
+
+        </var>
+
+
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is the capital of the state of <var>TEST[2]</var>?</p>
+                <p><var>IMG_STR</var></p>
+            </div>
+
+            <div class="solution" data-type="text"><var>TEST[1]</var></div>
+            <div class="hints">
+
+            <p>5 cities in <var>TEST[2]</var> are: <var>SOL_1[0]</var>, <var>SOL_1[1]</var>, <var>SOL_1[2]</var>, <var>SOL_1[3]</var>, and <var>SOL_1[4]</var>.</p>  
+
+            <p>4 cities in <var>TEST[2]</var> are: <var>SOL_2[0]</var>, <var>SOL_2[1]</var>, <var>SOL_2[2]</var>, and <var>SOL_2[3]</var>.</p>    
+
+            <p>3 cities in <var>TEST[2]</var> are: <var>SOL_2[0]</var>, <var>SOL_2[1]</var>, and <var>SOL_2[2]</var>.</p>
+
+            <p>It is <var>TEST[1]</var>.</p>        
+
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+</body>
+</html>

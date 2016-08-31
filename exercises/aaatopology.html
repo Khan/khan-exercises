@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive">
+<head>
+	<meta charset="UTF-8" />
+	<title>MJP_025</title>
+	<script src="../khan-exercise.js"></script>
+	<script>
+
+
+//measures the 2D distance from the two points usually a target point and a moveable point
+
+function distTarPt (x,y,xt,yt) {
+         dist = Math.pow((Math.pow(x - xt,2)+Math.pow(y - yt,2)),0.5);
+         return dist
+         } 
+
+//probably the best picture import routine.  Pulls from the khan-exercises/images directory but
+//could be adjusted to nest down directory structures to individual questions especially in that
+//it could be standardized.  The r value is a diagonal shift and should probably be cleaned up.
+
+function ImportPictureb( name,center, r, w, h ) {
+	var graph = KhanUtil.currentGraph;
+	this.set = graph.raphael.set();
+        var dir = "images/"
+	this.cx = center[0];
+	this.cy = center[1];
+	var lineColor = "#789";
+	var imgPos = graph.scalePoint([ this.cx - r, this.cy + r ]);
+	
+	this.set.push( graph.raphael.image( Khan.urlBase + dir + name, imgPos[0], imgPos[1], w, h ) );
+	return this;
+	//this._rotation = 0;
+	//this.getRotation = function() {
+	//	return this._rotation;
+	//};
+        }
+
+function ImportPicturec( owner, quesnum, picname, center, r, w, h ) {
+	var graph = KhanUtil.currentGraph;
+	this.set = graph.raphael.set();
+        var dir = "images/"
+	this.cx = center[0];
+	this.cy = center[1];
+	var lineColor = "#789";
+	var imgPos = graph.scalePoint([ this.cx - r, this.cy + r ]);
+	
+	this.set.push( graph.raphael.image( Khan.urlBase + dir + owner + "/" + quesnum + "/"+  picname, imgPos[0], imgPos[1], w, h ) );
+	return this;
+	//this._rotation = 0;
+	//this.getRotation = function() {
+	//	return this._rotation;
+	//};
+        }
+
+//this function accepts set of 3 2 dimensional points to determine if the third point is left/right/collinear of the
+//line defined by the first two points.  This is a basic topological operation used to determine inclusion in a polygon.
+//returns positive for left, negative for right and zero if collinear.  Should probably include a fuzz factor.
+//while other functions may do this test they abstract out the math of dot products which is worth everyone internalizing.
+
+
+function ptSide(p0,p1,p2){
+    v0=[p1[0]-p0[0],p1[1]-p0[1]];
+    v1=[p2[0]-p1[0],p2[1]-p1[1]];
+    det = v0[0]*v1[1]-v0[1]*v1[0];
+    return det;
+    }
+
+//this function accepts a set of 2 dimensional points which make up a closed boundary and a test point
+//and determines if the point lies within or on the boundary
+//returns positive for inside and 0 for outside
+//it calls the function ptSide
+//returns
+
+
+
+function inorout(pts,ptest){
+    var i = 1;
+    var stest = 0;
+    for (i;i<pts.length;i++) {
+    stest=ptSide(pts[i-1],pts[i],ptest);
+    //alert (stest);
+    if (stest < 0){
+    //alert ("test fails on " + i + "th line")
+    return 0;
+    };
+    };
+    stest=ptSide(pts[i-1],pts[0],ptest)    
+    if (stest < 0){
+    return 0
+    }else{
+    return 1
+    }
+    }
+
+function answertext(i,tval){
+    var text=["",tval];
+    return text[i];
+    }
+
+function posofmin(vals){
+    cnt=vals.length;
+    i=1;
+    minpos=0;
+    minval=vals[0]
+    for (i;i < cnt;i++){
+        if (vals[i] < minval) {
+            minpos = i;
+            minval=vals[i];
+            };
+            };
+    return minpos;
+    }
+
+function threshhold(d,t){
+    if (d < t){
+        return 1}
+    else {
+        return 0}
+    }
+
+function playSound( owner, quesnum, picname){
+    var dir = "images/";
+    sndfname = Khan.urlBase + dir + owner + "/" +quesnum + "/"+  picname;
+    var snd = new Audio(sndfname);
+    snd.play();
+    }     
+
+function tranmult(a,b){
+     c=[];
+     j=0;
+     i=0;
+
+     for (j;j < 4; j++){
+        for (i;i < 4; i++){
+            c[i+4*j] = a[i]*b[j*4] + a[i+4]*b[j*4+1] + a[i+8]*b[4*j+2] + a[i+12]*b[4*j+3];
+        }
+    }  
+    return c;
+    }
+
+function gimp_khan(gc,kc,flip,pt){
+    xscale = kc[0]/gc[0];
+    yscale = kc[1]/gc[1];
+    tran = [xscale,0,0,0,0,(flip === 1? -1: 0)*yscale,0,0,0,0,1,0,0,kc[1],0,1];
+    pt.push(0);
+    pt.push(1);
+    for (j=0; j < 12; j++) {pt.push(0)}
+    c=tranmult(tran,pt);
+    return [c[0],c[1]];
+    }
+  
+
+
+
+//within exercise need to nest the Points in a list so that one can test on 
+//a variety of various locations with ease.  
+//One can either do this with distance to the target or with topology.
+//The reason to do topology is its transferability to image maps which can be 
+//Also need to work on the abstraction of the draw function.
+//Need to find the function and data description where the point tells where it is.
+
+</script>
+</head>
+<body>
+	<div class="exercise">
+	<div class="vars">
+                <var id="MDTESTDAT">
+
+                  ["mjp","mjp_025",[
+                      ["e",gimp_khan([640,480],[16,12],1,[171,315]),"Used for doubling growth","temp01.mp3"],
+                      ["i",gimp_khan([640,480],[16,12],1,[182,258]),"square root of -1","temp02.mp3"],
+                      ["pi",gimp_khan([640,480],[16,12],1,[220,230]),"Ratio of Circum to Diameter","temp03.mp3"],
+                      ["-1",gimp_khan([640,480],[16,12],1,[288,215]),"Flips something","temp04.mp3"],
+                      ["0",gimp_khan([640,480],[16,12],1,[348,229]),"Additive Identity","temp05.mp3"],
+                      ["1",gimp_khan([640,480],[16,12],1,[379,275]),"Multiplicative Identity","temp06.mp3"],
+                      ["sqrt(2)",gimp_khan([640,480],[16,12],1,[401,322]),"Pythageous Number","temp07.mp3"],
+                      ["sqrt(3)",gimp_khan([640,480],[16,12],1,[381,391]),"tangent of pi/3","temp08.mp3"],
+                      ["sqrt(5)",gimp_khan([640,480],[16,12],1,[329,419]),"Involved with phi","temp09.mp3"],
+                      ["phi",gimp_khan([640,480],[16,12],1,[288,420]),"Golden Ratio","temp10.mp3"],
+                      ["matrix",gimp_khan([640,480],[16,12],1,[227,403]),"Used to transform","temp11.mp3"],
+                      ["vector",gimp_khan([640,480],[16,12],1,[186,355]),"Single Stack","temp12.mp3"],
+                      ["infinity",gimp_khan([640,480],[16,12],1,[282,321]),"Tangent of pi/2 more or less","temp13.mp3"]],
+                                                      "e"]</var>                                
+                <var id="LOWER_BOUND">-100</var>
+                <var id="NUMSHAPES">MDTESTDAT[2].length</var>
+                <var id="INDEX">rand(NUMSHAPES-1)</var>
+                <var id="UPPER_BOUND">16</var>
+                <var id="LOWER_BOUND">0</var>
+                <var id="DUMBANS">MDTESTDAT[2][INDEX][0]</var>
+                <var id="DUMBANS2">INDEX</var>
+                <var id="NUMBER">MDTESTDAT[2][INDEX][1][0]</var>
+   	        <var id="NUMBER2">MDTESTDAT[2][INDEX][1][1]</var>		
+
+
+	</div>
+	<div class="problems">
+		<div>
+			<div class="question">
+				<p>Drag the Magic Orange Dot to the key indicating  <var>MDTESTDAT[2][INDEX][2]</var>  </p>			
+
+
+					<div class="graphie" id="number-line">
+					init({
+						range: [ [0 , 16 ], [0, 12] ]
+					});
+
+					
+                             
+					graph.pic1 = new ImportPicturec(MDTESTDAT[0],MDTESTDAT[1],"question.png", [0, 12], 0, 640, 480 );
+                                        var i = 0;
+                                        for (i ; i < NUMSHAPES ; i++){
+                                        circle(MDTESTDAT[2][i][1],0.25)};
+                                  
+					addMouseLayer();
+					this.movablePoint = addMovablePoint({ snapY: 0.05, snapX: 0.05, coord:[9,11.5] });
+
+					movablePoint.onMove = function( x, y ) {
+						if (x < LOWER_BOUND || UPPER_BOUND < x) {
+							return false; // don't allow the point to move past the bounds
+						};
+                                                dvals=[0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+						//$("#solutionarea input:first").val( x );
+                                                //jQuery("#solutionarea input:first").val( distTarPt(x,y,MDTESTDAT[4][0],MDTESTDAT[4][1]));
+						//$("#solutionarea input:last").val( y );
+                                                var k=0;
+                                                for (k;k < 13;k++){
+                                                dvals[k] = distTarPt(x,y,MDTESTDAT[2][k][1][0],MDTESTDAT[2][k][1][1])};
+                                                $("#solutionarea input:first").val( threshhold(dvals[posofmin(dvals)],0.25));
+                                                $("#solutionarea input:last").val( MDTESTDAT[2][posofmin(dvals)][0]);
+                                                
+                                                 
+						//jQuery("#solutionarea input:last").val( inorout(PTS,[x,y])+ inorout(PTS2,[x,y]) + inorout(PTS3,[x,y])+ inorout(PTS4,[x,y]));
+						//jQuery("#solutionarea input:last").val( answertext(inorout(MDTESTDAT[2][0][1],[x,y]),MDTESTDAT[2][0][0])+answertext(inorout(MDTESTDAT[2][1][1],[x,y]),MDTESTDAT[2][1][0])+
+                                                //                                        answertext(inorout(MDTESTDAT[2][2][1],[x,y]),MDTESTDAT[2][2][0])+answertext(inorout(MDTESTDAT[2][3][1],[x,y]),MDTESTDAT[2][3][0])+
+                                                //                                        answertext(inorout(MDTESTDAT[2][4][1],[x,y]),MDTESTDAT[2][4][0]));
+                                        
+					};
+                                        
+				</div>
+			</div>
+				<div class="solution" data-type="multiple">
+				<p><span class="entry" style="visibility:hidden"></span></p>
+				<span class="sol" data-type="decimal" data-inexact data-max-error="0.2" style="visibility:hidden"  ><var>1</var></span>  <span class="sol" data-type="text" style="visibility:hidden"><var>DUMBANS</var></span>
+			</div>
+
+			<div class="hints">
+				
+				
+				
+					<div class="graphie" data-update="number-line">
+                                                playSound(MDTESTDAT[0],MDTESTDAT[1],MDTESTDAT[2][INDEX][3]);
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 1.0, arrows: null  });
+                                                var j = 0;
+                                                cnt=NUMSHAPES;
+                                                nopick=[INDEX];
+                                                for (j; j < 12 ; j++){
+                                                  nopick.push(randRangeExclude( 0, NUMSHAPES, nopick ))};
+                                                j = 0;
+                                                //graph.pic2 = new ImportPicturec(MDTESTDAT[0],MDTESTDAT[1],"hint01.png", [0, 12], 0, 640, 480 );
+                                                style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.0, arrows: null  });
+                                                
+                 
+                                                
+					</div>
+				
+
+				
+					<div class="graphie" data-update="number-line">
+                                                playSound(MDTESTDAT[0],MDTESTDAT[1],MDTESTDAT[2][nopick[1]][3]);
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 1.0, arrows: null  });
+                                                //graph.pic3 = new ImportPicturec(MDTESTDAT[0],MDTESTDAT[1],"hint02.png", [0, 12], 0, 640, 480 );
+                                                style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.0, arrows: null  });
+                                                line(  MDTESTDAT[2][nopick[1]][1],[0,0],{arrows: "-&gt;" });
+                                                
+					</div>
+				
+
+				
+					<div class="graphie" data-update="number-line">
+                                                playSound(MDTESTDAT[0],MDTESTDAT[1],MDTESTDAT[2][nopick[2]][3]);
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 1.0, arrows: null  });
+                                                //graph.pic3 = new ImportPicturec(MDTESTDAT[0],MDTESTDAT[1],"hint03.png", [0, 12], 0, 640, 480 );
+                                                style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.0, arrows: null  });
+                                                line(  MDTESTDAT[2][nopick[2]][1],[0,0],{arrows: "-&gt;" });
+                                                
+					</div>
+				
+
+				
+					<div class="graphie" data-update="number-line">
+                                                playSound(MDTESTDAT[0],MDTESTDAT[1],MDTESTDAT[2][nopick[3]][3]);
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 1.0, arrows: null  });
+                                                //graph.pic4 = new ImportPicturec(MDTESTDAT[0],MDTESTDAT[1],"hint04.png", [0, 12], 0, 640, 480 );
+                                                style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.0, arrows: null  });
+                                               line(  MDTESTDAT[2][nopick[3]][1],[0,0],{arrows: "-&gt;" });
+                                                
+					</div>
+				
+	
+			
+	
+						
+				
+					<div class="graphie" data-update="number-line">
+                                                  playSound(MDTESTDAT[0],MDTESTDAT[1],MDTESTDAT[2][nopick[4]][3]);
+						style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->"  });
+                                                //graph.pic4 = new ImportPicturec(MDTESTDAT[0],MDTESTDAT[1],"hint05.png", [0, 12], 0, 640, 480 );
+                                              line(  MDTESTDAT[2][nopick[4]][1],[0,0],{arrows: "-&gt;" });
+						movablePoint.visibleShape.toFront();
+					</div>
+				
+				
+					<div class="graphie" data-update="number-line">
+						movablePoint.moveTo( MDTESTDAT[2][DUMBANS2][1][0],MDTESTDAT[2][DUMBANS2][1][1] );
+					</div>
+				
+				
+				
+			</div>
+		</div>
+	
+	</div>
+</body>
+</html>
