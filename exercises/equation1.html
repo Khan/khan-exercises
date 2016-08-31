@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+	<title>Solving an equation with one unknown</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+<div class="exercise">
+	<div class="problems">
+		<div id="equation">
+			<div class="vars">
+				<div>
+					<var id="X">X</var>
+                                        <var id="A">randRangeNonZero( 2, 5 )</var>
+                                        <var id="B">randRangeNonZero( -3, -8 )</var>
+                                        <var id="M">-B</var>
+                                        <var id="M1">-B+1</var>
+                                        <var id="C">B-1</var>
+                                        <var id="T">A*M+1</var>
+					<var id="S">1/A+M</var>
+				</div>
+			</div>
+
+			<div class="problems">
+				<div>
+					<p class="question">Find the value of X :</p>
+					<p class="question"><code>\dfrac{1}{X(X+1)}=\dfrac{1 - <var>A</var> X}{X}+\dfrac{<var>M1</var>}{(X+1)(X-<var>M</var>)}</code></p>
+					<div class="solution" data-type="multiple">
+						<p>X = <span class="sol" data-type="rational"><var>S</var></span></p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="hints">
+			<p class="question">When an equation looks too complicated, try to simplify it first</p>
+				<p class="question">In this equation you can see similar fractions which should lead you to the idea of finding their <code>\underline {\text{partial fraction decomposition}}</code></p>
+				<p class="question">Use the following : <code>\dfrac{1}{X}-\dfrac{1}{X+A}=\dfrac{(X+A)-X}{X(X+A)}=\dfrac{A}{X(X+A)}</code> for any number A</p>
+				<p class="question">In this case : <code>\left(\dfrac{1}{X}-\dfrac{1}{X+1}\right)= \dfrac{1}{X}-<var>A</var> - \left(\dfrac{1}{X+1} - \dfrac{1}{X-<var>M</var>}\right)</code></p>
+				<p class="question">It follows that : <code>0 = -<var>A</var> + \dfrac{1}{X-<var>M</var>}</code></p>
+				<p class="question">Then : <code>X-<var>M</var> = \dfrac{1}{<var>A</var>}</code></p>
+				<p class="question">Finally : <code>X = \dfrac{1}{<var>A</var>} + <var>M</var> = \mathbf{\dfrac{<var>T</var>}{<var>A</var>}}</code></p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
