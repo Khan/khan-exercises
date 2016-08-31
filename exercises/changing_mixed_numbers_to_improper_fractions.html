@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+	<title>Changing Mixed Numbers and Improper Fractions</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="WHOLE">randRange( 1, 5 )</var>
+			<var id="D">randRange( 2, 8 )</var>
+			<var id="N">randRange( 1, D - 1 )</var>
+		</div>
+
+		<div class="problems">
+
+			<div id="mixed-to-improper">
+				<p class="question">Write <code><var>WHOLE + fraction( N, D )</var></code> as an improper fraction.</p>
+				<p class="solution" data-type="improper" data-simplify="optional"><var>( WHOLE * D + N ) / D</var></p> 
+				<div class="hints">
+					<p><code>= <var>WHOLE</var> + <var>fraction( N, D )</var></code></p>
+					<p><code>= <var>fraction( WHOLE * D, D )</var> + <var>fraction( N, D )</var></code></p>
+					<p><code>= <var>fraction(WHOLE * D + N, D)</var></code></p>
+					<p>The answer is <code><var>fraction( WHOLE * D + N, D )</var></code></p>
+				</div>
+			</div>
+
+
+			<div id="improper-to-mixed">
+				<div class="vars">
+					<var id="DIVIDEND_DIGITS">integerToDigits( WHOLE * D + N )</var>
+					<var id="DIVISOR_DIGITS">integerToDigits( D )</var>
+					<var id="GCD">getGCD( N, D )</var>
+				</div>
+
+				<p class="question">Write <code><var>fraction( WHOLE * D + N, D )</var></code> as a mixed number. Reduce to lowest terms.</p>
+				<p class="solution" data-type="mixed" data-simplify="optional"><var>WHOLE + N / D</var></p>
+				<div class="hints">
+					<div>
+						<div class="graphie" id="numbers">
+							init({
+								range: [ [ -10 - DIVISOR_DIGITS.length, DIVIDEND_DIGITS.length + 2 ], [ DIVIDEND_DIGITS.length * -2 + 5, 1 ] ],
+								scale: [ 30, 45 ]
+							});
+							style({
+								strokeWidth: 1
+							});
+
+							drawDigits( DIVISOR_DIGITS, -0.5 - DIVISOR_DIGITS.length, 0, true );
+							drawDigits( DIVIDEND_DIGITS, 0, 0, true );
+							path( [ [ -0.75, -0.5 ], [ -0.75, 0.5 ], [ DIVIDEND_DIGITS.length, 0.5 ] ] );
+						</div>
+						<p>How many times does <var>D</var> go into <var>( WHOLE * D + N )</var>?</p>
+					</div>
+					<p><var>WHOLE</var> <var>( WHOLE === 1 ? "time" : "times" )</var> with a remainder of <var>N</var></p>
+					<p>This gives: <code><var>WHOLE</var><var>fraction( N, D )</var></code></p>
+					<p data-if="GCD > 1">Reducing to lowest terms: <code><var>WHOLE</var><var>fractionReduce( N, D )</var></code></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
+
