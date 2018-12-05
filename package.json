@@ -4,26 +4,15 @@
     "author": "Khan Academy",
     "keywords": "education exercises khanacademy khan math exercises",
     "description": "(Some) exercises for Khan Academy",
-    "licenses": [
-    {
-        "type": "MIT",
-        "url": "http://www.opensource.org/licenses/mit-license.php"
-    },
-    {
-        "type": "CC Attribution/Non-Commercial/Share-Alike",
-        "url": "http://creativecommons.org/licenses/by-nc-sa/3.0/"
-    }
-    ],
-
+    "license": "(MIT OR CC-BY-NC-SA-3.0)",
     "repository": {
         "type": "git",
         "url": "http://github.com/Khan/khan-exercises/"
     },
-
     "devDependencies": {
-        "jison" : "0.4.13",
-        "cheerio": "0.19.0",
-        "uglify-js": "2.4.20",
-        "jshint": "2.7.0"
+        "cheerio": "^0.22.0",
+        "jison": "0.4.13",
+        "jshint": "^2.9.6",
+        "uglify-js": "2.6.0"
     }
 }
