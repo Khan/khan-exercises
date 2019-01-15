@@ -1238,6 +1238,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         // otherwise correct or not before forwarding on the
                         // message.
                         blockGradingMessage = pass.message;
+                        score.empty = false;
                     } else {
                         score.empty = score.empty && pass.empty;
                         score.correct = score.correct && pass.correct;
@@ -1254,7 +1255,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         guess: guess
                     };
                 } else {
-                    score.empty = false;
                     return score;
                 }
             };
@@ -1899,7 +1899,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return {
                         empty: pass === "",
                         correct: pass === true,
-                        message: typeof pass === "string" ? pass : null,
+                        message: typeof pass === "string" && pass !== "" ? pass : null,
                         guess: guess
                     };
                 }
