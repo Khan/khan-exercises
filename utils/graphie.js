@@ -1107,7 +1107,7 @@ KhanUtil.createGraphie = function(el) {
         if (axes) {
 
             // this is a slight hack until <-> arrowheads work
-            if (axisArrows === "<->" || true) {
+            if (axisArrows === "<->" || axisArrows === true) {
                 this.style({
                     stroke: "#000000",
                     opacity: axisOpacity,
