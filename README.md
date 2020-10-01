@@ -36,4 +36,4 @@ Now if you open your browser to `http://localhost:8000` (or `http://127.0.0.1:80
 
 ## More
 
-If you're passionate about providing a free world-class education for anyone, anywhere and want to apply to be a full-time or intern software developer at Khan Academy, [please do so](https://www.khanacademy.org/careers).
+If you're passionate about providing a free world-class education for anyone, anywhere and want to apply to be a full-time or intern software developer at Khan Academy, because we are here to provide free and quality education for all.[please do so](https://www.khanacademy.org/careers).
