@@ -373,6 +373,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             label: null,
             numArcs: 1,
             showRightAngleMarker: true,
+            dottedRightAngleMarker: false,
             pushOut: 0,
             clockwise: false,
             style: {}
@@ -409,16 +410,46 @@ $.extend(KhanUtil.Graphie.prototype, {
         var temp = [];
 
         if (Math.abs(angle - 90) < 1e-9 && options.showRightAngleMarker) {
-            // Draw right angle box
-            var v1 = addPoints(sVertex, scaledPolarDeg(sRadius, startAngle));
-            var v2 = addPoints(sVertex, scaledPolarDeg(sRadius, endAngle));
+            if (options.dottedRightAngleMarker) {
+                // Draw EU style right angle notation, arc with a dot
+                temp.push(graphie.arc(
+                    vertex,
+                    graphie.unscaleVector(sRadius),
+                    startAngle,
+                    endAngle,
+                    options.style
+                ));
 
-            sRadius *= Math.SQRT2;
-            var v3 = addPoints(sVertex, scaledPolarDeg(sRadius, halfAngle));
+                // Calculate angle bisector
+                var a = kvector.normalize(kvector.subtract(p1, vertex));
+                var b = kvector.normalize(kvector.subtract(p3, vertex));
+                var bisector = kvector.normalize(addPoints(a, b));
 
-            _.each([v1, v2], function(v) {
-                temp.push(graphie.scaledPath([v, v3], options.style));
-            });
+                // Place the dot in the middle of vertex and arc
+                bisector = kvector.scale(bisector, graphie.unscaleVector(sRadius)[0] * 0.5);
+                var dotCenter = addPoints(vertex, bisector);
+                var dotSize = 0.5;
+
+                // sRadius is used below to position angle label
+                sRadius *= Math.SQRT2;
+
+                temp.push(graphie.ellipse(
+                    dotCenter,
+                    [dotSize / graphie.scale[0], dotSize / graphie.scale[1]],
+                    _.extend({"fill-opacity": 1, "stroke-width": 1}, options.style)
+                ));
+            } else {
+                // Draw right angle box
+                var v1 = addPoints(sVertex, scaledPolarDeg(sRadius, startAngle));
+                var v2 = addPoints(sVertex, scaledPolarDeg(sRadius, endAngle));
+
+                sRadius *= Math.SQRT2;
+                var v3 = addPoints(sVertex, scaledPolarDeg(sRadius, halfAngle));
+
+                _.each([v1, v2], function(v) {
+                    temp.push(graphie.scaledPath([v, v3], options.style));
+                });
+            }
         } else {
             // Draw arcs
             _.times(options.numArcs, function(i) {
@@ -1803,6 +1834,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             },
             angleLabels: [],
             showRightAngleMarkers: [],
+            dottedRightAngleMarkers: [],
             sideLabels: [],
             vertexLabels: [],
             numArcs: [],
@@ -1884,6 +1916,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                         label: label,
                         text: polygon.angleLabels[i],
                         showRightAngleMarker: polygon.showRightAngleMarkers[i],
+                        dottedRightAngleMarker: polygon.dottedRightAngleMarkers[i],
                         numArcs: polygon.numArcs[i],
                         clockwise: isClockwise,
                         style: polygon.labelStyle
@@ -4050,6 +4083,8 @@ _.extend(MovableAngle.prototype, {
     snapOffsetDeg: 0,
     angleLabel: "",
     numArcs: 1,
+    showRightAngleMarker: true,
+    dotterRightAngleMarker: false,
     pushOut: 0,
     fixed: false,
 
@@ -4243,6 +4278,8 @@ _.extend(MovableAngle.prototype, {
             numArcs: this.numArcs,
             pushOut: this.pushOut,
             clockwise: this.reflex === clockwiseReflexive,
+            showRightAngleMarker: this.showRightAngleMarker,
+            dottedRightAngleMarker: this.dottedRightAngleMarker,
             style: this.angleStyle
         });
     },

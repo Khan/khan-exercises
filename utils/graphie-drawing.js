@@ -160,6 +160,7 @@ $.extend(KhanUtil.Graphie.prototype, {
         var defaults = {
             angleLabels: "",
             showRightAngleMarkers: true,
+            dottedRightAngleMarkers: false,
             sideLabels: "",
             vertexLabels: "",
             arcs: 0,
@@ -275,6 +276,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             points: [],
             label: "",
             showRightAngleMarker: true,
+            dottedRightAngleMarker: false,
             distance: 0,
             arcs: 1
         });
@@ -288,6 +290,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             clockwise: true,
             text: options.label,
             showRightAngleMarker: options.showRightAngleMarker,
+            dottedRightAngleMarker: options.dottedRightAngleMarker,
             numArcs: options.arcs,
             pushOut: options.distance,
             style: styles.labelStyle
